@@ -19,7 +19,14 @@ namespace Engine
 		static const D3D11_INPUT_ELEMENT_DESC	Elements[2];
 	}VTXPOSTEX;
 
-	
+	typedef struct ENGINE_DLL VTXNorTex
+	{
+		XMFLOAT3		vPosition;
+		XMFLOAT3		vNormal;
+		XMFLOAT2		vTexcoord;
 
+		static const unsigned int	iNumElements = { 3 };
+		static const D3D11_INPUT_ELEMENT_DESC	Elements[3];
+	}VTXNORTEX;
 
 }

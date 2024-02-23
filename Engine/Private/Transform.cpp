@@ -2,14 +2,14 @@
 #include "Shader.h"
 
 CTransform::CTransform(ID3D11Device * pDevice, ID3D11DeviceContext * pContext)
-	: CComponent(pDevice, pContext)
+	: CComponent{ pDevice, pContext }
 {	
 
 }
 
-CTransform::CTransform(const CTransform & rhs)
-	: CComponent(rhs)
-	, m_WorldMatrix(rhs.m_WorldMatrix)
+CTransform::CTransform(const CTransform& rhs)
+	: CComponent{ rhs }
+	, m_WorldMatrix{ rhs.m_WorldMatrix }
 {
 
 }

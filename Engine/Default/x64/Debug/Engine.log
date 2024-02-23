@@ -22,13 +22,15 @@
   .\EngineSDK\Inc\Transform.h
   .\EngineSDK\Inc\VIBuffer.h
   .\EngineSDK\Inc\VIBuffer_Rect.h
-  24개 파일이 복사되었습니다.
+  .\EngineSDK\Inc\VIBuffer_Terrain.h
+  25개 파일이 복사되었습니다.
   .\EngineSDK\Lib\Engine.lib
   1개 파일이 복사되었습니다.
   .\Client\Bin\Client.exe
   .\Client\Bin\Client.ilk
   .\Client\Bin\Client.pdb
   .\Client\Bin\Engine.dll
+  .\Client\Bin\Shader_VtxNorTex.cso
   .\Client\Bin\Shader_VtxPosTex.cso
   .\Client\Bin\Resources\Fonts\140.spritefont
   .\Client\Bin\Resources\Models\Fiona\cake_D.png
@@ -236,28 +238,15 @@
   .\Client\Bin\Resources\Textures\Terrain\Grass 03 - 복사본\preview.jpg
   .\Client\Bin\Resources\Textures\Terrain\Normal\GrassRock_1.tga
   .\Client\Bin\Resources\Textures\Terrain\Normal\Grass_1.tga
+  .\Client\Bin\ShaderFiles\Shader_VtxNorTex.hlsl
   .\Client\Bin\ShaderFiles\Shader_VtxPosTex.hlsl
-  212개 파일이 복사되었습니다.
-  Base.cpp
-  Camera.cpp
+  214개 파일이 복사되었습니다.
   Component.cpp
   Component_Manager.cpp
   GameInstance.cpp
   GameObject.cpp
-  Graphic_Device.cpp
-  Layer.cpp
   Level.cpp
   Level_Manager.cpp
-  Object_Manager.cpp
-  Renderer.cpp
-  Shader.cpp
-  Texture.cpp
-  Timer.cpp
-  Timer_Manager.cpp
-  Transform.cpp
-  VIBuffer.cpp
-  VIBuffer_Rect.cpp
-  Engine_Struct.cpp
   코드를 생성하고 있습니다...
 Effects11d.lib(EffectAPI.obj) : warning LNK4099: '' PDB를 'Effects11d.lib(EffectAPI.obj)' 또는 ''에서 찾을 수 없습니다. 디버그 정보가 없는 것처럼 개체를 링크합니다.
 Effects11d.lib(d3dxGlobal.obj) : warning LNK4099: '' PDB를 'Effects11d.lib(d3dxGlobal.obj)' 또는 ''에서 찾을 수 없습니다. 디버그 정보가 없는 것처럼 개체를 링크합니다.
@@ -269,7 +258,7 @@ DirectXTKd.lib(DDSTextureLoader.obj) : warning LNK4099: '' PDB를 'DirectXTKd.li
 DirectXTKd.lib(WICTextureLoader.obj) : warning LNK4099: '' PDB를 'DirectXTKd.lib(WICTextureLoader.obj)' 또는 ''에서 찾을 수 없습니다. 디버그 정보가 없는 것처럼 개체를 링크합니다.
 DirectXTKd.lib(pch.obj) : warning LNK4099: '' PDB를 'DirectXTKd.lib(pch.obj)' 또는 ''에서 찾을 수 없습니다. 디버그 정보가 없는 것처럼 개체를 링크합니다.
      ../Bin/Engine.lib 라이브러리 및 ../Bin/Engine.exp 개체를 생성하고 있습니다.
-  Engine.vcxproj -> C:\Users\stgo5015\Documents\GitHub\Direct11_FF13\Direct11_FF13\Engine\Bin\Engine.dll
+  Engine.vcxproj -> C:\Users\stgo5015\Documents\GitHub\Direct11_FF13\Engine\Bin\Engine.dll
   .\EngineSDK\Inc\Base.h
   .\EngineSDK\Inc\Camera.h
   .\EngineSDK\Inc\Component.h
@@ -294,6 +283,7 @@ DirectXTKd.lib(pch.obj) : warning LNK4099: '' PDB를 'DirectXTKd.lib(pch.obj)' �
   .\EngineSDK\Inc\Transform.h
   .\EngineSDK\Inc\VIBuffer.h
   .\EngineSDK\Inc\VIBuffer_Rect.h
+  .\EngineSDK\Inc\VIBuffer_Terrain.h
   .\EngineSDK\Inc\DirectXTK\Audio.h
   .\EngineSDK\Inc\DirectXTK\CommonStates.h
   .\EngineSDK\Inc\DirectXTK\DDSTextureLoader.h
@@ -316,12 +306,13 @@ DirectXTKd.lib(pch.obj) : warning LNK4099: '' PDB를 'DirectXTKd.lib(pch.obj)' �
   .\EngineSDK\Inc\DirectXTK\XboxDDSTextureLoader.h
   .\EngineSDK\Inc\Effects11\d3dx11effect.h
   .\EngineSDK\Inc\Effects11\d3dxGlobal.h
-  46개 파일이 복사되었습니다.
+  47개 파일이 복사되었습니다.
   .\EngineSDK\Lib\Engine.lib
   1개 파일이 복사되었습니다.
   .\Client\Bin\Client.exe
   .\Client\Bin\Client.ilk
   .\Client\Bin\Client.pdb
   .\Client\Bin\Engine.dll
+  .\Client\Bin\Shader_VtxNorTex.cso
   .\Client\Bin\Shader_VtxPosTex.cso
-  5개 파일이 복사되었습니다.
+  6개 파일이 복사되었습니다.

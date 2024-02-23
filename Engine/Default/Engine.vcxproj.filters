@@ -70,6 +70,9 @@
     <Filter Include="01.Utility\02.Components\Transform">
       <UniqueIdentifier>{a4fe3244-dc22-4f2e-bd46-0d18f62e319d}</UniqueIdentifier>
     </Filter>
+    <Filter Include="01.Utility\02.Components\VIBuffer\Terrain">
+      <UniqueIdentifier>{89297f44-d55f-410a-8775-c46be70956ca}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\Private\Base.cpp">
@@ -131,6 +134,9 @@
     </ClCompile>
     <ClCompile Include="..\Private\Transform.cpp">
       <Filter>01.Utility\02.Components\Transform</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\VIBuffer_Terrain.cpp">
+      <Filter>01.Utility\02.Components\VIBuffer\Terrain</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -205,6 +211,9 @@
     </ClInclude>
     <ClInclude Include="..\Public\Transform.h">
       <Filter>01.Utility\02.Components\Transform</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\VIBuffer_Terrain.h">
+      <Filter>01.Utility\02.Components\VIBuffer\Terrain</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
