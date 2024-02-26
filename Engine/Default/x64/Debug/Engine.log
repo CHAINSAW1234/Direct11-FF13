@@ -5,15 +5,19 @@
   .\EngineSDK\Inc\Engine_Defines.h
   .\EngineSDK\Inc\Engine_Function.h
   .\EngineSDK\Inc\Engine_Macro.h
+  .\EngineSDK\Inc\Engine_Struct.cpp
   .\EngineSDK\Inc\Engine_Struct.h
   .\EngineSDK\Inc\Engine_Typedef.h
   .\EngineSDK\Inc\GameInstance.h
   .\EngineSDK\Inc\GameObject.h
   .\EngineSDK\Inc\Graphic_Device.h
+  .\EngineSDK\Inc\Input_Device.h
   .\EngineSDK\Inc\Layer.h
   .\EngineSDK\Inc\Level.h
   .\EngineSDK\Inc\Level_Manager.h
+  .\EngineSDK\Inc\Model.h
   .\EngineSDK\Inc\Object_Manager.h
+  .\EngineSDK\Inc\PipeLine.h
   .\EngineSDK\Inc\Renderer.h
   .\EngineSDK\Inc\Shader.h
   .\EngineSDK\Inc\Texture.h
@@ -23,9 +27,11 @@
   .\EngineSDK\Inc\VIBuffer.h
   .\EngineSDK\Inc\VIBuffer_Rect.h
   .\EngineSDK\Inc\VIBuffer_Terrain.h
-  25개 파일이 복사되었습니다.
+  29개 파일이 복사되었습니다.
   .\EngineSDK\Lib\Engine.lib
   1개 파일이 복사되었습니다.
+  .\Client\Bin\assimp-vc143-mt.dll
+  .\Client\Bin\assimp-vc143-mtd.dll
   .\Client\Bin\Client.exe
   .\Client\Bin\Client.ilk
   .\Client\Bin\Client.pdb
@@ -240,24 +246,36 @@
   .\Client\Bin\Resources\Textures\Terrain\Normal\Grass_1.tga
   .\Client\Bin\ShaderFiles\Shader_VtxNorTex.hlsl
   .\Client\Bin\ShaderFiles\Shader_VtxPosTex.hlsl
-  214개 파일이 복사되었습니다.
+  216개 파일이 복사되었습니다.
+  Base.cpp
+  Camera.cpp
   Component.cpp
   Component_Manager.cpp
   GameInstance.cpp
   GameObject.cpp
+  Graphic_Device.cpp
+  Input_Device.cpp
+  Layer.cpp
   Level.cpp
   Level_Manager.cpp
+  Model.cpp
+  Object_Manager.cpp
+  PipeLine.cpp
+  Renderer.cpp
+  Timer.cpp
+  Timer_Manager.cpp
+  Transform.cpp
+  VIBuffer_Terrain.cpp
+C:\Users\stgo5015\Documents\GitHub\Direct11_FF13\Engine\Private\VIBuffer_Terrain.cpp(67,84): warning C4244: '인수': 'Engine::_uint'에서 'float'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+C:\Users\stgo5015\Documents\GitHub\Direct11_FF13\Engine\Private\VIBuffer_Terrain.cpp(67,42): warning C4244: '인수': 'Engine::_uint'에서 'float'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+  Engine_Struct.cpp
   코드를 생성하고 있습니다...
-Effects11d.lib(EffectAPI.obj) : warning LNK4099: '' PDB를 'Effects11d.lib(EffectAPI.obj)' 또는 ''에서 찾을 수 없습니다. 디버그 정보가 없는 것처럼 개체를 링크합니다.
-Effects11d.lib(d3dxGlobal.obj) : warning LNK4099: '' PDB를 'Effects11d.lib(d3dxGlobal.obj)' 또는 ''에서 찾을 수 없습니다. 디버그 정보가 없는 것처럼 개체를 링크합니다.
-Effects11d.lib(EffectNonRuntime.obj) : warning LNK4099: '' PDB를 'Effects11d.lib(EffectNonRuntime.obj)' 또는 ''에서 찾을 수 없습니다. 디버그 정보가 없는 것처럼 개체를 링크합니다.
-Effects11d.lib(EffectLoad.obj) : warning LNK4099: '' PDB를 'Effects11d.lib(EffectLoad.obj)' 또는 ''에서 찾을 수 없습니다. 디버그 정보가 없는 것처럼 개체를 링크합니다.
-Effects11d.lib(EffectReflection.obj) : warning LNK4099: '' PDB를 'Effects11d.lib(EffectReflection.obj)' 또는 ''에서 찾을 수 없습니다. 디버그 정보가 없는 것처럼 개체를 링크합니다.
-Effects11d.lib(EffectRuntime.obj) : warning LNK4099: '' PDB를 'Effects11d.lib(EffectRuntime.obj)' 또는 ''에서 찾을 수 없습니다. 디버그 정보가 없는 것처럼 개체를 링크합니다.
-DirectXTKd.lib(DDSTextureLoader.obj) : warning LNK4099: '' PDB를 'DirectXTKd.lib(DDSTextureLoader.obj)' 또는 ''에서 찾을 수 없습니다. 디버그 정보가 없는 것처럼 개체를 링크합니다.
-DirectXTKd.lib(WICTextureLoader.obj) : warning LNK4099: '' PDB를 'DirectXTKd.lib(WICTextureLoader.obj)' 또는 ''에서 찾을 수 없습니다. 디버그 정보가 없는 것처럼 개체를 링크합니다.
-DirectXTKd.lib(pch.obj) : warning LNK4099: '' PDB를 'DirectXTKd.lib(pch.obj)' 또는 ''에서 찾을 수 없습니다. 디버그 정보가 없는 것처럼 개체를 링크합니다.
-     ../Bin/Engine.lib 라이브러리 및 ../Bin/Engine.exp 개체를 생성하고 있습니다.
+  컴파일하고 있습니다...
+  Shader.cpp
+  Texture.cpp
+  VIBuffer.cpp
+  VIBuffer_Rect.cpp
+  코드를 생성하고 있습니다...
   Engine.vcxproj -> C:\Users\stgo5015\Documents\GitHub\Direct11_FF13\Engine\Bin\Engine.dll
   .\EngineSDK\Inc\Base.h
   .\EngineSDK\Inc\Camera.h
@@ -266,15 +284,19 @@ DirectXTKd.lib(pch.obj) : warning LNK4099: '' PDB를 'DirectXTKd.lib(pch.obj)' �
   .\EngineSDK\Inc\Engine_Defines.h
   .\EngineSDK\Inc\Engine_Function.h
   .\EngineSDK\Inc\Engine_Macro.h
+  .\EngineSDK\Inc\Engine_Struct.cpp
   .\EngineSDK\Inc\Engine_Struct.h
   .\EngineSDK\Inc\Engine_Typedef.h
   .\EngineSDK\Inc\GameInstance.h
   .\EngineSDK\Inc\GameObject.h
   .\EngineSDK\Inc\Graphic_Device.h
+  .\EngineSDK\Inc\Input_Device.h
   .\EngineSDK\Inc\Layer.h
   .\EngineSDK\Inc\Level.h
   .\EngineSDK\Inc\Level_Manager.h
+  .\EngineSDK\Inc\Model.h
   .\EngineSDK\Inc\Object_Manager.h
+  .\EngineSDK\Inc\PipeLine.h
   .\EngineSDK\Inc\Renderer.h
   .\EngineSDK\Inc\Shader.h
   .\EngineSDK\Inc\Texture.h
@@ -284,6 +306,99 @@ DirectXTKd.lib(pch.obj) : warning LNK4099: '' PDB를 'DirectXTKd.lib(pch.obj)' �
   .\EngineSDK\Inc\VIBuffer.h
   .\EngineSDK\Inc\VIBuffer_Rect.h
   .\EngineSDK\Inc\VIBuffer_Terrain.h
+  .\EngineSDK\Inc\assimp\.editorconfig
+  .\EngineSDK\Inc\assimp\aabb.h
+  .\EngineSDK\Inc\assimp\ai_assert.h
+  .\EngineSDK\Inc\assimp\anim.h
+  .\EngineSDK\Inc\assimp\AssertHandler.h
+  .\EngineSDK\Inc\assimp\Base64.hpp
+  .\EngineSDK\Inc\assimp\BaseImporter.h
+  .\EngineSDK\Inc\assimp\Bitmap.h
+  .\EngineSDK\Inc\assimp\BlobIOSystem.h
+  .\EngineSDK\Inc\assimp\ByteSwapper.h
+  .\EngineSDK\Inc\assimp\camera.h
+  .\EngineSDK\Inc\assimp\cexport.h
+  .\EngineSDK\Inc\assimp\cfileio.h
+  .\EngineSDK\Inc\assimp\cimport.h
+  .\EngineSDK\Inc\assimp\ColladaMetaData.h
+  .\EngineSDK\Inc\assimp\color4.h
+  .\EngineSDK\Inc\assimp\color4.inl
+  .\EngineSDK\Inc\assimp\commonMetaData.h
+  .\EngineSDK\Inc\assimp\config.h
+  .\EngineSDK\Inc\assimp\config.h.in
+  .\EngineSDK\Inc\assimp\CreateAnimMesh.h
+  .\EngineSDK\Inc\assimp\DefaultIOStream.h
+  .\EngineSDK\Inc\assimp\DefaultIOSystem.h
+  .\EngineSDK\Inc\assimp\DefaultLogger.hpp
+  .\EngineSDK\Inc\assimp\defs.h
+  .\EngineSDK\Inc\assimp\Exceptional.h
+  .\EngineSDK\Inc\assimp\Exporter.hpp
+  .\EngineSDK\Inc\assimp\fast_atof.h
+  .\EngineSDK\Inc\assimp\GenericProperty.h
+  .\EngineSDK\Inc\assimp\GltfMaterial.h
+  .\EngineSDK\Inc\assimp\Hash.h
+  .\EngineSDK\Inc\assimp\Importer.hpp
+  .\EngineSDK\Inc\assimp\importerdesc.h
+  .\EngineSDK\Inc\assimp\IOStream.hpp
+  .\EngineSDK\Inc\assimp\IOStreamBuffer.h
+  .\EngineSDK\Inc\assimp\IOSystem.hpp
+  .\EngineSDK\Inc\assimp\light.h
+  .\EngineSDK\Inc\assimp\LineSplitter.h
+  .\EngineSDK\Inc\assimp\LogAux.h
+  .\EngineSDK\Inc\assimp\Logger.hpp
+  .\EngineSDK\Inc\assimp\LogStream.hpp
+  .\EngineSDK\Inc\assimp\material.h
+  .\EngineSDK\Inc\assimp\material.inl
+  .\EngineSDK\Inc\assimp\MathFunctions.h
+  .\EngineSDK\Inc\assimp\matrix3x3.h
+  .\EngineSDK\Inc\assimp\matrix3x3.inl
+  .\EngineSDK\Inc\assimp\matrix4x4.h
+  .\EngineSDK\Inc\assimp\matrix4x4.inl
+  .\EngineSDK\Inc\assimp\MemoryIOWrapper.h
+  .\EngineSDK\Inc\assimp\mesh.h
+  .\EngineSDK\Inc\assimp\metadata.h
+  .\EngineSDK\Inc\assimp\NullLogger.hpp
+  .\EngineSDK\Inc\assimp\ObjMaterial.h
+  .\EngineSDK\Inc\assimp\ParsingUtils.h
+  .\EngineSDK\Inc\assimp\pbrmaterial.h
+  .\EngineSDK\Inc\assimp\postprocess.h
+  .\EngineSDK\Inc\assimp\Profiler.h
+  .\EngineSDK\Inc\assimp\ProgressHandler.hpp
+  .\EngineSDK\Inc\assimp\qnan.h
+  .\EngineSDK\Inc\assimp\quaternion.h
+  .\EngineSDK\Inc\assimp\quaternion.inl
+  .\EngineSDK\Inc\assimp\RemoveComments.h
+  .\EngineSDK\Inc\assimp\scene.h
+  .\EngineSDK\Inc\assimp\SceneCombiner.h
+  .\EngineSDK\Inc\assimp\SGSpatialSort.h
+  .\EngineSDK\Inc\assimp\SkeletonMeshBuilder.h
+  .\EngineSDK\Inc\assimp\SmallVector.h
+  .\EngineSDK\Inc\assimp\SmoothingGroups.h
+  .\EngineSDK\Inc\assimp\SmoothingGroups.inl
+  .\EngineSDK\Inc\assimp\SpatialSort.h
+  .\EngineSDK\Inc\assimp\StandardShapes.h
+  .\EngineSDK\Inc\assimp\StreamReader.h
+  .\EngineSDK\Inc\assimp\StreamWriter.h
+  .\EngineSDK\Inc\assimp\StringComparison.h
+  .\EngineSDK\Inc\assimp\StringUtils.h
+  .\EngineSDK\Inc\assimp\Subdivision.h
+  .\EngineSDK\Inc\assimp\texture.h
+  .\EngineSDK\Inc\assimp\TinyFormatter.h
+  .\EngineSDK\Inc\assimp\types.h
+  .\EngineSDK\Inc\assimp\vector2.h
+  .\EngineSDK\Inc\assimp\vector2.inl
+  .\EngineSDK\Inc\assimp\vector3.h
+  .\EngineSDK\Inc\assimp\vector3.inl
+  .\EngineSDK\Inc\assimp\version.h
+  .\EngineSDK\Inc\assimp\Vertex.h
+  .\EngineSDK\Inc\assimp\XmlParser.h
+  .\EngineSDK\Inc\assimp\XMLTools.h
+  .\EngineSDK\Inc\assimp\ZipArchiveIOSystem.h
+  .\EngineSDK\Inc\assimp\Compiler\poppack1.h
+  .\EngineSDK\Inc\assimp\Compiler\pstdint.h
+  .\EngineSDK\Inc\assimp\Compiler\pushpack1.h
+  .\EngineSDK\Inc\assimp\port\AndroidJNI\AndroidJNIIOSystem.h
+  .\EngineSDK\Inc\assimp\port\AndroidJNI\BundledAssetIOSystem.h
   .\EngineSDK\Inc\DirectXTK\Audio.h
   .\EngineSDK\Inc\DirectXTK\CommonStates.h
   .\EngineSDK\Inc\DirectXTK\DDSTextureLoader.h
@@ -299,6 +414,7 @@ DirectXTKd.lib(pch.obj) : warning LNK4099: '' PDB를 'DirectXTKd.lib(pch.obj)' �
   .\EngineSDK\Inc\DirectXTK\PrimitiveBatch.h
   .\EngineSDK\Inc\DirectXTK\ScreenGrab.h
   .\EngineSDK\Inc\DirectXTK\SimpleMath.h
+  .\EngineSDK\Inc\DirectXTK\SimpleMath.inl
   .\EngineSDK\Inc\DirectXTK\SpriteBatch.h
   .\EngineSDK\Inc\DirectXTK\SpriteFont.h
   .\EngineSDK\Inc\DirectXTK\VertexTypes.h
@@ -306,13 +422,15 @@ DirectXTKd.lib(pch.obj) : warning LNK4099: '' PDB를 'DirectXTKd.lib(pch.obj)' �
   .\EngineSDK\Inc\DirectXTK\XboxDDSTextureLoader.h
   .\EngineSDK\Inc\Effects11\d3dx11effect.h
   .\EngineSDK\Inc\Effects11\d3dxGlobal.h
-  47개 파일이 복사되었습니다.
+  145개 파일이 복사되었습니다.
   .\EngineSDK\Lib\Engine.lib
   1개 파일이 복사되었습니다.
+  .\Client\Bin\assimp-vc143-mt.dll
+  .\Client\Bin\assimp-vc143-mtd.dll
   .\Client\Bin\Client.exe
   .\Client\Bin\Client.ilk
   .\Client\Bin\Client.pdb
   .\Client\Bin\Engine.dll
   .\Client\Bin\Shader_VtxNorTex.cso
   .\Client\Bin\Shader_VtxPosTex.cso
-  6개 파일이 복사되었습니다.
+  8개 파일이 복사되었습니다.

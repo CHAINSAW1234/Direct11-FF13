@@ -1,6 +1,7 @@
 #include "..\Public\GameInstance.h"
 
 #include "Graphic_Device.h"
+#include "Input_Device.h"
 #include "Object_Manager.h"
 #include "Level_Manager.h"
 #include "Timer_Manager.h"
@@ -14,12 +15,20 @@ CGameInstance::CGameInstance()
 
 }
 
-HRESULT CGameInstance::Initialize_Engine(_uint iNumLevels, const ENGINE_DESC& EngineDesc, _Inout_ ID3D11Device** ppDevice, _Inout_ ID3D11DeviceContext** ppContext)
+HRESULT CGameInstance::Initialize_Engine(HINSTANCE hInstance, _uint iNumLevels, const ENGINE_DESC& EngineDesc, _Inout_ ID3D11Device** ppDevice, _Inout_ ID3D11DeviceContext** ppContext)
 {
 	/* 그래픽 디바이스를 초기화한다 .*/
 	m_pGraphic_Device = CGraphic_Device::Create(EngineDesc, ppDevice, ppContext);
 	if(nullptr == m_pGraphic_Device)
 		return E_FAIL;	
+
+	m_pInput_Device = CInput_Device::Create(hInstance, EngineDesc.hWnd);
+	if (nullptr == m_pInput_Device)
+		return E_FAIL;
+
+	m_pPipeLine = CPipeLine::Create();
+	if (nullptr == m_pPipeLine)
+		return E_FAIL;
 
 	/*m_pFont_Manager = CFont_Manager::Create(*ppGraphic_Device);
 	if (nullptr == m_pFont_Manager)
@@ -61,13 +70,16 @@ HRESULT CGameInstance::Initialize_Engine(_uint iNumLevels, const ENGINE_DESC& En
 
 void CGameInstance::Tick_Engine(_float fTimeDelta)
 {
-	if (nullptr == m_pLevel_Manager || 
-		nullptr == m_pObject_Manager)
+	if (nullptr == m_pLevel_Manager ||
+		nullptr == m_pObject_Manager ||
+		nullptr == m_pPipeLine)
 		return;
+
+	m_pInput_Device->Tick();
 
 	m_pObject_Manager->Tick(fTimeDelta);
 
-	
+	m_pPipeLine->Tick();
 
 	m_pObject_Manager->Late_Tick(fTimeDelta);
 	
@@ -114,6 +126,30 @@ HRESULT CGameInstance::Clear(_uint iClearLevelIndex)
 
 
 	return S_OK;
+}
+
+_byte CGameInstance::Get_KeyState(_uint eState, _ubyte byKeyID)
+{
+	if (nullptr == m_pInput_Device)
+		return 0;
+
+	return m_pInput_Device->Get_KeyState(eState, byKeyID);
+}
+
+_byte CGameInstance::Get_DIMouseState(MOUSEKEYSTATE eMouse)
+{
+	if (nullptr == m_pInput_Device)
+		return 0;
+
+	return m_pInput_Device->Get_DIMouseState(eMouse);
+}
+
+_long CGameInstance::Get_DIMouseMove(MOUSEMOVESTATE eMouseState)
+{
+	if (nullptr == m_pInput_Device)
+		return 0;
+
+	return m_pInput_Device->Get_DIMouseMove(eMouseState);
 }
 
 HRESULT CGameInstance::Add_RenderGroup(CRenderer::RENDERGROUP eRenderGroup, CGameObject * pRenderObject)
@@ -188,7 +224,61 @@ _float CGameInstance::Compute_TimeDelta(const wstring & strTimerTag)
 	return m_pTimer_Manager->Compute_TimeDelta(strTimerTag);
 }
 
+void CGameInstance::Set_Transform(CPipeLine::TRANSFORMSTATE eState, _fmatrix TransformMatrix)
+{
+	if (nullptr == m_pPipeLine)
+		return;
 
+	m_pPipeLine->Set_Transform(eState, TransformMatrix);
+}
+
+_matrix CGameInstance::Get_Transform_Matrix(CPipeLine::TRANSFORMSTATE eState) const
+{
+	if (nullptr == m_pPipeLine)
+		return XMMatrixIdentity();
+
+	return m_pPipeLine->Get_Transform_Matrix(eState);
+}
+
+_float4x4 CGameInstance::Get_Transform_Float4x4(CPipeLine::TRANSFORMSTATE eState) const
+{
+	if (nullptr == m_pPipeLine)
+		return _float4x4();
+
+	return m_pPipeLine->Get_Transform_Float4x4(eState);
+}
+
+_matrix CGameInstance::Get_Transform_Matrix_Inverse(CPipeLine::TRANSFORMSTATE eState) const
+{
+	if (nullptr == m_pPipeLine)
+		return XMMatrixIdentity();
+
+	return m_pPipeLine->Get_Transform_Matrix_Inverse(eState);
+}
+
+_float4x4 CGameInstance::Get_Transform_Float4x4_Inverse(CPipeLine::TRANSFORMSTATE eState) const
+{
+	if (nullptr == m_pPipeLine)
+		return _float4x4();
+
+	return m_pPipeLine->Get_Transform_Float4x4_Inverse(eState);
+}
+
+_vector CGameInstance::Get_CamPosition_Vector() const
+{
+	if (nullptr == m_pPipeLine)
+		return XMVectorZero();
+
+	return m_pPipeLine->Get_CamPosition_Vector();
+}
+
+_float4 CGameInstance::Get_CamPosition_Float4() const
+{
+	if (nullptr == m_pPipeLine)
+		return _float4();
+
+	return m_pPipeLine->Get_CamPosition_Float4();
+}
 
 void CGameInstance::Release_Engine()
 {
@@ -199,11 +289,12 @@ void CGameInstance::Release_Engine()
 
 void CGameInstance::Free()
 {
-	
+	Safe_Release(m_pPipeLine);
 	Safe_Release(m_pTimer_Manager);
 	Safe_Release(m_pRenderer);	
 	Safe_Release(m_pObject_Manager);
 	Safe_Release(m_pComponent_Manager);
 	Safe_Release(m_pLevel_Manager);
 	Safe_Release(m_pGraphic_Device);
+
 }

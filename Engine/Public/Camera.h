@@ -13,8 +13,8 @@ class ENGINE_DLL CCamera abstract : public CGameObject
 public:
 	typedef struct Camera_Desc : public CGameObject::GAMEOBJECT_DESC
 	{
-		_float3 vEye = {};
-		_float3 vAt = {};
+		_float4 vEye = {};
+		_float4 vAt = {};
 		_float	fFovy = { 0.0f };
 		_float	fAspect = { 0.0f };
 		_float	fNear = { 0.0f };

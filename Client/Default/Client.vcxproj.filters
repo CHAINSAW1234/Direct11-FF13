@@ -37,23 +37,29 @@
     <Filter Include="02.GameObjects\Terrain">
       <UniqueIdentifier>{b741feae-f4f3-48ab-8434-c15caeee4e38}</UniqueIdentifier>
     </Filter>
+    <Filter Include="02.GameObjects\Camera">
+      <UniqueIdentifier>{9ac80f32-39cd-468a-a089-e5cd491c3d5e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="98.Default\Imgui">
+      <UniqueIdentifier>{6d97fb8b-935c-4f4b-85d0-6f22d6548367}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="03.ImGUI">
+      <UniqueIdentifier>{e891e4cc-0e2a-4c07-8237-84151f973697}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="01.Levels\MapTool">
+      <UniqueIdentifier>{f23c3697-1995-440e-b6ce-e19a6e822022}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="03.ImGUI\ImGUI_Manager">
+      <UniqueIdentifier>{93a60aa1-4561-4bfd-8cdf-53fc3a87d7b7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="03.ImGUI\MapTool">
+      <UniqueIdentifier>{baf87ab4-a580-4033-af33-f67b69e39352}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="98.Default\Default">
+      <UniqueIdentifier>{785578c5-9a72-4fed-befd-94998f7ecf0e}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
-    <Text Include="ReadMe.txt" />
-  </ItemGroup>
-  <ItemGroup>
-    <ClInclude Include="Client.h">
-      <Filter>98.Default</Filter>
-    </ClInclude>
-    <ClInclude Include="Resource.h">
-      <Filter>98.Default</Filter>
-    </ClInclude>
-    <ClInclude Include="stdafx.h">
-      <Filter>98.Default</Filter>
-    </ClInclude>
-    <ClInclude Include="targetver.h">
-      <Filter>98.Default</Filter>
-    </ClInclude>
     <ClInclude Include="..\public\MainApp.h">
       <Filter>00.MainApp</Filter>
     </ClInclude>
@@ -75,14 +81,68 @@
     <ClInclude Include="..\Public\Terrain.h">
       <Filter>02.GameObjects\Terrain</Filter>
     </ClInclude>
+    <ClInclude Include="..\Public\Client_Defines.h">
+      <Filter>99.Defines</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\Camera_Free.h">
+      <Filter>02.GameObjects\Camera</Filter>
+    </ClInclude>
+    <ClInclude Include="ImGUI\imconfig.h">
+      <Filter>98.Default\Imgui</Filter>
+    </ClInclude>
+    <ClInclude Include="ImGUI\imgui.h">
+      <Filter>98.Default\Imgui</Filter>
+    </ClInclude>
+    <ClInclude Include="ImGUI\imgui_impl_dx11.h">
+      <Filter>98.Default\Imgui</Filter>
+    </ClInclude>
+    <ClInclude Include="ImGUI\imgui_impl_win32.h">
+      <Filter>98.Default\Imgui</Filter>
+    </ClInclude>
+    <ClInclude Include="ImGUI\imgui_internal.h">
+      <Filter>98.Default\Imgui</Filter>
+    </ClInclude>
+    <ClInclude Include="ImGUI\ImGuiFileDialog.h">
+      <Filter>98.Default\Imgui</Filter>
+    </ClInclude>
+    <ClInclude Include="ImGUI\ImGuiFileDialogConfig.h">
+      <Filter>98.Default\Imgui</Filter>
+    </ClInclude>
+    <ClInclude Include="ImGUI\ImGuizmo.h">
+      <Filter>98.Default\Imgui</Filter>
+    </ClInclude>
+    <ClInclude Include="ImGUI\imstb_rectpack.h">
+      <Filter>98.Default\Imgui</Filter>
+    </ClInclude>
+    <ClInclude Include="ImGUI\imstb_textedit.h">
+      <Filter>98.Default\Imgui</Filter>
+    </ClInclude>
+    <ClInclude Include="ImGUI\imstb_truetype.h">
+      <Filter>98.Default\Imgui</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\Level_MapTool.h">
+      <Filter>01.Levels\MapTool</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\ImGUI_Manager.h">
+      <Filter>03.ImGUI\ImGUI_Manager</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\MapTool.h">
+      <Filter>03.ImGUI\MapTool</Filter>
+    </ClInclude>
+    <ClInclude Include="Client.h">
+      <Filter>98.Default\Default</Filter>
+    </ClInclude>
+    <ClInclude Include="Resource.h">
+      <Filter>98.Default\Default</Filter>
+    </ClInclude>
+    <ClInclude Include="stdafx.h">
+      <Filter>98.Default\Default</Filter>
+    </ClInclude>
+    <ClInclude Include="targetver.h">
+      <Filter>98.Default\Default</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="Client.cpp">
-      <Filter>98.Default</Filter>
-    </ClCompile>
-    <ClCompile Include="stdafx.cpp">
-      <Filter>98.Default</Filter>
-    </ClCompile>
     <ClCompile Include="..\private\MainApp.cpp">
       <Filter>00.MainApp</Filter>
     </ClCompile>
@@ -104,19 +164,56 @@
     <ClCompile Include="..\Private\Terrain.cpp">
       <Filter>02.GameObjects\Terrain</Filter>
     </ClCompile>
+    <ClCompile Include="..\Private\Camera_Free.cpp">
+      <Filter>02.GameObjects\Camera</Filter>
+    </ClCompile>
+    <ClCompile Include="ImGUI\imgui.cpp">
+      <Filter>98.Default\Imgui</Filter>
+    </ClCompile>
+    <ClCompile Include="ImGUI\imgui_demo.cpp">
+      <Filter>98.Default\Imgui</Filter>
+    </ClCompile>
+    <ClCompile Include="ImGUI\imgui_draw.cpp">
+      <Filter>98.Default\Imgui</Filter>
+    </ClCompile>
+    <ClCompile Include="ImGUI\imgui_impl_dx11.cpp">
+      <Filter>98.Default\Imgui</Filter>
+    </ClCompile>
+    <ClCompile Include="ImGUI\imgui_impl_win32.cpp">
+      <Filter>98.Default\Imgui</Filter>
+    </ClCompile>
+    <ClCompile Include="ImGUI\imgui_tables.cpp">
+      <Filter>98.Default\Imgui</Filter>
+    </ClCompile>
+    <ClCompile Include="ImGUI\imgui_widgets.cpp">
+      <Filter>98.Default\Imgui</Filter>
+    </ClCompile>
+    <ClCompile Include="ImGUI\ImGuizmo.cpp">
+      <Filter>98.Default\Imgui</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Level_MapTool.cpp">
+      <Filter>01.Levels\MapTool</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\ImGUI_Manager.cpp">
+      <Filter>03.ImGUI\ImGUI_Manager</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\MapTool.cpp">
+      <Filter>03.ImGUI\MapTool</Filter>
+    </ClCompile>
+    <ClCompile Include="Client.cpp">
+      <Filter>98.Default\Default</Filter>
+    </ClCompile>
+    <ClCompile Include="stdafx.cpp">
+      <Filter>98.Default\Default</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Image Include="Client.ico">
-      <Filter>98.Default</Filter>
+      <Filter>98.Default\Default</Filter>
     </Image>
     <Image Include="small.ico">
-      <Filter>98.Default</Filter>
+      <Filter>98.Default\Default</Filter>
     </Image>
-  </ItemGroup>
-  <ItemGroup>
-    <ResourceCompile Include="Client.rc">
-      <Filter>98.Default</Filter>
-    </ResourceCompile>
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="..\Bin\ShaderFiles\Shader_VtxPosTex.hlsl">
@@ -125,5 +222,15 @@
     <FxCompile Include="..\Bin\ShaderFiles\Shader_VtxNorTex.hlsl">
       <Filter>97.ShaderFiles</Filter>
     </FxCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="Client.rc">
+      <Filter>98.Default\Default</Filter>
+    </ResourceCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <Text Include="ReadMe.txt">
+      <Filter>98.Default\Default</Filter>
+    </Text>
   </ItemGroup>
 </Project>

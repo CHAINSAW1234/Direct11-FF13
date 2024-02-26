@@ -60,6 +60,22 @@ public:
 		};
 	}
 
+	_float4x4 Get_WorldFloat4x4() const {
+		return m_WorldMatrix;
+	}
+	_matrix Get_WorldMatrix() const {
+		return XMLoadFloat4x4(&m_WorldMatrix);
+	}
+
+	_float4x4 Get_WorldFloat4x4_Inverse() const {
+		_float4x4	WorldMatrixInverse;
+		XMStoreFloat4x4(&WorldMatrixInverse, XMMatrixInverse(nullptr, XMLoadFloat4x4(&m_WorldMatrix)));
+		return WorldMatrixInverse;
+	}
+	_matrix Get_WorldMatrix_Inverse() const {
+		return XMMatrixInverse(nullptr, XMLoadFloat4x4(&m_WorldMatrix));
+	}
+
 public:
 	virtual HRESULT Initialize_Prototype() override;
 	virtual HRESULT Initialize(void* pArg) override;
@@ -72,6 +88,8 @@ public:
 	void Go_Backward(_float fTimeDelta);
 	void Go_Left(_float fTimeDelta);
 	void Go_Right(_float fTimeDelta);
+	void Go_Up(_float fTimeDelta);
+	void Go_Down(_float fTimeDelta);
 	void Look_At(_fvector vTargetPosition);
 	void Look_At_ForLandObject(_fvector vTargetPosition);
 	void Move_toTarget(_fvector vTargetPos, _float fTimeDelta, _float fMinDistance = 0.f);
