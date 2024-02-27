@@ -15,6 +15,7 @@
   .\EngineSDK\Inc\Layer.h
   .\EngineSDK\Inc\Level.h
   .\EngineSDK\Inc\Level_Manager.h
+  .\EngineSDK\Inc\Mesh.h
   .\EngineSDK\Inc\Model.h
   .\EngineSDK\Inc\Object_Manager.h
   .\EngineSDK\Inc\PipeLine.h
@@ -27,23 +28,28 @@
   .\EngineSDK\Inc\VIBuffer.h
   .\EngineSDK\Inc\VIBuffer_Rect.h
   .\EngineSDK\Inc\VIBuffer_Terrain.h
-  29개 파일이 복사되었습니다.
+  30개 파일이 복사되었습니다.
   .\EngineSDK\Lib\Engine.lib
   1개 파일이 복사되었습니다.
   .\Client\Bin\assimp-vc143-mt.dll
   .\Client\Bin\assimp-vc143-mtd.dll
-  .\Client\Bin\Client.exe
   .\Client\Bin\Client.ilk
   .\Client\Bin\Client.pdb
   .\Client\Bin\Engine.dll
+  .\Client\Bin\Shader_VtxModel.cso
   .\Client\Bin\Shader_VtxNorTex.cso
   .\Client\Bin\Shader_VtxPosTex.cso
   .\Client\Bin\Resources\Fonts\140.spritefont
-  .\Client\Bin\Resources\Models\Fiona\cake_D.png
-  .\Client\Bin\Resources\Models\Fiona\CharacterShadow_2.png
+  .\Client\Bin\Resources\Models\Fiona\c201C_01.dds
+  .\Client\Bin\Resources\Models\Fiona\c201C_02.dds
+  .\Client\Bin\Resources\Models\Fiona\c201C_04.dds
+  .\Client\Bin\Resources\Models\Fiona\c201C_05.dds
+  .\Client\Bin\Resources\Models\Fiona\c201N_01.dds
+  .\Client\Bin\Resources\Models\Fiona\c201N_02.dds
+  .\Client\Bin\Resources\Models\Fiona\c201N_04.dds
   .\Client\Bin\Resources\Models\Fiona\Fiona.fbx
-  .\Client\Bin\Resources\Models\Fiona\fiona_D.png
-  .\Client\Bin\Resources\Models\Fiona\fiona_sword.png
+  .\Client\Bin\Resources\Models\Fiona\masked_c201C_03.dds
+  .\Client\Bin\Resources\Models\Fiona\speccomp_c201C_03.dds
   .\Client\Bin\Resources\Models\ForkLift\ForkLift.FBX
   .\Client\Bin\Resources\Models\ForkLift\T_ForkLift_DIFF.png
   .\Client\Bin\Resources\Models\ForkLift\T_ForkLift_NORM.png
@@ -244,9 +250,10 @@
   .\Client\Bin\Resources\Textures\Terrain\Grass 03 - 복사본\preview.jpg
   .\Client\Bin\Resources\Textures\Terrain\Normal\GrassRock_1.tga
   .\Client\Bin\Resources\Textures\Terrain\Normal\Grass_1.tga
+  .\Client\Bin\ShaderFiles\Shader_VtxModel.hlsl
   .\Client\Bin\ShaderFiles\Shader_VtxNorTex.hlsl
   .\Client\Bin\ShaderFiles\Shader_VtxPosTex.hlsl
-  216개 파일이 복사되었습니다.
+  222개 파일이 복사되었습니다.
   Base.cpp
   Camera.cpp
   Component.cpp
@@ -258,24 +265,36 @@
   Layer.cpp
   Level.cpp
   Level_Manager.cpp
+  Mesh.cpp
   Model.cpp
+C:\Users\stgo5015\Documents\GitHub\Direct11_FF13\Engine\Private\Model.cpp(147,53): warning C4267: '인수': 'size_t'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
   Object_Manager.cpp
   PipeLine.cpp
   Renderer.cpp
+  Shader.cpp
+  Texture.cpp
   Timer.cpp
   Timer_Manager.cpp
+  코드를 생성하고 있습니다...
+  컴파일하고 있습니다...
   Transform.cpp
+  VIBuffer.cpp
+  VIBuffer_Rect.cpp
   VIBuffer_Terrain.cpp
 C:\Users\stgo5015\Documents\GitHub\Direct11_FF13\Engine\Private\VIBuffer_Terrain.cpp(67,84): warning C4244: '인수': 'Engine::_uint'에서 'float'(으)로 변환하면서 데이터가 손실될 수 있습니다.
 C:\Users\stgo5015\Documents\GitHub\Direct11_FF13\Engine\Private\VIBuffer_Terrain.cpp(67,42): warning C4244: '인수': 'Engine::_uint'에서 'float'(으)로 변환하면서 데이터가 손실될 수 있습니다.
   Engine_Struct.cpp
   코드를 생성하고 있습니다...
-  컴파일하고 있습니다...
-  Shader.cpp
-  Texture.cpp
-  VIBuffer.cpp
-  VIBuffer_Rect.cpp
-  코드를 생성하고 있습니다...
+Effects11d.lib(EffectAPI.obj) : warning LNK4099: '' PDB를 'Effects11d.lib(EffectAPI.obj)' 또는 ''에서 찾을 수 없습니다. 디버그 정보가 없는 것처럼 개체를 링크합니다.
+Effects11d.lib(d3dxGlobal.obj) : warning LNK4099: '' PDB를 'Effects11d.lib(d3dxGlobal.obj)' 또는 ''에서 찾을 수 없습니다. 디버그 정보가 없는 것처럼 개체를 링크합니다.
+Effects11d.lib(EffectNonRuntime.obj) : warning LNK4099: '' PDB를 'Effects11d.lib(EffectNonRuntime.obj)' 또는 ''에서 찾을 수 없습니다. 디버그 정보가 없는 것처럼 개체를 링크합니다.
+Effects11d.lib(EffectLoad.obj) : warning LNK4099: '' PDB를 'Effects11d.lib(EffectLoad.obj)' 또는 ''에서 찾을 수 없습니다. 디버그 정보가 없는 것처럼 개체를 링크합니다.
+Effects11d.lib(EffectReflection.obj) : warning LNK4099: '' PDB를 'Effects11d.lib(EffectReflection.obj)' 또는 ''에서 찾을 수 없습니다. 디버그 정보가 없는 것처럼 개체를 링크합니다.
+Effects11d.lib(EffectRuntime.obj) : warning LNK4099: '' PDB를 'Effects11d.lib(EffectRuntime.obj)' 또는 ''에서 찾을 수 없습니다. 디버그 정보가 없는 것처럼 개체를 링크합니다.
+DirectXTKd.lib(DDSTextureLoader.obj) : warning LNK4099: '' PDB를 'DirectXTKd.lib(DDSTextureLoader.obj)' 또는 ''에서 찾을 수 없습니다. 디버그 정보가 없는 것처럼 개체를 링크합니다.
+DirectXTKd.lib(WICTextureLoader.obj) : warning LNK4099: '' PDB를 'DirectXTKd.lib(WICTextureLoader.obj)' 또는 ''에서 찾을 수 없습니다. 디버그 정보가 없는 것처럼 개체를 링크합니다.
+DirectXTKd.lib(pch.obj) : warning LNK4099: '' PDB를 'DirectXTKd.lib(pch.obj)' 또는 ''에서 찾을 수 없습니다. 디버그 정보가 없는 것처럼 개체를 링크합니다.
+     ../Bin/Engine.lib 라이브러리 및 ../Bin/Engine.exp 개체를 생성하고 있습니다.
   Engine.vcxproj -> C:\Users\stgo5015\Documents\GitHub\Direct11_FF13\Engine\Bin\Engine.dll
   .\EngineSDK\Inc\Base.h
   .\EngineSDK\Inc\Camera.h
@@ -294,6 +313,7 @@ C:\Users\stgo5015\Documents\GitHub\Direct11_FF13\Engine\Private\VIBuffer_Terrain
   .\EngineSDK\Inc\Layer.h
   .\EngineSDK\Inc\Level.h
   .\EngineSDK\Inc\Level_Manager.h
+  .\EngineSDK\Inc\Mesh.h
   .\EngineSDK\Inc\Model.h
   .\EngineSDK\Inc\Object_Manager.h
   .\EngineSDK\Inc\PipeLine.h
@@ -422,15 +442,15 @@ C:\Users\stgo5015\Documents\GitHub\Direct11_FF13\Engine\Private\VIBuffer_Terrain
   .\EngineSDK\Inc\DirectXTK\XboxDDSTextureLoader.h
   .\EngineSDK\Inc\Effects11\d3dx11effect.h
   .\EngineSDK\Inc\Effects11\d3dxGlobal.h
-  145개 파일이 복사되었습니다.
+  146개 파일이 복사되었습니다.
   .\EngineSDK\Lib\Engine.lib
   1개 파일이 복사되었습니다.
   .\Client\Bin\assimp-vc143-mt.dll
   .\Client\Bin\assimp-vc143-mtd.dll
-  .\Client\Bin\Client.exe
   .\Client\Bin\Client.ilk
   .\Client\Bin\Client.pdb
   .\Client\Bin\Engine.dll
+  .\Client\Bin\Shader_VtxModel.cso
   .\Client\Bin\Shader_VtxNorTex.cso
   .\Client\Bin\Shader_VtxPosTex.cso
   8개 파일이 복사되었습니다.

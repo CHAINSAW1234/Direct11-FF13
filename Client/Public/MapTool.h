@@ -28,6 +28,14 @@ private:
 	ImVec4 clear_color = ImVec4(0.45f, 0.55f, 0.60f, 1.00f);
 
 private:
+	CGameObject* m_pPickingTarget = { nullptr };
+
+public:
+	void Set_PickingTarget(CGameObject* pPickingTarget) { m_pPickingTarget = pPickingTarget; };
+private:
+	void Show_Picking_ImGUI();
+
+private:
 	HRESULT Add_Components();
 	HRESULT Set_RenderState();
 	HRESULT Reset_RenderState();

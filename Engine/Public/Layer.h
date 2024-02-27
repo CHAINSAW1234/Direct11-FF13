@@ -14,6 +14,7 @@ private:
 	virtual ~CLayer() = default;
 
 public:
+	class CGameObject* Get_GameObject(_uint iIndex);
 	const class CComponent* Get_Component(const wstring& strComTag, _uint iIndex);
 
 public:

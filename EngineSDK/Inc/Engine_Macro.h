@@ -1,9 +1,5 @@
 #pragma once
 
-// For Input_Manager
-#define VK_MAX	0xff
-
-
 #define BEGIN(NAMESPACE)	namespace NAMESPACE {
 #define END					}
 

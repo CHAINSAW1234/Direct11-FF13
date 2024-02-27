@@ -4,6 +4,7 @@
 #include "GameInstance.h"
 #include "ImGUI_Manager.h"
 #include "Camera_Free.h"
+#include "MapTool.h"
 
 CLevel_MapTool::CLevel_MapTool(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
     : CLevel(pDevice, pContext)
@@ -30,6 +31,12 @@ HRESULT CLevel_MapTool::Initialize()
 void CLevel_MapTool::Tick(_float fTimeDelta)
 {
 	__super::Tick(fTimeDelta);
+	static _bool test = false;
+	if (!test) {
+		test = true;
+		((CMapTool*)m_pGameInstance->Get_GameObject(LEVEL_MAPTOOL, TEXT("Layer_IMGUI"), 0))->Set_PickingTarget(
+			m_pGameInstance->Get_GameObject(LEVEL_MAPTOOL, TEXT("Layer_BackGround"), 0));
+	}
 }
 
 HRESULT CLevel_MapTool::Render()
@@ -64,7 +71,7 @@ HRESULT CLevel_MapTool::Ready_Layer_Camera(const wstring& strLayerTag)
 
 HRESULT CLevel_MapTool::Ready_Layer_BackGround(const wstring& strLayerTag)
 {
-	if (FAILED(m_pGameInstance->Add_Clone(LEVEL_GAMEPLAY, strLayerTag, TEXT("Prototype_GameObject_Terrain"))))
+	if (FAILED(m_pGameInstance->Add_Clone(LEVEL_MAPTOOL, strLayerTag, TEXT("Prototype_GameObject_Terrain"))))
 		return E_FAIL;
 	return S_OK;
 }

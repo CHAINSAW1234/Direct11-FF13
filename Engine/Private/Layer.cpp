@@ -5,6 +5,17 @@ CLayer::CLayer()
 {
 }
 
+CGameObject* CLayer::Get_GameObject(_uint iIndex)
+{
+	auto	iter = m_GameObjects.begin();
+
+	std::advance(iter, iIndex);
+	/*for (size_t i = 0; i < iIndex; i++)
+		++iter;*/
+
+	return *iter;
+}
+
 const CComponent * CLayer::Get_Component(const wstring & strComTag, _uint iIndex)
 {
 	auto	iter = m_GameObjects.begin();

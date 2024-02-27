@@ -29,14 +29,12 @@ unsigned int  CImGUI_Manager::Destroy_Instance()
 	return iRefCnt;
 }
 
-CImGUI_Manager::CImGUI_Manager(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
-{
-}
-
 HRESULT CImGUI_Manager::Initialize(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
 {
+	m_pGameInstance = CGameInstance::Get_Instance();
 	m_pDevice = pDevice;
 	m_pContext = pContext;
+	Safe_AddRef(m_pGameInstance);
 	Safe_AddRef(m_pDevice);
 	Safe_AddRef(m_pContext);
 
@@ -84,7 +82,7 @@ HRESULT CImGUI_Manager::Render()
 	return S_OK;
 }
 
-void CImGUI_Manager::EditTransform(const CCamera& camera, _float4x4& matrix)
+void CImGUI_Manager::EditTransform(_float4x4& matrix)
 {
 #ifndef _DEBUG
 	return;
@@ -159,9 +157,10 @@ void CImGUI_Manager::EditTransform(const CCamera& camera, _float4x4& matrix)
 	ImGuizmo::SetRect(0, 0, io.DisplaySize.x, io.DisplaySize.y);
 
 	_float4x4	ProjMatrix, ViewMatrix;
-	m_pGraphic_Device->GetTransform(D3DTS_PROJECTION, &ProjMatrix);
-	m_pGraphic_Device->GetTransform(D3DTS_VIEW, &ViewMatrix);
-	ImGuizmo::Manipulate(ViewMatrix, ProjMatrix, mCurrentGizmoOperation, mCurrentGizmoMode, matrix, NULL, useSnap ? &snap.x : NULL);
+	
+	ProjMatrix = m_pGameInstance->Get_Transform_Float4x4(CPipeLine::D3DTS_PROJ);
+	ViewMatrix = m_pGameInstance->Get_Transform_Float4x4(CPipeLine::D3DTS_VIEW);
+	ImGuizmo::Manipulate(&ViewMatrix.m[0][0], &ProjMatrix.m[0][0], mCurrentGizmoOperation, mCurrentGizmoMode, &matrix.m[0][0], NULL, useSnap ? &snap.x : NULL);
 
 	ImGui::End();
 }
@@ -176,6 +175,7 @@ void CImGUI_Manager::Free()
 	ImGui::DestroyContext();
 	Safe_Release(m_pDevice);
 	Safe_Release(m_pContext);
+	Safe_Release(m_pGameInstance);
 
 }
 

@@ -16,6 +16,7 @@ private:
 	virtual ~CObject_Manager() = default;
 
 public:
+	class CGameObject* Get_GameObject(_uint iLevelIndex, const wstring& strLayerTag, _uint iIndex);
 	const class CComponent* Get_Component(_uint iLevelIndex, const wstring& strLayerTag, const wstring& strComTag, _uint iIndex);
 
 public:

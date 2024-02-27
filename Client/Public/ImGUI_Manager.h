@@ -10,10 +10,8 @@ BEGIN(Client)
 
 class CImGUI_Manager final : public CBase
 {
-
 private:
 	CImGUI_Manager() = default;
-	CImGUI_Manager(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);
 	virtual ~CImGUI_Manager() = default;
 
 public:
@@ -24,9 +22,10 @@ public:
 
 public:
 	//void IMGUI_Start();
-	void EditTransform(const CCamera& camera, _float4x4& matrix);
+	void EditTransform(_float4x4& matrix);
 
 private:
+	class CGameInstance* m_pGameInstance = { nullptr };
 	ID3D11Device* m_pDevice = { nullptr };
 	ID3D11DeviceContext* m_pContext = { nullptr };
 

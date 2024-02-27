@@ -69,6 +69,7 @@ void CMapTool::Tick(_float fTimeDelta)
         ImGui::End();
     }
 
+    Show_Picking_ImGUI();
 
 }
 
@@ -83,6 +84,14 @@ HRESULT CMapTool::Render()
     m_pImGUI_Manager->Render();
 
     return S_OK;
+}
+
+void CMapTool::Show_Picking_ImGUI()
+{
+    if (nullptr != m_pPickingTarget) {
+        m_pImGUI_Manager->EditTransform(*((CTransform*)m_pPickingTarget->Get_Component(g_strTransformTag))->Get_WorldFloat4x4());
+    }
+
 }
 
 HRESULT CMapTool::Add_Components()

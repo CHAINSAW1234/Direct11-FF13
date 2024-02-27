@@ -1,7 +1,5 @@
 c:\users\stgo5015\documents\github\direct11_ff13\engine\default\x64\debug\vc143.pdb
 c:\users\stgo5015\documents\github\direct11_ff13\engine\default\x64\debug\vc143.idb
-c:\users\stgo5015\documents\github\direct11_ff13\engine\default\x64\debug\vibuffer.obj
-c:\users\stgo5015\documents\github\direct11_ff13\engine\default\x64\debug\transform.obj
 c:\users\stgo5015\documents\github\direct11_ff13\engine\default\x64\debug\timer_manager.obj
 c:\users\stgo5015\documents\github\direct11_ff13\engine\default\x64\debug\timer.obj
 c:\users\stgo5015\documents\github\direct11_ff13\engine\default\x64\debug\texture.obj
@@ -9,6 +7,8 @@ c:\users\stgo5015\documents\github\direct11_ff13\engine\default\x64\debug\shader
 c:\users\stgo5015\documents\github\direct11_ff13\engine\default\x64\debug\renderer.obj
 c:\users\stgo5015\documents\github\direct11_ff13\engine\default\x64\debug\pipeline.obj
 c:\users\stgo5015\documents\github\direct11_ff13\engine\default\x64\debug\object_manager.obj
+c:\users\stgo5015\documents\github\direct11_ff13\engine\default\x64\debug\model.obj
+c:\users\stgo5015\documents\github\direct11_ff13\engine\default\x64\debug\mesh.obj
 c:\users\stgo5015\documents\github\direct11_ff13\engine\default\x64\debug\level_manager.obj
 c:\users\stgo5015\documents\github\direct11_ff13\engine\default\x64\debug\level.obj
 c:\users\stgo5015\documents\github\direct11_ff13\engine\default\x64\debug\layer.obj
@@ -23,6 +23,8 @@ c:\users\stgo5015\documents\github\direct11_ff13\engine\default\x64\debug\base.o
 c:\users\stgo5015\documents\github\direct11_ff13\engine\default\x64\debug\engine_struct.obj
 c:\users\stgo5015\documents\github\direct11_ff13\engine\default\x64\debug\vibuffer_terrain.obj
 c:\users\stgo5015\documents\github\direct11_ff13\engine\default\x64\debug\vibuffer_rect.obj
+c:\users\stgo5015\documents\github\direct11_ff13\engine\default\x64\debug\vibuffer.obj
+c:\users\stgo5015\documents\github\direct11_ff13\engine\default\x64\debug\transform.obj
 c:\users\stgo5015\documents\github\direct11_ff13\engine\bin\engine.dll
 c:\users\stgo5015\documents\github\direct11_ff13\engine\bin\engine.pdb
 c:\users\stgo5015\documents\github\direct11_ff13\engine\bin\engine.lib
