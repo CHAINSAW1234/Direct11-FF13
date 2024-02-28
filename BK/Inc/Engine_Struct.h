@@ -14,6 +14,14 @@ namespace Engine
 		class CTexture* MaterialTextures[AI_TEXTURE_TYPE_MAX];
 	}MESH_MATERIAL;
 
+	typedef struct ENGINE_DLL VTXPos
+	{
+		XMFLOAT3		vPosition;
+
+		static const unsigned int	iNumElements = { 1 };
+		static const D3D11_INPUT_ELEMENT_DESC	Elements[1];
+	}VTXPOS;
+
 	typedef struct ENGINE_DLL VTXPosTex
 	{
 		XMFLOAT3		vPosition;

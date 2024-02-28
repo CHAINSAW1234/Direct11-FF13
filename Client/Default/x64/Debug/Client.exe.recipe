@@ -13,6 +13,9 @@
       <FullPath>C:\Users\stgo5015\Documents\GitHub\Direct11_FF13\Client\Bin\Shader_VtxNorTex.cso</FullPath>
     </ContentFile>
     <ContentFile>
+      <FullPath>C:\Users\stgo5015\Documents\GitHub\Direct11_FF13\Client\Bin\Shader_VtxPos.cso</FullPath>
+    </ContentFile>
+    <ContentFile>
       <FullPath>C:\Users\stgo5015\Documents\GitHub\Direct11_FF13\Client\Bin\Shader_VtxPosTex.cso</FullPath>
     </ContentFile>
   </ContentFiles>

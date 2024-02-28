@@ -3,9 +3,11 @@
 #include <process.h>
 #include "GameInstance.h"
 #include "Camera_Free.h"
+#include "Camera_MapTool.h"
 #include "BackGround.h"
 #include "Terrain.h"
 #include "Monster.h"
+#include "Grid.h"
 //#include "Player.h"
 //#include "Effect.h"
 //#include "Sky.h"
@@ -45,6 +47,8 @@ HRESULT CLoader::Initialize(LEVEL eNextLevelID)
 
 	InitializeCriticalSection(&m_Critical_Section);
 
+	Loading_Prototype();
+
 	/* 스레드를 생성하낟. */
 	m_hThread = (HANDLE)_beginthreadex(nullptr, 0, LoadingMain, this, 0, nullptr);
 	if (0 == m_hThread)
@@ -80,6 +84,41 @@ HRESULT CLoader::Start()
 	return S_OK;
 }
 
+HRESULT CLoader::Loading_Prototype()
+{
+	/* For.Prototype_GameObject_Terrain */
+	if (FAILED(m_pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_Terrain"),
+		CTerrain::Create(m_pDevice, m_pContext))))
+		return E_FAIL;
+
+	/* For.Prototype_GameObject_Camera_Free */
+	if (FAILED(m_pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_Camera_Free"),
+		CCamera_Free::Create(m_pDevice, m_pContext))))
+		return E_FAIL;
+
+	/* For.Prototype_GameObject_Camera_Free */
+	if (FAILED(m_pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_Camera_MapTool"),
+		CCamera_MapTool::Create(m_pDevice, m_pContext))))
+		return E_FAIL;
+
+	/* For.Prototype_GameObject_Monster */
+	if (FAILED(m_pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_Monster"),
+		CMonster::Create(m_pDevice, m_pContext))))
+		return E_FAIL;
+
+	/* For.Prototype_GameObject_MapTool */
+	if (FAILED(m_pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_MapTool"),
+		CMapTool::Create(m_pDevice, m_pContext))))
+		return E_FAIL;
+
+	/* For.Prototype_GameObject_MapTool */
+ 	if (FAILED(m_pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_Grid"),
+		CGrid::Create(m_pDevice, m_pContext))))
+		return E_FAIL;
+
+	return S_OK;
+}
+
 HRESULT CLoader::Loading_For_Logo()
 {
 	m_strLoadingText = TEXT("텍스쳐를(을) 로딩 중 입니다.");
@@ -88,18 +127,11 @@ HRESULT CLoader::Loading_For_Logo()
 		CTexture::Create(m_pDevice, m_pContext, TEXT("../Bin/Resources/Textures/Default%d.jpg"), 2))))
 		return E_FAIL;
 
-	
 	m_strLoadingText = TEXT("모델를(을) 로딩 중 입니다.");
 	
 	m_strLoadingText = TEXT("셰이더를(을) 로딩 중 입니다.");
 	
 	m_strLoadingText = TEXT("객체의 원형를(을) 로딩 중 입니다.");
-
-	/* For.Prototype_GameObject_BackGround */
-	if (FAILED(m_pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_BackGround"),
-		CBackGround::Create(m_pDevice, m_pContext))))
-		return E_FAIL;
-	
 	
 	m_strLoadingText = TEXT("로딩이 완료되었습니다.");
 
@@ -144,7 +176,7 @@ HRESULT CLoader::Loading_For_GamePlay()
 		return E_FAIL;
 
 	/* Prototype_Component_Model_Fiona */
-	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_GAMEPLAY, TEXT("Prototype_Component_Model_Fiona"),
+	if (FAILED(m_pGameInstance->Add_Prototype(eLevel, TEXT("Prototype_Component_Model_Fiona"),
 		CModel::Create(m_pDevice, m_pContext, CModel::TYPE_NONANIM, "../Bin/Resources/Models/Fiona/Fiona.fbx"))))
 		return E_FAIL;
 
@@ -160,25 +192,12 @@ HRESULT CLoader::Loading_For_GamePlay()
 	m_strLoadingText = TEXT("셰이더를(을) 로딩 중 입니다.");
 	
 	m_strLoadingText = TEXT("객체를(을) 로딩 중 입니다.");
-	///* For.Prototype_GameObject_Terrain */
-	if (FAILED(m_pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_Terrain"),
-		CTerrain::Create(m_pDevice, m_pContext))))
-		return E_FAIL;
 
-	/* For.Prototype_GameObject_Camera_Free */
-	if (FAILED(m_pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_Camera_Free"),
-		CCamera_Free::Create(m_pDevice, m_pContext))))
-		return E_FAIL;
 
 	///* For.Prototype_GameObject_Player */
 	//if (FAILED(m_pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_Player"),
 	//	CPlayer::Create(m_pGraphic_Device))))
 	//	return E_FAIL;
-
-	/* For.Prototype_GameObject_Monster */
-	if (FAILED(m_pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_Monster"),
-		CMonster::Create(m_pDevice, m_pContext))))
-		return E_FAIL;
 
 	///* For.Prototype_GameObject_Effect */
 	//if (FAILED(m_pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_Effect"),
@@ -217,22 +236,13 @@ HRESULT CLoader::Loading_For_MapTool()
 
 #pragma endregion
 
+	if (FAILED(m_pGameInstance->Add_Prototype(eLevel, TEXT("Prototype_Component_VIBuffer_Line"),
+		CVIBuffer_Line::Create(m_pDevice, m_pContext))))
+		return E_FAIL;
+
+
 	m_strLoadingText = TEXT("셰이더를(을) 로딩 중 입니다.");
 	m_strLoadingText = TEXT("객체를(을) 로딩 중 입니다.");
-
-	///* For.Prototype_GameObject_Terrain */
-	if (FAILED(m_pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_Terrain"),
-		CTerrain::Create(m_pDevice, m_pContext))))
-		return E_FAIL;
-
-	/* For.Prototype_GameObject_Camera_Free */
-	if (FAILED(m_pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_Camera_Free"),
-		CCamera_Free::Create(m_pDevice, m_pContext))))
-		return E_FAIL;
-
-	if (FAILED(m_pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_MapTool"),
-		CMapTool::Create(m_pDevice, m_pContext))))
-		return E_FAIL;
 
 	m_strLoadingText = TEXT("MAP TOOL LEVEL의 로딩이 완료되었습니다.");
 

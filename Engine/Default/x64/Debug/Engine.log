@@ -26,18 +26,21 @@
   .\EngineSDK\Inc\Timer_Manager.h
   .\EngineSDK\Inc\Transform.h
   .\EngineSDK\Inc\VIBuffer.h
+  .\EngineSDK\Inc\VIBuffer_Line.h
   .\EngineSDK\Inc\VIBuffer_Rect.h
   .\EngineSDK\Inc\VIBuffer_Terrain.h
-  30개 파일이 복사되었습니다.
+  31개 파일이 복사되었습니다.
   .\EngineSDK\Lib\Engine.lib
   1개 파일이 복사되었습니다.
   .\Client\Bin\assimp-vc143-mt.dll
   .\Client\Bin\assimp-vc143-mtd.dll
+  .\Client\Bin\Client.exe
   .\Client\Bin\Client.ilk
   .\Client\Bin\Client.pdb
   .\Client\Bin\Engine.dll
   .\Client\Bin\Shader_VtxModel.cso
   .\Client\Bin\Shader_VtxNorTex.cso
+  .\Client\Bin\Shader_VtxPos.cso
   .\Client\Bin\Shader_VtxPosTex.cso
   .\Client\Bin\Resources\Fonts\140.spritefont
   .\Client\Bin\Resources\Models\Fiona\c201C_01.dds
@@ -252,8 +255,9 @@
   .\Client\Bin\Resources\Textures\Terrain\Normal\Grass_1.tga
   .\Client\Bin\ShaderFiles\Shader_VtxModel.hlsl
   .\Client\Bin\ShaderFiles\Shader_VtxNorTex.hlsl
+  .\Client\Bin\ShaderFiles\Shader_VtxPos.hlsl
   .\Client\Bin\ShaderFiles\Shader_VtxPosTex.hlsl
-  222개 파일이 복사되었습니다.
+  225개 파일이 복사되었습니다.
   Base.cpp
   Camera.cpp
   Component.cpp
@@ -279,6 +283,9 @@ C:\Users\stgo5015\Documents\GitHub\Direct11_FF13\Engine\Private\Model.cpp(147,53
   컴파일하고 있습니다...
   Transform.cpp
   VIBuffer.cpp
+  VIBuffer_Line.cpp
+C:\Users\stgo5015\Documents\GitHub\Direct11_FF13\Engine\Private\VIBuffer_Line.cpp(59,50): warning C4244: '인수': 'Engine::_uint'에서 'float'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+C:\Users\stgo5015\Documents\GitHub\Direct11_FF13\Engine\Private\VIBuffer_Line.cpp(59,42): warning C4244: '인수': 'Engine::_uint'에서 'float'(으)로 변환하면서 데이터가 손실될 수 있습니다.
   VIBuffer_Rect.cpp
   VIBuffer_Terrain.cpp
 C:\Users\stgo5015\Documents\GitHub\Direct11_FF13\Engine\Private\VIBuffer_Terrain.cpp(67,84): warning C4244: '인수': 'Engine::_uint'에서 'float'(으)로 변환하면서 데이터가 손실될 수 있습니다.
@@ -324,6 +331,7 @@ DirectXTKd.lib(pch.obj) : warning LNK4099: '' PDB를 'DirectXTKd.lib(pch.obj)' �
   .\EngineSDK\Inc\Timer_Manager.h
   .\EngineSDK\Inc\Transform.h
   .\EngineSDK\Inc\VIBuffer.h
+  .\EngineSDK\Inc\VIBuffer_Line.h
   .\EngineSDK\Inc\VIBuffer_Rect.h
   .\EngineSDK\Inc\VIBuffer_Terrain.h
   .\EngineSDK\Inc\assimp\.editorconfig
@@ -442,15 +450,17 @@ DirectXTKd.lib(pch.obj) : warning LNK4099: '' PDB를 'DirectXTKd.lib(pch.obj)' �
   .\EngineSDK\Inc\DirectXTK\XboxDDSTextureLoader.h
   .\EngineSDK\Inc\Effects11\d3dx11effect.h
   .\EngineSDK\Inc\Effects11\d3dxGlobal.h
-  146개 파일이 복사되었습니다.
+  147개 파일이 복사되었습니다.
   .\EngineSDK\Lib\Engine.lib
   1개 파일이 복사되었습니다.
   .\Client\Bin\assimp-vc143-mt.dll
   .\Client\Bin\assimp-vc143-mtd.dll
+  .\Client\Bin\Client.exe
   .\Client\Bin\Client.ilk
   .\Client\Bin\Client.pdb
   .\Client\Bin\Engine.dll
   .\Client\Bin\Shader_VtxModel.cso
   .\Client\Bin\Shader_VtxNorTex.cso
+  .\Client\Bin\Shader_VtxPos.cso
   .\Client\Bin\Shader_VtxPosTex.cso
-  8개 파일이 복사되었습니다.
+  10개 파일이 복사되었습니다.

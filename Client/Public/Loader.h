@@ -41,6 +41,7 @@ private:
 
 
 private:
+	HRESULT Loading_Prototype();
 	HRESULT Loading_For_Logo();
 	HRESULT Loading_For_GamePlay();
 	HRESULT Loading_For_MapTool();
