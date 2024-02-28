@@ -116,17 +116,11 @@
     <PostBuildEvent>
       <Command>cd $(SolutionDir)
 
-xcopy /y/s			".\EngineSDK\Inc\"	".\BK\Inc\"
-
-xcopy /y			".\EngineSDK\Lib\"	".\BK\Lib\"
-
-xcopy /y			".\Client\Bin\"		".\BK\Bin\"</Command>
+start .\UpdateLib.bat</Command>
     </PostBuildEvent>
     <PreBuildEvent>
-      <Command>cd $(SolutionDir)
-xcopy /y			".\EngineSDK\Inc\"	".\BK\Inc\"
-xcopy /y			".\EngineSDK\Lib\"	".\BK\Lib\"
-xcopy /y/s			".\Client\Bin\"		".\BK\Bin\"</Command>
+      <Command>
+      </Command>
     </PreBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -170,17 +164,11 @@ xcopy /y/s			".\Client\Bin\"		".\BK\Bin\"</Command>
     <PostBuildEvent>
       <Command>cd $(SolutionDir)
 
-xcopy /y/s			".\EngineSDK\Inc\"	".\BK\Inc\"
-
-xcopy /y			".\EngineSDK\Lib\"	".\BK\Lib\"
-
-xcopy /y			".\Client\Bin\"		".\BK\Bin\"</Command>
+start .\UpdateLib.bat</Command>
     </PostBuildEvent>
     <PreBuildEvent>
-      <Command>cd $(SolutionDir)
-xcopy /y			".\EngineSDK\Inc\"	".\BK\Inc\"
-xcopy /y			".\EngineSDK\Lib\"	".\BK\Lib\"
-xcopy /y/s			".\Client\Bin\"		".\BK\Bin\"</Command>
+      <Command>
+      </Command>
     </PreBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
