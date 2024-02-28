@@ -17,7 +17,7 @@ struct VS_IN
 struct VS_OUT
 {
     float4 vPosition : SV_POSITION;
-    float  vCheck : PSIZE0;
+    float  vCheck : PSIZE0; // 축 체크용
 };
 
 /* 정점 쉐이더 */
@@ -31,10 +31,13 @@ VS_OUT VS_MAIN(VS_IN In)
     matWVP = mul(matWV, g_ProjMatrix);
     
     Out.vPosition = mul(vector(In.vPosition, 1.f), matWVP);
+  
+    float4 WorldPosition = mul(vector(In.vPosition, 1.f), g_WorldMatrix);
+    
     Out.vCheck = 0;
-    if (In.vPosition.z == 50)
+    if (WorldPosition.z == 0)
         Out.vCheck = 1;         // x축과 같은 위치
-    else if (In.vPosition.x == 50)
+    else if (WorldPosition.x == 0)
         Out.vCheck = 2;         // z축과 같은 위치
     
     return Out;
@@ -55,11 +58,11 @@ PS_OUT PS_MAIN(PS_IN In)
 {
     PS_OUT Out = (PS_OUT) 0;
 
-    Out.vColor = float4(0, 0, 0, 1);
+    Out.vColor = float4(0, 0, 0, 1);        // 기본 색 : BLACK
     if (In.vCheck == 1)
-        Out.vColor = float4(1, 0, 0, 1);
+        Out.vColor = float4(1, 0, 0, 1);    // x축 : RED
     if (In.vCheck == 2)
-        Out.vColor = float4(0, 1, 0, 1);
+        Out.vColor = float4(0, 1, 0, 1);    // z축 : GREEN
     return Out;
 }
 
