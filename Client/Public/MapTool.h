@@ -3,7 +3,13 @@
 #include "Client_Defines.h"
 #include "GameObject.h"
 
+BEGIN(Engine)
+class CTexture;
+END
+
 BEGIN(Client)
+class CPrevMapObject;
+class CMapObject;
 
 class CMapTool final : public CGameObject
 {
@@ -16,7 +22,7 @@ public:
 	virtual HRESULT Initialize_Prototype() override;
 	virtual HRESULT Initialize(void* pArg) override;
 	virtual void	Tick(_float fTimeDelta) override;
-	virtual void	Late_Tick(_float fTimeDelta) override;
+	virtual HRESULT	Late_Tick(_float fTimeDelta) override;
 	virtual HRESULT	Render() override;
 
 private: /* For. ImGui */
@@ -24,15 +30,18 @@ private: /* For. ImGui */
 
 private:
 	bool show_demo_window = true;
-	bool show_another_window = false;
-	ImVec4 clear_color = ImVec4(0.45f, 0.55f, 0.60f, 1.00f);
+	bool show_ModelList_window = true;
+	bool show_Model_window = false;
 
 private:
-	CGameObject* m_pPickingTarget = { nullptr };
+	CTexture*				m_PrevTextures;		// 미리 저장해 둔 모델의 기본 이미지
+	vector<wstring>			m_strModelTags;		// 이미지와 매칭되는 실제 객체의 Tag
 
-public:
-	void Set_PickingTarget(CGameObject* pPickingTarget) { m_pPickingTarget = pPickingTarget; };
+	vector<CMapObject*>		m_MapObjects;		// 생성된 객체
+	CGameObject*			m_pTargetObject = { nullptr };
+
 private:
+	void Set_PickingTarget();
 	void Show_Picking_ImGUI();
 
 private:
@@ -40,6 +49,11 @@ private:
 	HRESULT Set_RenderState();
 	HRESULT Reset_RenderState();
 
+	void WindowList_Window();
+	void ModelList_Window();
+
+
+	HRESULT Create_MapObject(const wstring& m_strModelTag);
 public:
 	static CMapTool* Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);
 	virtual CGameObject* Clone(void* pArg) override;

@@ -1,4 +1,7 @@
 #include "..\Public\VIBuffer_Rect.h"
+#include "GameInstance.h"
+#include "Transform.h"
+
 
 CVIBuffer_Rect::CVIBuffer_Rect(ID3D11Device * pDevice, ID3D11DeviceContext * pContext)
 	: CVIBuffer{ pDevice, pContext }
@@ -15,6 +18,7 @@ CVIBuffer_Rect::CVIBuffer_Rect(const CVIBuffer_Rect & rhs)
 HRESULT CVIBuffer_Rect::Initialize_Prototype()
 {
 	m_iNumVertices = 4;
+	m_pVerticesPos = new _float3[m_iNumVertices];
 	m_iVertexStride = sizeof(VTXPOSTEX);
 	m_iNumIndices = 6;
 	m_iIndexStride = sizeof(_ushort);
@@ -36,16 +40,16 @@ HRESULT CVIBuffer_Rect::Initialize_Prototype()
 	VTXPOSTEX*		pVertices = new VTXPOSTEX[m_iNumVertices];
 	ZeroMemory(pVertices, sizeof(VTXPOSTEX) * m_iNumVertices);
 
-	pVertices[0].vPosition = _float3(-0.5f, 0.5f, 0.f);
+	pVertices[0].vPosition = m_pVerticesPos[0] =  _float3(-0.5f, 0.5f, 0.f);
 	pVertices[0].vTexcoord = _float2(0.0f, 0.f);
 
-	pVertices[1].vPosition = _float3(0.5f, 0.5f, 0.f);
+	pVertices[1].vPosition = m_pVerticesPos[1] = _float3(0.5f, 0.5f, 0.f);
 	pVertices[1].vTexcoord = _float2(1.0f, 0.f);
 
-	pVertices[2].vPosition = _float3(0.5f, -0.5f, 0.f);
+	pVertices[2].vPosition = m_pVerticesPos[2] = _float3(0.5f, -0.5f, 0.f);
 	pVertices[2].vTexcoord = _float2(1.0f, 1.f);
 
-	pVertices[3].vPosition = _float3(-0.5f, -0.5f, 0.f);
+	pVertices[3].vPosition = m_pVerticesPos[3] = _float3(-0.5f, -0.5f, 0.f);
 	pVertices[3].vTexcoord = _float2(0.0f, 1.f);
 
 	ZeroMemory(&m_InitialData, sizeof m_InitialData);
@@ -70,8 +74,6 @@ HRESULT CVIBuffer_Rect::Initialize_Prototype()
 	m_BufferDesc.MiscFlags = 0;
 	m_BufferDesc.StructureByteStride = 0;
 	
-
-
 	_ushort*		pIndices = new _ushort[m_iNumIndices];
 	ZeroMemory(pIndices, sizeof(_ushort) * m_iNumIndices);
 
@@ -99,6 +101,40 @@ HRESULT CVIBuffer_Rect::Initialize_Prototype()
 HRESULT CVIBuffer_Rect::Initialize(void * pArg)
 {
 	return S_OK;
+}
+
+_bool CVIBuffer_Rect::Compute_Picking(const CTransform* pTransform, _Out_ _float4* vOutPos)
+{
+	_float4		fRayDir, fRayPos;
+	m_pGameInstance->Transform_PickingToLocalSpace(pTransform, &fRayDir, &fRayPos);
+	_vector vRayDir = XMLoadFloat4(&fRayDir);
+	_vector vRayPos = XMLoadFloat4(&fRayPos);
+
+	_uint		iIndices[4] = { 0, 1, 2, 3 };
+	_float		fDist;
+	_vector		vOut = { 0.f,0.f,0.f,0.f };
+
+	/* 오른쪽 위 삼각형과 충돌인가? */
+	if (TriangleTests::Intersects(vRayPos, vRayDir,
+		XMVectorSetW(XMLoadFloat3(&m_pVerticesPos[iIndices[0]]), 1.f),
+		XMVectorSetW(XMLoadFloat3(&m_pVerticesPos[iIndices[1]]), 1.f),
+		XMVectorSetW(XMLoadFloat3(&m_pVerticesPos[iIndices[2]]), 1.f),
+		fDist) ||
+		/* 왼쪽 아래 삼각형과 충돌인가? */
+		DirectX::TriangleTests::Intersects(vRayPos, vRayDir,
+			XMVectorSetW(XMLoadFloat3(&m_pVerticesPos[iIndices[0]]), 1.f),
+			XMVectorSetW(XMLoadFloat3(&m_pVerticesPos[iIndices[2]]), 1.f),
+			XMVectorSetW(XMLoadFloat3(&m_pVerticesPos[iIndices[3]]), 1.f),
+			fDist)) 
+	{
+		vOut = vRayPos + vRayDir * fDist;
+	}
+
+	if (vOutPos != nullptr) {
+		XMStoreFloat4(vOutPos, vOut);
+	}
+	
+	return XMVector4Equal(vOut, XMVectorZero());
 }
 
 CVIBuffer_Rect * CVIBuffer_Rect::Create(ID3D11Device * pDevice, ID3D11DeviceContext * pContext)

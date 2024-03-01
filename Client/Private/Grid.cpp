@@ -38,9 +38,13 @@ void CGrid::Tick(_float fTimeDelta)
 {
 }
 
-void CGrid::Late_Tick(_float fTimeDelta)
+HRESULT CGrid::Late_Tick(_float fTimeDelta)
 {
+	if (FAILED(__super::Late_Tick(fTimeDelta)))
+		return E_FAIL;
 	m_pGameInstance->Add_RenderGroup(CRenderer::RENDER_NONBLEND, this);
+
+	return S_OK;
 }
 
 HRESULT CGrid::Render()

@@ -23,10 +23,11 @@ public:
 	HRESULT Initialize(_uint iNumLevels);
 	HRESULT Add_Prototype(const wstring& strPrototypeTag, class CGameObject* pPrototype);
 	HRESULT Add_Clone(_uint iLevelIndex, const wstring& strLayerTag, const wstring& strPrototypeTag, void* pArg);
+	class CGameObject* Add_Clone_With_Object(_uint iLevelIndex, const wstring& strLayerTag, const wstring& strPrototypeTag, void* pArg);
 	void Tick(_float fTimeDelta);
 	void Late_Tick(_float fTimeDelta);
 	void Clear(_uint iLevelIndex);
-
+	
 
 private:	
 	map<const wstring, class CGameObject*>				m_Prototypes;

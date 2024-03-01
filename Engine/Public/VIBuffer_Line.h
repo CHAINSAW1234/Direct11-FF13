@@ -20,7 +20,7 @@ private:
 public:
 	virtual HRESULT Initialize_Prototype();
 	virtual HRESULT Initialize(void* pArg);
-
+	virtual _bool	Compute_Picking(const CTransform* pTransform, _Out_  _float4* vOutPos = nullptr);
 public:
 	void Set_Padding(_uint iPadding) { m_iPadding = iPadding; }
 private:

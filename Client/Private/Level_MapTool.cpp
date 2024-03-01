@@ -31,12 +31,7 @@ HRESULT CLevel_MapTool::Initialize()
 void CLevel_MapTool::Tick(_float fTimeDelta)
 {
 	__super::Tick(fTimeDelta);
-	//static _bool test = false;
-	//if (!test) {
-	//	test = true;
-	//	((CMapTool*)m_pGameInstance->Get_GameObject(LEVEL_MAPTOOL, TEXT("Layer_IMGUI"), 0))->Set_PickingTarget(
-	//		m_pGameInstance->Get_GameObject(LEVEL_MAPTOOL, TEXT("Layer_BackGround"), 0));
-	//}
+
 }
 
 HRESULT CLevel_MapTool::Render()

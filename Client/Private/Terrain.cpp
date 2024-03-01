@@ -19,6 +19,8 @@ HRESULT CTerrain::Initialize_Prototype()
 
 HRESULT CTerrain::Initialize(void* pArg)
 {
+	m_eLevel = g_Level;
+
 	GAMEOBJECT_DESC		GameObjectDesc{};
 
 	GameObjectDesc.fSpeedPerSec = 10.f;
@@ -37,9 +39,17 @@ void CTerrain::Tick(_float fTimeDelta)
 {
 }
 
-void CTerrain::Late_Tick(_float fTimeDelta)
+HRESULT CTerrain::Late_Tick(_float fTimeDelta)
 {
+	if (FAILED(__super::Late_Tick(fTimeDelta)))
+		return E_FAIL;
+
+	static int i = 0;
+	if (m_pVIBufferCom->Compute_Picking(m_pTransformCom)) {
+		++i;
+	}
 	m_pGameInstance->Add_RenderGroup(CRenderer::RENDER_NONBLEND, this);
+	return S_OK;
 }
 
 HRESULT CTerrain::Render()
@@ -68,12 +78,12 @@ HRESULT CTerrain::Add_Components()
 		return E_FAIL;
 
 	/* For.Com_Texture */
-	if (FAILED(__super::Add_Component(LEVEL_GAMEPLAY, TEXT("Prototype_Component_Texture_Terrain"),
+	if (FAILED(__super::Add_Component(m_eLevel, TEXT("Prototype_Component_Texture_Terrain"),
 		TEXT("Com_Texture"), (CComponent**)&m_pTextureCom)))
 		return E_FAIL;
 
 	/* For.Com_VIBuffer */
-	if (FAILED(__super::Add_Component(LEVEL_GAMEPLAY, TEXT("Prototype_Component_VIBuffer_Terrain"),
+	if (FAILED(__super::Add_Component(m_eLevel, TEXT("Prototype_Component_VIBuffer_Terrain"),
 		TEXT("Com_VIBuffer"), (CComponent**)&m_pVIBufferCom)))
 		return E_FAIL;
 

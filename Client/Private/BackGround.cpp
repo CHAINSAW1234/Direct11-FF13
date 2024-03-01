@@ -19,8 +19,9 @@ HRESULT CBackGround::Initialize_Prototype()
 
 HRESULT CBackGround::Initialize(void * pArg)
 {
-	GAMEOBJECT_DESC		GameObjectDesc{};
+	m_eLevel = g_Level;
 
+	GAMEOBJECT_DESC		GameObjectDesc{};
 	GameObjectDesc.fSpeedPerSec = 10.f;
 	GameObjectDesc.fRotationPerSec = XMConvertToRadians(90.0f);
 
@@ -54,8 +55,12 @@ void CBackGround::Tick(_float fTimeDelta)
 {
 }
 
-void CBackGround::Late_Tick(_float fTimeDelta)
+HRESULT CBackGround::Late_Tick(_float fTimeDelta)
 {
+	if (FAILED(__super::Late_Tick(fTimeDelta)))
+		return E_FAIL;
+	return S_OK;
+
 	m_pGameInstance->Add_RenderGroup(CRenderer::RENDER_PRIORITY, this);
 }
 

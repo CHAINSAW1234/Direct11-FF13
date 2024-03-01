@@ -16,6 +16,7 @@ CGameObject::CGameObject(const CGameObject & rhs)
 	: m_pDevice(rhs.m_pDevice)
 	, m_pContext(rhs.m_pContext)
 	, m_pGameInstance(rhs.m_pGameInstance)
+	, m_eLevel(rhs.m_eLevel)
 {
 	Safe_AddRef(m_pGameInstance);
 	Safe_AddRef(m_pDevice);
@@ -63,8 +64,12 @@ void CGameObject::Tick(_float fTimeDelta)
 {
 }
 
-void CGameObject::Late_Tick(_float fTimeDelta)
+HRESULT CGameObject::Late_Tick(_float fTimeDelta)
 {
+	if (m_isDead)
+		return E_FAIL;
+
+	return S_OK;
 }
 
 HRESULT CGameObject::Render()
@@ -88,6 +93,20 @@ HRESULT CGameObject::Add_Component(_uint iLevelIndex, const wstring & strPrototy
 	*ppOut = pComponent;
 
 	Safe_AddRef(pComponent);
+
+	return S_OK;
+}
+
+HRESULT CGameObject::Compute_ViewZ()
+{
+	//_float4		vPosition = m_pTransformCom->Get_State_Float4(CTransform::STATE_POSITION);
+
+	//_matrix  ViewMatrix = m_pGameInstance->Get_Transform_Matrix(CPipeLine::D3DTS_VIEW);
+
+	//
+	//XMStoreFloat4(&vPosition, XMVector3TransformCoord(XMLoadFloat4(&vPosition), ViewMatrix));
+	//
+	//m_fViewZ = vPosition.z;
 
 	return S_OK;
 }

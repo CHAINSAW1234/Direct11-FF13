@@ -20,11 +20,12 @@ HRESULT CCamera_Free::Initialize_Prototype()
 
 HRESULT CCamera_Free::Initialize(void* pArg)
 {
+	m_eLevel = g_Level;
+
 	if (nullptr == pArg)
 		return E_FAIL;
 
 	CAMERA_FREE_DESC* pCameraFree = (CAMERA_FREE_DESC*)pArg;
-
 	m_fMouseSensor = pCameraFree->fMouseSensor;
 
 	if (FAILED(__super::Initialize(pArg)))
@@ -69,8 +70,12 @@ void CCamera_Free::Tick(_float fTimeDelta)
 	__super::Bind_PipeLines();
 }
 
-void CCamera_Free::Late_Tick(_float fTimeDelta)
+HRESULT CCamera_Free::Late_Tick(_float fTimeDelta)
 {
+	if (FAILED(__super::Late_Tick(fTimeDelta)))
+		return E_FAIL;
+
+	return S_OK;
 }
 
 HRESULT CCamera_Free::Render()

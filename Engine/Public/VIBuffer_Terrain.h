@@ -14,6 +14,7 @@ private:
 public:
 	virtual HRESULT Initialize_Prototype(const wstring& strHeightMapFilePath);
 	virtual HRESULT Initialize(void* pArg);
+	virtual _bool	Compute_Picking(const CTransform* pTransform, _Out_  _float4* vOutPos = nullptr);
 
 private:
 	_uint				m_iNumVerticesX = { 0 };

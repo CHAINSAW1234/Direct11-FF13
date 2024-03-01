@@ -23,21 +23,25 @@ public:
 	virtual HRESULT Initialize_Prototype();
 	virtual HRESULT Initialize(void* pArg);
 	virtual void Tick(_float fTimeDelta);
-	virtual void Late_Tick(_float fTimeDelta);
+	virtual HRESULT Late_Tick(_float fTimeDelta);
 	virtual HRESULT Render();
 
 protected:
-	ID3D11Device*						m_pDevice = { nullptr };
-	ID3D11DeviceContext*				m_pContext = { nullptr };
+	ID3D11Device*				m_pDevice = { nullptr };
+	ID3D11DeviceContext*		m_pContext = { nullptr };
 
-	class CGameInstance*				m_pGameInstance = { nullptr };
-	CTransform*							m_pTransformCom = { nullptr };
+	class CGameInstance*		m_pGameInstance = { nullptr };
+	CTransform*					m_pTransformCom = { nullptr };
+
+	_uint						m_eLevel = { INT_MAX };
+	_bool						m_isDead = { false };
 
 protected:
 	map<const wstring, class CComponent*>		m_Components;
 
 protected:
 	HRESULT Add_Component(_uint iLevelIndex, const wstring& strPrototypeTag, const wstring& strComponentTag, class CComponent** ppOut, void* pArg = nullptr);
+	HRESULT			  Compute_ViewZ();
 
 public:
 	virtual CGameObject* Clone(void* pArg) = 0;

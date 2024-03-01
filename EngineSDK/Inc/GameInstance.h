@@ -34,6 +34,7 @@ public: /* For.Level_Manager */
 public: /* For.Object_Manager */
 	HRESULT Add_Prototype(const wstring& strPrototypeTag, class CGameObject* pPrototype);
 	HRESULT Add_Clone(_uint iLevelIndex, const wstring& strLayerTag, const wstring& strPrototypeTag, void* pArg = nullptr);
+	class CGameObject* Add_Clone_With_Object(_uint iLevelIndex, const wstring& strLayerTag, const wstring& strPrototypeTag, void* pArg = nullptr);
 	class CGameObject* Get_GameObject(_uint iLevelIndex, const wstring& strLayerTag, _uint iIndex = 0);
 	const CComponent* Get_Component(_uint iLevelIndex, const wstring& strLayerTag, const wstring& strComTag, _uint iIndex = 0);
 
@@ -45,6 +46,9 @@ public: /* For.Component_Manager */
 public: /* For.Timer_Manager */
 	HRESULT Add_Timer(const wstring& strTimerTag);
 	_float Compute_TimeDelta(const wstring& strTimerTag);
+
+public: /* For.Picking */
+	void Transform_PickingToLocalSpace(const class CTransform* pTransform, _Out_ _float4* pRayDir, _Out_ _float4* pRayPos);
 
 public: /* For.PipeLine */
 	void Set_Transform(CPipeLine::TRANSFORMSTATE eState, _fmatrix TransformMatrix);

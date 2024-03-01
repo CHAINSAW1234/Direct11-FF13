@@ -5,8 +5,8 @@
 #include "Object_Manager.h"
 #include "Level_Manager.h"
 #include "Timer_Manager.h"
-
 #include "Renderer.h"
+#include "Picking.h"
 
 IMPLEMENT_SINGLETON(CGameInstance)
 
@@ -38,6 +38,10 @@ HRESULT CGameInstance::Initialize_Engine(HINSTANCE hInstance, _uint iNumLevels, 
 	if (nullptr == m_pTimer_Manager)
 		return E_FAIL;
 
+	m_pPicking = CPicking::Create(*ppDevice, *ppContext, EngineDesc.hWnd, EngineDesc.iWinSizeX, EngineDesc.iWinSizeY);
+	if (nullptr == m_pPicking)
+		return E_FAIL;
+
 	m_pRenderer = CRenderer::Create(*ppDevice, *ppContext);
 	if (nullptr == m_pRenderer)
 		return E_FAIL;
@@ -45,8 +49,6 @@ HRESULT CGameInstance::Initialize_Engine(HINSTANCE hInstance, _uint iNumLevels, 
 	m_pLevel_Manager = CLevel_Manager::Create();
 	if (nullptr == m_pLevel_Manager)
 		return E_FAIL;
-
-	
 
 	/* 인풋 디바이스를 초기화한다 .*/
 
@@ -61,9 +63,6 @@ HRESULT CGameInstance::Initialize_Engine(HINSTANCE hInstance, _uint iNumLevels, 
 	m_pComponent_Manager = CComponent_Manager::Create(iNumLevels);
 	if (nullptr == m_pComponent_Manager)
 		return E_FAIL;
-
-
-
 	
 	return S_OK;
 }
@@ -80,6 +79,8 @@ void CGameInstance::Tick_Engine(_float fTimeDelta)
 	m_pObject_Manager->Tick(fTimeDelta);
 
 	m_pPipeLine->Tick();
+
+	m_pPicking->Update(m_pPipeLine);
 
 	m_pObject_Manager->Late_Tick(fTimeDelta);
 	
@@ -184,6 +185,14 @@ HRESULT CGameInstance::Add_Clone(_uint iLevelIndex, const wstring & strLayerTag,
 	return m_pObject_Manager->Add_Clone(iLevelIndex, strLayerTag, strPrototypeTag, pArg);
 }
 
+CGameObject* CGameInstance::Add_Clone_With_Object(_uint iLevelIndex, const wstring& strLayerTag, const wstring& strPrototypeTag, void* pArg)
+{
+	if (nullptr == m_pObject_Manager)
+		return nullptr;
+
+	return m_pObject_Manager->Add_Clone_With_Object(iLevelIndex, strLayerTag, strPrototypeTag, pArg);
+}
+
 CGameObject* CGameInstance::Get_GameObject(_uint iLevelIndex, const wstring& strLayerTag, _uint iIndex)
 {
 	if (nullptr == m_pObject_Manager)
@@ -230,6 +239,11 @@ _float CGameInstance::Compute_TimeDelta(const wstring & strTimerTag)
 		return 0.0f;
 
 	return m_pTimer_Manager->Compute_TimeDelta(strTimerTag);
+}
+
+void CGameInstance::Transform_PickingToLocalSpace(const CTransform* pTransform, _Out_ _float4* pRayDir, _Out_ _float4* pRayPos)
+{
+	return m_pPicking->Transform_PickingToLocalSpace(pTransform, pRayDir, pRayPos);
 }
 
 void CGameInstance::Set_Transform(CPipeLine::TRANSFORMSTATE eState, _fmatrix TransformMatrix)
@@ -299,10 +313,12 @@ void CGameInstance::Free()
 {
 	Safe_Release(m_pPipeLine);
 	Safe_Release(m_pTimer_Manager);
+	Safe_Release(m_pPicking);
 	Safe_Release(m_pRenderer);	
 	Safe_Release(m_pObject_Manager);
 	Safe_Release(m_pComponent_Manager);
 	Safe_Release(m_pLevel_Manager);
+	Safe_Release(m_pInput_Device);
 	Safe_Release(m_pGraphic_Device);
 
 }

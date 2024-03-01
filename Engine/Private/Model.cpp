@@ -1,8 +1,9 @@
 #include "..\Public\Model.h"
 #include "Mesh.h"
-
+#include "Bone.h"
 #include "Shader.h"
 #include "Texture.h"
+#include "Animation.h"
 
 CModel::CModel(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
 	: CComponent{ pDevice, pContext }
@@ -15,7 +16,12 @@ CModel::CModel(const CModel& rhs)
 	, m_Meshes{ rhs.m_Meshes }
 	, m_iNumMaterials{ rhs.m_iNumMaterials }
 	, m_Materials{ rhs.m_Materials }
+	, m_TransformMatrix{ rhs.m_TransformMatrix }
+	, m_Bones{ rhs.m_Bones }				// 얕은 복사 : 매우 위험
 {
+	for (auto& pBone : m_Bones)
+		Safe_AddRef(pBone);
+
 	for (auto& pMesh : m_Meshes)
 		Safe_AddRef(pMesh);
 
@@ -25,26 +31,27 @@ CModel::CModel(const CModel& rhs)
 			Safe_AddRef(Material.MaterialTextures[i]);
 	}
 
-
-
 }
 
-HRESULT CModel::Initialize_Prototype(TYPE eType, const string& strModelFilePath)
+HRESULT CModel::Initialize_Prototype(TYPE eType, const string& strModelFilePath, _fmatrix TransformMatrix)
 {
+	m_eModelType = eType;
 	_uint		iOption = { aiProcessPreset_TargetRealtime_Fast | aiProcess_ConvertToLeftHanded };
 
 	iOption = eType == TYPE_NONANIM ? iOption | aiProcess_PreTransformVertices : iOption;
-
-
-
-
 
 	/* 파일의 정보를 읽어서 aiScene안에 모든 데이터를 담아주게된다. */
 	m_pAIScene = m_Importer.ReadFile(strModelFilePath.c_str(), iOption);
 	if (nullptr == m_pAIScene)
 		return E_FAIL;
 
+	// 오프셋 행렬 저장
+	XMStoreFloat4x4(&m_TransformMatrix, TransformMatrix);
+
 	/* 읽은 정보를 바탕으로해서 내가 사용하기 좋게 정리한다.  */
+
+	if (FAILED(Ready_Bones(m_pAIScene->mRootNode)))
+		return E_FAIL;
 
 	/* 모델을 구성하는 메시들을 생성한다. */
 	/* 모델 = 메시 + 메시 + ... */
@@ -54,11 +61,20 @@ HRESULT CModel::Initialize_Prototype(TYPE eType, const string& strModelFilePath)
 	if (FAILED(Ready_Materials(strModelFilePath.c_str())))
 		return E_FAIL;
 
+	if (FAILED(Ready_Animations()))
+		return E_FAIL;
 	return S_OK;
 }
 
 HRESULT CModel::Initialize(void* pArg)
 {
+	return S_OK;
+}
+
+
+HRESULT CModel::Bind_BoneMatrices(CShader* pShader, const _char* pConstantName, _uint iMeshIndex)
+{
+
 	return S_OK;
 }
 
@@ -80,6 +96,15 @@ HRESULT CModel::Bind_ShaderResource(CShader* pShader, const _char* pConstantName
 	return S_OK;
 }
 
+HRESULT CModel::Play_Animation(_float fTimeDelta)
+{
+	// 모든 뼈를 순회하면서 최종 위치 행렬을 계산,
+	// 생성할 때 DFS로 순회하였으므로 부모 뼈부터 순회하므로 OK
+	for (auto& pBone : m_Bones)
+		pBone->Invalidate_CombinedTransformationMatrix(m_Bones);
+	return S_OK;
+}
+
 HRESULT CModel::Render(_uint iMeshIndex)
 {
 	m_Meshes[iMeshIndex]->Bind_Buffers();
@@ -88,13 +113,22 @@ HRESULT CModel::Render(_uint iMeshIndex)
 	return S_OK;
 }
 
+_bool CModel::Compute_Picking(const CTransform* pTransform, _Out_ _float4* vOutPos)
+{
+	for (size_t i = 0; i < m_iNumMeshes; ++i) {
+		if (m_Meshes[i]->Compute_Picking(pTransform, vOutPos))
+			return true;
+	}
+	return false;
+}
+
 HRESULT CModel::Ready_Meshes()
 {
 	m_iNumMeshes = m_pAIScene->mNumMeshes;
 
 	for (size_t i = 0; i < m_iNumMeshes; i++)
 	{
-		CMesh* pMesh = CMesh::Create(m_pDevice, m_pContext, m_pAIScene->mMeshes[i]);
+		CMesh*		pMesh = CMesh::Create(m_pDevice, m_pContext, m_eModelType, m_pAIScene->mMeshes[i], m_Bones, XMLoadFloat4x4(&m_TransformMatrix));
 		if (nullptr == pMesh)
 			return E_FAIL;
 
@@ -144,7 +178,7 @@ HRESULT CModel::Ready_Materials(const _char* pModelFilePath)
 			// 4. wstring으로 변환
 			_tchar			szPerfectPath[MAX_PATH] = { L"" };
 
-			MultiByteToWideChar(CP_ACP, 0, szFullPath, strlen(szFullPath), szPerfectPath, MAX_PATH);
+			MultiByteToWideChar(CP_ACP, 0, szFullPath, (int)strlen(szFullPath), szPerfectPath, MAX_PATH);
 
 			// 변환된 경로를 사용해서 텍스처 생성
 			MeshMaterial.MaterialTextures[j] = CTexture::Create(m_pDevice, m_pContext, szPerfectPath);
@@ -158,11 +192,44 @@ HRESULT CModel::Ready_Materials(const _char* pModelFilePath)
 	return S_OK;
 }
 
-CModel* CModel::Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext, TYPE eType, const string& strModelFilePath)
+HRESULT CModel::Ready_Bones(aiNode* pAINode, _int iParentIndex)
+{
+	// 재귀 함수, 시작 iParentIndex == -1
+	CBone* pBone = CBone::Create(pAINode, iParentIndex);
+	if (nullptr == pBone)
+		return E_FAIL;
+
+	m_Bones.push_back(pBone);
+
+	size_t iIndex = m_Bones.size() -1;
+	for (size_t i = 0; i < pAINode->mNumChildren; ++i) {
+		// 자식 뼈 생성 -> 재귀로 돌림
+		Ready_Bones(pAINode->mChildren[i], iIndex);
+	}
+
+	return S_OK;
+}
+
+HRESULT CModel::Ready_Animations()
+{
+	m_iNumAnimations = m_pAIScene->mNumAnimations;
+
+	for (size_t i = 0; i < m_iNumAnimations; ++i) {
+		CAnimation* pAnimation = CAnimation::Create(m_pAIScene->mAnimations[i], m_Bones);
+		if (nullptr == pAnimation) {
+			return E_FAIL;
+		}
+		m_Animations.push_back(pAnimation);
+	}
+
+	return S_OK;
+}
+
+CModel* CModel::Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext, TYPE eType, const string& strModelFilePath, _fmatrix TransformMatrix)
 {
 	CModel* pInstance = new CModel(pDevice, pContext);
 
-	if (FAILED(pInstance->Initialize_Prototype(eType, strModelFilePath)))
+	if (FAILED(pInstance->Initialize_Prototype(eType, strModelFilePath, TransformMatrix)))
 	{
 		MSG_BOX(TEXT("Failed To Created : CModel"));
 
@@ -190,6 +257,11 @@ void CModel::Free()
 {
 	__super::Free();
 
+	for (auto& pBone : m_Bones)
+		Safe_Release(pBone);
+
+	m_Bones.clear();
+
 	for (auto& Material : m_Materials)
 	{
 		for (size_t i = 0; i < AI_TEXTURE_TYPE_MAX; i++)
@@ -202,6 +274,11 @@ void CModel::Free()
 		Safe_Release(pMesh);
 
 	m_Meshes.clear();
+
+	for (auto& pAnimation : m_Animations)
+		Safe_Release(pAnimation);
+
+	m_Animations.clear();
 
 	m_Importer.FreeScene();
 }

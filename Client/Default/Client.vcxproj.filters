@@ -67,6 +67,9 @@
     <Filter Include="01.Levels\00. Loading\Loader">
       <UniqueIdentifier>{17ab5a45-d880-40f6-b518-e747936c79d3}</UniqueIdentifier>
     </Filter>
+    <Filter Include="02.GameObjects\MapObject">
+      <UniqueIdentifier>{8ea06343-b051-48e6-8df6-14ef0dfc9672}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\public\MainApp.h">
@@ -159,6 +162,9 @@
     <ClInclude Include="..\Public\Grid.h">
       <Filter>03.Tool\Grid</Filter>
     </ClInclude>
+    <ClInclude Include="..\Public\MapObject.h">
+      <Filter>02.GameObjects\MapObject</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\private\MainApp.cpp">
@@ -233,6 +239,9 @@
     <ClCompile Include="..\Private\Grid.cpp">
       <Filter>03.Tool\Grid</Filter>
     </ClCompile>
+    <ClCompile Include="..\Private\MapObject.cpp">
+      <Filter>02.GameObjects\MapObject</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Image Include="Client.ico">
@@ -253,6 +262,9 @@
       <Filter>97.ShaderFiles</Filter>
     </FxCompile>
     <FxCompile Include="..\Bin\ShaderFiles\Shader_VtxPos.hlsl">
+      <Filter>97.ShaderFiles</Filter>
+    </FxCompile>
+    <FxCompile Include="..\Bin\ShaderFiles\Shader_VtxAnimModel.hlsl">
       <Filter>97.ShaderFiles</Filter>
     </FxCompile>
   </ItemGroup>

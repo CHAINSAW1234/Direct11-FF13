@@ -85,6 +85,18 @@
     <Filter Include="01.Utility\02.Components\VIBuffer\Line">
       <UniqueIdentifier>{a0299024-3a2e-4e5f-9407-ddf0405a0bf7}</UniqueIdentifier>
     </Filter>
+    <Filter Include="01.Utility\02.Components\Model\Bone">
+      <UniqueIdentifier>{3ff149ad-a6cc-405c-b8a3-c29c70bb209e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="01.Utility\90.Picking">
+      <UniqueIdentifier>{ed51a42f-d96e-4cd6-805a-868138dd7e67}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="01.Utility\02.Components\Model\Animation">
+      <UniqueIdentifier>{70989221-1f3b-4c14-ac03-188829c9521c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="01.Utility\02.Components\Model\Animation\Channel">
+      <UniqueIdentifier>{13398419-1b33-4a9e-bbda-1ceef3bcc10b}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\Private\Base.cpp">
@@ -164,6 +176,18 @@
     </ClCompile>
     <ClCompile Include="..\Private\VIBuffer_Line.cpp">
       <Filter>01.Utility\02.Components\VIBuffer\Line</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Bone.cpp">
+      <Filter>01.Utility\02.Components\Model\Bone</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Picking.cpp">
+      <Filter>01.Utility\90.Picking</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Channel.cpp">
+      <Filter>01.Utility\02.Components\Model\Animation\Channel</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Animation.cpp">
+      <Filter>01.Utility\02.Components\Model\Animation</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -256,6 +280,18 @@
     </ClInclude>
     <ClInclude Include="..\Public\VIBuffer_Line.h">
       <Filter>01.Utility\02.Components\VIBuffer\Line</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\Bone.h">
+      <Filter>01.Utility\02.Components\Model\Bone</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\Picking.h">
+      <Filter>01.Utility\90.Picking</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\Channel.h">
+      <Filter>01.Utility\02.Components\Model\Animation\Channel</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\Animation.h">
+      <Filter>01.Utility\02.Components\Model\Animation</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

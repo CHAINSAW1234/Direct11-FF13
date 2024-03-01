@@ -1,5 +1,8 @@
+C:\Users\stgo5015\Documents\GitHub\Direct11_FF13\Engine\Private\Animation.cpp;C:\Users\stgo5015\Documents\GitHub\Direct11_FF13\Engine\Default\x64\Debug\Animation.obj
 C:\Users\stgo5015\Documents\GitHub\Direct11_FF13\Engine\Private\Base.cpp;C:\Users\stgo5015\Documents\GitHub\Direct11_FF13\Engine\Default\x64\Debug\Base.obj
+C:\Users\stgo5015\Documents\GitHub\Direct11_FF13\Engine\Private\Bone.cpp;C:\Users\stgo5015\Documents\GitHub\Direct11_FF13\Engine\Default\x64\Debug\Bone.obj
 C:\Users\stgo5015\Documents\GitHub\Direct11_FF13\Engine\Private\Camera.cpp;C:\Users\stgo5015\Documents\GitHub\Direct11_FF13\Engine\Default\x64\Debug\Camera.obj
+C:\Users\stgo5015\Documents\GitHub\Direct11_FF13\Engine\Private\Channel.cpp;C:\Users\stgo5015\Documents\GitHub\Direct11_FF13\Engine\Default\x64\Debug\Channel.obj
 C:\Users\stgo5015\Documents\GitHub\Direct11_FF13\Engine\Private\Component.cpp;C:\Users\stgo5015\Documents\GitHub\Direct11_FF13\Engine\Default\x64\Debug\Component.obj
 C:\Users\stgo5015\Documents\GitHub\Direct11_FF13\Engine\Private\Component_Manager.cpp;C:\Users\stgo5015\Documents\GitHub\Direct11_FF13\Engine\Default\x64\Debug\Component_Manager.obj
 C:\Users\stgo5015\Documents\GitHub\Direct11_FF13\Engine\Private\GameInstance.cpp;C:\Users\stgo5015\Documents\GitHub\Direct11_FF13\Engine\Default\x64\Debug\GameInstance.obj
@@ -12,6 +15,7 @@ C:\Users\stgo5015\Documents\GitHub\Direct11_FF13\Engine\Private\Level_Manager.cp
 C:\Users\stgo5015\Documents\GitHub\Direct11_FF13\Engine\Private\Mesh.cpp;C:\Users\stgo5015\Documents\GitHub\Direct11_FF13\Engine\Default\x64\Debug\Mesh.obj
 C:\Users\stgo5015\Documents\GitHub\Direct11_FF13\Engine\Private\Model.cpp;C:\Users\stgo5015\Documents\GitHub\Direct11_FF13\Engine\Default\x64\Debug\Model.obj
 C:\Users\stgo5015\Documents\GitHub\Direct11_FF13\Engine\Private\Object_Manager.cpp;C:\Users\stgo5015\Documents\GitHub\Direct11_FF13\Engine\Default\x64\Debug\Object_Manager.obj
+C:\Users\stgo5015\Documents\GitHub\Direct11_FF13\Engine\Private\Picking.cpp;C:\Users\stgo5015\Documents\GitHub\Direct11_FF13\Engine\Default\x64\Debug\Picking.obj
 C:\Users\stgo5015\Documents\GitHub\Direct11_FF13\Engine\Private\PipeLine.cpp;C:\Users\stgo5015\Documents\GitHub\Direct11_FF13\Engine\Default\x64\Debug\PipeLine.obj
 C:\Users\stgo5015\Documents\GitHub\Direct11_FF13\Engine\Private\Renderer.cpp;C:\Users\stgo5015\Documents\GitHub\Direct11_FF13\Engine\Default\x64\Debug\Renderer.obj
 C:\Users\stgo5015\Documents\GitHub\Direct11_FF13\Engine\private\Shader.cpp;C:\Users\stgo5015\Documents\GitHub\Direct11_FF13\Engine\Default\x64\Debug\Shader.obj

@@ -1,4 +1,5 @@
 #include "VIBuffer_Line.h"
+#include "Transform.h"
 
 CVIBuffer_Line::CVIBuffer_Line(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
 	: CVIBuffer { pDevice, pContext }
@@ -56,7 +57,7 @@ HRESULT CVIBuffer_Line::Initialize(void* pArg)
 		{
 				_uint	iIndex = i * m_iNumVerticesX + j;
 
-			pVertices[iIndex].vPosition = _float3(j, 0.f, i);
+			pVertices[iIndex].vPosition = _float3((_float)j, 0.f, (_float)i);
 		}
 	}
 
@@ -129,6 +130,11 @@ HRESULT CVIBuffer_Line::Initialize(void* pArg)
 	return S_OK;
 }
 
+_bool CVIBuffer_Line::Compute_Picking(const CTransform* pTransform, _float4* vOutPos)
+{
+	return false;
+}
+
 CVIBuffer_Line* CVIBuffer_Line::Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
 {
 	CVIBuffer_Line* pInstance = new CVIBuffer_Line(pDevice, pContext);
@@ -159,5 +165,11 @@ CComponent* CVIBuffer_Line::Clone(void* pArg)
 
 void CVIBuffer_Line::Free()
 {
-	__super::Free();
+	CComponent::Free();
+
+	Safe_Release(m_pVB);
+	Safe_Release(m_pIB);
+
+	if (true == m_isCloned)
+		Safe_Delete_Array(m_pVerticesPos);
 }

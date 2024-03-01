@@ -5,6 +5,7 @@
 /* 각 형태를 구성하기위한 정점 인덱스를 보유하는 개겣들의 부모다. */
 
 BEGIN(Engine)
+class CTransform;
 
 class ENGINE_DLL CVIBuffer abstract : public CComponent
 {
@@ -17,6 +18,7 @@ public:
 	virtual HRESULT Initialize_Prototype();
 	virtual HRESULT Initialize(void* pArg);
 	virtual HRESULT Render();
+	virtual _bool	Compute_Picking(const CTransform* pTransform, _Out_  _float4* vOutPos = nullptr) = 0;
 
 public:
 	HRESULT Bind_Buffers();
@@ -36,6 +38,7 @@ protected:
 	DXGI_FORMAT					m_eIndexFormat = {  };
 	D3D11_PRIMITIVE_TOPOLOGY	m_ePrimitiveTopology = { };
 
+	_float3*					m_pVerticesPos = { nullptr };
 protected:
 	HRESULT Create_Buffer(_Out_ ID3D11Buffer** ppBuffer);
 

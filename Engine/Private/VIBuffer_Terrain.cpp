@@ -1,4 +1,6 @@
 #include "VIBuffer_Terrain.h"
+#include "Transform.h"
+#include "GameInstance.h"
 
 CVIBuffer_Terrain::CVIBuffer_Terrain(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
 	: CVIBuffer{ pDevice, pContext }
@@ -8,6 +10,8 @@ CVIBuffer_Terrain::CVIBuffer_Terrain(ID3D11Device* pDevice, ID3D11DeviceContext*
 
 CVIBuffer_Terrain::CVIBuffer_Terrain(const CVIBuffer_Terrain& rhs)
 	: CVIBuffer{ rhs }
+	, m_iNumVerticesX{ rhs.m_iNumVerticesX }
+	, m_iNumVerticesZ{ rhs.m_iNumVerticesZ }
 {
 
 }
@@ -37,6 +41,7 @@ HRESULT CVIBuffer_Terrain::Initialize_Prototype(const wstring& strHeightMapFileP
 	CloseHandle(hFile);
 
 	m_iNumVertices = m_iNumVerticesX * m_iNumVerticesZ;
+	m_pVerticesPos = new _float3[m_iNumVertices];
 	m_iVertexStride = sizeof(VTXNORTEX);
 	m_iNumIndices = (m_iNumVerticesX - 1) * (m_iNumVerticesZ - 1) * 2 * 3;
 	m_iIndexStride = sizeof(_uint);
@@ -64,9 +69,9 @@ HRESULT CVIBuffer_Terrain::Initialize_Prototype(const wstring& strHeightMapFileP
 		{
 			_uint	iIndex = i * m_iNumVerticesX + j;
 
-			pVertices[iIndex].vPosition = _float3(j, (pPixel[iIndex] & 0x000000ff) / 20.0f, i);
+			pVertices[iIndex].vPosition = m_pVerticesPos[iIndex] = _float3((_float)j, (pPixel[iIndex] & 0x000000ff) / 20.0f, (_float)i);
 			pVertices[iIndex].vNormal = _float3(0.0f, 0.f, 0.f);
-			pVertices[iIndex].vTexcoord = _float2(j / (m_iNumVerticesX - 1.f), i / (m_iNumVerticesZ - 1.f));
+			pVertices[iIndex].vTexcoord = _float2((_float)j / (m_iNumVerticesX - 1.f), (_float)i / (m_iNumVerticesZ - 1.f));
 		}
 	}
 
@@ -139,6 +144,56 @@ HRESULT CVIBuffer_Terrain::Initialize_Prototype(const wstring& strHeightMapFileP
 HRESULT CVIBuffer_Terrain::Initialize(void* pArg)
 {
 	return S_OK;
+}
+
+_bool CVIBuffer_Terrain::Compute_Picking(const CTransform* pTransform, _Out_ _float4* vOutPos)
+{
+	_float4		fRayDir, fRayPos;
+	_vector		vRayDir, vRayPos;
+	m_pGameInstance->Transform_PickingToLocalSpace(pTransform, &fRayDir, &fRayPos);
+	vRayDir = XMLoadFloat4(&fRayDir);
+	vRayPos = XMLoadFloat4(&fRayPos);
+
+	_float		fDist;
+	_vector		vOut = { 0.f,0.f,0.f,0.f };
+
+	for (size_t i = 0; i < m_iNumVerticesZ - 1; i++)
+	{
+		for (size_t j = 0; j < m_iNumVerticesX - 1; j++)
+		{
+			_uint		iIndex = i * m_iNumVerticesX + j;
+
+			_uint		iIndices[4] = {
+				iIndex + m_iNumVerticesX,
+				iIndex + m_iNumVerticesX + 1,
+				iIndex + 1,
+				iIndex
+			};
+
+
+			/* 오른쪽 위 삼각형과 충돌인가? */
+			if (DirectX::TriangleTests::Intersects(vRayPos, vRayDir,
+				XMVectorSetW(XMLoadFloat3(&m_pVerticesPos[iIndices[0]]), 1.f),
+				XMVectorSetW(XMLoadFloat3(&m_pVerticesPos[iIndices[1]]), 1.f),
+				XMVectorSetW(XMLoadFloat3(&m_pVerticesPos[iIndices[2]]), 1.f),
+				fDist) ||
+				/* 왼쪽 아래 삼각형과 충돌인가? */
+				DirectX::TriangleTests::Intersects(vRayPos, vRayDir,
+					XMVectorSetW(XMLoadFloat3(&m_pVerticesPos[iIndices[0]]), 1.f),
+					XMVectorSetW(XMLoadFloat3(&m_pVerticesPos[iIndices[2]]), 1.f),
+					XMVectorSetW(XMLoadFloat3(&m_pVerticesPos[iIndices[3]]), 1.f),
+					fDist))
+			{
+				vOut = vRayPos + vRayDir * fDist;
+				if (vOutPos != nullptr) {
+					XMStoreFloat4(vOutPos, vOut);
+				}
+				return true;
+			}
+		}
+	}
+
+	return false;
 }
 
 CVIBuffer_Terrain* CVIBuffer_Terrain::Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext, const wstring& strHeightMapFilePath)

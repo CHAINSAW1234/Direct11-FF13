@@ -14,6 +14,14 @@ namespace Engine
 		class CTexture* MaterialTextures[AI_TEXTURE_TYPE_MAX];
 	}MESH_MATERIAL;
 
+	typedef struct
+	{
+		XMFLOAT3	vScale;
+		XMFLOAT4	vRotation;
+		XMFLOAT3	vTranslation;
+		_float		fTime;
+	}KEYFRAME;
+
 	typedef struct ENGINE_DLL VTXPos
 	{
 		XMFLOAT3		vPosition;
@@ -48,10 +56,24 @@ namespace Engine
 		XMFLOAT2		vTexcoord;
 		XMFLOAT3		vTangent;
 
-
 		static const unsigned int	iNumElements = { 4 };
 		static const D3D11_INPUT_ELEMENT_DESC	Elements[4];
 
 	}VTXMESH;
+
+	typedef struct ENGINE_DLL VTXAnimMesh
+	{
+		XMFLOAT3		vPosition;
+		XMFLOAT3		vNormal;
+		XMFLOAT2		vTexcoord;
+		XMFLOAT3		vTangent;
+
+		XMUINT4			vBlendIndices;	// 이 정점에게 영향을 주는 뼈의 모델에서의 인덱스
+		XMFLOAT4		vBlendWeights;	// 각각의 뼈가 영향을 주는 정도(가중치)
+
+		static const unsigned int	iNumElements = { 6 };
+		static const D3D11_INPUT_ELEMENT_DESC	Elements[6];
+
+	}VTXANIMMESH;
 
 }

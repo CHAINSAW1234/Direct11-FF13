@@ -18,6 +18,8 @@ HRESULT CMonster::Initialize_Prototype()
 
 HRESULT CMonster::Initialize(void* pArg)
 {
+	m_eLevel = g_Level;
+
 	GAMEOBJECT_DESC		GameObjectDesc{};
 
 	GameObjectDesc.fSpeedPerSec = 10.f;
@@ -34,11 +36,20 @@ HRESULT CMonster::Initialize(void* pArg)
 
 void CMonster::Tick(_float fTimeDelta)
 {
+
 }
 
-void CMonster::Late_Tick(_float fTimeDelta)
+HRESULT CMonster::Late_Tick(_float fTimeDelta)
 {
+	if (FAILED(__super::Late_Tick(fTimeDelta)))
+		return E_FAIL;
+
+	static int i = 0;
+	if (m_pModelCom->Compute_Picking(m_pTransformCom)) {
+		++i;
+	}
 	m_pGameInstance->Add_RenderGroup(CRenderer::RENDER_NONBLEND, this);
+	return S_OK;
 }
 
 HRESULT CMonster::Render()
@@ -56,7 +67,6 @@ HRESULT CMonster::Render()
 
 		m_pModelCom->Render(i);
 	}
-
 }
 
 HRESULT CMonster::Add_Components()
@@ -67,7 +77,7 @@ HRESULT CMonster::Add_Components()
 		return E_FAIL;
 
 	/* For.Com_Model */
-	if (FAILED(__super::Add_Component(LEVEL_GAMEPLAY, TEXT("Prototype_Component_Model_Fiona"),
+	if (FAILED(__super::Add_Component(m_eLevel, TEXT("Prototype_Component_Model_Fiona"),
 		TEXT("Com_Model"), (CComponent**)&m_pModelCom)))
 		return E_FAIL;
 

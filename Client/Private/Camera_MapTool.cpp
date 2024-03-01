@@ -18,15 +18,17 @@ HRESULT CCamera_MapTool::Initialize_Prototype()
 
 HRESULT CCamera_MapTool::Initialize(void* pArg)
 {
+	m_eLevel = g_Level;
+
 	if (nullptr == pArg)
 		return E_FAIL;
 
 	CAMERA_MAPTOOL_DESC* pCameraFree = (CAMERA_MAPTOOL_DESC*)pArg;
-
 	m_fMouseSensor = pCameraFree->fMouseSensor;
 
 	if (FAILED(__super::Initialize(pArg)))
 		return E_FAIL;
+
 
 	return S_OK;
 }
@@ -67,8 +69,12 @@ void CCamera_MapTool::Tick(_float fTimeDelta)
 	__super::Bind_PipeLines();
 }
 
-void CCamera_MapTool::Late_Tick(_float fTimeDelta)
+HRESULT CCamera_MapTool::Late_Tick(_float fTimeDelta)
 {
+	if (FAILED(__super::Late_Tick(fTimeDelta)))
+		return E_FAIL;
+
+	return S_OK;
 }
 
 HRESULT CCamera_MapTool::Render()
