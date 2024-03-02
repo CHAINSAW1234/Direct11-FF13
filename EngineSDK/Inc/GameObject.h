@@ -17,8 +17,8 @@ protected:
 	virtual ~CGameObject() = default;
 
 public:
-	class CComponent* Get_Component(const wstring& strComTag);
-
+	class CComponent*	Get_Component(const wstring& strComTag);
+	void				Set_Dead(_bool isDead) { m_isDead = isDead; }
 public:
 	virtual HRESULT Initialize_Prototype();
 	virtual HRESULT Initialize(void* pArg);

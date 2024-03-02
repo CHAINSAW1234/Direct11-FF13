@@ -4,7 +4,12 @@
 
 #include "MapTool.h"
 #include "ImGUI_Manager.h"
+
+#include "Camera_Free.h"
+
 #include "MapObject.h"
+#include "Model.h"
+#include "Mesh.h"
 
 CMapTool::CMapTool(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
     : CGameObject(pDevice, pContext)
@@ -33,18 +38,25 @@ HRESULT CMapTool::Initialize(void* pArg)
 
     m_pImGUI_Manager = CImGUI_Manager::Get_Instance(m_pDevice, m_pContext);
 
+    m_pCamera = dynamic_cast<CCamera_Free*>(m_pGameInstance->Get_GameObject(m_eLevel, TEXT("Layer_Camera"), 0));
+    Safe_AddRef(m_pCamera);
+
     return S_OK;
 }
 
 void CMapTool::Tick(_float fTimeDelta)
 {
+    Update_Ket_Input();
+
     m_pImGUI_Manager->Tick(fTimeDelta);
 
     if (show_demo_window)
         ImGui::ShowDemoWindow(&show_demo_window);
 
 
-    WindowList_Window();
+    WindowList_Window(fTimeDelta);
+
+    ModelCreate_Window();
 
     ModelList_Window();
 
@@ -55,10 +67,6 @@ void CMapTool::Tick(_float fTimeDelta)
 HRESULT CMapTool::Late_Tick(_float fTimeDelta)
 {
     m_pImGUI_Manager->Late_Tick(fTimeDelta);
-
-    if (m_pGameInstance->Get_DIMouseState(DIMKS_LBUTTON)) {
-        Set_PickingTarget();
-    }
 
     m_pGameInstance->Add_RenderGroup(CRenderer::RENDER_UI, this);
 
@@ -113,13 +121,42 @@ HRESULT CMapTool::Reset_RenderState()
     return S_OK;
 }
 
-void CMapTool::WindowList_Window()
+void CMapTool::Update_Ket_Input()
 {
-    ImGui::Begin("Hello, world!");                          // Create a window called "Hello, world!" and append into it.
+    if (m_pGameInstance->Get_KeyState(KEY_DOWN, DIK_ESCAPE)) {
+        m_pTargetObject = nullptr;
+    }
 
-    ImGui::Text("This is some useful text.");               // Display some text (you can use a format strings too)
-    ImGui::Checkbox("Demo Window", &show_demo_window);      // Edit bools storing our window open/close state
-    ImGui::Checkbox("ModelList Window", &show_ModelList_window);
+    if (m_isEnablePicking && m_pGameInstance->Get_DIMouseState(DIMKS_LBUTTON)) {
+        Set_PickingTarget();
+    }
+}
+
+void CMapTool::WindowList_Window(_float fTimeDelta)
+{
+    static _bool is_Camera_Move = true;
+
+    ImGui::SetWindowSize(ImVec2(200.f, 200.f));
+
+    ImGui::Begin("Hello, World!");                          // Create a window called "Hello, world!" and append into it.
+    
+    if (ImGui::TreeNode("Window List")) {
+        ImGui::Checkbox("Demo Window", &show_demo_window);      // Edit bools storing our window open/close state
+        ImGui::Checkbox("ModelCreate Window", &show_ModelCreate_window);
+        ImGui::Checkbox("ModelList Window", &show_ModelList_window);
+
+        ImGui::TreePop();
+    }
+    if (ImGui::TreeNode("Opotion List")) {
+        ImGui::Checkbox("Camera Move", &is_Camera_Move);
+        ImGui::Checkbox("Enable Model Picking", &m_isEnablePicking);
+
+        ImGui::TreePop();
+    }
+
+    if (is_Camera_Move) {
+        m_pCamera->Move_Camera(fTimeDelta);
+    }
 
     //ImGui::SliderFloat("float", &f, 0.0f, 1.0f);            // Edit 1 float using a slider from 0.0f to 1.0f
     //ImGui::ColorEdit3("clear color", (float*)&clear_color); // Edit 3 floats representing a color
@@ -130,14 +167,14 @@ void CMapTool::WindowList_Window()
     ImGui::End();
 }
 
-void CMapTool::ModelList_Window()
+void CMapTool::ModelCreate_Window()
 {
     ImGui::SetWindowPos(ImVec2(0.f, 0.f));
     ImGui::SetWindowSize(ImVec2(400.f, 600.f));
 
-    if (show_ModelList_window) {
+    if (show_ModelCreate_window) {
 
-        ImGui::Begin("ModelList", &show_ModelList_window, ImGuiWindowFlags_MenuBar);
+        ImGui::Begin("ModelCreate", &show_ModelCreate_window, ImGuiWindowFlags_MenuBar);
         ImVec2 size = ImVec2(80.f, 80.f);
 
         for (size_t i = 0; i < m_PrevTextures->Get_NumTextures(); ++i) {
@@ -157,6 +194,84 @@ void CMapTool::ModelList_Window()
     }
 }
 
+void CMapTool::ModelList_Window()
+{
+    ImGui::SetWindowPos(ImVec2(0.f, 0.f));
+    ImGui::SetWindowSize(ImVec2(400.f, 600.f));
+
+    static int iCurrent_MapObject_Index = 0; // Here we store our selection data as an index.
+    static int iCurrent_Mesh_Index = 0;
+
+    if (show_ModelList_window) {
+        ImGui::Begin("Model_List", &show_ModelList_window, ImGuiWindowFlags_MenuBar);
+        ImVec2 size = ImVec2(80.f, 80.f);
+
+
+        if (ImGui::BeginListBox("MapObjects List"))
+        {
+
+            for (size_t  i= 0; i < m_MapObjects.size(); ++i)
+            {
+                const bool is_selected = (iCurrent_MapObject_Index == i);
+                char name[26];
+                sprintf_s(name, "MapObject %d", i);
+                if (ImGui::Selectable(name, is_selected)) {
+                    iCurrent_MapObject_Index = i;
+                    m_pTargetObject = m_MapObjects[iCurrent_MapObject_Index];
+                }
+
+                //if (is_selected)
+                //{
+                //    ImGui::SetItemDefaultFocus();
+                //}
+
+            }
+            ImGui::EndListBox();
+
+            if (ImGui::Button("Delete")) {
+                if (m_MapObjects.size() > iCurrent_MapObject_Index) {
+                    m_MapObjects[iCurrent_MapObject_Index]->Set_Dead(true);
+                    Safe_Release(m_MapObjects[iCurrent_MapObject_Index]);
+                    m_MapObjects.erase(m_MapObjects.begin() + iCurrent_MapObject_Index);
+                    m_pTargetObject = nullptr;
+                    iCurrent_MapObject_Index = 0;
+                    iCurrent_Mesh_Index = 0;
+                }
+            }
+
+        }
+
+        CMapObject* pTargetMapObject = dynamic_cast<CMapObject*>(m_pTargetObject);
+        if (nullptr != pTargetMapObject) {
+
+            if (ImGui::BeginListBox("Selected MapObject Meshes"))
+            {
+
+                CModel* pModel = dynamic_cast<CModel*>(pTargetMapObject->Get_Component(g_strModelTag));
+                for (size_t i = 0; i < pModel->Get_NumMeshes(); ++i)
+                {
+                    const bool is_selected = (iCurrent_Mesh_Index == i);
+                    char name[56];
+                    sprintf_s(name, pModel->Get_Meshes()[i]->Get_Name());
+                    if (ImGui::Selectable(name, is_selected))
+                        iCurrent_Mesh_Index = i;
+
+                    //if (is_selected)
+                    //{
+                    //    ImGui::SetItemDefaultFocus();
+                    //    m_pTargetObject = m_MapObjects[i];
+                    //}
+
+                }
+                ImGui::EndListBox();
+            }
+        }
+
+        ImGui::End();
+    }
+
+}
+
 HRESULT CMapTool::Create_MapObject(const wstring& m_strModelTag)
 {
     CMapObject::MAPOBJECT_DESC MapObjectDesc = {};
@@ -167,6 +282,7 @@ HRESULT CMapTool::Create_MapObject(const wstring& m_strModelTag)
         return E_FAIL;
 
     m_MapObjects.push_back(pObject);
+    Safe_AddRef(pObject);
     m_pTargetObject = pObject;
 
     return S_OK;
@@ -205,7 +321,8 @@ void CMapTool::Free()
 
     for (auto& pMapObject : m_MapObjects)
         Safe_Release(pMapObject);
-    Safe_Release(m_PrevTextures);
 
+    Safe_Release(m_pCamera);
+    Safe_Release(m_PrevTextures);
     Safe_Release(m_pImGUI_Manager);
 }

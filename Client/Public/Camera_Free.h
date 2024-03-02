@@ -25,6 +25,9 @@ public:
 	virtual HRESULT Late_Tick(_float fTimeDelta) override;
 	virtual HRESULT Render() override;
 
+public:
+	void	Move_Camera(_float fTimeDelta);
+
 private:
 	_float			m_fMouseSensor = { 0.0f };
 

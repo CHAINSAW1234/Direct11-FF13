@@ -18,6 +18,7 @@ public:
 	_uint Get_NumMeshes() const {
 		return m_iNumMeshes;
 	}
+	const vector<class CMesh*> Get_Meshes() { return m_Meshes; }
 
 public:
 	virtual HRESULT Initialize_Prototype(TYPE eType, const string& strModelFilePath, _fmatrix TransformMatrix);
@@ -28,7 +29,7 @@ public:
 	HRESULT Bind_ShaderResource(class CShader* pShader, const _char* pConstantName, _uint iMeshIndex, aiTextureType eTextureType);
 	HRESULT Play_Animation(_float fTimeDelta);
 	HRESULT Render(_uint iMeshIndex);
-	
+
 public:
 	_bool	Compute_Picking(const class CTransform* pTransform, _Out_ _float4* vOutPos = nullptr);
 

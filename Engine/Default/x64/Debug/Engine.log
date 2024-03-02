@@ -1,6 +1,8 @@
-﻿  Object_Manager.cpp
-  VIBuffer_Terrain.cpp
-C:\Users\stgo5015\Documents\GitHub\Direct11_FF13\Engine\Private\VIBuffer_Terrain.cpp(164,18): warning C4267: '초기화 중': 'size_t'에서 'Engine::_uint'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+﻿  Camera.cpp
+  GameObject.cpp
+  Layer.cpp
+  Object_Manager.cpp
+  Renderer.cpp
   코드를 생성하고 있습니다...
 DirectXTKd.lib(DDSTextureLoader.obj) : warning LNK4204: ''에 참조 모듈에 대한 디버깅 정보가 없습니다. 디버깅 정보가 없는 것처럼 개체를 링크합니다.
 DirectXTKd.lib(WICTextureLoader.obj) : warning LNK4204: ''에 참조 모듈에 대한 디버깅 정보가 없습니다. 디버깅 정보가 없는 것처럼 개체를 링크합니다.

@@ -36,18 +36,36 @@ HRESULT CCamera_Free::Initialize(void* pArg)
 
 void CCamera_Free::Tick(_float fTimeDelta)
 {
+	__super::Bind_PipeLines();
+}
+
+HRESULT CCamera_Free::Late_Tick(_float fTimeDelta)
+{
+	if (FAILED(__super::Late_Tick(fTimeDelta)))
+		return E_FAIL;
+
+	return S_OK;
+}
+
+HRESULT CCamera_Free::Render()
+{
+	return S_OK;
+}
+
+void CCamera_Free::Move_Camera(_float fTimeDelta)
+{
 	if (m_pGameInstance->Get_KeyState(KEY_PRESS, DIK_A))
 		m_pTransformCom->Go_Left(fTimeDelta);
 
 	if (m_pGameInstance->Get_KeyState(KEY_PRESS, DIK_D))
 		m_pTransformCom->Go_Right(fTimeDelta);
-	
+
 	if (m_pGameInstance->Get_KeyState(KEY_PRESS, DIK_W))
 		m_pTransformCom->Go_Straight(fTimeDelta);
-	
+
 	if (m_pGameInstance->Get_KeyState(KEY_PRESS, DIK_S))
 		m_pTransformCom->Go_Backward(fTimeDelta);
-	
+
 	if (m_pGameInstance->Get_KeyState(KEY_PRESS, DIK_T))
 		m_pTransformCom->Go_Up(fTimeDelta);
 
@@ -66,21 +84,8 @@ void CCamera_Free::Tick(_float fTimeDelta)
 			m_pTransformCom->Turn(m_pTransformCom->Get_State_Vector(CTransform::STATE_RIGHT), fTimeDelta * MouseMove * m_fMouseSensor);
 		}
 	}
-	
+
 	__super::Bind_PipeLines();
-}
-
-HRESULT CCamera_Free::Late_Tick(_float fTimeDelta)
-{
-	if (FAILED(__super::Late_Tick(fTimeDelta)))
-		return E_FAIL;
-
-	return S_OK;
-}
-
-HRESULT CCamera_Free::Render()
-{
-	return S_OK;
 }
 
 CCamera_Free* CCamera_Free::Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)

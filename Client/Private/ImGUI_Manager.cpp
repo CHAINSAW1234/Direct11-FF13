@@ -90,7 +90,7 @@ void CImGUI_Manager::EditTransform(_float4x4& matrix)
 
 	ImGui::Begin("Imguizmo");
 	ImGuizmo::BeginFrame();
-	static ImGuizmo::OPERATION mCurrentGizmoOperation(ImGuizmo::ROTATE);
+	static ImGuizmo::OPERATION mCurrentGizmoOperation(ImGuizmo::TRANSLATE);
 	static ImGuizmo::MODE mCurrentGizmoMode(ImGuizmo::WORLD);
 	//if (ImGui::IsKeyPressed(90))
 	if (CGameInstance::Get_Instance()->Get_KeyState(KEY_DOWN, DIK_Q))

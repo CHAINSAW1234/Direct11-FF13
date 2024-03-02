@@ -18,11 +18,16 @@ public:
 	_uint Get_MaterialIndex() const {
 		return m_iMaterialIndex;
 	}
+	const _char* Get_Name() { return m_szName; }
 
 public:
 	virtual HRESULT Initialize_Prototype(CModel::TYPE eModelType, const aiMesh* pAIMesh, const vector<CBone*>& Bones, _fmatrix TransformMatrix);
 	virtual HRESULT Initialize(void* pArg) override;
 	virtual _bool	Compute_Picking(const CTransform* pTransform, _Out_  _float4* vOutPos = nullptr);
+
+public:
+
+
 private:
 	_char					m_szName[MAX_PATH] = { "" };	// 이 메쉬의 이름
 

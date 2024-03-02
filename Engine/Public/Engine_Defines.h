@@ -37,6 +37,7 @@ using namespace std;
 namespace Engine
 {
 	const wstring g_strTransformTag = TEXT("Com_Transform");
+	const wstring g_strModelTag = TEXT("Com_Model");
 }
 
 #include "Engine_Macro.h"

@@ -29,9 +29,11 @@ private: /* For. ImGui */
 	class CImGUI_Manager* m_pImGUI_Manager = { nullptr };
 
 private:
-	bool show_demo_window = true;
-	bool show_ModelList_window = true;
-	bool show_Model_window = false;
+	_bool show_demo_window = false;
+	_bool show_ModelCreate_window = false;
+	_bool show_ModelList_window = false;
+
+	_bool m_isEnablePicking = false;
 
 private:
 	CTexture*				m_PrevTextures;		// 미리 저장해 둔 모델의 기본 이미지
@@ -39,6 +41,8 @@ private:
 
 	vector<CMapObject*>		m_MapObjects;		// 생성된 객체
 	CGameObject*			m_pTargetObject = { nullptr };
+
+	class CCamera_Free*			m_pCamera = { nullptr };
 
 private:
 	void Set_PickingTarget();
@@ -49,9 +53,11 @@ private:
 	HRESULT Set_RenderState();
 	HRESULT Reset_RenderState();
 
-	void WindowList_Window();
-	void ModelList_Window();
 
+	void Update_Ket_Input();			// Key_Input 받기
+	void WindowList_Window(_float fTimeDelta);
+	void ModelCreate_Window();
+	void ModelList_Window();
 
 	HRESULT Create_MapObject(const wstring& m_strModelTag);
 public:
