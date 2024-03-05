@@ -48,6 +48,9 @@ HRESULT CMonster::Late_Tick(_float fTimeDelta)
 	if (m_pModelCom->Compute_Picking(m_pTransformCom)) {
 		++i;
 	}
+
+	m_pModelCom->Play_Animation(fTimeDelta);
+
 	m_pGameInstance->Add_RenderGroup(CRenderer::RENDER_NONBLEND, this);
 	return S_OK;
 }
@@ -60,8 +63,13 @@ HRESULT CMonster::Render()
 	_uint iNumMeshes = m_pModelCom->Get_NumMeshes();
 
 	for (size_t i = 0; i < iNumMeshes; ++i) {
-		m_pModelCom->Bind_ShaderResource(m_pShaderCom, "g_Texture", i, aiTextureType_DIFFUSE);
+		if (FAILED(m_pModelCom->Bind_ShaderResource(m_pShaderCom, "g_Texture", i, aiTextureType_DIFFUSE)))
+			return E_FAIL;
 
+		if (FAILED(m_pModelCom->Bind_BoneMatrices(m_pShaderCom, "g_BoneMatrices", i)))
+			return E_FAIL;
+
+		/* 이 함수 내부에서 호출되는 Apply함수 호출 이전에 쉐이더 전역에 던져야할 모든 데이터를 다 던져야한다. */
 		if (FAILED(m_pShaderCom->Begin(0)))
 			return E_FAIL;
 
@@ -72,7 +80,7 @@ HRESULT CMonster::Render()
 HRESULT CMonster::Add_Components()
 {
 	/* For.Com_Shader */
-	if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_Shader_VtxModel"),
+	if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_Shader_VtxAnimModel"),
 		TEXT("Com_Shader"), (CComponent**)&m_pShaderCom)))
 		return E_FAIL;
 
@@ -92,7 +100,7 @@ HRESULT CMonster::Bind_ShaderResources()
 	if (FAILED(m_pTransformCom->Bind_ShaderResource(m_pShaderCom, "g_WorldMatrix")))
 		return E_FAIL;
 
-	if(FAILED(m_pShaderCom->Bind_Matrix("g_ViewMatrix", &m_pGameInstance->Get_Transform_Float4x4(CPipeLine::D3DTS_VIEW))))
+	if (FAILED(m_pShaderCom->Bind_Matrix("g_ViewMatrix", &m_pGameInstance->Get_Transform_Float4x4(CPipeLine::D3DTS_VIEW))))
 		return E_FAIL;
 	if (FAILED(m_pShaderCom->Bind_Matrix("g_ProjMatrix", &m_pGameInstance->Get_Transform_Float4x4(CPipeLine::D3DTS_PROJ))))
 		return E_FAIL;

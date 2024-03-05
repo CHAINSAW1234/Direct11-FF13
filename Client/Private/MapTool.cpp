@@ -11,6 +11,8 @@
 #include "Model.h"
 #include "Mesh.h"
 
+#include "ImGuiFileDialog.h"
+
 CMapTool::CMapTool(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
     : CGameObject(pDevice, pContext)
 {
@@ -61,6 +63,8 @@ void CMapTool::Tick(_float fTimeDelta)
     ModelList_Window();
 
     Show_Picking_ImGUI();
+
+    Draw_Gui();
 
 }
 
@@ -199,9 +203,6 @@ void CMapTool::ModelList_Window()
     ImGui::SetWindowPos(ImVec2(0.f, 0.f));
     ImGui::SetWindowSize(ImVec2(400.f, 600.f));
 
-    static int iCurrent_MapObject_Index = 0; // Here we store our selection data as an index.
-    static int iCurrent_Mesh_Index = 0;
-
     if (show_ModelList_window) {
         ImGui::Begin("Model_List", &show_ModelList_window, ImGuiWindowFlags_MenuBar);
         ImVec2 size = ImVec2(80.f, 80.f);
@@ -212,12 +213,12 @@ void CMapTool::ModelList_Window()
 
             for (size_t  i= 0; i < m_MapObjects.size(); ++i)
             {
-                const bool is_selected = (iCurrent_MapObject_Index == i);
+                const bool is_selected = (m_iCurrent_MapObject_Index == i);
                 char name[26];
                 sprintf_s(name, "MapObject %d", i);
                 if (ImGui::Selectable(name, is_selected)) {
-                    iCurrent_MapObject_Index = i;
-                    m_pTargetObject = m_MapObjects[iCurrent_MapObject_Index];
+                    m_iCurrent_MapObject_Index = i;
+                    m_pTargetObject = m_MapObjects[m_iCurrent_MapObject_Index];
                 }
 
                 //if (is_selected)
@@ -229,13 +230,13 @@ void CMapTool::ModelList_Window()
             ImGui::EndListBox();
 
             if (ImGui::Button("Delete")) {
-                if (m_MapObjects.size() > iCurrent_MapObject_Index) {
-                    m_MapObjects[iCurrent_MapObject_Index]->Set_Dead(true);
-                    Safe_Release(m_MapObjects[iCurrent_MapObject_Index]);
-                    m_MapObjects.erase(m_MapObjects.begin() + iCurrent_MapObject_Index);
+                if (m_MapObjects.size() > m_iCurrent_MapObject_Index) {
+                    m_MapObjects[m_iCurrent_MapObject_Index]->Set_Dead(true);
+                    Safe_Release(m_MapObjects[m_iCurrent_MapObject_Index]);
+                    m_MapObjects.erase(m_MapObjects.begin() + m_iCurrent_MapObject_Index);
                     m_pTargetObject = nullptr;
-                    iCurrent_MapObject_Index = 0;
-                    iCurrent_Mesh_Index = 0;
+                    m_iCurrent_MapObject_Index = INFINITE;
+                    m_iCurrent_Mesh_Index = INFINITE;
                 }
             }
 
@@ -250,11 +251,11 @@ void CMapTool::ModelList_Window()
                 CModel* pModel = dynamic_cast<CModel*>(pTargetMapObject->Get_Component(g_strModelTag));
                 for (size_t i = 0; i < pModel->Get_NumMeshes(); ++i)
                 {
-                    const bool is_selected = (iCurrent_Mesh_Index == i);
+                    const bool is_selected = (m_iCurrent_Mesh_Index == i);
                     char name[56];
                     sprintf_s(name, pModel->Get_Meshes()[i]->Get_Name());
                     if (ImGui::Selectable(name, is_selected))
-                        iCurrent_Mesh_Index = i;
+                        m_iCurrent_Mesh_Index = i;
 
                     //if (is_selected)
                     //{
@@ -265,6 +266,12 @@ void CMapTool::ModelList_Window()
                 }
                 ImGui::EndListBox();
             }
+            // temp static
+            static int	iCurrency = CMapObject::TYPE_END;
+            const char* Mesh_Type_Name[CMapObject::TYPE_END] = { "WALL", "ROAD", "OBJECT" };
+            const char* Current_Mesh_Type_Name = (iCurrency >= 0 && iCurrency < CMapObject::TYPE_END) ? Mesh_Type_Name[iCurrency] : "Unknown";
+            ImGui::SliderInt("Mesh Type", &iCurrency, 0, CMapObject::TYPE_END-1, Current_Mesh_Type_Name);
+            // ImGui::InputFloat("red", &foo, 0.05f, 0, "%.3f");
         }
 
         ImGui::End();
@@ -287,6 +294,27 @@ HRESULT CMapTool::Create_MapObject(const wstring& m_strModelTag)
 
     return S_OK;
 }
+
+void CMapTool::Draw_Gui()
+{
+    // open Dialog Simple
+    if (ImGui::Button("Open File Dialog")) {
+        IGFD::FileDialogConfig config; 
+        config.path = ".";
+        config.countSelectionMax = 1;
+        config.flags = ImGuiFileDialogFlags_Modal;
+        ImGuiFileDialog::Instance()->OpenDialog("ChooseFileDlgKey", "Choose File", ".*,.cpp,.h", config);
+    }
+    // display
+    string filepath;
+    string filepathName;
+    if (ImGuiFileDialog::Instance()->Display("ChooseFileDlgKey")) {
+        m_pImGUI_Manager->EditFilePath(filepath, filepathName);
+    }
+
+
+}
+
 
 CMapTool* CMapTool::Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
 {

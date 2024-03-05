@@ -56,6 +56,7 @@ HRESULT CMapObject::Late_Tick(_float fTimeDelta)
 
 HRESULT CMapObject::Render()
 {
+    //for test
     if (FAILED(Bind_ShaderResources()))
         return E_FAIL;
 
@@ -69,6 +70,7 @@ HRESULT CMapObject::Render()
 
         m_pModelCom->Render(i);
     }
+
 }
 
 _bool CMapObject::Compute_Picking(_Out_ _float4* vOutPos)

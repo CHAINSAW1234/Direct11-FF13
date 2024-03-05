@@ -114,12 +114,6 @@
     <ClInclude Include="ImGUI\imgui_internal.h">
       <Filter>98.Default\Imgui</Filter>
     </ClInclude>
-    <ClInclude Include="ImGUI\ImGuiFileDialog.h">
-      <Filter>98.Default\Imgui</Filter>
-    </ClInclude>
-    <ClInclude Include="ImGUI\ImGuiFileDialogConfig.h">
-      <Filter>98.Default\Imgui</Filter>
-    </ClInclude>
     <ClInclude Include="ImGUI\ImGuizmo.h">
       <Filter>98.Default\Imgui</Filter>
     </ClInclude>
@@ -164,6 +158,15 @@
     </ClInclude>
     <ClInclude Include="..\Public\MapObject.h">
       <Filter>02.GameObjects\MapObject</Filter>
+    </ClInclude>
+    <ClInclude Include="ImGUI\ImGuiFileDialog.h">
+      <Filter>98.Default\Imgui</Filter>
+    </ClInclude>
+    <ClInclude Include="ImGUI\ImGuiFileDialogConfig.h">
+      <Filter>98.Default\Imgui</Filter>
+    </ClInclude>
+    <ClInclude Include="ImGUI\dirent.h">
+      <Filter>98.Default\Imgui</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -241,6 +244,9 @@
     </ClCompile>
     <ClCompile Include="..\Private\MapObject.cpp">
       <Filter>02.GameObjects\MapObject</Filter>
+    </ClCompile>
+    <ClCompile Include="ImGUI\ImGuiFileDialog.cpp">
+      <Filter>98.Default\Imgui</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

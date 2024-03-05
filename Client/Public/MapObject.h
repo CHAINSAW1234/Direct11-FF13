@@ -18,10 +18,7 @@ public:
 	{
 		wstring strModelTag;
 	} MAPOBJECT_DESC;
-
-private:
 	enum TYPE { WALL, ROAD, OBJECT, TYPE_END };
-
 
 private:
 	CMapObject(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);

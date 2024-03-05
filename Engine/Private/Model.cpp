@@ -18,7 +18,12 @@ CModel::CModel(const CModel& rhs)
 	, m_Materials{ rhs.m_Materials }
 	, m_TransformMatrix{ rhs.m_TransformMatrix }
 	, m_Bones{ rhs.m_Bones }				// 얕은 복사 : 매우 위험
+	, m_iNumAnimations{ rhs.m_iNumAnimations }
+	, m_Animations{ rhs.m_Animations }
 {
+	for (auto& pAnimation : m_Animations)
+		Safe_AddRef(pAnimation);
+
 	for (auto& pBone : m_Bones)
 		Safe_AddRef(pBone);
 
@@ -74,8 +79,10 @@ HRESULT CModel::Initialize(void* pArg)
 
 HRESULT CModel::Bind_BoneMatrices(CShader* pShader, const _char* pConstantName, _uint iMeshIndex)
 {
-
-	return S_OK;
+	ZeroMemory(m_MeshBoneMatrices, sizeof(_float4x4) * 512);
+	
+	m_Meshes[iMeshIndex]->Stock_Matrices(m_Bones, m_MeshBoneMatrices);
+	return pShader->Bind_Matrices(pConstantName, m_MeshBoneMatrices, 512);
 }
 
 // 주의!!!!
@@ -91,17 +98,21 @@ HRESULT CModel::Bind_ShaderResource(CShader* pShader, const _char* pConstantName
 		return E_FAIL;
 
 	// 머테리얼중 이번에 바인딩할 텍스처의 번호의 텍스처를 바인딩
-	m_Materials[iMeshMaterialIndex].MaterialTextures[eTextureType]->Bind_ShaderResource(pShader, pConstantName);
+	if(nullptr != m_Materials[iMeshMaterialIndex].MaterialTextures[eTextureType])
+		m_Materials[iMeshMaterialIndex].MaterialTextures[eTextureType]->Bind_ShaderResource(pShader, pConstantName);
 
 	return S_OK;
 }
 
 HRESULT CModel::Play_Animation(_float fTimeDelta)
 {
+	/* 현재 애니메이션에 맞는 뼈의 상태(m_TransformationMatrix)를 갱신해준다. */
+	// 현재 애니메이션을 재생한다
+	m_Animations[m_iCurrentAnimIndex]->Invalidate_TransformationMatrix(fTimeDelta, m_Bones);
 	// 모든 뼈를 순회하면서 최종 위치 행렬을 계산,
 	// 생성할 때 DFS로 순회하였으므로 부모 뼈부터 순회하므로 OK
 	for (auto& pBone : m_Bones)
-		pBone->Invalidate_CombinedTransformationMatrix(m_Bones);
+		pBone->Invalidate_CombinedTransformationMatrix(m_Bones, XMLoadFloat4x4(&m_TransformMatrix));
 	return S_OK;
 }
 
@@ -257,9 +268,12 @@ void CModel::Free()
 {
 	__super::Free();
 
+	for (auto& pAnimation : m_Animations)
+		Safe_Release(pAnimation);
+	m_Animations.clear();
+
 	for (auto& pBone : m_Bones)
 		Safe_Release(pBone);
-
 	m_Bones.clear();
 
 	for (auto& Material : m_Materials)
@@ -267,18 +281,11 @@ void CModel::Free()
 		for (size_t i = 0; i < AI_TEXTURE_TYPE_MAX; i++)
 			Safe_Release(Material.MaterialTextures[i]);
 	}
-
 	m_Materials.clear();
 
 	for (auto& pMesh : m_Meshes)
 		Safe_Release(pMesh);
-
 	m_Meshes.clear();
-
-	for (auto& pAnimation : m_Animations)
-		Safe_Release(pAnimation);
-
-	m_Animations.clear();
 
 	m_Importer.FreeScene();
 }

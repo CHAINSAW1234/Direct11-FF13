@@ -108,6 +108,18 @@ _bool CMesh::Compute_Picking(const CTransform* pTransform, _Out_ _float4* vOutPo
 	return !XMVector4Equal(vOut, XMVectorZero());
 }
 
+HRESULT CMesh::Stock_Matrices(const vector<CBone*>& Bones, _Out_ _float4x4* pMeshBoneMatrices)
+{
+	if (nullptr == pMeshBoneMatrices)
+		return E_FAIL;
+
+	for (size_t i = 0; i < m_iNumBones; ++i) {
+		XMStoreFloat4x4(&pMeshBoneMatrices[i], XMLoadFloat4x4(&m_OffsetMatrices[i]) * XMLoadFloat4x4(Bones[m_Bones[i]]->Get_CombinedTransformationMatrix()));
+	}
+
+	return S_OK;
+}
+
 HRESULT CMesh::Ready_Vertices_For_NonAnimModel(const aiMesh* pAIMesh, _fmatrix TransformMatrix)
 {
 	m_iVertexStride = sizeof(VTXMESH);
@@ -133,7 +145,8 @@ HRESULT CMesh::Ready_Vertices_For_NonAnimModel(const aiMesh* pAIMesh, _fmatrix T
 
 
 		memcpy(&pVertices[i].vNormal, &pAIMesh->mNormals[i], sizeof(_float3));
-		XMStoreFloat3(&pVertices[i].vNormal, XMVector3TransformCoord(XMLoadFloat3(&pVertices[i].vNormal), TransformMatrix));
+		XMStoreFloat3(&pVertices[i].vNormal, XMVector3TransformNormal(XMLoadFloat3(&pVertices[i].vNormal), TransformMatrix));
+		
 		memcpy(&pVertices[i].vTexcoord, &pAIMesh->mTextureCoords[0][i], sizeof(_float2));
 		memcpy(&pVertices[i].vTangent, &pAIMesh->mTangents[i], sizeof(_float3));
 	}
@@ -183,13 +196,17 @@ HRESULT CMesh::Ready_Vertices_For_AnimModel(const aiMesh* pAIMesh, const vector<
 	for (size_t i = 0; i < m_iNumBones; ++i) {
 		aiBone* pAIBone = pAIMesh->mBones[i];
 
+		_float4x4 OffsetMatrix;
+		memcpy(&OffsetMatrix, &pAIBone->mOffsetMatrix, sizeof(_float4x4));
+		XMStoreFloat4x4(&OffsetMatrix, XMMatrixTranspose(XMLoadFloat4x4(&OffsetMatrix)));
+
+		m_OffsetMatrices.push_back(OffsetMatrix);
+
 		// 이 메쉬가 사용하는 뼈의 Model에서의 위치 찾기
 		auto iter = find_if(Bones.begin(), Bones.end(), [&](CBone* pBone)-> _bool
 			{
 				return pBone->Compare_Name(pAIBone->mName.data);
 			});
-
-		//_int iBoneindex = iter - Bones.begin();
 
 		// 찾은 뼈는 이 메쉬가 사용하는 뼈이므로 모델에서의 위치를 저장
 		m_Bones.push_back(iter - Bones.begin());	// 메쉬에서의 i번째 위치에 모델에서의 뼈의 위치가 저장됨
@@ -223,6 +240,21 @@ HRESULT CMesh::Ready_Vertices_For_AnimModel(const aiMesh* pAIMesh, const vector<
 				pVertices[pAIBone->mWeights[j].mVertexId].vBlendWeights.w = pAIBone->mWeights[j].mWeight;
 			}
 		}
+	}
+
+	if (0 == m_iNumBones) {
+		m_iNumBones = 1;
+
+		auto	iter = find_if(Bones.begin(), Bones.end(), [&](CBone* pBone)->_bool
+			{
+				return pBone->Compare_Name(m_szName);
+			});
+
+		m_Bones.push_back(iter - Bones.begin());
+
+		_float4x4		OffsetMatrix;
+		XMStoreFloat4x4(&OffsetMatrix, XMMatrixIdentity());
+		m_OffsetMatrices.push_back(OffsetMatrix);
 	}
 
 	ZeroMemory(&m_InitialData, sizeof m_InitialData);

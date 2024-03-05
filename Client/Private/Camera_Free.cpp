@@ -36,6 +36,9 @@ HRESULT CCamera_Free::Initialize(void* pArg)
 
 void CCamera_Free::Tick(_float fTimeDelta)
 {
+	if (m_eLevel == LEVEL_GAMEPLAY) {
+		Move_Camera(fTimeDelta);
+	}
 	__super::Bind_PipeLines();
 }
 

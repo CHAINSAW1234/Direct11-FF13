@@ -92,10 +92,25 @@ HRESULT CShader::Bind_Matrix(const _char* pConstantName, const _float4x4* pMatri
 
 	/* 실제 얻어온 전역변수 객체의 타입을 명시하여 변환한다. */
 	ID3DX11EffectMatrixVariable*	pMatrixVariable = pVariable->AsMatrix();
-	if (nullptr == pMatrix)
+	if (nullptr == pMatrixVariable)
 		return E_FAIL;
 
 	return pMatrixVariable->SetMatrix((_float*)pMatrix);	
+}
+
+HRESULT CShader::Bind_Matrices(const _char* pConstantName, const _float4x4* pMatrices, _uint iNumMatrices)
+{
+	/* 타입의 구분없이 pConstantName이름을 가진 전역변수에 기능을 할 수 있는 컴객체를 얻어온다. */
+	ID3DX11EffectVariable* pVariable = m_pEffect->GetVariableByName(pConstantName);
+	if (nullptr == pVariable)
+		return E_FAIL;
+
+	/* 실제 얻어온 전역변수 객체의 타입을 명시하여 변환한다. */
+	ID3DX11EffectMatrixVariable* pMatrixVariable = pVariable->AsMatrix();
+	if (nullptr == pMatrixVariable)
+		return E_FAIL;
+
+	return pMatrixVariable->SetMatrixArray((_float*)pMatrices, 0, iNumMatrices);
 }
 
 HRESULT CShader::Bind_Texture(const _char* pConstantName, ID3D11ShaderResourceView* pSRV)

@@ -58,6 +58,9 @@ private:
 	_uint						m_iCurrentAnimIndex = { 0 };
 	vector<class CAnimation*>	m_Animations;
 
+	// 셰이더에 전달할 m_OffsetMatrices
+	// 셰이더 바인드 이전에 메쉬로 부터 받아옴
+	_float4x4					m_MeshBoneMatrices[512];
 private:
 	HRESULT Ready_Meshes();
 	HRESULT Ready_Materials(const _char* pModelFilePath);

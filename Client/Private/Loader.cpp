@@ -39,6 +39,8 @@ _uint APIENTRY LoadingMain(void* pArg)
 	if (FAILED(pLoader->Start()))
 		return 1;
 
+	CoUninitialize();
+
 	return 0;
 }
 
@@ -192,7 +194,7 @@ HRESULT CLoader::Loading_For_GamePlay()
 	TransformMatrix = XMMatrixRotationY(XMConvertToRadians(180.0f));
 
 	if (FAILED(m_pGameInstance->Add_Prototype(eLevel, TEXT("Prototype_Component_Model_Fiona"),
-		CModel::Create(m_pDevice, m_pContext, CModel::TYPE_NONANIM, "../Bin/Resources/Models/Fiona/Fiona.fbx", TransformMatrix))))
+		CModel::Create(m_pDevice, m_pContext, CModel::TYPE_ANIM, "../Bin/Resources/Models/Fiona/Fiona.fbx", TransformMatrix))))
 		return E_FAIL;
 
 	/* Prototype_Component_Model_ForkLift */
@@ -306,8 +308,6 @@ CLoader * CLoader::Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext, 
 void CLoader::Free()
 {
 	WaitForSingleObject(m_hThread, INFINITE);
-
-	CoUninitialize();	
 
 	DeleteObject(m_hThread);
 

@@ -23,7 +23,7 @@ public:
 public:
 	//void IMGUI_Start();
 	void EditTransform(_float4x4& matrix);
-
+	void EditFilePath(_Out_ string& FilePath, _Out_ string& FilePathName);
 private:
 	class CGameInstance* m_pGameInstance = { nullptr };
 	ID3D11Device* m_pDevice = { nullptr };

@@ -29,11 +29,14 @@ private: /* For. ImGui */
 	class CImGUI_Manager* m_pImGUI_Manager = { nullptr };
 
 private:
-	_bool show_demo_window = false;
-	_bool show_ModelCreate_window = false;
-	_bool show_ModelList_window = false;
+	_bool show_demo_window = { false };
+	_bool show_ModelCreate_window = { false };
+	_bool show_ModelList_window = { false };
 
-	_bool m_isEnablePicking = false;
+	_bool m_isEnablePicking = { false };
+
+	_uint m_iCurrent_MapObject_Index = { INFINITE };
+	_uint m_iCurrent_Mesh_Index = { INFINITE };
 
 private:
 	CTexture*				m_PrevTextures;		// 미리 저장해 둔 모델의 기본 이미지
@@ -60,6 +63,9 @@ private:
 	void ModelList_Window();
 
 	HRESULT Create_MapObject(const wstring& m_strModelTag);
+
+	void Draw_Gui();
+
 public:
 	static CMapTool* Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);
 	virtual CGameObject* Clone(void* pArg) override;

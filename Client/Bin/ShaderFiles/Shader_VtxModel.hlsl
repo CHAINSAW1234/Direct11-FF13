@@ -8,6 +8,8 @@ texture2D g_Texture;
 sampler LinearSampler = sampler_state
 {
     Filter = MIN_MAG_MIP_LINEAR;
+    AddressU = Wrap;
+    AddressV = Wrap;
 };
 
 
@@ -58,7 +60,7 @@ PS_OUT PS_MAIN(PS_IN In)
 
     Out.vColor = g_Texture.Sample(LinearSampler, In.vTexcoord);
 
-    if (0 ==  Out.vColor.a)
+    if (0.05 >= Out.vColor.a)
         discard;
 	
     return Out;

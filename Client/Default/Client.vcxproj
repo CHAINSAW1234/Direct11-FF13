@@ -184,6 +184,7 @@
     <ClInclude Include="..\Public\Monster.h" />
     <ClInclude Include="..\Public\Terrain.h" />
     <ClInclude Include="Client.h" />
+    <ClInclude Include="ImGUI\dirent.h" />
     <ClInclude Include="ImGUI\imconfig.h" />
     <ClInclude Include="ImGUI\imgui.h" />
     <ClInclude Include="ImGUI\ImGuiFileDialog.h" />
@@ -219,6 +220,9 @@
     <ClCompile Include="ImGUI\imgui.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">NotUsing</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">NotUsing</PrecompiledHeader>
+    </ClCompile>
+    <ClCompile Include="ImGUI\ImGuiFileDialog.cpp">
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">NotUsing</PrecompiledHeader>
     </ClCompile>
     <ClCompile Include="ImGUI\ImGuizmo.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">NotUsing</PrecompiledHeader>

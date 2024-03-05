@@ -1,9 +1,12 @@
 #include "stdafx.h"
+
 #include "ImGUI_Manager.h"
 #include "ImGuizmo.h"
-#include "imgui.h"
-#include "Camera.h"
 
+#include "imgui.h"
+#include "ImGuiFileDialog.h"
+
+#include "Camera.h"
 
 CImGUI_Manager* CImGUI_Manager::m_pInstance = nullptr;
 CImGUI_Manager* CImGUI_Manager::Get_Instance(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
@@ -163,6 +166,21 @@ void CImGUI_Manager::EditTransform(_float4x4& matrix)
 	ImGuizmo::Manipulate(&ViewMatrix.m[0][0], &ProjMatrix.m[0][0], mCurrentGizmoOperation, mCurrentGizmoMode, &matrix.m[0][0], NULL, useSnap ? &snap.x : NULL);
 
 	ImGui::End();
+}
+
+void CImGUI_Manager::EditFilePath(_Out_ string& FilePath, _Out_ string& FilePathName)
+{
+	if (ImGuiFileDialog::Instance()->IsOk()) { // action if OK
+		FilePathName = ImGuiFileDialog::Instance()->GetFilePathName();
+		FilePath = ImGuiFileDialog::Instance()->GetCurrentPath();
+		// action
+	}
+	else {
+		FilePathName = "";
+		FilePath = "";
+	}
+	// close
+	ImGuiFileDialog::Instance()->Close();
 }
 
 

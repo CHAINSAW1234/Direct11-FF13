@@ -26,7 +26,7 @@ public:
 	virtual _bool	Compute_Picking(const CTransform* pTransform, _Out_  _float4* vOutPos = nullptr);
 
 public:
-
+	HRESULT Stock_Matrices(const vector<CBone*>& Bones, _Out_ _float4x4* pMeshBoneMatrices);
 
 private:
 	_char					m_szName[MAX_PATH] = { "" };	// 이 메쉬의 이름
@@ -35,10 +35,12 @@ private:
 	_uint					m_iMaterialIndex = { 0 };	// 여러개의 메시가 동일한 머테리얼을 사용하는 경우를 대비해 지정함
 
 	_uint					m_iNumBones = { 0 };	// 이 메쉬가 사용하는 뼈의 개수
+	/* 뼈의 인덱스 : 모델이 가지고 있는 전체 뼈들 중, 메시가 사용하고 있는 뼈의 인덱스 */
 	vector<_uint>			m_Bones;				// 이 메쉬가 사용하는 뼈의 모델에서의 인덱스
+	
 
-	vector<_float4x4>		m_OffsetMatrices;		// ????????
-
+	/* 현재 메시에 영향을 주는 뼈들의 순서대로 오프셋을 저장했다. */
+	vector<_float4x4>		m_OffsetMatrices;		
 
 	_uint*					m_pIndices = { nullptr };		// Picking을 위해 Indices 저장
 private:

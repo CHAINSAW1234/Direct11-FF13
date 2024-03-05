@@ -20,11 +20,13 @@ HRESULT CBone::Initialize(const aiNode* pAINode, _int iParentIndex)
 	return S_OK;
 }
 
-void CBone::Invalidate_CombinedTransformationMatrix(const vector<CBone*>& Bones)
+void CBone::Invalidate_CombinedTransformationMatrix(const vector<CBone*>& Bones, _fmatrix TransformationMatrix)
 {
 	// 이 뼈가 RootNode인 경우 m_TransformationMatrix == m_CombinedTransformationMatrix
-	if (-1 == m_iParentBoneIndex)
-		m_CombinedTransformationMatrix = m_TransformationMatrix;
+	if (-1 == m_iParentBoneIndex) {
+		// 부모에서만 TransformationMatrix를 곱해서 모델의 전체 위치를 수정한다
+		XMStoreFloat4x4(&m_CombinedTransformationMatrix, XMLoadFloat4x4(&m_TransformationMatrix) * TransformationMatrix);
+	}
 	else {
 		// 부모의 m_CombinedTransformationMatrix를 가져와서 자신의 m_TransformationMatrix와 m_CombinedTransformationMatrix를 곱해서 자신의 m_CombinedTransformationMatrix를 구함 
 		XMStoreFloat4x4(&m_CombinedTransformationMatrix,

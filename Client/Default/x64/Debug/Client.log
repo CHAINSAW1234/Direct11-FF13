@@ -1,16 +1,2 @@
-﻿  MapTool.cpp
-C:\Users\stgo5015\Documents\GitHub\Direct11_FF13\Client\Private\MapTool.cpp(182,54): warning C4267: '인수': 'size_t'에서 'Engine::_uint'(으)로 변환하면서 데이터가 손실될 수 있습니다.
-  (소스 파일 '/Private/MapTool.cpp'을(를) 컴파일하는 중)
-  
-C:\Users\stgo5015\Documents\GitHub\Direct11_FF13\Client\Private\MapTool.cpp(217,33): warning C4477: 'sprintf_s' : 서식 문자열 '%d'에 'int' 형식의 인수가 필요하지만 variadic 인수 1의 형식이 'size_t'입니다.
-  (소스 파일 '/Private/MapTool.cpp'을(를) 컴파일하는 중)
-  C:\Users\stgo5015\Documents\GitHub\Direct11_FF13\Client\Private\MapTool.cpp(217,33):
-  서식 문자열에서 '%zd'을(를) 사용하는 것이 좋습니다.
-  
-C:\Users\stgo5015\Documents\GitHub\Direct11_FF13\Client\Private\MapTool.cpp(219,48): warning C4267: '=': 'size_t'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
-  (소스 파일 '/Private/MapTool.cpp'을(를) 컴파일하는 중)
-  
-C:\Users\stgo5015\Documents\GitHub\Direct11_FF13\Client\Private\MapTool.cpp(257,47): warning C4267: '=': 'size_t'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
-  (소스 파일 '/Private/MapTool.cpp'을(를) 컴파일하는 중)
-  
+﻿  MainApp.cpp
   Client.vcxproj -> C:\Users\stgo5015\Documents\GitHub\Direct11_FF13\Client\Bin\Client.exe
