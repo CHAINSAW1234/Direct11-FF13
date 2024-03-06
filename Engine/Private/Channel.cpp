@@ -57,8 +57,11 @@ HRESULT CChannel::Initialize(const aiNodeAnim* pAIChannel, const vector<CBone*>&
 	return S_OK;
 }
 
-void CChannel::Invalidate_TransformationMatrix(const vector<CBone*>& Bones, _float fTrackPosition)
+void CChannel::Invalidate_TransformationMatrix(const vector<CBone*>& Bones, _float fTrackPosition, _uint* pCurrentKeyFrameIndex)
 {
+	if (0.0f == fTrackPosition)
+		(*pCurrentKeyFrameIndex) = 0;
+
 	KEYFRAME		KeyFrame = m_KeyFrames.back();
 
 	_float3			vScale;
@@ -71,15 +74,15 @@ void CChannel::Invalidate_TransformationMatrix(const vector<CBone*>& Bones, _flo
 		vTranslation = KeyFrame.vTranslation;
 	}
 	else {
-		if (fTrackPosition >= m_KeyFrames[m_iCurrentKeyFrame + 1].fTime)
-			++m_iCurrentKeyFrame;
+		while(fTrackPosition >= m_KeyFrames[(*pCurrentKeyFrameIndex) + 1].fTime)
+			++(*pCurrentKeyFrameIndex);
 
-		_float fRatio = (fTrackPosition - m_KeyFrames[m_iCurrentKeyFrame].fTime)
-			/ (m_KeyFrames[m_iCurrentKeyFrame + 1].fTime - m_KeyFrames[m_iCurrentKeyFrame].fTime);
+		_float fRatio = (fTrackPosition - m_KeyFrames[(*pCurrentKeyFrameIndex)].fTime)
+			/ (m_KeyFrames[(*pCurrentKeyFrameIndex) + 1].fTime - m_KeyFrames[(*pCurrentKeyFrameIndex)].fTime);
 
-		XMStoreFloat3(&vScale, XMVectorLerp(XMLoadFloat3(&m_KeyFrames[m_iCurrentKeyFrame].vScale), XMLoadFloat3(&m_KeyFrames[m_iCurrentKeyFrame + 1].vScale), fRatio));
-		XMStoreFloat4(&vRotation, XMQuaternionSlerp(XMLoadFloat4(&m_KeyFrames[m_iCurrentKeyFrame].vRotation), XMLoadFloat4(&m_KeyFrames[m_iCurrentKeyFrame + 1].vRotation), fRatio));
-		XMStoreFloat3(&vTranslation, XMVectorLerp(XMLoadFloat3(&m_KeyFrames[m_iCurrentKeyFrame].vTranslation), XMLoadFloat3(&m_KeyFrames[m_iCurrentKeyFrame + 1].vTranslation), fRatio));
+		XMStoreFloat3(&vScale, XMVectorLerp(XMLoadFloat3(&m_KeyFrames[(*pCurrentKeyFrameIndex)].vScale), XMLoadFloat3(&m_KeyFrames[(*pCurrentKeyFrameIndex) + 1].vScale), fRatio));
+		XMStoreFloat4(&vRotation, XMQuaternionSlerp(XMLoadFloat4(&m_KeyFrames[(*pCurrentKeyFrameIndex)].vRotation), XMLoadFloat4(&m_KeyFrames[(*pCurrentKeyFrameIndex) + 1].vRotation), fRatio));
+		XMStoreFloat3(&vTranslation, XMVectorLerp(XMLoadFloat3(&m_KeyFrames[(*pCurrentKeyFrameIndex)].vTranslation), XMLoadFloat3(&m_KeyFrames[(*pCurrentKeyFrameIndex) + 1].vTranslation), fRatio));
 	}
 
 	_matrix TransformationMatrix = XMMatrixAffineTransformation(XMLoadFloat3(&vScale), XMVectorSet(0.f, 0.f, 0.f, 1.f), XMLoadFloat4(&vRotation), XMVectorSetW(XMLoadFloat3(&vTranslation), 1.f));

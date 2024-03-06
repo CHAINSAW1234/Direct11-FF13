@@ -33,6 +33,9 @@ public:
 	virtual HRESULT Render() override;
 
 public:
+	wstring Get_ModelTag() { return m_strModelTag; }
+
+public:
 	_bool Compute_Picking(_Out_ _float4* vOutPos = nullptr);
 
 private:

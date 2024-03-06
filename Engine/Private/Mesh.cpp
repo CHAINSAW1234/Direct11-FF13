@@ -120,6 +120,42 @@ HRESULT CMesh::Stock_Matrices(const vector<CBone*>& Bones, _Out_ _float4x4* pMes
 	return S_OK;
 }
 
+HRESULT CMesh::Save_Mesh(CModel::TYPE eModelType, ofstream& OFS)
+{
+	//1. m_szName의 길이 저장
+	size_t szNameLength = strlen(m_szName);
+	OFS.write(reinterpret_cast<const char*>(&szNameLength), sizeof(size_t));
+	// 2. m_szName 저장
+	OFS.write(reinterpret_cast<const char*>(&m_szName), sizeof(char) * szNameLength);
+	// 3. m_iMaterialIndex 저장
+	OFS.write(reinterpret_cast<const char*>(&m_iMaterialIndex), sizeof(_uint));
+	// 4. m_iNumVertices
+	OFS.write(reinterpret_cast<const char*>(&m_iNumVertices), sizeof(_uint));
+	// 5.m_iNumIndices
+	OFS.write(reinterpret_cast<const char*>(&m_iNumIndices), sizeof(_uint));
+
+	// 6. 버텍스 정보 저장
+	HRESULT hr = CModel::TYPE_NONANIM == eModelType ? Save_Mesh_For_NonAnimModel(OFS) : Save_Mesh_For_AnimModel(OFS);
+	if (FAILED(hr))
+		return E_FAIL;
+
+	// 6. 인덱스 정보 저장
+	D3D11_MAPPED_SUBRESOURCE mappedResource;
+	ZeroMemory(&mappedResource, sizeof(D3D11_MAPPED_SUBRESOURCE));
+	m_pContext->Map(m_pIB, 0, D3D11_MAP_WRITE_DISCARD, 0, &mappedResource);
+
+	_uint* pIndices = (_uint*)(mappedResource.pData);
+
+	for (size_t i = 0; i < m_iNumIndices; i++)
+	{
+		OFS.write(reinterpret_cast<const char*>(&pIndices[i]), sizeof(_uint));
+	}
+
+	m_pContext->Unmap(m_pIB, 0);
+
+	return S_OK;
+}
+
 HRESULT CMesh::Ready_Vertices_For_NonAnimModel(const aiMesh* pAIMesh, _fmatrix TransformMatrix)
 {
 	m_iVertexStride = sizeof(VTXMESH);
@@ -265,6 +301,31 @@ HRESULT CMesh::Ready_Vertices_For_AnimModel(const aiMesh* pAIMesh, const vector<
 
 	Safe_Delete_Array(pVertices);
 
+	return S_OK;
+}
+
+HRESULT CMesh::Save_Mesh_For_NonAnimModel(ostream& OFS)
+{
+	D3D11_MAPPED_SUBRESOURCE mappedResource;
+	ZeroMemory(&mappedResource, sizeof(D3D11_MAPPED_SUBRESOURCE));
+	m_pContext->Map(m_pVB, 0, D3D11_MAP_WRITE_DISCARD, 0, &mappedResource);
+	
+	VTXMESH* pVertices = (VTXMESH*)(mappedResource.pData);
+
+	for (size_t i = 0; i < m_iNumVertices; i++)
+	{
+		OFS.write(reinterpret_cast<const char*>(&pVertices[i].vPosition), sizeof(_float3));
+		OFS.write(reinterpret_cast<const char*>(&pVertices[i].vNormal), sizeof(_float3));
+		OFS.write(reinterpret_cast<const char*>(&pVertices[i].vTexcoord), sizeof(_float2));
+		OFS.write(reinterpret_cast<const char*>(&pVertices[i].vTangent), sizeof(_float3));
+	}
+	m_pContext->Unmap(m_pVB, 0);
+
+	return S_OK;
+}
+
+HRESULT CMesh::Save_Mesh_For_AnimModel(ostream& OFS)
+{
 	return S_OK;
 }
 

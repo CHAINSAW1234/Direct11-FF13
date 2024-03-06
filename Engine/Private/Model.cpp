@@ -17,15 +17,15 @@ CModel::CModel(const CModel& rhs)
 	, m_iNumMaterials{ rhs.m_iNumMaterials }
 	, m_Materials{ rhs.m_Materials }
 	, m_TransformMatrix{ rhs.m_TransformMatrix }
-	, m_Bones{ rhs.m_Bones }				// 얕은 복사 : 매우 위험
 	, m_iNumAnimations{ rhs.m_iNumAnimations }
-	, m_Animations{ rhs.m_Animations }
 {
-	for (auto& pAnimation : m_Animations)
-		Safe_AddRef(pAnimation);
+	for (auto& pPrototypeAnimation : rhs.m_Animations) {
+		m_Animations.push_back(pPrototypeAnimation->Clone());
+	}
 
-	for (auto& pBone : m_Bones)
-		Safe_AddRef(pBone);
+	for (auto& pPrototypeBone : rhs.m_Bones) {
+		m_Bones.push_back(pPrototypeBone->Clone());
+	}
 
 	for (auto& pMesh : m_Meshes)
 		Safe_AddRef(pMesh);
@@ -108,7 +108,7 @@ HRESULT CModel::Play_Animation(_float fTimeDelta)
 {
 	/* 현재 애니메이션에 맞는 뼈의 상태(m_TransformationMatrix)를 갱신해준다. */
 	// 현재 애니메이션을 재생한다
-	m_Animations[m_iCurrentAnimIndex]->Invalidate_TransformationMatrix(fTimeDelta, m_Bones);
+	m_Animations[m_iCurrentAnimIndex]->Invalidate_TransformationMatrix(fTimeDelta, m_Bones, m_isLoop);
 	// 모든 뼈를 순회하면서 최종 위치 행렬을 계산,
 	// 생성할 때 DFS로 순회하였으므로 부모 뼈부터 순회하므로 OK
 	for (auto& pBone : m_Bones)
@@ -131,6 +131,44 @@ _bool CModel::Compute_Picking(const CTransform* pTransform, _Out_ _float4* vOutP
 			return true;
 	}
 	return false;
+}
+
+HRESULT CModel::Save_Model(string filepath)
+{
+	ofstream OFS{filepath, ios::out | ios::binary};
+
+	// 1. 타입 저장
+	OFS.write(reinterpret_cast<const char*>(&m_eModelType), sizeof(TYPE));
+
+	// 2. 뼈개수 저장, NonAnim일 경우는 0개로 처리
+	size_t iNum = { 0 };
+	if (m_eModelType == TYPE_ANIM) {
+		iNum = m_Bones.size();
+	}
+	OFS.write(reinterpret_cast<const char*>(&iNum), sizeof(size_t));
+
+	// 2. Bone 저장
+
+	// 3. Mesh 저장
+	OFS.write(reinterpret_cast<const char*>(&m_iNumMeshes), sizeof(_uint));
+
+	for (auto& pMesh : m_Meshes) {
+		pMesh->Save_Mesh(m_eModelType, OFS);
+	}
+
+	// 4. 머테리얼 저장
+	OFS.write(reinterpret_cast<const char*>(&m_iNumMaterials), sizeof(_uint));
+	for (auto& pMaterial : m_Materials) {
+		pMaterial->Save_Material(OFS);
+	}
+
+	// 2. 타입에 따라 다른 처리
+	HRESULT hr = TYPE_NONANIM == m_eModelType ? Save_NonAnimModel(OFS) : Save_AnimModel(OFS);
+
+	if(FAILED(hr))
+		return E_FAIL;
+
+	return S_OK;
 }
 
 HRESULT CModel::Ready_Meshes()
@@ -234,6 +272,18 @@ HRESULT CModel::Ready_Animations()
 	}
 
 	return S_OK;
+}
+
+HRESULT CModel::Save_NonAnimModel(ofstream& OFS)
+{
+
+
+	return S_OK;
+}
+
+HRESULT CModel::Save_AnimModel(ofstream& OFS)
+{
+	return E_FAIL;
 }
 
 CModel* CModel::Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext, TYPE eType, const string& strModelFilePath, _fmatrix TransformMatrix)

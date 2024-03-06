@@ -171,9 +171,8 @@ void CImGUI_Manager::EditTransform(_float4x4& matrix)
 void CImGUI_Manager::EditFilePath(_Out_ string& FilePath, _Out_ string& FilePathName)
 {
 	if (ImGuiFileDialog::Instance()->IsOk()) { // action if OK
-		FilePathName = ImGuiFileDialog::Instance()->GetFilePathName();
+		FilePathName = ImGuiFileDialog::Instance()->GetCurrentFileName();
 		FilePath = ImGuiFileDialog::Instance()->GetCurrentPath();
-		// action
 	}
 	else {
 		FilePathName = "";
@@ -182,7 +181,6 @@ void CImGUI_Manager::EditFilePath(_Out_ string& FilePath, _Out_ string& FilePath
 	// close
 	ImGuiFileDialog::Instance()->Close();
 }
-
 
 void CImGUI_Manager::Free()
 {

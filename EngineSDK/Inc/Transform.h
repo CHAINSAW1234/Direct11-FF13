@@ -39,6 +39,14 @@ public:
 		memcpy(&m_WorldMatrix.m[eState], &vState, sizeof(_float4));
 	}
 
+	void Set_WorldMatrix(_float4x4 WorldMatrix) {
+		memcpy(&m_WorldMatrix, &WorldMatrix, sizeof(_float4x4));
+	}
+
+	void Set_WorldMatrix(_matrix WorldMatrix) {
+		XMStoreFloat4x4(&m_WorldMatrix, WorldMatrix);
+	}
+
 	void Set_Scaled(_float fScaleX, _float fScaleY, _float fScaleZ);
 
 	_vector Get_State_Vector(STATE eState) {
@@ -64,8 +72,8 @@ public:
 		return m_WorldMatrix;
 	}
 
-	_float4x4* Get_WorldFloat4x4() {
-		return &m_WorldMatrix;
+	_float4x4& Get_WorldFloat4x4() {
+		return m_WorldMatrix;
 	}
 
 	_matrix Get_WorldMatrix() const {

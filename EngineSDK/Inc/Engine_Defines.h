@@ -26,6 +26,7 @@ using namespace DirectX;
 #include "assimp\Importer.hpp"
 #include "assimp\postprocess.h"
 
+#include <fstream>
 #include <algorithm>
 #include <string>
 #include <vector>

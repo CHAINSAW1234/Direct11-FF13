@@ -27,6 +27,7 @@ public:
 
 public:
 	HRESULT Stock_Matrices(const vector<CBone*>& Bones, _Out_ _float4x4* pMeshBoneMatrices);
+	HRESULT Save_Mesh(CModel::TYPE eModelType, ofstream& OFS);
 
 private:
 	_char					m_szName[MAX_PATH] = { "" };	// 이 메쉬의 이름
@@ -46,6 +47,9 @@ private:
 private:
 	HRESULT Ready_Vertices_For_NonAnimModel(const aiMesh* pAIMesh, _fmatrix TransformationMatrix);
 	HRESULT Ready_Vertices_For_AnimModel(const aiMesh* pAIMesh, const vector<CBone*>& Bones);
+
+	HRESULT Save_Mesh_For_NonAnimModel(ostream& OFS);
+	HRESULT Save_Mesh_For_AnimModel(ostream& OFS);
 
 public:
 	static CMesh* Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext, CModel::TYPE eModelType, const aiMesh* pAIMesh, const vector<class CBone*>& Bones, _fmatrix TransformMatrix);

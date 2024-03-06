@@ -32,6 +32,7 @@ private:
 	_bool show_demo_window = { false };
 	_bool show_ModelCreate_window = { false };
 	_bool show_ModelList_window = { false };
+	_bool show_MapList_window = { false };
 
 	_bool m_isEnablePicking = { false };
 
@@ -45,6 +46,8 @@ private:
 	vector<CMapObject*>		m_MapObjects;		// 생성된 객체
 	CGameObject*			m_pTargetObject = { nullptr };
 
+	vector<string>			m_MapList;			// 디렉토리에서 읽은 멥 리스트
+
 	class CCamera_Free*			m_pCamera = { nullptr };
 
 private:
@@ -56,16 +59,20 @@ private:
 	HRESULT Set_RenderState();
 	HRESULT Reset_RenderState();
 
+	void Update_KeyInput();			// Key_Input 받기
+	HRESULT Update_MapList();			// MapList Update
 
-	void Update_Ket_Input();			// Key_Input 받기
+
 	void WindowList_Window(_float fTimeDelta);
 	void ModelCreate_Window();
 	void ModelList_Window();
+	void MapList_Window();
 
 	HRESULT Create_MapObject(const wstring& m_strModelTag);
 
-	void Draw_Gui();
-
+	HRESULT Save_Map(string filepath, string filepathName);
+	HRESULT Delete_Map(string strMapTag);
+	HRESULT Load_Map(string strMapTag);
 public:
 	static CMapTool* Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);
 	virtual CGameObject* Clone(void* pArg) override;

@@ -14,7 +14,8 @@
 	3. aiAnimNode : 
 
 */
-#pragma region
+#pragma endregion
+
 BEGIN(Engine)
 
 class CBone final : public CBase
@@ -53,6 +54,7 @@ private:
 
 public:
 	static CBone* Create(const aiNode* pAINode, _int  iParentIndex);
+	CBone* Clone();
 	virtual void Free() override;
 };
 

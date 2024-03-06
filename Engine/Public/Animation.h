@@ -7,13 +7,20 @@ class CAnimation final : public CBase
 {
 private:
 	CAnimation();
+	CAnimation(CAnimation& rhs);
 	virtual ~CAnimation() = default;
 
 public:
 	HRESULT Initialize(const aiAnimation* pAIAnimation, const vector<class CBone*>& Bones);
-	void Invalidate_TransformationMatrix(_float fTimeDelta, const vector<class CBone*>& Bones);
+	void Invalidate_TransformationMatrix(_float fTimeDelta, const vector<class CBone*>& Bones, _bool isLoop);
+
+public:
+	_bool isFinished() const {
+		return m_isFinished;
+	}
 
 private:
+	_bool								m_isCloned = { false };
 	_char								m_szName[MAX_PATH] = { "" };
 
 	_float								m_fDuration = { 0.0f };		 /* 전체 재생 길이. */
@@ -22,9 +29,12 @@ private:
 
 	_uint								m_iNumChannels = { 0 };		 // 이 애니메이션이 사용하는 체널의 개수 : 뼈의 개수
 	vector<class CChannel*>				m_Channels;					// 그 체널의 데이터
-
+	vector<_uint>						m_CurrentKeyFrameIndices;	// 현재 프레임에서 CChannel이 취해야되는 키프레임
+																	// CChanel-> CAnimation
+	_bool								m_isFinished = { false };
 public:
 	static CAnimation* Create(const aiAnimation* pAIAnimation, const vector<class CBone*>& Bones);
+	CAnimation* Clone();
 	virtual void Free() override;
 };
 

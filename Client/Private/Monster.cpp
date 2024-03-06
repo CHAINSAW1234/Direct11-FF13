@@ -31,6 +31,9 @@ HRESULT CMonster::Initialize(void* pArg)
 	if (FAILED(Add_Components()))
 		return E_FAIL;
 
+	m_pModelCom->Set_Animation(rand() % 20, true);
+	m_pTransformCom->Set_State(CTransform::STATE_POSITION, XMVectorSet(rand() % 20, 2.f, rand() % 20, 1.f));
+
 	return S_OK;
 }
 
@@ -44,10 +47,10 @@ HRESULT CMonster::Late_Tick(_float fTimeDelta)
 	if (FAILED(__super::Late_Tick(fTimeDelta)))
 		return E_FAIL;
 
-	static int i = 0;
-	if (m_pModelCom->Compute_Picking(m_pTransformCom)) {
-		++i;
-	}
+	//static int i = 0;
+	//if (m_pModelCom->Compute_Picking(m_pTransformCom)) {
+	//	++i;
+	//}
 
 	m_pModelCom->Play_Animation(fTimeDelta);
 

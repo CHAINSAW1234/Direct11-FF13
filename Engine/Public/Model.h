@@ -1,6 +1,7 @@
 #pragma once
 
 #include "Component.h"
+#include "Animation.h"
 
 BEGIN(Engine)
 
@@ -20,6 +21,15 @@ public:
 	}
 	const vector<class CMesh*> Get_Meshes() { return m_Meshes; }
 
+	_bool isFinished() {
+		return m_Animations[m_iCurrentAnimIndex]->isFinished();
+	}
+public:
+	void Set_Animation(_uint iAnimIndex, _bool isLoop) {
+		m_iCurrentAnimIndex = iAnimIndex;
+		m_isLoop = isLoop;
+	}
+
 public:
 	virtual HRESULT Initialize_Prototype(TYPE eType, const string& strModelFilePath, _fmatrix TransformMatrix);
 	virtual HRESULT Initialize(void* pArg) override;
@@ -33,6 +43,10 @@ public:
 public:
 	_bool	Compute_Picking(const class CTransform* pTransform, _Out_ _float4* vOutPos = nullptr);
 
+	HRESULT	Save_Model(string filepath);
+
+private:
+	
 private:
 	TYPE						m_eModelType = { TYPE_END };	// 애니메이션 모델과 논애니메이션 모델 구분 필요함
 	const aiScene*				m_pAIScene = { nullptr };
@@ -56,6 +70,7 @@ private:
 
 	_uint						m_iNumAnimations = { 0 };
 	_uint						m_iCurrentAnimIndex = { 0 };
+	_bool						m_isLoop = { false };
 	vector<class CAnimation*>	m_Animations;
 
 	// 셰이더에 전달할 m_OffsetMatrices
@@ -67,6 +82,8 @@ private:
 	HRESULT Ready_Bones(aiNode* pAINode, _int iParentIndex = -1);
 	HRESULT Ready_Animations();
 
+	HRESULT Save_NonAnimModel(ofstream& OFS);
+	HRESULT Save_AnimModel(ofstream& OFS);
 public:
 	static CModel* Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext, TYPE eType, const string& strModelFilePath, _fmatrix TransformMatrix);
 	virtual CComponent* Clone(void* pArg) override;
