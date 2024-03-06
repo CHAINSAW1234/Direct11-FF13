@@ -56,12 +56,9 @@ private:
 
 private:
 	HRESULT Add_Components();
-	HRESULT Set_RenderState();
-	HRESULT Reset_RenderState();
 
 	void Update_KeyInput();			// Key_Input ¹Þ±â
 	HRESULT Update_MapList();			// MapList Update
-
 
 	void WindowList_Window(_float fTimeDelta);
 	void ModelCreate_Window();

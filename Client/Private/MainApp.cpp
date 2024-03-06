@@ -34,7 +34,13 @@ HRESULT CMainApp::Initialize()
 	if (FAILED(Ready_Prototype_Component_For_Static()))
 		return E_FAIL;
 
-	if (FAILED(Open_Level(LEVEL_MAPTOOL)))
+	LEVEL eLevel;
+
+	eLevel = LEVEL_GAMEPLAY;
+	//eLevel = LEVEL_MAPTOOL;
+	//eLevel = LEVEL_PARSING;
+
+	if (FAILED(Open_Level(eLevel)))
 		return E_FAIL;
 	
 	return S_OK;

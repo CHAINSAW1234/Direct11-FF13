@@ -70,6 +70,15 @@
     <Filter Include="02.GameObjects\MapObject">
       <UniqueIdentifier>{8ea06343-b051-48e6-8df6-14ef0dfc9672}</UniqueIdentifier>
     </Filter>
+    <Filter Include="01.Levels\Parsing">
+      <UniqueIdentifier>{2c2434a8-8e10-4ec5-a4ec-8dca89b9d087}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="03.Tool\ParsingTool">
+      <UniqueIdentifier>{b9fd3cc1-20ee-4260-a74e-eb6420d41339}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="03.Tool\TestModel">
+      <UniqueIdentifier>{f9e27d2f-b762-4419-8ceb-c8bf3c66025a}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\public\MainApp.h">
@@ -168,6 +177,15 @@
     <ClInclude Include="ImGUI\dirent.h">
       <Filter>98.Default\Imgui</Filter>
     </ClInclude>
+    <ClInclude Include="..\Public\Level_Parsing.h">
+      <Filter>01.Levels\Parsing</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\ParsingTool.h">
+      <Filter>03.Tool\ParsingTool</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\TestModel.h">
+      <Filter>03.Tool\TestModel</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\private\MainApp.cpp">
@@ -247,6 +265,15 @@
     </ClCompile>
     <ClCompile Include="ImGUI\ImGuiFileDialog.cpp">
       <Filter>98.Default\Imgui</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Level_Parsing.cpp">
+      <Filter>01.Levels\Parsing</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\ParsingTool.cpp">
+      <Filter>03.Tool\ParsingTool</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\TestModel.cpp">
+      <Filter>03.Tool\TestModel</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

@@ -14,12 +14,12 @@
 #include "ImGuiFileDialog.h"
 
 CMapTool::CMapTool(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
-    : CGameObject(pDevice, pContext)
+    : CGameObject{ pDevice, pContext }
 {
 }
 
 CMapTool::CMapTool(const CMapTool& rhs)
-    :CGameObject(rhs)
+    :CGameObject{ rhs }
 {
 }
 
@@ -118,15 +118,6 @@ HRESULT CMapTool::Add_Components()
     return S_OK;
 }
 
-HRESULT CMapTool::Set_RenderState()
-{
-    return S_OK;
-}
-
-HRESULT CMapTool::Reset_RenderState()
-{
-    return S_OK;
-}
 
 void CMapTool::Update_KeyInput()
 {
@@ -469,7 +460,6 @@ HRESULT CMapTool::Load_Map(string strMapTag)
     return S_OK;
 
 }
-
 
 CMapTool* CMapTool::Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
 {

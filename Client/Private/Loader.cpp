@@ -80,6 +80,12 @@ HRESULT CLoader::Start()
 		hr = Loading_For_MapTool();
 		g_Level = LEVEL_MAPTOOL;
 		break;
+	case LEVEL_PARSING:
+		hr = S_OK;
+		m_isFinished = true;
+		m_strLoadingText = TEXT("로딩이 완료되었습니다.");
+		g_Level = LEVEL_PARSING;
+		break;
 	}
 
 	LeaveCriticalSection(&m_Critical_Section);
@@ -193,8 +199,13 @@ HRESULT CLoader::Loading_For_GamePlay()
 	/* Prototype_Component_Model_Fiona */
 	TransformMatrix = XMMatrixRotationY(XMConvertToRadians(180.0f));
 
+	// 상단 fbx, 하단, bin
+	//if (FAILED(m_pGameInstance->Add_Prototype(eLevel, TEXT("Prototype_Component_Model_Fiona"),
+	//	CModel::Create(m_pDevice, m_pContext, CModel::TYPE_ANIM, "../Bin/Resources/Models/Fiona/Fiona.fbx", TransformMatrix))))
+	//	return E_FAIL;
+
 	if (FAILED(m_pGameInstance->Add_Prototype(eLevel, TEXT("Prototype_Component_Model_Fiona"),
-		CModel::Create(m_pDevice, m_pContext, CModel::TYPE_ANIM, "../Bin/Resources/Models/Fiona/Fiona.fbx", TransformMatrix))))
+		CModel::Create(m_pDevice, m_pContext, "../Bin/Resources/Models/Fiona/Fiona.bin"))))
 		return E_FAIL;
 
 	/* Prototype_Component_Model_ForkLift */
@@ -269,11 +280,19 @@ HRESULT CLoader::Loading_For_MapTool()
 
 	for (size_t i = 0; i < 15; ++i) {
 
-		wstring tag = L"Prototype_Component_Model_MapObject" + to_wstring(i);
+		// 상단 : fbx, 하단 : 바이너리 메쉬
+	/*	wstring tag = L"Prototype_Component_Model_MapObject" + to_wstring(i);
 		string path = "../Bin/Resources/Models/MapObject/MapObject/map" + to_string(i) + ".fbx";
 		if (FAILED(m_pGameInstance->Add_Prototype(eLevel, tag,
 			CModel::Create(m_pDevice, m_pContext, CModel::TYPE_NONANIM, path, XMMatrixIdentity()))))
+			return E_FAIL;*/
+
+		wstring tag = L"Prototype_Component_Model_MapObject" + to_wstring(i);
+		string path = "../Bin/Resources/Models/MapObject/MapObject/map" + to_string(i) + ".bin";
+		if (FAILED(m_pGameInstance->Add_Prototype(eLevel, tag,
+			CModel::Create(m_pDevice, m_pContext, path))))
 			return E_FAIL;
+
 	}
 
 

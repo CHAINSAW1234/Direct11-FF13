@@ -41,6 +41,12 @@ public:
 		return !strcmp(m_szName, pBoneName);
 	}
 	
+public:
+	HRESULT Save_Bone(ofstream& OFS);
+
+private:
+	HRESULT Load_Bone(ifstream& IFS);
+
 private:
 	_char				m_szName[MAX_PATH] = { "" };	// ¿Ã ª¿¿« ¿Ã∏ß
 
@@ -54,6 +60,7 @@ private:
 
 public:
 	static CBone* Create(const aiNode* pAINode, _int  iParentIndex);
+	static CBone* Create(ifstream& IFS);
 	CBone* Clone();
 	virtual void Free() override;
 };

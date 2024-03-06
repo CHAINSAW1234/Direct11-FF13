@@ -7,12 +7,15 @@ C:\Users\stgo5015\Documents\GitHub\Direct11_FF13\Client\Private\Level_GamePlay.c
 C:\Users\stgo5015\Documents\GitHub\Direct11_FF13\Client\Private\Level_Loading.cpp;C:\Users\stgo5015\Documents\GitHub\Direct11_FF13\Client\Default\x64\Debug\Level_Loading.obj
 C:\Users\stgo5015\Documents\GitHub\Direct11_FF13\Client\Private\Level_Logo.cpp;C:\Users\stgo5015\Documents\GitHub\Direct11_FF13\Client\Default\x64\Debug\Level_Logo.obj
 C:\Users\stgo5015\Documents\GitHub\Direct11_FF13\Client\Private\Level_MapTool.cpp;C:\Users\stgo5015\Documents\GitHub\Direct11_FF13\Client\Default\x64\Debug\Level_MapTool.obj
+C:\Users\stgo5015\Documents\GitHub\Direct11_FF13\Client\Private\Level_Parsing.cpp;C:\Users\stgo5015\Documents\GitHub\Direct11_FF13\Client\Default\x64\Debug\Level_Parsing.obj
 C:\Users\stgo5015\Documents\GitHub\Direct11_FF13\Client\Private\Loader.cpp;C:\Users\stgo5015\Documents\GitHub\Direct11_FF13\Client\Default\x64\Debug\Loader.obj
 C:\Users\stgo5015\Documents\GitHub\Direct11_FF13\Client\private\MainApp.cpp;C:\Users\stgo5015\Documents\GitHub\Direct11_FF13\Client\Default\x64\Debug\MainApp.obj
 C:\Users\stgo5015\Documents\GitHub\Direct11_FF13\Client\Private\MapObject.cpp;C:\Users\stgo5015\Documents\GitHub\Direct11_FF13\Client\Default\x64\Debug\MapObject.obj
 C:\Users\stgo5015\Documents\GitHub\Direct11_FF13\Client\Private\MapTool.cpp;C:\Users\stgo5015\Documents\GitHub\Direct11_FF13\Client\Default\x64\Debug\MapTool.obj
 C:\Users\stgo5015\Documents\GitHub\Direct11_FF13\Client\Private\Monster.cpp;C:\Users\stgo5015\Documents\GitHub\Direct11_FF13\Client\Default\x64\Debug\Monster.obj
+C:\Users\stgo5015\Documents\GitHub\Direct11_FF13\Client\Private\ParsingTool.cpp;C:\Users\stgo5015\Documents\GitHub\Direct11_FF13\Client\Default\x64\Debug\ParsingTool.obj
 C:\Users\stgo5015\Documents\GitHub\Direct11_FF13\Client\Private\Terrain.cpp;C:\Users\stgo5015\Documents\GitHub\Direct11_FF13\Client\Default\x64\Debug\Terrain.obj
+C:\Users\stgo5015\Documents\GitHub\Direct11_FF13\Client\Private\TestModel.cpp;C:\Users\stgo5015\Documents\GitHub\Direct11_FF13\Client\Default\x64\Debug\TestModel.obj
 C:\Users\stgo5015\Documents\GitHub\Direct11_FF13\Client\Default\Client.cpp;C:\Users\stgo5015\Documents\GitHub\Direct11_FF13\Client\Default\x64\Debug\Client.obj
 C:\Users\stgo5015\Documents\GitHub\Direct11_FF13\Client\Default\ImGUI\imgui.cpp;C:\Users\stgo5015\Documents\GitHub\Direct11_FF13\Client\Default\x64\Debug\imgui.obj
 C:\Users\stgo5015\Documents\GitHub\Direct11_FF13\Client\Default\ImGUI\ImGuiFileDialog.cpp;C:\Users\stgo5015\Documents\GitHub\Direct11_FF13\Client\Default\x64\Debug\ImGuiFileDialog.obj

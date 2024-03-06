@@ -106,9 +106,15 @@ HRESULT CModel::Bind_ShaderResource(CShader* pShader, const _char* pConstantName
 
 HRESULT CModel::Play_Animation(_float fTimeDelta)
 {
-	/* 현재 애니메이션에 맞는 뼈의 상태(m_TransformationMatrix)를 갱신해준다. */
-	// 현재 애니메이션을 재생한다
-	m_Animations[m_iCurrentAnimIndex]->Invalidate_TransformationMatrix(fTimeDelta, m_Bones, m_isLoop);
+	if (m_isChange_Animation) {
+		Play_Animation_Linear_Interpolation(fTimeDelta);
+	}
+	else {
+		/* 현재 애니메이션에 맞는 뼈의 상태(m_TransformationMatrix)를 갱신해준다. */
+		// 현재 애니메이션을 재생한다
+		m_Animations[m_iCurrentAnimIndex]->Invalidate_TransformationMatrix(fTimeDelta, m_Bones, m_isLoop);
+	}
+
 	// 모든 뼈를 순회하면서 최종 위치 행렬을 계산,
 	// 생성할 때 DFS로 순회하였으므로 부모 뼈부터 순회하므로 OK
 	for (auto& pBone : m_Bones)
@@ -140,33 +146,129 @@ HRESULT CModel::Save_Model(string filepath)
 	// 1. 타입 저장
 	OFS.write(reinterpret_cast<const char*>(&m_eModelType), sizeof(TYPE));
 
-	// 2. 뼈개수 저장, NonAnim일 경우는 0개로 처리
+	// 2. TransformMatrix 저장
+	OFS.write(reinterpret_cast<const char*>(&m_TransformMatrix), sizeof(_float4x4));
+
+	// 3. 뼈개수 저장, NonAnim일 경우는 0개로 처리
 	size_t iNum = { 0 };
 	if (m_eModelType == TYPE_ANIM) {
 		iNum = m_Bones.size();
 	}
 	OFS.write(reinterpret_cast<const char*>(&iNum), sizeof(size_t));
+	// 4. Bone 저장
+	for (size_t i = 0; i < iNum; ++i) {
+		m_Bones[i]->Save_Bone(OFS);
+	}
 
-	// 2. Bone 저장
-
-	// 3. Mesh 저장
+	// 5. Mesh 저장
 	OFS.write(reinterpret_cast<const char*>(&m_iNumMeshes), sizeof(_uint));
-
 	for (auto& pMesh : m_Meshes) {
 		pMesh->Save_Mesh(m_eModelType, OFS);
 	}
 
-	// 4. 머테리얼 저장
+	// 6. 머테리얼 저장	: 경로를 저장
 	OFS.write(reinterpret_cast<const char*>(&m_iNumMaterials), sizeof(_uint));
 	for (auto& pMaterial : m_Materials) {
-		pMaterial->Save_Material(OFS);
+		for (size_t i = aiTextureType_DIFFUSE; i < AI_TEXTURE_TYPE_MAX; ++i) {
+			//iNum = 0;
+			iNum = wcslen(pMaterial.MaterialPath[i]);
+			OFS.write(reinterpret_cast<const char*>(&iNum), sizeof(size_t));
+			if (iNum != 0) {
+				OFS.write(reinterpret_cast<const char*>(&pMaterial.MaterialPath[i]), sizeof(_tchar) * iNum);
+			}
+		}
 	}
 
-	// 2. 타입에 따라 다른 처리
-	HRESULT hr = TYPE_NONANIM == m_eModelType ? Save_NonAnimModel(OFS) : Save_AnimModel(OFS);
+	// 7. 애니메이션
+	OFS.write(reinterpret_cast<const char*>(&m_iNumAnimations), sizeof(_uint));
+	for (auto& pAnimation : m_Animations) {
+		pAnimation->Save_Animation(OFS);
+	}
 
-	if(FAILED(hr))
-		return E_FAIL;
+	OFS.close();
+	return S_OK;
+}
+
+HRESULT CModel::Play_Animation_Linear_Interpolation(_float fTimeDelta)
+{
+	m_fTime_Inear_Interpolation += fTimeDelta;
+
+	m_Animations[m_iCurrentAnimIndex]->Invalidate_TransformationMatrix_Linear_Interpolation(m_fTime_Inear_Interpolation, m_Bones, m_Animations[m_iNextAnimIndex]);
+
+	if (m_fTime_Inear_Interpolation >= 0.2) {
+		m_iCurrentAnimIndex = m_iNextAnimIndex;
+		m_fTime_Inear_Interpolation = 0;
+		m_isChange_Animation = false;
+	}
+
+	return S_OK;
+}
+
+HRESULT CModel::Load_Model(string filepath)
+{
+	ifstream IFS{ filepath, ios::in | ios::binary };
+
+
+	// 1. 모델의 타입 읽기
+	IFS.read(reinterpret_cast<char*>(&m_eModelType), sizeof(TYPE));
+
+	// 2. TransformMatrix 읽기
+	IFS.read(reinterpret_cast<char*>(&m_TransformMatrix), sizeof(_float4x4));
+
+	// 3. 뼈의 개수 읽기
+	size_t iBoneNum = 0;
+	IFS.read(reinterpret_cast<char*>(&iBoneNum), sizeof(size_t));
+	
+	// 4. 개수 만큼 뼈를 읽는다
+	for (size_t i = 0; i < iBoneNum; ++i) {
+		CBone* pBone = CBone::Create(IFS);
+		if (nullptr == pBone)
+			return E_FAIL;
+
+		m_Bones.push_back(pBone);
+	}
+
+	// 5. Mesh 읽기
+	IFS.read(reinterpret_cast<char*>(&m_iNumMeshes), sizeof(_uint));
+	for (size_t i = 0; i < m_iNumMeshes; ++i) {
+		CMesh* pMesh = CMesh::Create(m_pDevice, m_pContext, m_eModelType, IFS);
+		if (nullptr == pMesh)
+			return  E_FAIL;
+
+		m_Meshes.push_back(pMesh);
+	}
+
+	// 6. 머테리얼 읽기
+	IFS.read(reinterpret_cast<char*>(&m_iNumMaterials), sizeof(_uint));
+	for (size_t i = 0; i < m_iNumMaterials; ++i) {
+		MESH_MATERIAL			MeshMaterial{};
+
+		for (size_t j = aiTextureType_DIFFUSE; j < AI_TEXTURE_TYPE_MAX; ++j) {
+			size_t iNum = 0;
+			IFS.read(reinterpret_cast<char*>(&iNum), sizeof(size_t));
+
+			if (0 != iNum) {
+				IFS.read(reinterpret_cast<char*>(&MeshMaterial.MaterialPath[j]), sizeof(_tchar) * iNum);
+				MeshMaterial.MaterialTextures[j] = CTexture::Create(m_pDevice, m_pContext, MeshMaterial.MaterialPath[j]);
+				if (nullptr == MeshMaterial.MaterialTextures[j])	// 생성 실패
+					return E_FAIL;
+			}
+
+		}
+		m_Materials.push_back(MeshMaterial);
+	}
+
+	// 7. 애니메이션
+	IFS.read(reinterpret_cast<char*>(&m_iNumAnimations), sizeof(_uint));
+	for (size_t i = 0; i < m_iNumAnimations; ++i) {
+		CAnimation* pAnimation = CAnimation::Create(IFS);
+		if (nullptr == pAnimation) {
+			return E_FAIL;
+		}
+		m_Animations.push_back(pAnimation);
+	}
+
+	IFS.close();
 
 	return S_OK;
 }
@@ -228,7 +330,8 @@ HRESULT CModel::Ready_Materials(const _char* pModelFilePath)
 			_tchar			szPerfectPath[MAX_PATH] = { L"" };
 
 			MultiByteToWideChar(CP_ACP, 0, szFullPath, (int)strlen(szFullPath), szPerfectPath, MAX_PATH);
-
+			
+			wcscpy_s(MeshMaterial.MaterialPath[j], szPerfectPath);
 			// 변환된 경로를 사용해서 텍스처 생성
 			MeshMaterial.MaterialTextures[j] = CTexture::Create(m_pDevice, m_pContext, szPerfectPath);
 			if (nullptr == MeshMaterial.MaterialTextures[j])	// 생성 실패
@@ -274,18 +377,6 @@ HRESULT CModel::Ready_Animations()
 	return S_OK;
 }
 
-HRESULT CModel::Save_NonAnimModel(ofstream& OFS)
-{
-
-
-	return S_OK;
-}
-
-HRESULT CModel::Save_AnimModel(ofstream& OFS)
-{
-	return E_FAIL;
-}
-
 CModel* CModel::Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext, TYPE eType, const string& strModelFilePath, _fmatrix TransformMatrix)
 {
 	CModel* pInstance = new CModel(pDevice, pContext);
@@ -293,6 +384,20 @@ CModel* CModel::Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext, TYP
 	if (FAILED(pInstance->Initialize_Prototype(eType, strModelFilePath, TransformMatrix)))
 	{
 		MSG_BOX(TEXT("Failed To Created : CModel"));
+
+		Safe_Release(pInstance);
+	}
+
+	return pInstance;
+}
+
+CModel* CModel::Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext, const string& strModelFilePath)
+{
+	CModel* pInstance = new CModel(pDevice, pContext);
+
+	if (FAILED(pInstance->Load_Model(strModelFilePath)))
+	{
+		MSG_BOX(TEXT("Failed To Load : CModel"));
 
 		Safe_Release(pInstance);
 	}

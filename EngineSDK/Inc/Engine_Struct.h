@@ -11,6 +11,7 @@ namespace Engine
 
 	typedef struct Mesh_Material
 	{
+		_tchar			MaterialPath[AI_TEXTURE_TYPE_MAX][MAX_PATH];
 		class CTexture* MaterialTextures[AI_TEXTURE_TYPE_MAX];
 	}MESH_MATERIAL;
 

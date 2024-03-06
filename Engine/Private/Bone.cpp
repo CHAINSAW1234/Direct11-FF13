@@ -34,6 +34,28 @@ void CBone::Invalidate_CombinedTransformationMatrix(const vector<CBone*>& Bones,
 	}
 }
 
+HRESULT CBone::Save_Bone(ofstream& OFS)
+{
+	size_t szNameLength = strlen(m_szName);
+	OFS.write(reinterpret_cast<const char*>(&szNameLength), sizeof(size_t));
+	OFS.write(reinterpret_cast<const char*>(&m_szName), sizeof(char) * szNameLength);
+	OFS.write(reinterpret_cast<const char*>(&m_TransformationMatrix), sizeof(_float4x4));
+	OFS.write(reinterpret_cast<const char*>(&m_iParentBoneIndex), sizeof(_int));
+
+	return S_OK;
+}
+
+HRESULT CBone::Load_Bone(ifstream& IFS)
+{
+	size_t szNameLength = 0;
+	IFS.read(reinterpret_cast<char*>(&szNameLength), sizeof(size_t));
+	IFS.read(reinterpret_cast<char*>(&m_szName), sizeof(_char) * szNameLength);
+	IFS.read(reinterpret_cast<char*>(&m_TransformationMatrix), sizeof(_float4x4));
+	IFS.read(reinterpret_cast<char*>(&m_iParentBoneIndex), sizeof(_int));
+	XMStoreFloat4x4(&m_CombinedTransformationMatrix, XMMatrixIdentity());
+	return S_OK;
+}
+
 CBone* CBone::Create(const aiNode* pAINode, _int iParentIndex)
 {
 	CBone*		pInstance = new CBone();
@@ -41,6 +63,20 @@ CBone* CBone::Create(const aiNode* pAINode, _int iParentIndex)
 	if (FAILED(pInstance->Initialize(pAINode, iParentIndex)))
 	{
 		MSG_BOX(TEXT("Failed To Created : CBone"));
+
+		Safe_Release(pInstance);
+	}
+
+	return pInstance;
+}
+
+CBone* CBone::Create(ifstream& IFS)
+{
+	CBone* pInstance = new CBone();
+
+	if (FAILED(pInstance->Load_Bone(IFS)))
+	{
+		MSG_BOX(TEXT("Failed To Load : CBone"));
 
 		Safe_Release(pInstance);
 	}

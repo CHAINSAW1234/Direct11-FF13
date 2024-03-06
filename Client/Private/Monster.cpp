@@ -39,7 +39,10 @@ HRESULT CMonster::Initialize(void* pArg)
 
 void CMonster::Tick(_float fTimeDelta)
 {
-
+	if (m_pGameInstance->Get_KeyState(KEY_DOWN, DIK_UPARROW))
+		m_pModelCom->Set_Animation(m_pModelCom->Get_CurrentAnimationIndex() + 1, true);
+	if (m_pGameInstance->Get_KeyState(KEY_DOWN, DIK_DOWNARROW))
+		m_pModelCom->Set_Animation(m_pModelCom->Get_CurrentAnimationIndex() - 1, true);
 }
 
 HRESULT CMonster::Late_Tick(_float fTimeDelta)

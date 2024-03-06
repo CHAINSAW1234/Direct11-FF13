@@ -12,6 +12,7 @@ C:\Users\stgo5015\Documents\GitHub\Direct11_FF13\Client\Private\Grid.cpp(83,100)
   Level_Loading.cpp
   Level_Logo.cpp
   Level_MapTool.cpp
+  Level_Parsing.cpp
   Loader.cpp
   MapObject.cpp
 C:\Users\stgo5015\Documents\GitHub\Direct11_FF13\Client\Private\MapObject.cpp(66,69): warning C4267: '인수': 'size_t'에서 'Engine::_uint'(으)로 변환하면서 데이터가 손실될 수 있습니다.
@@ -21,21 +22,21 @@ C:\Users\stgo5015\Documents\GitHub\Direct11_FF13\Client\Private\MapObject.cpp(71
   (소스 파일 '/Private/MapObject.cpp'을(를) 컴파일하는 중)
   
   MapTool.cpp
-C:\Users\stgo5015\Documents\GitHub\Direct11_FF13\Client\Private\MapTool.cpp(212,54): warning C4267: '인수': 'size_t'에서 'Engine::_uint'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+C:\Users\stgo5015\Documents\GitHub\Direct11_FF13\Client\Private\MapTool.cpp(203,54): warning C4267: '인수': 'size_t'에서 'Engine::_uint'(으)로 변환하면서 데이터가 손실될 수 있습니다.
   (소스 파일 '/Private/MapTool.cpp'을(를) 컴파일하는 중)
   
-C:\Users\stgo5015\Documents\GitHub\Direct11_FF13\Client\Private\MapTool.cpp(244,33): warning C4477: 'sprintf_s' : 서식 문자열 '%d'에 'int' 형식의 인수가 필요하지만 variadic 인수 1의 형식이 'size_t'입니다.
+C:\Users\stgo5015\Documents\GitHub\Direct11_FF13\Client\Private\MapTool.cpp(235,33): warning C4477: 'sprintf_s' : 서식 문자열 '%d'에 'int' 형식의 인수가 필요하지만 variadic 인수 1의 형식이 'size_t'입니다.
   (소스 파일 '/Private/MapTool.cpp'을(를) 컴파일하는 중)
-  C:\Users\stgo5015\Documents\GitHub\Direct11_FF13\Client\Private\MapTool.cpp(244,33):
+  C:\Users\stgo5015\Documents\GitHub\Direct11_FF13\Client\Private\MapTool.cpp(235,33):
   서식 문자열에서 '%zd'을(를) 사용하는 것이 좋습니다.
   
-C:\Users\stgo5015\Documents\GitHub\Direct11_FF13\Client\Private\MapTool.cpp(246,50): warning C4267: '=': 'size_t'에서 'Engine::_uint'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+C:\Users\stgo5015\Documents\GitHub\Direct11_FF13\Client\Private\MapTool.cpp(237,50): warning C4267: '=': 'size_t'에서 'Engine::_uint'(으)로 변환하면서 데이터가 손실될 수 있습니다.
   (소스 파일 '/Private/MapTool.cpp'을(를) 컴파일하는 중)
   
-C:\Users\stgo5015\Documents\GitHub\Direct11_FF13\Client\Private\MapTool.cpp(283,49): warning C4267: '=': 'size_t'에서 'Engine::_uint'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+C:\Users\stgo5015\Documents\GitHub\Direct11_FF13\Client\Private\MapTool.cpp(274,49): warning C4267: '=': 'size_t'에서 'Engine::_uint'(으)로 변환하면서 데이터가 손실될 수 있습니다.
   (소스 파일 '/Private/MapTool.cpp'을(를) 컴파일하는 중)
   
-C:\Users\stgo5015\Documents\GitHub\Direct11_FF13\Client\Private\MapTool.cpp(327,42): warning C4267: '=': 'size_t'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+C:\Users\stgo5015\Documents\GitHub\Direct11_FF13\Client\Private\MapTool.cpp(318,42): warning C4267: '=': 'size_t'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
   (소스 파일 '/Private/MapTool.cpp'을(를) 컴파일하는 중)
   
   Monster.cpp
@@ -45,21 +46,43 @@ C:\Users\stgo5015\Documents\GitHub\Direct11_FF13\Client\Private\Monster.cpp(35,9
 C:\Users\stgo5015\Documents\GitHub\Direct11_FF13\Client\Private\Monster.cpp(35,76): warning C4244: '인수': 'int'에서 'float'(으)로 변환하면서 데이터가 손실될 수 있습니다.
   (소스 파일 '/Private/Monster.cpp'을(를) 컴파일하는 중)
   
-C:\Users\stgo5015\Documents\GitHub\Direct11_FF13\Client\Private\Monster.cpp(69,7): warning C4267: '인수': 'size_t'에서 'Engine::_uint'(으)로 변환하면서 데이터가 손실될 수 있습니다.
-  (소스 파일 '/Private/Monster.cpp'을(를) 컴파일하는 중)
-  
 C:\Users\stgo5015\Documents\GitHub\Direct11_FF13\Client\Private\Monster.cpp(72,7): warning C4267: '인수': 'size_t'에서 'Engine::_uint'(으)로 변환하면서 데이터가 손실될 수 있습니다.
   (소스 파일 '/Private/Monster.cpp'을(를) 컴파일하는 중)
   
-C:\Users\stgo5015\Documents\GitHub\Direct11_FF13\Client\Private\Monster.cpp(79,23): warning C4267: '인수': 'size_t'에서 'Engine::_uint'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+C:\Users\stgo5015\Documents\GitHub\Direct11_FF13\Client\Private\Monster.cpp(75,7): warning C4267: '인수': 'size_t'에서 'Engine::_uint'(으)로 변환하면서 데이터가 손실될 수 있습니다.
   (소스 파일 '/Private/Monster.cpp'을(를) 컴파일하는 중)
   
+C:\Users\stgo5015\Documents\GitHub\Direct11_FF13\Client\Private\Monster.cpp(82,23): warning C4267: '인수': 'size_t'에서 'Engine::_uint'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+  (소스 파일 '/Private/Monster.cpp'을(를) 컴파일하는 중)
+  
+  ParsingTool.cpp
+C:\Users\stgo5015\Documents\GitHub\Direct11_FF13\Client\Private\ParsingTool.cpp(70,33): warning C4477: 'sprintf_s' : 서식 문자열 '%d'에 'int' 형식의 인수가 필요하지만 variadic 인수 1의 형식이 'size_t'입니다.
+  (소스 파일 '/Private/ParsingTool.cpp'을(를) 컴파일하는 중)
+  C:\Users\stgo5015\Documents\GitHub\Direct11_FF13\Client\Private\ParsingTool.cpp(70,33):
+  서식 문자열에서 '%zd'을(를) 사용하는 것이 좋습니다.
+  
+C:\Users\stgo5015\Documents\GitHub\Direct11_FF13\Client\Private\ParsingTool.cpp(72,46): warning C4267: '=': 'size_t'에서 'Engine::_uint'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+  (소스 파일 '/Private/ParsingTool.cpp'을(를) 컴파일하는 중)
+  
   Terrain.cpp
+  TestModel.cpp
+C:\Users\stgo5015\Documents\GitHub\Direct11_FF13\Client\Private\TestModel.cpp(64,7): warning C4267: '인수': 'size_t'에서 'Engine::_uint'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+  (소스 파일 '/Private/TestModel.cpp'을(를) 컴파일하는 중)
+  
+C:\Users\stgo5015\Documents\GitHub\Direct11_FF13\Client\Private\TestModel.cpp(67,7): warning C4267: '인수': 'size_t'에서 'Engine::_uint'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+  (소스 파일 '/Private/TestModel.cpp'을(를) 컴파일하는 중)
+  
+C:\Users\stgo5015\Documents\GitHub\Direct11_FF13\Client\Private\TestModel.cpp(74,23): warning C4267: '인수': 'size_t'에서 'Engine::_uint'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+  (소스 파일 '/Private/TestModel.cpp'을(를) 컴파일하는 중)
+  
   BackGround.cpp
   MainApp.cpp
   Client.cpp
   코드를 생성하고 있습니다...
-C:\Users\stgo5015\Documents\GitHub\Direct11_FF13\Client\Private\Monster.cpp(81,1): warning C4715: 'Client::CMonster::Render': 모든 제어 경로에서 값을 반환하지는 않습니다.
+C:\Users\stgo5015\Documents\GitHub\Direct11_FF13\Client\Private\TestModel.cpp(76,1): warning C4715: 'Client::CTestModel::Render': 모든 제어 경로에서 값을 반환하지는 않습니다.
+C:\Users\stgo5015\Documents\GitHub\Direct11_FF13\Client\Private\TestModel.cpp(97,1): warning C4715: 'Client::CTestModel::Add_Components': 모든 제어 경로에서 값을 반환하지는 않습니다.
+C:\Users\stgo5015\Documents\GitHub\Direct11_FF13\Client\Private\ParsingTool.cpp(31,1): warning C4715: 'Client::CParsingTool::Initialize': 모든 제어 경로에서 값을 반환하지는 않습니다.
+C:\Users\stgo5015\Documents\GitHub\Direct11_FF13\Client\Private\Monster.cpp(84,1): warning C4715: 'Client::CMonster::Render': 모든 제어 경로에서 값을 반환하지는 않습니다.
 C:\Users\stgo5015\Documents\GitHub\Direct11_FF13\Client\Private\MapObject.cpp(74,1): warning C4715: 'Client::CMapObject::Render': 모든 제어 경로에서 값을 반환하지는 않습니다.
      ../Bin/Client.lib 라이브러리 및 ../Bin/Client.exp 개체를 생성하고 있습니다.
   Client.vcxproj -> C:\Users\stgo5015\Documents\GitHub\Direct11_FF13\Client\Bin\Client.exe

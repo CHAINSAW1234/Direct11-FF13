@@ -30,6 +30,9 @@ public:
 	HRESULT Save_Mesh(CModel::TYPE eModelType, ofstream& OFS);
 
 private:
+	HRESULT Load_Mesh(CModel::TYPE eModelType, ifstream& IFS);
+
+private:
 	_char					m_szName[MAX_PATH] = { "" };	// 이 메쉬의 이름
 
 	/* 이 메시는 모델에서 로드해놓은 머테리얼들 중 몇번째 머테리얼을 이용하는가? */
@@ -45,14 +48,17 @@ private:
 
 	_uint*					m_pIndices = { nullptr };		// Picking을 위해 Indices 저장
 private:
-	HRESULT Ready_Vertices_For_NonAnimModel(const aiMesh* pAIMesh, _fmatrix TransformationMatrix);
+	HRESULT Ready_Vertices_For_NonAnimModel(const aiMesh* pAIMesh, _fmatrix TransformMatrix);
 	HRESULT Ready_Vertices_For_AnimModel(const aiMesh* pAIMesh, const vector<CBone*>& Bones);
 
-	HRESULT Save_Mesh_For_NonAnimModel(ostream& OFS);
-	HRESULT Save_Mesh_For_AnimModel(ostream& OFS);
+	HRESULT Save_Mesh_For_NonAnimModel(ofstream& OFS);
+	HRESULT Save_Mesh_For_AnimModel(ofstream& OFS);
+	HRESULT Load_Mesh_For_NonAnimModel(ifstream& IFS);
+	HRESULT Load_Mesh_For_AnimModel(istream& IFS);
 
 public:
 	static CMesh* Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext, CModel::TYPE eModelType, const aiMesh* pAIMesh, const vector<class CBone*>& Bones, _fmatrix TransformMatrix);
+	static CMesh* Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext, CModel::TYPE eModelType, ifstream& IFS);
 	virtual CMesh* Clone(void* pArg);
 	virtual void Free() override;
 };

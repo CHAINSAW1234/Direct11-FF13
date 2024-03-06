@@ -7,17 +7,21 @@ class CAnimation final : public CBase
 {
 private:
 	CAnimation();
-	CAnimation(CAnimation& rhs);
+	CAnimation(const CAnimation& rhs);
 	virtual ~CAnimation() = default;
 
 public:
 	HRESULT Initialize(const aiAnimation* pAIAnimation, const vector<class CBone*>& Bones);
 	void Invalidate_TransformationMatrix(_float fTimeDelta, const vector<class CBone*>& Bones, _bool isLoop);
+	void Invalidate_TransformationMatrix_Linear_Interpolation(_float fTimeDelta, const vector<class CBone*>& Bones, CAnimation* pNextAnimation);
+	HRESULT Save_Animation(ofstream& OFS);
 
-public:
 	_bool isFinished() const {
 		return m_isFinished;
 	}
+
+private:
+	HRESULT Load_Animation(ifstream& IFS);
 
 private:
 	_bool								m_isCloned = { false };
@@ -34,6 +38,7 @@ private:
 	_bool								m_isFinished = { false };
 public:
 	static CAnimation* Create(const aiAnimation* pAIAnimation, const vector<class CBone*>& Bones);
+	static CAnimation* Create(ifstream& IFS);
 	CAnimation* Clone();
 	virtual void Free() override;
 };

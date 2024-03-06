@@ -15,8 +15,16 @@ private:
 	virtual ~CChannel() = default;
 
 public:
+	_uint Get_iBoneIndex() { return m_iBoneIndex; }
+public:
 	HRESULT Initialize(const aiNodeAnim* pAIChannel, const vector<CBone*>& Bones);
 	void Invalidate_TransformationMatrix(const vector<CBone*>& Bones, _float fTrackPosition, _uint* pCurrentKeyFrameIndex);
+	void Invalidate_TransformationMatrix_Linear_Interpolation(const vector<CBone*>& Bones, _float fTrackPosition, _uint* pCurrentKeyFrameIndex, _float fTimeDelta, CChannel* pNextChannel);
+public:
+	HRESULT Save_Channel(ofstream& OFS);
+
+private:
+	HRESULT Load_Channel(ifstream& IFS);
 
 private:
 	_char				m_szName[MAX_PATH] = { "" };		// 이 체널이 사용하는 뼈의 이름		// 필요 한가?
@@ -26,6 +34,7 @@ private:
 
 public:
 	static CChannel* Create(const aiNodeAnim* pAIChannel, const vector<CBone*>& Bones);
+	static CChannel* Create(ifstream& IFS);
 	virtual void Free() override;
 };
 
