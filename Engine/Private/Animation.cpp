@@ -78,6 +78,14 @@ void CAnimation::Invalidate_TransformationMatrix_Linear_Interpolation(_float fTi
 
 }
 
+void CAnimation::Reset_Animation()
+{
+	m_fTrackPosition = 0;
+	for (auto& CurrentKeyFrameIndex : m_CurrentKeyFrameIndices) {
+		CurrentKeyFrameIndex = 0;
+	}
+}
+
 HRESULT CAnimation::Save_Animation(ofstream& OFS)
 {
 	size_t szNameLength = strlen(m_szName);

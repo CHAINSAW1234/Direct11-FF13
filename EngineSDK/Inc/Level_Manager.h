@@ -17,7 +17,8 @@ private:
 
 public:
 	HRESULT Initialize();
-	HRESULT Open_Level(_uint iNewLevelID, class CLevel* pNewLevel);
+	HRESULT Open_Level();
+	HRESULT Request_Open_Level(_uint iNewLevelID, class CLevel* pNewLevel);
 	void Tick(_float fTimeDelta);
 	HRESULT Render();
 
@@ -25,7 +26,7 @@ public:
 private:
 	_uint					m_iCurrentLevelID = { 0 };
 	class CLevel*			m_pCurrentLevel = { nullptr };
-
+	queue<pair<_uint, class CLevel*>>	m_queueRequestLevel;
 public:
 	static CLevel_Manager* Create();
 	virtual void Free() override;

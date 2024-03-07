@@ -106,7 +106,7 @@ HRESULT CModel::Bind_ShaderResource(CShader* pShader, const _char* pConstantName
 
 HRESULT CModel::Play_Animation(_float fTimeDelta)
 {
-	if (m_isChange_Animation) {
+	if (INFINITE != m_iNextAnimIndex) {
 		Play_Animation_Linear_Interpolation(fTimeDelta);
 	}
 	else {
@@ -196,9 +196,11 @@ HRESULT CModel::Play_Animation_Linear_Interpolation(_float fTimeDelta)
 	m_Animations[m_iCurrentAnimIndex]->Invalidate_TransformationMatrix_Linear_Interpolation(m_fTime_Inear_Interpolation, m_Bones, m_Animations[m_iNextAnimIndex]);
 
 	if (m_fTime_Inear_Interpolation >= 0.2) {
+		m_Animations[m_iCurrentAnimIndex]->Reset_Animation();
 		m_iCurrentAnimIndex = m_iNextAnimIndex;
+		m_iNextAnimIndex = INFINITE;
 		m_fTime_Inear_Interpolation = 0;
-		m_isChange_Animation = false;
+
 	}
 
 	return S_OK;

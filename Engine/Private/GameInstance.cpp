@@ -76,8 +76,8 @@ void CGameInstance::Tick_Engine(_float fTimeDelta)
 
 	m_pInput_Device->Tick();
 
+	m_pLevel_Manager->Open_Level();
 	m_pObject_Manager->Tick(fTimeDelta);
-
 	m_pPipeLine->Tick();
 
 	m_pPicking->Update(m_pPipeLine);
@@ -166,7 +166,7 @@ HRESULT CGameInstance::Open_Level(_uint iNewLevelID, CLevel * pNewLevel)
 	if (nullptr == m_pLevel_Manager)
 		return E_FAIL;
 
-	return m_pLevel_Manager->Open_Level(iNewLevelID, pNewLevel);
+	return m_pLevel_Manager->Request_Open_Level(iNewLevelID, pNewLevel);
 }
 
 HRESULT CGameInstance::Add_Prototype(const wstring & strPrototypeTag, CGameObject * pPrototype)

@@ -29,12 +29,11 @@ public:
 	void Set_Animation(_uint iAnimIndex, _bool isLoop) {
 		m_isLoop = isLoop;
 
-
 		// 이하 statement는 선형 보간을 위함
-		m_iNextAnimIndex = iAnimIndex;
-		m_isChange_Animation = true;
-		m_fTime_Inear_Interpolation = 0;
-
+		if (iAnimIndex < m_iNumAnimations) {
+			m_iNextAnimIndex = iAnimIndex;
+			m_fTime_Inear_Interpolation = 0;
+		}
 	}
 
 	void Set_TransformMatrix(_float4x4 TransformMatrix) {
@@ -97,7 +96,6 @@ private:
 	// 이전 애니메이션 인덱스를 저장
 	_uint						m_iNextAnimIndex = { INFINITE };
 	_float						m_fTime_Inear_Interpolation = { 0.f};
-	_bool						m_isChange_Animation = { false };
 	
 private:
 	HRESULT Ready_Meshes();
