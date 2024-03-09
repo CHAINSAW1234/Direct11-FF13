@@ -56,6 +56,9 @@ HRESULT CMapObject::Late_Tick(_float fTimeDelta)
 
 HRESULT CMapObject::Render()
 {
+    if (FAILED(Set_RenderState()))
+        return E_FAIL;
+
     //for test
     if (FAILED(Bind_ShaderResources()))
         return E_FAIL;
@@ -70,6 +73,9 @@ HRESULT CMapObject::Render()
 
         m_pModelCom->Render(i);
     }
+
+    if (FAILED(Reset_RenderState()))
+        return E_FAIL;
 
 }
 
@@ -105,6 +111,67 @@ HRESULT CMapObject::Bind_ShaderResources()
         return E_FAIL;
     if (FAILED(m_pShaderCom->Bind_Matrix("g_ProjMatrix", &m_pGameInstance->Get_Transform_Float4x4(CPipeLine::D3DTS_PROJ))))
         return E_FAIL;
+
+    return S_OK;
+}
+
+HRESULT CMapObject::Set_RenderState()
+{
+    D3D11_RASTERIZER_DESC RSDesc = {};
+
+    //D3D11_FILL_MODE FillMode;
+    //D3D11_CULL_MODE CullMode;
+    //BOOL FrontCounterClockwise;
+    //INT DepthBias;
+    //FLOAT DepthBiasClamp;
+    //FLOAT SlopeScaledDepthBias;
+    //BOOL DepthClipEnable;
+    //BOOL ScissorEnable;
+    //BOOL MultisampleEnable;
+    //BOOL AntialiasedLineEnable;
+
+    RSDesc.FillMode = D3D11_FILL_SOLID;
+    RSDesc.CullMode = D3D11_CULL_NONE;
+    RSDesc.FrontCounterClockwise = FALSE;
+    RSDesc.DepthBias = 0;
+    RSDesc.DepthBiasClamp = 0.f;
+    RSDesc.SlopeScaledDepthBias = 0.f;
+    RSDesc.DepthClipEnable = TRUE;
+    RSDesc.ScissorEnable = FALSE;
+    RSDesc.MultisampleEnable = FALSE;
+    RSDesc.AntialiasedLineEnable = FALSE;
+
+    ID3D11RasterizerState* RSState = { nullptr };
+
+    if (FAILED(m_pDevice->CreateRasterizerState(&RSDesc, &RSState)))
+        return E_FAIL;
+
+    m_pContext->RSSetState(RSState);
+
+    return S_OK;
+}
+
+HRESULT CMapObject::Reset_RenderState()
+{
+    D3D11_RASTERIZER_DESC RSDesc = {};
+    RSDesc.FillMode = D3D11_FILL_SOLID;
+    RSDesc.CullMode = D3D11_CULL_BACK;
+    RSDesc.FrontCounterClockwise = FALSE;
+    RSDesc.DepthBias = 0;
+    RSDesc.DepthBiasClamp = 0.f;
+    RSDesc.SlopeScaledDepthBias = 0.f;
+    RSDesc.DepthClipEnable = TRUE;
+    RSDesc.ScissorEnable = FALSE;
+    RSDesc.MultisampleEnable = FALSE;
+    RSDesc.AntialiasedLineEnable = FALSE;
+
+
+    ID3D11RasterizerState* RSState;
+
+    if (FAILED(m_pDevice->CreateRasterizerState(&RSDesc, &RSState)))
+        return E_FAIL;
+
+    m_pContext->RSSetState(RSState);
 
     return S_OK;
 }

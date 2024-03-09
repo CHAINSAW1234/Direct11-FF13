@@ -165,8 +165,9 @@ HRESULT CLoader::Loading_For_GamePlay()
 	m_strLoadingText = TEXT("텍스쳐를(을) 로딩 중 입니다.");
 	///* Prototype_Component_Texture_Terrain */
 	if (FAILED(m_pGameInstance->Add_Prototype(eLevel, TEXT("Prototype_Component_Texture_Terrain"),
-		CTexture::Create(m_pDevice, m_pContext, TEXT("../Bin/Resources/Textures/Terrain/Tile%d.jpg")))))
+		CTexture::Create(m_pDevice, m_pContext, TEXT("../Bin/Resources/Textures/Terrain/Tile%d.dds"), 2))))
 		return E_FAIL;
+
 
 	///* Prototype_Component_Texture_Player */
 	//if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_GAMEPLAY, TEXT("Prototype_Component_Texture_Player"),
@@ -263,7 +264,7 @@ HRESULT CLoader::Loading_For_MapTool()
 
 	///* Prototype_Component_Texture_Terrain */
 	if (FAILED(m_pGameInstance->Add_Prototype(eLevel, TEXT("Prototype_Component_Texture_PrevMapObject"),
-		CTexture::Create(m_pDevice, m_pContext, TEXT("../Bin/Resources/Models/MapObject/PrevMapObject/map%d.jpg"),15))))
+		CTexture::Create(m_pDevice, m_pContext, TEXT("../Bin/Resources/Models/MapObject/PrevMapObject/Map%d.jpg"),4))))
 		return E_FAIL;
 
 	m_strLoadingText = TEXT("모델를(을) 로딩 중 입니다.");
@@ -278,23 +279,26 @@ HRESULT CLoader::Loading_For_MapTool()
 		CVIBuffer_Line::Create(m_pDevice, m_pContext))))
 		return E_FAIL;
 
-	for (size_t i = 0; i < 15; ++i) {
 
-		// 상단 : fbx, 하단 : 바이너리 메쉬
-	/*	wstring tag = L"Prototype_Component_Model_MapObject" + to_wstring(i);
-		string path = "../Bin/Resources/Models/MapObject/MapObject/map" + to_string(i) + ".fbx";
-		if (FAILED(m_pGameInstance->Add_Prototype(eLevel, tag,
-			CModel::Create(m_pDevice, m_pContext, CModel::TYPE_NONANIM, path, XMMatrixIdentity()))))
-			return E_FAIL;*/
+	// 주석으로 바이너리 변경 하기
+	string tag = ".fbx";
+	//string tag = ".bin";
 
-		wstring tag = L"Prototype_Component_Model_MapObject" + to_wstring(i);
-		string path = "../Bin/Resources/Models/MapObject/MapObject/map" + to_string(i) + ".bin";
-		if (FAILED(m_pGameInstance->Add_Prototype(eLevel, tag,
-			CModel::Create(m_pDevice, m_pContext, path))))
-			return E_FAIL;
+	if (FAILED(m_pGameInstance->Add_Prototype(eLevel, TEXT("Prototype_Component_Model_Map_Field"),
+		CModel::Create(m_pDevice, m_pContext, CModel::TYPE_NONANIM, "../Bin/Resources/Models/MapObject/MapObject/Map_Field" + tag, XMMatrixIdentity()))))
+		return E_FAIL;
 
-	}
+	if (FAILED(m_pGameInstance->Add_Prototype(eLevel, TEXT("Prototype_Component_Model_Map_Battle"),
+		CModel::Create(m_pDevice, m_pContext, CModel::TYPE_NONANIM, "../Bin/Resources/Models/MapObject/MapObject/Map_Battle" + tag, XMMatrixIdentity()))))
+		return E_FAIL;
 
+	if (FAILED(m_pGameInstance->Add_Prototype(eLevel, TEXT("Prototype_Component_Model_Map_BossBattle_1"),
+		CModel::Create(m_pDevice, m_pContext, CModel::TYPE_NONANIM, "../Bin/Resources/Models/MapObject/MapObject/Map_BossBattle_1" + tag, XMMatrixIdentity()))))
+		return E_FAIL;
+
+	if (FAILED(m_pGameInstance->Add_Prototype(eLevel, TEXT("Prototype_Component_Model_Map_BossBattle_2"),
+		CModel::Create(m_pDevice, m_pContext, CModel::TYPE_NONANIM, "../Bin/Resources/Models/MapObject/MapObject/Map_BossBattle_2" + tag, XMMatrixIdentity()))))
+		return E_FAIL;
 
 #pragma endregion 
 

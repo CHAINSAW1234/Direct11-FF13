@@ -110,10 +110,10 @@ HRESULT CMapTool::Add_Components()
         TEXT("Com_Texture"), (CComponent**)&m_PrevTextures)))
         return E_FAIL;
 
-    for (size_t i = 0; i < m_PrevTextures->Get_NumTextures(); ++i) {
-        wstring str = L"Prototype_Component_Model_MapObject" + to_wstring(i);
-        m_strModelTags.push_back(str);
-    }
+    m_strModelTags.push_back(TEXT("Prototype_Component_Model_Map_Field"));
+    m_strModelTags.push_back(TEXT("Prototype_Component_Model_Map_Battle"));
+    m_strModelTags.push_back(TEXT("Prototype_Component_Model_Map_BossBattle_1"));
+    m_strModelTags.push_back(TEXT("Prototype_Component_Model_Map_BossBattle_2"));
 
     return S_OK;
 }
@@ -232,7 +232,11 @@ void CMapTool::ModelList_Window()
             {
                 const bool is_selected = (m_iCurrent_MapObject_Index == i);
                 char name[26];
-                sprintf_s(name, "MapObject %d", i);
+                wstring wstrModelTag = m_MapObjects[i]->Get_ModelTag();
+                string strModelTag;
+                strModelTag.assign(wstrModelTag.begin(), wstrModelTag.end());
+                strModelTag = strModelTag.substr(26);
+                sprintf_s(name, sizeof(name), strModelTag.c_str());
                 if (ImGui::Selectable(name, is_selected)) {
                     m_iCurrent_MapObject_Index = i;
                     m_pTargetObject = m_MapObjects[m_iCurrent_MapObject_Index];

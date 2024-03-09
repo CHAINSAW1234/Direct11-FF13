@@ -46,6 +46,9 @@ private:
 private:
 	HRESULT Add_Components();
 	HRESULT Bind_ShaderResources();
+	HRESULT Set_RenderState();
+	HRESULT Reset_RenderState();
+
 
 public:
 	static CMapObject* Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);
