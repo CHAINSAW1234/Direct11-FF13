@@ -69,16 +69,21 @@ HRESULT CLoader::Start()
 	switch (m_eNextLevelID)
 	{
 	case LEVEL_LOGO:
-		hr = Loading_For_Logo();
 		g_Level = LEVEL_LOGO;
+		hr = Loading_For_Logo();
 		break;
 	case LEVEL_GAMEPLAY:
-		hr = Loading_For_GamePlay();
 		g_Level = LEVEL_GAMEPLAY;
+		hr = Loading_For_GamePlay();
 		break;
+	case LEVEL_FIELD:
+		g_Level = LEVEL_FIELD;
+		hr = Loading_For_Field();
+		break;
+
 	case LEVEL_MAPTOOL:
-		hr = Loading_For_MapTool();
 		g_Level = LEVEL_MAPTOOL;
+		hr = Loading_For_MapTool();
 		break;
 	case LEVEL_PARSING:
 		hr = S_OK;
@@ -161,10 +166,9 @@ HRESULT CLoader::Loading_For_Logo()
 
 HRESULT CLoader::Loading_For_GamePlay()
 {
-	LEVEL eLevel = LEVEL_GAMEPLAY;
 	m_strLoadingText = TEXT("텍스쳐를(을) 로딩 중 입니다.");
 	///* Prototype_Component_Texture_Terrain */
-	if (FAILED(m_pGameInstance->Add_Prototype(eLevel, TEXT("Prototype_Component_Texture_Terrain"),
+	if (FAILED(m_pGameInstance->Add_Prototype(g_Level, TEXT("Prototype_Component_Texture_Terrain"),
 		CTexture::Create(m_pDevice, m_pContext, TEXT("../Bin/Resources/Textures/Terrain/Tile%d.dds"), 2))))
 		return E_FAIL;
 
@@ -191,7 +195,7 @@ HRESULT CLoader::Loading_For_GamePlay()
 	//
 	m_strLoadingText = TEXT("모델를(을) 로딩 중 입니다.");
 	/* Prototype_Component_VIBuffer_Terrain */
-	if (FAILED(m_pGameInstance->Add_Prototype(eLevel, TEXT("Prototype_Component_VIBuffer_Terrain"),
+	if (FAILED(m_pGameInstance->Add_Prototype(g_Level, TEXT("Prototype_Component_VIBuffer_Terrain"),
 		CVIBuffer_Terrain::Create(m_pDevice, m_pContext, TEXT("../Bin/Resources/Textures/Terrain/Height.bmp")))))
 		return E_FAIL;
 
@@ -201,7 +205,7 @@ HRESULT CLoader::Loading_For_GamePlay()
 	TransformMatrix = XMMatrixRotationY(XMConvertToRadians(180.0f));
 
 	// 상단 fbx, 하단, bin
-	if (FAILED(m_pGameInstance->Add_Prototype(eLevel, TEXT("Prototype_Component_Model_Fiona"),
+	if (FAILED(m_pGameInstance->Add_Prototype(g_Level, TEXT("Prototype_Component_Model_Fiona"),
 		CModel::Create(m_pDevice, m_pContext, CModel::TYPE_ANIM, "../Bin/Resources/Models/Fiona/Fiona.fbx", TransformMatrix))))
 		return E_FAIL;
 
@@ -212,7 +216,7 @@ HRESULT CLoader::Loading_For_GamePlay()
 	/* Prototype_Component_Model_ForkLift */
 	TransformMatrix = XMMatrixScaling(0.01f, 0.01f, 0.01f) * XMMatrixRotationY(XMConvertToRadians(180.0f));
 
-	if (FAILED(m_pGameInstance->Add_Prototype(eLevel, TEXT("Prototype_Component_Model_ForkLift"),
+	if (FAILED(m_pGameInstance->Add_Prototype(g_Level, TEXT("Prototype_Component_Model_ForkLift"),
 		CModel::Create(m_pDevice, m_pContext, CModel::TYPE_NONANIM, "../Bin/Resources/Models/ForkLift/ForkLift.fbx", TransformMatrix))))
 		return E_FAIL;
 
@@ -254,16 +258,15 @@ HRESULT CLoader::Loading_For_GamePlay()
 
 HRESULT CLoader::Loading_For_MapTool()
 {
-	LEVEL eLevel = LEVEL_MAPTOOL;
 	m_strLoadingText = TEXT("텍스쳐를(을) 로딩 중 입니다.");
 
 	///* Prototype_Component_Texture_Terrain */
-	if (FAILED(m_pGameInstance->Add_Prototype(eLevel, TEXT("Prototype_Component_Texture_Terrain"),
+	if (FAILED(m_pGameInstance->Add_Prototype(g_Level, TEXT("Prototype_Component_Texture_Terrain"),
 		CTexture::Create(m_pDevice, m_pContext, TEXT("../Bin/Resources/Textures/Terrain/Tile%d.jpg")))))
 		return E_FAIL;
 
 	///* Prototype_Component_Texture_Terrain */
-	if (FAILED(m_pGameInstance->Add_Prototype(eLevel, TEXT("Prototype_Component_Texture_PrevMapObject"),
+	if (FAILED(m_pGameInstance->Add_Prototype(g_Level, TEXT("Prototype_Component_Texture_PrevMapObject"),
 		CTexture::Create(m_pDevice, m_pContext, TEXT("../Bin/Resources/Models/MapObject/PrevMapObject/Map%d.jpg"),4))))
 		return E_FAIL;
 
@@ -271,33 +274,33 @@ HRESULT CLoader::Loading_For_MapTool()
 
 #pragma region 모델 로딩
 	/* Prototype_Component_VIBuffer_Terrain */
-	if (FAILED(m_pGameInstance->Add_Prototype(eLevel, TEXT("Prototype_Component_VIBuffer_Terrain"),
+	if (FAILED(m_pGameInstance->Add_Prototype(g_Level, TEXT("Prototype_Component_VIBuffer_Terrain"),
 		CVIBuffer_Terrain::Create(m_pDevice, m_pContext, TEXT("../Bin/Resources/Textures/Terrain/Height.bmp")))))
 		return E_FAIL;
 
-	if (FAILED(m_pGameInstance->Add_Prototype(eLevel, TEXT("Prototype_Component_VIBuffer_Line"),
+	if (FAILED(m_pGameInstance->Add_Prototype(g_Level, TEXT("Prototype_Component_VIBuffer_Line"),
 		CVIBuffer_Line::Create(m_pDevice, m_pContext))))
 		return E_FAIL;
 
 
 	// 주석으로 바이너리 변경 하기
-	string tag = ".fbx";
-	//string tag = ".bin";
+	//string tag = ".fbx";
+	string tag = ".bin";
 
-	if (FAILED(m_pGameInstance->Add_Prototype(eLevel, TEXT("Prototype_Component_Model_Map_Field"),
-		CModel::Create(m_pDevice, m_pContext, CModel::TYPE_NONANIM, "../Bin/Resources/Models/MapObject/MapObject/Map_Field" + tag, XMMatrixIdentity()))))
+	if (FAILED(m_pGameInstance->Add_Prototype(g_Level, TEXT("Prototype_Component_Model_Map_Field"),
+		CModel::Create(m_pDevice, m_pContext, /*CModel::TYPE_NONANIM,*/ "../Bin/Resources/Models/MapObject/MapObject/Map_Field" + tag/*, XMMatrixIdentity()*/))))
 		return E_FAIL;
 
-	if (FAILED(m_pGameInstance->Add_Prototype(eLevel, TEXT("Prototype_Component_Model_Map_Battle"),
-		CModel::Create(m_pDevice, m_pContext, CModel::TYPE_NONANIM, "../Bin/Resources/Models/MapObject/MapObject/Map_Battle" + tag, XMMatrixIdentity()))))
+	if (FAILED(m_pGameInstance->Add_Prototype(g_Level, TEXT("Prototype_Component_Model_Map_Battle"),
+		CModel::Create(m_pDevice, m_pContext, /*CModel::TYPE_NONANIM,*/ "../Bin/Resources/Models/MapObject/MapObject/Map_Battle" + tag/*, XMMatrixIdentity()*/))))
 		return E_FAIL;
 
-	if (FAILED(m_pGameInstance->Add_Prototype(eLevel, TEXT("Prototype_Component_Model_Map_BossBattle_1"),
-		CModel::Create(m_pDevice, m_pContext, CModel::TYPE_NONANIM, "../Bin/Resources/Models/MapObject/MapObject/Map_BossBattle_1" + tag, XMMatrixIdentity()))))
+	if (FAILED(m_pGameInstance->Add_Prototype(g_Level, TEXT("Prototype_Component_Model_Map_BossBattle_1"),
+		CModel::Create(m_pDevice, m_pContext, /*CModel::TYPE_NONANIM,*/ "../Bin/Resources/Models/MapObject/MapObject/Map_BossBattle_1" + tag/*, XMMatrixIdentity()*/))))
 		return E_FAIL;
 
-	if (FAILED(m_pGameInstance->Add_Prototype(eLevel, TEXT("Prototype_Component_Model_Map_BossBattle_2"),
-		CModel::Create(m_pDevice, m_pContext, CModel::TYPE_NONANIM, "../Bin/Resources/Models/MapObject/MapObject/Map_BossBattle_2" + tag, XMMatrixIdentity()))))
+	if (FAILED(m_pGameInstance->Add_Prototype(g_Level, TEXT("Prototype_Component_Model_Map_BossBattle_2"),
+		CModel::Create(m_pDevice, m_pContext, /*CModel::TYPE_NONANIM,*/ "../Bin/Resources/Models/MapObject/MapObject/Map_BossBattle_2" + tag/*, XMMatrixIdentity()*/))))
 		return E_FAIL;
 
 #pragma endregion 
@@ -310,6 +313,34 @@ HRESULT CLoader::Loading_For_MapTool()
 	m_strLoadingText = TEXT("MAP TOOL LEVEL의 로딩이 완료되었습니다.");
 
 	m_isFinished = true;
+	return S_OK;
+}
+
+HRESULT CLoader::Loading_For_Field()
+{
+
+	m_strLoadingText = TEXT("텍스쳐를(을) 로딩 중 입니다.");
+
+	m_strLoadingText = TEXT("모델를(을) 로딩 중 입니다.");
+
+	string tag = ".bin";
+	if (FAILED(m_pGameInstance->Add_Prototype(g_Level, TEXT("Prototype_Component_Model_Map_Field"),
+		CModel::Create(m_pDevice, m_pContext, "../Bin/Resources/Models/MapObject/MapObject/Map_Field" + tag))))
+		return E_FAIL;
+
+	m_strLoadingText = TEXT("셰이더를(을) 로딩 중 입니다.");
+
+	m_strLoadingText = TEXT("객체의 원형를(을) 로딩 중 입니다.");
+
+	m_strLoadingText = TEXT("로딩이 완료되었습니다.");
+
+
+	m_isFinished = true;
+	return S_OK;
+}
+
+HRESULT CLoader::Loading_For_Battle()
+{
 	return S_OK;
 }
 

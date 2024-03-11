@@ -37,8 +37,9 @@ HRESULT CMainApp::Initialize()
 	LEVEL eLevel;
 
 	//eLevel = LEVEL_GAMEPLAY;
-	eLevel = LEVEL_MAPTOOL;
+	//eLevel = LEVEL_MAPTOOL;
 	//eLevel = LEVEL_PARSING;
+	eLevel = LEVEL_FIELD;
 
 	if (FAILED(Open_Level(eLevel)))
 		return E_FAIL;

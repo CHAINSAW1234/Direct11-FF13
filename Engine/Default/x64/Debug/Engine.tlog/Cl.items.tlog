@@ -5,6 +5,8 @@ C:\Users\stgo5015\Documents\GitHub\Direct11_FF13\Engine\Private\Camera.cpp;C:\Us
 C:\Users\stgo5015\Documents\GitHub\Direct11_FF13\Engine\Private\Channel.cpp;C:\Users\stgo5015\Documents\GitHub\Direct11_FF13\Engine\Default\x64\Debug\Channel.obj
 C:\Users\stgo5015\Documents\GitHub\Direct11_FF13\Engine\Private\Component.cpp;C:\Users\stgo5015\Documents\GitHub\Direct11_FF13\Engine\Default\x64\Debug\Component.obj
 C:\Users\stgo5015\Documents\GitHub\Direct11_FF13\Engine\Private\Component_Manager.cpp;C:\Users\stgo5015\Documents\GitHub\Direct11_FF13\Engine\Default\x64\Debug\Component_Manager.obj
+C:\Users\stgo5015\Documents\GitHub\Direct11_FF13\Engine\Private\FSM.cpp;C:\Users\stgo5015\Documents\GitHub\Direct11_FF13\Engine\Default\x64\Debug\FSM.obj
+C:\Users\stgo5015\Documents\GitHub\Direct11_FF13\Engine\Private\FSM_State.cpp;C:\Users\stgo5015\Documents\GitHub\Direct11_FF13\Engine\Default\x64\Debug\FSM_State.obj
 C:\Users\stgo5015\Documents\GitHub\Direct11_FF13\Engine\Private\GameInstance.cpp;C:\Users\stgo5015\Documents\GitHub\Direct11_FF13\Engine\Default\x64\Debug\GameInstance.obj
 C:\Users\stgo5015\Documents\GitHub\Direct11_FF13\Engine\Private\GameObject.cpp;C:\Users\stgo5015\Documents\GitHub\Direct11_FF13\Engine\Default\x64\Debug\GameObject.obj
 C:\Users\stgo5015\Documents\GitHub\Direct11_FF13\Engine\Private\Graphic_Device.cpp;C:\Users\stgo5015\Documents\GitHub\Direct11_FF13\Engine\Default\x64\Debug\Graphic_Device.obj

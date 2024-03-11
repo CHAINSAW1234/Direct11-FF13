@@ -148,6 +148,8 @@ HRESULT CMapObject::Set_RenderState()
 
     m_pContext->RSSetState(RSState);
 
+    Safe_Release(RSState);
+
     return S_OK;
 }
 
@@ -165,13 +167,14 @@ HRESULT CMapObject::Reset_RenderState()
     RSDesc.MultisampleEnable = FALSE;
     RSDesc.AntialiasedLineEnable = FALSE;
 
-
     ID3D11RasterizerState* RSState;
 
     if (FAILED(m_pDevice->CreateRasterizerState(&RSDesc, &RSState)))
         return E_FAIL;
 
     m_pContext->RSSetState(RSState);
+
+    Safe_Release(RSState);
 
     return S_OK;
 }

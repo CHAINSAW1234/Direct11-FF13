@@ -13,6 +13,13 @@ C:\Users\stgo5015\Documents\GitHub\Direct11_FF13\Engine\Private\Channel.cpp(47,4
 C:\Users\stgo5015\Documents\GitHub\Direct11_FF13\Engine\Private\Channel.cpp(110,22): warning C4244: '=': 'double'에서 'Engine::_float'(으)로 변환하면서 데이터가 손실될 수 있습니다.
   Component.cpp
   Component_Manager.cpp
+  FSM.cpp
+C:\Users\stgo5015\Documents\GitHub\Direct11_FF13\Engine\Public\FSM.h(9,17): warning C4099: 'std::unordered_map<Engine::_uint,Engine::CFSM_State *,std::hash<Engine::_uint>,std::equal_to<Engine::_uint>,std::allocator<std::pair<const Engine::_uint,Engine::CFSM_State *>>>': 처음에는 'class'을(를) 사용하여 형식 이름을 표시했는데 이제는 'struct'을(를) 사용하여 표시합니다.
+  (소스 파일 '../Private/FSM.cpp'을(를) 컴파일하는 중)
+  C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.39.33519\include\unordered_map(66,7):
+  'std::unordered_map<Engine::_uint,Engine::CFSM_State *,std::hash<Engine::_uint>,std::equal_to<Engine::_uint>,std::allocator<std::pair<const Engine::_uint,Engine::CFSM_State *>>>' 선언을 참조하십시오.
+  
+  FSM_State.cpp
   GameInstance.cpp
   GameObject.cpp
   Graphic_Device.cpp
@@ -21,39 +28,41 @@ C:\Users\stgo5015\Documents\GitHub\Direct11_FF13\Engine\Private\Channel.cpp(110,
   Level.cpp
   Level_Manager.cpp
   Mesh.cpp
-C:\Users\stgo5015\Documents\GitHub\Direct11_FF13\Engine\Private\Mesh.cpp(339,26): warning C4244: '인수': '__int64'에서 '_Ty'(으)로 변환하면서 데이터가 손실될 수 있습니다.
-C:\Users\stgo5015\Documents\GitHub\Direct11_FF13\Engine\Private\Mesh.cpp(339,26): warning C4244:         with
-C:\Users\stgo5015\Documents\GitHub\Direct11_FF13\Engine\Private\Mesh.cpp(339,26): warning C4244:         [
-C:\Users\stgo5015\Documents\GitHub\Direct11_FF13\Engine\Private\Mesh.cpp(339,26): warning C4244:             _Ty=Engine::_uint
-C:\Users\stgo5015\Documents\GitHub\Direct11_FF13\Engine\Private\Mesh.cpp(339,26): warning C4244:         ]
-C:\Users\stgo5015\Documents\GitHub\Direct11_FF13\Engine\Private\Mesh.cpp(351,65): warning C4267: '=': 'size_t'에서 'uint32_t'(으)로 변환하면서 데이터가 손실될 수 있습니다.
-C:\Users\stgo5015\Documents\GitHub\Direct11_FF13\Engine\Private\Mesh.cpp(356,65): warning C4267: '=': 'size_t'에서 'uint32_t'(으)로 변환하면서 데이터가 손실될 수 있습니다.
-C:\Users\stgo5015\Documents\GitHub\Direct11_FF13\Engine\Private\Mesh.cpp(361,65): warning C4267: '=': 'size_t'에서 'uint32_t'(으)로 변환하면서 데이터가 손실될 수 있습니다.
-C:\Users\stgo5015\Documents\GitHub\Direct11_FF13\Engine\Private\Mesh.cpp(366,65): warning C4267: '=': 'size_t'에서 'uint32_t'(으)로 변환하면서 데이터가 손실될 수 있습니다.
-C:\Users\stgo5015\Documents\GitHub\Direct11_FF13\Engine\Private\Mesh.cpp(380,26): warning C4244: '인수': '__int64'에서 '_Ty'(으)로 변환하면서 데이터가 손실될 수 있습니다.
-C:\Users\stgo5015\Documents\GitHub\Direct11_FF13\Engine\Private\Mesh.cpp(380,26): warning C4244:         with
-C:\Users\stgo5015\Documents\GitHub\Direct11_FF13\Engine\Private\Mesh.cpp(380,26): warning C4244:         [
-C:\Users\stgo5015\Documents\GitHub\Direct11_FF13\Engine\Private\Mesh.cpp(380,26): warning C4244:             _Ty=Engine::_uint
-C:\Users\stgo5015\Documents\GitHub\Direct11_FF13\Engine\Private\Mesh.cpp(380,26): warning C4244:         ]
+C:\Users\stgo5015\Documents\GitHub\Direct11_FF13\Engine\Private\Mesh.cpp(89,19): warning C4305: '초기화 중': 'unsigned int'에서 'Engine::_float'(으)로 잘립니다.
+C:\Users\stgo5015\Documents\GitHub\Direct11_FF13\Engine\Private\Mesh.cpp(342,26): warning C4244: '인수': '__int64'에서 '_Ty'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+C:\Users\stgo5015\Documents\GitHub\Direct11_FF13\Engine\Private\Mesh.cpp(342,26): warning C4244:         with
+C:\Users\stgo5015\Documents\GitHub\Direct11_FF13\Engine\Private\Mesh.cpp(342,26): warning C4244:         [
+C:\Users\stgo5015\Documents\GitHub\Direct11_FF13\Engine\Private\Mesh.cpp(342,26): warning C4244:             _Ty=Engine::_uint
+C:\Users\stgo5015\Documents\GitHub\Direct11_FF13\Engine\Private\Mesh.cpp(342,26): warning C4244:         ]
+C:\Users\stgo5015\Documents\GitHub\Direct11_FF13\Engine\Private\Mesh.cpp(354,65): warning C4267: '=': 'size_t'에서 'uint32_t'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+C:\Users\stgo5015\Documents\GitHub\Direct11_FF13\Engine\Private\Mesh.cpp(359,65): warning C4267: '=': 'size_t'에서 'uint32_t'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+C:\Users\stgo5015\Documents\GitHub\Direct11_FF13\Engine\Private\Mesh.cpp(364,65): warning C4267: '=': 'size_t'에서 'uint32_t'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+C:\Users\stgo5015\Documents\GitHub\Direct11_FF13\Engine\Private\Mesh.cpp(369,65): warning C4267: '=': 'size_t'에서 'uint32_t'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+C:\Users\stgo5015\Documents\GitHub\Direct11_FF13\Engine\Private\Mesh.cpp(383,26): warning C4244: '인수': '__int64'에서 '_Ty'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+C:\Users\stgo5015\Documents\GitHub\Direct11_FF13\Engine\Private\Mesh.cpp(383,26): warning C4244:         with
+C:\Users\stgo5015\Documents\GitHub\Direct11_FF13\Engine\Private\Mesh.cpp(383,26): warning C4244:         [
+C:\Users\stgo5015\Documents\GitHub\Direct11_FF13\Engine\Private\Mesh.cpp(383,26): warning C4244:             _Ty=Engine::_uint
+C:\Users\stgo5015\Documents\GitHub\Direct11_FF13\Engine\Private\Mesh.cpp(383,26): warning C4244:         ]
   Model.cpp
-C:\Users\stgo5015\Documents\GitHub\Direct11_FF13\Engine\Private\Model.cpp(361,38): warning C4267: '인수': 'size_t'에서 'Engine::_int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+C:\Users\stgo5015\Documents\GitHub\Direct11_FF13\Engine\Private\Model.cpp(360,38): warning C4267: '인수': 'size_t'에서 'Engine::_int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
   Object_Manager.cpp
   Picking.cpp
-  PipeLine.cpp
-  Renderer.cpp
   코드를 생성하고 있습니다...
   컴파일하고 있습니다...
+  PipeLine.cpp
+  Renderer.cpp
+  Shader.cpp
+  Texture.cpp
   Timer.cpp
   Timer_Manager.cpp
   Transform.cpp
-  VIBuffer_Line.cpp
-  VIBuffer_Terrain.cpp
-C:\Users\stgo5015\Documents\GitHub\Direct11_FF13\Engine\Private\VIBuffer_Terrain.cpp(184,18): warning C4267: '초기화 중': 'size_t'에서 'Engine::_uint'(으)로 변환하면서 데이터가 손실될 수 있습니다.
-  Engine_Struct.cpp
-  Shader.cpp
-  Texture.cpp
   VIBuffer.cpp
+  VIBuffer_Line.cpp
   VIBuffer_Rect.cpp
+  VIBuffer_Terrain.cpp
+C:\Users\stgo5015\Documents\GitHub\Direct11_FF13\Engine\Private\VIBuffer_Terrain.cpp(178,19): warning C4305: '초기화 중': 'unsigned int'에서 'Engine::_float'(으)로 잘립니다.
+C:\Users\stgo5015\Documents\GitHub\Direct11_FF13\Engine\Private\VIBuffer_Terrain.cpp(187,18): warning C4267: '초기화 중': 'size_t'에서 'Engine::_uint'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+  Engine_Struct.cpp
   코드를 생성하고 있습니다...
 DirectXTKd.lib(DDSTextureLoader.obj) : warning LNK4204: ''에 참조 모듈에 대한 디버깅 정보가 없습니다. 디버깅 정보가 없는 것처럼 개체를 링크합니다.
 DirectXTKd.lib(WICTextureLoader.obj) : warning LNK4204: ''에 참조 모듈에 대한 디버깅 정보가 없습니다. 디버깅 정보가 없는 것처럼 개체를 링크합니다.

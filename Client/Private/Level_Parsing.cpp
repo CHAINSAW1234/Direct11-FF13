@@ -22,7 +22,7 @@ HRESULT CLevel_Parsing::Initialize()
 
 void CLevel_Parsing::Tick(_float fTimeDelta)
 {
-	__super::Tick(fTimeDelta);
+	__super::Tick(fTimeDelta); 
 	if (m_pGameInstance->Get_KeyState(KEY_DOWN, DIK_S))
 		Parse_Models();
 
@@ -45,19 +45,54 @@ HRESULT CLevel_Parsing::Ready_Models()
 {
 	SetWindowText(g_hWnd, TEXT("¸ðµ¨ ·ÎµùÁß."));
 
-	// 1. MapObjects
-	for (size_t i = 0; i < 15; ++i) {
-		string path = "../Bin/Resources/Models/MapObject/MapObject/map" + to_string(i) + ".fbx";
+	string tag = ".fbx";
+	//string tag = ".bin";
 
-		CModel* pModel = { nullptr };
-		pModel = CModel::Create(m_pDevice, m_pContext, CModel::TYPE_NONANIM, path, XMMatrixIdentity());
-		
-		if (nullptr == pModel)
-			return E_FAIL;
-		m_Models.push_back(pModel);
-	}
-	// 
-	// 
+	if (FAILED(m_pGameInstance->Add_Prototype(g_Level, TEXT("Prototype_Component_Model_Map_Field"),
+		CModel::Create(m_pDevice, m_pContext, CModel::TYPE_NONANIM, "../Bin/Resources/Models/MapObject/MapObject/Map_Field" + tag, XMMatrixIdentity()))))
+		return E_FAIL;
+
+	if (FAILED(m_pGameInstance->Add_Prototype(g_Level, TEXT("Prototype_Component_Model_Map_Battle"),
+		CModel::Create(m_pDevice, m_pContext, CModel::TYPE_NONANIM, "../Bin/Resources/Models/MapObject/MapObject/Map_Battle" + tag, XMMatrixIdentity()))))
+		return E_FAIL;
+
+	if (FAILED(m_pGameInstance->Add_Prototype(g_Level, TEXT("Prototype_Component_Model_Map_BossBattle_1"),
+		CModel::Create(m_pDevice, m_pContext, CModel::TYPE_NONANIM, "../Bin/Resources/Models/MapObject/MapObject/Map_BossBattle_1" + tag, XMMatrixIdentity()))))
+		return E_FAIL;
+
+	if (FAILED(m_pGameInstance->Add_Prototype(g_Level, TEXT("Prototype_Component_Model_Map_BossBattle_2"),
+		CModel::Create(m_pDevice, m_pContext, CModel::TYPE_NONANIM, "../Bin/Resources/Models/MapObject/MapObject/Map_BossBattle_2" + tag, XMMatrixIdentity()))))
+		return E_FAIL;
+
+
+	string path = "../Bin/Resources/Models/MapObject/MapObject/Map_Field" + tag;
+	CModel* pModel = { nullptr };
+	pModel = CModel::Create(m_pDevice, m_pContext, CModel::TYPE_NONANIM, path, XMMatrixIdentity());
+	if (nullptr == pModel)
+		return E_FAIL;
+	m_Models.push_back(pModel);
+
+	path = "../Bin/Resources/Models/MapObject/MapObject/Map_Battle" + tag;
+	pModel = { nullptr };
+	pModel = CModel::Create(m_pDevice, m_pContext, CModel::TYPE_NONANIM, path, XMMatrixIdentity());
+	if (nullptr == pModel)
+		return E_FAIL;
+	m_Models.push_back(pModel);
+
+	path = "../Bin/Resources/Models/MapObject/MapObject/Map_BossBattle_1" + tag;
+	pModel = { nullptr };
+	pModel = CModel::Create(m_pDevice, m_pContext, CModel::TYPE_NONANIM, path, XMMatrixIdentity());
+	if (nullptr == pModel)
+		return E_FAIL;
+	m_Models.push_back(pModel);
+
+	path = "../Bin/Resources/Models/MapObject/MapObject/Map_BossBattle_2" + tag;
+	pModel = { nullptr };
+	pModel = CModel::Create(m_pDevice, m_pContext, CModel::TYPE_NONANIM, path, XMMatrixIdentity());
+	if (nullptr == pModel)
+		return E_FAIL;
+	m_Models.push_back(pModel);
+
 	// 2. Animmodel;
 	//_matrix		TransformMatrix = XMMatrixIdentity();
 
@@ -78,14 +113,21 @@ HRESULT CLevel_Parsing::Ready_Models()
 
 HRESULT CLevel_Parsing::Parse_Models()
 {
-	for (size_t i = 0; i < m_Models.size(); ++i) {
-		string path = "../Bin/Resources/Models/MapObject/MapObject/map" + to_string(i) + ".bin";
-		if (FAILED(m_Models[i]->Save_Model(path)))
-			return E_FAIL;
-	}
-	//string path = "../Bin/Resources/Models/Fiona/Fiona.bin";
-	//if (FAILED(m_Models[0]->Save_Model(path)))
-	//	return E_FAIL;
+	string path = "../Bin/Resources/Models/MapObject/MapObject/Map_Field.bin";
+	if (FAILED(m_Models[0]->Save_Model(path)))
+		return E_FAIL;
+
+	path = "../Bin/Resources/Models/MapObject/MapObject/Map_Battle.bin";
+	if (FAILED(m_Models[1]->Save_Model(path)))
+		return E_FAIL;
+
+	path = "../Bin/Resources/Models/MapObject/MapObject/Map_BossBattle_1.bin";
+	if (FAILED(m_Models[2]->Save_Model(path)))
+		return E_FAIL;
+
+	path = "../Bin/Resources/Models/MapObject/MapObject/Map_BossBattle_2.bin";
+	if (FAILED(m_Models[3]->Save_Model(path)))
+		return E_FAIL;
 
 	MSG_BOX(TEXT("PARSING END"));
 	return S_OK;
@@ -93,17 +135,17 @@ HRESULT CLevel_Parsing::Parse_Models()
 
 HRESULT CLevel_Parsing::Test_Parsed_Models()
 {
-	// 1. MapObjects
-	for (size_t i = 0; i < 15; ++i) {
-		string path = "../Bin/Resources/Models/MapObject/MapObject/map" + to_string(i) + ".bin";
+	//// 1. MapObjects
+	//for (size_t i = 0; i < 15; ++i) {
+	//	string path = "../Bin/Resources/Models/MapObject/MapObject/map" + to_string(i) + ".bin";
 
-		CModel* pModel = { nullptr };
-		pModel = CModel::Create(m_pDevice, m_pContext, path);
+	//	CModel* pModel = { nullptr };
+	//	pModel = CModel::Create(m_pDevice, m_pContext, path);
 
-		if (nullptr == pModel)
-			return E_FAIL;
-		m_Models.push_back(pModel);
-	}
+	//	if (nullptr == pModel)
+	//		return E_FAIL;
+	//	m_Models.push_back(pModel);
+	//}
 
 	return S_OK;
 }

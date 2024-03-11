@@ -73,7 +73,7 @@ HRESULT CGrid::Add_Components()
 		return E_FAIL;
 
 	CVIBuffer_Line::VIBUFFER_LINE_DESC Description = {};
-	Description.iNumVerticesX = Description.iNumVerticesZ = 300;
+	Description.iNumVerticesX = Description.iNumVerticesZ = 600;
 
 	/* For.Com_VIBuffer */
 	if (FAILED(__super::Add_Component(LEVEL_MAPTOOL, TEXT("Prototype_Component_VIBuffer_Line"),

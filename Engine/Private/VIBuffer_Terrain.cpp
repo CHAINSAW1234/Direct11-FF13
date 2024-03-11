@@ -174,13 +174,16 @@ _bool CVIBuffer_Terrain::Compute_Picking(const CTransform* pTransform, _Out_ _fl
 	vRayDir = XMLoadFloat4(&fRayDir);
 	vRayPos = XMLoadFloat4(&fRayPos);
 
-	_float		fDist;
+
+	_float		fMinDist = INFINITE;
 	_vector		vOut = { 0.f,0.f,0.f,0.f };
 
 	for (size_t i = 0; i < m_iNumVerticesZ - 1; i++)
 	{
 		for (size_t j = 0; j < m_iNumVerticesX - 1; j++)
 		{
+			_float		fDist = 0.f;
+
 			_uint		iIndex = i * m_iNumVerticesX + j;
 
 			_uint		iIndices[4] = {
@@ -189,7 +192,6 @@ _bool CVIBuffer_Terrain::Compute_Picking(const CTransform* pTransform, _Out_ _fl
 				iIndex + 1,
 				iIndex
 			};
-
 
 			/* 오른쪽 위 삼각형과 충돌인가? */
 			if (DirectX::TriangleTests::Intersects(vRayPos, vRayDir,
@@ -204,7 +206,9 @@ _bool CVIBuffer_Terrain::Compute_Picking(const CTransform* pTransform, _Out_ _fl
 					XMVectorSetW(XMLoadFloat3(&m_pVerticesPos[iIndices[3]]), 1.f),
 					fDist))
 			{
-				vOut = vRayPos + vRayDir * fDist;
+				fMinDist = min(fMinDist, fDist);
+
+				vOut = vRayPos + vRayDir * fMinDist;
 				if (vOutPos != nullptr) {
 					XMStoreFloat4(vOutPos, vOut);
 				}

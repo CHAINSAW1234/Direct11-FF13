@@ -210,7 +210,6 @@ HRESULT CModel::Load_Model(string filepath)
 {
 	ifstream IFS{ filepath, ios::in | ios::binary };
 
-
 	// 1. 모델의 타입 읽기
 	IFS.read(reinterpret_cast<char*>(&m_eModelType), sizeof(TYPE));
 

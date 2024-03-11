@@ -70,6 +70,11 @@ HRESULT CTerrain::Render()
 	return S_OK;
 }
 
+_bool CTerrain::Compute_Picking(_Out_ _float4* vOutPos)
+{
+	return m_pVIBufferCom->Compute_Picking(m_pTransformCom, vOutPos);
+}
+
 HRESULT CTerrain::Add_Components()
 {
 	/* For.Com_Shader */

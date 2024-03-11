@@ -76,6 +76,9 @@
     <Filter Include="03.Tool\TestModel">
       <UniqueIdentifier>{f9e27d2f-b762-4419-8ceb-c8bf3c66025a}</UniqueIdentifier>
     </Filter>
+    <Filter Include="01.Levels\Field">
+      <UniqueIdentifier>{2e0265c2-3472-44b1-8b2e-4f0c0222b245}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\public\MainApp.h">
@@ -183,6 +186,9 @@
     <ClInclude Include="..\Public\TestModel.h">
       <Filter>03.Tool\TestModel</Filter>
     </ClInclude>
+    <ClInclude Include="..\Public\Level_Field.h">
+      <Filter>01.Levels\Field</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\private\MainApp.cpp">
@@ -271,6 +277,9 @@
     </ClCompile>
     <ClCompile Include="..\Private\TestModel.cpp">
       <Filter>03.Tool\TestModel</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Level_Field.cpp">
+      <Filter>01.Levels\Field</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

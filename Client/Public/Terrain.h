@@ -25,6 +25,9 @@ public:
 	virtual HRESULT Late_Tick(_float fTimeDelta) override;
 	virtual HRESULT Render() override;
 
+public:
+	_bool	Compute_Picking(_Out_  _float4* vOutPos = nullptr);
+
 private:
 	CShader* m_pShaderCom = { nullptr };
 	CTexture* m_pTextureCom = { nullptr };

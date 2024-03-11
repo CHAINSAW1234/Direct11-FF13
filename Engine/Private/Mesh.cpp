@@ -86,17 +86,20 @@ _bool CMesh::Compute_Picking(const CTransform* pTransform, _Out_ _float4* vOutPo
 	vRayDir = XMLoadFloat4(&fRayDir);
 	vRayPos = XMLoadFloat4(&fRayPos);
 
-	_float		fDist;
+	_float		fMinDist = INFINITE;
 	_vector		vOut = { 0.f,0.f,0.f,0.f };
 	_uint		iIndicesCount = 0;
 	for (size_t i = 0; i < m_iNumIndices/3; ++i) {
+		_float fDist = 0.f;
+
 		if (DirectX::TriangleTests::Intersects(vRayPos, vRayDir,
 			XMVectorSetW(XMLoadFloat3(&m_pVerticesPos[m_pIndices[iIndicesCount++]]), 1.f),
 			XMVectorSetW(XMLoadFloat3(&m_pVerticesPos[m_pIndices[iIndicesCount++]]), 1.f),
 			XMVectorSetW(XMLoadFloat3(&m_pVerticesPos[m_pIndices[iIndicesCount++]]), 1.f),
 			fDist)) {
-			vOut = vRayPos + vRayDir * fDist;
-			break;
+			fMinDist = min(fMinDist, fDist);
+
+			vOut = vRayPos + vRayDir * fMinDist;
 		}
 	}
 

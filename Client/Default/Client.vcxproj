@@ -173,6 +173,7 @@
     <ClInclude Include="..\Public\Client_Defines.h" />
     <ClInclude Include="..\Public\Grid.h" />
     <ClInclude Include="..\Public\ImGUI_Manager.h" />
+    <ClInclude Include="..\Public\Level_Field.h" />
     <ClInclude Include="..\Public\Level_GamePlay.h" />
     <ClInclude Include="..\Public\Level_Loading.h" />
     <ClInclude Include="..\Public\Level_Logo.h" />
@@ -209,6 +210,7 @@
     <ClCompile Include="..\Private\Camera_MapTool.cpp" />
     <ClCompile Include="..\Private\Grid.cpp" />
     <ClCompile Include="..\Private\ImGUI_Manager.cpp" />
+    <ClCompile Include="..\Private\Level_Field.cpp" />
     <ClCompile Include="..\Private\Level_GamePlay.cpp" />
     <ClCompile Include="..\Private\Level_Loading.cpp" />
     <ClCompile Include="..\Private\Level_Logo.cpp" />
