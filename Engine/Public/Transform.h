@@ -6,6 +6,7 @@ BEGIN(Engine)
 
 class ENGINE_DLL CTransform final: public CComponent
 {
+	const _float fSmoothTime = 0.2;
 public:
 	typedef struct Transform_Desc
 	{
@@ -103,12 +104,14 @@ public:
 	void Go_Right(_float fTimeDelta);
 	void Go_Up(_float fTimeDelta);
 	void Go_Down(_float fTimeDelta);
-	void Look_At(_fvector vTargetPosition);
+	void Look_At(_fvector vTargetPosition);			// LookAt _ Target
 	void Look_At_ForLandObject(_fvector vTargetPosition);
-	void Move_toTarget(_fvector vTargetPos, _float fTimeDelta, _float fMinDistance = 0.f);
+	void Move_To_Target(_fvector vTargetPos, _float fTimeDelta, _float fMinDistance = 0.f);
+	void Move_To_Direction(_fvector vDirection, _float fTimeDelta);
 	void Turn(_fvector vAxis, _float fTimeDelta);
-	void Rotation(_fvector vAxis, _float fRadian);
+	void Rotation(_fvector vAxis, _float fRadian);			// 시간 없이 즉시 돌림
 
+	void Turn_With_Look_At(_fvector vAxis, _fvector vTargetPosition, _float fDest, _float fTimeDelta);
 
 private:
 	_float4x4				m_WorldMatrix;

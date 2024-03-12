@@ -23,6 +23,8 @@ using namespace DirectX;
 #include "DirectXTK/DDSTextureLoader.h"
 #include "DirectXTK/WICTextureLoader.h"
 #include "DirectXTK/ScreenGrab.h"
+
+
 #include "assimp/scene.h"
 #include "assimp/Importer.hpp"
 #include "assimp/postprocess.h"

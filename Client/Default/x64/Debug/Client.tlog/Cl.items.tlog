@@ -1,6 +1,7 @@
 C:\Users\stgo5015\Documents\GitHub\Direct11_FF13\Client\private\BackGround.cpp;C:\Users\stgo5015\Documents\GitHub\Direct11_FF13\Client\Default\x64\Debug\BackGround.obj
 C:\Users\stgo5015\Documents\GitHub\Direct11_FF13\Client\Private\Camera_Free.cpp;C:\Users\stgo5015\Documents\GitHub\Direct11_FF13\Client\Default\x64\Debug\Camera_Free.obj
-C:\Users\stgo5015\Documents\GitHub\Direct11_FF13\Client\Private\Camera_MapTool.cpp;C:\Users\stgo5015\Documents\GitHub\Direct11_FF13\Client\Default\x64\Debug\Camera_MapTool.obj
+C:\Users\stgo5015\Documents\GitHub\Direct11_FF13\Client\Private\Camera_Field.cpp;C:\Users\stgo5015\Documents\GitHub\Direct11_FF13\Client\Default\x64\Debug\Camera_Field.obj
+C:\Users\stgo5015\Documents\GitHub\Direct11_FF13\Client\Private\Chr.cpp;C:\Users\stgo5015\Documents\GitHub\Direct11_FF13\Client\Default\x64\Debug\Chr.obj
 C:\Users\stgo5015\Documents\GitHub\Direct11_FF13\Client\Private\Grid.cpp;C:\Users\stgo5015\Documents\GitHub\Direct11_FF13\Client\Default\x64\Debug\Grid.obj
 C:\Users\stgo5015\Documents\GitHub\Direct11_FF13\Client\Private\ImGUI_Manager.cpp;C:\Users\stgo5015\Documents\GitHub\Direct11_FF13\Client\Default\x64\Debug\ImGUI_Manager.obj
 C:\Users\stgo5015\Documents\GitHub\Direct11_FF13\Client\Private\Level_Field.cpp;C:\Users\stgo5015\Documents\GitHub\Direct11_FF13\Client\Default\x64\Debug\Level_Field.obj

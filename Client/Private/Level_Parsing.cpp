@@ -46,26 +46,13 @@ HRESULT CLevel_Parsing::Ready_Models()
 	SetWindowText(g_hWnd, TEXT("¸ðµ¨ ·ÎµùÁß."));
 
 	string tag = ".fbx";
+	string path = "";
 	//string tag = ".bin";
 
-	if (FAILED(m_pGameInstance->Add_Prototype(g_Level, TEXT("Prototype_Component_Model_Map_Field"),
-		CModel::Create(m_pDevice, m_pContext, CModel::TYPE_NONANIM, "../Bin/Resources/Models/MapObject/MapObject/Map_Field" + tag, XMMatrixIdentity()))))
-		return E_FAIL;
 
-	if (FAILED(m_pGameInstance->Add_Prototype(g_Level, TEXT("Prototype_Component_Model_Map_Battle"),
-		CModel::Create(m_pDevice, m_pContext, CModel::TYPE_NONANIM, "../Bin/Resources/Models/MapObject/MapObject/Map_Battle" + tag, XMMatrixIdentity()))))
-		return E_FAIL;
-
-	if (FAILED(m_pGameInstance->Add_Prototype(g_Level, TEXT("Prototype_Component_Model_Map_BossBattle_1"),
-		CModel::Create(m_pDevice, m_pContext, CModel::TYPE_NONANIM, "../Bin/Resources/Models/MapObject/MapObject/Map_BossBattle_1" + tag, XMMatrixIdentity()))))
-		return E_FAIL;
-
-	if (FAILED(m_pGameInstance->Add_Prototype(g_Level, TEXT("Prototype_Component_Model_Map_BossBattle_2"),
-		CModel::Create(m_pDevice, m_pContext, CModel::TYPE_NONANIM, "../Bin/Resources/Models/MapObject/MapObject/Map_BossBattle_2" + tag, XMMatrixIdentity()))))
-		return E_FAIL;
-
-
-	string path = "../Bin/Resources/Models/MapObject/MapObject/Map_Field" + tag;
+#pragma region Map_Object
+	/*
+	path = "../Bin/Resources/Models/MapObject/MapObject/Map_Field" + tag;
 	CModel* pModel = { nullptr };
 	pModel = CModel::Create(m_pDevice, m_pContext, CModel::TYPE_NONANIM, path, XMMatrixIdentity());
 	if (nullptr == pModel)
@@ -92,8 +79,19 @@ HRESULT CLevel_Parsing::Ready_Models()
 	if (nullptr == pModel)
 		return E_FAIL;
 	m_Models.push_back(pModel);
+	*/
+#pragma endregion
 
 	// 2. Animmodel;
+	
+	path = "../Bin/Resources/Models/chr/Light/Light" + tag;
+	CModel* pModel = { nullptr };
+	pModel = CModel::Create(m_pDevice, m_pContext, CModel::TYPE_ANIM, path, XMMatrixIdentity());
+	if (nullptr == pModel)
+		return E_FAIL;
+	m_Models.push_back(pModel);
+
+
 	//_matrix		TransformMatrix = XMMatrixIdentity();
 
 	///* Prototype_Component_Model_Fiona */
@@ -113,7 +111,11 @@ HRESULT CLevel_Parsing::Ready_Models()
 
 HRESULT CLevel_Parsing::Parse_Models()
 {
-	string path = "../Bin/Resources/Models/MapObject/MapObject/Map_Field.bin";
+	string path = "";
+
+#pragma region Map_Object
+
+	/*path = "../Bin/Resources/Models/MapObject/MapObject/Map_Field.bin";
 	if (FAILED(m_Models[0]->Save_Model(path)))
 		return E_FAIL;
 
@@ -127,7 +129,14 @@ HRESULT CLevel_Parsing::Parse_Models()
 
 	path = "../Bin/Resources/Models/MapObject/MapObject/Map_BossBattle_2.bin";
 	if (FAILED(m_Models[3]->Save_Model(path)))
+		return E_FAIL;*/
+
+#pragma endregion
+
+	path = "../Bin/Resources/Models/chr/Light/Light.bin";
+	if (FAILED(m_Models[0]->Save_Model(path)))
 		return E_FAIL;
+
 
 	MSG_BOX(TEXT("PARSING END"));
 	return S_OK;

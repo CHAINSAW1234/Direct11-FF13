@@ -128,6 +128,21 @@ HRESULT CShader::Bind_Texture(const _char* pConstantName, ID3D11ShaderResourceVi
 	return pSRVariable->SetResource(pSRV);
 }
 
+HRESULT CShader::Bind_Textures(const _char* pConstantName, ID3D11ShaderResourceView** ppSRVs, _uint iNumTexture)
+{
+	/* 타입의 구분없이 pConstantName이름을 가진 전역변수에 기능을 할 수 있는 컴객체를 얻어온다. */
+	ID3DX11EffectVariable* pVariable = m_pEffect->GetVariableByName(pConstantName);
+	if (nullptr == pVariable)
+		return E_FAIL;
+
+	/* 실제 얻어온 전역변수 객체의 타입을 명시하여 변환한다. */
+	ID3DX11EffectShaderResourceVariable* pSRVariable = pVariable->AsShaderResource();
+	if (nullptr == pSRVariable)
+		return E_FAIL;
+
+	return pSRVariable->SetResourceArray(ppSRVs, 0,  iNumTexture);
+}
+
 HRESULT CShader::Bind_RawValue(const _char* pConstantName, const void* pData, _uint iLength)
 {
 	/* 타입의 구분없이 pConstantName이름을 가진 전역변수에 기능을 할 수 있는 컴객체를 얻어온다. */

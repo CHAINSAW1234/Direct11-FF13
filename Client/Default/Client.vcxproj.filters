@@ -49,9 +49,6 @@
     <Filter Include="03.Tool\MapTool">
       <UniqueIdentifier>{baf87ab4-a580-4033-af33-f67b69e39352}</UniqueIdentifier>
     </Filter>
-    <Filter Include="02.GameObjects\Camera\Camera_MapTool">
-      <UniqueIdentifier>{f99eeff5-6bdb-4186-92c5-2ab693299622}</UniqueIdentifier>
-    </Filter>
     <Filter Include="03.Tool\Grid">
       <UniqueIdentifier>{361cfe83-dc5d-4c85-bce0-b5a6a5336b45}</UniqueIdentifier>
     </Filter>
@@ -79,6 +76,15 @@
     <Filter Include="01.Levels\Field">
       <UniqueIdentifier>{2e0265c2-3472-44b1-8b2e-4f0c0222b245}</UniqueIdentifier>
     </Filter>
+    <Filter Include="02.GameObjects\Chr">
+      <UniqueIdentifier>{0b76502d-da7c-4568-9932-fffd3ca18563}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="97.ShaderFiles">
+      <UniqueIdentifier>{d6e2a203-34e3-4d2d-a018-b7392a4f907f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\Camera\Camera_Field">
+      <UniqueIdentifier>{f99eeff5-6bdb-4186-92c5-2ab693299622}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\public\MainApp.h">
@@ -92,9 +98,6 @@
     </ClInclude>
     <ClInclude Include="..\Public\Level_Logo.h">
       <Filter>01.Levels\Logo</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Public\Loader.h">
-      <Filter>01.Levels\00. Loading\Loader</Filter>
     </ClInclude>
     <ClInclude Include="..\public\BackGround.h">
       <Filter>02.GameObjects\BackGround</Filter>
@@ -159,8 +162,8 @@
     <ClInclude Include="..\Public\Monster.h">
       <Filter>02.GameObjects\Monster</Filter>
     </ClInclude>
-    <ClInclude Include="..\Public\Camera_MapTool.h">
-      <Filter>02.GameObjects\Camera\Camera_MapTool</Filter>
+    <ClInclude Include="..\Public\Camera_Field.h">
+      <Filter>02.GameObjects\Camera\Camera_Field</Filter>
     </ClInclude>
     <ClInclude Include="..\Public\Grid.h">
       <Filter>03.Tool\Grid</Filter>
@@ -188,6 +191,12 @@
     </ClInclude>
     <ClInclude Include="..\Public\Level_Field.h">
       <Filter>01.Levels\Field</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\Chr.h">
+      <Filter>02.GameObjects\Chr</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\Loader.h">
+      <Filter>01.Levels\00. Loading\Loader</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -257,8 +266,8 @@
     <ClCompile Include="..\Private\Monster.cpp">
       <Filter>02.GameObjects\Monster</Filter>
     </ClCompile>
-    <ClCompile Include="..\Private\Camera_MapTool.cpp">
-      <Filter>02.GameObjects\Camera\Camera_MapTool</Filter>
+    <ClCompile Include="..\Private\Camera_Field.cpp">
+      <Filter>02.GameObjects\Camera\Camera_Field</Filter>
     </ClCompile>
     <ClCompile Include="..\Private\Grid.cpp">
       <Filter>03.Tool\Grid</Filter>
@@ -281,6 +290,9 @@
     <ClCompile Include="..\Private\Level_Field.cpp">
       <Filter>01.Levels\Field</Filter>
     </ClCompile>
+    <ClCompile Include="..\Private\Chr.cpp">
+      <Filter>02.GameObjects\Chr</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Image Include="Client.ico">
@@ -299,5 +311,22 @@
     <Text Include="ReadMe.txt">
       <Filter>98.Default\Default</Filter>
     </Text>
+  </ItemGroup>
+  <ItemGroup>
+    <FxCompile Include="..\Bin\ShaderFiles\Shader_VtxPosTex.hlsl">
+      <Filter>97.ShaderFiles</Filter>
+    </FxCompile>
+    <FxCompile Include="..\Bin\ShaderFiles\Shader_VtxPos.hlsl">
+      <Filter>97.ShaderFiles</Filter>
+    </FxCompile>
+    <FxCompile Include="..\Bin\ShaderFiles\Shader_VtxNorTex.hlsl">
+      <Filter>97.ShaderFiles</Filter>
+    </FxCompile>
+    <FxCompile Include="..\Bin\ShaderFiles\Shader_VtxModel.hlsl">
+      <Filter>97.ShaderFiles</Filter>
+    </FxCompile>
+    <FxCompile Include="..\Bin\ShaderFiles\Shader_VtxAnimModel.hlsl">
+      <Filter>97.ShaderFiles</Filter>
+    </FxCompile>
   </ItemGroup>
 </Project>

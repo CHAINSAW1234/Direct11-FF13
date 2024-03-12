@@ -63,8 +63,9 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
 	if (FAILED(pGameInstance->Add_Timer(TEXT("Timer_60"))))
 		return FALSE;
 
+    _int        iFrame = 0;
 	_float		fTimeAcc = { 0 };
-
+    wstring      str = L"";
     // 기본 메시지 루프입니다.
 	while (true)
 	{
@@ -79,14 +80,18 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
 			}
 		}
 
-		fTimeAcc += pGameInstance->Compute_TimeDelta(TEXT("Timer_Default"));
 
+		fTimeAcc += pGameInstance->Compute_TimeDelta(TEXT("Timer_Default"));
+        //++iFrame;
 		if (fTimeAcc > 1.f / 60.0f)
 		{
 			pMainApp->Tick(pGameInstance->Compute_TimeDelta(TEXT("Timer_60")));
 			pMainApp->Render();
 
 			fTimeAcc = 0.f;
+            //str = L"현재 프레임 : " + to_wstring(iFrame);
+            //SetWindowText(g_hWnd, str.c_str());
+            //iFrame = 0;
 		}		
 	}
 

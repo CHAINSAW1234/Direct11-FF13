@@ -1,7 +1,12 @@
 #include "stdafx.h"
 #include "Level_Field.h"
+#include "Camera_Field.h"
 #include "Camera_Free.h"
 #include "MapObject.h"
+
+
+#include "Chr.h"
+
 CLevel_Field::CLevel_Field(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
     : CLevel { pDevice, pContext }
 {
@@ -15,8 +20,13 @@ HRESULT CLevel_Field::Initialize()
 	if (FAILED(Read_Map()))
 		return E_FAIL;
 
+	if (FAILED(Ready_Layer_Chr(TEXT("Layer_Chr"))))
+		return E_FAIL;
+
 	if (FAILED(Ready_Layer_Camera(TEXT("Layer_Camera"))))
 		return E_FAIL;
+
+
 
 
 	return S_OK;
@@ -26,6 +36,15 @@ HRESULT CLevel_Field::Initialize()
 void CLevel_Field::Tick(_float fTimeDelta)
 {
     __super::Tick(fTimeDelta);
+
+	CMapObject* pMapObject = dynamic_cast<CMapObject*>(m_pGameInstance->Get_GameObject(g_Level, TEXT("Layer_MapObject"), 0));
+	_float4 vPickingPos = { 0.f,0.f,0.f,0.f };
+	if (m_pGameInstance->Get_KeyState(KEY_DOWN, DIK_LBRACKET)) {
+		if (pMapObject->Compute_Picking(&vPickingPos)) {
+			CChr* pMonster = dynamic_cast<CChr*>(m_pGameInstance->Add_Clone_With_Object(g_Level, TEXT("Layer_Chr"), TEXT("Prototype_GameObject_Chr")));
+			((CTransform*)pMonster->Get_Component(g_strTransformTag))->Set_State(CTransform::STATE_POSITION, vPickingPos);
+		}
+	}
 }
 
 HRESULT CLevel_Field::Render()
@@ -81,7 +100,23 @@ HRESULT CLevel_Field::Create_MapObject(const wstring strModelTag, _float4x4 Worl
 
 HRESULT CLevel_Field::Ready_Layer_Camera(const wstring& strLayerTag)
 {
-	CCamera_Free::CAMERA_FREE_DESC		CameraDesc{};
+	//CCamera_Free::CAMERA_FREE_DESC		CameraDesc{};
+
+	//CameraDesc.fMouseSensor = 0.1f;
+	//CameraDesc.fFovy = XMConvertToRadians(60.0f);
+	//CameraDesc.fAspect = (_float)g_iWinSizeX / g_iWinSizeY;
+	//CameraDesc.fNear = 0.1f;
+	//CameraDesc.fFar = 1000.0f;
+	//CameraDesc.vEye = _float4(0.f, 10.f, -7.f, 1.f);
+	//CameraDesc.vAt = _float4(0.f, 0.f, 0.f, 1.f);
+	//CameraDesc.fSpeedPerSec = 10.f;
+	//CameraDesc.fRotationPerSec = XMConvertToRadians(90.0f);
+
+	//if (FAILED(m_pGameInstance->Add_Clone(g_Level, strLayerTag, TEXT("Prototype_GameObject_Camera_Free"), &CameraDesc)))
+	//	return E_FAIL;
+
+
+	CCamera_Field::CAMERA_FIELD_DESC		CameraDesc{};
 
 	CameraDesc.fMouseSensor = 0.1f;
 	CameraDesc.fFovy = XMConvertToRadians(60.0f);
@@ -93,7 +128,18 @@ HRESULT CLevel_Field::Ready_Layer_Camera(const wstring& strLayerTag)
 	CameraDesc.fSpeedPerSec = 10.f;
 	CameraDesc.fRotationPerSec = XMConvertToRadians(90.0f);
 
-	if (FAILED(m_pGameInstance->Add_Clone(g_Level, strLayerTag, TEXT("Prototype_GameObject_Camera_Free"), &CameraDesc)))
+	if (FAILED(m_pGameInstance->Add_Clone(g_Level, strLayerTag, TEXT("Prototype_GameObject_Camera_Field"), &CameraDesc)))
+		return E_FAIL;
+
+	dynamic_cast<CCamera_Field*>(m_pGameInstance->Get_GameObject(g_Level, strLayerTag, 0))->Set_Target(
+		m_pGameInstance->Get_GameObject(g_Level, TEXT("Layer_Chr"), 0)
+	);
+	return S_OK;
+}
+
+HRESULT CLevel_Field::Ready_Layer_Chr(const wstring& strLayerTag)
+{
+	if (FAILED(m_pGameInstance->Add_Clone(g_Level, strLayerTag, TEXT("Prototype_GameObject_Chr"))))
 		return E_FAIL;
 
 	return S_OK;

@@ -138,7 +138,7 @@ void CTransform::Look_At_ForLandObject(_fvector vTargetPosition)
 	Set_State(STATE_LOOK, XMVector3Normalize(vLook) * vScaled.z);
 }
 
-void CTransform::Move_toTarget(_fvector vTargetPos, _float fTimeDelta, _float fMinDistance)
+void CTransform::Move_To_Target(_fvector vTargetPos, _float fTimeDelta, _float fMinDistance)
 {
     _vector vPos = Get_State_Vector(STATE_POSITION);
 
@@ -146,6 +146,11 @@ void CTransform::Move_toTarget(_fvector vTargetPos, _float fTimeDelta, _float fM
 
     if (fMinDistance <= XMVectorGetX(XMVector3Length(vLook)))
         vPos += XMVector3Normalize(vLook) * m_fSpeedPerSec * fTimeDelta;
+}
+
+void CTransform::Move_To_Direction(_fvector vDirection, _float fTimeDelta)
+{
+	Set_State(STATE_POSITION, Get_State_Vector(STATE_POSITION) + vDirection * fTimeDelta);
 }
 
 void CTransform::Turn(_fvector vAxis, _float fTimeDelta)
@@ -183,6 +188,24 @@ void CTransform::Rotation(_fvector vAxis, _float fRadian)
 			XMVector4Transform(vState[(STATE)i], RotationMatrix));
 	}
 }
+
+void CTransform::Turn_With_Look_At(_fvector vAxis, _fvector vTargetPosition, _float fDest, _float fTimeDelta)
+{
+	_matrix			RotationMatrix = XMMatrixRotationAxis(vAxis, m_fRotationPerSec * fTimeDelta);
+
+	for (size_t i = 0; i < STATE_POSITION; i++)
+	{
+		Set_State(STATE(i),
+			XMVector4Transform(Get_State_Vector((STATE)i), RotationMatrix));
+		/*Set_State(STATE(i),
+			XMVector3TransformNormal(Get_State_Vector((STATE)i), RotationMatrix));*/
+	}
+	_vector vLook = Get_State_Vector(STATE_LOOK);
+	
+	Set_State(STATE_POSITION, vTargetPosition - vLook * fDest);
+
+}
+
 
 CTransform * CTransform::Create(ID3D11Device * pDevice, ID3D11DeviceContext * pContext)
 {

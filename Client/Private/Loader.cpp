@@ -3,12 +3,13 @@
 #include <process.h>
 #include "GameInstance.h"
 #include "Camera_Free.h"
-#include "Camera_MapTool.h"
+#include "Camera_Field.h"
 #include "BackGround.h"
 #include "Terrain.h"
 #include "Monster.h"
 #include "MapObject.h"
 #include "Grid.h"
+#include "Chr.h"
 //#include "Player.h"
 //#include "Effect.h"
 //#include "Sky.h"
@@ -113,9 +114,14 @@ HRESULT CLoader::Loading_Prototype()
 		CCamera_Free::Create(m_pDevice, m_pContext))))
 		return E_FAIL;
 
-	/* For.Prototype_GameObject_Camera_Free */
-	if (FAILED(m_pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_Camera_MapTool"),
-		CCamera_MapTool::Create(m_pDevice, m_pContext))))
+	/* For.Prototype_GameObject_Camera_Field */
+	if (FAILED(m_pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_Camera_Field"),
+		CCamera_Field::Create(m_pDevice, m_pContext))))
+		return E_FAIL;
+
+	/* For.Prototype_GameObject_Grid */
+	if (FAILED(m_pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_Chr"),
+		CChr::Create(m_pDevice, m_pContext))))
 		return E_FAIL;
 
 	/* For.Prototype_GameObject_Monster */
@@ -170,6 +176,16 @@ HRESULT CLoader::Loading_For_GamePlay()
 	///* Prototype_Component_Texture_Terrain */
 	if (FAILED(m_pGameInstance->Add_Prototype(g_Level, TEXT("Prototype_Component_Texture_Terrain"),
 		CTexture::Create(m_pDevice, m_pContext, TEXT("../Bin/Resources/Textures/Terrain/Tile%d.dds"), 2))))
+		return E_FAIL;
+
+	/*Prototype_Component_Texture_Mask*/
+	if (FAILED(m_pGameInstance->Add_Prototype(g_Level, TEXT("Prototype_Component_Texture_Mask"),
+		CTexture::Create(m_pDevice, m_pContext, TEXT("../Bin/Resources/Textures/Terrain/Mask.dds"), 1))))
+		return E_FAIL;
+
+	/*Prototype_Component_Texture_Brush */
+	if (FAILED(m_pGameInstance->Add_Prototype(g_Level, TEXT("Prototype_Component_Texture_Brush"),
+		CTexture::Create(m_pDevice, m_pContext, TEXT("../Bin/Resources/Textures/Terrain/Brush.png"), 1))))
 		return E_FAIL;
 
 
@@ -326,6 +342,10 @@ HRESULT CLoader::Loading_For_Field()
 	string tag = ".bin";
 	if (FAILED(m_pGameInstance->Add_Prototype(g_Level, TEXT("Prototype_Component_Model_Map_Field"),
 		CModel::Create(m_pDevice, m_pContext, "../Bin/Resources/Models/MapObject/MapObject/Map_Field" + tag))))
+		return E_FAIL;
+
+	if (FAILED(m_pGameInstance->Add_Prototype(g_Level, TEXT("Prototype_Component_Model_Light"),
+		CModel::Create(m_pDevice, m_pContext, "../Bin/Resources/Models/chr/Light/Light" + tag))))
 		return E_FAIL;
 
 	m_strLoadingText = TEXT("셰이더를(을) 로딩 중 입니다.");

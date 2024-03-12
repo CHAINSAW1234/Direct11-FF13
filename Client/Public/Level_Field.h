@@ -21,7 +21,7 @@ private:
 	HRESULT Read_Map();	
 	HRESULT Create_MapObject(const wstring strModelTag, _float4x4 WorldMatrix);
 	HRESULT Ready_Layer_Camera(const wstring& strLayerTag);
-	//HRESULT Ready_LandObject();
+	HRESULT Ready_Layer_Chr(const wstring& strLayerTag);
 
 public:
 	static CLevel_Field* Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);

@@ -6,7 +6,7 @@ class CFSM_State;
 
 class ENGINE_DLL CFSM final : public CComponent
 {
-	typedef struct unordered_map<_uint, CFSM_State*>	MAP_FSM_STATE;
+	typedef unordered_map<_uint, CFSM_State*>	MAP_FSM_STATE;
 private:
 	CFSM(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);
 	CFSM(const CFSM& rhs);

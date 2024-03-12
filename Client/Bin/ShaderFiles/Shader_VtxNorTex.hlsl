@@ -8,7 +8,10 @@ vector g_vLightDiffuse = vector(1.f, 1.f, 1.f, 1.f);
 vector g_vLightAmbient = vector(1.f, 1.f, 1.f, 1.f);
 vector g_vLightSpecular = vector(1.f, 1.f, 1.f, 1.f);
 
-texture2D g_DiffuseTexture;
+texture2D g_DiffuseTexture[2];
+texture2D g_MaskTexture;
+texture2D g_BrushTexture;
+
 vector g_vMtrlAmbient = vector(0.4f, 0.4f, 0.4f, 1.f);
 vector g_vMtrlSpecular = vector(1.f, 1.f, 1.f, 1.f);
 
@@ -20,6 +23,12 @@ sampler LinearSampler = sampler_state
     AddressV = wrap;
 };
 
+sampler PointSampler = sampler_state
+{
+    Filter = MIN_MAG_MIP_POINT;
+    AddressU = wrap;
+    AddressV = wrap;
+};
 
 struct VS_IN
 {
@@ -79,9 +88,13 @@ PS_OUT PS_MAIN(PS_IN In)
 {
     PS_OUT Out = (PS_OUT) 0;
 
-    vector vDiffuse = g_DiffuseTexture.Sample(LinearSampler, In.vTexcoord * 30.f);
-    if (vDiffuse.a < 0.3f) 
-        discard;
+    vector vSourDiffuse = g_DiffuseTexture[0].Sample(LinearSampler, In.vTexcoord * 30.f);
+    vector vDestDiffuse = g_DiffuseTexture[1].Sample(LinearSampler, In.vTexcoord * 30.f);
+    vector vBrush = g_BrushTexture.Sample(LinearSampler, In.vTexcoord);
+
+    vector vMask = g_MaskTexture.Sample(PointSampler, In.vTexcoord);
+
+    vector vDiffuse = vDestDiffuse * vMask + vSourDiffuse * (1.f - vMask) + vBrush;
     
     Out.vColor = vector(((g_vLightDiffuse * vDiffuse) * saturate(In.vShade)).rgb, 1.f) +
     (g_vLightSpecular * g_vMtrlSpecular) * In.fSpecular;

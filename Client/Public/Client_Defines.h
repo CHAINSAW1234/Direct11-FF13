@@ -1,6 +1,5 @@
 #pragma once
 
-
 #include "GameInstance.h"
 
 namespace Client
@@ -26,3 +25,14 @@ using namespace Client;
 #include "imgui_impl_dx11.h"
 #include "imgui_impl_win32.h"
 //#include "imgui_internal.h"
+
+inline float Saturate(float fMin, float fMax, float fValue) {
+	if (fValue > fMax) {
+		fValue = fMax;
+	}
+	if (fValue < fMin) {
+		fValue = fMin;
+	}
+
+	return fValue;
+}

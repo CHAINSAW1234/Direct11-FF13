@@ -97,9 +97,6 @@
     <Filter Include="01.Utility\02.Components\Model\Animation\Channel">
       <UniqueIdentifier>{13398419-1b33-4a9e-bbda-1ceef3bcc10b}</UniqueIdentifier>
     </Filter>
-    <Filter Include="00.Device\97.ShaderFiles">
-      <UniqueIdentifier>{c3954086-2ebd-4b56-ab2d-02ee59f51465}</UniqueIdentifier>
-    </Filter>
     <Filter Include="01.Utility\02.Components\FSM">
       <UniqueIdentifier>{a2882d67-093b-4547-8f60-c07fef52a31d}</UniqueIdentifier>
     </Filter>
@@ -314,22 +311,5 @@
     <ClInclude Include="..\Public\FSM_State.h">
       <Filter>01.Utility\02.Components\FSM\State</Filter>
     </ClInclude>
-  </ItemGroup>
-  <ItemGroup>
-    <FxCompile Include="..\..\Client\Bin\ShaderFiles\Shader_VtxAnimModel.hlsl">
-      <Filter>00.Device\97.ShaderFiles</Filter>
-    </FxCompile>
-    <FxCompile Include="..\..\Client\Bin\ShaderFiles\Shader_VtxModel.hlsl">
-      <Filter>00.Device\97.ShaderFiles</Filter>
-    </FxCompile>
-    <FxCompile Include="..\..\Client\Bin\ShaderFiles\Shader_VtxNorTex.hlsl">
-      <Filter>00.Device\97.ShaderFiles</Filter>
-    </FxCompile>
-    <FxCompile Include="..\..\Client\Bin\ShaderFiles\Shader_VtxPos.hlsl">
-      <Filter>00.Device\97.ShaderFiles</Filter>
-    </FxCompile>
-    <FxCompile Include="..\..\Client\Bin\ShaderFiles\Shader_VtxPosTex.hlsl">
-      <Filter>00.Device\97.ShaderFiles</Filter>
-    </FxCompile>
   </ItemGroup>
 </Project>

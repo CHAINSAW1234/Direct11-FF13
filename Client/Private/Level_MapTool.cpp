@@ -6,6 +6,8 @@
 #include "Camera_Free.h"
 #include "MapTool.h"
 
+#include "Level_Loading.h"
+
 CLevel_MapTool::CLevel_MapTool(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
     : CLevel(pDevice, pContext)
 {
@@ -31,6 +33,10 @@ HRESULT CLevel_MapTool::Initialize()
 void CLevel_MapTool::Tick(_float fTimeDelta)
 {
 	__super::Tick(fTimeDelta);
+
+	if (m_pGameInstance->Get_KeyState(KEY_DOWN, DIK_RETURN)) {
+		m_pGameInstance->Open_Level(LEVEL_LOADING, CLevel_Loading::Create(m_pDevice, m_pContext, LEVEL_FIELD));
+	}
 
 }
 

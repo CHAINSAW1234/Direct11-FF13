@@ -4,6 +4,7 @@
 #include "Shader.h"
 #include "Texture.h"
 #include "Animation.h"
+#include "GameInstance.h"
 
 CModel::CModel(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
 	: CComponent{ pDevice, pContext }
@@ -132,10 +133,20 @@ HRESULT CModel::Render(_uint iMeshIndex)
 
 _bool CModel::Compute_Picking(const CTransform* pTransform, _Out_ _float4* vOutPos)
 {
+	_float4 vCamPos = m_pGameInstance->Get_CamPosition_Float4();
+	_float4 vCurrentOutPos = { 0.f,0.f,0.f,0.f };
+	_float vCurrentLength = INFINITE;
+	
 	for (size_t i = 0; i < m_iNumMeshes; ++i) {
-		if (m_Meshes[i]->Compute_Picking(pTransform, vOutPos))
-			return true;
+		if (m_Meshes[i]->Compute_Picking(pTransform, &vCurrentOutPos))
+			if (vCurrentLength > XMVector3Length((XMLoadFloat4(&vCamPos) - XMLoadFloat4(&vCurrentOutPos))).m128_f32[0]) {
+				vCurrentLength = XMVector3Length((XMLoadFloat4(&vCamPos) - XMLoadFloat4(&vCurrentOutPos))).m128_f32[0];
+				memcpy(vOutPos, &vCurrentOutPos, sizeof(_float4));
+			}
 	}
+	if (vCurrentLength != INFINITE)
+		return true;
+
 	return false;
 }
 

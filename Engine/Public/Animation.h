@@ -36,7 +36,7 @@ private:
 	_uint								m_iNumChannels = { 0 };		 // 이 애니메이션이 사용하는 체널의 개수 : 뼈의 개수
 	vector<class CChannel*>				m_Channels;					// 그 체널의 데이터
 	vector<_uint>						m_CurrentKeyFrameIndices;	// 현재 프레임에서 CChannel이 취해야되는 키프레임
-																	// CChanel-> CAnimation
+																	// CChanel-> CAnimation			// 받는 타이밍에 가장 큰거?
 	_bool								m_isFinished = { false };
 public:
 	static CAnimation* Create(const aiAnimation* pAIAnimation, const vector<class CBone*>& Bones);
