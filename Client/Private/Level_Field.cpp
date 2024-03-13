@@ -100,22 +100,6 @@ HRESULT CLevel_Field::Create_MapObject(const wstring strModelTag, _float4x4 Worl
 
 HRESULT CLevel_Field::Ready_Layer_Camera(const wstring& strLayerTag)
 {
-	//CCamera_Free::CAMERA_FREE_DESC		CameraDesc{};
-
-	//CameraDesc.fMouseSensor = 0.1f;
-	//CameraDesc.fFovy = XMConvertToRadians(60.0f);
-	//CameraDesc.fAspect = (_float)g_iWinSizeX / g_iWinSizeY;
-	//CameraDesc.fNear = 0.1f;
-	//CameraDesc.fFar = 1000.0f;
-	//CameraDesc.vEye = _float4(0.f, 10.f, -7.f, 1.f);
-	//CameraDesc.vAt = _float4(0.f, 0.f, 0.f, 1.f);
-	//CameraDesc.fSpeedPerSec = 10.f;
-	//CameraDesc.fRotationPerSec = XMConvertToRadians(90.0f);
-
-	//if (FAILED(m_pGameInstance->Add_Clone(g_Level, strLayerTag, TEXT("Prototype_GameObject_Camera_Free"), &CameraDesc)))
-	//	return E_FAIL;
-
-
 	CCamera_Field::CAMERA_FIELD_DESC		CameraDesc{};
 
 	CameraDesc.fMouseSensor = 0.1f;

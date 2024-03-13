@@ -14,6 +14,8 @@ C:\Users\stgo5015\Documents\GitHub\Direct11_FF13\Engine\Private\Input_Device.cpp
 C:\Users\stgo5015\Documents\GitHub\Direct11_FF13\Engine\Private\Layer.cpp;C:\Users\stgo5015\Documents\GitHub\Direct11_FF13\Engine\Default\x64\Debug\Layer.obj
 C:\Users\stgo5015\Documents\GitHub\Direct11_FF13\Engine\Private\Level.cpp;C:\Users\stgo5015\Documents\GitHub\Direct11_FF13\Engine\Default\x64\Debug\Level.obj
 C:\Users\stgo5015\Documents\GitHub\Direct11_FF13\Engine\Private\Level_Manager.cpp;C:\Users\stgo5015\Documents\GitHub\Direct11_FF13\Engine\Default\x64\Debug\Level_Manager.obj
+C:\Users\stgo5015\Documents\GitHub\Direct11_FF13\Engine\Private\Light.cpp;C:\Users\stgo5015\Documents\GitHub\Direct11_FF13\Engine\Default\x64\Debug\Light.obj
+C:\Users\stgo5015\Documents\GitHub\Direct11_FF13\Engine\Private\Light_Manager.cpp;C:\Users\stgo5015\Documents\GitHub\Direct11_FF13\Engine\Default\x64\Debug\Light_Manager.obj
 C:\Users\stgo5015\Documents\GitHub\Direct11_FF13\Engine\Private\Mesh.cpp;C:\Users\stgo5015\Documents\GitHub\Direct11_FF13\Engine\Default\x64\Debug\Mesh.obj
 C:\Users\stgo5015\Documents\GitHub\Direct11_FF13\Engine\Private\Model.cpp;C:\Users\stgo5015\Documents\GitHub\Direct11_FF13\Engine\Default\x64\Debug\Model.obj
 C:\Users\stgo5015\Documents\GitHub\Direct11_FF13\Engine\Private\Object_Manager.cpp;C:\Users\stgo5015\Documents\GitHub\Direct11_FF13\Engine\Default\x64\Debug\Object_Manager.obj

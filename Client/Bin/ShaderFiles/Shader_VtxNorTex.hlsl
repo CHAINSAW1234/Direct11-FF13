@@ -16,6 +16,10 @@ vector g_vMtrlAmbient = vector(0.4f, 0.4f, 0.4f, 1.f);
 vector g_vMtrlSpecular = vector(1.f, 1.f, 1.f, 1.f);
 
 vector g_vCamPosition;
+
+vector g_vBrushPos = vector(0.f, 0.0f, 20.f, 1.f);
+float g_fBrushRange = 10.f;
+
 sampler LinearSampler = sampler_state
 {
     Filter = MIN_MAG_MIP_LINEAR;
@@ -43,6 +47,7 @@ struct VS_OUT
     float4 vShade : COLOR0;
     float  fSpecular : COLOR1;
     float2 vTexcoord : TEXCOORD0;
+    float4 vWorldPos : TEXCOORD1;
 };
 
 /* ¡§¡° Ω¶¿Ã¥ı */
@@ -68,6 +73,7 @@ VS_OUT VS_MAIN(VS_IN In)
     Out.fSpecular = pow(max(dot(normalize(vLook) * -1.f, normalize(vReflect)), 0.f), 30.f);
     Out.vTexcoord = In.vTexcoord;
 
+    Out.vWorldPos = vWorldPos;
     return Out;
 }
 
@@ -77,6 +83,7 @@ struct PS_IN
     float4 vShade : COLOR0;
     float fSpecular : COLOR1;
     float2 vTexcoord : TEXCOORD0;
+    float4 vWorldPos : TEXCOORD1;
 };
 
 struct PS_OUT
@@ -90,8 +97,20 @@ PS_OUT PS_MAIN(PS_IN In)
 
     vector vSourDiffuse = g_DiffuseTexture[0].Sample(LinearSampler, In.vTexcoord * 30.f);
     vector vDestDiffuse = g_DiffuseTexture[1].Sample(LinearSampler, In.vTexcoord * 30.f);
-    vector vBrush = g_BrushTexture.Sample(LinearSampler, In.vTexcoord);
+    vector vBrush = vector(0.f, 0.f, 0.f, 0.f);
+    
+    if (g_vBrushPos.x - g_fBrushRange * 0.5f < In.vWorldPos.x && In.vWorldPos.x <= g_vBrushPos.x + g_fBrushRange * 0.5f &&
+        g_vBrushPos.z - g_fBrushRange * 0.5f < In.vWorldPos.z && In.vWorldPos.z <= g_vBrushPos.z + g_fBrushRange * 0.5f)
+    {
+        float vBrushUV;
+        
+        vBrushUV.x = (In.vWorldPos.x - (g_vBrushPos.x - g_fBrushRange * 0.5f)) / g_fBrushRange;
+        vBrushUV.r = ((g_vBrushPos.z + g_fBrushRange * 0.5f) - In.vWorldPos.z) / g_fBrushRange;
+        
+        vBrush = g_BrushTexture.Sample(LinearSampler, vBrushUV);
 
+    }
+    
     vector vMask = g_MaskTexture.Sample(PointSampler, In.vTexcoord);
 
     vector vDiffuse = vDestDiffuse * vMask + vSourDiffuse * (1.f - vMask) + vBrush;

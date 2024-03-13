@@ -17,10 +17,10 @@ HRESULT CChannel::Initialize(const aiNodeAnim* pAIChannel, const vector<CBone*>&
 
 	m_iNumKeyFrames = max(pAIChannel->mNumPositionKeys, pAIChannel->mNumRotationKeys, pAIChannel->mNumScalingKeys);
 
-	_float3			vScale;
-	_float4			vRotation;
-	_float3			vTranslation;
-	_float			fTime;
+	_float3			vScale = { 0.f, 0.f, 0.f };
+	_float4			vRotation = { 0.f, 0.f, 0.f, 0.f };
+	_float3			vTranslation = { 0.f, 0.f, 0.f };
+	_float			fTime = { 0.f };
 
 	for (size_t i = 0; i < m_iNumKeyFrames; ++i) {
 		KEYFRAME			KeyFrame{};

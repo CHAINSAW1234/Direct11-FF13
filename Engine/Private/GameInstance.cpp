@@ -7,6 +7,7 @@
 #include "Timer_Manager.h"
 #include "Renderer.h"
 #include "Picking.h"
+#include "Light_Manager.h"
 
 IMPLEMENT_SINGLETON(CGameInstance)
 
@@ -50,8 +51,6 @@ HRESULT CGameInstance::Initialize_Engine(HINSTANCE hInstance, _uint iNumLevels, 
 	if (nullptr == m_pLevel_Manager)
 		return E_FAIL;
 
-	/* 인풋 디바이스를 초기화한다 .*/
-
 	/* 사운드 디바이스를 초기화한다 .*/
 
 	/* 오브젝트 매니져의 공간 예약을 한다. */
@@ -64,6 +63,10 @@ HRESULT CGameInstance::Initialize_Engine(HINSTANCE hInstance, _uint iNumLevels, 
 	if (nullptr == m_pComponent_Manager)
 		return E_FAIL;
 	
+	m_pLight_Manager = CLight_Manager::Create();
+	if (nullptr == m_pLight_Manager)
+		return E_FAIL;
+
 	return S_OK;
 }
 
@@ -301,6 +304,22 @@ _float4 CGameInstance::Get_CamPosition_Float4() const
 	return m_pPipeLine->Get_CamPosition_Float4();
 }
 
+const LIGHT_DESC* CGameInstance::Get_LightDesc(_uint iIndex)
+{
+	if (nullptr == m_pLight_Manager)
+		return nullptr;
+
+	return m_pLight_Manager->Get_LightDesc(iIndex);
+}
+
+HRESULT CGameInstance::Add_Light(const LIGHT_DESC& LightDesc)
+{
+	if (nullptr == m_pLight_Manager)
+		return E_FAIL;
+
+	return m_pLight_Manager->Add_Light(LightDesc);
+}
+
 void CGameInstance::Release_Engine()
 {
 	CGameInstance::Get_Instance()->Free();
@@ -319,5 +338,5 @@ void CGameInstance::Free()
 	Safe_Release(m_pLevel_Manager);
 	Safe_Release(m_pInput_Device);
 	Safe_Release(m_pGraphic_Device);
-
+	Safe_Release(m_pLight_Manager);
 }

@@ -99,8 +99,11 @@ HRESULT CModel::Bind_ShaderResource(CShader* pShader, const _char* pConstantName
 		return E_FAIL;
 
 	// 머테리얼중 이번에 바인딩할 텍스처의 번호의 텍스처를 바인딩
-	if(nullptr != m_Materials[iMeshMaterialIndex].MaterialTextures[eTextureType])
-		m_Materials[iMeshMaterialIndex].MaterialTextures[eTextureType]->Bind_ShaderResource(pShader, pConstantName);
+	if (nullptr == m_Materials[iMeshMaterialIndex].MaterialTextures[eTextureType])
+		return E_FAIL;
+
+	if (FAILED(m_Materials[iMeshMaterialIndex].MaterialTextures[eTextureType]->Bind_ShaderResource(pShader, pConstantName)))
+		return E_FAIL;
 
 	return S_OK;
 }

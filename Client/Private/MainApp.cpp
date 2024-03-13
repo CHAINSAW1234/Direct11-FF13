@@ -34,6 +34,9 @@ HRESULT CMainApp::Initialize()
 	if (FAILED(Ready_Prototype_Component_For_Static()))
 		return E_FAIL;
 
+	if (FAILED(Ready_Gara_Light()))
+		return E_FAIL;
+
 	LEVEL eLevel;
 
 	//eLevel = LEVEL_GAMEPLAY;
@@ -114,6 +117,23 @@ HRESULT CMainApp::Ready_Prototype_Component_For_Static()
 #pragma endregion
 
 	return	S_OK;
+}
+
+HRESULT CMainApp::Ready_Gara_Light()
+{
+	LIGHT_DESC			LightDesc{};
+
+	LightDesc.eType = LIGHT_DESC::TYPE_DIRECTIONAL;
+	LightDesc.vDirection = _float4(1.f, -1.f, 1.f, 0.f);
+
+	LightDesc.vDiffuse = _float4(1.f, 1.f, 1.f, 1.f);
+	LightDesc.vAmbient = _float4(1.f, 1.f, 1.f, 1.f);
+	LightDesc.vSpecular = _float4(1.f, 1.f, 1.f, 1.f);
+
+	if (FAILED(m_pGameInstance->Add_Light(LightDesc)))
+		return E_FAIL;
+
+	return S_OK;
 }
 
 HRESULT CMainApp::Ready_Gara()

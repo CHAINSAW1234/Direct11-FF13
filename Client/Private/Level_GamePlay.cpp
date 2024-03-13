@@ -16,8 +16,8 @@ HRESULT CLevel_GamePlay::Initialize()
 	if (FAILED(__super::Initialize()))
 		return E_FAIL;
 
-	//if (FAILED(Ready_Lights()))
-	//	return E_FAIL;
+	if (FAILED(Ready_Lights()))
+		return E_FAIL;
 
 	if(FAILED(Ready_Layer_Camera(TEXT("Layer_Camera"))))
 		return E_FAIL;
@@ -64,7 +64,17 @@ HRESULT CLevel_GamePlay::Render()
 
 HRESULT CLevel_GamePlay::Ready_Lights()
 {
-	
+	LIGHT_DESC			LightDesc{};
+
+	LightDesc.eType = LIGHT_DESC::TYPE_DIRECTIONAL;
+	LightDesc.vDirection = _float4(1.f, -1.f, 1.f, 0.f);
+
+	LightDesc.vDiffuse = _float4(1.f, 1.f, 1.f, 1.f);
+	LightDesc.vAmbient = _float4(1.f, 1.f, 1.f, 1.f);
+	LightDesc.vSpecular = _float4(1.f, 1.f, 1.f, 1.f);
+
+	if (FAILED(m_pGameInstance->Add_Light(LightDesc)))
+		return E_FAIL;
 
 
 	return S_OK;
@@ -90,25 +100,10 @@ HRESULT CLevel_GamePlay::Ready_Layer_Camera(const wstring & strLayerTag)
 	return S_OK;
 }
 
-HRESULT CLevel_GamePlay::Ready_LandObject()
+HRESULT CLevel_GamePlay::Ready_Layer_LandMapObject(const wstring& strLayerTag)
 {
-	if (FAILED(m_pGameInstance->Add_Clone(LEVEL_GAMEPLAY, TEXT("Layer_Monster"), TEXT("Prototype_GameObject_Monster"))))
+	if (FAILED(m_pGameInstance->Add_Clone(LEVEL_GAMEPLAY, strLayerTag, TEXT("Prototype_GameObject_ForkLift"))))
 		return E_FAIL;
-
-
-	///* 랜드오브젝트용 객체들에게 필요한 데이터를 구한다.*/
-	//CLandObject::LANDOBJECT_DESC		LandObjectDesc = {};
-	//LandObjectDesc.pTerrainTransform = (CTransform*)(m_pGameInstance->Get_Component(LEVEL_GAMEPLAY, TEXT("Layer_BackGround"), g_strTransformTag));
-	//LandObjectDesc.pTerrainVIBuffer = (CVIBuffer_Terrain*)(m_pGameInstance->Get_Component(LEVEL_GAMEPLAY, TEXT("Layer_BackGround"), TEXT("Com_VIBuffer")));	
-
-	///* 구한정보들을 각 랜드오브젝트르 생성할 때 던진다. */
-	//if (FAILED(Ready_Layer_Player(TEXT("Layer_Player"), LandObjectDesc)))
-	//	return E_FAIL;
-
-	///* 구한정보들을 각 랜드오브젝트르 생성할 때 던진다. */
-	//if (FAILED(Ready_Layer_Monster(TEXT("Layer_Monster"), LandObjectDesc)))
-	//	return E_FAIL;
-
 	return S_OK;
 }
 //
@@ -151,6 +146,28 @@ HRESULT CLevel_GamePlay::Ready_Layer_BackGround(const wstring & strLayerTag)
 
 	//if (FAILED(m_pGameInstance->Add_Clone(LEVEL_GAMEPLAY, strLayerTag, TEXT("Prototype_GameObject_Sky"))))
 	//	return E_FAIL;
+
+	return S_OK;
+}
+
+HRESULT CLevel_GamePlay::Ready_LandObject()
+{
+	///* 랜드오브젝트용 객체들에게 필요한 데이터를 구한다.*/
+	/*CLandObject::LANDOBJECT_DESC		LandObjectDesc = {};
+	LandObjectDesc.pTerrainTransform = (CTransform*)(m_pGameInstance->Get_Component(LEVEL_GAMEPLAY, TEXT("Layer_BackGround"), g_strTransformTag));
+	LandObjectDesc.pTerrainVIBuffer = (CVIBuffer_Terrain*)(m_pGameInstance->Get_Component(LEVEL_GAMEPLAY, TEXT("Layer_BackGround"), TEXT("Com_VIBuffer")));	*/
+
+	///* 구한정보들을 각 랜드오브젝트르 생성할 때 던진다. */
+	//if (FAILED(Ready_Layer_Player(TEXT("Layer_Player"), LandObjectDesc)))
+	//	return E_FAIL;
+
+	if (FAILED(m_pGameInstance->Add_Clone(LEVEL_GAMEPLAY, TEXT("Layer_Monster"), TEXT("Prototype_GameObject_Monster"))))
+		return E_FAIL;
+	
+	if (FAILED(Ready_Layer_LandMapObject(TEXT("Layer_LandMapObject"))))
+		return E_FAIL;
+
+
 
 	return S_OK;
 }

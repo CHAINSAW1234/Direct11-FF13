@@ -103,6 +103,12 @@
     <Filter Include="01.Utility\02.Components\FSM\State">
       <UniqueIdentifier>{6e3f584b-70d6-4b7f-9314-6531bdc5ddec}</UniqueIdentifier>
     </Filter>
+    <Filter Include="01.Utility\06.Lights">
+      <UniqueIdentifier>{93e1801e-44b0-413b-b91f-ecf1bb374fcb}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="01.Utility\06.Lights\Manager">
+      <UniqueIdentifier>{bb4b3ff0-5b8a-45e3-a75c-92403abc210c}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\Private\Base.cpp">
@@ -200,6 +206,12 @@
     </ClCompile>
     <ClCompile Include="..\Private\FSM_State.cpp">
       <Filter>01.Utility\02.Components\FSM\State</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Light.cpp">
+      <Filter>01.Utility\06.Lights</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Light_Manager.cpp">
+      <Filter>01.Utility\06.Lights\Manager</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -310,6 +322,12 @@
     </ClInclude>
     <ClInclude Include="..\Public\FSM_State.h">
       <Filter>01.Utility\02.Components\FSM\State</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\Light.h">
+      <Filter>01.Utility\06.Lights</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\Light_Manager.h">
+      <Filter>01.Utility\06.Lights\Manager</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

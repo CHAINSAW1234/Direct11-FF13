@@ -5,9 +5,12 @@
 BEGIN(Engine)
 class CModel;
 class CShader;
+class CFSM;
 END
 
 BEGIN(Client)
+
+// 캐릭터 3개
 
 class CChr final :  public CGameObject
 {
@@ -24,8 +27,9 @@ public:
 	virtual HRESULT Render() override;
 
 private:
-	CModel* m_pModelCom = { nullptr };
-	CShader* m_pShaderCom = { nullptr };
+	CModel*		m_pModelCom = { nullptr };
+	CShader*	m_pShaderCom = { nullptr };
+	CFSM*		m_pFSMCom = { nullptr };
 
 private:
 	HRESULT Add_Components();

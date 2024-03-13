@@ -172,6 +172,7 @@
     <ClInclude Include="..\Public\Camera_Field.h" />
     <ClInclude Include="..\Public\Chr.h" />
     <ClInclude Include="..\Public\Client_Defines.h" />
+    <ClInclude Include="..\Public\Forklift.h" />
     <ClInclude Include="..\Public\Grid.h" />
     <ClInclude Include="..\Public\ImGUI_Manager.h" />
     <ClInclude Include="..\Public\Level_Field.h" />
@@ -210,6 +211,7 @@
     <ClCompile Include="..\Private\Camera_Free.cpp" />
     <ClCompile Include="..\Private\Camera_Field.cpp" />
     <ClCompile Include="..\Private\Chr.cpp" />
+    <ClCompile Include="..\Private\Forklift.cpp" />
     <ClCompile Include="..\Private\Grid.cpp" />
     <ClCompile Include="..\Private\ImGUI_Manager.cpp" />
     <ClCompile Include="..\Private\Level_Field.cpp" />

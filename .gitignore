@@ -1,5 +1,7 @@
 .vs/
 Client/Default/x64/
+Client/Default/Debug/
 Engine/Default/x64/
+Engine/Default/Debug/
 EngineSDK/
 BK/

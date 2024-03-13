@@ -59,6 +59,10 @@ public: /* For.PipeLine */
 	_vector Get_CamPosition_Vector() const;
 	_float4 Get_CamPosition_Float4() const;
 
+public: /* For.Light_Manager */
+	const LIGHT_DESC* Get_LightDesc(_uint iIndex);
+	HRESULT Add_Light(const LIGHT_DESC& LightDesc);
+
 private:
 	class CGraphic_Device*			m_pGraphic_Device = { nullptr };
 	class CInput_Device*			m_pInput_Device = { nullptr };
@@ -69,7 +73,8 @@ private:
 	class CTimer_Manager*			m_pTimer_Manager = { nullptr };
 	class CPicking*					m_pPicking = { nullptr };
 	class CFont_Manager*			m_pFont_Manager = { nullptr };
-	class CPipeLine* m_pPipeLine = { nullptr };
+	class CPipeLine*				m_pPipeLine = { nullptr };
+	class CLight_Manager*			m_pLight_Manager = { nullptr };
 
 public:		
 	static void Release_Engine();

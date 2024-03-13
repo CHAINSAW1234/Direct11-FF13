@@ -85,6 +85,9 @@
     <Filter Include="02.GameObjects\Camera\Camera_Field">
       <UniqueIdentifier>{f99eeff5-6bdb-4186-92c5-2ab693299622}</UniqueIdentifier>
     </Filter>
+    <Filter Include="02.GameObjects\Forklift">
+      <UniqueIdentifier>{71dcb4da-a072-4364-a534-e77e2b804c60}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\public\MainApp.h">
@@ -198,6 +201,9 @@
     <ClInclude Include="..\Public\Loader.h">
       <Filter>01.Levels\00. Loading\Loader</Filter>
     </ClInclude>
+    <ClInclude Include="..\Public\Forklift.h">
+      <Filter>02.GameObjects\Forklift</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\private\MainApp.cpp">
@@ -292,6 +298,9 @@
     </ClCompile>
     <ClCompile Include="..\Private\Chr.cpp">
       <Filter>02.GameObjects\Chr</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Forklift.cpp">
+      <Filter>02.GameObjects\Forklift</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

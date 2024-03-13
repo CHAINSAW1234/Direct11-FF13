@@ -31,7 +31,7 @@ private:
 	HRESULT Ready_Prototype_GameObject();
 	HRESULT Ready_Prototype_Component_For_Static();
 
-
+	HRESULT Ready_Gara_Light();
 	HRESULT Ready_Gara();
 
 public:	

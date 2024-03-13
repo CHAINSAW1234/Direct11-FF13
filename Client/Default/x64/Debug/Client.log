@@ -1,23 +1,8 @@
-﻿  Camera_Field.cpp
-C:\Users\stgo5015\Documents\GitHub\Direct11_FF13\EngineSDK\Inc\Transform.h(9,29): warning C4305: '초기화 중': 'double'에서 'const Engine::_float'(으)로 잘립니다.
-  (소스 파일 '/Private/Camera_Field.cpp'을(를) 컴파일하는 중)
+﻿  MainApp.cpp
+C:\Users\stgo5015\Documents\GitHub\Direct11_FF13\Client\private\MainApp.cpp(167,18): warning C4267: '초기화 중': 'size_t'에서 'Engine::_uint'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+  (소스 파일 '/private/MainApp.cpp'을(를) 컴파일하는 중)
   
-C:\Users\stgo5015\Documents\GitHub\Direct11_FF13\Client\Private\Camera_Field.cpp(98,36): warning C4244: '인수': 'Engine::_long'에서 'float'(으)로 변환하면서 데이터가 손실될 수 있습니다.
-  (소스 파일 '/Private/Camera_Field.cpp'을(를) 컴파일하는 중)
-  
-C:\Users\stgo5015\Documents\GitHub\Direct11_FF13\Client\Private\Camera_Field.cpp(98,26): warning C4244: '=': 'float'에서 'Engine::_long'(으)로 변환하면서 데이터가 손실될 수 있습니다.
-  (소스 파일 '/Private/Camera_Field.cpp'을(를) 컴파일하는 중)
-  
-C:\Users\stgo5015\Documents\GitHub\Direct11_FF13\Client\Private\Camera_Field.cpp(101,31): warning C4244: '-=': 'double'에서 'Engine::_float'(으)로 변환하면서 데이터가 손실될 수 있습니다.
-  (소스 파일 '/Private/Camera_Field.cpp'을(를) 컴파일하는 중)
-  
-C:\Users\stgo5015\Documents\GitHub\Direct11_FF13\Client\Private\Camera_Field.cpp(112,36): warning C4244: '인수': 'Engine::_long'에서 'float'(으)로 변환하면서 데이터가 손실될 수 있습니다.
-  (소스 파일 '/Private/Camera_Field.cpp'을(를) 컴파일하는 중)
-  
-C:\Users\stgo5015\Documents\GitHub\Direct11_FF13\Client\Private\Camera_Field.cpp(112,26): warning C4244: '=': 'float'에서 'Engine::_long'(으)로 변환하면서 데이터가 손실될 수 있습니다.
-  (소스 파일 '/Private/Camera_Field.cpp'을(를) 컴파일하는 중)
-  
-C:\Users\stgo5015\Documents\GitHub\Direct11_FF13\Client\Private\Camera_Field.cpp(115,32): warning C4244: '-=': 'double'에서 'Engine::_float'(으)로 변환하면서 데이터가 손실될 수 있습니다.
-  (소스 파일 '/Private/Camera_Field.cpp'을(를) 컴파일하는 중)
+C:\Users\stgo5015\Documents\GitHub\Direct11_FF13\Client\private\MainApp.cpp(189,18): warning C4267: '초기화 중': 'size_t'에서 'Engine::_uint'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+  (소스 파일 '/private/MainApp.cpp'을(를) 컴파일하는 중)
   
   Client.vcxproj -> C:\Users\stgo5015\Documents\GitHub\Direct11_FF13\Client\Bin\Client.exe

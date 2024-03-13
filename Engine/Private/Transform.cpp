@@ -189,18 +189,24 @@ void CTransform::Rotation(_fvector vAxis, _float fRadian)
 	}
 }
 
-void CTransform::Turn_With_Look_At(_fvector vAxis, _fvector vTargetPosition, _float fDest, _float fTimeDelta)
+void CTransform::Turn_With_Look_At(_fvector vAxis, _fvector vTargetPosition, _float fDest, _float fTimeDelta, _int iMaxDegree)
 {
 	_matrix			RotationMatrix = XMMatrixRotationAxis(vAxis, m_fRotationPerSec * fTimeDelta);
+
+	_vector vLook = XMVector4Transform(Get_State_Vector(STATE_LOOK), RotationMatrix);
+
+	//_float fDifferenceY = vLook.m128_f32[1];
+	if (iMaxDegree !=0 && abs(vLook.m128_f32[1]) >= sin(XMConvertToRadians(iMaxDegree))) {
+		return ;
+	}
 
 	for (size_t i = 0; i < STATE_POSITION; i++)
 	{
 		Set_State(STATE(i),
 			XMVector4Transform(Get_State_Vector((STATE)i), RotationMatrix));
-		/*Set_State(STATE(i),
-			XMVector3TransformNormal(Get_State_Vector((STATE)i), RotationMatrix));*/
+
 	}
-	_vector vLook = Get_State_Vector(STATE_LOOK);
+	//vLook = Get_State_Vector(STATE_LOOK);
 	
 	Set_State(STATE_POSITION, vTargetPosition - vLook * fDest);
 

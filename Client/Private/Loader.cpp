@@ -7,6 +7,7 @@
 #include "BackGround.h"
 #include "Terrain.h"
 #include "Monster.h"
+#include "Forklift.h"
 #include "MapObject.h"
 #include "Grid.h"
 #include "Chr.h"
@@ -128,6 +129,11 @@ HRESULT CLoader::Loading_Prototype()
 	if (FAILED(m_pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_Monster"),
 		CMonster::Create(m_pDevice, m_pContext))))
 		return E_FAIL;
+	/* For.Prototype_GameObject_Monster */
+	if (FAILED(m_pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_ForkLift"),
+		CForkLift::Create(m_pDevice, m_pContext))))
+		return E_FAIL;
+
 
 	/* For.Prototype_GameObject_MapObject */
 	if (FAILED(m_pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_MapObject"),

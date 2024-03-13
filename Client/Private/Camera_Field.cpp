@@ -29,13 +29,14 @@ HRESULT CCamera_Field::Initialize(void* pArg)
 	if (FAILED(__super::Initialize(pArg)))
 		return E_FAIL;
 
+
 	return S_OK;
 }
 
 void CCamera_Field::Tick(_float fTimeDelta)
 {
 	// 테스트를 위해서 LBUtton안으로 전체 넣기
-	Update_With_Mouse(fTimeDelta);
+	//Update_With_Mouse(fTimeDelta);
 
 
 	if (m_pGameInstance->Get_KeyState(KEY_PRESS, DIK_A))
@@ -56,18 +57,18 @@ void CCamera_Field::Tick(_float fTimeDelta)
 	if (m_pGameInstance->Get_KeyState(KEY_PRESS, DIK_G))
 		m_pTransformCom->Go_Down(fTimeDelta);
 
-	//if (m_pGameInstance->Get_DIMouseState(DIMKS_LBUTTON)) {
-	//	_long	MouseMove = { 0 };
+	if (m_pGameInstance->Get_DIMouseState(DIMKS_LBUTTON)) {
+		_long	MouseMove = { 0 };
 
-	//	if (MouseMove = m_pGameInstance->Get_DIMouseMove(DIMMS_X))
-	//	{
-	//		m_pTransformCom->Turn(XMVectorSet(0.f, 1.f, 0.f, 0.f), fTimeDelta * MouseMove * m_fMouseSensor);
-	//	}
-	//	if (MouseMove = m_pGameInstance->Get_DIMouseMove(DIMMS_Y))
-	//	{
-	//		m_pTransformCom->Turn(m_pTransformCom->Get_State_Vector(CTransform::STATE_RIGHT), fTimeDelta * MouseMove * m_fMouseSensor);
-	//	}
-	//}
+		if (MouseMove = m_pGameInstance->Get_DIMouseMove(DIMMS_X))
+		{
+			m_pTransformCom->Turn(XMVectorSet(0.f, 1.f, 0.f, 0.f), fTimeDelta * MouseMove * m_fMouseSensor);
+		}
+		if (MouseMove = m_pGameInstance->Get_DIMouseMove(DIMMS_Y))
+		{
+			m_pTransformCom->Turn(m_pTransformCom->Get_State_Vector(CTransform::STATE_RIGHT), fTimeDelta * MouseMove * m_fMouseSensor);
+		}
+	}
 
 	__super::Bind_PipeLines();
 }
@@ -98,12 +99,11 @@ void CCamera_Field::Update_With_Mouse(_float fTimeDelta)
 		m_MouseMoveX = Saturate(-50, 50, MouseMove);
 	}
 	else {
-		m_fMouseMoveXAxis -= 90/0.3 *fTimeDelta;
-		if (m_fMouseMoveXAxis < 0) {
+		m_fMouseMoveXAxis *= 0.9;
+		if (m_fMouseMoveXAxis < 3) {
 			m_fMouseMoveXAxis = 0;
 		}
 	}
-
 	m_pTransformCom->Turn_With_Look_At(XMVectorSet(0.f, 1.f, 0.f, 0.f), vTargetPosition, m_fDist,  fTimeDelta * sin(XMConvertToRadians(m_fMouseMoveXAxis)) * m_MouseMoveX * m_fMouseSensor);
 
 	if (MouseMove = m_pGameInstance->Get_DIMouseMove(DIMMS_Y))
@@ -112,13 +112,16 @@ void CCamera_Field::Update_With_Mouse(_float fTimeDelta)
 		m_MouseMoveY = Saturate(-50, 50, MouseMove);
 	}
 	else {
-		m_fMouseMoveYAxis -= 90 /0.3 * fTimeDelta;
-		if (m_fMouseMoveYAxis < 0) {
+		m_fMouseMoveYAxis *= 0.9;
+		if (m_fMouseMoveYAxis < 3) {
 			m_fMouseMoveYAxis = 0;
 		}
 	}
 
-	m_pTransformCom->Turn_With_Look_At(m_pTransformCom->Get_State_Vector(CTransform::STATE_RIGHT), vTargetPosition, m_fDist, fTimeDelta * sin(XMConvertToRadians(m_fMouseMoveYAxis)) * m_MouseMoveY * m_fMouseSensor);
+
+	// y축 각도 제한 걸기
+	// y축 거리 차이가 fDist / sqrt(2)인 경우에만 작동
+	m_pTransformCom->Turn_With_Look_At(m_pTransformCom->Get_State_Vector(CTransform::STATE_RIGHT), vTargetPosition, m_fDist, fTimeDelta * sin(XMConvertToRadians(m_fMouseMoveYAxis)) * m_MouseMoveY * m_fMouseSensor, 60);
 
 
 
