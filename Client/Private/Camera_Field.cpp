@@ -36,7 +36,7 @@ HRESULT CCamera_Field::Initialize(void* pArg)
 void CCamera_Field::Tick(_float fTimeDelta)
 {
 	// 테스트를 위해서 LBUtton안으로 전체 넣기
-	//Update_With_Mouse(fTimeDelta);
+	Update_With_Mouse(fTimeDelta);
 
 
 	if (m_pGameInstance->Get_KeyState(KEY_PRESS, DIK_A))
@@ -88,7 +88,7 @@ HRESULT CCamera_Field::Render()
 
 void CCamera_Field::Update_With_Mouse(_float fTimeDelta)
 {
-	Set_CursorPos();
+	//Set_CursorPos();
 
 	_vector vTargetPosition = dynamic_cast<CTransform*>(m_pTargetObject->Get_Component(g_strTransformTag))->Get_State_Vector(CTransform::STATE_POSITION);
 	_long MouseMove = { 0 };

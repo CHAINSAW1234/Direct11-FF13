@@ -1,8 +1,2 @@
-﻿  MainApp.cpp
-C:\Users\stgo5015\Documents\GitHub\Direct11_FF13\Client\private\MainApp.cpp(167,18): warning C4267: '초기화 중': 'size_t'에서 'Engine::_uint'(으)로 변환하면서 데이터가 손실될 수 있습니다.
-  (소스 파일 '/private/MainApp.cpp'을(를) 컴파일하는 중)
-  
-C:\Users\stgo5015\Documents\GitHub\Direct11_FF13\Client\private\MainApp.cpp(189,18): warning C4267: '초기화 중': 'size_t'에서 'Engine::_uint'(으)로 변환하면서 데이터가 손실될 수 있습니다.
-  (소스 파일 '/private/MainApp.cpp'을(를) 컴파일하는 중)
-  
+﻿  Chr_Field_State_Walk.cpp
   Client.vcxproj -> C:\Users\stgo5015\Documents\GitHub\Direct11_FF13\Client\Bin\Client.exe

@@ -171,6 +171,12 @@
     <ClInclude Include="..\Public\Camera_Free.h" />
     <ClInclude Include="..\Public\Camera_Field.h" />
     <ClInclude Include="..\Public\Chr.h" />
+    <ClInclude Include="..\Public\Chr_Field.h" />
+    <ClInclude Include="..\Public\Chr_Field_State_Battle_Begin.h" />
+    <ClInclude Include="..\Public\Chr_Field_State_Idle.h" />
+    <ClInclude Include="..\Public\Chr_Field_State_Item.h" />
+    <ClInclude Include="..\Public\Chr_Field_State_Move.h" />
+    <ClInclude Include="..\Public\Chr_Field_State_Walk.h" />
     <ClInclude Include="..\Public\Client_Defines.h" />
     <ClInclude Include="..\Public\Forklift.h" />
     <ClInclude Include="..\Public\Grid.h" />
@@ -211,6 +217,11 @@
     <ClCompile Include="..\Private\Camera_Free.cpp" />
     <ClCompile Include="..\Private\Camera_Field.cpp" />
     <ClCompile Include="..\Private\Chr.cpp" />
+    <ClCompile Include="..\Private\Chr_Field.cpp" />
+    <ClCompile Include="..\Private\Chr_Field_State_Battle_Begin.cpp" />
+    <ClCompile Include="..\Private\Chr_Field_State_Idle.cpp" />
+    <ClCompile Include="..\Private\Chr_Field_State_Item.cpp" />
+    <ClCompile Include="..\Private\Chr_Field_State_Walk.cpp" />
     <ClCompile Include="..\Private\Forklift.cpp" />
     <ClCompile Include="..\Private\Grid.cpp" />
     <ClCompile Include="..\Private\ImGUI_Manager.cpp" />
@@ -228,6 +239,7 @@
     <ClCompile Include="..\Private\ParsingTool.cpp" />
     <ClCompile Include="..\Private\Terrain.cpp" />
     <ClCompile Include="..\Private\TestModel.cpp" />
+    <ClCompile Include="..\Public\Chr_Field_State_Move.cpp" />
     <ClCompile Include="Client.cpp" />
     <ClCompile Include="ImGUI\imgui.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">NotUsing</PrecompiledHeader>

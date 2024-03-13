@@ -63,6 +63,8 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
 	if (FAILED(pGameInstance->Add_Timer(TEXT("Timer_60"))))
 		return FALSE;
 
+    srand(time(0));
+
     _int        iFrame = 0;
 	_float		fTimeAcc = { 0 };
     wstring      str = L"";

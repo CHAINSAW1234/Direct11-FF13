@@ -88,6 +88,27 @@
     <Filter Include="02.GameObjects\Forklift">
       <UniqueIdentifier>{71dcb4da-a072-4364-a534-e77e2b804c60}</UniqueIdentifier>
     </Filter>
+    <Filter Include="02.GameObjects\Chr\Chr_Field">
+      <UniqueIdentifier>{b1dad8bd-cbf0-49d0-973a-14e7657f0613}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\Chr\Chr_Field\State">
+      <UniqueIdentifier>{1804b0d5-9511-4e0f-ae93-084f61cf75b3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\Chr\Chr_Field\State\Chr_Field_State_Idle">
+      <UniqueIdentifier>{0e1ee73d-1520-4164-b2c0-bff32003431a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\Chr\Chr_Field\State\Chr_Field_State_Move">
+      <UniqueIdentifier>{36b88fe8-77e2-40e2-91e5-20b7823000c9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\Chr\Chr_Field\State\Chr_Field_State_Walk">
+      <UniqueIdentifier>{da510b5f-b40f-4a3f-8087-a1d2394ba8a1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\Chr\Chr_Field\State\Chr_Field_State_Battle_Begin">
+      <UniqueIdentifier>{42d4cdc1-10d7-4fa2-8a77-664a3d640849}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\Chr\Chr_Field\State\Chr_Field_State_Item">
+      <UniqueIdentifier>{60c78af1-10d7-4383-82ac-398c7b19420c}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\public\MainApp.h">
@@ -204,6 +225,24 @@
     <ClInclude Include="..\Public\Forklift.h">
       <Filter>02.GameObjects\Forklift</Filter>
     </ClInclude>
+    <ClInclude Include="..\Public\Chr_Field.h">
+      <Filter>02.GameObjects\Chr\Chr_Field</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\Chr_Field_State_Idle.h">
+      <Filter>02.GameObjects\Chr\Chr_Field\State\Chr_Field_State_Idle</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\Chr_Field_State_Move.h">
+      <Filter>02.GameObjects\Chr\Chr_Field\State\Chr_Field_State_Move</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\Chr_Field_State_Walk.h">
+      <Filter>02.GameObjects\Chr\Chr_Field\State\Chr_Field_State_Walk</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\Chr_Field_State_Battle_Begin.h">
+      <Filter>02.GameObjects\Chr\Chr_Field\State\Chr_Field_State_Battle_Begin</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\Chr_Field_State_Item.h">
+      <Filter>02.GameObjects\Chr\Chr_Field\State\Chr_Field_State_Item</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\private\MainApp.cpp">
@@ -301,6 +340,24 @@
     </ClCompile>
     <ClCompile Include="..\Private\Forklift.cpp">
       <Filter>02.GameObjects\Forklift</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Chr_Field.cpp">
+      <Filter>02.GameObjects\Chr\Chr_Field</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Chr_Field_State_Idle.cpp">
+      <Filter>02.GameObjects\Chr\Chr_Field\State\Chr_Field_State_Idle</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Public\Chr_Field_State_Move.cpp">
+      <Filter>02.GameObjects\Chr\Chr_Field\State\Chr_Field_State_Move</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Chr_Field_State_Walk.cpp">
+      <Filter>02.GameObjects\Chr\Chr_Field\State\Chr_Field_State_Walk</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Chr_Field_State_Battle_Begin.cpp">
+      <Filter>02.GameObjects\Chr\Chr_Field\State\Chr_Field_State_Battle_Begin</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Chr_Field_State_Item.cpp">
+      <Filter>02.GameObjects\Chr\Chr_Field\State\Chr_Field_State_Item</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

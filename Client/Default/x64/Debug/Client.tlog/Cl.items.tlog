@@ -2,6 +2,11 @@ C:\Users\stgo5015\Documents\GitHub\Direct11_FF13\Client\private\BackGround.cpp;C
 C:\Users\stgo5015\Documents\GitHub\Direct11_FF13\Client\Private\Camera_Free.cpp;C:\Users\stgo5015\Documents\GitHub\Direct11_FF13\Client\Default\x64\Debug\Camera_Free.obj
 C:\Users\stgo5015\Documents\GitHub\Direct11_FF13\Client\Private\Camera_Field.cpp;C:\Users\stgo5015\Documents\GitHub\Direct11_FF13\Client\Default\x64\Debug\Camera_Field.obj
 C:\Users\stgo5015\Documents\GitHub\Direct11_FF13\Client\Private\Chr.cpp;C:\Users\stgo5015\Documents\GitHub\Direct11_FF13\Client\Default\x64\Debug\Chr.obj
+C:\Users\stgo5015\Documents\GitHub\Direct11_FF13\Client\Private\Chr_Field.cpp;C:\Users\stgo5015\Documents\GitHub\Direct11_FF13\Client\Default\x64\Debug\Chr_Field.obj
+C:\Users\stgo5015\Documents\GitHub\Direct11_FF13\Client\Private\Chr_Field_State_Battle_Begin.cpp;C:\Users\stgo5015\Documents\GitHub\Direct11_FF13\Client\Default\x64\Debug\Chr_Field_State_Battle_Begin.obj
+C:\Users\stgo5015\Documents\GitHub\Direct11_FF13\Client\Private\Chr_Field_State_Idle.cpp;C:\Users\stgo5015\Documents\GitHub\Direct11_FF13\Client\Default\x64\Debug\Chr_Field_State_Idle.obj
+C:\Users\stgo5015\Documents\GitHub\Direct11_FF13\Client\Private\Chr_Field_State_Item.cpp;C:\Users\stgo5015\Documents\GitHub\Direct11_FF13\Client\Default\x64\Debug\Chr_Field_State_Item.obj
+C:\Users\stgo5015\Documents\GitHub\Direct11_FF13\Client\Private\Chr_Field_State_Walk.cpp;C:\Users\stgo5015\Documents\GitHub\Direct11_FF13\Client\Default\x64\Debug\Chr_Field_State_Walk.obj
 C:\Users\stgo5015\Documents\GitHub\Direct11_FF13\Client\Private\Forklift.cpp;C:\Users\stgo5015\Documents\GitHub\Direct11_FF13\Client\Default\x64\Debug\Forklift.obj
 C:\Users\stgo5015\Documents\GitHub\Direct11_FF13\Client\Private\Grid.cpp;C:\Users\stgo5015\Documents\GitHub\Direct11_FF13\Client\Default\x64\Debug\Grid.obj
 C:\Users\stgo5015\Documents\GitHub\Direct11_FF13\Client\Private\ImGUI_Manager.cpp;C:\Users\stgo5015\Documents\GitHub\Direct11_FF13\Client\Default\x64\Debug\ImGUI_Manager.obj
@@ -19,6 +24,7 @@ C:\Users\stgo5015\Documents\GitHub\Direct11_FF13\Client\Private\Monster.cpp;C:\U
 C:\Users\stgo5015\Documents\GitHub\Direct11_FF13\Client\Private\ParsingTool.cpp;C:\Users\stgo5015\Documents\GitHub\Direct11_FF13\Client\Default\x64\Debug\ParsingTool.obj
 C:\Users\stgo5015\Documents\GitHub\Direct11_FF13\Client\Private\Terrain.cpp;C:\Users\stgo5015\Documents\GitHub\Direct11_FF13\Client\Default\x64\Debug\Terrain.obj
 C:\Users\stgo5015\Documents\GitHub\Direct11_FF13\Client\Private\TestModel.cpp;C:\Users\stgo5015\Documents\GitHub\Direct11_FF13\Client\Default\x64\Debug\TestModel.obj
+C:\Users\stgo5015\Documents\GitHub\Direct11_FF13\Client\Public\Chr_Field_State_Move.cpp;C:\Users\stgo5015\Documents\GitHub\Direct11_FF13\Client\Default\x64\Debug\Chr_Field_State_Move.obj
 C:\Users\stgo5015\Documents\GitHub\Direct11_FF13\Client\Default\Client.cpp;C:\Users\stgo5015\Documents\GitHub\Direct11_FF13\Client\Default\x64\Debug\Client.obj
 C:\Users\stgo5015\Documents\GitHub\Direct11_FF13\Client\Default\ImGUI\imgui.cpp;C:\Users\stgo5015\Documents\GitHub\Direct11_FF13\Client\Default\x64\Debug\imgui.obj
 C:\Users\stgo5015\Documents\GitHub\Direct11_FF13\Client\Default\ImGUI\ImGuiFileDialog.cpp;C:\Users\stgo5015\Documents\GitHub\Direct11_FF13\Client\Default\x64\Debug\ImGuiFileDialog.obj

@@ -80,6 +80,7 @@ void CAnimation::Invalidate_TransformationMatrix_Linear_Interpolation(_float fTi
 
 void CAnimation::Reset_Animation()
 {
+	m_isFinished = false;
 	m_fTrackPosition = 0;
 	for (auto& CurrentKeyFrameIndex : m_CurrentKeyFrameIndices) {
 		CurrentKeyFrameIndex = 0;

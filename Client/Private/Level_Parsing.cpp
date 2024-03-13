@@ -84,9 +84,14 @@ HRESULT CLevel_Parsing::Ready_Models()
 
 	// 2. Animmodel;
 	
-	path = "../Bin/Resources/Models/chr/Light/Light" + tag;
+	_matrix		TransformMatrix = XMMatrixIdentity();
+
+	/* Prototype_Component_Model_Fiona */
+	TransformMatrix = XMMatrixRotationY(XMConvertToRadians(180.0f));
+
+	path = "../Bin/Resources/Models/chr/Light/Light_Field.fbx";
 	CModel* pModel = { nullptr };
-	pModel = CModel::Create(m_pDevice, m_pContext, CModel::TYPE_ANIM, path, XMMatrixIdentity());
+	pModel = CModel::Create(m_pDevice, m_pContext, CModel::TYPE_ANIM, path, TransformMatrix);
 	if (nullptr == pModel)
 		return E_FAIL;
 	m_Models.push_back(pModel);
@@ -133,7 +138,7 @@ HRESULT CLevel_Parsing::Parse_Models()
 
 #pragma endregion
 
-	path = "../Bin/Resources/Models/chr/Light/Light.bin";
+	path = "../Bin/Resources/Models/chr/Light/Light_Field.bin";
 	if (FAILED(m_Models[0]->Save_Model(path)))
 		return E_FAIL;
 

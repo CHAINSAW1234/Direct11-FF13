@@ -109,6 +109,12 @@
     <Filter Include="01.Utility\06.Lights\Manager">
       <UniqueIdentifier>{bb4b3ff0-5b8a-45e3-a75c-92403abc210c}</UniqueIdentifier>
     </Filter>
+    <Filter Include="01.Utility\07.Observer">
+      <UniqueIdentifier>{0d237c6e-d231-4fa4-945c-40b7d0c69fb8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="01.Utility\07.Observer\Handler">
+      <UniqueIdentifier>{bf2ee945-08e9-47f6-beaa-c573e2bbbda0}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\Private\Base.cpp">
@@ -212,6 +218,12 @@
     </ClCompile>
     <ClCompile Include="..\Private\Light_Manager.cpp">
       <Filter>01.Utility\06.Lights\Manager</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Observer.cpp">
+      <Filter>01.Utility\07.Observer</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Observer_Handler.cpp">
+      <Filter>01.Utility\07.Observer\Handler</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -328,6 +340,12 @@
     </ClInclude>
     <ClInclude Include="..\Public\Light_Manager.h">
       <Filter>01.Utility\06.Lights\Manager</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\Observer.h">
+      <Filter>01.Utility\07.Observer</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\Observer_Handler.h">
+      <Filter>01.Utility\07.Observer\Handler</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

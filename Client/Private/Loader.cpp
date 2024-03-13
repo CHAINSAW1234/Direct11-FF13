@@ -11,6 +11,7 @@
 #include "MapObject.h"
 #include "Grid.h"
 #include "Chr.h"
+#include "Chr_Field.h"
 //#include "Player.h"
 //#include "Effect.h"
 //#include "Sky.h"
@@ -129,11 +130,16 @@ HRESULT CLoader::Loading_Prototype()
 	if (FAILED(m_pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_Monster"),
 		CMonster::Create(m_pDevice, m_pContext))))
 		return E_FAIL;
+
 	/* For.Prototype_GameObject_Monster */
 	if (FAILED(m_pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_ForkLift"),
 		CForkLift::Create(m_pDevice, m_pContext))))
 		return E_FAIL;
 
+	/* For.Prototype_GameObject_MapObject */
+	if (FAILED(m_pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_Chr_Field"),
+		CChr_Field::Create(m_pDevice, m_pContext))))
+		return E_FAIL;
 
 	/* For.Prototype_GameObject_MapObject */
 	if (FAILED(m_pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_MapObject"),
@@ -350,8 +356,12 @@ HRESULT CLoader::Loading_For_Field()
 		CModel::Create(m_pDevice, m_pContext, "../Bin/Resources/Models/MapObject/MapObject/Map_Field" + tag))))
 		return E_FAIL;
 
-	if (FAILED(m_pGameInstance->Add_Prototype(g_Level, TEXT("Prototype_Component_Model_Light"),
-		CModel::Create(m_pDevice, m_pContext, "../Bin/Resources/Models/chr/Light/Light" + tag))))
+	//if (FAILED(m_pGameInstance->Add_Prototype(g_Level, TEXT("Prototype_Component_Model_Light"),
+	//	CModel::Create(m_pDevice, m_pContext, "../Bin/Resources/Models/chr/Light/Light" + tag))))
+	//	return E_FAIL;
+
+	if (FAILED(m_pGameInstance->Add_Prototype(g_Level, TEXT("Prototype_Component_Model_Light_Field"),
+		CModel::Create(m_pDevice, m_pContext, "../Bin/Resources/Models/chr/Light/Light_Field" + tag))))
 		return E_FAIL;
 
 	m_strLoadingText = TEXT("셰이더를(을) 로딩 중 입니다.");

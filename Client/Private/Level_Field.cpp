@@ -123,7 +123,7 @@ HRESULT CLevel_Field::Ready_Layer_Camera(const wstring& strLayerTag)
 
 HRESULT CLevel_Field::Ready_Layer_Chr(const wstring& strLayerTag)
 {
-	if (FAILED(m_pGameInstance->Add_Clone(g_Level, strLayerTag, TEXT("Prototype_GameObject_Chr"))))
+	if (FAILED(m_pGameInstance->Add_Clone(g_Level, strLayerTag, TEXT("Prototype_GameObject_Chr_Field"))))
 		return E_FAIL;
 
 	return S_OK;

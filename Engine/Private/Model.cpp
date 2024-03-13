@@ -205,15 +205,16 @@ HRESULT CModel::Save_Model(string filepath)
 
 HRESULT CModel::Play_Animation_Linear_Interpolation(_float fTimeDelta)
 {
-	m_fTime_Inear_Interpolation += fTimeDelta;
+	m_fTime_Iinear_Interpolation += fTimeDelta;
 
-	m_Animations[m_iCurrentAnimIndex]->Invalidate_TransformationMatrix_Linear_Interpolation(m_fTime_Inear_Interpolation, m_Bones, m_Animations[m_iNextAnimIndex]);
+	m_Animations[m_iCurrentAnimIndex]->Invalidate_TransformationMatrix_Linear_Interpolation(m_fTime_Iinear_Interpolation, m_Bones, m_Animations[m_iNextAnimIndex]);
 
-	if (m_fTime_Inear_Interpolation >= 0.2) {
+	if (m_fTime_Iinear_Interpolation >= 0.2) {
 		m_Animations[m_iCurrentAnimIndex]->Reset_Animation();
 		m_iCurrentAnimIndex = m_iNextAnimIndex;
 		m_iNextAnimIndex = INFINITE;
-		m_fTime_Inear_Interpolation = 0;
+		m_fTime_Iinear_Interpolation = 0.f;
+		m_isLoop = m_NextAnimationLoop;
 
 	}
 

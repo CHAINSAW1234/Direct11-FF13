@@ -138,6 +138,10 @@ void CTransform::Look_At_ForLandObject(_fvector vTargetPosition)
 	Set_State(STATE_LOOK, XMVector3Normalize(vLook) * vScaled.z);
 }
 
+void CTransform::Look_At_Direction(_fvector vTargetPosition, _float fTimeDelta)
+{
+}
+
 void CTransform::Move_To_Target(_fvector vTargetPos, _float fTimeDelta, _float fMinDistance)
 {
     _vector vPos = Get_State_Vector(STATE_POSITION);

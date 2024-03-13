@@ -105,6 +105,7 @@ public:
 	void Go_Down(_float fTimeDelta);
 	void Look_At(_fvector vTargetPosition);			// LookAt _ Target
 	void Look_At_ForLandObject(_fvector vTargetPosition);
+	void Look_At_Direction(_fvector vTargetPosition, _float fTimeDelta);
 	void Move_To_Target(_fvector vTargetPos, _float fTimeDelta, _float fMinDistance = 0.f);
 	void Move_To_Direction(_fvector vDirection, _float fTimeDelta);
 	void Turn(_fvector vAxis, _float fTimeDelta);

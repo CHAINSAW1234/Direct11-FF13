@@ -19,6 +19,8 @@ C:\Users\stgo5015\Documents\GitHub\Direct11_FF13\Engine\Private\Light_Manager.cp
 C:\Users\stgo5015\Documents\GitHub\Direct11_FF13\Engine\Private\Mesh.cpp;C:\Users\stgo5015\Documents\GitHub\Direct11_FF13\Engine\Default\x64\Debug\Mesh.obj
 C:\Users\stgo5015\Documents\GitHub\Direct11_FF13\Engine\Private\Model.cpp;C:\Users\stgo5015\Documents\GitHub\Direct11_FF13\Engine\Default\x64\Debug\Model.obj
 C:\Users\stgo5015\Documents\GitHub\Direct11_FF13\Engine\Private\Object_Manager.cpp;C:\Users\stgo5015\Documents\GitHub\Direct11_FF13\Engine\Default\x64\Debug\Object_Manager.obj
+C:\Users\stgo5015\Documents\GitHub\Direct11_FF13\Engine\Private\Observer.cpp;C:\Users\stgo5015\Documents\GitHub\Direct11_FF13\Engine\Default\x64\Debug\Observer.obj
+C:\Users\stgo5015\Documents\GitHub\Direct11_FF13\Engine\Private\Observer_Handler.cpp;C:\Users\stgo5015\Documents\GitHub\Direct11_FF13\Engine\Default\x64\Debug\Observer_Handler.obj
 C:\Users\stgo5015\Documents\GitHub\Direct11_FF13\Engine\Private\Picking.cpp;C:\Users\stgo5015\Documents\GitHub\Direct11_FF13\Engine\Default\x64\Debug\Picking.obj
 C:\Users\stgo5015\Documents\GitHub\Direct11_FF13\Engine\Private\PipeLine.cpp;C:\Users\stgo5015\Documents\GitHub\Direct11_FF13\Engine\Default\x64\Debug\PipeLine.obj
 C:\Users\stgo5015\Documents\GitHub\Direct11_FF13\Engine\Private\Renderer.cpp;C:\Users\stgo5015\Documents\GitHub\Direct11_FF13\Engine\Default\x64\Debug\Renderer.obj
