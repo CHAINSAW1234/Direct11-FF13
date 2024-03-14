@@ -39,23 +39,23 @@ void CCamera_Field::Tick(_float fTimeDelta)
 	Update_With_Mouse(fTimeDelta);
 
 
-	if (m_pGameInstance->Get_KeyState(KEY_PRESS, DIK_A))
-		m_pTransformCom->Go_Left(fTimeDelta);
+	//if (m_pGameInstance->Get_KeyState(KEY_PRESS, DIK_A))
+	//	m_pTransformCom->Go_Left(fTimeDelta);
 
-	if (m_pGameInstance->Get_KeyState(KEY_PRESS, DIK_D))
-		m_pTransformCom->Go_Right(fTimeDelta);
+	//if (m_pGameInstance->Get_KeyState(KEY_PRESS, DIK_D))
+	//	m_pTransformCom->Go_Right(fTimeDelta);
 
-	if (m_pGameInstance->Get_KeyState(KEY_PRESS, DIK_W))
-		m_pTransformCom->Go_Straight(fTimeDelta);
+	//if (m_pGameInstance->Get_KeyState(KEY_PRESS, DIK_W))
+	//	m_pTransformCom->Go_Straight(fTimeDelta);
 
-	if (m_pGameInstance->Get_KeyState(KEY_PRESS, DIK_S))
-		m_pTransformCom->Go_Backward(fTimeDelta);
+	//if (m_pGameInstance->Get_KeyState(KEY_PRESS, DIK_S))
+	//	m_pTransformCom->Go_Backward(fTimeDelta);
 
-	if (m_pGameInstance->Get_KeyState(KEY_PRESS, DIK_T))
-		m_pTransformCom->Go_Up(fTimeDelta);
+	//if (m_pGameInstance->Get_KeyState(KEY_PRESS, DIK_T))
+	//	m_pTransformCom->Go_Up(fTimeDelta);
 
-	if (m_pGameInstance->Get_KeyState(KEY_PRESS, DIK_G))
-		m_pTransformCom->Go_Down(fTimeDelta);
+	//if (m_pGameInstance->Get_KeyState(KEY_PRESS, DIK_G))
+	//	m_pTransformCom->Go_Down(fTimeDelta);
 
 	if (m_pGameInstance->Get_DIMouseState(DIMKS_LBUTTON)) {
 		_long	MouseMove = { 0 };
@@ -91,15 +91,17 @@ void CCamera_Field::Update_With_Mouse(_float fTimeDelta)
 	//Set_CursorPos();
 
 	_vector vTargetPosition = dynamic_cast<CTransform*>(m_pTargetObject->Get_Component(g_strTransformTag))->Get_State_Vector(CTransform::STATE_POSITION);
+	vTargetPosition.m128_f32[1] += 1; // temp
 	_long MouseMove = { 0 };
 
 	if (MouseMove = m_pGameInstance->Get_DIMouseMove(DIMMS_X))
 	{
-		m_fMouseMoveXAxis = 90;
-		m_MouseMoveX = Saturate(-50, 50, MouseMove);
+		m_fMouseMoveXAxis = 90.f;
+		m_MouseMoveX = std::clamp(MouseMove, (_long)-50, (_long)50);
+
 	}
 	else {
-		m_fMouseMoveXAxis *= 0.9;
+		m_fMouseMoveXAxis *= 0.9f;
 		if (m_fMouseMoveXAxis < 3) {
 			m_fMouseMoveXAxis = 0;
 		}
@@ -108,11 +110,11 @@ void CCamera_Field::Update_With_Mouse(_float fTimeDelta)
 
 	if (MouseMove = m_pGameInstance->Get_DIMouseMove(DIMMS_Y))
 	{
-		m_fMouseMoveYAxis = 90;
-		m_MouseMoveY = Saturate(-50, 50, MouseMove);
+		m_fMouseMoveYAxis = 90.f;
+		m_MouseMoveY = clamp(MouseMove, (_long)-50, (_long)50);
 	}
 	else {
-		m_fMouseMoveYAxis *= 0.9;
+		m_fMouseMoveYAxis *= 0.9f;
 		if (m_fMouseMoveYAxis < 3) {
 			m_fMouseMoveYAxis = 0;
 		}

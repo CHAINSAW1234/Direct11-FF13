@@ -138,9 +138,6 @@ void CTransform::Look_At_ForLandObject(_fvector vTargetPosition)
 	Set_State(STATE_LOOK, XMVector3Normalize(vLook) * vScaled.z);
 }
 
-void CTransform::Look_At_Direction(_fvector vTargetPosition, _float fTimeDelta)
-{
-}
 
 void CTransform::Move_To_Target(_fvector vTargetPos, _float fTimeDelta, _float fMinDistance)
 {
@@ -200,7 +197,7 @@ void CTransform::Turn_With_Look_At(_fvector vAxis, _fvector vTargetPosition, _fl
 	_vector vLook = XMVector4Transform(Get_State_Vector(STATE_LOOK), RotationMatrix);
 
 	//_float fDifferenceY = vLook.m128_f32[1];
-	if (iMaxDegree !=0 && abs(vLook.m128_f32[1]) >= sin(XMConvertToRadians(iMaxDegree))) {
+	if (iMaxDegree !=0 && abs(vLook.m128_f32[1]) >= sin(XMConvertToRadians((_float)iMaxDegree))) {
 		return ;
 	}
 

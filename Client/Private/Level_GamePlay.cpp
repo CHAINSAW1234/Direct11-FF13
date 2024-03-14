@@ -106,15 +106,15 @@ HRESULT CLevel_GamePlay::Ready_Layer_LandMapObject(const wstring& strLayerTag)
 		return E_FAIL;
 	return S_OK;
 }
-//
-//HRESULT CLevel_GamePlay::Ready_Layer_Player(const wstring & strLayerTag, CLandObject::LANDOBJECT_DESC& LandObjectDesc)
-//{
-//	/*if (FAILED(m_pGameInstance->Add_Clone(LEVEL_GAMEPLAY, strLayerTag, TEXT("Prototype_GameObject_Player"), &LandObjectDesc)))
-//		return E_FAIL;*/
-//
-//	return S_OK;
-//}
-//
+
+HRESULT CLevel_GamePlay::Ready_Layer_Player(const wstring & strLayerTag)
+{
+	if (FAILED(m_pGameInstance->Add_Clone(LEVEL_GAMEPLAY, strLayerTag, TEXT("Prototype_GameObject_Player"))))
+		return E_FAIL;
+
+	return S_OK;
+}
+
 //HRESULT CLevel_GamePlay::Ready_Layer_Monster(const wstring & strLayerTag, CLandObject::LANDOBJECT_DESC& LandObjectDesc)
 //{
 //	/*for (size_t i = 0; i < 20; i++)
@@ -167,7 +167,8 @@ HRESULT CLevel_GamePlay::Ready_LandObject()
 	if (FAILED(Ready_Layer_LandMapObject(TEXT("Layer_LandMapObject"))))
 		return E_FAIL;
 
-
+	if (FAILED(Ready_Layer_Player(TEXT("Layer_Player"))))
+		return E_FAIL;
 
 	return S_OK;
 }

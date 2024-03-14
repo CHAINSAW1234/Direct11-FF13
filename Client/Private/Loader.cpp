@@ -2,17 +2,24 @@
 #include "..\Public\Loader.h"
 #include <process.h>
 #include "GameInstance.h"
-#include "Camera_Free.h"
+
 #include "Camera_Field.h"
-#include "BackGround.h"
-#include "Terrain.h"
-#include "Monster.h"
-#include "Forklift.h"
 #include "MapObject.h"
 #include "Grid.h"
 #include "Chr.h"
 #include "Chr_Field.h"
-//#include "Player.h"
+#include "Chr_Battle_Light.h"
+
+
+
+#include "Camera_Free.h"
+#include "BackGround.h"
+#include "Player.h"
+#include "Body_Player.h"
+#include "Weapon_Study.h"
+#include "Monster.h"
+#include "Forklift.h"
+#include "Terrain.h"
 //#include "Effect.h"
 //#include "Sky.h"
 
@@ -116,14 +123,9 @@ HRESULT CLoader::Loading_Prototype()
 		CCamera_Free::Create(m_pDevice, m_pContext))))
 		return E_FAIL;
 
-	/* For.Prototype_GameObject_Camera_Field */
-	if (FAILED(m_pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_Camera_Field"),
-		CCamera_Field::Create(m_pDevice, m_pContext))))
-		return E_FAIL;
-
-	/* For.Prototype_GameObject_Grid */
-	if (FAILED(m_pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_Chr"),
-		CChr::Create(m_pDevice, m_pContext))))
+	/* For.Prototype_GameObject_Player */
+	if (FAILED(m_pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_Player"),
+		CPlayer::Create(m_pDevice, m_pContext))))
 		return E_FAIL;
 
 	/* For.Prototype_GameObject_Monster */
@@ -136,9 +138,34 @@ HRESULT CLoader::Loading_Prototype()
 		CForkLift::Create(m_pDevice, m_pContext))))
 		return E_FAIL;
 
-	/* For.Prototype_GameObject_MapObject */
+	/* For.Prototype_GameObject_Part_Body_Player */
+	if (FAILED(m_pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_Part_Body_Player"),
+		CBody_Player::Create(m_pDevice, m_pContext))))
+		return E_FAIL;
+
+	/* For.Prototype_GameObject_Part_Weapon */
+	if (FAILED(m_pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_Part_Weapon"),
+		CWeapon_Study::Create(m_pDevice, m_pContext))))
+		return E_FAIL;
+
+	/* For.Prototype_GameObject_Camera_Field */
+	if (FAILED(m_pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_Camera_Field"),
+		CCamera_Field::Create(m_pDevice, m_pContext))))
+		return E_FAIL;
+
+	/* For.Prototype_GameObject_Grid */
+	if (FAILED(m_pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_Chr"),
+		CChr::Create(m_pDevice, m_pContext))))
+		return E_FAIL;
+
+	/* For.Prototype_GameObject_Chr_Field */
 	if (FAILED(m_pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_Chr_Field"),
 		CChr_Field::Create(m_pDevice, m_pContext))))
+		return E_FAIL;
+
+	/* For.Prototype_GameObject_Chr_Battle_Light */
+	if (FAILED(m_pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_Chr_Battle_Light"),
+		CChr_Battle_Light::Create(m_pDevice, m_pContext))))
 		return E_FAIL;
 
 	/* For.Prototype_GameObject_MapObject */
@@ -155,8 +182,6 @@ HRESULT CLoader::Loading_Prototype()
  	if (FAILED(m_pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_Grid"),
 		CGrid::Create(m_pDevice, m_pContext))))
 		return E_FAIL;
-
-
 
 	return S_OK;
 }
@@ -363,6 +388,31 @@ HRESULT CLoader::Loading_For_Field()
 	if (FAILED(m_pGameInstance->Add_Prototype(g_Level, TEXT("Prototype_Component_Model_Light_Field"),
 		CModel::Create(m_pDevice, m_pContext, "../Bin/Resources/Models/chr/Light/Light_Field" + tag))))
 		return E_FAIL;
+
+	if (FAILED(m_pGameInstance->Add_Prototype(g_Level, TEXT("Prototype_Component_Model_Light_Battle"),
+		CModel::Create(m_pDevice, m_pContext, "../Bin/Resources/Models/chr/Light/Light_Battle" + tag))))
+		return E_FAIL;
+
+#pragma region Temp
+
+	_matrix		TransformMatrix = XMMatrixIdentity();
+
+	/* Prototype_Component_Model_Fiona */
+	TransformMatrix = XMMatrixRotationY(XMConvertToRadians(180.0f));
+
+	if (FAILED(m_pGameInstance->Add_Prototype(g_Level, TEXT("Prototype_Component_Model_Fiona"),
+		CModel::Create(m_pDevice, m_pContext, CModel::TYPE_ANIM, "../Bin/Resources/Models/Fiona/Fiona.fbx", TransformMatrix))))
+		return E_FAIL;
+
+	/* Prototype_Component_Model_ForkLift */
+	TransformMatrix = XMMatrixScaling(0.01f, 0.01f, 0.01f) * XMMatrixRotationY(XMConvertToRadians(180.0f));
+
+	if (FAILED(m_pGameInstance->Add_Prototype(g_Level, TEXT("Prototype_Component_Model_ForkLift"),
+		CModel::Create(m_pDevice, m_pContext, CModel::TYPE_NONANIM, "../Bin/Resources/Models/ForkLift/ForkLift.fbx", TransformMatrix))))
+		return E_FAIL;
+
+#pragma endregion
+
 
 	m_strLoadingText = TEXT("셰이더를(을) 로딩 중 입니다.");
 

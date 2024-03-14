@@ -9,104 +9,86 @@ CChr_Field_State_Walk::CChr_Field_State_Walk(CChr_Field* pChr_Field)
 
 void CChr_Field_State_Walk::OnStateEnter()
 {
-	// 1. Chr_Field의 Look벡터구하고, y값 없애서 정규화
-	_float4 vChrLook = m_pChr_Field->m_pTransformCom->Get_State_Float4(CTransform::STATE_LOOK);
-	vChrLook.y = 0;
-	XMStoreFloat4(&vChrLook, XMVectorSetW(XMVector3Normalize(XMLoadFloat4(&vChrLook)), 0.f));
 
+	// 1. 카메라의 방향 벡터와 키보드 입력을 이용해 이동 방향 정하기 
+	m_vTargetDirection = m_pChr_Field->Cal_Target_Direction();
+	// 1. Chr_Field의 Look벡터구하고, y값 없애서 정규화
 	// 2. 키 입력 값으로 방향 결정, 그 방향과 Look백터로 각도 구하기
-	_float fDegree = Cal_Degree_From_Directions_Between_Min180_To_180(Cal_Target_Direction(), vChrLook);
+	m_fDegree = Cal_Degree_From_Directions_Between_Min180_To_180(m_pChr_Field->Get_Look(), m_vTargetDirection);
 	
 
-
 	// 1. -30 ~ 30도는 단순 회전으로 처리
-	if (abs(fDegree) <= 30) {
+	if (abs(m_fDegree) < 45) {
 		m_pChr_Field->Change_Animation(CChr_Field::WALK_IDLE, true);
+		m_eState = MOVE;
 	}
 	else {
 		// 각도가 0보다 크면 왼쪽이다
-		if(fDegree >= 0)
+		if(m_fDegree >= 0)
 			m_pChr_Field->Change_Animation(CChr_Field::WALK_START_WITH_TURN_LEFT, false);
 		else {
 			m_pChr_Field->Change_Animation(CChr_Field::WALK_START_WITH_TURN_RIGHT, false);
 		}
-
+		m_eState = TURN;
 	}
 
 }
 
 void CChr_Field_State_Walk::OnStateUpdate(_float fTimeDelta)
 {
-	m_pChr_Field->m_pTransformCom->Turn()
+	// 회전 여부 결정
+	m_vTargetDirection = m_pChr_Field->Cal_Target_Direction();
+	m_fDegree = Cal_Degree_From_Directions_Between_Min180_To_180(m_pChr_Field->Get_Look(),m_vTargetDirection);
 
-	Update_Animation();	// 사실상 Turn 끝내는 용도임
+	switch (m_eState) {
+	case MOVE:
+		Move(fTimeDelta);
+		break;
+	case TURN:
+		Turn(fTimeDelta);
+		break;
+	}
+
 }
 
 void CChr_Field_State_Walk::OnStateExit()
 {
-}
-
-_float4 CChr_Field_State_Walk::Cal_Target_Direction()
-{
-	_vector vTargetDir = { 0.f,0.f,0.f,0.f };
-
-	// 1. 카메라의 Look, Right 벡터 구한다
-	 
-	_vector vCamRight, vCamLook;
-	vCamRight = m_pGameInstance->Get_Transform_Matrix_Inverse(CPipeLine::D3DTS_VIEW).r[0];
-	vCamLook = m_pGameInstance->Get_Transform_Matrix_Inverse(CPipeLine::D3DTS_VIEW).r[2];
-
-	// 2. 키 입력을 기준으로 이동 방향 결정 
-	if (m_pGameInstance->Get_KeyState(KEY_PRESS, DIK_W))
-		vTargetDir += vCamLook;
-	if (m_pGameInstance->Get_KeyState(KEY_PRESS, DIK_S))
-		vTargetDir -= vCamLook;
-
-	if (m_pGameInstance->Get_KeyState(KEY_PRESS, DIK_A))
-		vTargetDir -= vCamRight;
-	if (m_pGameInstance->Get_KeyState(KEY_PRESS, DIK_D))
-		vTargetDir += vCamRight;
-
-	// 3. y값 지우기
-	vTargetDir.m128_f32[1] = 0;
-	
-	// 4. 정규화된 이동 방향 결정 
-	vTargetDir = XMVector3Normalize(vTargetDir);
-
-	_float4 vOutputDir = { 0.f,0.f,0.f,0.f };
-
-	XMStoreFloat4(&vOutputDir, vTargetDir);
-
-	return vOutputDir;
-}
-
-_float CChr_Field_State_Walk::Cal_Degree_From_Directions_Between_Min180_To_180(_float4 vDir1, _float4 vDir2)
-{
-	// 1. 정규화 한 두 벡터를 가지고 각도를 계산 하기
-	_float fRadian = XMVector3AngleBetweenNormals(XMLoadFloat4(&vDir1), XMLoadFloat4(&vDir2)).m128_f32[0];
-
-	// 외적으로 방향 찾기
-	_float  vCross = XMVector3Cross(XMLoadFloat4(&vDir1), XMLoadFloat4(&vDir2)).m128_f32[1];
-
-	// 각도를 -180 ~ 180도 사이로 세팅
-	_float fDegree = XMConvertToDegrees(fRadian * vCross / abs(vCross)); // 0 ~ 180 사이의 값 
-	// 각도가 0보다 크면 왼쪽이다
-	return fDegree;
-}
-
-void CChr_Field_State_Walk::Update_Animation()
-{
-	if (!m_pChr_Field->m_pModelCom->isFinished())
-		return;
-
-	switch (m_pChr_Field->m_pModelCom->Get_CurrentAnimationIndex()) {
-	case CChr_Field::WALK_START_WITH_TURN_LEFT:
-	case CChr_Field::WALK_START_WITH_TURN_RIGHT:
-		m_pChr_Field->m_pModelCom->Set_Animation(CChr_Field::WALK_IDLE, true);
-		break;
+	// WALK_IDLE일거라고 가정
+	if (m_pChr_Field->Get_CurrentTrackPosition() > 14.f && m_pChr_Field->Get_CurrentTrackPosition() <= 25.f) {
+		m_pChr_Field->Change_Animation(CChr_Field::WALK_STOP_RIGHT, false);
 	}
+	else {
+		m_pChr_Field->Change_Animation(CChr_Field::WALK_STOP_LEFT, false);
+	}
+	
 }
 
+void CChr_Field_State_Walk::Move(_float fTimeDelta)
+{
+	if (abs(m_fDegree) > 5.f) {
+		m_pChr_Field->Get_Transform()->Turn(XMVectorSet(0.f, 1.f, 0.f, 0.f), fTimeDelta * m_fDegree / abs(m_fDegree));
+	}
+
+	m_pChr_Field->Get_Transform()->Go_Straight(fTimeDelta);
+}
+
+void CChr_Field_State_Walk::Turn(_float fTimeDelta)
+{
+	// 1.	
+	if ((m_pChr_Field->Get_CurrentTrackPosition() >= 5.f) && (abs(m_fDegree) > 5.f)) {
+		m_pChr_Field->Get_Transform()->Turn(XMVectorSet(0.f, 1.f, 0.f, 0.f), fTimeDelta * m_fDegree / abs(m_fDegree));
+		m_pChr_Field->Get_Transform()->Go_Straight(fTimeDelta/2);
+	}
+
+	if (m_pChr_Field->Get_CurrentTrackPosition() >= 21.f)
+		m_pChr_Field->Get_Transform()->Go_Straight(fTimeDelta);
+
+	if (m_pChr_Field->Is_Animation_Finished()) {
+		m_pChr_Field->Change_Animation(CChr_Field::WALK_IDLE, true);
+		m_eState = MOVE;
+	}
+
+}
 
 CChr_Field_State_Walk* CChr_Field_State_Walk::Create(CChr_Field* pChr_Field)
 {

@@ -22,23 +22,23 @@ void CChr_Field_State_Idle::OnStateUpdate(_float fTimeDelta)
 		m_fTimeDelta = 0.f;
 		switch (m_eState) {
 		case IDLE:
-			m_pChr_Field->m_pModelCom->Set_Animation(CChr_Field::IDLE_NOR_TO_LEFT_INARM, false);
+			m_pChr_Field->Change_Animation(CChr_Field::IDLE_NOR_TO_LEFT_INARM, false);
 			m_eState = LEFT_INARM;
 			break;
 		case LEFT_INARM: {
 			int iNext = rand() % 2;
 			if (iNext) {
-				m_pChr_Field->m_pModelCom->Set_Animation(CChr_Field::IDLE_LEFT_INARM_TO_NOR, false);
+				m_pChr_Field->Change_Animation(CChr_Field::IDLE_LEFT_INARM_TO_NOR, false);
 				m_eState = IDLE;
 			}
 			else {
-				m_pChr_Field->m_pModelCom->Set_Animation(CChr_Field::IDLE_LEFT_INARM_TO_RIGHT, false);
+				m_pChr_Field->Change_Animation(CChr_Field::IDLE_LEFT_INARM_TO_RIGHT, false);
 				m_eState = RIGHT_INARM;
 			}
 		}
 			break;
 		case RIGHT_INARM:
-			m_pChr_Field->m_pModelCom->Set_Animation(CChr_Field::IDLE_RIGHT_INARM_TO_LEFT, false);
+			m_pChr_Field->Change_Animation(CChr_Field::IDLE_RIGHT_INARM_TO_LEFT, false);
 			m_eState = LEFT_INARM;
 			break;
 		}
@@ -52,24 +52,24 @@ void CChr_Field_State_Idle::OnStateExit()
 
 void CChr_Field_State_Idle::Update_Animation()
 {
-	if (!m_pChr_Field->m_pModelCom->isFinished())
+	if (!m_pChr_Field->Is_Animation_Finished())
 		return;
 
-	switch (m_pChr_Field->m_pModelCom->Get_CurrentAnimationIndex()) {
+	switch (m_pChr_Field->Get_CurrentAnimationIndex()) {
 	case CChr_Field::IDLE_LEFT_INARM_TO_NOR:
-		m_pChr_Field->m_pModelCom->Set_Animation(CChr_Field::IDLE_NOR, true);
+		m_pChr_Field->Change_Animation(CChr_Field::IDLE_NOR, true);
 		break;
 	case CChr_Field::IDLE_LEFT_INARM_TO_RIGHT:
-		m_pChr_Field->m_pModelCom->Set_Animation(CChr_Field::IDLE_RIGHT_INARM, true);
+		m_pChr_Field->Change_Animation(CChr_Field::IDLE_RIGHT_INARM, true);
 		break;
 	case CChr_Field::IDLE_NOR_TO_LEFT_INARM:
-		m_pChr_Field->m_pModelCom->Set_Animation(CChr_Field::IDLE_LEFT_INARM, true);
+		m_pChr_Field->Change_Animation(CChr_Field::IDLE_LEFT_INARM, true);
 		break;
 	case CChr_Field::IDLE_RIGHT_INARM_TO_LEFT:
-		m_pChr_Field->m_pModelCom->Set_Animation(CChr_Field::IDLE_LEFT_INARM, true);
+		m_pChr_Field->Change_Animation(CChr_Field::IDLE_LEFT_INARM, true);
 		break;
 	default:
-		m_pChr_Field->m_pModelCom->Set_Animation(CChr_Field::IDLE_NOR, true);
+		m_pChr_Field->Change_Animation(CChr_Field::IDLE_NOR, true);
 		m_eState = IDLE;
 		break;
 	}

@@ -57,7 +57,7 @@ HRESULT CChannel::Initialize(const aiNodeAnim* pAIChannel, const vector<CBone*>&
 	return S_OK;
 }
 
-void CChannel::Invalidate_TransformationMatrix(const vector<CBone*>& Bones, _float fTrackPosition, _uint* pCurrentKeyFrameIndex)
+void CChannel::Invalidate_TransformationMatrix(const vector<CBone*>& Bones, _float fTrackPosition, _float fTickPerSecond, _uint* pCurrentKeyFrameIndex)
 {
 	if (0.0f == fTrackPosition)
 		(*pCurrentKeyFrameIndex) = 0;
@@ -69,9 +69,11 @@ void CChannel::Invalidate_TransformationMatrix(const vector<CBone*>& Bones, _flo
 	_float3			vTranslation;
 
 	if (KeyFrame.fTime <= fTrackPosition) {
-		vScale = KeyFrame.vScale;
-		vRotation = KeyFrame.vRotation;
-		vTranslation = KeyFrame.vTranslation;
+		_float fRatio = (fTrackPosition - m_KeyFrames[(*pCurrentKeyFrameIndex)].fTime);
+
+		XMStoreFloat3(&vScale, XMVectorLerp(XMLoadFloat3(&m_KeyFrames[(*pCurrentKeyFrameIndex)].vScale), XMLoadFloat3(&m_KeyFrames[(*pCurrentKeyFrameIndex) + 1].vScale), fRatio));
+		XMStoreFloat4(&vRotation, XMQuaternionSlerp(XMLoadFloat4(&m_KeyFrames[(*pCurrentKeyFrameIndex)].vRotation), XMLoadFloat4(&m_KeyFrames[(*pCurrentKeyFrameIndex) + 1].vRotation), fRatio));
+		XMStoreFloat3(&vTranslation, XMVectorLerp(XMLoadFloat3(&m_KeyFrames[(*pCurrentKeyFrameIndex)].vTranslation), XMLoadFloat3(&m_KeyFrames[(*pCurrentKeyFrameIndex) + 1].vTranslation), fRatio));
 	}
 	else {
 		while(fTrackPosition >= m_KeyFrames[(*pCurrentKeyFrameIndex) + 1].fTime)
@@ -107,7 +109,7 @@ void CChannel::Invalidate_TransformationMatrix_Linear_Interpolation(const vector
 	XMStoreFloat3(&vTranslation, XMVectorLerp(XMLoadFloat3(&m_KeyFrames[(*pCurrentKeyFrameIndex)].vTranslation), XMLoadFloat3(&m_KeyFrames[(*pCurrentKeyFrameIndex) + 1].vTranslation), fRatio));
 
 	// 2. 현재 위치와 새 애니메이션의 시작 위치를 선형 보간한다
-	fRatio = fTimeDelta / 0.2;
+	fRatio = fTimeDelta / 0.1;
 	XMStoreFloat3(&vScale, XMVectorLerp(XMLoadFloat3(&vScale), XMLoadFloat3(&NextKeyFrame.vScale), fRatio));
 	XMStoreFloat4(&vRotation, XMQuaternionSlerp(XMLoadFloat4(&vRotation), XMLoadFloat4(&NextKeyFrame.vRotation), fRatio));
 	XMStoreFloat3(&vTranslation, XMVectorLerp(XMLoadFloat3(&vTranslation), XMLoadFloat3(&NextKeyFrame.vTranslation), fRatio));

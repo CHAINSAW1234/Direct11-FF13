@@ -32,7 +32,7 @@ HRESULT CChr::Initialize(void* pArg)
 		return E_FAIL;
 
 	m_pModelCom->Set_Animation(rand() % 20, true);
-	m_pTransformCom->Set_State(CTransform::STATE_POSITION, XMVectorSet(rand() % 20, 2.f, rand() % 20, 1.f));
+	m_pTransformCom->Set_State(CTransform::STATE_POSITION, XMVectorSet(_float(rand() % 20), 2.f, _float(rand() % 20), 1.f));
 
 	return S_OK;
 }
@@ -68,7 +68,7 @@ HRESULT CChr::Render()
 
 	_uint iNumMeshes = m_pModelCom->Get_NumMeshes();
 
-	for (size_t i = 0; i < iNumMeshes; ++i) {
+	for (_uint i = 0; i < iNumMeshes; ++i) {
 		if (FAILED(m_pModelCom->Bind_ShaderResource(m_pShaderCom, "g_DiffuseTexture", i, aiTextureType_DIFFUSE)))
 			return E_FAIL;
 
@@ -81,6 +81,7 @@ HRESULT CChr::Render()
 
 		m_pModelCom->Render(i);
 	}
+	return S_OK;
 }
 
 HRESULT CChr::Add_Components()

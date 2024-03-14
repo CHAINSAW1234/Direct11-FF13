@@ -201,7 +201,7 @@ void CMapTool::ModelCreate_Window()
         ImGui::Begin("ModelCreate", &show_ModelCreate_window, ImGuiWindowFlags_MenuBar);
         ImVec2 size = ImVec2(80.f, 80.f);
 
-        for (size_t i = 0; i < m_PrevTextures->Get_NumTextures(); ++i) {
+        for (_uint i = 0; i < m_PrevTextures->Get_NumTextures(); ++i) {
             ID3D11ShaderResourceView* pTexture = { nullptr };
             pTexture = m_PrevTextures->Get_DXTexture(i);
 
@@ -231,7 +231,7 @@ void CMapTool::ModelList_Window()
         if (ImGui::BeginListBox("MapObjects List"))
         {
 
-            for (size_t  i= 0; i < m_MapObjects.size(); ++i)
+            for (_uint  i= 0; i < m_MapObjects.size(); ++i)
             {
                 const bool is_selected = (m_iCurrent_MapObject_Index == i);
                 char name[26];
@@ -272,7 +272,7 @@ void CMapTool::ModelList_Window()
             {
 
                 CModel* pModel = dynamic_cast<CModel*>(pTargetMapObject->Get_Component(g_strModelTag));
-                for (size_t i = 0; i < pModel->Get_NumMeshes(); ++i)
+                for (_uint i = 0; i < pModel->Get_NumMeshes(); ++i)
                 {
                     const bool is_selected = (m_iCurrent_Mesh_Index == i);
                     char name[56];
@@ -322,7 +322,7 @@ void CMapTool::MapList_Window()
                 char name[26];
                 sprintf_s(name, m_MapList[i].c_str());
                 if (ImGui::Selectable(name, is_selected)) {
-                    iCurrent_Map_Index = i;
+                    iCurrent_Map_Index = (_int)i;
                 }
 
             }

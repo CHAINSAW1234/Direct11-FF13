@@ -175,12 +175,12 @@ _bool CVIBuffer_Terrain::Compute_Picking(const CTransform* pTransform, _Out_ _fl
 	vRayPos = XMLoadFloat4(&fRayPos);
 
 
-	_float		fMinDist = INFINITE;
+	_float		fMinDist = INFINITY;
 	_vector		vOut = { 0.f,0.f,0.f,0.f };
 
-	for (size_t i = 0; i < m_iNumVerticesZ - 1; i++)
+	for (_uint i = 0; i < m_iNumVerticesZ - 1; i++)
 	{
-		for (size_t j = 0; j < m_iNumVerticesX - 1; j++)
+		for (_uint j = 0; j < m_iNumVerticesX - 1; j++)
 		{
 			_float		fDist = 0.f;
 

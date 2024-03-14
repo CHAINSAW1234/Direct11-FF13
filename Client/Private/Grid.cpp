@@ -80,7 +80,7 @@ HRESULT CGrid::Add_Components()
 		TEXT("Com_VIBuffer"), (CComponent**)&m_pVIBufferCom, &Description)))
 		return E_FAIL;
 
-	m_pTransformCom->Set_State(CTransform::STATE_POSITION, _float4(((int)Description.iNumVerticesX)/2 * -1, 0, ((int)Description.iNumVerticesX)/2 * -1, 1));
+	m_pTransformCom->Set_State(CTransform::STATE_POSITION, _float4(((_float)Description.iNumVerticesX)/2 * -1, 0, ((_float)Description.iNumVerticesX)/2 * -1, 1));
 
 
 	return S_OK;

@@ -4,7 +4,7 @@
 #include "Camera_Free.h"
 #include "MapObject.h"
 
-
+#include "Chr_Battle_Light.h"
 #include "Chr.h"
 
 CLevel_Field::CLevel_Field(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
@@ -20,31 +20,22 @@ HRESULT CLevel_Field::Initialize()
 	if (FAILED(Read_Map()))
 		return E_FAIL;
 
+	if (FAILED(Ready_Layer_Monster(TEXT("Layer_Monster"))))
+		return E_FAIL;
+
 	if (FAILED(Ready_Layer_Chr(TEXT("Layer_Chr"))))
 		return E_FAIL;
 
-	if (FAILED(Ready_Layer_Camera(TEXT("Layer_Camera"))))
+	if (FAILED(Ready_Layer_Camera(g_strCameraLayerTag)))
 		return E_FAIL;
 
-
-
-
 	return S_OK;
-
 }
 
 void CLevel_Field::Tick(_float fTimeDelta)
 {
     __super::Tick(fTimeDelta);
 
-	CMapObject* pMapObject = dynamic_cast<CMapObject*>(m_pGameInstance->Get_GameObject(g_Level, TEXT("Layer_MapObject"), 0));
-	_float4 vPickingPos = { 0.f,0.f,0.f,0.f };
-	if (m_pGameInstance->Get_KeyState(KEY_DOWN, DIK_LBRACKET)) {
-		if (pMapObject->Compute_Picking(&vPickingPos)) {
-			CChr* pMonster = dynamic_cast<CChr*>(m_pGameInstance->Add_Clone_With_Object(g_Level, TEXT("Layer_Chr"), TEXT("Prototype_GameObject_Chr")));
-			((CTransform*)pMonster->Get_Component(g_strTransformTag))->Set_State(CTransform::STATE_POSITION, vPickingPos);
-		}
-	}
 }
 
 HRESULT CLevel_Field::Render()
@@ -123,7 +114,19 @@ HRESULT CLevel_Field::Ready_Layer_Camera(const wstring& strLayerTag)
 
 HRESULT CLevel_Field::Ready_Layer_Chr(const wstring& strLayerTag)
 {
-	if (FAILED(m_pGameInstance->Add_Clone(g_Level, strLayerTag, TEXT("Prototype_GameObject_Chr_Field"))))
+	//if (FAILED(m_pGameInstance->Add_Clone(g_Level, strLayerTag, TEXT("Prototype_GameObject_Chr_Field"))))
+	//	return E_FAIL;
+
+	CChr_Battle_Light* pInstance = dynamic_cast<CChr_Battle_Light*>(m_pGameInstance->Add_Clone_With_Object(g_Level, strLayerTag, TEXT("Prototype_GameObject_Chr_Battle_Light")));
+
+	pInstance->Set_Target(m_pGameInstance->Get_GameObject(g_Level, TEXT("Layer_Monster"), 0));
+
+	return S_OK;
+}
+
+HRESULT CLevel_Field::Ready_Layer_Monster(const wstring& strLayerTag)
+{
+	if (FAILED(m_pGameInstance->Add_Clone(g_Level, strLayerTag, TEXT("Prototype_GameObject_Player"))))
 		return E_FAIL;
 
 	return S_OK;

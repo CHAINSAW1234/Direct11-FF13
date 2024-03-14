@@ -39,6 +39,16 @@ CModel::CModel(const CModel& rhs)
 
 }
 
+CBone* CModel::Get_BonePtr(const _char* pBoneName) const
+{
+	auto	iter = find_if(m_Bones.begin(), m_Bones.end(), [&](CBone* pBone)->_bool
+		{
+			return pBone->Compare_Name(pBoneName);
+		});
+
+	return *iter;
+}
+
 HRESULT CModel::Initialize_Prototype(TYPE eType, const string& strModelFilePath, _fmatrix TransformMatrix)
 {
 	m_eModelType = eType;
@@ -138,7 +148,7 @@ _bool CModel::Compute_Picking(const CTransform* pTransform, _Out_ _float4* vOutP
 {
 	_float4 vCamPos = m_pGameInstance->Get_CamPosition_Float4();
 	_float4 vCurrentOutPos = { 0.f,0.f,0.f,0.f };
-	_float vCurrentLength = INFINITE;
+	_float vCurrentLength = INFINITY;
 	
 	for (size_t i = 0; i < m_iNumMeshes; ++i) {
 		if (m_Meshes[i]->Compute_Picking(pTransform, &vCurrentOutPos))
@@ -209,7 +219,7 @@ HRESULT CModel::Play_Animation_Linear_Interpolation(_float fTimeDelta)
 
 	m_Animations[m_iCurrentAnimIndex]->Invalidate_TransformationMatrix_Linear_Interpolation(m_fTime_Iinear_Interpolation, m_Bones, m_Animations[m_iNextAnimIndex]);
 
-	if (m_fTime_Iinear_Interpolation >= 0.2) {
+	if (m_fTime_Iinear_Interpolation >= 0.1) {
 		m_Animations[m_iCurrentAnimIndex]->Reset_Animation();
 		m_iCurrentAnimIndex = m_iNextAnimIndex;
 		m_iNextAnimIndex = INFINITE;
@@ -370,9 +380,9 @@ HRESULT CModel::Ready_Bones(aiNode* pAINode, _int iParentIndex)
 	m_Bones.push_back(pBone);
 
 	size_t iIndex = m_Bones.size() -1;
-	for (size_t i = 0; i < pAINode->mNumChildren; ++i) {
+	for (_uint i = 0; i < pAINode->mNumChildren; ++i) {
 		// ÀÚ½Ä »À »ý¼º -> Àç±Í·Î µ¹¸²
-		Ready_Bones(pAINode->mChildren[i], iIndex);
+		Ready_Bones(pAINode->mChildren[i], (_int)iIndex);
 	}
 
 	return S_OK;

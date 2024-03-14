@@ -22,6 +22,8 @@ public:
 		return m_isFinished;
 	}
 
+	_float Get_TrackPosition() { return m_fTrackPosition; }
+
 private:
 	HRESULT Load_Animation(ifstream& IFS);
 

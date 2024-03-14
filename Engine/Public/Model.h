@@ -16,22 +16,38 @@ private:
 	virtual ~CModel() = default;
 
 public:
+	/*========================Get==============================*/
 	TYPE Get_Type() const { return m_eModelType; }
-	_uint Get_NumMeshes() const {
-		return m_iNumMeshes;
-	}
+
+	class CBone* Get_BonePtr(const _char* pBoneName) const;
+	// Mesh 관련
+	_uint Get_NumMeshes() const { return m_iNumMeshes; }
 	const vector<class CMesh*> Get_Meshes() { return m_Meshes; }
+
+	// Animation 관련 
 	_uint Get_CurrentAnimationIndex() { return m_iCurrentAnimIndex; }
-	_bool isFinished() {
-		return m_Animations[m_iCurrentAnimIndex]->isFinished();
+	_float Get_CurrentTrackPosition() { 
+		if (m_iNextAnimIndex != INFINITE) {
+			return m_Animations[m_iNextAnimIndex]->Get_TrackPosition();
+		}
+		return m_Animations[m_iCurrentAnimIndex]->Get_TrackPosition();
 	}
+	_bool isFinished() { return m_Animations[m_iCurrentAnimIndex]->isFinished(); }
+
 public:
 	void Set_Animation(_uint iAnimIndex, _bool isLoop) {
-		if (m_iNextAnimIndex == INFINITE && iAnimIndex < m_iNumAnimations) {	// 애니메이션 전환 중에 애니메이션 변경을 요청하면 멈춤
+		if (iAnimIndex < m_iNumAnimations) {	// 애니메이션 전환 중에 애니메이션 변경을 요청하면 멈춤
+
+			//m_Animations[m_iCurrentAnimIndex]->Reset_Animation();
+			//m_iCurrentAnimIndex = iAnimIndex;
+			//m_isLoop = isLoop;
+
+			if (m_iNextAnimIndex == INFINITE)
+				m_fTime_Iinear_Interpolation = 0;
 			m_NextAnimationLoop = isLoop;
 			// 이하 statement는 선형 보간을 위함
 			m_iNextAnimIndex = iAnimIndex;
-			m_fTime_Iinear_Interpolation = 0;
+
 		}
 
 	}

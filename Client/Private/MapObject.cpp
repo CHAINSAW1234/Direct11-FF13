@@ -65,7 +65,7 @@ HRESULT CMapObject::Render()
 
     _uint iNumMeshes = m_pModelCom->Get_NumMeshes();
 
-    for (size_t i = 0; i < iNumMeshes; ++i) {
+    for (_uint i = 0; i < iNumMeshes; ++i) {
         m_pModelCom->Bind_ShaderResource(m_pShaderCom, "g_DiffuseTexture", i, aiTextureType_DIFFUSE);
 
         if (FAILED(m_pShaderCom->Begin(0)))
@@ -77,6 +77,7 @@ HRESULT CMapObject::Render()
     if (FAILED(Reset_RenderState()))
         return E_FAIL;
 
+    return S_OK;
 }
 
 _bool CMapObject::Compute_Picking(_Out_ _float4* vOutPos)

@@ -49,18 +49,22 @@ void CAnimation::Invalidate_TransformationMatrix(_float fTimeDelta, const vector
 
 	m_fTrackPosition += m_fTickPerSecond * fTimeDelta;
 
-	if (m_fDuration <= m_fTrackPosition) {	// 현재 재생 시간이 전체 재생 시간보다 길다 -> 애니메이션 종료 시
-		if (false == isLoop) {	
+	if (false == isLoop) {	// 루프 애니메이션이 아닌 경우
+		if (m_fDuration <= m_fTrackPosition) {	// 현재 재생 시간이 전체 재생 시간보다 길다 -> 애니메이션 종료 시
 			m_isFinished = true;	// 애니메이션이 끝났다고 전달
-			return;					// 루프 애니메이션이 아닌 경우 행렬 업데이트 중지
+			return;					// 행렬 업데이트 중지
 		}
-		// 루프 애니메이션인 경우
-		m_fTrackPosition = 0.f;		// 현재 재생 시간을 초기화
 	}
+	else {	// 루프 애니메이션인 경우
+		if (m_fDuration + 1 <= m_fTrackPosition) {
+			m_fTrackPosition = 0.f; // 현재 재생 시간을 초기화
+		}
+	}
+
 
 	for (size_t i = 0; i < m_iNumChannels; ++i) {
 		/* 이 뼈의 상태행렬을 만들어서 CBone의 TransformationMatrix를 바꿔라. */
-		m_Channels[i]->Invalidate_TransformationMatrix(Bones, m_fTrackPosition, &m_CurrentKeyFrameIndices[i]);
+		m_Channels[i]->Invalidate_TransformationMatrix(Bones, m_fTrackPosition, m_fTickPerSecond, &m_CurrentKeyFrameIndices[i]);
 	}
 
 }

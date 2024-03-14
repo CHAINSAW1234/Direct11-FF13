@@ -166,9 +166,9 @@ HRESULT CMainApp::Ready_Gara()
 	_uint* pPixels = new _uint[256 * 256];
 	ZeroMemory(pPixels, sizeof(_uint) * 256 * 256);
 
-	for (size_t i = 0; i < 256; i++)
+	for (_uint i = 0; i < 256; i++)
 	{
-		for (size_t j = 0; j < 256; j++)
+		for (_uint j = 0; j < 256; j++)
 		{
 			_uint		iIndex = i * 256 + j;
 
@@ -188,9 +188,9 @@ HRESULT CMainApp::Ready_Gara()
 
 	m_pContext->Map(pTexture2D, 0, D3D11_MAP_WRITE_DISCARD, 0, &SubResource);
 
-	for (size_t i = 0; i < 256; i++)
+	for (_uint i = 0; i < 256; i++)
 	{
-		for (size_t j = 0; j < 256; j++)
+		for (_uint j = 0; j < 256; j++)
 		{
 			_uint		iIndex = i * 256 + j;
 

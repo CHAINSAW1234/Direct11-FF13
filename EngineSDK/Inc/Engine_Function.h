@@ -50,5 +50,18 @@ namespace Engine
 		return iRefCnt;
 	}
 
+	inline _float Cal_Degree_From_Directions_Between_Min180_To_180(_float4 vDir1, _float4 vDir2) {
+		// 1. 정규화 한 두 벡터를 가지고 각도를 계산 하기
+		_float fRadian = XMVector3AngleBetweenNormals(XMLoadFloat4(&vDir1), XMLoadFloat4(&vDir2)).m128_f32[0];
+
+		// 외적으로 방향 찾기
+		_float  vCross = XMVector3Cross(XMLoadFloat4(&vDir1), XMLoadFloat4(&vDir2)).m128_f32[1];
+
+		// 각도를 -180 ~ 180도 사이로 세팅
+		_float fDegree = XMConvertToDegrees(fRadian * vCross / abs(vCross)); // 0 ~ 180 사이의 값 
+		// 각도가 0보다 크면 왼쪽이다
+		return fDegree;
+	}
+
 }
 

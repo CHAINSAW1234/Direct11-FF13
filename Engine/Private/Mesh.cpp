@@ -86,7 +86,7 @@ _bool CMesh::Compute_Picking(const CTransform* pTransform, _Out_ _float4* vOutPo
 	vRayDir = XMLoadFloat4(&fRayDir);
 	vRayPos = XMLoadFloat4(&fRayPos);
 
-	_float		fMinDist = INFINITE;
+	_float		fMinDist = INFINITY;
 	_vector		vOut = { 0.f,0.f,0.f,0.f };
 	_uint		iIndicesCount = 0;
 	for (size_t i = 0; i < m_iNumIndices/3; ++i) {
@@ -323,7 +323,7 @@ HRESULT CMesh::Ready_Vertices_For_AnimModel(const aiMesh* pAIMesh, const vector<
 	// 이 메쉬가 사용하는 뼈의 개수만큼 순회
 	m_iNumBones = pAIMesh->mNumBones;
 
-	for (size_t i = 0; i < m_iNumBones; ++i) {
+	for (_uint i = 0; i < m_iNumBones; ++i) {
 		aiBone* pAIBone = pAIMesh->mBones[i];
 
 		_float4x4 OffsetMatrix;
@@ -346,7 +346,7 @@ HRESULT CMesh::Ready_Vertices_For_AnimModel(const aiMesh* pAIMesh, const vector<
 
 		// 이 뼈가 영향을 주는 모든 버텍스에 이 뼈의 메쉬에서의 위치와 가중치를 넣어줘야함
 		// 메쉬에서의 위치가 모델에서의 위치를 알려줌
-		for (size_t j = 0; j < iNumWeights; j++) {
+		for (_uint j = 0; j < iNumWeights; j++) {
 			// 비어있는 위치에 저장해야함
 			// 최대 4개까지 저장
 			if (0.0f == pVertices[pAIBone->mWeights[j].mVertexId].vBlendWeights.x)

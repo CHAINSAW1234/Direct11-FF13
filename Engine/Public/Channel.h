@@ -18,7 +18,7 @@ public:
 	_uint Get_iBoneIndex() { return m_iBoneIndex; }
 public:
 	HRESULT Initialize(const aiNodeAnim* pAIChannel, const vector<CBone*>& Bones);
-	void Invalidate_TransformationMatrix(const vector<CBone*>& Bones, _float fTrackPosition, _uint* pCurrentKeyFrameIndex);
+	void Invalidate_TransformationMatrix(const vector<CBone*>& Bones, _float fTrackPosition, _float fTickPerSecond, _uint* pCurrentKeyFrameIndex);
 	void Invalidate_TransformationMatrix_Linear_Interpolation(const vector<CBone*>& Bones, _float fTrackPosition, _uint* pCurrentKeyFrameIndex, _float fTimeDelta, CChannel* pNextChannel);
 public:
 	HRESULT Save_Channel(ofstream& OFS);

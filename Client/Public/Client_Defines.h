@@ -10,7 +10,7 @@ namespace Client
 
 	const unsigned int	g_iWinSizeX = 1280;
 	const unsigned int	g_iWinSizeY = 720;
-
+	const wstring		g_strCameraLayerTag = TEXT("Layer_ZZZCamera");
 }
 
 extern HWND				g_hWnd;
@@ -25,14 +25,3 @@ using namespace Client;
 #include "imgui_impl_dx11.h"
 #include "imgui_impl_win32.h"
 //#include "imgui_internal.h"
-
-inline float Saturate(float fMin, float fMax, float fValue) {
-	if (fValue > fMax) {
-		fValue = fMax;
-	}
-	if (fValue < fMin) {
-		fValue = fMin;
-	}
-
-	return fValue;
-}

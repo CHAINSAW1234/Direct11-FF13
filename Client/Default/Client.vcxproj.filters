@@ -22,9 +22,6 @@
     <Filter Include="02.GameObjects\BackGround">
       <UniqueIdentifier>{ef3d146c-47a4-4cea-8ab8-0d3efb6a9884}</UniqueIdentifier>
     </Filter>
-    <Filter Include="02.GameObjects\Terrain">
-      <UniqueIdentifier>{b741feae-f4f3-48ab-8434-c15caeee4e38}</UniqueIdentifier>
-    </Filter>
     <Filter Include="02.GameObjects\Camera">
       <UniqueIdentifier>{9ac80f32-39cd-468a-a089-e5cd491c3d5e}</UniqueIdentifier>
     </Filter>
@@ -36,9 +33,6 @@
     </Filter>
     <Filter Include="98.Default\Default">
       <UniqueIdentifier>{785578c5-9a72-4fed-befd-94998f7ecf0e}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="02.GameObjects\Monster">
-      <UniqueIdentifier>{e197b717-c7cd-4f12-87ea-66937e11f1b7}</UniqueIdentifier>
     </Filter>
     <Filter Include="03.Tool">
       <UniqueIdentifier>{e891e4cc-0e2a-4c07-8237-84151f973697}</UniqueIdentifier>
@@ -67,12 +61,6 @@
     <Filter Include="01.Levels\Parsing">
       <UniqueIdentifier>{2c2434a8-8e10-4ec5-a4ec-8dca89b9d087}</UniqueIdentifier>
     </Filter>
-    <Filter Include="03.Tool\ParsingTool">
-      <UniqueIdentifier>{b9fd3cc1-20ee-4260-a74e-eb6420d41339}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="03.Tool\TestModel">
-      <UniqueIdentifier>{f9e27d2f-b762-4419-8ceb-c8bf3c66025a}</UniqueIdentifier>
-    </Filter>
     <Filter Include="01.Levels\Field">
       <UniqueIdentifier>{2e0265c2-3472-44b1-8b2e-4f0c0222b245}</UniqueIdentifier>
     </Filter>
@@ -84,9 +72,6 @@
     </Filter>
     <Filter Include="02.GameObjects\Camera\Camera_Field">
       <UniqueIdentifier>{f99eeff5-6bdb-4186-92c5-2ab693299622}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="02.GameObjects\Forklift">
-      <UniqueIdentifier>{71dcb4da-a072-4364-a534-e77e2b804c60}</UniqueIdentifier>
     </Filter>
     <Filter Include="02.GameObjects\Chr\Chr_Field">
       <UniqueIdentifier>{b1dad8bd-cbf0-49d0-973a-14e7657f0613}</UniqueIdentifier>
@@ -109,6 +94,45 @@
     <Filter Include="02.GameObjects\Chr\Chr_Field\State\Chr_Field_State_Item">
       <UniqueIdentifier>{60c78af1-10d7-4383-82ac-398c7b19420c}</UniqueIdentifier>
     </Filter>
+    <Filter Include="02.GameObjects\For_Study">
+      <UniqueIdentifier>{fc382d2b-1336-4fe5-b11e-bf66fa888959}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\For_Study\Terrain">
+      <UniqueIdentifier>{b741feae-f4f3-48ab-8434-c15caeee4e38}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\For_Study\Monster">
+      <UniqueIdentifier>{e197b717-c7cd-4f12-87ea-66937e11f1b7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\For_Study\Forklift">
+      <UniqueIdentifier>{71dcb4da-a072-4364-a534-e77e2b804c60}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\For_Study\Player">
+      <UniqueIdentifier>{46e1137b-286d-4161-aff2-58514f47a53b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\For_Study\Player\Body_Player">
+      <UniqueIdentifier>{002c91ed-9f70-43a3-a5e2-13ed005a3937}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\For_Study\Player\Weapon">
+      <UniqueIdentifier>{a7c2498c-35b0-4888-b789-8267d0cae2f2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\Chr\Chr_Battle">
+      <UniqueIdentifier>{1b0492e4-fae8-4447-a30f-17546dff61dd}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\Chr\Chr_Battle\Light">
+      <UniqueIdentifier>{39381c72-b29e-425f-933c-b325ea647517}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\Chr\Chr_Battle\Light\State">
+      <UniqueIdentifier>{4f77da41-38da-403f-ace5-f03a6fbf8ad2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\Chr\Chr_Battle\Light\State\Chr_Battle_Light_Idle">
+      <UniqueIdentifier>{f8cded0f-694e-4321-b443-ed63d07fbdd5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\Chr\Chr_Battle\Light\State\Chr_Battle_Light_Move">
+      <UniqueIdentifier>{60835c53-b4c9-4505-ab9d-085a0ef2e21d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\Chr\Chr_Battle\Light\State\Chr_Battle_Light_Run">
+      <UniqueIdentifier>{00422949-dd8f-4eb7-b62c-a91e5d38ba0a}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\public\MainApp.h">
@@ -127,7 +151,7 @@
       <Filter>02.GameObjects\BackGround</Filter>
     </ClInclude>
     <ClInclude Include="..\Public\Terrain.h">
-      <Filter>02.GameObjects\Terrain</Filter>
+      <Filter>02.GameObjects\For_Study\Terrain</Filter>
     </ClInclude>
     <ClInclude Include="..\Public\Client_Defines.h">
       <Filter>99.Defines</Filter>
@@ -184,7 +208,7 @@
       <Filter>98.Default\Default</Filter>
     </ClInclude>
     <ClInclude Include="..\Public\Monster.h">
-      <Filter>02.GameObjects\Monster</Filter>
+      <Filter>02.GameObjects\For_Study\Monster</Filter>
     </ClInclude>
     <ClInclude Include="..\Public\Camera_Field.h">
       <Filter>02.GameObjects\Camera\Camera_Field</Filter>
@@ -207,12 +231,6 @@
     <ClInclude Include="..\Public\Level_Parsing.h">
       <Filter>01.Levels\Parsing</Filter>
     </ClInclude>
-    <ClInclude Include="..\Public\ParsingTool.h">
-      <Filter>03.Tool\ParsingTool</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Public\TestModel.h">
-      <Filter>03.Tool\TestModel</Filter>
-    </ClInclude>
     <ClInclude Include="..\Public\Level_Field.h">
       <Filter>01.Levels\Field</Filter>
     </ClInclude>
@@ -223,7 +241,7 @@
       <Filter>01.Levels\00. Loading\Loader</Filter>
     </ClInclude>
     <ClInclude Include="..\Public\Forklift.h">
-      <Filter>02.GameObjects\Forklift</Filter>
+      <Filter>02.GameObjects\For_Study\Forklift</Filter>
     </ClInclude>
     <ClInclude Include="..\Public\Chr_Field.h">
       <Filter>02.GameObjects\Chr\Chr_Field</Filter>
@@ -242,6 +260,30 @@
     </ClInclude>
     <ClInclude Include="..\Public\Chr_Field_State_Item.h">
       <Filter>02.GameObjects\Chr\Chr_Field\State\Chr_Field_State_Item</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\Player.h">
+      <Filter>02.GameObjects\For_Study\Player</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\Body_Player.h">
+      <Filter>02.GameObjects\For_Study\Player\Body_Player</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\Weapon_Study.h">
+      <Filter>02.GameObjects\For_Study\Player\Weapon</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\Chr_Battle.h">
+      <Filter>02.GameObjects\Chr\Chr_Battle</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\Chr_Battle_Light.h">
+      <Filter>02.GameObjects\Chr\Chr_Battle\Light</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\Chr_Battle_Light_Idle.h">
+      <Filter>02.GameObjects\Chr\Chr_Battle\Light\State\Chr_Battle_Light_Idle</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\Chr_Battle_Light_Move.h">
+      <Filter>02.GameObjects\Chr\Chr_Battle\Light\State\Chr_Battle_Light_Move</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\Chr_Battle_Light_Run.h">
+      <Filter>02.GameObjects\Chr\Chr_Battle\Light\State\Chr_Battle_Light_Run</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -264,7 +306,7 @@
       <Filter>02.GameObjects\BackGround</Filter>
     </ClCompile>
     <ClCompile Include="..\Private\Terrain.cpp">
-      <Filter>02.GameObjects\Terrain</Filter>
+      <Filter>02.GameObjects\For_Study\Terrain</Filter>
     </ClCompile>
     <ClCompile Include="..\Private\Camera_Free.cpp">
       <Filter>02.GameObjects\Camera</Filter>
@@ -309,7 +351,7 @@
       <Filter>98.Default\Default</Filter>
     </ClCompile>
     <ClCompile Include="..\Private\Monster.cpp">
-      <Filter>02.GameObjects\Monster</Filter>
+      <Filter>02.GameObjects\For_Study\Monster</Filter>
     </ClCompile>
     <ClCompile Include="..\Private\Camera_Field.cpp">
       <Filter>02.GameObjects\Camera\Camera_Field</Filter>
@@ -326,12 +368,6 @@
     <ClCompile Include="..\Private\Level_Parsing.cpp">
       <Filter>01.Levels\Parsing</Filter>
     </ClCompile>
-    <ClCompile Include="..\Private\ParsingTool.cpp">
-      <Filter>03.Tool\ParsingTool</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Private\TestModel.cpp">
-      <Filter>03.Tool\TestModel</Filter>
-    </ClCompile>
     <ClCompile Include="..\Private\Level_Field.cpp">
       <Filter>01.Levels\Field</Filter>
     </ClCompile>
@@ -339,7 +375,7 @@
       <Filter>02.GameObjects\Chr</Filter>
     </ClCompile>
     <ClCompile Include="..\Private\Forklift.cpp">
-      <Filter>02.GameObjects\Forklift</Filter>
+      <Filter>02.GameObjects\For_Study\Forklift</Filter>
     </ClCompile>
     <ClCompile Include="..\Private\Chr_Field.cpp">
       <Filter>02.GameObjects\Chr\Chr_Field</Filter>
@@ -358,6 +394,30 @@
     </ClCompile>
     <ClCompile Include="..\Private\Chr_Field_State_Item.cpp">
       <Filter>02.GameObjects\Chr\Chr_Field\State\Chr_Field_State_Item</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Player.cpp">
+      <Filter>02.GameObjects\For_Study\Player</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Body_Player.cpp">
+      <Filter>02.GameObjects\For_Study\Player\Body_Player</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Weapon_Study.cpp">
+      <Filter>02.GameObjects\For_Study\Player\Weapon</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Chr_Battle.cpp">
+      <Filter>02.GameObjects\Chr\Chr_Battle</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Chr_Battle_Light.cpp">
+      <Filter>02.GameObjects\Chr\Chr_Battle\Light</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Chr_Battle_Light_Idle.cpp">
+      <Filter>02.GameObjects\Chr\Chr_Battle\Light\State\Chr_Battle_Light_Idle</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Chr_Battle_Light_Move.cpp">
+      <Filter>02.GameObjects\Chr\Chr_Battle\Light\State\Chr_Battle_Light_Move</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Chr_Battle_Light_Run.cpp">
+      <Filter>02.GameObjects\Chr\Chr_Battle\Light\State\Chr_Battle_Light_Run</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

@@ -11,6 +11,8 @@
 #include "Chr_Field_State_Battle_Begin.h"
 #include "Chr_Field_State_Item.h"
 
+#include "ImGUI_Manager.h"
+
 CChr_Field::CChr_Field(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
 	: CGameObject{ pDevice, pContext }
 {
@@ -33,7 +35,7 @@ HRESULT CChr_Field::Initialize(void* pArg)
 	GAMEOBJECT_DESC		GameObjectDesc{};
 
 	GameObjectDesc.fSpeedPerSec = 10.f;
-	GameObjectDesc.fRotationPerSec = XMConvertToRadians(90.0f);
+	GameObjectDesc.fRotationPerSec = XMConvertToRadians(360.f);
 
 	if (FAILED(__super::Initialize(&GameObjectDesc)))
 		return E_FAIL;
@@ -41,8 +43,11 @@ HRESULT CChr_Field::Initialize(void* pArg)
 	if (FAILED(Add_Components()))
 		return E_FAIL;
 
+	m_pImGUI_Manager = CImGUI_Manager::Get_Instance(m_pDevice, m_pContext);
+
+
 	m_pModelCom->Set_Animation(0, false);
-	m_pTransformCom->Set_State(CTransform::STATE_POSITION, XMVectorSet(rand() % 20, 2.f, rand() % 20, 1.f));
+	m_pTransformCom->Set_State(CTransform::STATE_POSITION, XMVectorSet(_float(rand() % 20), 2.f, _float(rand() % 20), 1.f));
 
 	return S_OK;
 }
@@ -51,10 +56,9 @@ void CChr_Field::Tick(_float fTimeDelta)
 {
 	m_pFSMCom->Update(fTimeDelta);
 	Update_FSMState(fTimeDelta);
-	/*if (m_pGameInstance->Get_KeyState(KEY_DOWN, DIK_UPARROW))
-		m_pModelCom->Set_Animation(m_pModelCom->Get_CurrentAnimationIndex() + 1, true);
-	if (m_pGameInstance->Get_KeyState(KEY_DOWN, DIK_DOWNARROW))
-		m_pModelCom->Set_Animation(m_pModelCom->Get_CurrentAnimationIndex() - 1, true);*/
+
+	m_pImGUI_Manager->Tick(fTimeDelta);
+	Show_ImGUI();
 }
 
 HRESULT CChr_Field::Late_Tick(_float fTimeDelta)
@@ -64,7 +68,8 @@ HRESULT CChr_Field::Late_Tick(_float fTimeDelta)
 
 	m_pModelCom->Play_Animation(fTimeDelta);
 
-	m_pGameInstance->Add_RenderGroup(CRenderer::RENDER_NONBLEND, this);
+	// 임시
+	m_pGameInstance->Add_RenderGroup(CRenderer::RENDER_UI, this);
 	return S_OK;
 }
 
@@ -75,7 +80,7 @@ HRESULT CChr_Field::Render()
 
 	_uint iNumMeshes = m_pModelCom->Get_NumMeshes();
 
-	for (size_t i = 0; i < iNumMeshes; ++i) {
+	for (_uint i = 0; i < iNumMeshes; ++i) {
 		if (FAILED(m_pModelCom->Bind_ShaderResource(m_pShaderCom, "g_DiffuseTexture", i, aiTextureType_DIFFUSE)))
 			return E_FAIL;
 
@@ -88,6 +93,8 @@ HRESULT CChr_Field::Render()
 
 		m_pModelCom->Render(i);
 	}
+
+	m_pImGUI_Manager->Render();
 
 	return S_OK;
 }
@@ -103,6 +110,49 @@ HRESULT CChr_Field::Change_State(STATE eState)
 void CChr_Field::Change_Animation(ANIMATION_CHR_FIELD iAnimationIndex, _bool isLoop)
 {
 	m_pModelCom->Set_Animation(iAnimationIndex, isLoop);
+}
+
+_float4 CChr_Field::Cal_Target_Direction()
+{
+	_vector vTargetDir = { 0.f,0.f,0.f,0.f };
+
+	// 1. 카메라의 Look, Right 벡터 구한다
+	_vector vCamRight, vCamLook;
+	vCamRight = m_pGameInstance->Get_Transform_Matrix_Inverse(CPipeLine::D3DTS_VIEW).r[0];
+	vCamLook = m_pGameInstance->Get_Transform_Matrix_Inverse(CPipeLine::D3DTS_VIEW).r[2];
+
+	// 2. 키 입력을 기준으로 이동 방향 결정 
+	if (m_pGameInstance->Get_KeyState(KEY_PRESS, DIK_W))
+		vTargetDir += vCamLook;
+	if (m_pGameInstance->Get_KeyState(KEY_PRESS, DIK_S))
+		vTargetDir -= vCamLook;
+
+	if (m_pGameInstance->Get_KeyState(KEY_PRESS, DIK_A))
+		vTargetDir -= vCamRight;
+	if (m_pGameInstance->Get_KeyState(KEY_PRESS, DIK_D))
+		vTargetDir += vCamRight;
+
+	// 3. y값 지우기
+	vTargetDir.m128_f32[1] = 0;
+
+	// 4. 정규화된 이동 방향 결정 
+	vTargetDir = XMVector3Normalize(vTargetDir);
+
+	_float4 vOutputDir = { 0.f,0.f,0.f,0.f };
+
+	XMStoreFloat4(&vOutputDir, vTargetDir);
+
+	return vOutputDir;
+}
+
+_float4 CChr_Field::Get_Look()
+{
+	// Player의 Look vector를 Y값을 지우고 리턴
+	_float4 vChrLook = m_pTransformCom->Get_State_Float4(CTransform::STATE_LOOK);
+	vChrLook.y = 0;
+	XMStoreFloat4(&vChrLook, XMVectorSetW(XMVector3Normalize(XMLoadFloat4(&vChrLook)), 0.f));
+
+	return vChrLook;
 }
 
 HRESULT CChr_Field::Add_Components()
@@ -173,6 +223,11 @@ HRESULT CChr_Field::Bind_ShaderResources()
 
 void CChr_Field::Update_FSMState(_float fTimeDelta)
 {
+
+	// 에러날 가능성이 매우 높은 코드?
+	if (!m_isControl)
+		return;
+
 	switch (m_eState) {
 	case IDLE:
 		// 1. IDLE to WALK
@@ -214,6 +269,51 @@ void CChr_Field::Update_FSMState(_float fTimeDelta)
 	}
 }
 
+void CChr_Field::Show_ImGUI()
+{
+	_float4x4 worldmatrix = m_pTransformCom->Get_WorldFloat4x4();
+	_float vRight[4] = { worldmatrix.m[0][0], worldmatrix.m[0][1] , worldmatrix.m[0][2] , worldmatrix.m[0][3] };
+	_float vUp[4] = { worldmatrix.m[1][0], worldmatrix.m[1][1] , worldmatrix.m[1][2] , worldmatrix.m[1][3] };
+	_float vLook[4] = { worldmatrix.m[2][0], worldmatrix.m[2][1] , worldmatrix.m[2][2] , worldmatrix.m[2][3] };
+	_float vPos[4] = { worldmatrix.m[3][0], worldmatrix.m[3][1] , worldmatrix.m[3][2] , worldmatrix.m[3][3] };
+
+	string str;
+	switch (m_eState) {
+	case IDLE:
+		str = "IDLE";
+		break;
+	case WALK:
+		str = "WALK";
+		break;
+	case MOVE:
+		str = "MOVE";
+		break;
+	case ITEM:
+		str = "ITEM";
+		break;
+	case BATTLE_BEGIN:
+		str = "BATTLE_BEGIN";
+		break;
+	}
+
+	ImGui::Begin("Chr_Field Tool");
+	if (ImGui::TreeNode("Transform")) {
+		ImGui::InputFloat4("Right", vRight);
+		ImGui::InputFloat4("Up", vUp);
+		ImGui::InputFloat4("Look", vLook);
+		ImGui::InputFloat4("Pos", vPos);
+
+		ImGui::TreePop();
+	}
+	ImGui::Text("Current State : ");
+	ImGui::SameLine();
+	ImGui::Text(str.c_str());
+	ImGui::Text("Animation Index : %d", m_pModelCom->Get_CurrentAnimationIndex());
+	ImGui::Text("Animation Frame : %f", m_pModelCom->Get_CurrentTrackPosition());
+
+	ImGui::End();
+}
+
 CChr_Field* CChr_Field::Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
 {
 	CChr_Field* pInstance = new CChr_Field(pDevice, pContext);
@@ -249,4 +349,6 @@ void CChr_Field::Free()
 	Safe_Release(m_pShaderCom);
 	Safe_Release(m_pModelCom);
 	Safe_Release(m_pFSMCom);
+
+	Safe_Release(m_pImGUI_Manager);
 }

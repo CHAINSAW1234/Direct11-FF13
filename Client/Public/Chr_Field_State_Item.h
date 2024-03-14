@@ -21,6 +21,7 @@ public:
 private:
 	class CChr_Field* m_pChr_Field = { nullptr };
 
+	void Update_Animation();
 public:
 	static	CChr_Field_State_Item* Create(class CChr_Field* pChr_Field);
 	virtual void				  Free() override;
