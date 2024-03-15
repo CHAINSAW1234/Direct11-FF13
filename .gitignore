@@ -1,4 +1,6 @@
-.vs/*
+.vs/
+.log
+.obj
 Cleint/Bin/Client.pdb
 Client/Default/x64/*
 Client/Default/Debug/*
