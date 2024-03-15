@@ -6,7 +6,7 @@
 #include "FSM.h"
 
 CMainApp::CMainApp()
-	: m_pGameInstance(CGameInstance::Get_Instance())
+	: m_pGameInstance{ CGameInstance::Get_Instance() }
 {
 	Safe_AddRef(m_pGameInstance);	
 

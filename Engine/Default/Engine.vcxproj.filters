@@ -118,6 +118,12 @@
     <Filter Include="01.Utility\01.GameObjects\PartObject">
       <UniqueIdentifier>{dad279cc-4130-4b8c-98bf-0d6992ea4d56}</UniqueIdentifier>
     </Filter>
+    <Filter Include="01.Utility\02.Components\Collider">
+      <UniqueIdentifier>{d7a4f122-b374-4235-aecb-d8ef61ea4fc7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="01.Utility\02.Components\Collider\Bounding">
+      <UniqueIdentifier>{1d9bb25e-b7c8-4b6d-a541-42c3cb9b3767}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\Private\Base.cpp">

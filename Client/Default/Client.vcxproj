@@ -176,9 +176,8 @@
     <ClInclude Include="..\Public\Chr.h" />
     <ClInclude Include="..\Public\Chr_Battle.h" />
     <ClInclude Include="..\Public\Chr_Battle_Light.h" />
+    <ClInclude Include="..\Public\Chr_Battle_Light_Attack.h" />
     <ClInclude Include="..\Public\Chr_Battle_Light_Idle.h" />
-    <ClInclude Include="..\Public\Chr_Battle_Light_Move.h" />
-    <ClInclude Include="..\Public\Chr_Battle_Light_Run.h" />
     <ClInclude Include="..\Public\Chr_Field.h" />
     <ClInclude Include="..\Public\Chr_Field_State_Battle_Begin.h" />
     <ClInclude Include="..\Public\Chr_Field_State_Idle.h" />
@@ -228,9 +227,8 @@
     <ClCompile Include="..\Private\Chr.cpp" />
     <ClCompile Include="..\Private\Chr_Battle.cpp" />
     <ClCompile Include="..\Private\Chr_Battle_Light.cpp" />
+    <ClCompile Include="..\Private\Chr_Battle_Light_Attack.cpp" />
     <ClCompile Include="..\Private\Chr_Battle_Light_Idle.cpp" />
-    <ClCompile Include="..\Private\Chr_Battle_Light_Move.cpp" />
-    <ClCompile Include="..\Private\Chr_Battle_Light_Run.cpp" />
     <ClCompile Include="..\Private\Chr_Field.cpp" />
     <ClCompile Include="..\Private\Chr_Field_State_Battle_Begin.cpp" />
     <ClCompile Include="..\Private\Chr_Field_State_Idle.cpp" />

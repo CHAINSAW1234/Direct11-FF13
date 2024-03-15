@@ -32,7 +32,9 @@ HRESULT CWeapon_Study::Initialize(void* pArg)
 	if (FAILED(Add_Components()))
 		return E_FAIL;
 
-
+	m_pTransformCom->Set_Scaled(0.1f, 0.1f, 0.1f);
+	m_pTransformCom->Rotation(XMVectorSet(0.f, 1.f, 0.f, 0.f), XMConvertToRadians(90.0f));
+	m_pTransformCom->Set_State(CTransform::STATE_POSITION, _float4(0.8f, 0.f, 0.f, 1.f));
 
 	return S_OK;
 }

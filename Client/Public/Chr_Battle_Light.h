@@ -13,9 +13,9 @@ BEGIN(Client)
 class CChr_Battle_Light final : public CGameObject
 {
 public:
-	enum STATE { IDLE, MOVE, RUN, ATTACK, ITEM, HIT, DEAD, TP, STATE_END };
+	enum STATE { IDLE, ATTACK, ITEM, /*HIT,*/ DEAD, TP, STATE_END };
 	enum ANIMATION_CHR_BATTLE_LIGHT {	// FINISH -> 전투 종료	// IDLE_IDLE은 STATE랑 겹처서 만듬
-		ATTACK_AIR_SPIN, ATTACK_AIR_SPIN2, ATTACK_AMBUSH, ATTACK_AMBUSH2, ATTACK_AREABLAST,
+		ATTACK_AIR, ATTACK_AIR_SPIN, ATTACK_AIR_SPIN2, ATTACK_AMBUSH, ATTACK_AMBUSH2, ATTACK_AREABLAST,
 		ATTACK_END, ATTACK_END2, ATTACK_NOR1, ATTACK_NOR2_2, ATTACK_NOR_3, ATTACK_PREPARE,
 		DEAD_END, DEAD_IDLE, DEAD_START, FINISH,
 		HIT_AIR, HIT_AIR_START, HIT_BACK, HIT_FALL, HIT_FALL_DEAD, HIT_FALL_GETUP, HIT_LEFT, HIT_RIGHT,
@@ -28,6 +28,7 @@ public:
 		MOVE_STRAIGHT, MOVE_STRAIGHT_STOP_LEFT, MOVE_STRAIGHT_STOP_RIGHT,
 		OPTIMACHANGE, RUN_IDLE, RUN_START, RUN_START_WITH_TURN_LEFT, RUN_START_WITH_TURN_RIGHT, RUN_STOP,
 		SKILL, SKILL_NOR, SKILL_AIR, SKILL_AIR_END, SKILL_AIR_IDLE, SKILL_AIR_START, ANIM_TP };
+	// idle_turn 2개 안쓰기로함
 private:
 	CChr_Battle_Light(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);
 	CChr_Battle_Light(const CChr_Battle_Light& rhs);
@@ -49,15 +50,18 @@ private:
 
 	STATE		m_eState = { STATE_END };
 	_bool		m_isControl = { true };				// 조작 가능 여부 -> 아이템 조작, 전투시 false 처리
+	// 초기위치 필요한?
 
+	_float4		m_vStartPosition = { 0.f,0.f,0.f,0.f };
 	class CImGUI_Manager* m_pImGUI_Manager = { nullptr };
-	
+
 public:
 	CTransform* Get_Transform() { return m_pTransformCom; }
 	_uint		Get_CurrentAnimationIndex() { return m_pModelCom->Get_CurrentAnimationIndex(); }
 	_float		Get_CurrentTrackPosition() { return m_pModelCom->Get_CurrentTrackPosition(); }
 	_bool		Is_Animation_Finished() { return m_pModelCom->isFinished(); }
-
+	_float4		Get_Target_Position() { return ((CTransform*)m_pTargetObject->Get_Component(g_strTransformTag))->Get_State_Float4(CTransform::STATE_POSITION); }
+	_float4		Get_Start_Position() { return m_vStartPosition; }
 	void		Set_Target(CGameObject* pTargetObject) { m_pTargetObject = pTargetObject; }
 public:
 	HRESULT Change_State(STATE eState);

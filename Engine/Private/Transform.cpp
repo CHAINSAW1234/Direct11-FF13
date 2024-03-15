@@ -141,12 +141,17 @@ void CTransform::Look_At_ForLandObject(_fvector vTargetPosition)
 
 void CTransform::Move_To_Target(_fvector vTargetPos, _float fTimeDelta, _float fMinDistance)
 {
-    _vector vPos = Get_State_Vector(STATE_POSITION);
+	_vector vPos = Get_State_Vector(STATE_POSITION);
+	_vector vDir = vTargetPos - vPos;
+	_float	fDistance = XMVector3Length(vDir).m128_f32[0];
+	_vector vLook = vTargetPos - vPos;
 
-    _vector vLook = vTargetPos - vPos;
+	if (fDistance > fMinDistance)
+	{
+		vPos += XMVector3Normalize(vDir) * m_fSpeedPerSec * fTimeDelta;
+		Set_State(STATE_POSITION, XMVectorSetW(vPos, 1.f));
 
-    if (fMinDistance <= XMVectorGetX(XMVector3Length(vLook)))
-        vPos += XMVector3Normalize(vLook) * m_fSpeedPerSec * fTimeDelta;
+	}
 }
 
 void CTransform::Move_To_Direction(_fvector vDirection, _float fTimeDelta)

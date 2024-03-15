@@ -2,8 +2,6 @@
 #include "Chr_Battle_Light.h"
 
 #include "Chr_Battle_Light_Idle.h"
-#include "Chr_Battle_Light_Move.h"
-#include "Chr_Battle_Light_Run.h"
 
 #include "FSM.h"
 #include "Model.h"
@@ -45,8 +43,8 @@ HRESULT CChr_Battle_Light::Initialize(void* pArg)
 
 
     //m_pModelCom->Set_Animation(0, false);
-    m_pTransformCom->Set_State(CTransform::STATE_POSITION, XMVectorSet(_float(rand() % 20), 2.f, _float(rand() % 20), 1.f));
-
+    m_pTransformCom->Set_State(CTransform::STATE_POSITION, XMVectorSet(_float(rand() % 20), 0.f, _float(rand() % 20), 1.f));
+    //m_vStartPosition = m_pTransformCom->Get_State_Float4(CTransform::STATE_POSITION);
     return S_OK;
 }
 
@@ -60,10 +58,13 @@ void CChr_Battle_Light::Tick(_float fTimeDelta)
     //if (m_pGameInstance->Get_KeyState(KEY_DOWN, DIK_DOWNARROW))
     //    m_pModelCom->Set_Animation(m_pModelCom->Get_CurrentAnimationIndex() - 1, true);
 
+    static int i = 0;
+    if (!i) {
+        ++i;
+        m_pTransformCom->Look_At_ForLandObject(((CTransform*)m_pTargetObject->Get_Component(g_strTransformTag))->Get_State_Vector(CTransform::STATE_POSITION));
+    }
+
     
-
-    m_pTransformCom->Look_At_ForLandObject(((CTransform*)m_pTargetObject->Get_Component(g_strTransformTag))->Get_State_Vector(CTransform::STATE_POSITION));
-
 
     m_pImGUI_Manager->Tick(fTimeDelta);
     Show_ImGUI();
@@ -155,8 +156,6 @@ HRESULT CChr_Battle_Light::Add_Component_FSM()
         return E_FAIL;
 
     m_pFSMCom->Add_State(IDLE, CChr_Battle_Light_Idle::Create(this));
-    m_pFSMCom->Add_State(MOVE, CChr_Battle_Light_Move::Create(this));
-    m_pFSMCom->Add_State(RUN, CChr_Battle_Light_Run::Create(this));
 
     Change_State(IDLE);
     return S_OK;
@@ -196,7 +195,14 @@ HRESULT CChr_Battle_Light::Bind_ShaderResources()
 
 void CChr_Battle_Light::Update_FSMState(_float fTimeDelta)
 {
-
+ /*   if (m_pGameInstance->Get_KeyState(KEY_PRESS, DIK_W) ||
+        m_pGameInstance->Get_KeyState(KEY_PRESS, DIK_A) ||
+        m_pGameInstance->Get_KeyState(KEY_PRESS, DIK_S) ||
+        m_pGameInstance->Get_KeyState(KEY_PRESS, DIK_D))
+        Change_State(MOVE);
+    else {
+        Change_State(IDLE);
+    }*/
 }
 
 void CChr_Battle_Light::Show_ImGUI()
@@ -212,21 +218,15 @@ void CChr_Battle_Light::Show_ImGUI()
     case IDLE:
         str = "IDLE";
         break;
-    case MOVE:
-        str = "MOVE";
-        break;
-    case RUN:
-        str = "RUN";
-        break;
     case ATTACK:
         str = "ATTACK";
         break;
     case ITEM:
         str = "ITEM";
         break;
-    case HIT:
-        str = "HIT";
-        break;
+    //case HIT:
+    //    str = "HIT";
+    //    break;
     case DEAD:
         str = "DEAD";
         break;

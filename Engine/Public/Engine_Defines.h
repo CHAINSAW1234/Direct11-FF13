@@ -3,9 +3,9 @@
 #pragma warning (disable : 4251)
 
 #include <d3d11.h>
-#include <DirectXCollision.h>
+#include <DirectXMath.h>
 #include <d3dcompiler.h>
-
+#include <DirectXCollision.h>
 
 #define DIRECTINPUT_VERSION 0x0800
 #include <dinput.h>
@@ -17,18 +17,24 @@ namespace Engine
 	enum MOUSEMOVESTATE { DIMMS_X, DIMMS_Y, DIMMS_WHEEL, DIMMS_END };
 }
 
-using namespace DirectX;
+
 
 #include "Effects11/d3dx11effect.h"
 #include "DirectXTK/DDSTextureLoader.h"
 #include "DirectXTK/WICTextureLoader.h"
 #include "DirectXTK/ScreenGrab.h"
+#include "DirectXTK/PrimitiveBatch.h"
+#include "DirectXTK/VertexTypes.h"
+#include "DirectXTK/Effects.h"
 
+#include "DirectXTK/SpriteBatch.h"
+#include "DirectXTK/SpriteFont.h"
 
 #include "assimp/scene.h"
 #include "assimp/Importer.hpp"
 #include "assimp/postprocess.h"
 
+using namespace DirectX;
 #include <fstream>
 #include <algorithm> 
 #include <string>

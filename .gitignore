@@ -1,7 +1,8 @@
-.vs/
-Client/Default/x64/
-Client/Default/Debug/
-Engine/Default/x64/
-Engine/Default/Debug/
-EngineSDK/
-BK/
+.vs/*
+Cleint/Bin/Client.pdb
+Client/Default/x64/*
+Client/Default/Debug/*
+Engine/Default/x64/*
+Engine/Default/Debug/*
+EngineSDK/*
+BK/*
