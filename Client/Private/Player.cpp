@@ -53,6 +53,16 @@ void CPlayer::Tick(_float fTimeDelta)
 		m_pTransformCom->Turn(XMVectorSet(0.f, 1.f, 0.f, 0.f), fTimeDelta);
 	}
 
+	if (GetKeyState('T') & 0x8000)
+	{
+		m_pTransformCom->Go_Up(fTimeDelta);
+	}
+
+	if (GetKeyState('G') & 0x8000)
+	{
+		m_pTransformCom->Go_Down(fTimeDelta);
+	}
+
 	if (GetKeyState(VK_DOWN) & 0x8000)
 	{
 		m_pTransformCom->Go_Backward(fTimeDelta);

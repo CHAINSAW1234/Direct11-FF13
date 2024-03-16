@@ -130,6 +130,12 @@
     <Filter Include="02.GameObjects\Chr\Chr_Battle\Light\State\Chr_Battle_Light_Attack">
       <UniqueIdentifier>{1cc222e9-6687-4762-a7a4-f194e1f28ed2}</UniqueIdentifier>
     </Filter>
+    <Filter Include="02.GameObjects\Chr\Chr_Battle\Light\State\Chr_Battle_Light_Hit">
+      <UniqueIdentifier>{ed77c07f-dfa2-487a-b818-16b9c913d231}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\Chr\Chr_Battle\Light\State\Chr_Battle_Light_Dead">
+      <UniqueIdentifier>{0831c19d-8056-4f5c-9fd5-07785dba5e3f}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\public\MainApp.h">
@@ -270,14 +276,20 @@
     <ClInclude Include="..\Public\Chr_Battle.h">
       <Filter>02.GameObjects\Chr\Chr_Battle</Filter>
     </ClInclude>
-    <ClInclude Include="..\Public\Chr_Battle_Light.h">
-      <Filter>02.GameObjects\Chr\Chr_Battle\Light</Filter>
-    </ClInclude>
     <ClInclude Include="..\Public\Chr_Battle_Light_Idle.h">
       <Filter>02.GameObjects\Chr\Chr_Battle\Light\State\Chr_Battle_Light_Idle</Filter>
     </ClInclude>
+    <ClInclude Include="..\Public\Chr_Battle_Light.h">
+      <Filter>02.GameObjects\Chr\Chr_Battle\Light</Filter>
+    </ClInclude>
     <ClInclude Include="..\Public\Chr_Battle_Light_Attack.h">
       <Filter>02.GameObjects\Chr\Chr_Battle\Light\State\Chr_Battle_Light_Attack</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\Chr_Battle_Light_Hit.h">
+      <Filter>02.GameObjects\Chr\Chr_Battle\Light\State\Chr_Battle_Light_Hit</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\Chr_Battle_Light_Dead.h">
+      <Filter>02.GameObjects\Chr\Chr_Battle\Light\State\Chr_Battle_Light_Dead</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -409,6 +421,12 @@
     </ClCompile>
     <ClCompile Include="..\Private\Chr_Battle_Light_Attack.cpp">
       <Filter>02.GameObjects\Chr\Chr_Battle\Light\State\Chr_Battle_Light_Attack</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Chr_Battle_Light_Hit.cpp">
+      <Filter>02.GameObjects\Chr\Chr_Battle\Light\State\Chr_Battle_Light_Hit</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Chr_Battle_Light_Dead.cpp">
+      <Filter>02.GameObjects\Chr\Chr_Battle\Light\State\Chr_Battle_Light_Dead</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

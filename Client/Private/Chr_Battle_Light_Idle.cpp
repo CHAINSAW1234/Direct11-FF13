@@ -9,7 +9,6 @@ CChr_Battle_Light_Idle::CChr_Battle_Light_Idle(CChr_Battle_Light* pChr_Battle_Li
 
 void CChr_Battle_Light_Idle::OnStateEnter()
 {
-	// Startposition 과의 위치 비교를 통해 이동 패턴 적용 여부를 체크
 
 	// 체력이 부족한 경우
 	if (m_isHurt) {
@@ -20,13 +19,20 @@ void CChr_Battle_Light_Idle::OnStateEnter()
 		m_eState = IDLE;
 		m_pChr_Battle_Light->Change_Animation(CChr_Battle_Light::ANIM_IDLE, true);
 	}
-
+	m_isPatternEnable = true;		// 제어가 필요해보이긴 한데 방법이 아직 없다
 }
 
 void CChr_Battle_Light_Idle::OnStateUpdate(_float fTimeDelta)
 {
 	if (m_pGameInstance->Get_KeyState(KEY_DOWN, DIK_I)) {
 		m_isHurt = !m_isHurt;
+	}
+
+	if (m_pGameInstance->Get_KeyState(KEY_DOWN, DIK_P)) {
+		m_eState = IDLE;
+		m_pChr_Battle_Light->Change_Animation(CChr_Battle_Light::ATTACK_PREPARE, false);
+		m_fTimeDelta = 0.f;
+
 	}
 
 	Update_LookAt();
@@ -134,7 +140,6 @@ void CChr_Battle_Light_Idle::Move(_float fTimeDelta)
 		return;
 	}
 
-
 	_vector vTargetPosition = XMLoadFloat4(&m_pChr_Battle_Light->Get_Target_Position());
 	_vector vStartPosition = XMLoadFloat4(&m_pChr_Battle_Light->Get_Start_Position());
 	_vector vCurrentPosition = XMLoadFloat4(&m_pChr_Battle_Light->Get_Transform()->Get_State_Float4(CTransform::STATE_POSITION));
@@ -218,9 +223,9 @@ void CChr_Battle_Light_Idle::Change_MovementAnimation()
 
 			_float fDegree = Cal_Degree_From_Directions_Between_Min180_To_180(vCurrent_To_Start_Look, vCurrent_To_Target_Look);
 
-			if (abs(fDegree) < 45)
+			if (abs(fDegree) < 60)
 				m_pChr_Battle_Light->Change_Animation(CChr_Battle_Light::MOVE_STRAIGHT, true);
-			else if(abs(fDegree) > 135)
+			else if(abs(fDegree) > 150)
 				m_pChr_Battle_Light->Change_Animation(CChr_Battle_Light::MOVE_BACK, true);
 			else if(fDegree > 0)
 				m_pChr_Battle_Light->Change_Animation(CChr_Battle_Light::MOVE_LEFT, true);
@@ -281,12 +286,14 @@ void CChr_Battle_Light_Idle::Update_Movement()
 
 void CChr_Battle_Light_Idle::Update_LookAt()
 {
-	_float4 vCurrent_To_Target_Look;
-	XMStoreFloat4(&vCurrent_To_Target_Look, 
-				XMVector3Normalize((XMLoadFloat4(&m_pChr_Battle_Light->Get_Target_Position())
-							- m_pChr_Battle_Light->Get_Transform()->Get_State_Vector(CTransform::STATE_POSITION))));
+	_float4 vTargetLook;
+	_vector vCurrent_To_Target_Look = (XMLoadFloat4(&m_pChr_Battle_Light->Get_Target_Position())
+		- m_pChr_Battle_Light->Get_Transform()->Get_State_Vector(CTransform::STATE_POSITION));
+	vCurrent_To_Target_Look.m128_f32[1] = 0.f;
+	XMStoreFloat4(&vTargetLook, XMVectorSetW(XMVector3Normalize(vCurrent_To_Target_Look), 0.f));
+
 	_float4 vCurrentLook = m_pChr_Battle_Light->Get_Transform()->Get_State_Float4(CTransform::STATE_LOOK);
-	m_fDegree = Cal_Degree_From_Directions_Between_Min180_To_180(vCurrentLook, vCurrent_To_Target_Look);
+	m_fDegree = Cal_Degree_From_Directions_Between_Min180_To_180(vCurrentLook, vTargetLook);
 }
 
 _int CChr_Battle_Light_Idle::Check_Movement_Next(FXMVECTOR vTargetPos, FXMVECTOR vLineDir, FXMVECTOR vCurPos)

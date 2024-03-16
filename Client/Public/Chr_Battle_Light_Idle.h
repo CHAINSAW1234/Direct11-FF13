@@ -5,7 +5,7 @@
 BEGIN(Client)
 class CChr_Battle_Light_Idle final : public CFSM_State
 {
-	enum STATE { IDLE, HURT,  MOVE, STATE_END };
+	enum STATE { IDLE, HURT, MOVE, ATTACK_READY, STATE_END };
 	enum MOVEMENT { STRAIGHT, BACKWARD, NEXT, TO_START, MOVEMENT_END} ;
 private:
 	CChr_Battle_Light_Idle(class CChr_Battle_Light* pChr_Battle_Light);

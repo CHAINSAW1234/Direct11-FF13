@@ -16,7 +16,7 @@ HRESULT CBounding_Sphere::Initialize(CBounding::BOUNDING_DESC* pBoundingDesc)
 
 HRESULT CBounding_Sphere::Render(PrimitiveBatch<VertexPositionColor>* pBatch)
 {
-	//DX::Draw(pBatch, *m_pBoundingDesc);
+	DX::Draw(pBatch, *m_pBoundingDesc);
 
 	return S_OK;
 }

@@ -13,7 +13,7 @@ BEGIN(Client)
 class CChr_Battle_Light final : public CGameObject
 {
 public:
-	enum STATE { IDLE, ATTACK, ITEM, /*HIT,*/ DEAD, TP, STATE_END };
+	enum STATE { IDLE, ATTACK, ITEM, HIT, DEAD, TP, STATE_END };
 	enum ANIMATION_CHR_BATTLE_LIGHT {	// FINISH -> 전투 종료	// IDLE_IDLE은 STATE랑 겹처서 만듬
 		ATTACK_AIR, ATTACK_AIR_SPIN, ATTACK_AIR_SPIN2, ATTACK_AMBUSH, ATTACK_AMBUSH2, ATTACK_AREABLAST,
 		ATTACK_END, ATTACK_END2, ATTACK_NOR1, ATTACK_NOR2_2, ATTACK_NOR_3, ATTACK_PREPARE,
@@ -27,7 +27,9 @@ public:
 		MOVE_RIGHT, MOVE_RIGHT_STOP_LEFT, MOVE_RIGHT_STOP_RIGHT,
 		MOVE_STRAIGHT, MOVE_STRAIGHT_STOP_LEFT, MOVE_STRAIGHT_STOP_RIGHT,
 		OPTIMACHANGE, RUN_IDLE, RUN_START, RUN_START_WITH_TURN_LEFT, RUN_START_WITH_TURN_RIGHT, RUN_STOP,
-		SKILL, SKILL_NOR, SKILL_AIR, SKILL_AIR_END, SKILL_AIR_IDLE, SKILL_AIR_START, ANIM_TP };
+		SKILL, SKILL_AIR, 
+		SKILL_AIR_END, SKILL_AIR_IDLE, SKILL_AIR_START,
+		SKILL_END, SKILL_IDLE, SKILL_START, ANIM_TP };
 	// idle_turn 2개 안쓰기로함
 private:
 	CChr_Battle_Light(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);
@@ -50,6 +52,9 @@ private:
 
 	STATE		m_eState = { STATE_END };
 	_bool		m_isControl = { true };				// 조작 가능 여부 -> 아이템 조작, 전투시 false 처리
+
+	
+	_int  m_AttackCount = { 0 };	// 1번의 공격에서의 공격 횟수 처리 최대 1~ 3 // 나중에 리스트로 변경 할 것 
 	// 초기위치 필요한?
 
 	_float4		m_vStartPosition = { 0.f,0.f,0.f,0.f };
@@ -63,19 +68,19 @@ public:
 	_float4		Get_Target_Position() { return ((CTransform*)m_pTargetObject->Get_Component(g_strTransformTag))->Get_State_Float4(CTransform::STATE_POSITION); }
 	_float4		Get_Start_Position() { return m_vStartPosition; }
 	void		Set_Target(CGameObject* pTargetObject) { m_pTargetObject = pTargetObject; }
+
 public:
 	HRESULT Change_State(STATE eState);
 	void	Change_Animation(ANIMATION_CHR_BATTLE_LIGHT iAnimationIndex, _bool isLoop);
 
 	_float4	Get_Look();						// Player의 Look vector를 Y값을 지우고 리턴
-
+	
 private:
 	HRESULT Add_Components();
 	HRESULT Add_Component_FSM();
 	HRESULT Bind_ShaderResources();
 
 	void	Update_FSMState(_float fTimeDelta);
-
 	void	Show_ImGUI();
 
 public:

@@ -2,6 +2,8 @@
 #include "Chr_Battle_Light.h"
 
 #include "Chr_Battle_Light_Idle.h"
+#include "Chr_Battle_Light_Attack.h"
+#include "Chr_Battle_Light_Hit.h"
 
 #include "FSM.h"
 #include "Model.h"
@@ -50,13 +52,13 @@ HRESULT CChr_Battle_Light::Initialize(void* pArg)
 
 void CChr_Battle_Light::Tick(_float fTimeDelta)
 {
-    m_pFSMCom->Update(fTimeDelta);
-    Update_FSMState(fTimeDelta);
+   /* m_pFSMCom->Update(fTimeDelta);
+    Update_FSMState(fTimeDelta);*/
 
-    //if (m_pGameInstance->Get_KeyState(KEY_DOWN, DIK_UPARROW))
-    //    m_pModelCom->Set_Animation(m_pModelCom->Get_CurrentAnimationIndex() + 1, true);
-    //if (m_pGameInstance->Get_KeyState(KEY_DOWN, DIK_DOWNARROW))
-    //    m_pModelCom->Set_Animation(m_pModelCom->Get_CurrentAnimationIndex() - 1, true);
+    if (m_pGameInstance->Get_KeyState(KEY_DOWN, DIK_UPARROW))
+        m_pModelCom->Set_Animation(m_pModelCom->Get_CurrentAnimationIndex() + 1, true);
+    if (m_pGameInstance->Get_KeyState(KEY_DOWN, DIK_DOWNARROW))
+        m_pModelCom->Set_Animation(m_pModelCom->Get_CurrentAnimationIndex() - 1, true);
 
     static int i = 0;
     if (!i) {
@@ -156,7 +158,8 @@ HRESULT CChr_Battle_Light::Add_Component_FSM()
         return E_FAIL;
 
     m_pFSMCom->Add_State(IDLE, CChr_Battle_Light_Idle::Create(this));
-
+    m_pFSMCom->Add_State(ATTACK, CChr_Battle_Light_Attack::Create(this));
+    m_pFSMCom->Add_State(HIT, CChr_Battle_Light_Hit::Create(this));
     Change_State(IDLE);
     return S_OK;
 }
@@ -203,6 +206,13 @@ void CChr_Battle_Light::Update_FSMState(_float fTimeDelta)
     else {
         Change_State(IDLE);
     }*/
+    if (m_pGameInstance->Get_DIMouseState(DIMKS_LBUTTON)) {
+        Change_State(ATTACK);
+    }
+
+    if (m_pGameInstance->Get_DIMouseState(DIMKS_RBUTTON)) {
+        Change_State(HIT);
+    }
 }
 
 void CChr_Battle_Light::Show_ImGUI()

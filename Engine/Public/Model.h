@@ -32,7 +32,11 @@ public:
 		}
 		return m_Animations[m_iCurrentAnimIndex]->Get_TrackPosition();
 	}
-	_bool isFinished() { return m_Animations[m_iCurrentAnimIndex]->isFinished(); }
+	_bool isFinished() { 
+		if (m_iNextAnimIndex != INFINITE) {
+			return m_Animations[m_iNextAnimIndex]->isFinished();
+		}
+		return m_Animations[m_iCurrentAnimIndex]->isFinished(); }
 
 public:
 	void Set_Animation(_uint iAnimIndex, _bool isLoop) {
