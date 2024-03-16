@@ -8,6 +8,7 @@ CChr_Battle_Light_Dead::CChr_Battle_Light_Dead(CChr_Battle_Light* pChr_Battle_Li
 
 void CChr_Battle_Light_Dead::OnStateEnter()
 {
+
 }
 
 void CChr_Battle_Light_Dead::OnStateUpdate(_float fTimeDelta)
@@ -18,7 +19,6 @@ void CChr_Battle_Light_Dead::OnStateUpdate(_float fTimeDelta)
 			m_pChr_Battle_Light->Change_Animation(CChr_Battle_Light::DEAD_IDLE, true);
 			break;
 		case CChr_Battle_Light::DEAD_END:
-			m_pChr_Battle_Light->Change_Animation(CChr_Battle_Light::ANIM_IDLE, true);
 			m_pChr_Battle_Light->Change_State(CChr_Battle_Light::IDLE);
 			break;
 		}

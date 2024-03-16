@@ -136,6 +136,9 @@
     <Filter Include="02.GameObjects\Chr\Chr_Battle\Light\State\Chr_Battle_Light_Dead">
       <UniqueIdentifier>{0831c19d-8056-4f5c-9fd5-07785dba5e3f}</UniqueIdentifier>
     </Filter>
+    <Filter Include="02.GameObjects\Chr\Chr_Battle\Light\State\Chr_Battle_Light_Item">
+      <UniqueIdentifier>{0273c261-ecd2-4f62-9865-b4483682fdff}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\public\MainApp.h">
@@ -291,6 +294,9 @@
     <ClInclude Include="..\Public\Chr_Battle_Light_Dead.h">
       <Filter>02.GameObjects\Chr\Chr_Battle\Light\State\Chr_Battle_Light_Dead</Filter>
     </ClInclude>
+    <ClInclude Include="..\Public\Chr_Battle_Light_Item.h">
+      <Filter>02.GameObjects\Chr\Chr_Battle\Light\State\Chr_Battle_Light_Item</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\private\MainApp.cpp">
@@ -427,6 +433,9 @@
     </ClCompile>
     <ClCompile Include="..\Private\Chr_Battle_Light_Dead.cpp">
       <Filter>02.GameObjects\Chr\Chr_Battle\Light\State\Chr_Battle_Light_Dead</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Chr_Battle_Light_Item.cpp">
+      <Filter>02.GameObjects\Chr\Chr_Battle\Light\State\Chr_Battle_Light_Item</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

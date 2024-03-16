@@ -180,6 +180,7 @@
     <ClInclude Include="..\Public\Chr_Battle_Light_Dead.h" />
     <ClInclude Include="..\Public\Chr_Battle_Light_Hit.h" />
     <ClInclude Include="..\Public\Chr_Battle_Light_Idle.h" />
+    <ClInclude Include="..\Public\Chr_Battle_Light_Item.h" />
     <ClInclude Include="..\Public\Chr_Field.h" />
     <ClInclude Include="..\Public\Chr_Field_State_Battle_Begin.h" />
     <ClInclude Include="..\Public\Chr_Field_State_Idle.h" />
@@ -233,6 +234,7 @@
     <ClCompile Include="..\Private\Chr_Battle_Light_Dead.cpp" />
     <ClCompile Include="..\Private\Chr_Battle_Light_Hit.cpp" />
     <ClCompile Include="..\Private\Chr_Battle_Light_Idle.cpp" />
+    <ClCompile Include="..\Private\Chr_Battle_Light_Item.cpp" />
     <ClCompile Include="..\Private\Chr_Field.cpp" />
     <ClCompile Include="..\Private\Chr_Field_State_Battle_Begin.cpp" />
     <ClCompile Include="..\Private\Chr_Field_State_Idle.cpp" />

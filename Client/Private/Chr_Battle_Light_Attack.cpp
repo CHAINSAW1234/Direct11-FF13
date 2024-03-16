@@ -116,7 +116,6 @@ void CChr_Battle_Light_Attack::Up(_float fTimeDelta)
 		m_eState = ATTACK;
 		m_pChr_Battle_Light->Change_Animation(CChr_Battle_Light::ATTACK_AIR, false);
 	}
-
 }
 
 void CChr_Battle_Light_Attack::Down(_float fTimeDelta)
@@ -131,7 +130,6 @@ void CChr_Battle_Light_Attack::Down(_float fTimeDelta)
 
 		m_eState = FINISH;
 	}
-
 }
 
 void CChr_Battle_Light_Attack::Attack(_float fTimeDelta)
@@ -158,7 +156,6 @@ void CChr_Battle_Light_Attack::Attack(_float fTimeDelta)
 		}
 	}
 
-
 	// 공격이 끝났을때, 공중에 있다면 Down으로 이동
 	_float fCurrentPositionY = m_pChr_Battle_Light->Get_Transform()->Get_State_Float4(CTransform::STATE_POSITION).y;
 
@@ -172,8 +169,6 @@ void CChr_Battle_Light_Attack::Attack(_float fTimeDelta)
 			m_eState = FINISH;
 		}
 	}
-
-
 }
 
 void CChr_Battle_Light_Attack::Skill(_float fTimeDelta)
@@ -196,14 +191,12 @@ void CChr_Battle_Light_Attack::Skill(_float fTimeDelta)
 
 void CChr_Battle_Light_Attack::Finish(_float fTimeDelta)
 {
-
 	if (m_pChr_Battle_Light->Is_Animation_Finished()) {
 		switch (m_pChr_Battle_Light->Get_CurrentAnimationIndex()) {
 		case CChr_Battle_Light::JUMP_LAND:
 			m_pChr_Battle_Light->Change_Animation(CChr_Battle_Light::ATTACK_END, false);
 			break;
 		case CChr_Battle_Light::ATTACK_END:
-			m_pChr_Battle_Light->Change_Animation(CChr_Battle_Light::ANIM_IDLE, true);
 			m_pChr_Battle_Light->Change_State(CChr_Battle_Light::IDLE);
 			break;
 		}

@@ -45,7 +45,6 @@ void CChr_Battle_Light_Hit::Hit_Ground(_float fTimeDelta)
 			m_pChr_Battle_Light->Change_State(CChr_Battle_Light::DEAD);
 		}
 		else {
-			m_pChr_Battle_Light->Change_Animation(CChr_Battle_Light::ANIM_IDLE, true);
 			m_pChr_Battle_Light->Change_State(CChr_Battle_Light::IDLE);
 		}
 	}

@@ -4,6 +4,8 @@
 #include "Chr_Battle_Light_Idle.h"
 #include "Chr_Battle_Light_Attack.h"
 #include "Chr_Battle_Light_Hit.h"
+#include "Chr_Battle_Light_Dead.h"
+#include "Chr_Battle_Light_Item.h"
 
 #include "FSM.h"
 #include "Model.h"
@@ -52,21 +54,19 @@ HRESULT CChr_Battle_Light::Initialize(void* pArg)
 
 void CChr_Battle_Light::Tick(_float fTimeDelta)
 {
-   /* m_pFSMCom->Update(fTimeDelta);
-    Update_FSMState(fTimeDelta);*/
+    m_pFSMCom->Update(fTimeDelta);
+    Update_FSMState(fTimeDelta);
 
-    if (m_pGameInstance->Get_KeyState(KEY_DOWN, DIK_UPARROW))
-        m_pModelCom->Set_Animation(m_pModelCom->Get_CurrentAnimationIndex() + 1, true);
-    if (m_pGameInstance->Get_KeyState(KEY_DOWN, DIK_DOWNARROW))
-        m_pModelCom->Set_Animation(m_pModelCom->Get_CurrentAnimationIndex() - 1, true);
+    //if (m_pGameInstance->Get_KeyState(KEY_DOWN, DIK_UPARROW))
+    //    m_pModelCom->Set_Animation(m_pModelCom->Get_CurrentAnimationIndex() + 1, true);
+    //if (m_pGameInstance->Get_KeyState(KEY_DOWN, DIK_DOWNARROW))
+    //    m_pModelCom->Set_Animation(m_pModelCom->Get_CurrentAnimationIndex() - 1, true);
 
     static int i = 0;
     if (!i) {
         ++i;
         m_pTransformCom->Look_At_ForLandObject(((CTransform*)m_pTargetObject->Get_Component(g_strTransformTag))->Get_State_Vector(CTransform::STATE_POSITION));
     }
-
-    
 
     m_pImGUI_Manager->Tick(fTimeDelta);
     Show_ImGUI();
@@ -160,6 +160,9 @@ HRESULT CChr_Battle_Light::Add_Component_FSM()
     m_pFSMCom->Add_State(IDLE, CChr_Battle_Light_Idle::Create(this));
     m_pFSMCom->Add_State(ATTACK, CChr_Battle_Light_Attack::Create(this));
     m_pFSMCom->Add_State(HIT, CChr_Battle_Light_Hit::Create(this));
+    m_pFSMCom->Add_State(DEAD, CChr_Battle_Light_Dead::Create(this));
+    m_pFSMCom->Add_State(ITEM, CChr_Battle_Light_Item::Create(this));
+
     Change_State(IDLE);
     return S_OK;
 }
@@ -206,12 +209,21 @@ void CChr_Battle_Light::Update_FSMState(_float fTimeDelta)
     else {
         Change_State(IDLE);
     }*/
-    if (m_pGameInstance->Get_DIMouseState(DIMKS_LBUTTON)) {
-        Change_State(ATTACK);
-    }
+    //if (m_pGameInstance->Get_DIMouseState(DIMKS_LBUTTON)) {
+    //    Change_State(ATTACK);
+    //}
 
     if (m_pGameInstance->Get_DIMouseState(DIMKS_RBUTTON)) {
         Change_State(HIT);
+    }
+
+    if (m_pGameInstance->Get_KeyState(KEY_DOWN, DIK_P)) {
+        Change_State(ITEM);
+    }
+
+    if (m_pGameInstance->Get_KeyState(KEY_DOWN, DIK_O)) {
+        Change_Animation(DEAD_START, false);
+        Change_State(DEAD);
     }
 }
 
