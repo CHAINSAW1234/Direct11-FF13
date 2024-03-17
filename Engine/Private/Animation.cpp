@@ -72,10 +72,12 @@ void CAnimation::Invalidate_TransformationMatrix(_float fTimeDelta, const vector
 void CAnimation::Invalidate_TransformationMatrix_Linear_Interpolation(_float fTimeDelta, const vector<class CBone*>& Bones, CAnimation* pNextAnimation)
 {
 	// 1. 이전 애니메이션을 순회하면서 중복되는 뼈들을 업데이트
-	for (size_t i = 0; i < m_iNumChannels; ++i) {
-		for(auto& pNextChannel : pNextAnimation->m_Channels)
-			if (pNextChannel->Get_iBoneIndex() == m_Channels[i]->Get_iBoneIndex()) {
-				m_Channels[i]->Invalidate_TransformationMatrix_Linear_Interpolation(Bones, m_fTrackPosition, &m_CurrentKeyFrameIndices[i], fTimeDelta, pNextChannel);
+	for (_uint i = 0; i < m_iNumChannels; ++i) {
+		for (_uint j = 0; j < pNextAnimation->m_iNumChannels; ++j) {
+			if (pNextAnimation->m_Channels[j]->Get_iBoneIndex() == m_Channels[i]->Get_iBoneIndex()) {
+					m_Channels[i]->Invalidate_TransformationMatrix_Linear_Interpolation(Bones, m_fTrackPosition, &m_CurrentKeyFrameIndices[i], fTimeDelta, pNextAnimation->m_Channels[j], pNextAnimation->m_CurrentKeyFrameIndices[j]);
+			}
+			
 		}
 	}
 	// 2. 중복되지 않는 뼈는 어케함?
@@ -85,7 +87,7 @@ void CAnimation::Invalidate_TransformationMatrix_Linear_Interpolation(_float fTi
 void CAnimation::Reset_Animation()
 {
 	m_isFinished = false;
-	m_fTrackPosition = 0;
+	m_fTrackPosition = 0.f;
 	for (auto& CurrentKeyFrameIndex : m_CurrentKeyFrameIndices) {
 		CurrentKeyFrameIndex = 0;
 	}
@@ -105,6 +107,14 @@ HRESULT CAnimation::Save_Animation(ofstream& OFS)
 	}
 
 	return S_OK;
+}
+
+void CAnimation::Set_TrackPosition(_float fTrackPosition)
+{
+	m_fTrackPosition = fTrackPosition;
+	for (size_t i = 0; i < m_Channels.size(); ++i) {
+		m_Channels[i]->Update_KeyFrame(m_fTrackPosition, &m_CurrentKeyFrameIndices[i]);
+	}
 }
 
 HRESULT CAnimation::Load_Animation(ifstream& IFS)

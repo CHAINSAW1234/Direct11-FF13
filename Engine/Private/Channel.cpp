@@ -92,9 +92,9 @@ void CChannel::Invalidate_TransformationMatrix(const vector<CBone*>& Bones, _flo
 	Bones[m_iBoneIndex]->Set_TransformationMatrix(TransformationMatrix);
 }
 
-void CChannel::Invalidate_TransformationMatrix_Linear_Interpolation(const vector<CBone*>& Bones, _float fTrackPosition, _uint* pCurrentKeyFrameIndex, _float fTimeDelta,  CChannel* pNextChannel)
+void CChannel::Invalidate_TransformationMatrix_Linear_Interpolation(const vector<CBone*>& Bones, _float fTrackPosition, _uint* pCurrentKeyFrameIndex, _float fTimeDelta,  CChannel* pNextChannel , _uint pNextKeyFrameIndex)
 {
-	KEYFRAME		NextKeyFrame = pNextChannel->m_KeyFrames[0];
+	KEYFRAME		NextKeyFrame = pNextChannel->m_KeyFrames[pNextKeyFrameIndex];
 
 	_float3			vScale;
 	_float4			vRotation;
@@ -117,6 +117,14 @@ void CChannel::Invalidate_TransformationMatrix_Linear_Interpolation(const vector
 	_matrix TransformationMatrix = XMMatrixAffineTransformation(XMLoadFloat3(&vScale), XMVectorSet(0.f, 0.f, 0.f, 1.f), XMLoadFloat4(&vRotation), XMVectorSetW(XMLoadFloat3(&vTranslation), 1.f));
 
 	Bones[m_iBoneIndex]->Set_TransformationMatrix(TransformationMatrix);
+}
+
+void CChannel::Update_KeyFrame(_float fTrackPosition, _uint* pCurrentKeyFrameIndex)
+{
+	(*pCurrentKeyFrameIndex) = 0;
+	while (fTrackPosition >= m_KeyFrames[(*pCurrentKeyFrameIndex) + 1].fTime)
+		++(*pCurrentKeyFrameIndex);
+
 }
 
 HRESULT CChannel::Save_Channel(ofstream& OFS)

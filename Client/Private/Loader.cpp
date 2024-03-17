@@ -9,7 +9,8 @@
 #include "Chr.h"
 #include "Chr_Field.h"
 #include "Chr_Battle_Light.h"
-
+#include "Body.h"
+#include "Weapon_Anim.h"
 
 
 #include "Camera_Free.h"
@@ -144,7 +145,7 @@ HRESULT CLoader::Loading_Prototype()
 		return E_FAIL;
 
 	/* For.Prototype_GameObject_Part_Weapon */
-	if (FAILED(m_pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_Part_Weapon"),
+	if (FAILED(m_pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_Part_Weapon_Study"),
 		CWeapon_Study::Create(m_pDevice, m_pContext))))
 		return E_FAIL;
 
@@ -156,6 +157,16 @@ HRESULT CLoader::Loading_Prototype()
 	/* For.Prototype_GameObject_Grid */
 	if (FAILED(m_pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_Chr"),
 		CChr::Create(m_pDevice, m_pContext))))
+		return E_FAIL;
+
+	/* For.Prototype_GameObject_Part_Body */
+	if (FAILED(m_pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_Part_Body"),
+		CBody::Create(m_pDevice, m_pContext))))
+		return E_FAIL;
+
+	/* For.Prototype_GameObject_Part_Weapon_Anim */
+	if (FAILED(m_pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_Part_Weapon_Anim"),
+		CWeapon_Anim::Create(m_pDevice, m_pContext))))
 		return E_FAIL;
 
 	/* For.Prototype_GameObject_Chr_Field */
@@ -386,11 +397,15 @@ HRESULT CLoader::Loading_For_Field()
 	//	return E_FAIL;
 
 	if (FAILED(m_pGameInstance->Add_Prototype(g_Level, TEXT("Prototype_Component_Model_Light_Field"),
-		CModel::Create(m_pDevice, m_pContext, "../Bin/Resources/Models/chr/Light/Light_Field" + tag))))
+		CModel::Create(m_pDevice, m_pContext, "../Bin/Resources/Models/Chr/Light/Body/Light_Field" + tag))))
 		return E_FAIL;
 
 	if (FAILED(m_pGameInstance->Add_Prototype(g_Level, TEXT("Prototype_Component_Model_Light_Battle"),
-		CModel::Create(m_pDevice, m_pContext, "../Bin/Resources/Models/chr/Light/Light_Battle" + tag))))
+		CModel::Create(m_pDevice, m_pContext, "../Bin/Resources/Models/Chr/Light/Body/Light_Battle" + tag))))
+		return E_FAIL;
+
+	if (FAILED(m_pGameInstance->Add_Prototype(g_Level, TEXT("Prototype_Component_Model_Light_Weapon"),
+		CModel::Create(m_pDevice, m_pContext, "../Bin/Resources/Models/Chr/Light/Weapon/Light_Weapon" + tag))))
 		return E_FAIL;
 
 #pragma region Temp

@@ -7,6 +7,9 @@
 #include "Chr_Battle_Light_Dead.h"
 #include "Chr_Battle_Light_Item.h"
 
+#include "Body.h"
+#include "Weapon_Anim.h"
+
 #include "FSM.h"
 #include "Model.h"
 #include "Shader.h"
@@ -40,6 +43,9 @@ HRESULT CChr_Battle_Light::Initialize(void* pArg)
     if (FAILED(__super::Initialize(&GameObjectDesc)))
         return E_FAIL;
 
+    if (FAILED(Add_PartObjects()))
+        return E_FAIL;
+
     if (FAILED(Add_Components()))
         return E_FAIL;
 
@@ -49,6 +55,8 @@ HRESULT CChr_Battle_Light::Initialize(void* pArg)
     //m_pModelCom->Set_Animation(0, false);
     m_pTransformCom->Set_State(CTransform::STATE_POSITION, XMVectorSet(_float(rand() % 20), 0.f, _float(rand() % 20), 1.f));
     //m_vStartPosition = m_pTransformCom->Get_State_Float4(CTransform::STATE_POSITION);
+    Change_Animation_Weapon(WEAPON_OPEN_IDLE);
+    
     return S_OK;
 }
 
@@ -77,7 +85,8 @@ HRESULT CChr_Battle_Light::Late_Tick(_float fTimeDelta)
     if (FAILED(__super::Late_Tick(fTimeDelta)))
         return E_FAIL;
 
-    m_pModelCom->Play_Animation(fTimeDelta);
+    for (auto& Parts : m_PartObjects)
+        Parts->Late_Tick(fTimeDelta);
 
     // 임시
     m_pGameInstance->Add_RenderGroup(CRenderer::RENDER_UI, this);
@@ -86,29 +95,32 @@ HRESULT CChr_Battle_Light::Late_Tick(_float fTimeDelta)
 
 HRESULT CChr_Battle_Light::Render()
 {
-    if (FAILED(Bind_ShaderResources()))
-        return E_FAIL;
-
-    _uint iNumMeshes = m_pModelCom->Get_NumMeshes();
-
-    for (_uint i = 0; i < iNumMeshes; ++i) {
-        if (FAILED(m_pModelCom->Bind_ShaderResource(m_pShaderCom, "g_DiffuseTexture", i, aiTextureType_DIFFUSE)))
-            return E_FAIL;
-
-        if (FAILED(m_pModelCom->Bind_BoneMatrices(m_pShaderCom, "g_BoneMatrices", i)))
-            return E_FAIL;
-
-        /* 이 함수 내부에서 호출되는 Apply함수 호출 이전에 쉐이더 전역에 던져야할 모든 데이터를 다 던져야한다. */
-        if (FAILED(m_pShaderCom->Begin(0)))
-            return E_FAIL;
-
-        m_pModelCom->Render(i);
-    }
 
     m_pImGUI_Manager->Render();
 
     return S_OK;
 }
+
+_uint CChr_Battle_Light::Get_CurrentAnimationIndex()
+{
+    return dynamic_cast<CBody*>(m_PartObjects[0])->Get_CurrentAnimationIndex();
+}
+
+_float CChr_Battle_Light::Get_CurrentTrackPosition()
+{
+    return dynamic_cast<CBody*>(m_PartObjects[0])->Get_CurrentTrackPosition();
+}
+
+_bool CChr_Battle_Light::Is_Animation_Finished()
+{
+    return dynamic_cast<CBody*>(m_PartObjects[0])->Is_Animation_Finished();
+}
+
+void CChr_Battle_Light::Set_TrackPosition(_float fTrackPosition)
+{
+    dynamic_cast<CBody*>(m_PartObjects[0])->Set_TrackPosition(fTrackPosition);
+}
+
 
 HRESULT CChr_Battle_Light::Change_State(STATE eState)
 {
@@ -120,7 +132,12 @@ HRESULT CChr_Battle_Light::Change_State(STATE eState)
 
 void CChr_Battle_Light::Change_Animation(ANIMATION_CHR_BATTLE_LIGHT iAnimationIndex, _bool isLoop)
 {
-    m_pModelCom->Set_Animation(iAnimationIndex, isLoop);
+    dynamic_cast<CBody*>(m_PartObjects[0])->Change_Animation(iAnimationIndex, isLoop);
+}
+
+void CChr_Battle_Light::Change_Animation_Weapon(ANIMATION_CHR_BATTLE_LIGHT_WEAPON iAnimationIndex)
+{
+    dynamic_cast<CWeapon_Anim*>(m_PartObjects[1])->Change_Animation(iAnimationIndex, false);
 }
 
 _float4 CChr_Battle_Light::Get_Look()
@@ -135,16 +152,6 @@ _float4 CChr_Battle_Light::Get_Look()
 
 HRESULT CChr_Battle_Light::Add_Components()
 {
-    /* For.Com_Shader */
-    if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_Shader_VtxAnimModel"),
-        TEXT("Com_Shader"), (CComponent**)&m_pShaderCom)))
-        return E_FAIL;
-
-    /* For.Com_Model */
-    if (FAILED(__super::Add_Component(m_eLevel, TEXT("Prototype_Component_Model_Light_Battle"),
-        TEXT("Com_Model"), (CComponent**)&m_pModelCom)))
-        return E_FAIL;
-
     if (FAILED(Add_Component_FSM()))
         return E_FAIL;
 
@@ -167,48 +174,9 @@ HRESULT CChr_Battle_Light::Add_Component_FSM()
     return S_OK;
 }
 
-HRESULT CChr_Battle_Light::Bind_ShaderResources()
-{
-    if (nullptr == m_pShaderCom)
-        return E_FAIL;
-
-    if (FAILED(m_pTransformCom->Bind_ShaderResource(m_pShaderCom, "g_WorldMatrix")))
-        return E_FAIL;
-
-    if (FAILED(m_pShaderCom->Bind_Matrix("g_ViewMatrix", &m_pGameInstance->Get_Transform_Float4x4(CPipeLine::D3DTS_VIEW))))
-        return E_FAIL;
-    if (FAILED(m_pShaderCom->Bind_Matrix("g_ProjMatrix", &m_pGameInstance->Get_Transform_Float4x4(CPipeLine::D3DTS_PROJ))))
-        return E_FAIL;
-
-    const LIGHT_DESC* pLightDesc = m_pGameInstance->Get_LightDesc(0);
-    if (nullptr == pLightDesc)
-        return E_FAIL;
-
-    if (FAILED(m_pShaderCom->Bind_RawValue("g_vLightDir", &pLightDesc->vDirection, sizeof(_float4))))
-        return E_FAIL;
-    if (FAILED(m_pShaderCom->Bind_RawValue("g_vLightDiffuse", &pLightDesc->vDiffuse, sizeof(_float4))))
-        return E_FAIL;
-    if (FAILED(m_pShaderCom->Bind_RawValue("g_vLightAmbient", &pLightDesc->vAmbient, sizeof(_float4))))
-        return E_FAIL;
-    if (FAILED(m_pShaderCom->Bind_RawValue("g_vLightSpecular", &pLightDesc->vSpecular, sizeof(_float4))))
-        return E_FAIL;
-
-    if (FAILED(m_pShaderCom->Bind_RawValue("g_vCamPosition", &m_pGameInstance->Get_CamPosition_Float4(), sizeof(_float4))))
-        return E_FAIL;
-
-    return S_OK;
-}
-
 void CChr_Battle_Light::Update_FSMState(_float fTimeDelta)
 {
- /*   if (m_pGameInstance->Get_KeyState(KEY_PRESS, DIK_W) ||
-        m_pGameInstance->Get_KeyState(KEY_PRESS, DIK_A) ||
-        m_pGameInstance->Get_KeyState(KEY_PRESS, DIK_S) ||
-        m_pGameInstance->Get_KeyState(KEY_PRESS, DIK_D))
-        Change_State(MOVE);
-    else {
-        Change_State(IDLE);
-    }*/
+
     //if (m_pGameInstance->Get_DIMouseState(DIMKS_LBUTTON)) {
     //    Change_State(ATTACK);
     //}
@@ -269,10 +237,45 @@ void CChr_Battle_Light::Show_ImGUI()
     ImGui::Text("Current State : ");
     ImGui::SameLine();
     ImGui::Text(str.c_str());
-    ImGui::Text("Animation Index : %d", m_pModelCom->Get_CurrentAnimationIndex());
-    ImGui::Text("Animation Frame : %f", m_pModelCom->Get_CurrentTrackPosition());
+    ImGui::Text("Animation Index : %d", Get_CurrentAnimationIndex());
+    ImGui::Text("Animation Frame : %f", Get_CurrentTrackPosition());
 
     ImGui::End();
+}
+
+HRESULT CChr_Battle_Light::Add_PartObjects()
+{
+    /* For.Part_Body */
+    CPartObject* pBodyObject = { nullptr };
+    CBody::BODY_DESC BodyDesc{};
+
+    BodyDesc.pParentMatrix = m_pTransformCom->Get_WorldFloat4x4_Ptr();
+    BodyDesc.strModelTag = TEXT("Prototype_Component_Model_Light_Battle");
+
+
+    pBodyObject = dynamic_cast<CPartObject*>(m_pGameInstance->Clone_GameObject(TEXT("Prototype_GameObject_Part_Body"), &BodyDesc));
+    if (nullptr == pBodyObject)
+        return E_FAIL;
+
+    m_PartObjects.push_back(pBodyObject);
+
+    /* For.Part_Weapon */
+    CPartObject* pWeaponObject = { nullptr };
+    CWeapon_Anim::WEAPON_ANIM_DESC	WeaponDesc{};
+
+    CModel* pModel = (CModel*)pBodyObject->Get_Component(TEXT("Com_Model"));
+
+    WeaponDesc.pParentMatrix = m_pTransformCom->Get_WorldFloat4x4_Ptr();
+    WeaponDesc.pSocket = pModel->Get_BonePtr("R_weapon");
+    WeaponDesc.strModelTag = TEXT("Prototype_Component_Model_Light_Weapon");
+
+    pWeaponObject = dynamic_cast<CPartObject*>(m_pGameInstance->Clone_GameObject(TEXT("Prototype_GameObject_Part_Weapon_Anim"), &WeaponDesc));
+    if (nullptr == pWeaponObject)
+        return E_FAIL;
+
+    m_PartObjects.push_back(pWeaponObject);
+
+    return S_OK;
 }
 
 CChr_Battle_Light* CChr_Battle_Light::Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
@@ -307,8 +310,10 @@ void CChr_Battle_Light::Free()
 {
     __super::Free();
 
-    Safe_Release(m_pShaderCom);
-    Safe_Release(m_pModelCom);
+    for (auto& iter : m_PartObjects)
+        Safe_Release(iter);
+
+    m_PartObjects.clear();
     Safe_Release(m_pFSMCom);
 
     Safe_Release(m_pImGUI_Manager);

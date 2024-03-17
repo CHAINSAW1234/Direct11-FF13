@@ -17,11 +17,17 @@ HRESULT CPartObject::Initialize_Prototype()
 
 HRESULT CPartObject::Initialize(void* pArg)
 {
-	if (nullptr != pArg)
-	{
-		PARTOBJECT_DESC* pPartObjectDesc = (PARTOBJECT_DESC*)pArg;
+	if (nullptr == pArg)
+		return E_FAIL;
 
-		m_pParentMatrix = pPartObjectDesc->pParentMatrix;
+	PARTOBJECT_DESC* pPartObjectDesc = (PARTOBJECT_DESC*)pArg;
+
+	m_pParentMatrix = pPartObjectDesc->pParentMatrix;
+	if (pPartObjectDesc->fSpeedPerSec == 0.f) {
+		pPartObjectDesc->fSpeedPerSec = 10.f;
+	}
+	if (pPartObjectDesc->fRotationPerSec == 0.f) {
+		pPartObjectDesc->fSpeedPerSec = XMConvertToRadians(90);
 	}
 
 	if (FAILED(__super::Initialize(pArg)))

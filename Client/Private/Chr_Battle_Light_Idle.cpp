@@ -19,7 +19,7 @@ void CChr_Battle_Light_Idle::OnStateEnter()
 		m_pChr_Battle_Light->Change_Animation(CChr_Battle_Light::ANIM_IDLE, true);
 	}
 	m_isPatternEnable = true;		// 제어가 필요해보이긴 한데 방법이 아직 없다
-	m_eMovement = STRAIGHT
+	m_eMovement = STRAIGHT;
 }
 
 void CChr_Battle_Light_Idle::OnStateUpdate(_float fTimeDelta)
@@ -31,6 +31,15 @@ void CChr_Battle_Light_Idle::OnStateUpdate(_float fTimeDelta)
 	if (m_pGameInstance->Get_KeyState(KEY_DOWN, DIK_P)) {
 		m_eState = IDLE;
 		m_pChr_Battle_Light->Change_Animation(CChr_Battle_Light::ATTACK_PREPARE, false);
+		m_pChr_Battle_Light->Set_TrackPosition(5.f);
+		m_fTimeDelta = 0.f;
+
+	}
+	
+	if (m_pGameInstance->Get_KeyState(KEY_DOWN, DIK_U)) {
+		m_eState = IDLE;
+		m_pChr_Battle_Light->Change_Animation(CChr_Battle_Light::FINISH, false);
+		m_pChr_Battle_Light->Change_Animation_Weapon(CChr_Battle_Light::WEAPON_CLOSE);
 		m_fTimeDelta = 0.f;
 
 	}
@@ -91,6 +100,7 @@ void CChr_Battle_Light_Idle::Idle(_float fTimeDelta)
 	// 애니메이션 변경
 	if (m_pChr_Battle_Light->Is_Animation_Finished()) {
 		m_pChr_Battle_Light->Change_Animation(CChr_Battle_Light::ANIM_IDLE, true);
+		//m_pChr_Battle_Light->Change_Animation_Weapon(CChr_Battle_Light::WEAPON_OPEN_IDLE);		// 나중에 지울것
 	}
 	// 체력이 낮은 경우
 	if (m_isHurt) {

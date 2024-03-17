@@ -1,7 +1,7 @@
 .vs/
 *.log
 *.obj
-
+*.fbx
 Engine/Default/x64/
 Engine/Bin/Engine.*
 

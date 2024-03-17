@@ -89,7 +89,7 @@ HRESULT CLevel_Parsing::Ready_Models()
 	/* Prototype_Component_Model_Fiona */
 	TransformMatrix = XMMatrixRotationY(XMConvertToRadians(180.0f));
 
-	path = "../Bin/Resources/Models/chr/Light/Light_Battle.fbx";
+	path = "../Bin/Resources/Models/Chr/Light//Body/Light_Battle.fbx";
 	CModel* pModel = { nullptr };
 	pModel = CModel::Create(m_pDevice, m_pContext, CModel::TYPE_ANIM, path, TransformMatrix);
 	if (nullptr == pModel)
@@ -138,7 +138,7 @@ HRESULT CLevel_Parsing::Parse_Models()
 
 #pragma endregion
 
-	path = "../Bin/Resources/Models/chr/Light/Light_Battle.bin";
+	path = "../Bin/Resources/Models/Chr/Light/Body/Light_Battle.bin";
 	if (FAILED(m_Models[0]->Save_Model(path)))
 		return E_FAIL;
 

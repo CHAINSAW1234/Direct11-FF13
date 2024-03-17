@@ -23,7 +23,7 @@ public:
 	}
 
 	_float Get_TrackPosition() { return m_fTrackPosition; }
-
+	void Set_TrackPosition(_float fTrackPosition); 
 private:
 	HRESULT Load_Animation(ifstream& IFS);
 

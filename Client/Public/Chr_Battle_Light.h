@@ -1,11 +1,13 @@
 #pragma once
 #include "Client_Defines.h"
 #include "GameObject.h"
+#include "PartObject.h"
 
 BEGIN(Engine)
 class CFSM;
 class CModel;
 class CShader;
+class CPartObject;
 END
 
 BEGIN(Client)
@@ -30,6 +32,9 @@ public:
 		SKILL, SKILL_AIR, 
 		SKILL_AIR_END, SKILL_AIR_IDLE, SKILL_AIR_START,
 		SKILL_END, SKILL_IDLE, SKILL_START, ANIM_TP };
+	enum ANIMATION_CHR_BATTLE_LIGHT_WEAPON {
+		WEAPON_CLOSE, WEAPON_CLOSE_IDLE, WEAPON_OPEN, WEAPON_OPEN_IDLE
+	};
 	// idle_turn 2개 안쓰기로함
 private:
 	CChr_Battle_Light(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);
@@ -46,14 +51,15 @@ public:
 private:
 	CGameObject* m_pTargetObject = { nullptr };
 
-	CModel*		m_pModelCom = { nullptr };
-	CShader*	m_pShaderCom = { nullptr };
+	//CModel*		m_pModelCom = { nullptr };
+	//CShader*	m_pShaderCom = { nullptr };
 	CFSM*		m_pFSMCom = { nullptr };
 
 	STATE		m_eState = { STATE_END };
 	_bool		m_isControl = { true };				// 조작 가능 여부 -> 아이템 조작, 전투시 false 처리
 
-	
+	vector<CPartObject*> m_PartObjects;				// PartObject를 보관 -> vector가 낫다고 판단, 무기 교체 가능성이 0에 수렴
+
 	_int  m_AttackCount = { 0 };	// 1번의 공격에서의 공격 횟수 처리 최대 1~ 3 // 나중에 리스트로 변경 할 것 
 	// 초기위치 필요한?
 
@@ -62,9 +68,11 @@ private:
 
 public:
 	CTransform* Get_Transform() { return m_pTransformCom; }
-	_uint		Get_CurrentAnimationIndex() { return m_pModelCom->Get_CurrentAnimationIndex(); }
-	_float		Get_CurrentTrackPosition() { return m_pModelCom->Get_CurrentTrackPosition(); }
-	_bool		Is_Animation_Finished() { return m_pModelCom->isFinished(); }
+	_uint		Get_CurrentAnimationIndex();
+	_float		Get_CurrentTrackPosition();
+	_bool		Is_Animation_Finished();
+	void		Set_TrackPosition(_float fTrackPosition);
+
 	_float4		Get_Target_Position() { return ((CTransform*)m_pTargetObject->Get_Component(g_strTransformTag))->Get_State_Float4(CTransform::STATE_POSITION); }
 	_float4		Get_Start_Position() { return m_vStartPosition; }
 	void		Set_Target(CGameObject* pTargetObject) { m_pTargetObject = pTargetObject; }
@@ -72,13 +80,14 @@ public:
 public:
 	HRESULT Change_State(STATE eState);
 	void	Change_Animation(ANIMATION_CHR_BATTLE_LIGHT iAnimationIndex, _bool isLoop);
+	void	Change_Animation_Weapon(ANIMATION_CHR_BATTLE_LIGHT_WEAPON iAnimationIndex);
 
 	_float4	Get_Look();						// Player의 Look vector를 Y값을 지우고 리턴
 	
 private:
 	HRESULT Add_Components();
+	HRESULT Add_PartObjects();
 	HRESULT Add_Component_FSM();
-	HRESULT Bind_ShaderResources();
 
 	void	Update_FSMState(_float fTimeDelta);
 	void	Show_ImGUI();

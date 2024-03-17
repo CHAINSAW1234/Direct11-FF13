@@ -139,7 +139,7 @@ HRESULT CPlayer::Add_PartObjects()
 	WeaponDesc.pParentMatrix = m_pTransformCom->Get_WorldFloat4x4_Ptr();
 	WeaponDesc.pSocket = pModel->Get_BonePtr("SWORD");
 
-	pWeaponObject = dynamic_cast<CPartObject*>(m_pGameInstance->Clone_GameObject(TEXT("Prototype_GameObject_Part_Weapon"), &WeaponDesc));
+	pWeaponObject = dynamic_cast<CPartObject*>(m_pGameInstance->Clone_GameObject(TEXT("Prototype_GameObject_Part_Weapon_Study"), &WeaponDesc));
 	if (nullptr == pWeaponObject)
 		return E_FAIL;
 

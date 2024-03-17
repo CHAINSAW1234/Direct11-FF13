@@ -56,6 +56,14 @@ public:
 
 	}
 
+	void Set_TrackPosition(_float fTrackPosition) {
+		if (m_iNextAnimIndex != INFINITE) {
+			m_Animations[m_iNextAnimIndex]->Set_TrackPosition(fTrackPosition);
+			return;
+		}
+		m_Animations[m_iCurrentAnimIndex]->Set_TrackPosition(fTrackPosition);
+	}
+
 	void Set_TransformMatrix(_float4x4 TransformMatrix) {
 		// 자주 사용하지 말것
 		m_TransformMatrix = TransformMatrix;

@@ -225,7 +225,6 @@ HRESULT CModel::Play_Animation_Linear_Interpolation(_float fTimeDelta)
 		m_iNextAnimIndex = INFINITE;
 		m_fTime_Iinear_Interpolation = 0.f;
 		m_isLoop = m_NextAnimationLoop;
-
 	}
 
 	return S_OK;

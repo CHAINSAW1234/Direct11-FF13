@@ -43,12 +43,12 @@ void CBody_Player::Tick(_float fTimeDelta)
 {
 	if (*m_pState & CPlayer::STATE_IDLE)
 	{
-		m_pModelCom->Set_Animation(3, true);
+		;//m_pModelCom->Set_Animation(3, true);
 	}
 
 	else if (*m_pState & CPlayer::STATE_RUN)
 	{
-		m_pModelCom->Set_Animation(4, true);
+		;//m_pModelCom->Set_Animation(4, true);
 	}
 
 }
@@ -58,7 +58,7 @@ HRESULT CBody_Player::Late_Tick(_float fTimeDelta)
 	if (FAILED(__super::Late_Tick(fTimeDelta)))
 		return E_FAIL;
 
-	m_pModelCom->Play_Animation(fTimeDelta);
+	//m_pModelCom->Play_Animation(fTimeDelta);
 
 	XMStoreFloat4x4(&m_WorldMatrix, m_pTransformCom->Get_WorldMatrix() * XMLoadFloat4x4(m_pParentMatrix));
 

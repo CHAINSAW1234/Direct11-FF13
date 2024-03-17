@@ -1,61 +1,6 @@
 ﻿  Animation.cpp
 C:\Users\stgo5015\Documents\GitHub\Direct11_FF13\Engine\Private\Animation.cpp(26,28): warning C4244: '=': 'const double'에서 'Engine::_float'(으)로 변환하면서 데이터가 손실될 수 있습니다.
 C:\Users\stgo5015\Documents\GitHub\Direct11_FF13\Engine\Private\Animation.cpp(28,33): warning C4244: '=': 'const double'에서 'Engine::_float'(으)로 변환하면서 데이터가 손실될 수 있습니다.
-  Base.cpp
-  Bone.cpp
-  Camera.cpp
-  Channel.cpp
-C:\Users\stgo5015\Documents\GitHub\Direct11_FF13\Engine\Private\Channel.cpp(16,22): warning C4244: '=': '__int64'에서 'Engine::_uint'(으)로 변환하면서 데이터가 손실될 수 있습니다.
-C:\Users\stgo5015\Documents\GitHub\Direct11_FF13\Engine\Private\Channel.cpp(18,20): warning C4002: 함수 같은 매크로 호출 'max'에 대해 인수가 너무 많습니다.
-C:\Users\stgo5015\Documents\GitHub\Direct11_FF13\Engine\Private\Channel.cpp(30,39): warning C4244: '=': 'double'에서 'Engine::_float'(으)로 변환하면서 데이터가 손실될 수 있습니다.
-C:\Users\stgo5015\Documents\GitHub\Direct11_FF13\Engine\Private\Channel.cpp(41,40): warning C4244: '=': 'double'에서 'Engine::_float'(으)로 변환하면서 데이터가 손실될 수 있습니다.
-C:\Users\stgo5015\Documents\GitHub\Direct11_FF13\Engine\Private\Channel.cpp(47,40): warning C4244: '=': 'double'에서 'Engine::_float'(으)로 변환하면서 데이터가 손실될 수 있습니다.
-C:\Users\stgo5015\Documents\GitHub\Direct11_FF13\Engine\Private\Channel.cpp(112,22): warning C4244: '=': 'double'에서 'Engine::_float'(으)로 변환하면서 데이터가 손실될 수 있습니다.
-  Component.cpp
-  Component_Manager.cpp
-  FSM.cpp
-  FSM_State.cpp
-  GameInstance.cpp
-  GameObject.cpp
-  Graphic_Device.cpp
-  Input_Device.cpp
-  Layer.cpp
-  Level.cpp
-  Level_Manager.cpp
-  Light.cpp
-  Light_Manager.cpp
-  Mesh.cpp
-C:\Users\stgo5015\Documents\GitHub\Direct11_FF13\Engine\Private\Mesh.cpp(342,26): warning C4244: '인수': '__int64'에서 '_Ty'(으)로 변환하면서 데이터가 손실될 수 있습니다.
-C:\Users\stgo5015\Documents\GitHub\Direct11_FF13\Engine\Private\Mesh.cpp(342,26): warning C4244:         with
-C:\Users\stgo5015\Documents\GitHub\Direct11_FF13\Engine\Private\Mesh.cpp(342,26): warning C4244:         [
-C:\Users\stgo5015\Documents\GitHub\Direct11_FF13\Engine\Private\Mesh.cpp(342,26): warning C4244:             _Ty=Engine::_uint
-C:\Users\stgo5015\Documents\GitHub\Direct11_FF13\Engine\Private\Mesh.cpp(342,26): warning C4244:         ]
-C:\Users\stgo5015\Documents\GitHub\Direct11_FF13\Engine\Private\Mesh.cpp(383,26): warning C4244: '인수': '__int64'에서 '_Ty'(으)로 변환하면서 데이터가 손실될 수 있습니다.
-C:\Users\stgo5015\Documents\GitHub\Direct11_FF13\Engine\Private\Mesh.cpp(383,26): warning C4244:         with
-C:\Users\stgo5015\Documents\GitHub\Direct11_FF13\Engine\Private\Mesh.cpp(383,26): warning C4244:         [
-C:\Users\stgo5015\Documents\GitHub\Direct11_FF13\Engine\Private\Mesh.cpp(383,26): warning C4244:             _Ty=Engine::_uint
-C:\Users\stgo5015\Documents\GitHub\Direct11_FF13\Engine\Private\Mesh.cpp(383,26): warning C4244:         ]
-  Model.cpp
-  코드를 생성하고 있습니다...
-  컴파일하고 있습니다...
-  Object_Manager.cpp
-  Observer.cpp
-  Observer_Handler.cpp
-  PartObject.cpp
-  Picking.cpp
-  PipeLine.cpp
-  Renderer.cpp
-  Shader.cpp
-  Texture.cpp
-  Timer.cpp
-  Timer_Manager.cpp
-  Transform.cpp
-  VIBuffer.cpp
-  VIBuffer_Line.cpp
-  VIBuffer_Rect.cpp
-  VIBuffer_Terrain.cpp
-  Engine_Struct.cpp
-  코드를 생성하고 있습니다...
 DirectXTKd.lib(DDSTextureLoader.obj) : warning LNK4204: ''에 참조 모듈에 대한 디버깅 정보가 없습니다. 디버깅 정보가 없는 것처럼 개체를 링크합니다.
 DirectXTKd.lib(WICTextureLoader.obj) : warning LNK4204: ''에 참조 모듈에 대한 디버깅 정보가 없습니다. 디버깅 정보가 없는 것처럼 개체를 링크합니다.
 DirectXTKd.lib(pch.obj) : warning LNK4204: ''에 참조 모듈에 대한 디버깅 정보가 없습니다. 디버깅 정보가 없는 것처럼 개체를 링크합니다.
