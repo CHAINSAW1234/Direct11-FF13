@@ -1,7 +1,7 @@
 #include "stdafx.h"
 #include "Body_Player.h"
 
-#include "Player.h"
+#include "Player_Study.h"
 
 CBody_Player::CBody_Player(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
 	: CPartObject{ pDevice, pContext }
@@ -41,12 +41,12 @@ HRESULT CBody_Player::Initialize(void* pArg)
 
 void CBody_Player::Tick(_float fTimeDelta)
 {
-	if (*m_pState & CPlayer::STATE_IDLE)
+	if (*m_pState & CPlayer_Study::STATE_IDLE)
 	{
 		;//m_pModelCom->Set_Animation(3, true);
 	}
 
-	else if (*m_pState & CPlayer::STATE_RUN)
+	else if (*m_pState & CPlayer_Study::STATE_RUN)
 	{
 		;//m_pModelCom->Set_Animation(4, true);
 	}

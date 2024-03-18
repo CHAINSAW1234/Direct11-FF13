@@ -133,7 +133,7 @@ HRESULT CLevel_Battle::Ready_Layer_Chr(const wstring& strLayerTag)
 
 HRESULT CLevel_Battle::Ready_Layer_Monster(const wstring& strLayerTag)
 {
-    if (FAILED(m_pGameInstance->Add_Clone(g_Level, strLayerTag, TEXT("Prototype_GameObject_Player"))))
+    if (FAILED(m_pGameInstance->Add_Clone(g_Level, strLayerTag, TEXT("Prototype_GameObject_Player_Study"))))
         return E_FAIL;
 
     return S_OK;

@@ -205,8 +205,12 @@
     <ClInclude Include="..\Public\MapObject.h" />
     <ClInclude Include="..\Public\MapTool.h" />
     <ClInclude Include="..\Public\Monster.h" />
-    <ClInclude Include="..\Public\Player.h" />
+    <ClInclude Include="..\Public\Player_Battle.h" />
+    <ClInclude Include="..\Public\Player_Study.h" />
     <ClInclude Include="..\Public\Terrain.h" />
+    <ClInclude Include="..\Public\UI.h" />
+    <ClInclude Include="..\Public\UI_ATB.h" />
+    <ClInclude Include="..\Public\UI_Battle.h" />
     <ClInclude Include="..\Public\Weapon_Anim.h" />
     <ClInclude Include="..\Public\Weapon_Study.h" />
     <ClInclude Include="Client.h" />
@@ -261,8 +265,12 @@
     <ClCompile Include="..\Private\MapObject.cpp" />
     <ClCompile Include="..\Private\MapTool.cpp" />
     <ClCompile Include="..\Private\Monster.cpp" />
-    <ClCompile Include="..\Private\Player.cpp" />
+    <ClCompile Include="..\Private\Player_Battle.cpp" />
+    <ClCompile Include="..\Private\Player_Study.cpp" />
     <ClCompile Include="..\Private\Terrain.cpp" />
+    <ClCompile Include="..\Private\UI.cpp" />
+    <ClCompile Include="..\Private\UI_ATB.cpp" />
+    <ClCompile Include="..\Private\UI_Battle.cpp" />
     <ClCompile Include="..\Private\Weapon_Anim.cpp" />
     <ClCompile Include="..\Private\Weapon_Study.cpp" />
     <ClCompile Include="..\Public\Chr_Field_State_Move.cpp" />

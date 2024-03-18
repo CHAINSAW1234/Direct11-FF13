@@ -21,6 +21,11 @@ void CLevel::Tick(_float fTimeDelta)
 {
 }
 
+void CLevel::Start()
+{
+	m_pGameInstance->Start();
+}
+
 HRESULT CLevel::Render()
 {
 	return S_OK;

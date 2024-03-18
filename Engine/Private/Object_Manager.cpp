@@ -133,6 +133,18 @@ void CObject_Manager::Tick(_float fTimeDelta)
 	}
 }
 
+void CObject_Manager::Start()
+{
+	for (size_t i = 0; i < m_iNumLevels; i++)
+	{
+		for (auto& Pair : m_pLayers[i])
+		{
+			/* 필요한 위치의 갱신작어블 수행한다. */
+			Pair.second->Start();
+		}
+	}
+}
+
 void CObject_Manager::Late_Tick(_float fTimeDelta)
 {
 	for (size_t i = 0; i < m_iNumLevels; i++)

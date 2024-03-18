@@ -40,6 +40,9 @@ HRESULT CLevel_Manager::Open_Level()
 	m_pCurrentLevel = pNewLevel;
 	m_iCurrentLevelID = iNewLevelID;
 
+
+	m_pCurrentLevel->Start();
+
 	return S_OK;
 }
 

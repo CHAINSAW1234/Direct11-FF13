@@ -34,18 +34,6 @@
     <Filter Include="98.Default\Default">
       <UniqueIdentifier>{785578c5-9a72-4fed-befd-94998f7ecf0e}</UniqueIdentifier>
     </Filter>
-    <Filter Include="03.Tool">
-      <UniqueIdentifier>{e891e4cc-0e2a-4c07-8237-84151f973697}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="03.Tool\ImGUI_Manager">
-      <UniqueIdentifier>{93a60aa1-4561-4bfd-8cdf-53fc3a87d7b7}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="03.Tool\MapTool">
-      <UniqueIdentifier>{baf87ab4-a580-4033-af33-f67b69e39352}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="03.Tool\Grid">
-      <UniqueIdentifier>{361cfe83-dc5d-4c85-bce0-b5a6a5336b45}</UniqueIdentifier>
-    </Filter>
     <Filter Include="01.Levels\Logo">
       <UniqueIdentifier>{7fa67ac9-2f2d-435f-bf35-849f5cbedd3c}</UniqueIdentifier>
     </Filter>
@@ -154,6 +142,30 @@
     <Filter Include="02.GameObjects\Chr\Chr_Battle\Light\State\Chr_Battle_Light_Finish">
       <UniqueIdentifier>{247965c5-0206-42b3-a48d-7e7cef73b739}</UniqueIdentifier>
     </Filter>
+    <Filter Include="04.Tool">
+      <UniqueIdentifier>{e891e4cc-0e2a-4c07-8237-84151f973697}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="04.Tool\ImGUI_Manager">
+      <UniqueIdentifier>{93a60aa1-4561-4bfd-8cdf-53fc3a87d7b7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="04.Tool\MapTool">
+      <UniqueIdentifier>{baf87ab4-a580-4033-af33-f67b69e39352}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="04.Tool\Grid">
+      <UniqueIdentifier>{361cfe83-dc5d-4c85-bce0-b5a6a5336b45}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="03.UI">
+      <UniqueIdentifier>{26f02351-70da-4d79-be15-7d457a3942b0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="03.UI\UI_Battle">
+      <UniqueIdentifier>{7b7a0d04-372c-4ecc-a02e-3b45c972c0eb}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="03.UI\UI_ATB">
+      <UniqueIdentifier>{fcc5f916-5163-4474-96c9-ad0a28c57986}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="03.UI\Player_Battle">
+      <UniqueIdentifier>{b5821835-d92a-4fd4-aafb-769a33ed0e5a}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\public\MainApp.h">
@@ -211,10 +223,10 @@
       <Filter>01.Levels\MapTool</Filter>
     </ClInclude>
     <ClInclude Include="..\Public\ImGUI_Manager.h">
-      <Filter>03.Tool\ImGUI_Manager</Filter>
+      <Filter>04.Tool\ImGUI_Manager</Filter>
     </ClInclude>
     <ClInclude Include="..\Public\MapTool.h">
-      <Filter>03.Tool\MapTool</Filter>
+      <Filter>04.Tool\MapTool</Filter>
     </ClInclude>
     <ClInclude Include="Client.h">
       <Filter>98.Default\Default</Filter>
@@ -235,7 +247,7 @@
       <Filter>02.GameObjects\Camera\Camera_Field</Filter>
     </ClInclude>
     <ClInclude Include="..\Public\Grid.h">
-      <Filter>03.Tool\Grid</Filter>
+      <Filter>04.Tool\Grid</Filter>
     </ClInclude>
     <ClInclude Include="..\Public\MapObject.h">
       <Filter>02.GameObjects\MapObject</Filter>
@@ -282,7 +294,7 @@
     <ClInclude Include="..\Public\Chr_Field_State_Item.h">
       <Filter>02.GameObjects\Chr\Chr_Field\State\Chr_Field_State_Item</Filter>
     </ClInclude>
-    <ClInclude Include="..\Public\Player.h">
+    <ClInclude Include="..\Public\Player_Study.h">
       <Filter>02.GameObjects\For_Study\Player</Filter>
     </ClInclude>
     <ClInclude Include="..\Public\Body_Player.h">
@@ -323,6 +335,18 @@
     </ClInclude>
     <ClInclude Include="..\Public\Chr_Battle_Light_State_Finish.h">
       <Filter>02.GameObjects\Chr\Chr_Battle\Light\State\Chr_Battle_Light_Finish</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\UI.h">
+      <Filter>03.UI</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\UI_Battle.h">
+      <Filter>03.UI\UI_Battle</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\UI_ATB.h">
+      <Filter>03.UI\UI_ATB</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\Player_Battle.h">
+      <Filter>03.UI\Player_Battle</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -378,10 +402,10 @@
       <Filter>01.Levels\MapTool</Filter>
     </ClCompile>
     <ClCompile Include="..\Private\ImGUI_Manager.cpp">
-      <Filter>03.Tool\ImGUI_Manager</Filter>
+      <Filter>04.Tool\ImGUI_Manager</Filter>
     </ClCompile>
     <ClCompile Include="..\Private\MapTool.cpp">
-      <Filter>03.Tool\MapTool</Filter>
+      <Filter>04.Tool\MapTool</Filter>
     </ClCompile>
     <ClCompile Include="Client.cpp">
       <Filter>98.Default\Default</Filter>
@@ -396,7 +420,7 @@
       <Filter>02.GameObjects\Camera\Camera_Field</Filter>
     </ClCompile>
     <ClCompile Include="..\Private\Grid.cpp">
-      <Filter>03.Tool\Grid</Filter>
+      <Filter>04.Tool\Grid</Filter>
     </ClCompile>
     <ClCompile Include="..\Private\MapObject.cpp">
       <Filter>02.GameObjects\MapObject</Filter>
@@ -434,7 +458,7 @@
     <ClCompile Include="..\Private\Chr_Field_State_Item.cpp">
       <Filter>02.GameObjects\Chr\Chr_Field\State\Chr_Field_State_Item</Filter>
     </ClCompile>
-    <ClCompile Include="..\Private\Player.cpp">
+    <ClCompile Include="..\Private\Player_Study.cpp">
       <Filter>02.GameObjects\For_Study\Player</Filter>
     </ClCompile>
     <ClCompile Include="..\Private\Body_Player.cpp">
@@ -475,6 +499,18 @@
     </ClCompile>
     <ClCompile Include="..\Private\Chr_Battle_Light_State_Finish.cpp">
       <Filter>02.GameObjects\Chr\Chr_Battle\Light\State\Chr_Battle_Light_Finish</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\UI.cpp">
+      <Filter>03.UI</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\UI_Battle.cpp">
+      <Filter>03.UI\UI_Battle</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\UI_ATB.cpp">
+      <Filter>03.UI\UI_ATB</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Player_Battle.cpp">
+      <Filter>03.UI\Player_Battle</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

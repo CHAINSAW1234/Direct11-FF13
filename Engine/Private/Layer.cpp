@@ -51,6 +51,15 @@ void CLayer::Tick(_float fTimeDelta)
 	}
 }
 
+void CLayer::Start()
+{
+	for (auto& pGameObject : m_GameObjects)
+	{
+		if (nullptr != pGameObject)
+			pGameObject->Start();
+	}
+}
+
 void CLayer::Late_Tick(_float fTimeDelta)
 {
 	for (auto& iter = m_GameObjects.begin(); iter != m_GameObjects.end(); )

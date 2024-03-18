@@ -18,12 +18,12 @@
 #include "ImGUI_Manager.h"
 
 CChr_Battle_Light::CChr_Battle_Light(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
-    : CGameObject{ pDevice, pContext }
+    : CChr_Battle{ pDevice, pContext }
 {
 }
 
 CChr_Battle_Light::CChr_Battle_Light(const CChr_Battle_Light& rhs)
-    : CGameObject{ rhs }
+    : CChr_Battle{ rhs }
 {
 }
 

@@ -18,10 +18,11 @@ protected:
 
 public:
 	class CComponent*	Get_Component(const wstring& strComTag);
-	void				Set_Dead(_bool isDead) { m_isDead = isDead; }
+	void Set_Dead(_bool isDead) { m_isDead = isDead; }
 public:
 	virtual HRESULT Initialize_Prototype();
 	virtual HRESULT Initialize(void* pArg);
+	virtual void Start();
 	virtual void Tick(_float fTimeDelta);
 	virtual HRESULT Late_Tick(_float fTimeDelta);
 	virtual HRESULT Render();

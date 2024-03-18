@@ -15,7 +15,7 @@
 
 #include "Camera_Free.h"
 #include "BackGround.h"
-#include "Player.h"
+#include "Player_Study.h"
 #include "Body_Player.h"
 #include "Weapon_Study.h"
 #include "Monster.h"
@@ -128,8 +128,8 @@ HRESULT CLoader::Loading_Prototype()
 		return E_FAIL;
 
 	/* For.Prototype_GameObject_Player */
-	if (FAILED(m_pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_Player"),
-		CPlayer::Create(m_pDevice, m_pContext))))
+	if (FAILED(m_pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_Player_Study"),
+		CPlayer_Study::Create(m_pDevice, m_pContext))))
 		return E_FAIL;
 
 	/* For.Prototype_GameObject_Monster */
@@ -302,8 +302,8 @@ HRESULT CLoader::Loading_For_GamePlay()
 
 
 	///* For.Prototype_GameObject_Player */
-	//if (FAILED(m_pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_Player"),
-	//	CPlayer::Create(m_pGraphic_Device))))
+	//if (FAILED(m_pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_Player_Study"),
+	//	CPlayer_Study::Create(m_pGraphic_Device))))
 	//	return E_FAIL;
 
 	///* For.Prototype_GameObject_Effect */

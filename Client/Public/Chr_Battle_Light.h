@@ -1,5 +1,6 @@
 #pragma once
 #include "Client_Defines.h"
+#include "Chr_Battle.h"
 #include "GameObject.h"
 #include "PartObject.h"
 
@@ -12,7 +13,7 @@ END
 
 BEGIN(Client)
 
-class CChr_Battle_Light final : public CGameObject
+class CChr_Battle_Light final : public CChr_Battle
 {
 public:
 	enum STATE { IDLE, ATTACK, ITEM, HIT, DEAD, TP, FINISH, STATE_END };

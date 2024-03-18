@@ -60,6 +60,10 @@ HRESULT CGameObject::Initialize(void* pArg)
 	return S_OK;
 }
 
+void CGameObject::Start()
+{
+}
+
 void CGameObject::Tick(_float fTimeDelta)
 {
 }
