@@ -7,6 +7,7 @@
 #include "Level_Logo.h"
 #include "Level_GamePlay.h"
 #include "Level_Field.h"
+#include "Level_Battle.h"
 #include "Level_MapTool.h"
 #include "Level_Parsing.h"
 
@@ -52,6 +53,9 @@ void CLevel_Loading::Tick(_float fTimeDelta)
 				break;
 			case LEVEL_FIELD:
 				pLevel = CLevel_Field::Create(m_pDevice, m_pContext);
+				break;
+			case LEVEL_BATTLE:
+				pLevel = CLevel_Battle::Create(m_pDevice, m_pContext);
 				break;
 			case LEVEL_MAPTOOL:
 				pLevel = CLevel_MapTool::Create(m_pDevice, m_pContext);

@@ -76,7 +76,7 @@ HRESULT CGrid::Add_Components()
 	Description.iNumVerticesX = Description.iNumVerticesZ = 600;
 
 	/* For.Com_VIBuffer */
-	if (FAILED(__super::Add_Component(LEVEL_MAPTOOL, TEXT("Prototype_Component_VIBuffer_Line"),
+	if (FAILED(__super::Add_Component(g_Level, TEXT("Prototype_Component_VIBuffer_Line"),
 		TEXT("Com_VIBuffer"), (CComponent**)&m_pVIBufferCom, &Description)))
 		return E_FAIL;
 

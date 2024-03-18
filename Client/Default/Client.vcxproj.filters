@@ -148,6 +148,12 @@
     <Filter Include="02.GameObjects\Chr\Chr_PartObject\Body">
       <UniqueIdentifier>{683680ad-6438-4de8-be42-2c64ec5f7f27}</UniqueIdentifier>
     </Filter>
+    <Filter Include="01.Levels\Battle">
+      <UniqueIdentifier>{4c83c9f4-eec9-496e-adfa-8c2a87addec6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\Chr\Chr_Battle\Light\State\Chr_Battle_Light_Finish">
+      <UniqueIdentifier>{247965c5-0206-42b3-a48d-7e7cef73b739}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\public\MainApp.h">
@@ -312,6 +318,12 @@
     <ClInclude Include="..\Public\Weapon_Anim.h">
       <Filter>02.GameObjects\Chr\Chr_PartObject\Weapon</Filter>
     </ClInclude>
+    <ClInclude Include="..\Public\Level_Battle.h">
+      <Filter>01.Levels\Battle</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\Chr_Battle_Light_State_Finish.h">
+      <Filter>02.GameObjects\Chr\Chr_Battle\Light\State\Chr_Battle_Light_Finish</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\private\MainApp.cpp">
@@ -457,6 +469,12 @@
     </ClCompile>
     <ClCompile Include="..\Private\Weapon_Anim.cpp">
       <Filter>02.GameObjects\Chr\Chr_PartObject\Weapon</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Level_Battle.cpp">
+      <Filter>01.Levels\Battle</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Chr_Battle_Light_State_Finish.cpp">
+      <Filter>02.GameObjects\Chr\Chr_Battle\Light\State\Chr_Battle_Light_Finish</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

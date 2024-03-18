@@ -350,5 +350,5 @@ void CChr_Field::Free()
 	Safe_Release(m_pModelCom);
 	Safe_Release(m_pFSMCom);
 
-	Safe_Release(m_pImGUI_Manager);
+	CImGUI_Manager::Destroy_Instance();
 }

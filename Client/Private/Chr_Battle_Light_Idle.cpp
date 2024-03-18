@@ -24,22 +24,14 @@ void CChr_Battle_Light_Idle::OnStateEnter()
 
 void CChr_Battle_Light_Idle::OnStateUpdate(_float fTimeDelta)
 {
-	if (m_pGameInstance->Get_KeyState(KEY_DOWN, DIK_I)) {
+	if (m_pGameInstance->Get_KeyState(KEY_DOWN, DIK_H)) {
 		m_isHurt = !m_isHurt;
 	}
 
 	if (m_pGameInstance->Get_KeyState(KEY_DOWN, DIK_P)) {
 		m_eState = IDLE;
 		m_pChr_Battle_Light->Change_Animation(CChr_Battle_Light::ATTACK_PREPARE, false);
-		m_pChr_Battle_Light->Set_TrackPosition(5.f);
-		m_fTimeDelta = 0.f;
-
-	}
-	
-	if (m_pGameInstance->Get_KeyState(KEY_DOWN, DIK_U)) {
-		m_eState = IDLE;
-		m_pChr_Battle_Light->Change_Animation(CChr_Battle_Light::FINISH, false);
-		m_pChr_Battle_Light->Change_Animation_Weapon(CChr_Battle_Light::WEAPON_CLOSE);
+		m_pChr_Battle_Light->Set_TrackPosition(10.f);
 		m_fTimeDelta = 0.f;
 
 	}
@@ -71,7 +63,7 @@ void CChr_Battle_Light_Idle::Idle(_float fTimeDelta)
 	m_fTimeDelta += fTimeDelta;
 	// Turn Ã¼Å©
 	if (m_fTurnCheckTimeDelta >= 2.f) {		//m_fTurnCheckTimeDelt´Â ¸Å Æ½¸¶´Ù ´õÇØÁü
-		if (abs(m_fDegree) > 30.f) {
+		if (abs(m_fDegree) > 5.f) {
 			m_pChr_Battle_Light->Get_Transform()->Turn(XMVectorSet(0.f, 1.f, 0.f, 0.f), fTimeDelta * m_fDegree / abs(m_fDegree));
 		}
 		if (m_fTurnCheckTimeDelta >= 3.f)

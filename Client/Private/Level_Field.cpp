@@ -7,6 +7,8 @@
 #include "Chr_Battle_Light.h"
 #include "Chr.h"
 
+#include "Level_Loading.h"
+
 CLevel_Field::CLevel_Field(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
     : CLevel { pDevice, pContext }
 {
@@ -18,9 +20,6 @@ HRESULT CLevel_Field::Initialize()
         return E_FAIL;
     
 	if (FAILED(Read_Map()))
-		return E_FAIL;
-
-	if (FAILED(Ready_Layer_Monster(TEXT("Layer_Monster"))))
 		return E_FAIL;
 
 	if (FAILED(Ready_Layer_Chr(TEXT("Layer_Chr"))))
@@ -36,6 +35,10 @@ void CLevel_Field::Tick(_float fTimeDelta)
 {
     __super::Tick(fTimeDelta);
 
+	if (m_pGameInstance->Get_KeyState(KEY_DOWN, DIK_RETURN)) {
+		m_pGameInstance->Open_Level(LEVEL_LOADING, CLevel_Loading::Create(m_pDevice, m_pContext, LEVEL_BATTLE));
+	}
+
 }
 
 HRESULT CLevel_Field::Render()
@@ -43,7 +46,7 @@ HRESULT CLevel_Field::Render()
 	if (FAILED(__super::Render()))
 		return E_FAIL;
 
-	SetWindowText(g_hWnd, TEXT("필드 레벨입니다."));
+	SetWindowText(g_hWnd, TEXT("Field 레벨입니다."));
 
 	return S_OK;
 }
@@ -114,19 +117,7 @@ HRESULT CLevel_Field::Ready_Layer_Camera(const wstring& strLayerTag)
 
 HRESULT CLevel_Field::Ready_Layer_Chr(const wstring& strLayerTag)
 {
-	//if (FAILED(m_pGameInstance->Add_Clone(g_Level, strLayerTag, TEXT("Prototype_GameObject_Chr_Field"))))
-	//	return E_FAIL;
-
-	CChr_Battle_Light* pInstance = dynamic_cast<CChr_Battle_Light*>(m_pGameInstance->Add_Clone_With_Object(g_Level, strLayerTag, TEXT("Prototype_GameObject_Chr_Battle_Light")));
-
-	pInstance->Set_Target(m_pGameInstance->Get_GameObject(g_Level, TEXT("Layer_Monster"), 0));
-
-	return S_OK;
-}
-
-HRESULT CLevel_Field::Ready_Layer_Monster(const wstring& strLayerTag)
-{
-	if (FAILED(m_pGameInstance->Add_Clone(g_Level, strLayerTag, TEXT("Prototype_GameObject_Player"))))
+	if (FAILED(m_pGameInstance->Add_Clone(g_Level, strLayerTag, TEXT("Prototype_GameObject_Chr_Field"))))
 		return E_FAIL;
 
 	return S_OK;

@@ -91,7 +91,10 @@ HRESULT CLoader::Start()
 		g_Level = LEVEL_FIELD;
 		hr = Loading_For_Field();
 		break;
-
+	case LEVEL_BATTLE:
+		g_Level = LEVEL_BATTLE;
+		hr = Loading_For_Battle();
+		break;
 	case LEVEL_MAPTOOL:
 		g_Level = LEVEL_MAPTOOL;
 		hr = Loading_For_MapTool();
@@ -400,6 +403,57 @@ HRESULT CLoader::Loading_For_Field()
 		CModel::Create(m_pDevice, m_pContext, "../Bin/Resources/Models/Chr/Light/Body/Light_Field" + tag))))
 		return E_FAIL;
 
+	//if (FAILED(m_pGameInstance->Add_Prototype(g_Level, TEXT("Prototype_Component_Model_Light_Weapon"),
+	//	CModel::Create(m_pDevice, m_pContext, "../Bin/Resources/Models/Chr/Light/Weapon/Light_Weapon" + tag))))
+	//	return E_FAIL;
+
+#pragma region Temp
+
+	_matrix		TransformMatrix = XMMatrixIdentity();
+
+	/* Prototype_Component_Model_Fiona */
+	TransformMatrix = XMMatrixRotationY(XMConvertToRadians(180.0f));
+
+	if (FAILED(m_pGameInstance->Add_Prototype(g_Level, TEXT("Prototype_Component_Model_Fiona"),
+		CModel::Create(m_pDevice, m_pContext, CModel::TYPE_ANIM, "../Bin/Resources/Models/Fiona/Fiona.fbx", TransformMatrix))))
+		return E_FAIL;
+
+	/* Prototype_Component_Model_ForkLift */
+	TransformMatrix = XMMatrixScaling(0.01f, 0.01f, 0.01f) * XMMatrixRotationY(XMConvertToRadians(180.0f));
+
+	if (FAILED(m_pGameInstance->Add_Prototype(g_Level, TEXT("Prototype_Component_Model_ForkLift"),
+		CModel::Create(m_pDevice, m_pContext, CModel::TYPE_NONANIM, "../Bin/Resources/Models/ForkLift/ForkLift.fbx", TransformMatrix))))
+		return E_FAIL;
+
+#pragma endregion
+
+
+	m_strLoadingText = TEXT("셰이더를(을) 로딩 중 입니다.");
+
+	m_strLoadingText = TEXT("객체의 원형를(을) 로딩 중 입니다.");
+
+	m_strLoadingText = TEXT("로딩이 완료되었습니다.");
+
+
+	m_isFinished = true;
+	return S_OK;
+}
+
+HRESULT CLoader::Loading_For_Battle()
+{
+	m_strLoadingText = TEXT("텍스쳐를(을) 로딩 중 입니다.");
+
+	m_strLoadingText = TEXT("모델를(을) 로딩 중 입니다.");
+
+	if (FAILED(m_pGameInstance->Add_Prototype(g_Level, TEXT("Prototype_Component_VIBuffer_Line"),
+		CVIBuffer_Line::Create(m_pDevice, m_pContext))))
+		return E_FAIL;
+
+	string tag = ".bin";
+	if (FAILED(m_pGameInstance->Add_Prototype(g_Level, TEXT("Prototype_Component_Model_Map_Battle"),
+		CModel::Create(m_pDevice, m_pContext, "../Bin/Resources/Models/MapObject/MapObject/Map_Battle" + tag))))
+		return E_FAIL;
+
 	if (FAILED(m_pGameInstance->Add_Prototype(g_Level, TEXT("Prototype_Component_Model_Light_Battle"),
 		CModel::Create(m_pDevice, m_pContext, "../Bin/Resources/Models/Chr/Light/Body/Light_Battle" + tag))))
 		return E_FAIL;
@@ -437,11 +491,6 @@ HRESULT CLoader::Loading_For_Field()
 
 
 	m_isFinished = true;
-	return S_OK;
-}
-
-HRESULT CLoader::Loading_For_Battle()
-{
 	return S_OK;
 }
 

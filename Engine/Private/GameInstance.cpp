@@ -80,6 +80,9 @@ void CGameInstance::Tick_Engine(_float fTimeDelta)
 	m_pInput_Device->Tick();
 
 	m_pLevel_Manager->Open_Level();
+
+	m_pLevel_Manager->Tick(fTimeDelta);
+
 	m_pObject_Manager->Tick(fTimeDelta);
 	m_pPipeLine->Tick();
 
@@ -87,8 +90,7 @@ void CGameInstance::Tick_Engine(_float fTimeDelta)
 
 	m_pObject_Manager->Late_Tick(fTimeDelta);
 	
-	/* 반복적인 갱신이 필요한 객체들의 Tick함수를 호출한다. */
-	m_pLevel_Manager->Tick(fTimeDelta);
+
 
 }
 

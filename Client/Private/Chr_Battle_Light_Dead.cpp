@@ -8,7 +8,6 @@ CChr_Battle_Light_Dead::CChr_Battle_Light_Dead(CChr_Battle_Light* pChr_Battle_Li
 
 void CChr_Battle_Light_Dead::OnStateEnter()
 {
-
 }
 
 void CChr_Battle_Light_Dead::OnStateUpdate(_float fTimeDelta)

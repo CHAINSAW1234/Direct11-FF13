@@ -6,6 +6,7 @@
 #include "Chr_Battle_Light_Hit.h"
 #include "Chr_Battle_Light_Dead.h"
 #include "Chr_Battle_Light_Item.h"
+#include "Chr_Battle_Light_State_Finish.h"
 
 #include "Body.h"
 #include "Weapon_Anim.h"
@@ -51,11 +52,9 @@ HRESULT CChr_Battle_Light::Initialize(void* pArg)
 
     m_pImGUI_Manager = CImGUI_Manager::Get_Instance(m_pDevice, m_pContext);
 
-
     //m_pModelCom->Set_Animation(0, false);
     m_pTransformCom->Set_State(CTransform::STATE_POSITION, XMVectorSet(_float(rand() % 20), 0.f, _float(rand() % 20), 1.f));
     //m_vStartPosition = m_pTransformCom->Get_State_Float4(CTransform::STATE_POSITION);
-    Change_Animation_Weapon(WEAPON_OPEN_IDLE);
     
     return S_OK;
 }
@@ -74,6 +73,7 @@ void CChr_Battle_Light::Tick(_float fTimeDelta)
     if (!i) {
         ++i;
         m_pTransformCom->Look_At_ForLandObject(((CTransform*)m_pTargetObject->Get_Component(g_strTransformTag))->Get_State_Vector(CTransform::STATE_POSITION));
+        Change_Animation_Weapon(WEAPON_OPEN_IDLE);
     }
 
     m_pImGUI_Manager->Tick(fTimeDelta);
@@ -169,6 +169,7 @@ HRESULT CChr_Battle_Light::Add_Component_FSM()
     m_pFSMCom->Add_State(HIT, CChr_Battle_Light_Hit::Create(this));
     m_pFSMCom->Add_State(DEAD, CChr_Battle_Light_Dead::Create(this));
     m_pFSMCom->Add_State(ITEM, CChr_Battle_Light_Item::Create(this));
+    m_pFSMCom->Add_State(FINISH, CChr_Battle_Light_State_Finish::Create(this));
 
     Change_State(IDLE);
     return S_OK;
@@ -177,15 +178,15 @@ HRESULT CChr_Battle_Light::Add_Component_FSM()
 void CChr_Battle_Light::Update_FSMState(_float fTimeDelta)
 {
 
-    //if (m_pGameInstance->Get_DIMouseState(DIMKS_LBUTTON)) {
-    //    Change_State(ATTACK);
-    //}
+    if (m_pGameInstance->Get_DIMouseState(DIMKS_LBUTTON)) {
+        Change_State(ATTACK);
+    }
 
     if (m_pGameInstance->Get_DIMouseState(DIMKS_RBUTTON)) {
         Change_State(HIT);
     }
 
-    if (m_pGameInstance->Get_KeyState(KEY_DOWN, DIK_P)) {
+    if (m_pGameInstance->Get_KeyState(KEY_DOWN, DIK_I)) {
         Change_State(ITEM);
     }
 
@@ -193,6 +194,12 @@ void CChr_Battle_Light::Update_FSMState(_float fTimeDelta)
         Change_Animation(DEAD_START, false);
         Change_State(DEAD);
     }
+
+    if (m_pGameInstance->Get_KeyState(KEY_DOWN, DIK_U)) {
+        Change_State(FINISH);
+    }
+
+
 }
 
 void CChr_Battle_Light::Show_ImGUI()
@@ -225,7 +232,7 @@ void CChr_Battle_Light::Show_ImGUI()
         break;
     }
 
-    ImGui::Begin("Chr_Field Tool");
+    ImGui::Begin("Chr_Battle Tool");
     if (ImGui::TreeNode("Transform")) {
         ImGui::InputFloat4("Right", vRight);
         ImGui::InputFloat4("Up", vUp);
@@ -316,5 +323,5 @@ void CChr_Battle_Light::Free()
     m_PartObjects.clear();
     Safe_Release(m_pFSMCom);
 
-    Safe_Release(m_pImGUI_Manager);
+    CImGUI_Manager::Destroy_Instance();
 }
