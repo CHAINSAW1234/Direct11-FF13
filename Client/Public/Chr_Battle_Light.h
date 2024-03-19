@@ -48,12 +48,10 @@ public:
 	virtual void Tick(_float fTimeDelta) override;
 	virtual HRESULT Late_Tick(_float fTimeDelta) override;
 	virtual HRESULT Render() override;
+	virtual void Start() override;
 
 private:
 	CGameObject* m_pTargetObject = { nullptr };
-
-	//CModel*		m_pModelCom = { nullptr };
-	//CShader*	m_pShaderCom = { nullptr };
 	CFSM*		m_pFSMCom = { nullptr };
 
 	STATE		m_eState = { STATE_END };
@@ -61,7 +59,6 @@ private:
 
 	vector<CPartObject*> m_PartObjects;				// PartObject를 보관 -> vector가 낫다고 판단, 무기 교체 가능성이 0에 수렴
 
-	_int  m_AttackCount = { 0 };	// 1번의 공격에서의 공격 횟수 처리 최대 1~ 3 // 나중에 리스트로 변경 할 것 
 	// 초기위치 필요한?
 
 	_float4		m_vStartPosition = { 0.f,0.f,0.f,0.f };
@@ -82,7 +79,6 @@ public:
 	HRESULT Change_State(STATE eState);
 	void	Change_Animation(ANIMATION_CHR_BATTLE_LIGHT iAnimationIndex, _bool isLoop);
 	void	Change_Animation_Weapon(ANIMATION_CHR_BATTLE_LIGHT_WEAPON iAnimationIndex);
-
 	_float4	Get_Look();						// Player의 Look vector를 Y값을 지우고 리턴
 	
 private:

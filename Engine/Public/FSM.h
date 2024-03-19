@@ -16,9 +16,9 @@ public:
 	virtual HRESULT Initialize_Prototype();
 	virtual HRESULT Initialize(void* pArg);
 	void	Update(_float fTimeDelta);
+	void	Render();
 
-	void	ChangeState(_uint iState);//CFSM_State* pNextState);
-
+	void	Change_State(_uint iState);//CFSM_State* pNextState);
 	void		Add_State(_uint iState, CFSM_State* pInitState);
 	CFSM_State* Find_State(_uint iState);
 

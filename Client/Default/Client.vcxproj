@@ -211,6 +211,12 @@
     <ClInclude Include="..\Public\UI.h" />
     <ClInclude Include="..\Public\UI_ATB.h" />
     <ClInclude Include="..\Public\UI_Battle.h" />
+    <ClInclude Include="..\Public\UI_Battle_Stage_Command.h" />
+    <ClInclude Include="..\Public\UI_Battle_Stage_Item.h" />
+    <ClInclude Include="..\Public\UI_Battle_Stage_Select.h" />
+    <ClInclude Include="..\Public\UI_Battle_Stage_Target.h" />
+    <ClInclude Include="..\Public\UI_Cursor.h" />
+    <ClInclude Include="..\Public\UI_Pnal.h" />
     <ClInclude Include="..\Public\Weapon_Anim.h" />
     <ClInclude Include="..\Public\Weapon_Study.h" />
     <ClInclude Include="Client.h" />
@@ -271,6 +277,12 @@
     <ClCompile Include="..\Private\UI.cpp" />
     <ClCompile Include="..\Private\UI_ATB.cpp" />
     <ClCompile Include="..\Private\UI_Battle.cpp" />
+    <ClCompile Include="..\Private\UI_Battle_Stage_Command.cpp" />
+    <ClCompile Include="..\Private\UI_Battle_Stage_Item.cpp" />
+    <ClCompile Include="..\Private\UI_Battle_Stage_Select.cpp" />
+    <ClCompile Include="..\Private\UI_Battle_Stage_Target.cpp" />
+    <ClCompile Include="..\Private\UI_Cursor.cpp" />
+    <ClCompile Include="..\Private\UI_Pnal.cpp" />
     <ClCompile Include="..\Private\Weapon_Anim.cpp" />
     <ClCompile Include="..\Private\Weapon_Study.cpp" />
     <ClCompile Include="..\Public\Chr_Field_State_Move.cpp" />
@@ -374,6 +386,16 @@
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Effect</ShaderType>
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Effect</ShaderType>
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Effect</ShaderType>
+    </FxCompile>
+    <FxCompile Include="..\Bin\ShaderFiles\Shader_VtxPosTex_UI.hlsl">
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Effect</ShaderType>
+      <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">5.0</ShaderModel>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Domain</ShaderType>
+      <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">5.0</ShaderModel>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Domain</ShaderType>
+      <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">5.0</ShaderModel>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Domain</ShaderType>
+      <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Release|x64'">5.0</ShaderModel>
     </FxCompile>
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

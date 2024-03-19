@@ -5,12 +5,17 @@
 
 #include "Camera_Field.h"
 #include "MapObject.h"
-#include "Grid.h"
+
+#include "UI_Pnal.h"
+#include "UI_ATB.h"
+
 #include "Chr.h"
 #include "Chr_Field.h"
 #include "Chr_Battle_Light.h"
 #include "Body.h"
 #include "Weapon_Anim.h"
+
+
 
 
 #include "Camera_Free.h"
@@ -27,6 +32,7 @@
 #pragma region MapTool
 
 #include "MapTool.h"
+#include "Grid.h"
 
 #pragma endregion
 
@@ -117,6 +123,9 @@ HRESULT CLoader::Start()
 
 HRESULT CLoader::Loading_Prototype()
 {
+
+#pragma region For_Study
+
 	/* For.Prototype_GameObject_Terrain */
 	if (FAILED(m_pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_Terrain"),
 		CTerrain::Create(m_pDevice, m_pContext))))
@@ -152,12 +161,14 @@ HRESULT CLoader::Loading_Prototype()
 		CWeapon_Study::Create(m_pDevice, m_pContext))))
 		return E_FAIL;
 
+#pragma endregion
+
 	/* For.Prototype_GameObject_Camera_Field */
 	if (FAILED(m_pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_Camera_Field"),
 		CCamera_Field::Create(m_pDevice, m_pContext))))
 		return E_FAIL;
 
-	/* For.Prototype_GameObject_Grid */
+	/* For.Prototype_GameObject_Chr */
 	if (FAILED(m_pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_Chr"),
 		CChr::Create(m_pDevice, m_pContext))))
 		return E_FAIL;
@@ -185,6 +196,16 @@ HRESULT CLoader::Loading_Prototype()
 	/* For.Prototype_GameObject_MapObject */
 	if (FAILED(m_pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_MapObject"),
 		CMapObject::Create(m_pDevice, m_pContext))))
+		return E_FAIL;
+
+	/* For.Prototype_GameObject_UI_ATB */
+	if (FAILED(m_pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_UI_Pnal"),
+		CUI_Pnal::Create(m_pDevice, m_pContext))))
+		return E_FAIL;
+
+	/* For.Prototype_GameObject_UI_ATB */
+	if (FAILED(m_pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_UI_ATB"),
+		CUI_ATB::Create(m_pDevice, m_pContext))))
 		return E_FAIL;
 
 	/* For.Prototype_GameObject_MapTool */
@@ -442,6 +463,40 @@ HRESULT CLoader::Loading_For_Field()
 HRESULT CLoader::Loading_For_Battle()
 {
 	m_strLoadingText = TEXT("텍스쳐를(을) 로딩 중 입니다.");
+
+#pragma region UI
+
+	/* For.Prototype_Component_Texture_UI_ATB_Inner */
+	if (FAILED(m_pGameInstance->Add_Prototype(g_Level, TEXT("Prototype_Component_Texture_UI_Pnal_Anim"),
+		CTexture::Create(m_pDevice, m_pContext, TEXT("../Bin/Resources/UI/Pnal/Pnalanm_%d.png"), 16))))
+		return E_FAIL;
+
+	/* For.Prototype_Component_Texture_UI_ATB_Border */
+	if (FAILED(m_pGameInstance->Add_Prototype(g_Level, TEXT("Prototype_Component_Texture_UI_Pnal_Border"),
+		CTexture::Create(m_pDevice, m_pContext, TEXT("../Bin/Resources/UI/Pnal/Pnal_Border.png")))))
+		return E_FAIL;
+
+	/* For.Prototype_Component_Texture_UI_ATB_Border */
+	if (FAILED(m_pGameInstance->Add_Prototype(g_Level, TEXT("Prototype_Component_Texture_UI_Pnal_Inner"),
+		CTexture::Create(m_pDevice, m_pContext, TEXT("../Bin/Resources/UI/Pnal/Pnal_Inner.png")))))
+		return E_FAIL;
+
+	/* For.Prototype_Component_Texture_UI_ATB_Border */
+	if (FAILED(m_pGameInstance->Add_Prototype(g_Level, TEXT("Prototype_Component_Texture_UI_ATB_Border"),
+		CTexture::Create(m_pDevice, m_pContext, TEXT("../Bin/Resources/UI/Pnal/Pnal_ATB_Border.png")))))
+		return E_FAIL;
+
+	/* For.Prototype_Component_Texture_UI_ATB_Inner */
+	if (FAILED(m_pGameInstance->Add_Prototype(g_Level, TEXT("Prototype_Component_Texture_UI_ATB_Inner"),
+		CTexture::Create(m_pDevice, m_pContext, TEXT("../Bin/Resources/UI/Pnal/Pnal_ATB_Inner.png")))))
+		return E_FAIL;
+
+	/* For.Prototype_Component_Texture_UI_ATB_Inner */
+	if (FAILED(m_pGameInstance->Add_Prototype(g_Level, TEXT("Prototype_Component_Texture_UI_ATB_Mask"),
+		CTexture::Create(m_pDevice, m_pContext, TEXT("../Bin/Resources/UI/ATB_Mask.dds")))))
+		return E_FAIL;
+
+#pragma endregion
 
 	m_strLoadingText = TEXT("모델를(을) 로딩 중 입니다.");
 

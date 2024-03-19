@@ -8,6 +8,10 @@ CFSM_State::CFSM_State()
 
 }
 
+void CFSM_State::Render()
+{
+}
+
 void CFSM_State::Free()
 {
 	__super::Free();

@@ -43,8 +43,8 @@ HRESULT CMainApp::Initialize()
 	//eLevel = LEVEL_GAMEPLAY;
 	//eLevel = LEVEL_MAPTOOL;
 	//eLevel = LEVEL_PARSING;
-	eLevel = LEVEL_FIELD;
-	//eLevel = LEVEL_BATTLE;
+	//eLevel = LEVEL_FIELD;
+	eLevel = LEVEL_BATTLE;
 
 	if (FAILED(Open_Level(eLevel)))
 		return E_FAIL;
@@ -105,6 +105,11 @@ HRESULT CMainApp::Ready_Prototype_Component_For_Static()
 	/* For.Prototype_Component_Shader_VtxPosTex */
 	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Shader_VtxPosTex"),
 		CShader::Create(m_pDevice, m_pContext, TEXT("../Bin/ShaderFiles/Shader_VtxPosTex.hlsl"), VTXPOSTEX::Elements, VTXPOSTEX::iNumElements))))
+		return E_FAIL;
+
+	/* For.Prototype_Component_Shader_VtxPosTex_UI */
+	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Shader_VtxPosTex_UI"),
+		CShader::Create(m_pDevice, m_pContext, TEXT("../Bin/ShaderFiles/Shader_VtxPosTex_UI.hlsl"), VTXPOSTEX::Elements, VTXPOSTEX::iNumElements))))
 		return E_FAIL;
 
 	/* For.Prototype_Component_Shader_VtxModel */

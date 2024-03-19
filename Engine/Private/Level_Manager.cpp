@@ -40,8 +40,7 @@ HRESULT CLevel_Manager::Open_Level()
 	m_pCurrentLevel = pNewLevel;
 	m_iCurrentLevelID = iNewLevelID;
 
-
-	m_pCurrentLevel->Start();
+	pNewLevel->Start();
 
 	return S_OK;
 }
@@ -49,6 +48,8 @@ HRESULT CLevel_Manager::Open_Level()
 HRESULT CLevel_Manager::Request_Open_Level(_uint iNewLevelID, CLevel* pNewLevel)
 {
 	m_queueRequestLevel.push({ iNewLevelID , pNewLevel });
+
+
 	return S_OK;
 }
 

@@ -52,8 +52,8 @@ HRESULT CChr_Battle_Light::Initialize(void* pArg)
 
     m_pImGUI_Manager = CImGUI_Manager::Get_Instance(m_pDevice, m_pContext);
 
-    //m_pModelCom->Set_Animation(0, false);
     m_pTransformCom->Set_State(CTransform::STATE_POSITION, XMVectorSet(_float(rand() % 20), 0.f, _float(rand() % 20), 1.f));
+    //m_pModelCom->Set_Animation(0, false);
     //m_vStartPosition = m_pTransformCom->Get_State_Float4(CTransform::STATE_POSITION);
     
     return S_OK;
@@ -61,6 +61,11 @@ HRESULT CChr_Battle_Light::Initialize(void* pArg)
 
 void CChr_Battle_Light::Tick(_float fTimeDelta)
 {
+    __super::Tick(fTimeDelta);
+    if (m_fATB == 3.0f) {
+        m_fATB = 0.f;
+    }
+
     m_pFSMCom->Update(fTimeDelta);
     Update_FSMState(fTimeDelta);
 
@@ -68,13 +73,6 @@ void CChr_Battle_Light::Tick(_float fTimeDelta)
     //    m_pModelCom->Set_Animation(m_pModelCom->Get_CurrentAnimationIndex() + 1, true);
     //if (m_pGameInstance->Get_KeyState(KEY_DOWN, DIK_DOWNARROW))
     //    m_pModelCom->Set_Animation(m_pModelCom->Get_CurrentAnimationIndex() - 1, true);
-
-    static int i = 0;
-    if (!i) {
-        ++i;
-        m_pTransformCom->Look_At_ForLandObject(((CTransform*)m_pTargetObject->Get_Component(g_strTransformTag))->Get_State_Vector(CTransform::STATE_POSITION));
-        Change_Animation_Weapon(WEAPON_OPEN_IDLE);
-    }
 
     m_pImGUI_Manager->Tick(fTimeDelta);
     Show_ImGUI();
@@ -95,10 +93,15 @@ HRESULT CChr_Battle_Light::Late_Tick(_float fTimeDelta)
 
 HRESULT CChr_Battle_Light::Render()
 {
-
     m_pImGUI_Manager->Render();
 
     return S_OK;
+}
+
+void CChr_Battle_Light::Start()
+{
+    m_pTransformCom->Look_At_ForLandObject(((CTransform*)m_pTargetObject->Get_Component(g_strTransformTag))->Get_State_Vector(CTransform::STATE_POSITION));
+    Change_Animation_Weapon(WEAPON_OPEN_IDLE);
 }
 
 _uint CChr_Battle_Light::Get_CurrentAnimationIndex()
@@ -125,7 +128,7 @@ void CChr_Battle_Light::Set_TrackPosition(_float fTrackPosition)
 HRESULT CChr_Battle_Light::Change_State(STATE eState)
 {
     m_eState = eState;
-    m_pFSMCom->ChangeState(eState);
+    m_pFSMCom->Change_State(eState);
 
     return S_OK;
 }

@@ -43,6 +43,11 @@ HRESULT CUI::Late_Tick(_float fTimeDelta)
 {
     if (FAILED(__super::Late_Tick(fTimeDelta)))
         return E_FAIL;
+
+    if (m_isRender) {
+        m_pGameInstance->Add_RenderGroup(CRenderer::RENDER_UI, this);
+    }
+
     return S_OK;
 }
 
@@ -69,8 +74,6 @@ HRESULT CUI::Bind_ShaderResources()
         return E_FAIL;
     if (FAILED(m_pShaderCom->Bind_Matrix("g_ProjMatrix", &m_ProjMatrix)))
         return E_FAIL;
-
-    m_pTextureCom->Bind_ShaderResource(m_pShaderCom, "g_Texture", 0);
 
     return S_OK;
 }

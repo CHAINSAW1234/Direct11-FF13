@@ -1,7 +1,13 @@
 #include "stdafx.h"
 #include "Level_Battle.h"
-#include "Camera_Field.h"
+
 #include "MapObject.h"
+
+#include "Player_Battle.h"
+#include "UI.h"
+
+#include "Camera_Field.h"
+
 #include "Chr_Battle_Light.h"
 #include "Chr.h"
 
@@ -18,6 +24,9 @@ HRESULT CLevel_Battle::Initialize()
     if (FAILED(Read_Map()))
         return E_FAIL;
 
+    if (FAILED(Ready_UI(TEXT("Layer_UI"))))
+        return E_FAIL;
+
     if (FAILED(Ready_Layer_BackGround(TEXT("Layer_Grid"))))
         return E_FAIL;
 
@@ -30,12 +39,15 @@ HRESULT CLevel_Battle::Initialize()
     if (FAILED(Ready_Layer_Camera(g_strCameraLayerTag)))
         return E_FAIL;
 
+    m_pPlayer->Start();
+
     return S_OK;
 }
 
 void CLevel_Battle::Tick(_float fTimeDelta)
 {
     __super::Tick(fTimeDelta);
+    m_pPlayer->Tick(fTimeDelta);
 }
 
 HRESULT CLevel_Battle::Render()
@@ -72,6 +84,23 @@ HRESULT CLevel_Battle::Read_Map()
         }
     }
     IFS.close();
+    return S_OK;
+}
+
+HRESULT CLevel_Battle::Ready_UI(const wstring& strLayerTag)
+{
+    m_pPlayer = CPlayer_Battle::Create();
+
+    if (nullptr == m_pPlayer)
+        return E_FAIL;
+
+    CUI::UI_Desc ui_desc = {};
+    ui_desc.pObserver_Hander = m_pPlayer;
+
+    if (FAILED(m_pGameInstance->Add_Clone(g_Level, strLayerTag, TEXT("Prototype_GameObject_UI_ATB"), &ui_desc)))
+        return E_FAIL;
+
+
     return S_OK;
 }
 
@@ -156,4 +185,6 @@ return pInstance;
 void CLevel_Battle::Free()
 {
     __super::Free();
+    
+    Safe_Release(m_pPlayer);
 }

@@ -94,4 +94,14 @@ namespace Engine
 
 	}VTXANIMMESH;
 
+	typedef struct Frame
+	{
+		_uint					iMaxFrame;			// 최대 프레임 수
+		_float					fFrameSpeed = 0.2f;	// 프레임 속도	
+		_uint					iCurFrame = 0;		// 현재 프레임
+		_float					fTime = 0.f;		// 현재 누적 시간
+		_uint					iStartFrame = 0;	// 시작 프레임
+	}FRAME;
+
+
 }

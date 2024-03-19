@@ -13,6 +13,9 @@ namespace Client
 	const wstring		g_strCameraLayerTag = TEXT("Layer_ZZZCamera");
 }
 
+#define Random_Float(size) static_cast<_float>(std::rand() / (RAND_MAX / (_float)size) - (_float)size/2);
+
+
 extern HWND				g_hWnd;
 extern HINSTANCE		g_hInst;
 extern Client::LEVEL	g_Level;

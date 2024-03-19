@@ -160,11 +160,32 @@
     <Filter Include="03.UI\UI_Battle">
       <UniqueIdentifier>{7b7a0d04-372c-4ecc-a02e-3b45c972c0eb}</UniqueIdentifier>
     </Filter>
-    <Filter Include="03.UI\UI_ATB">
+    <Filter Include="03.UI\Battle">
+      <UniqueIdentifier>{11340012-f2f1-441d-a89c-9116c891eb0c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="03.UI\Battle\UI_ATB">
       <UniqueIdentifier>{fcc5f916-5163-4474-96c9-ad0a28c57986}</UniqueIdentifier>
     </Filter>
-    <Filter Include="03.UI\Player_Battle">
+    <Filter Include="03.UI\Battle\Player_Battle">
       <UniqueIdentifier>{b5821835-d92a-4fd4-aafb-769a33ed0e5a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="03.UI\Battle\UI_Pnal">
+      <UniqueIdentifier>{fab70c61-7430-46ae-acbd-4a14299e7ac4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="03.UI\Battle\Player_Battle\UI_Battle_Stage_Select">
+      <UniqueIdentifier>{2d5efb4e-6630-457e-92c5-a34022573405}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="03.UI\Battle\Player_Battle\UI_Battle_Stage_Target">
+      <UniqueIdentifier>{bfec82ff-10c8-4871-ba0e-13fda9ca6827}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="03.UI\Battle\Player_Battle\UI_Battle_Stage_Command">
+      <UniqueIdentifier>{74f80acb-4b13-4062-8004-fe90110afb38}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="03.UI\Battle\Player_Battle\UI_Battle_Stage_Item">
+      <UniqueIdentifier>{0a91e821-e0ef-4cc1-be58-e4123098482e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="03.UI\Battle\UI_Cursor">
+      <UniqueIdentifier>{8988a428-1f6c-464b-9eb8-2b2002989556}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -343,10 +364,28 @@
       <Filter>03.UI\UI_Battle</Filter>
     </ClInclude>
     <ClInclude Include="..\Public\UI_ATB.h">
-      <Filter>03.UI\UI_ATB</Filter>
+      <Filter>03.UI\Battle\UI_ATB</Filter>
     </ClInclude>
     <ClInclude Include="..\Public\Player_Battle.h">
-      <Filter>03.UI\Player_Battle</Filter>
+      <Filter>03.UI\Battle\Player_Battle</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\UI_Pnal.h">
+      <Filter>03.UI\Battle\UI_Pnal</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\UI_Battle_Stage_Item.h">
+      <Filter>03.UI\Battle\Player_Battle\UI_Battle_Stage_Item</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\UI_Battle_Stage_Command.h">
+      <Filter>03.UI\Battle\Player_Battle\UI_Battle_Stage_Command</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\UI_Battle_Stage_Target.h">
+      <Filter>03.UI\Battle\Player_Battle\UI_Battle_Stage_Target</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\UI_Battle_Stage_Select.h">
+      <Filter>03.UI\Battle\Player_Battle\UI_Battle_Stage_Select</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\UI_Cursor.h">
+      <Filter>03.UI\Battle\UI_Cursor</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -507,10 +546,28 @@
       <Filter>03.UI\UI_Battle</Filter>
     </ClCompile>
     <ClCompile Include="..\Private\UI_ATB.cpp">
-      <Filter>03.UI\UI_ATB</Filter>
+      <Filter>03.UI\Battle\UI_ATB</Filter>
     </ClCompile>
     <ClCompile Include="..\Private\Player_Battle.cpp">
-      <Filter>03.UI\Player_Battle</Filter>
+      <Filter>03.UI\Battle\Player_Battle</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\UI_Pnal.cpp">
+      <Filter>03.UI\Battle\UI_Pnal</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\UI_Battle_Stage_Select.cpp">
+      <Filter>03.UI\Battle\Player_Battle\UI_Battle_Stage_Select</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\UI_Battle_Stage_Item.cpp">
+      <Filter>03.UI\Battle\Player_Battle\UI_Battle_Stage_Item</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\UI_Battle_Stage_Command.cpp">
+      <Filter>03.UI\Battle\Player_Battle\UI_Battle_Stage_Command</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\UI_Battle_Stage_Target.cpp">
+      <Filter>03.UI\Battle\Player_Battle\UI_Battle_Stage_Target</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\UI_Cursor.cpp">
+      <Filter>03.UI\Battle\UI_Cursor</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -545,6 +602,9 @@
       <Filter>97.ShaderFiles</Filter>
     </FxCompile>
     <FxCompile Include="..\Bin\ShaderFiles\Shader_VtxAnimModel.hlsl">
+      <Filter>97.ShaderFiles</Filter>
+    </FxCompile>
+    <FxCompile Include="..\Bin\ShaderFiles\Shader_VtxPosTex_UI.hlsl">
       <Filter>97.ShaderFiles</Filter>
     </FxCompile>
   </ItemGroup>

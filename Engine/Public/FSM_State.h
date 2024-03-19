@@ -17,6 +17,8 @@ public:
 	virtual void OnStateUpdate(_float fTimeDelta) = 0;
 	// 상태가 변경될 때 호출
 	virtual void OnStateExit() = 0;
+	// 상태가 렌더링되는 특이 경우에 대비해서 새로 만듬
+	virtual void Render();
 
 protected:
 	class CGameInstance* m_pGameInstance = { nullptr };

@@ -59,13 +59,21 @@ void CFSM::Update(_float fTimeDelta)
 	//if (nextState == ::Escape_int)
 	//	return;
 
-	//ChangeState(nextState);*/
+	//Change_State(nextState);*/
 
 	pCurrent_State->OnStateUpdate(fTimeDelta);
 }
 
+void CFSM::Render()
+{
+	if (pCurrent_State == nullptr)
+		return;
 
-void CFSM::ChangeState(_uint iState)
+	pCurrent_State->Render();
+}
+
+
+void CFSM::Change_State(_uint iState)
 {
 	auto pNextState = Find_State(iState);
 

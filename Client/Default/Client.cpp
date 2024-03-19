@@ -100,9 +100,9 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
 	Safe_Release(pGameInstance);
 	Safe_Release(pMainApp);   
 
-//#ifdef _DEBUG_ 
-//    _CrtDumpMemoryLeaks();
-//#endif
+#ifdef _DEBUG_ 
+    _CrtDumpMemoryLeaks();
+#endif
 
     return (int) msg.wParam;
 }

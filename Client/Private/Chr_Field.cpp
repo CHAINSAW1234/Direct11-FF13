@@ -102,7 +102,7 @@ HRESULT CChr_Field::Render()
 HRESULT CChr_Field::Change_State(STATE eState)
 {
 	m_eState = eState;
-	m_pFSMCom->ChangeState(eState);
+	m_pFSMCom->Change_State(eState);
 
 	return S_OK;
 }
