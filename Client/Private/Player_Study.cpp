@@ -86,6 +86,7 @@ void CPlayer_Study::Tick(_float fTimeDelta)
 	for (auto& Pair : m_PartObjects)
 		Pair.second->Tick(fTimeDelta);
 
+	m_pColliderCom->Tick(m_pTransformCom->Get_WorldMatrix());
 }
 
 HRESULT CPlayer_Study::Late_Tick(_float fTimeDelta)
@@ -104,19 +105,38 @@ HRESULT CPlayer_Study::Late_Tick(_float fTimeDelta)
 HRESULT CPlayer_Study::Render()
 {
 
+#ifdef _DEBUG
+	m_pColliderCom->Render();
+#endif
 
 	return S_OK;
 }
 
+void CPlayer_Study::Start()
+{
+	for (auto& pPartObject : m_PartObjects) {
+		pPartObject.second->Start();
+	}
+}
+
 HRESULT CPlayer_Study::Add_Components()
 {
+	/* Com_Collider */
+	CBounding_AABB::BOUNDING_AABB_DESC		ColliderDesc{};
+
+	/* 로컬상의 정보를 셋팅한다. */
+	ColliderDesc.vSize = _float3(0.8f, 1.2f, 0.8f);
+	ColliderDesc.vCenter = _float3(0.f, ColliderDesc.vSize.y * 0.5f, 0.f);
+
+
+	if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_Collider_AABB"),
+		TEXT("Com_Collider"), (CComponent**)&m_pColliderCom, &ColliderDesc)))
+		return E_FAIL;
 	return S_OK;
 }
 
 HRESULT CPlayer_Study::Add_PartObjects()
 {
-
-
 	/* For.Part_Body */
 	CPartObject* pBodyObject = { nullptr };
 	CBody_Player::BODY_DESC	BodyDesc{};
@@ -181,9 +201,10 @@ CGameObject* CPlayer_Study::Clone(void* pArg)
 void CPlayer_Study::Free()
 {
 	__super::Free();
+	Safe_Release(m_pColliderCom);
 
 	for (auto& Pair : m_PartObjects)
 		Safe_Release(Pair.second);
-
 	m_PartObjects.clear();
+
 }

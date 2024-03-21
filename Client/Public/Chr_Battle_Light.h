@@ -50,20 +50,6 @@ public:
 	virtual HRESULT Render() override;
 	virtual void Start() override;
 
-private:
-	CGameObject* m_pTargetObject = { nullptr };
-	CFSM*		m_pFSMCom = { nullptr };
-
-	STATE		m_eState = { STATE_END };
-	_bool		m_isControl = { true };				// 조작 가능 여부 -> 아이템 조작, 전투시 false 처리
-
-	vector<CPartObject*> m_PartObjects;				// PartObject를 보관 -> vector가 낫다고 판단, 무기 교체 가능성이 0에 수렴
-
-	// 초기위치 필요한?
-
-	_float4		m_vStartPosition = { 0.f,0.f,0.f,0.f };
-	class CImGUI_Manager* m_pImGUI_Manager = { nullptr };
-
 public:
 	CTransform* Get_Transform() { return m_pTransformCom; }
 	_uint		Get_CurrentAnimationIndex();
@@ -85,9 +71,26 @@ private:
 	HRESULT Add_Components();
 	HRESULT Add_PartObjects();
 	HRESULT Add_Component_FSM();
+	virtual HRESULT Add_Ability() override;
 
 	void	Update_FSMState(_float fTimeDelta);
 	void	Show_ImGUI();
+
+private:
+	CGameObject* m_pTargetObject = { nullptr };
+	CFSM*		m_pFSMCom = { nullptr };
+
+	STATE		m_eState = { STATE_END };
+	_bool		m_isControl = { true };				// 조작 가능 여부 -> 아이템 조작, 전투시 false 처리
+
+	vector<CPartObject*> m_PartObjects;				// PartObject를 보관 -> vector가 낫다고 판단, 무기 교체 가능성이 0에 수렴
+
+	// 초기위치 필요한?
+
+	_float4		m_vStartPosition = { 0.f,0.f,0.f,0.f };
+	class CImGUI_Manager* m_pImGUI_Manager = { nullptr };
+
+
 
 public:
 	static CChr_Battle_Light* Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);

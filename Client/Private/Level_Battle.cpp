@@ -30,7 +30,7 @@ HRESULT CLevel_Battle::Initialize()
     if (FAILED(Ready_Layer_BackGround(TEXT("Layer_Grid"))))
         return E_FAIL;
 
-    if (FAILED(Ready_Layer_Monster(TEXT("Layer_Monster"))))
+    if (FAILED(Ready_Layer_Monster(g_strMonsterLayerTag)))
         return E_FAIL;
 
     if (FAILED(Ready_Layer_Chr(TEXT("Layer_Chr"))))
@@ -100,6 +100,11 @@ HRESULT CLevel_Battle::Ready_UI(const wstring& strLayerTag)
     if (FAILED(m_pGameInstance->Add_Clone(g_Level, strLayerTag, TEXT("Prototype_GameObject_UI_ATB"), &ui_desc)))
         return E_FAIL;
 
+    if (FAILED(m_pGameInstance->Add_Clone(g_Level, strLayerTag, TEXT("Prototype_GameObject_UI_Cursor"), &ui_desc)))
+        return E_FAIL;
+
+    if (FAILED(m_pGameInstance->Add_Clone(g_Level, TEXT("Layer_Inventory"), TEXT("Prototype_GameObject_Inventory"))))
+        return E_FAIL;
 
     return S_OK;
 }
@@ -155,15 +160,17 @@ HRESULT CLevel_Battle::Ready_Layer_Chr(const wstring& strLayerTag)
 
     CChr_Battle_Light* pInstance = dynamic_cast<CChr_Battle_Light*>(m_pGameInstance->Add_Clone_With_Object(g_Level, strLayerTag, TEXT("Prototype_GameObject_Chr_Battle_Light")));
 
-    pInstance->Set_Target(m_pGameInstance->Get_GameObject(g_Level, TEXT("Layer_Monster"), 0));
+    pInstance->Set_Target(m_pGameInstance->Get_GameObject(g_Level, g_strMonsterLayerTag, 0));
 
     return S_OK;
 }
 
 HRESULT CLevel_Battle::Ready_Layer_Monster(const wstring& strLayerTag)
 {
-    if (FAILED(m_pGameInstance->Add_Clone(g_Level, strLayerTag, TEXT("Prototype_GameObject_Player_Study"))))
-        return E_FAIL;
+    for (int i = 0; i < 3; ++i) {
+        if (FAILED(m_pGameInstance->Add_Clone(g_Level, strLayerTag, TEXT("Prototype_GameObject_Player_Study"))))
+            return E_FAIL;
+    }
 
     return S_OK;
 }

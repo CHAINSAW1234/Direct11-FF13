@@ -157,9 +157,6 @@
     <Filter Include="03.UI">
       <UniqueIdentifier>{26f02351-70da-4d79-be15-7d457a3942b0}</UniqueIdentifier>
     </Filter>
-    <Filter Include="03.UI\UI_Battle">
-      <UniqueIdentifier>{7b7a0d04-372c-4ecc-a02e-3b45c972c0eb}</UniqueIdentifier>
-    </Filter>
     <Filter Include="03.UI\Battle">
       <UniqueIdentifier>{11340012-f2f1-441d-a89c-9116c891eb0c}</UniqueIdentifier>
     </Filter>
@@ -186,6 +183,21 @@
     </Filter>
     <Filter Include="03.UI\Battle\UI_Cursor">
       <UniqueIdentifier>{8988a428-1f6c-464b-9eb8-2b2002989556}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\Inventory">
+      <UniqueIdentifier>{7fd4db24-0678-4943-8efa-77fa9329d58d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\Optima">
+      <UniqueIdentifier>{00f5fadc-97b8-4b6b-8e14-1e99d240a0b4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\Optima\Ability">
+      <UniqueIdentifier>{fb285cf8-82d9-4f4d-8e3a-135e009c626c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\Optima\Role">
+      <UniqueIdentifier>{a628c111-b9b2-4404-8126-e375d8676e62}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="03.UI\Battle\UI_Pnal_Attack">
+      <UniqueIdentifier>{89672019-5e9b-490b-9879-3731d92e0cb7}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -360,9 +372,6 @@
     <ClInclude Include="..\Public\UI.h">
       <Filter>03.UI</Filter>
     </ClInclude>
-    <ClInclude Include="..\Public\UI_Battle.h">
-      <Filter>03.UI\UI_Battle</Filter>
-    </ClInclude>
     <ClInclude Include="..\Public\UI_ATB.h">
       <Filter>03.UI\Battle\UI_ATB</Filter>
     </ClInclude>
@@ -371,9 +380,6 @@
     </ClInclude>
     <ClInclude Include="..\Public\UI_Pnal.h">
       <Filter>03.UI\Battle\UI_Pnal</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Public\UI_Battle_Stage_Item.h">
-      <Filter>03.UI\Battle\Player_Battle\UI_Battle_Stage_Item</Filter>
     </ClInclude>
     <ClInclude Include="..\Public\UI_Battle_Stage_Command.h">
       <Filter>03.UI\Battle\Player_Battle\UI_Battle_Stage_Command</Filter>
@@ -386,6 +392,24 @@
     </ClInclude>
     <ClInclude Include="..\Public\UI_Cursor.h">
       <Filter>03.UI\Battle\UI_Cursor</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\Inventory.h">
+      <Filter>02.GameObjects\Inventory</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\Role.h">
+      <Filter>02.GameObjects\Optima\Role</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\Optima.h">
+      <Filter>02.GameObjects\Optima</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\Ability.h">
+      <Filter>02.GameObjects\Optima\Ability</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\UI_Pnal_Attack.h">
+      <Filter>03.UI\Battle\UI_Pnal_Attack</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\UI_Battle_Stage_Item.h">
+      <Filter>03.UI\Battle\Player_Battle\UI_Battle_Stage_Item</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -542,9 +566,6 @@
     <ClCompile Include="..\Private\UI.cpp">
       <Filter>03.UI</Filter>
     </ClCompile>
-    <ClCompile Include="..\Private\UI_Battle.cpp">
-      <Filter>03.UI\UI_Battle</Filter>
-    </ClCompile>
     <ClCompile Include="..\Private\UI_ATB.cpp">
       <Filter>03.UI\Battle\UI_ATB</Filter>
     </ClCompile>
@@ -568,6 +589,21 @@
     </ClCompile>
     <ClCompile Include="..\Private\UI_Cursor.cpp">
       <Filter>03.UI\Battle\UI_Cursor</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Inventory.cpp">
+      <Filter>02.GameObjects\Inventory</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Role.cpp">
+      <Filter>02.GameObjects\Optima\Role</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Optima.cpp">
+      <Filter>02.GameObjects\Optima</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Ability.cpp">
+      <Filter>02.GameObjects\Optima\Ability</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\UI_Pnal_Attack.cpp">
+      <Filter>03.UI\Battle\UI_Pnal_Attack</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

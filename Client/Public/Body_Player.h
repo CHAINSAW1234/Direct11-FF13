@@ -6,6 +6,7 @@
 BEGIN(Engine)
 class CModel;
 class CShader;
+class CCollider;
 END
 
 BEGIN(Client)
@@ -29,10 +30,11 @@ public:
 	virtual void Tick(_float fTimeDelta) override;
 	virtual HRESULT Late_Tick(_float fTimeDelta) override;
 	virtual HRESULT Render() override;
-
+	virtual void Start() override;
 private:
 	CModel* m_pModelCom = { nullptr };
 	CShader* m_pShaderCom = { nullptr };
+	CCollider* m_pColliderCom = { nullptr };
 	const _ubyte* m_pState;
 
 private:

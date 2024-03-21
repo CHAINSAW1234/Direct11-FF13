@@ -64,12 +64,11 @@ void CFSM::Update(_float fTimeDelta)
 	pCurrent_State->OnStateUpdate(fTimeDelta);
 }
 
-void CFSM::Render()
+void CFSM::Start()
 {
-	if (pCurrent_State == nullptr)
-		return;
-
-	pCurrent_State->Render();
+	for (auto& mapFSM_State : m_mapFSM_State) {
+		mapFSM_State.second->Start();
+	}
 }
 
 

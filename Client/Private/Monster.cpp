@@ -32,17 +32,14 @@ HRESULT CMonster::Initialize(void* pArg)
 		return E_FAIL;
 
 	m_pModelCom->Set_Animation(rand() % 20, true);
-	m_pTransformCom->Set_State(CTransform::STATE_POSITION, XMVectorSet(_float(rand() % 20), 2.f, _float(rand() % 20), 1.f));
+	m_pTransformCom->Set_State(CTransform::STATE_POSITION, XMVectorSet(_float(rand() % 20), 0.f, _float(rand() % 20), 1.f));
 
 	return S_OK;
 }
 
 void CMonster::Tick(_float fTimeDelta)
 {
-	if (m_pGameInstance->Get_KeyState(KEY_DOWN, DIK_UPARROW))
-		m_pModelCom->Set_Animation(m_pModelCom->Get_CurrentAnimationIndex() + 1, true);
-	if (m_pGameInstance->Get_KeyState(KEY_DOWN, DIK_DOWNARROW))
-		m_pModelCom->Set_Animation(m_pModelCom->Get_CurrentAnimationIndex() - 1, true);
+	; 
 }
 
 HRESULT CMonster::Late_Tick(_float fTimeDelta)
@@ -50,10 +47,11 @@ HRESULT CMonster::Late_Tick(_float fTimeDelta)
 	if (FAILED(__super::Late_Tick(fTimeDelta)))
 		return E_FAIL;
 
-	//static int i = 0;
-	//if (m_pModelCom->Compute_Picking(m_pTransformCom)) {
-	//	++i;
-	//}
+	for (auto& pColliderCom : m_pColliderCom)
+		pColliderCom->Tick(m_pTransformCom->Get_WorldMatrix());	
+
+	m_pColliderCom[COLLIDER_HEAD]->Intersect((CCollider*)m_pGameInstance->Get_Component(g_Level, TEXT("Layer_Player"), TEXT("Com_Collider")));
+
 
 	m_pModelCom->Play_Animation(fTimeDelta);
 
@@ -81,6 +79,12 @@ HRESULT CMonster::Render()
 
 		m_pModelCom->Render(i);
 	}
+
+#ifdef _DEBUG
+	for (auto& pColliderCom : m_pColliderCom)
+		pColliderCom->Render();
+#endif
+
 	return S_OK;
 }
 
@@ -94,6 +98,32 @@ HRESULT CMonster::Add_Components()
 	/* For.Com_Model */
 	if (FAILED(__super::Add_Component(m_eLevel, TEXT("Prototype_Component_Model_Fiona"),
 		TEXT("Com_Model"), (CComponent**)&m_pModelCom)))
+		return E_FAIL;
+
+
+
+	/* Com_Collider_Head */
+	CBounding_Sphere::BOUNDING_SPHERE_DESC		ColliderDesc{};
+
+	/* 로컬상의 정보를 셋팅한다. */
+	ColliderDesc.fRadius = 0.32f;
+	ColliderDesc.vCenter = _float3(0.f, ColliderDesc.fRadius + 0.6f, 0.f);
+
+
+	if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_Collider_Sphere"),
+		TEXT("Com_Collider_Head"), (CComponent**)&m_pColliderCom[COLLIDER_HEAD], &ColliderDesc)))
+		return E_FAIL;
+
+	/* Com_Collider_Body */
+	CBounding_OBB::BOUNDING_OBB_DESC		ColliderOBBDesc{};
+
+	/* 로컬상의 정보를 셋팅한다. */
+	ColliderOBBDesc.vRotation = _float3(0.f, XMConvertToRadians(45.0f), 0.f);
+	ColliderOBBDesc.vSize = _float3(0.8f, 0.6f, 0.8f);
+	ColliderOBBDesc.vCenter = _float3(0.f, ColliderOBBDesc.vSize.y * 0.5f, 0.f);
+
+	if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_Collider_OBB"),
+		TEXT("Com_Collider_Body"), (CComponent**)&m_pColliderCom[COLLIDER_BODY], &ColliderOBBDesc)))
 		return E_FAIL;
 
 	return S_OK;
@@ -164,6 +194,9 @@ CGameObject* CMonster::Clone(void* pArg)
 void CMonster::Free()
 {
 	__super::Free();
+
+	for (auto& pColliderCom : m_pColliderCom)
+		Safe_Release(pColliderCom);
 
 	Safe_Release(m_pShaderCom);
 	Safe_Release(m_pModelCom);

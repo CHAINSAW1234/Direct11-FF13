@@ -51,6 +51,9 @@ void CBody_Player::Tick(_float fTimeDelta)
 		;//m_pModelCom->Set_Animation(4, true);
 	}
 
+	XMStoreFloat4x4(&m_WorldMatrix, m_pTransformCom->Get_WorldMatrix() * XMLoadFloat4x4(m_pParentMatrix));
+
+	m_pColliderCom->Tick(XMLoadFloat4x4(&m_WorldMatrix));
 }
 
 HRESULT CBody_Player::Late_Tick(_float fTimeDelta)
@@ -59,8 +62,6 @@ HRESULT CBody_Player::Late_Tick(_float fTimeDelta)
 		return E_FAIL;
 
 	//m_pModelCom->Play_Animation(fTimeDelta);
-
-	XMStoreFloat4x4(&m_WorldMatrix, m_pTransformCom->Get_WorldMatrix() * XMLoadFloat4x4(m_pParentMatrix));
 
 	m_pGameInstance->Add_RenderGroup(CRenderer::RENDER_NONBLEND, this);
 
@@ -89,8 +90,17 @@ HRESULT CBody_Player::Render()
 		m_pModelCom->Render(i);
 	}
 
+#ifdef _DEBUG
+	m_pColliderCom->Render();
+#endif
 
 	return S_OK;
+}
+
+void CBody_Player::Start()
+{
+	m_pModelCom->Set_Animation(3, true);
+	m_pModelCom->Play_Animation(0.1f);
 }
 
 HRESULT CBody_Player::Add_Components()
@@ -104,6 +114,18 @@ HRESULT CBody_Player::Add_Components()
 	if (FAILED(__super::Add_Component(g_Level, TEXT("Prototype_Component_Model_Fiona"),
 		TEXT("Com_Model"), (CComponent**)&m_pModelCom)))
 		return E_FAIL;
+
+	/* Com_Collider */
+	CBounding_Sphere::BOUNDING_SPHERE_DESC		ColliderDesc{};
+
+	/* 로컬상의 정보를 셋팅한다. */
+	ColliderDesc.fRadius = 0.5f;
+	ColliderDesc.vCenter = _float3(0.f, ColliderDesc.fRadius, 0.f);
+
+	if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_Collider_Sphere"),
+		TEXT("Com_Collider"), (CComponent**)&m_pColliderCom, &ColliderDesc)))
+		return E_FAIL;
+
 
 	return S_OK;
 }
@@ -177,4 +199,5 @@ void CBody_Player::Free()
 
 	Safe_Release(m_pShaderCom);
 	Safe_Release(m_pModelCom);
+	Safe_Release(m_pColliderCom);
 }

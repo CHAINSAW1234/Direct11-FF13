@@ -8,6 +8,7 @@ class CPlayer_Battle;
 
 class CUI_Battle_Stage_Item final : public CFSM_State
 {
+	const _float4 vItemColor = { 0.f,1.f,0.f,1.f };
 private:
 	CUI_Battle_Stage_Item(CPlayer_Battle* pPlayer_Battle);
 	virtual ~CUI_Battle_Stage_Item() = default;
@@ -20,15 +21,16 @@ public:
 	// 상태가 변경될 때 호출
 	virtual void OnStateExit() override;
 
-	virtual void Render() override;
+	virtual void Start() override;
 
 private:
-	HRESULT Initialize();
+	HRESULT Add_Pnals();
+	void Update_Cursor();
 
 private:
 	CPlayer_Battle*		m_pPlayer_Battle = { nullptr };
 	vector<CUI_Pnal*>	m_Pnals;
-	_uint				m_Cursor = { 0 };
+	_int				m_iCursor = { 0 };
 
 public:
 	static	CUI_Battle_Stage_Item* Create(CPlayer_Battle* pPlayer_Battle);

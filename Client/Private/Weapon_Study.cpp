@@ -41,14 +41,22 @@ HRESULT CWeapon_Study::Initialize(void* pArg)
 
 void CWeapon_Study::Tick(_float fTimeDelta)
 {
+	_matrix		SocketMatrix = XMLoadFloat4x4(m_pSocket->Get_CombinedTransformationMatrix());
 
+	SocketMatrix.r[0] = XMVector3Normalize(SocketMatrix.r[0]);
+	SocketMatrix.r[1] = XMVector3Normalize(SocketMatrix.r[1]);
+	SocketMatrix.r[2] = XMVector3Normalize(SocketMatrix.r[2]);
+
+	XMStoreFloat4x4(&m_WorldMatrix, m_pTransformCom->Get_WorldMatrix() * SocketMatrix * XMLoadFloat4x4(m_pParentMatrix));
+
+
+	m_pColliderCom->Tick(XMLoadFloat4x4(&m_WorldMatrix));
 }
 
 HRESULT CWeapon_Study::Late_Tick(_float fTimeDelta)
 {
 	if (FAILED(__super::Late_Tick(fTimeDelta)))
 		return S_OK;
-	XMStoreFloat4x4(&m_WorldMatrix, m_pTransformCom->Get_WorldMatrix() * XMLoadFloat4x4(m_pSocket->Get_CombinedTransformationMatrix()) * XMLoadFloat4x4(m_pParentMatrix));
 
 	m_pGameInstance->Add_RenderGroup(CRenderer::RENDER_NONBLEND, this);
 
@@ -74,6 +82,9 @@ HRESULT CWeapon_Study::Render()
 		m_pModelCom->Render(i);
 	}
 
+#ifdef _DEBUG
+	m_pColliderCom->Render();
+#endif
 
 	return S_OK;
 }
@@ -88,6 +99,18 @@ HRESULT CWeapon_Study::Add_Components()
 	/* For.Com_Model */
 	if (FAILED(__super::Add_Component(g_Level, TEXT("Prototype_Component_Model_ForkLift"),
 		TEXT("Com_Model"), (CComponent**)&m_pModelCom)))
+		return E_FAIL;
+
+	/* Com_Collider */
+	CBounding_OBB::BOUNDING_OBB_DESC		ColliderDesc{};
+
+	/* 로컬상의 정보를 셋팅한다. */
+	ColliderDesc.vSize = _float3(2.0f, 2.0f, 3.1f);
+	ColliderDesc.vCenter = _float3(0.f, ColliderDesc.vSize.y * 0.5f, 0.f);
+
+
+	if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_Collider_OBB"),
+		TEXT("Com_Collider"), (CComponent**)&m_pColliderCom, &ColliderDesc)))
 		return E_FAIL;
 
 	return S_OK;
@@ -160,4 +183,5 @@ void CWeapon_Study::Free()
 	Safe_Release(m_pSocket);
 	Safe_Release(m_pShaderCom);
 	Safe_Release(m_pModelCom);
+	Safe_Release(m_pColliderCom);
 }

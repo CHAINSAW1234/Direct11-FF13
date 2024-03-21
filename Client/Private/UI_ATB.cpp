@@ -78,13 +78,13 @@ HRESULT CUI_ATB::Render()
 
 	/* 이 함수 내부에서 호출되는 Apply함수 호출 이전에 쉐이더 전역에 던져야할 모든 데이터를 다 던져야한다. */
 
-	if (FAILED(m_pShaderCom->Begin(3)))
+	if (FAILED(m_pShaderCom->Begin(2)))
 		return E_FAIL;
 
 	if (FAILED(m_pVIBufferCom->Render()))
 		return E_FAIL;
 
-	if (FAILED(m_pShaderCom->Begin(2)))
+	if (FAILED(m_pShaderCom->Begin(3)))
 		return E_FAIL;
 
 	if (FAILED(m_pVIBufferCom->Render()))
@@ -106,6 +106,7 @@ void CUI_ATB::Start()
 
 HRESULT CUI_ATB::Bind_ShaderResources()
 {
+	_float4 vColor = { 0.f,1.f,1.f,1.f };
 	if (FAILED(__super::Bind_ShaderResources()))
 		return E_FAIL;
 
@@ -117,6 +118,8 @@ HRESULT CUI_ATB::Bind_ShaderResources()
 		return E_FAIL;
 	if (FAILED(m_pShaderCom->Bind_RawValue("g_SizeY", &m_fSizeY, sizeof(_float))))
 		return E_FAIL;
+	if (FAILED(m_pShaderCom->Bind_RawValue("g_Color", &vColor, sizeof(_float4))))
+		return E_FAIL;
 	if (FAILED(m_pShaderCom->Bind_RawValue("g_Ratio", &m_fCurRatio, sizeof(_float))))
 		return E_FAIL;
 	if (FAILED(m_pShaderCom->Bind_RawValue("g_MaskMovement", &m_fMaskMovement, sizeof(_float))))
@@ -127,6 +130,13 @@ HRESULT CUI_ATB::Bind_ShaderResources()
 
 void CUI_ATB::OnNotify()
 {
+	//if (m_pPlayerInfo->Get_Stage() == CPlayer_Battle::STAGE_ITEM) {
+	//	m_isRender = false;
+	//}
+	//else {
+	//	m_isRender = true;
+	//}
+
 }
 
 HRESULT CUI_ATB::Add_Components()

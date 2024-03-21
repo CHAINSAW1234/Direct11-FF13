@@ -21,16 +21,17 @@ public:
 	// 상태가 변경될 때 호출
 	virtual void OnStateExit() override;
 
-private:
-	HRESULT Initialize();
-	HRESULT Add_Pnals();
+	virtual void Start() override;
 
+private:
+	HRESULT Add_Pnals();
+	void	Update_Cursor();
 	void	Change_Stage();
 
 private:
 	CPlayer_Battle*		m_pPlayer_Battle = { nullptr };
 	vector<CUI_Pnal*>	m_Pnals;
-	_int				m_Cursor = { 0 };
+	_int				m_iCursor = { 0 };
 
 public:
 	static	CUI_Battle_Stage_Select* Create(CPlayer_Battle* pPlayer_Battle);

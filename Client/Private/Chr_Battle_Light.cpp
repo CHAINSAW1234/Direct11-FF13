@@ -10,6 +10,7 @@
 
 #include "Body.h"
 #include "Weapon_Anim.h"
+#include "Ability.h"
 
 #include "FSM.h"
 #include "Model.h"
@@ -175,6 +176,23 @@ HRESULT CChr_Battle_Light::Add_Component_FSM()
     m_pFSMCom->Add_State(FINISH, CChr_Battle_Light_State_Finish::Create(this));
 
     Change_State(IDLE);
+    return S_OK;
+}
+
+HRESULT CChr_Battle_Light::Add_Ability()
+{
+    m_pAbility = CAbility::Create();
+
+    m_pAbility->Add_Role(CAbility::ATTACKER);
+    m_pAbility->Add_Skill(CAbility::ATTACKER, CRole::ATTACK, 1);
+    m_pAbility->Add_Skill(CAbility::ATTACKER, CRole::AREA_BLAST, 2);
+    m_pAbility->Add_Skill(CAbility::ATTACKER, CRole::RUIN, 1);
+
+    m_pAbility->Add_Role(CAbility::BLASTER);
+    m_pAbility->Add_Skill(CAbility::BLASTER, CRole::THUNDER, 1);
+
+    m_pAbility->Set_CurrentRole(CAbility::ATTACKER);
+
     return S_OK;
 }
 

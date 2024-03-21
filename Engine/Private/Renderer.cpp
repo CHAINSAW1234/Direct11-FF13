@@ -13,6 +13,26 @@ CRenderer::CRenderer(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
 
 HRESULT CRenderer::Initialize()
 {
+	D3D11_DEPTH_STENCILOP_DESC Depth_Stencilop_desc = {};
+	Depth_Stencilop_desc.StencilFailOp = D3D11_STENCIL_OP_KEEP;
+	Depth_Stencilop_desc.StencilDepthFailOp = D3D11_STENCIL_OP_KEEP;
+	Depth_Stencilop_desc.StencilPassOp = D3D11_STENCIL_OP_KEEP;
+	Depth_Stencilop_desc.StencilFunc = D3D11_COMPARISON_ALWAYS;
+
+
+	D3D11_DEPTH_STENCIL_DESC Depth_Stencil_Desc = {};
+	Depth_Stencil_Desc.DepthEnable = true;
+	Depth_Stencil_Desc.DepthWriteMask = D3D11_DEPTH_WRITE_MASK_ZERO;
+	Depth_Stencil_Desc.DepthFunc = D3D11_COMPARISON_LESS;
+	Depth_Stencil_Desc.StencilEnable = FALSE;
+	Depth_Stencil_Desc.StencilReadMask = 0xFF;
+	Depth_Stencil_Desc.StencilWriteMask = 0xFF;
+	Depth_Stencil_Desc.FrontFace = Depth_Stencilop_desc;
+	Depth_Stencil_Desc.BackFace = Depth_Stencilop_desc;
+
+	if (FAILED(m_pDevice->CreateDepthStencilState(&Depth_Stencil_Desc, &m_pRenderState_UI)))
+		return E_FAIL;
+
 	return S_OK;
 }
 
@@ -37,6 +57,8 @@ HRESULT CRenderer::Render()
 	if (FAILED(Render_Blend()))
 		return E_FAIL;
 	if (FAILED(Render_UI()))
+		return E_FAIL;
+	if (FAILED(Render_UI_Late()))
 		return E_FAIL;
 
 	return S_OK;
@@ -94,6 +116,7 @@ HRESULT CRenderer::Render_Blend()
 HRESULT CRenderer::Render_UI()
 {
 
+	m_pContext->OMSetDepthStencilState(m_pRenderState_UI, 1);
 
 	for (auto& pRenderObject : m_RenderObjects[RENDER_UI])
 	{
@@ -102,6 +125,25 @@ HRESULT CRenderer::Render_UI()
 		Safe_Release(pRenderObject);
 	}
 	m_RenderObjects[RENDER_UI].clear();
+
+	m_pContext->OMSetDepthStencilState(nullptr, 1);
+
+	return S_OK;
+}
+
+HRESULT CRenderer::Render_UI_Late()
+{
+	m_pContext->OMSetDepthStencilState(m_pRenderState_UI, 1);
+
+	for (auto& pRenderObject : m_RenderObjects[RENDER_UI_LATE])
+	{
+		if (nullptr != pRenderObject)
+			pRenderObject->Render();
+		Safe_Release(pRenderObject);
+	}
+	m_RenderObjects[RENDER_UI_LATE].clear();
+
+	m_pContext->OMSetDepthStencilState(nullptr, 1);
 
 	return S_OK;
 }
@@ -132,6 +174,7 @@ void CRenderer::Free()
 		RenderList.clear();		
 	}
 
+	Safe_Release(m_pRenderState_UI);
 	Safe_Release(m_pDevice);
 	Safe_Release(m_pContext);
 }

@@ -102,8 +102,6 @@ PS_OUT PS_Inner(PS_IN In)
     // 마스크 이동
     vector vMaskTexture = g_Texture_Mask.Sample(LinearSampler, In.vTexcoordMask);
     
-    // ration보다 작은 위치에서는 픽셀에 색, 마스크 적용
-
     Out.vColor = vInnerTexture * g_Color - vMaskTexture * 0.3;
 
     return Out;
@@ -123,7 +121,7 @@ PS_OUT PS_Mask(PS_IN In)
     // ration보다 작은 위치에서는 픽셀에 색, 마스크 적용
     if (In.vTexcoord.x < g_Ratio)
     {
-        Out.vColor = vInnerTexture * float4(0, 1, 1, 1) - vMaskTexture * 0.3;
+        Out.vColor = vInnerTexture * g_Color - vMaskTexture * 0.3;
     }
     else
     {

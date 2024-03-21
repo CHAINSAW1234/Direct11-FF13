@@ -169,6 +169,7 @@
     <Text Include="ReadMe.txt" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="..\Public\Ability.h" />
     <ClInclude Include="..\public\BackGround.h" />
     <ClInclude Include="..\Public\Body.h" />
     <ClInclude Include="..\Public\Body_Player.h" />
@@ -193,6 +194,7 @@
     <ClInclude Include="..\Public\Forklift.h" />
     <ClInclude Include="..\Public\Grid.h" />
     <ClInclude Include="..\Public\ImGUI_Manager.h" />
+    <ClInclude Include="..\Public\Inventory.h" />
     <ClInclude Include="..\Public\Level_Battle.h" />
     <ClInclude Include="..\Public\Level_Field.h" />
     <ClInclude Include="..\Public\Level_GamePlay.h" />
@@ -205,18 +207,20 @@
     <ClInclude Include="..\Public\MapObject.h" />
     <ClInclude Include="..\Public\MapTool.h" />
     <ClInclude Include="..\Public\Monster.h" />
+    <ClInclude Include="..\Public\Optima.h" />
     <ClInclude Include="..\Public\Player_Battle.h" />
     <ClInclude Include="..\Public\Player_Study.h" />
+    <ClInclude Include="..\Public\Role.h" />
     <ClInclude Include="..\Public\Terrain.h" />
     <ClInclude Include="..\Public\UI.h" />
     <ClInclude Include="..\Public\UI_ATB.h" />
-    <ClInclude Include="..\Public\UI_Battle.h" />
     <ClInclude Include="..\Public\UI_Battle_Stage_Command.h" />
     <ClInclude Include="..\Public\UI_Battle_Stage_Item.h" />
     <ClInclude Include="..\Public\UI_Battle_Stage_Select.h" />
     <ClInclude Include="..\Public\UI_Battle_Stage_Target.h" />
     <ClInclude Include="..\Public\UI_Cursor.h" />
     <ClInclude Include="..\Public\UI_Pnal.h" />
+    <ClInclude Include="..\Public\UI_Pnal_Attack.h" />
     <ClInclude Include="..\Public\Weapon_Anim.h" />
     <ClInclude Include="..\Public\Weapon_Study.h" />
     <ClInclude Include="Client.h" />
@@ -237,6 +241,7 @@
     <ClInclude Include="targetver.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="..\Private\Ability.cpp" />
     <ClCompile Include="..\private\BackGround.cpp" />
     <ClCompile Include="..\Private\Body.cpp" />
     <ClCompile Include="..\Private\Body_Player.cpp" />
@@ -259,6 +264,7 @@
     <ClCompile Include="..\Private\Forklift.cpp" />
     <ClCompile Include="..\Private\Grid.cpp" />
     <ClCompile Include="..\Private\ImGUI_Manager.cpp" />
+    <ClCompile Include="..\Private\Inventory.cpp" />
     <ClCompile Include="..\Private\Level_Battle.cpp" />
     <ClCompile Include="..\Private\Level_Field.cpp" />
     <ClCompile Include="..\Private\Level_GamePlay.cpp" />
@@ -271,18 +277,20 @@
     <ClCompile Include="..\Private\MapObject.cpp" />
     <ClCompile Include="..\Private\MapTool.cpp" />
     <ClCompile Include="..\Private\Monster.cpp" />
+    <ClCompile Include="..\Private\Optima.cpp" />
     <ClCompile Include="..\Private\Player_Battle.cpp" />
     <ClCompile Include="..\Private\Player_Study.cpp" />
+    <ClCompile Include="..\Private\Role.cpp" />
     <ClCompile Include="..\Private\Terrain.cpp" />
     <ClCompile Include="..\Private\UI.cpp" />
     <ClCompile Include="..\Private\UI_ATB.cpp" />
-    <ClCompile Include="..\Private\UI_Battle.cpp" />
     <ClCompile Include="..\Private\UI_Battle_Stage_Command.cpp" />
     <ClCompile Include="..\Private\UI_Battle_Stage_Item.cpp" />
     <ClCompile Include="..\Private\UI_Battle_Stage_Select.cpp" />
     <ClCompile Include="..\Private\UI_Battle_Stage_Target.cpp" />
     <ClCompile Include="..\Private\UI_Cursor.cpp" />
     <ClCompile Include="..\Private\UI_Pnal.cpp" />
+    <ClCompile Include="..\Private\UI_Pnal_Attack.cpp" />
     <ClCompile Include="..\Private\Weapon_Anim.cpp" />
     <ClCompile Include="..\Private\Weapon_Study.cpp" />
     <ClCompile Include="..\Public\Chr_Field_State_Move.cpp" />

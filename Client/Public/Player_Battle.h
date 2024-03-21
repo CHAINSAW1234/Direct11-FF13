@@ -11,12 +11,17 @@ END
 BEGIN(Client)
 class CChr_Battle_Light;
 class CChr_Battle;
+class CUI_Pnal;
+class CUI_Pnal_Attack;
 class CMonster;
-//class CItem;
+class CPlayer_Study;
+class CInventory;
+class CAbility;
+
 class CPlayer_Battle final : public CBase, public CObserver_Handler
 {
 public:
-	enum UIStage  { STAGE_SELECT, STAGE_TARGET, STAGE_COMMAND, STAGE_ITEM, STAGE_END };
+	enum UISTAGE  { STAGE_SELECT, STAGE_TARGET, STAGE_COMMAND, STAGE_ITEM, STAGE_END };
 private:
 	CPlayer_Battle();
 	~CPlayer_Battle() = default;
@@ -27,28 +32,60 @@ public:
 	HRESULT Render();		// ImGui 달아서 사용할 용도
 	
 public:
-	UIStage	Get_Stage() { return m_eStage; }
-	CChr_Battle* Get_Leader() { return m_pLeader; }
-	vector<CChr_Battle*> Get_Members() { return m_Memebers; }
-	void Change_Stage(UIStage eStage);
+	UISTAGE					Get_Stage() { return m_eStage; }
+	CChr_Battle*			Get_Leader() { return m_pLeader; }
+	vector<CChr_Battle*>	Get_Members() { return m_Memebers; }
+	vector<CPlayer_Study*>	Get_Monsters() { return m_Monsters; }
+	CInventory*				Get_Inventory() { return m_pInventory; }
+	CAbility*				Get_Ability() { return m_pAbility; }
+	_float3					Get_CursorPosition() { return m_vCursorPosition; }
+
+	_bool					Get_Command_empty() { return m_Commands.empty(); }
+
+public:
+	void Set_CursorPosition(_float3 vCursorPosition);
+
+	void Change_Stage(UISTAGE eStage);
+	void Back_Stage();
+
+	void Check_Command_Insert(_uint iCost);
+	_bool Check_Command_Full();
+	void Add_Command(CUI_Pnal_Attack* pPnal_Attack);
+	void Cancel_Command();								// 커맨드 예약을 취소 -> 뒤에서 부터 삭제됨
+	void Use_Command();									// 커멘드가 사용됨 -> 공격이 수행됬을 경우
 
 private:
-	HRESULT Initialize();
-	HRESULT Add_Component_FSM();
-	void Update_FSMState();		// 사용 안할 지도?
+	virtual void NotifyObserver();
+
+	HRESULT	Initialize();
+	HRESULT	Add_Component_FSM();
+	//void	Update_FSMState();		// 사용 안할 지도?
+	void	Update_Monsters();
+	void	Update_CommandCost();
+	void	Update_CommandPosition();
 
 private:
-	CGameInstance* m_pGameInstance = { nullptr };
+	CGameInstance*	m_pGameInstance = { nullptr };
 	CFSM*			m_pFSMCom = { nullptr };
 
-	UIStage					m_eStage = { STAGE_END };
-	CChr_Battle*			m_pLeader = { nullptr };			// Leader는 따로 갖고있자
-	vector<CChr_Battle*>	m_Memebers;				// Leader 이외의 AI들
-	vector<CMonster*>		m_Monsters;;
-	//vector<CItem*> m_Items;
-	// 아이템 리스트는 얘가 들고있음
+	stack<UISTAGE>	m_PrevStage;
+
+	UISTAGE					m_eStage = { STAGE_END };
+	CChr_Battle*			m_pLeader = { nullptr };		// Leader는 따로 갖고있자
+	vector<CChr_Battle*>	m_Memebers;						// Leader 이외의 AI들
+	vector<CPlayer_Study*>	m_Monsters;						// 여기도 변경 해야 함 
+	CInventory*				m_pInventory = { nullptr };		// 인벤토리
+	CAbility*				m_pAbility = { nullptr };		// 스킬셋 
+	_int					m_iCommandCost = { 0 };			// 저장된 공격 명령
+	deque<CUI_Pnal_Attack*>	m_Commands;						// 공격 명령들
+	// 아이템 사용시의 Command 별개로 들고있기?
+
+	// 아이템 리스트는 얘가 들고있음		-> 생성시 따로 받아와야함
 	// 몬스터 리스트도 얘가 들고있음
-	// 
+	
+
+	_float3					m_vCursorPosition = { 0.f,0.f,0.f };
+
 public:
 	static CPlayer_Battle* Create();
 	virtual void Free() override;

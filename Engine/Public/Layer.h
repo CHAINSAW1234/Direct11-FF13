@@ -14,8 +14,9 @@ private:
 	virtual ~CLayer() = default;
 
 public:
-	class CGameObject* Get_GameObject(_uint iIndex);
+	class CGameObject*		Get_GameObject(_uint iIndex);
 	const class CComponent* Get_Component(const wstring& strComTag, _uint iIndex);
+	size_t					Get_IndexCnt() { return m_GameObjects.size(); }
 
 public:
 	HRESULT Initialize();

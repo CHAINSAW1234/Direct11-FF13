@@ -14,7 +14,7 @@
 // For a full-featured DDS file reader, writer, and texture processing pipeline see
 // the 'Texconv' sample and the 'DirectXTex' library.
 //
-// Copyright (c) Microsoft Corporation. All rights reserved.
+// Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 //
 // http://go.microsoft.com/fwlink/?LinkId=248926
@@ -29,17 +29,29 @@
 #include <d3d11_1.h>
 #endif
 
-#include <stdint.h>
+#include <cstddef>
+#include <cstdint>
+
+#ifdef _MSC_VER
+#pragma comment(lib,"uuid.lib")
+#endif
 
 
 namespace DirectX
 {
-    enum WIC_LOADER_FLAGS : uint32_t
+    inline namespace DX11
     {
-        WIC_LOADER_DEFAULT      = 0,
-        WIC_LOADER_FORCE_SRGB   = 0x1,
-        WIC_LOADER_IGNORE_SRGB  = 0x2,
-    };
+        enum WIC_LOADER_FLAGS : uint32_t
+        {
+            WIC_LOADER_DEFAULT = 0,
+            WIC_LOADER_FORCE_SRGB = 0x1,
+            WIC_LOADER_IGNORE_SRGB = 0x2,
+            WIC_LOADER_SRGB_DEFAULT = 0x4,
+            WIC_LOADER_FIT_POW2 = 0x20,
+            WIC_LOADER_MAKE_SQUARE = 0x40,
+            WIC_LOADER_FORCE_RGBA32 = 0x80,
+        };
+    }
 
     // Standard version
     HRESULT __cdecl CreateWICTextureFromMemory(
@@ -95,7 +107,7 @@ namespace DirectX
         _In_ unsigned int bindFlags,
         _In_ unsigned int cpuAccessFlags,
         _In_ unsigned int miscFlags,
-        _In_ unsigned int loadFlags,
+        _In_ WIC_LOADER_FLAGS loadFlags,
         _Outptr_opt_ ID3D11Resource** texture,
         _Outptr_opt_ ID3D11ShaderResourceView** textureView) noexcept;
 
@@ -107,7 +119,7 @@ namespace DirectX
         _In_ unsigned int bindFlags,
         _In_ unsigned int cpuAccessFlags,
         _In_ unsigned int miscFlags,
-        _In_ unsigned int loadFlags,
+        _In_ WIC_LOADER_FLAGS loadFlags,
         _Outptr_opt_ ID3D11Resource** texture,
         _Outptr_opt_ ID3D11ShaderResourceView** textureView) noexcept;
 
@@ -127,7 +139,7 @@ namespace DirectX
         _In_ unsigned int bindFlags,
         _In_ unsigned int cpuAccessFlags,
         _In_ unsigned int miscFlags,
-        _In_ unsigned int loadFlags,
+        _In_ WIC_LOADER_FLAGS loadFlags,
         _Outptr_opt_ ID3D11Resource** texture,
         _Outptr_opt_ ID3D11ShaderResourceView** textureView) noexcept;
 
@@ -145,7 +157,21 @@ namespace DirectX
         _In_ unsigned int bindFlags,
         _In_ unsigned int cpuAccessFlags,
         _In_ unsigned int miscFlags,
-        _In_ unsigned int loadFlags,
+        _In_ WIC_LOADER_FLAGS loadFlags,
         _Outptr_opt_ ID3D11Resource** texture,
         _Outptr_opt_ ID3D11ShaderResourceView** textureView) noexcept;
+
+#ifdef __clang__
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-dynamic-exception-spec"
+#endif
+
+    inline namespace DX11
+    {
+        DEFINE_ENUM_FLAG_OPERATORS(WIC_LOADER_FLAGS);
+    }
+
+#ifdef __clang__
+#pragma clang diagnostic pop
+#endif
 }

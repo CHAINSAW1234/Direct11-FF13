@@ -20,7 +20,7 @@ public:
 	virtual HRESULT Late_Tick(_float fTimeDelta);
 	virtual HRESULT Render();
 	virtual void	Start();
-	virtual void OnNotify();
+	virtual void	OnNotify();
 
 private:
 	HRESULT Add_Components();
@@ -28,7 +28,7 @@ private:
 
 private:
 	class CPlayer_Battle* m_pPlayerInfo = { nullptr };
-	_int		m_fDegree = { 0 };							// 좌우 이동을 위한 각도 
+	_float		m_fDegree = { 0 };							// 좌우 이동을 위한 각도 
 	_float4		m_vOriginPosition = { 0.f,0.f,0.f,1.f };	// 이동값이 적용되지 않은 위치
 public:
 	static CUI_Cursor* Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);

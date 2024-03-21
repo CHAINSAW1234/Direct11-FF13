@@ -6,17 +6,17 @@
 #include "Camera_Field.h"
 #include "MapObject.h"
 
+#include "UI_Cursor.h"
+#include "UI_Pnal_Attack.h"
 #include "UI_Pnal.h"
 #include "UI_ATB.h"
 
+#include "Inventory.h"
 #include "Chr.h"
 #include "Chr_Field.h"
 #include "Chr_Battle_Light.h"
 #include "Body.h"
 #include "Weapon_Anim.h"
-
-
-
 
 #include "Camera_Free.h"
 #include "BackGround.h"
@@ -193,12 +193,27 @@ HRESULT CLoader::Loading_Prototype()
 		CChr_Battle_Light::Create(m_pDevice, m_pContext))))
 		return E_FAIL;
 
+	/* For.Prototype_GameObject_Inventory */
+	if (FAILED(m_pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_Inventory"),
+		CInventory::Create(m_pDevice, m_pContext))))
+		return E_FAIL;
+
 	/* For.Prototype_GameObject_MapObject */
 	if (FAILED(m_pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_MapObject"),
 		CMapObject::Create(m_pDevice, m_pContext))))
 		return E_FAIL;
 
-	/* For.Prototype_GameObject_UI_ATB */
+	/* For.Prototype_GameObject_UI_Cursor */
+	if (FAILED(m_pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_UI_Cursor"),
+		CUI_Cursor::Create(m_pDevice, m_pContext))))
+		return E_FAIL;
+
+	/* For.Prototype_GameObject_UI_Pnal */
+	if (FAILED(m_pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_UI_Pnal_Attack"),
+		CUI_Pnal_Attack::Create(m_pDevice, m_pContext))))
+		return E_FAIL;
+
+	/* For.Prototype_GameObject_UI_Pnal */
 	if (FAILED(m_pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_UI_Pnal"),
 		CUI_Pnal::Create(m_pDevice, m_pContext))))
 		return E_FAIL;
@@ -465,6 +480,11 @@ HRESULT CLoader::Loading_For_Battle()
 	m_strLoadingText = TEXT("텍스쳐를(을) 로딩 중 입니다.");
 
 #pragma region UI
+
+	/* For.Prototype_Component_Texture_UI_Cursor */
+	if (FAILED(m_pGameInstance->Add_Prototype(g_Level, TEXT("Prototype_Component_Texture_UI_Cursor"),
+		CTexture::Create(m_pDevice, m_pContext, TEXT("../Bin/Resources/UI/Cursor.png")))))
+		return E_FAIL;
 
 	/* For.Prototype_Component_Texture_UI_ATB_Inner */
 	if (FAILED(m_pGameInstance->Add_Prototype(g_Level, TEXT("Prototype_Component_Texture_UI_Pnal_Anim"),

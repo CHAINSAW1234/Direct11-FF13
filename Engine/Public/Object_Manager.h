@@ -25,6 +25,8 @@ public:
 	HRESULT Add_Clone(_uint iLevelIndex, const wstring& strLayerTag, const wstring& strPrototypeTag, void* pArg);
 	class CGameObject* Add_Clone_With_Object(_uint iLevelIndex, const wstring& strLayerTag, const wstring& strPrototypeTag, void* pArg);	// Add Clone 하는 함수
 	class CGameObject* Clone_GameObject(const wstring& strPrototypeTag, void* pArg);														// Add_Clone 하지 않는 함수
+	size_t	Get_LayerCnt(_uint iLevelIndex, const wstring& strLayerTag);
+
 
 	void Tick(_float fTimeDelta);
 	void Start();

@@ -20,15 +20,20 @@ public:
 	// 상태가 변경될 때 호출
 	virtual void OnStateExit() override;
 
-	virtual void Render() override;
+	virtual void Start() override;
 
 private:
-	HRESULT Initialize();
+	HRESULT Add_Pnals();
+	void	Update_Pnals();	// Optima 변경에 대비해서 OnStateEnter에서 호출하게 처리 -> Optima 변경 구현 이후 수정
+	void	Update_Cursor();
+	void	Update_KeyInput();
+	void	Create_Pnal_Attack();
 
 private:
 	CPlayer_Battle*		m_pPlayer_Battle = { nullptr };
 	vector<CUI_Pnal*>	m_Pnals;
-	_uint				m_Cursor = { 0 };
+	_int				m_iPnalCount = { 0 };	// 사용가능한 패널의 개수
+	_int				m_iCursor = { 0 };
 
 public:
 	static	CUI_Battle_Stage_Command* Create(CPlayer_Battle* pPlayer_Battle);

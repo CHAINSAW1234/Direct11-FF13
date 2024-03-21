@@ -14,31 +14,19 @@ void CUI_Battle_Stage_Select::OnStateEnter()
 		pPnal->Set_Render(true);
 		pPnal->Reset_Position();
 	}
+
+	if (m_Pnals.size() > 0) {
+		m_pPlayer_Battle->Set_CursorPosition(m_Pnals[m_iCursor]->Get_TargetPosition());
+	}
+
 }
 
 void CUI_Battle_Stage_Select::OnStateUpdate(_float fTimeDelta)
 {
-	if (m_pGameInstance->Get_KeyState(KEY_DOWN, DIK_DOWN)) {
-		if (m_Cursor < m_Pnals.size()-1) {
-			m_Pnals[m_Cursor]->Set_Color({ 0.f,1.f,1.f,1.f });
-			++m_Cursor;
-			m_Pnals[m_Cursor]->Set_Color({ 1.f,0.f,0.f,1.f });
-
-		}
-
-	}
-	if (m_pGameInstance->Get_KeyState(KEY_DOWN, DIK_UP)) {
-		if (m_Cursor > 0) {
-			m_Pnals[m_Cursor]->Set_Color({ 0.f,1.f,1.f,1.f });
-			--m_Cursor;
-			m_Pnals[m_Cursor]->Set_Color({ 1.f,0.f,0.f,1.f });
-		}
-
-	}
-
-	if (m_pGameInstance->Get_KeyState(KEY_DOWN, DIK_ESCAPE)) {
+	Update_Cursor();
+	
+	if (m_pGameInstance->Get_KeyState(KEY_DOWN, DIK_RETURN)) {
 		Change_Stage();
-
 	}
 }
 
@@ -49,13 +37,9 @@ void CUI_Battle_Stage_Select::OnStateExit()
 	}
 }
 
-HRESULT CUI_Battle_Stage_Select::Initialize()
+void CUI_Battle_Stage_Select::Start()
 {
-	if(FAILED(Add_Pnals()))
-		return E_FAIL;
-
-
-	return S_OK;
+	Add_Pnals();
 }
 
 HRESULT CUI_Battle_Stage_Select::Add_Pnals()
@@ -81,10 +65,27 @@ HRESULT CUI_Battle_Stage_Select::Add_Pnals()
 	return S_OK;
 }
 
+void CUI_Battle_Stage_Select::Update_Cursor()
+{
+	if (m_pGameInstance->Get_KeyState(KEY_DOWN, DIK_DOWN)) {
+		if (m_iCursor + 1 < m_Pnals.size()) {
+			++m_iCursor;
+		}
+	}
+	if (m_pGameInstance->Get_KeyState(KEY_DOWN, DIK_UP)) {
+		if (m_iCursor > 0) {
+			--m_iCursor;
+		}
+	}
+
+	m_pPlayer_Battle->Set_CursorPosition(m_Pnals[m_iCursor]->Get_TargetPosition());
+}
+
 void CUI_Battle_Stage_Select::Change_Stage()
 {
-	switch (m_Cursor) {
+	switch (m_iCursor) {
 	case 0:
+		//공격 큐 꽉 체워야 함
 		m_pPlayer_Battle->Change_Stage(CPlayer_Battle::STAGE_TARGET);
 		break;
 	case 1:
@@ -101,13 +102,6 @@ void CUI_Battle_Stage_Select::Change_Stage()
 CUI_Battle_Stage_Select* CUI_Battle_Stage_Select::Create(CPlayer_Battle* pPlayer_Battle)
 {
 	CUI_Battle_Stage_Select* pInstance = new CUI_Battle_Stage_Select(pPlayer_Battle);
-
-	if (FAILED(pInstance->Initialize()))
-	{
-		MSG_BOX(TEXT("Failed To Created : CUI_Battle_Stage_Select"));
-
-		Safe_Release(pInstance);
-	}
 
 	return pInstance;
 }

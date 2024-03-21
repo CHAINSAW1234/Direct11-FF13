@@ -11,6 +11,7 @@ namespace Client
 	const unsigned int	g_iWinSizeX = 1280;
 	const unsigned int	g_iWinSizeY = 720;
 	const wstring		g_strCameraLayerTag = TEXT("Layer_ZZZCamera");
+	const wstring		g_strMonsterLayerTag = TEXT("Layer_Monster");
 }
 
 #define Random_Float(size) static_cast<_float>(std::rand() / (RAND_MAX / (_float)size) - (_float)size/2);

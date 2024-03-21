@@ -16,6 +16,8 @@ private:
 public:
 	virtual HRESULT Initialize_Prototype(TYPE eType);
 	virtual HRESULT Initialize(void* pArg) override;
+	virtual void Tick(_fmatrix WorldMatrix);
+	_bool Intersect(CCollider* pTargetCollider);
 
 #ifdef _DEBUG
 public:
@@ -25,22 +27,22 @@ public:
 
 private:
 	TYPE						m_eType = { TYPE_END };
-	class CBounding*			m_pBounding = { nullptr };
+	class CBounding* m_pBounding = { nullptr };
 
 #ifdef _DEBUG
 private:
-	PrimitiveBatch<VertexPositionColor>*		m_pBatch = { nullptr };
-	BasicEffect*								m_pEffect = { nullptr };
-	ID3D11InputLayout*							m_pInputLayout = { nullptr };
+	PrimitiveBatch<VertexPositionColor>* m_pBatch = { nullptr };
+	BasicEffect* m_pEffect = { nullptr };
+	ID3D11InputLayout* m_pInputLayout = { nullptr };
 #endif
-	
-	
+
+
 
 public:
 	static CCollider* Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext, TYPE eType);
 	virtual CComponent* Clone(void* pArg) override;
 	virtual void Free() override;
-	
+
 };
 
 END

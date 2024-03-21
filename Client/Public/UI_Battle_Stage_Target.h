@@ -20,15 +20,17 @@ public:
 	// 상태가 변경될 때 호출
 	virtual void OnStateExit() override;
 
-	virtual void Render() override;
+	virtual void Start() override;
 
 private:
-	HRESULT Initialize();
+	HRESULT Add_Pnals();
+	void	Update_Cursor();
+	void	Update_Pnals();	// 패널의 개수를 몬스터의 개수와 맞추기, 패털의 이름등을 갱신 함
 
 private:
 	CPlayer_Battle*		m_pPlayer_Battle = { nullptr };
 	vector<CUI_Pnal*>	m_Pnals;
-	_uint				m_Cursor = { 0 };
+	size_t				m_iCursor = { 0 };
 
 public:
 	static	CUI_Battle_Stage_Target* Create(CPlayer_Battle* pPlayer_Battle);

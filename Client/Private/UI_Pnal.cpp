@@ -18,6 +18,7 @@ void CUI_Pnal::Set_TargetPosition(_float3 vTargetPosition)
 	m_vTargetPosition = vTargetPosition;
 	m_isAnimated = true;
 	m_fMoveTimeDelta = 0.f;
+	m_tFrame.iCurFrame = 0;
 }
 
 void CUI_Pnal::Reset_Position()
@@ -25,6 +26,7 @@ void CUI_Pnal::Reset_Position()
 	m_pTransformCom->Set_State(CTransform::STATE_POSITION, XMVectorSetW(XMLoadFloat3(&m_vStartPosition), 1.f));
 	m_isAnimated = true;
 	m_fMoveTimeDelta = 0.f;
+	m_tFrame.iCurFrame = 0;
 }
 
 HRESULT CUI_Pnal::Initialize_Prototype()
@@ -90,13 +92,13 @@ HRESULT CUI_Pnal::Render()
 			return E_FAIL;
 	}
 	else {
-		if (FAILED(m_pShaderCom->Begin(3)))		// border
+		if (FAILED(m_pShaderCom->Begin(1)))		// inner
 			return E_FAIL;
 
 		if (FAILED(m_pVIBufferCom->Render()))
 			return E_FAIL;
 
-		if (FAILED(m_pShaderCom->Begin(1)))		// mask
+		if (FAILED(m_pShaderCom->Begin(3)))		// border
 			return E_FAIL;
 
 		if (FAILED(m_pVIBufferCom->Render()))
@@ -109,9 +111,8 @@ HRESULT CUI_Pnal::Render()
 void CUI_Pnal::Start()
 {
 	// 이 부분 수정 들어가야됨
-	m_fSizeX = 128 * 1.3;
+	m_fSizeX = 128 * 1.3f;
 	m_fSizeY = 22;
-	m_vColor = { 0.f,1.f,1.f,1.f };
 	m_fMaskMovement = Random_Float(10);
 	m_pTransformCom->Set_Scaled(m_fSizeX, m_fSizeY, 1.f);
 	m_pTransformCom->Set_State(CTransform::STATE_POSITION, XMVectorSetW(XMLoadFloat3(&m_vStartPosition), 1.f));

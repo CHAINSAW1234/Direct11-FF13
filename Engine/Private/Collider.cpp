@@ -6,18 +6,18 @@
 
 #include "GameInstance.h"
 
-CCollider::CCollider(ID3D11Device * pDevice, ID3D11DeviceContext * pContext)
+CCollider::CCollider(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
 	: CComponent{ pDevice, pContext }
 {
 }
 
-CCollider::CCollider(const CCollider & rhs)
+CCollider::CCollider(const CCollider& rhs)
 	: CComponent{ rhs }
-	, m_eType { rhs.m_eType }
+	, m_eType{ rhs.m_eType }
 #ifdef _DEBUG
-	, m_pInputLayout { rhs.m_pInputLayout}
-	, m_pEffect { rhs.m_pEffect }
-	, m_pBatch { rhs.m_pBatch }
+	, m_pInputLayout{ rhs.m_pInputLayout }
+	, m_pEffect{ rhs.m_pEffect }
+	, m_pBatch{ rhs.m_pBatch }
 #endif
 {
 #ifdef _DEBUG
@@ -51,30 +51,43 @@ HRESULT CCollider::Initialize_Prototype(TYPE eType)
 	return S_OK;
 }
 
-HRESULT CCollider::Initialize(void * pArg)
-{	
+HRESULT CCollider::Initialize(void* pArg)
+{
+	CBounding::BOUNDING_DESC* pBoundDesc = (CBounding::BOUNDING_DESC*)pArg;
+
 	switch (m_eType)
 	{
 	case TYPE_AABB:
-		//m_pBounding = CBounding_AABB::Create(m_pDevice, m_pContext);
+		m_pBounding = CBounding_AABB::Create(m_pDevice, m_pContext, pBoundDesc);
 		break;
 	case TYPE_OBB:
-		//m_pBounding = CBounding_OBB::Create(m_pDevice, m_pContext);
+		m_pBounding = CBounding_OBB::Create(m_pDevice, m_pContext, pBoundDesc);
 		break;
 	case TYPE_SPHERE:
-		//m_pBounding = CBounding_Sphere::Create(m_pDevice, m_pContext);
+		m_pBounding = CBounding_Sphere::Create(m_pDevice, m_pContext, pBoundDesc);
 		break;
 	}
+
 	return S_OK;
+}
+
+void CCollider::Tick(_fmatrix WorldMatrix)
+{
+	m_pBounding->Tick(WorldMatrix);
+}
+
+_bool CCollider::Intersect(CCollider* pTargetCollider)
+{
+	m_pBounding->Intersect(pTargetCollider->m_eType, pTargetCollider->m_pBounding);
+
+	return _bool();
 }
 
 HRESULT CCollider::Render()
 {
-	m_pGameInstance->Get_Transform_Matrix(CPipeLine::D3DTS_VIEW);
-	m_pGameInstance->Get_Transform_Matrix(CPipeLine::D3DTS_PROJ);
-	/*m_pEffect->SetWorld();
-	m_pEffect->SetView();
-	m_pEffect->SetProjection();*/
+	m_pEffect->SetWorld(XMMatrixIdentity());
+	m_pEffect->SetView(m_pGameInstance->Get_Transform_Matrix(CPipeLine::D3DTS_VIEW));
+	m_pEffect->SetProjection(m_pGameInstance->Get_Transform_Matrix(CPipeLine::D3DTS_PROJ));
 
 	m_pContext->IASetInputLayout(m_pInputLayout);
 
@@ -89,9 +102,9 @@ HRESULT CCollider::Render()
 	return S_OK;
 }
 
-CCollider * CCollider::Create(ID3D11Device * pDevice, ID3D11DeviceContext * pContext, TYPE eType)
+CCollider* CCollider::Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext, TYPE eType)
 {
-	CCollider*		pInstance = new CCollider(pDevice, pContext);
+	CCollider* pInstance = new CCollider(pDevice, pContext);
 
 	if (FAILED(pInstance->Initialize_Prototype(eType)))
 	{
@@ -104,9 +117,9 @@ CCollider * CCollider::Create(ID3D11Device * pDevice, ID3D11DeviceContext * pCon
 
 }
 
-CComponent * CCollider::Clone(void * pArg)
+CComponent* CCollider::Clone(void* pArg)
 {
-	CComponent*		pInstance = new CCollider(*this);
+	CComponent* pInstance = new CCollider(*this);
 
 	if (FAILED(pInstance->Initialize(pArg)))
 	{
@@ -130,7 +143,7 @@ void CCollider::Free()
 		Safe_Delete(m_pEffect);
 		Safe_Delete(m_pBatch);
 	}
-	
+
 #endif
 
 	Safe_Release(m_pBounding);

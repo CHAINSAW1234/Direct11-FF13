@@ -38,6 +38,8 @@ using namespace DirectX;
 #include <algorithm> 
 #include <string>
 #include <vector>
+#include <stack>
+#include <deque>
 #include <queue>
 #include <list>
 #include <map>

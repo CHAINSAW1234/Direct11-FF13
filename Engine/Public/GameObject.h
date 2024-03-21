@@ -18,6 +18,7 @@ protected:
 
 public:
 	class CComponent*	Get_Component(const wstring& strComTag);
+	_bool Get_Dead() { return m_isDead; }
 	void Set_Dead(_bool isDead) { m_isDead = isDead; }
 public:
 	virtual HRESULT Initialize_Prototype();

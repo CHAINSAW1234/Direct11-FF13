@@ -121,6 +121,19 @@ CGameObject* CObject_Manager::Clone_GameObject(const wstring& strPrototypeTag, v
 	return pGameObject;
 }
 
+size_t CObject_Manager::Get_LayerCnt(_uint iLevelIndex, const wstring& strLayerTag)
+{
+	if (iLevelIndex >= m_iNumLevels)
+		return -1;
+
+	auto		iter = m_pLayers[iLevelIndex].find(strLayerTag);
+
+	if (iter == m_pLayers[iLevelIndex].end())
+		return -1;
+
+	return iter->second->Get_IndexCnt();
+}
+
 void CObject_Manager::Tick(_float fTimeDelta)
 {
 	for (size_t i = 0; i < m_iNumLevels; i++)

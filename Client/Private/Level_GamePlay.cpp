@@ -44,7 +44,7 @@ void CLevel_GamePlay::Tick(_float fTimeDelta)
 	_float4 vPickingPos = { 0.f,0.f,0.f,0.f };
 	if (m_pGameInstance->Get_KeyState(KEY_DOWN, DIK_LBRACKET)) {
 		if (pTerrain->Compute_Picking(&vPickingPos)) {
-			CMonster* pMonster = dynamic_cast<CMonster*>(m_pGameInstance->Add_Clone_With_Object(LEVEL_GAMEPLAY, TEXT("Layer_Monster"), TEXT("Prototype_GameObject_Monster")));
+			CMonster* pMonster = dynamic_cast<CMonster*>(m_pGameInstance->Add_Clone_With_Object(LEVEL_GAMEPLAY, g_strMonsterLayerTag, TEXT("Prototype_GameObject_Monster")));
 			((CTransform*)pMonster->Get_Component(g_strTransformTag))->Set_State(CTransform::STATE_POSITION, vPickingPos);
 		}
 	}
@@ -161,7 +161,7 @@ HRESULT CLevel_GamePlay::Ready_LandObject()
 	//if (FAILED(Ready_Layer_Player(TEXT("Layer_Player"), LandObjectDesc)))
 	//	return E_FAIL;
 
-	if (FAILED(m_pGameInstance->Add_Clone(LEVEL_GAMEPLAY, TEXT("Layer_Monster"), TEXT("Prototype_GameObject_Monster"))))
+	if (FAILED(m_pGameInstance->Add_Clone(LEVEL_GAMEPLAY, g_strMonsterLayerTag, TEXT("Prototype_GameObject_Monster"))))
 		return E_FAIL;
 	
 	if (FAILED(Ready_Layer_LandMapObject(TEXT("Layer_LandMapObject"))))

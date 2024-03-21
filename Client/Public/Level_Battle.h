@@ -27,7 +27,7 @@ private:
 	HRESULT Ready_Layer_Monster(const wstring& strLayerTag);
 
 private:
-	class CPlayer_Battle* m_pPlayer;
+	class CPlayer_Battle* m_pPlayer = { nullptr };
 
 public:
 	static CLevel_Battle* Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);

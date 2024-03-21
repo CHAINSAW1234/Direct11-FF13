@@ -7,6 +7,7 @@ BEGIN(Engine)
 class CBone;
 class CModel;
 class CShader;
+class CCollider;
 END
 
 BEGIN(Client)
@@ -32,9 +33,10 @@ public:
 	virtual HRESULT Render() override;
 
 private:
-	CModel* m_pModelCom = { nullptr };
-	CShader* m_pShaderCom = { nullptr };
-	CBone* m_pSocket = { nullptr };
+	CModel*		m_pModelCom = { nullptr };
+	CShader*	m_pShaderCom = { nullptr };
+	CBone*		m_pSocket = { nullptr };
+	CCollider*	m_pColliderCom = { nullptr };
 
 private:
 	HRESULT Add_Components();

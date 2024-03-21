@@ -1,10 +1,16 @@
 C:\Users\stgo5015\Documents\GitHub\Direct11_FF13\Engine\Private\Animation.cpp;C:\Users\stgo5015\Documents\GitHub\Direct11_FF13\Engine\Default\x64\Debug\Animation.obj
 C:\Users\stgo5015\Documents\GitHub\Direct11_FF13\Engine\Private\Base.cpp;C:\Users\stgo5015\Documents\GitHub\Direct11_FF13\Engine\Default\x64\Debug\Base.obj
 C:\Users\stgo5015\Documents\GitHub\Direct11_FF13\Engine\Private\Bone.cpp;C:\Users\stgo5015\Documents\GitHub\Direct11_FF13\Engine\Default\x64\Debug\Bone.obj
+C:\Users\stgo5015\Documents\GitHub\Direct11_FF13\Engine\Private\Bounding.cpp;C:\Users\stgo5015\Documents\GitHub\Direct11_FF13\Engine\Default\x64\Debug\Bounding.obj
+C:\Users\stgo5015\Documents\GitHub\Direct11_FF13\Engine\Private\Bounding_AABB.cpp;C:\Users\stgo5015\Documents\GitHub\Direct11_FF13\Engine\Default\x64\Debug\Bounding_AABB.obj
+C:\Users\stgo5015\Documents\GitHub\Direct11_FF13\Engine\Private\Bounding_OBB.cpp;C:\Users\stgo5015\Documents\GitHub\Direct11_FF13\Engine\Default\x64\Debug\Bounding_OBB.obj
+C:\Users\stgo5015\Documents\GitHub\Direct11_FF13\Engine\Private\Bounding_Sphere.cpp;C:\Users\stgo5015\Documents\GitHub\Direct11_FF13\Engine\Default\x64\Debug\Bounding_Sphere.obj
 C:\Users\stgo5015\Documents\GitHub\Direct11_FF13\Engine\Private\Camera.cpp;C:\Users\stgo5015\Documents\GitHub\Direct11_FF13\Engine\Default\x64\Debug\Camera.obj
 C:\Users\stgo5015\Documents\GitHub\Direct11_FF13\Engine\Private\Channel.cpp;C:\Users\stgo5015\Documents\GitHub\Direct11_FF13\Engine\Default\x64\Debug\Channel.obj
+C:\Users\stgo5015\Documents\GitHub\Direct11_FF13\Engine\Private\Collider.cpp;C:\Users\stgo5015\Documents\GitHub\Direct11_FF13\Engine\Default\x64\Debug\Collider.obj
 C:\Users\stgo5015\Documents\GitHub\Direct11_FF13\Engine\Private\Component.cpp;C:\Users\stgo5015\Documents\GitHub\Direct11_FF13\Engine\Default\x64\Debug\Component.obj
 C:\Users\stgo5015\Documents\GitHub\Direct11_FF13\Engine\Private\Component_Manager.cpp;C:\Users\stgo5015\Documents\GitHub\Direct11_FF13\Engine\Default\x64\Debug\Component_Manager.obj
+C:\Users\stgo5015\Documents\GitHub\Direct11_FF13\Engine\Private\DebugDraw.cpp;C:\Users\stgo5015\Documents\GitHub\Direct11_FF13\Engine\Default\x64\Debug\DebugDraw.obj
 C:\Users\stgo5015\Documents\GitHub\Direct11_FF13\Engine\Private\FSM.cpp;C:\Users\stgo5015\Documents\GitHub\Direct11_FF13\Engine\Default\x64\Debug\FSM.obj
 C:\Users\stgo5015\Documents\GitHub\Direct11_FF13\Engine\Private\FSM_State.cpp;C:\Users\stgo5015\Documents\GitHub\Direct11_FF13\Engine\Default\x64\Debug\FSM_State.obj
 C:\Users\stgo5015\Documents\GitHub\Direct11_FF13\Engine\Private\GameInstance.cpp;C:\Users\stgo5015\Documents\GitHub\Direct11_FF13\Engine\Default\x64\Debug\GameInstance.obj

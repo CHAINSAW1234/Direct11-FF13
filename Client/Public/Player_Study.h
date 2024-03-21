@@ -4,6 +4,7 @@
 #include "GameObject.h"
 
 BEGIN(Engine)
+class CCollider;
 class CPartObject;
 END
 
@@ -28,11 +29,12 @@ public:
 	virtual void Tick(_float fTimeDelta) override;
 	virtual HRESULT Late_Tick(_float fTimeDelta) override;
 	virtual HRESULT Render() override;
+	virtual void Start() override;
 
 private:
 	map<const wstring, CPartObject*>			m_PartObjects;
 	_ubyte										m_eState = {};
-
+	CCollider*									m_pColliderCom = { nullptr };
 
 private:
 	HRESULT Add_Components();

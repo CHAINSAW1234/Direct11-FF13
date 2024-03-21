@@ -21,9 +21,12 @@ private:
 	virtual ~CUI_Pnal() = default;
 
 public:
+	_float3 Get_TargetPosition() { return m_vTargetPosition; }
 	void Set_TargetPosition(_float3 vTargetPosition);
 	void Reset_Position();
 	void Set_Color(_float4 vColor) { m_vColor = vColor; }
+	void Set_Name(wstring strName) { m_strName = strName; }
+
 public:
 	virtual HRESULT Initialize_Prototype();
 	virtual HRESULT Initialize(void* pArg);

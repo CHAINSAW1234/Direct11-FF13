@@ -53,7 +53,7 @@ void CUI_Cursor::Tick(_float fTimeDelta)
 		m_fDegree -= 360;
 	}
 	_float4 vPosition = m_vOriginPosition;
-	vPosition.x += XMConvertToRadians(m_fDegree) * 10;
+	vPosition.x += sin(XMConvertToRadians((_float)m_fDegree)) * 5;
 
 	m_pTransformCom->Set_State(CTransform::STATE_POSITION, vPosition);
 
@@ -61,8 +61,12 @@ void CUI_Cursor::Tick(_float fTimeDelta)
 
 HRESULT CUI_Cursor::Late_Tick(_float fTimeDelta)
 {
-	if (FAILED(__super::Late_Tick(fTimeDelta)))
+	if (FAILED(CGameObject::Late_Tick(fTimeDelta)))
 		return E_FAIL;
+
+	if (m_isRender) {
+		m_pGameInstance->Add_RenderGroup(CRenderer::RENDER_UI, this);
+	}
 
 	return S_OK;
 }
@@ -88,11 +92,17 @@ HRESULT CUI_Cursor::Render()
 
 void CUI_Cursor::Start()
 {
+	m_fSizeX = 56;
+	m_fSizeY = 30;
+	m_pTransformCom->Set_Scaled(m_fSizeX, m_fSizeY, 1.f);
 	m_vOriginPosition = m_pTransformCom->Get_State_Float4(CTransform::STATE_POSITION);
 }
 
 void CUI_Cursor::OnNotify()
 {
+	_float3 vOriginPosition = m_pPlayerInfo->Get_CursorPosition();
+	m_vOriginPosition = { vOriginPosition.x, vOriginPosition.y , vOriginPosition.z , 1.f };
+	m_pTransformCom->Set_State(CTransform::STATE_POSITION, m_vOriginPosition);
 }
 
 HRESULT CUI_Cursor::Add_Components()
@@ -111,6 +121,8 @@ HRESULT CUI_Cursor::Add_Components()
 	if (FAILED(__super::Add_Component(g_Level, TEXT("Prototype_Component_Texture_UI_Cursor"),
 		TEXT("Com_Texture"), (CComponent**)&m_pTextureCom)))
 		return E_FAIL;
+
+	return S_OK;
 }
 
 HRESULT CUI_Cursor::Bind_ShaderResources()
@@ -154,4 +166,5 @@ CUI_Cursor* CUI_Cursor::Clone(void* pArg)
 void CUI_Cursor::Free()
 {
 	__super::Free();
+	Safe_Release(m_pPlayerInfo);
 }
