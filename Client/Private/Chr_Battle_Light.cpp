@@ -154,6 +154,14 @@ _float4 CChr_Battle_Light::Get_Look()
     return vChrLook;
 }
 
+void CChr_Battle_Light::Cancel_Command()
+{
+    if (m_pCommands->empty())
+        return;
+
+    m_pCommands->pop_back();
+}
+
 HRESULT CChr_Battle_Light::Add_Components()
 {
     if (FAILED(Add_Component_FSM()))

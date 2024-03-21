@@ -11,7 +11,7 @@ public:
 	enum ITEM { POTION, PHOENIX_DOWN, SPECIAL_ITEM, ITEM_END };
 
 private:
-	const wstring strItemName[ITEM_END] = { TEXT("포션"), TEXT("피닉스의 꼬리"), TEXT("개쩌는 아이템")};
+	static const wstring strItemName[ITEM_END];
 
 private:
 	using CGameObject::CGameObject;

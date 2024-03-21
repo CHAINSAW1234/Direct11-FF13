@@ -132,6 +132,19 @@ PS_OUT PS_Mask(PS_IN In)
     return Out;
 }
 
+PS_OUT PS_Disappear(PS_IN In)
+{
+    PS_OUT Out = (PS_OUT) 0;
+    
+    vector vTextureColor = g_Texture.Sample(LinearSampler, In.vTexcoord);
+    if (0.3 > vTextureColor.a)
+        discard;
+    
+    Out.vColor = vTextureColor * (1 - g_Ratio);
+    
+    return Out;
+}
+
 
 technique11 DefaultTechnique
 {
@@ -147,28 +160,26 @@ technique11 DefaultTechnique
     pass Inner
     {
         VertexShader = compile vs_5_0 VS_MAIN();
-        GeometryShader = /*compile gs_5_0 GS_MAIN()*/NULL;
-        HullShader = /*compile hs_5_0 HS_MAIN()*/NULL;
-        DomainShader = /*compile ds_5_0 DS_MAIN()*/NULL;
         PixelShader = compile ps_5_0 PS_Inner();
     }
 
     pass Mask
     {
         VertexShader = compile vs_5_0 VS_MAIN();
-        GeometryShader = /*compile gs_5_0 GS_MAIN()*/NULL;
-        HullShader = /*compile hs_5_0 HS_MAIN()*/NULL;
-        DomainShader = /*compile ds_5_0 DS_MAIN()*/NULL;
         PixelShader = compile ps_5_0 PS_Mask();
     }
 
     pass Border
     {
         VertexShader = compile vs_5_0 VS_MAIN();
-        GeometryShader = /*compile gs_5_0 GS_MAIN()*/NULL;
-        HullShader = /*compile hs_5_0 HS_MAIN()*/NULL;
-        DomainShader = /*compile ds_5_0 DS_MAIN()*/NULL;
         PixelShader = compile ps_5_0 PS_Border();
     }
+
+    pass Disappear
+    {
+        VertexShader = compile vs_5_0 VS_MAIN();
+        PixelShader = compile ps_5_0 PS_Disappear();
+    }
+
 
 }

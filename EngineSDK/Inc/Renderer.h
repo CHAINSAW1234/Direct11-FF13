@@ -23,7 +23,7 @@ private:
 	ID3D11Device*						m_pDevice = { nullptr };
 	ID3D11DeviceContext*				m_pContext = { nullptr };
 	list<class CGameObject*>			m_RenderObjects[RENDER_END];
-
+	ID3D11BlendState*					m_pBlendState = { nullptr };
 	ID3D11DepthStencilState*			m_pRenderState_UI = {nullptr};
 
 private:

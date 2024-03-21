@@ -13,12 +13,16 @@ CUI_Pnal::CUI_Pnal(const CUI_Pnal& rhs)
 {
 }
 
-void CUI_Pnal::Set_TargetPosition(_float3 vTargetPosition)
+void CUI_Pnal::Set_TargetPosition(_bool isAnimated, _float3 vTargetPosition)
 {
 	m_vTargetPosition = vTargetPosition;
-	m_isAnimated = true;
-	m_fMoveTimeDelta = 0.f;
-	m_tFrame.iCurFrame = 0;
+
+	m_isAnimated = isAnimated;
+	if (m_isAnimated) {
+		m_fMoveTimeDelta = 0.f;
+		m_tFrame.iCurFrame = 0;
+	}
+
 }
 
 void CUI_Pnal::Reset_Position()
@@ -77,9 +81,6 @@ HRESULT CUI_Pnal::Late_Tick(_float fTimeDelta)
 HRESULT CUI_Pnal::Render()
 {
 	if (FAILED(Bind_ShaderResources()))
-		return E_FAIL;
-
-	if (FAILED(m_pVIBufferCom->Bind_Buffers()))
 		return E_FAIL;
 
 	/* 이 함수 내부에서 호출되는 Apply함수 호출 이전에 쉐이더 전역에 던져야할 모든 데이터를 다 던져야한다. */
@@ -179,6 +180,9 @@ HRESULT CUI_Pnal::Bind_ShaderResources()
 		m_pTextureMaskCom->Bind_ShaderResource(m_pShaderCom, "g_Texture_Mask", 0);
 	}
 	
+	if (FAILED(m_pVIBufferCom->Bind_Buffers()))
+		return E_FAIL;
+
 	return S_OK;
 }
 

@@ -49,8 +49,11 @@ protected:
 	_bool  m_isUpdateATB = { true };	// 이 값이 참인 경우에만 ATB를 증가시킴
 	_float m_fATB = { 0.f };	// ATB 게이지
 	_float m_fMaxATB = { 3.f };
+	_float4	  m_vStartPosition = { 0.f,0.f,0.f,0.f };
 
 	CAbility* m_pAbility = { nullptr };
+
+
 
 public:
 	virtual void Free() override;

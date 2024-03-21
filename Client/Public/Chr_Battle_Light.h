@@ -3,6 +3,8 @@
 #include "Chr_Battle.h"
 #include "GameObject.h"
 #include "PartObject.h"
+#include "Role.h"
+#include "Inventory.h"
 
 BEGIN(Engine)
 class CFSM;
@@ -12,7 +14,6 @@ class CPartObject;
 END
 
 BEGIN(Client)
-
 class CChr_Battle_Light final : public CChr_Battle
 {
 public:
@@ -67,6 +68,12 @@ public:
 	void	Change_Animation_Weapon(ANIMATION_CHR_BATTLE_LIGHT_WEAPON iAnimationIndex);
 	_float4	Get_Look();						// Player의 Look vector를 Y값을 지우고 리턴
 	
+
+	size_t	Get_Command_Size() { return m_pCommands->size(); }
+	void	Cancel_Command();
+	void	Set_Command(deque<CRole::SKILL>* pCommand) { m_pCommands = pCommand; } 				// Player에게 명령을 전달
+
+
 private:
 	HRESULT Add_Components();
 	HRESULT Add_PartObjects();
@@ -87,8 +94,9 @@ private:
 
 	// 초기위치 필요한?
 
-	_float4		m_vStartPosition = { 0.f,0.f,0.f,0.f };
-	class CImGUI_Manager* m_pImGUI_Manager = { nullptr };
+	deque<CRole::SKILL>*	m_pCommands = { nullptr };
+	CInventory::ITEM*		m_pItem = { nullptr };
+	class CImGUI_Manager*	m_pImGUI_Manager = { nullptr };
 
 
 

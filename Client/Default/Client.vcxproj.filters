@@ -196,7 +196,10 @@
     <Filter Include="02.GameObjects\Optima\Role">
       <UniqueIdentifier>{a628c111-b9b2-4404-8126-e375d8676e62}</UniqueIdentifier>
     </Filter>
-    <Filter Include="03.UI\Battle\UI_Pnal_Attack">
+    <Filter Include="03.UI\Battle\Player_Battle\UI_Battle_Stage_Wait">
+      <UniqueIdentifier>{87f153bf-279c-4a22-a90e-367cdcd5a7aa}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="03.UI\Battle\UI_Pnal\UI_Pnal_Attack">
       <UniqueIdentifier>{89672019-5e9b-490b-9879-3731d92e0cb7}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
@@ -406,10 +409,13 @@
       <Filter>02.GameObjects\Optima\Ability</Filter>
     </ClInclude>
     <ClInclude Include="..\Public\UI_Pnal_Attack.h">
-      <Filter>03.UI\Battle\UI_Pnal_Attack</Filter>
+      <Filter>03.UI\Battle\UI_Pnal\UI_Pnal_Attack</Filter>
     </ClInclude>
     <ClInclude Include="..\Public\UI_Battle_Stage_Item.h">
       <Filter>03.UI\Battle\Player_Battle\UI_Battle_Stage_Item</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\UI_Battle_Stage_Wait.h">
+      <Filter>03.UI\Battle\Player_Battle\UI_Battle_Stage_Wait</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -603,7 +609,10 @@
       <Filter>02.GameObjects\Optima\Ability</Filter>
     </ClCompile>
     <ClCompile Include="..\Private\UI_Pnal_Attack.cpp">
-      <Filter>03.UI\Battle\UI_Pnal_Attack</Filter>
+      <Filter>03.UI\Battle\UI_Pnal\UI_Pnal_Attack</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\UI_Battle_Stage_Wait.cpp">
+      <Filter>03.UI\Battle\Player_Battle\UI_Battle_Stage_Wait</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

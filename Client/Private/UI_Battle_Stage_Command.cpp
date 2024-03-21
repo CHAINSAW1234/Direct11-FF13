@@ -140,6 +140,11 @@ void CUI_Battle_Stage_Command::Update_KeyInput()
 		}
 	}
 
+	if (m_pGameInstance->Get_KeyState(KEY_DOWN, DIK_E)) {
+		if (!m_pPlayer_Battle->Get_Command_empty())
+			m_pPlayer_Battle->Change_Stage(CPlayer_Battle::STAGE_TARGET);
+	}
+
 }
 
 void CUI_Battle_Stage_Command::Create_Pnal_Attack()
@@ -152,6 +157,7 @@ void CUI_Battle_Stage_Command::Create_Pnal_Attack()
 
 	UI_Pnal_Attack_desc.vStartPosition = { 0.f, -150.f, 0.f};
 	UI_Pnal_Attack_desc.vTargetPosition = { 0.f, 0.f, 0.f };
+	UI_Pnal_Attack_desc.eSkill = eSkill;
 	UI_Pnal_Attack_desc.iSize = pRole->Get_Skill_Cost(eSkill);
 	UI_Pnal_Attack_desc.strName = pRole->Get_SkillName(eSkill);
 

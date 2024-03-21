@@ -1,6 +1,6 @@
 #include"stdafx.h"
 #include "UI_ATB.h"
-#include "Chr_Battle.h"
+#include "Chr_Battle_Light.h"
 #include "Player_Battle.h"
 
 CUI_ATB::CUI_ATB(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)

@@ -10,7 +10,7 @@
 
 #include "UI_Pnal_Attack.h"
 
-#include "Chr_Battle.h"
+#include "Chr_Battle_Light.h"
 #include "Player_Study.h"
 #include "Monster.h"
 #include "Inventory.h"
@@ -27,6 +27,13 @@ void CPlayer_Battle::Change_Stage(UISTAGE eStage)
 	m_pFSMCom->Change_State(eStage);
 	m_PrevStage.push(m_eStage);
 	m_eStage = eStage;
+
+	if (m_eStage == STAGE_SELECT) {				//Select로 돌아오면 스택 비우기
+		while (!m_PrevStage.empty())
+			m_PrevStage.pop();
+	}
+
+
 	NotifyObserver();
 }
 
@@ -100,6 +107,17 @@ void CPlayer_Battle::Use_Command()
 	Update_CommandPosition();
 }
 
+void CPlayer_Battle::Set_Leader_Action()
+{
+	deque<CRole::SKILL> Actions;
+
+	for (auto& pCommand : m_Commands) {
+		Actions.push_back(pCommand->Get_Skill());
+	}
+
+	//m_pLeader->Set_Action();
+}
+
 void CPlayer_Battle::Set_CursorPosition(_float3 vCursorPosition)
 {
 	m_vCursorPosition = vCursorPosition;
@@ -156,6 +174,20 @@ void CPlayer_Battle::Update_Monsters()
 	}
 }
 
+void CPlayer_Battle::Update_Command()
+{
+	_int iCost = 0;
+	for (auto& pUI_Pnal_Attack : m_Commands) {
+		iCost += pUI_Pnal_Attack->Get_Size();
+		if (m_pLeader->Get_ATB() >= iCost) {
+			pUI_Pnal_Attack->Set_Color({ 0.f,1.f,1.f,1.f });
+		}
+		else {
+			pUI_Pnal_Attack->Set_Color({ 1.f,1.f,1.f,1.f });
+		}
+	}
+}
+
 void CPlayer_Battle::Update_CommandCost()
 {
 	m_iCommandCost = 0;
@@ -185,7 +217,7 @@ void CPlayer_Battle::Update_CommandPosition()
 
 void CPlayer_Battle::Start()
 {
-	m_pLeader = dynamic_cast<CChr_Battle*>(m_pGameInstance->Get_GameObject(g_Level, TEXT("Layer_Chr"), 0));
+	m_pLeader = dynamic_cast<CChr_Battle_Light*>(m_pGameInstance->Get_GameObject(g_Level, TEXT("Layer_Chr"), 0));
 	Safe_AddRef(m_pLeader);
 	// 인벤토리 어쩌구저쩌구
 	// 
@@ -214,6 +246,7 @@ void CPlayer_Battle::Start()
 void CPlayer_Battle::Tick(_float fTimeDelta)
 {
 	m_pFSMCom->Update(fTimeDelta);
+	Update_Command();
 
 	if (m_pGameInstance->Get_KeyState(KEY_DOWN, DIK_SPACE)) {
 		if (!Get_Command_empty())

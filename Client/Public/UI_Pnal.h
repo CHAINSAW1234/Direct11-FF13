@@ -5,7 +5,7 @@ BEGIN(Client)
 // 이 클래스는 애니메이션을 갖고 등장하는 pnal로 한정됨
 // 애니메이션이 없는 몬스터의 break 게이지, ATB게이지 pnal는 이 클래스를 사용하지 않음
 // 이 클래스는 Observer의 기능을 사용하지 않음
-class CUI_Pnal final : public CUI
+class CUI_Pnal : public CUI
 {
 public:
 	typedef struct UI_Pnal_Desc : public CUI::UI_DESC
@@ -15,14 +15,14 @@ public:
 		wstring strName;
 	} UI_PNAL_DESC;
 
-private:
+protected:
 	CUI_Pnal(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);
 	CUI_Pnal(const CUI_Pnal& rhs);
 	virtual ~CUI_Pnal() = default;
 
 public:
 	_float3 Get_TargetPosition() { return m_vTargetPosition; }
-	void Set_TargetPosition(_float3 vTargetPosition);
+	void Set_TargetPosition(_bool isAnimated, _float3 vTargetPosition);
 	void Reset_Position();
 	void Set_Color(_float4 vColor) { m_vColor = vColor; }
 	void Set_Name(wstring strName) { m_strName = strName; }
@@ -35,14 +35,14 @@ public:
 	virtual HRESULT Render();
 	virtual void	Start();
 
-private:
+protected:
 	HRESULT Add_Components();
 	virtual HRESULT Bind_ShaderResources();
 
 	void Update_Frame(_float fTimeDelta);
-	void Move(_float fTimeDelta);		// 현재 위치에서 목표 위치로의 이동, 선형 보간
+	virtual void Move(_float fTimeDelta);		// 현재 위치에서 목표 위치로의 이동, 선형 보간
 
-private:
+protected:
 	class CPlayer_Battle* m_pPlayerInfo = { nullptr };
 
 	CTexture* m_pTextureAnimationCom = { nullptr };

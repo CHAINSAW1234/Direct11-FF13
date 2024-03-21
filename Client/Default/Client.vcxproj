@@ -218,6 +218,7 @@
     <ClInclude Include="..\Public\UI_Battle_Stage_Item.h" />
     <ClInclude Include="..\Public\UI_Battle_Stage_Select.h" />
     <ClInclude Include="..\Public\UI_Battle_Stage_Target.h" />
+    <ClInclude Include="..\Public\UI_Battle_Stage_Wait.h" />
     <ClInclude Include="..\Public\UI_Cursor.h" />
     <ClInclude Include="..\Public\UI_Pnal.h" />
     <ClInclude Include="..\Public\UI_Pnal_Attack.h" />
@@ -288,6 +289,7 @@
     <ClCompile Include="..\Private\UI_Battle_Stage_Item.cpp" />
     <ClCompile Include="..\Private\UI_Battle_Stage_Select.cpp" />
     <ClCompile Include="..\Private\UI_Battle_Stage_Target.cpp" />
+    <ClCompile Include="..\Private\UI_Battle_Stage_Wait.cpp" />
     <ClCompile Include="..\Private\UI_Cursor.cpp" />
     <ClCompile Include="..\Private\UI_Pnal.cpp" />
     <ClCompile Include="..\Private\UI_Pnal_Attack.cpp" />

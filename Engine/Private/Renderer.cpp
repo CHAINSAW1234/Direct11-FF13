@@ -13,6 +13,23 @@ CRenderer::CRenderer(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
 
 HRESULT CRenderer::Initialize()
 {
+	// 1. 알파 블랜딩을 위한 
+	D3D11_BLEND_DESC BlendDesc;
+	ZeroMemory(&BlendDesc, sizeof(D3D11_BLEND_DESC));
+	BlendDesc.RenderTarget[0].BlendEnable = true;
+	BlendDesc.RenderTarget[0].SrcBlend = D3D11_BLEND_SRC_ALPHA;
+	BlendDesc.RenderTarget[0].DestBlend = D3D11_BLEND_INV_SRC_ALPHA;
+	BlendDesc.RenderTarget[0].BlendOp = D3D11_BLEND_OP_ADD;
+	BlendDesc.RenderTarget[0].SrcBlendAlpha = D3D11_BLEND_ONE;
+	BlendDesc.RenderTarget[0].DestBlendAlpha = D3D11_BLEND_ZERO;
+	BlendDesc.RenderTarget[0].BlendOpAlpha = D3D11_BLEND_OP_ADD;
+	BlendDesc.RenderTarget[0].RenderTargetWriteMask = D3D11_COLOR_WRITE_ENABLE_ALL;
+
+	if (FAILED(m_pDevice->CreateBlendState(&BlendDesc, &m_pBlendState)))
+		return E_FAIL;
+
+
+	// 2. UI 렌더링을 위한 z쓰기 끄기
 	D3D11_DEPTH_STENCILOP_DESC Depth_Stencilop_desc = {};
 	Depth_Stencilop_desc.StencilFailOp = D3D11_STENCIL_OP_KEEP;
 	Depth_Stencilop_desc.StencilDepthFailOp = D3D11_STENCIL_OP_KEEP;
@@ -102,6 +119,8 @@ HRESULT CRenderer::Render_Blend()
 	//	return ((CBlendObject*)pSour)->Get_ViewZ() > ((CBlendObject*)pDest)->Get_ViewZ();
 	//});
 
+	m_pContext->OMSetBlendState(m_pBlendState, 0, 0xffff);
+
 	for (auto& pRenderObject : m_RenderObjects[RENDER_BLEND])
 	{
 		if (nullptr != pRenderObject)
@@ -110,12 +129,15 @@ HRESULT CRenderer::Render_Blend()
 	}
 	m_RenderObjects[RENDER_BLEND].clear();
 
+	m_pContext->OMSetBlendState(nullptr, 0, 0xffff);
+
 	return S_OK;
 }
 
 HRESULT CRenderer::Render_UI()
 {
 
+	m_pContext->OMSetBlendState(m_pBlendState, 0, 0xffff);
 	m_pContext->OMSetDepthStencilState(m_pRenderState_UI, 1);
 
 	for (auto& pRenderObject : m_RenderObjects[RENDER_UI])
@@ -127,12 +149,14 @@ HRESULT CRenderer::Render_UI()
 	m_RenderObjects[RENDER_UI].clear();
 
 	m_pContext->OMSetDepthStencilState(nullptr, 1);
-
+	m_pContext->OMSetBlendState(nullptr, 0, 0xffff);
 	return S_OK;
 }
 
 HRESULT CRenderer::Render_UI_Late()
 {
+
+	m_pContext->OMSetBlendState(m_pBlendState, 0, 0xffff);
 	m_pContext->OMSetDepthStencilState(m_pRenderState_UI, 1);
 
 	for (auto& pRenderObject : m_RenderObjects[RENDER_UI_LATE])
@@ -174,6 +198,7 @@ void CRenderer::Free()
 		RenderList.clear();		
 	}
 
+	Safe_Release(m_pBlendState);
 	Safe_Release(m_pRenderState_UI);
 	Safe_Release(m_pDevice);
 	Safe_Release(m_pContext);

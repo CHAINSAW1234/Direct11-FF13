@@ -100,6 +100,11 @@ void CUI_Cursor::Start()
 
 void CUI_Cursor::OnNotify()
 {
+	if (m_pPlayerInfo->Get_Stage() == CPlayer_Battle::STAGE_WAIT)
+		m_isRender = false;
+	else
+		m_isRender = true;
+
 	_float3 vOriginPosition = m_pPlayerInfo->Get_CursorPosition();
 	m_vOriginPosition = { vOriginPosition.x, vOriginPosition.y , vOriginPosition.z , 1.f };
 	m_pTransformCom->Set_State(CTransform::STATE_POSITION, m_vOriginPosition);
