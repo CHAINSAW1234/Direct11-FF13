@@ -6,6 +6,7 @@
 BEGIN(Engine)
 class CCollider;
 class CPartObject;
+class CNavigation;
 END
 
 BEGIN(Client)
@@ -32,9 +33,10 @@ public:
 	virtual void Start() override;
 
 private:
-	map<const wstring, CPartObject*>			m_PartObjects;
-	_ubyte										m_eState = {};
-	CCollider*									m_pColliderCom = { nullptr };
+	map<const wstring, CPartObject*>		m_PartObjects;
+	_ubyte									m_eState = {};
+	CCollider*								m_pColliderCom = { nullptr };
+	CNavigation*							m_pNavigationCom = { nullptr };
 
 private:
 	HRESULT Add_Components();

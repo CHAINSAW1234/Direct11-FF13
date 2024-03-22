@@ -1,2 +1,4 @@
-﻿  Chr_Battle.cpp
+﻿FXC : warning X4717: Effects deprecated for D3DCompiler_47
+  
+  compilation object save succeeded; see C:\Users\stgo5015\Documents\GitHub\Direct11_FF13\Client\Bin\Shader_Cell.cso
   Client.vcxproj -> C:\Users\stgo5015\Documents\GitHub\Direct11_FF13\Client\Bin\Client.exe

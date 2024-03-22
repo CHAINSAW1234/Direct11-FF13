@@ -28,8 +28,8 @@ protected:
 	ID3D11Buffer*				m_pIB = { nullptr };
 
 protected:
-	D3D11_BUFFER_DESC			m_BufferDesc;
-	D3D11_SUBRESOURCE_DATA		m_InitialData;
+	D3D11_BUFFER_DESC			m_BufferDesc = {};
+	D3D11_SUBRESOURCE_DATA		m_InitialData = {};
 	_uint						m_iVertexStride = { 0 };
 	_uint						m_iIndexStride = { 0 };
 	_uint						m_iNumVertices = { 0 };

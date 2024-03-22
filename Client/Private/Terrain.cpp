@@ -37,6 +37,7 @@ HRESULT CTerrain::Initialize(void* pArg)
 
 void CTerrain::Tick(_float fTimeDelta)
 {
+	m_pNavigationCom->Tick(m_pTransformCom->Get_WorldMatrix());
 }
 
 HRESULT CTerrain::Late_Tick(_float fTimeDelta)
@@ -66,6 +67,13 @@ HRESULT CTerrain::Render()
 
 	if (FAILED(m_pVIBufferCom->Render()))
 		return E_FAIL;
+
+#ifdef _DEBUG
+
+	m_pNavigationCom->Render();
+
+#endif
+
 
 	return S_OK;
 }
@@ -101,6 +109,13 @@ HRESULT CTerrain::Add_Components()
 	if (FAILED(__super::Add_Component(m_eLevel, TEXT("Prototype_Component_VIBuffer_Terrain"),
 		TEXT("Com_VIBuffer"), (CComponent**)&m_pVIBufferCom)))
 		return E_FAIL;
+
+	/* For.Com_Navigation */
+	if (FAILED(__super::Add_Component(LEVEL_GAMEPLAY, TEXT("Prototype_Component_Navigation"),
+		TEXT("Com_Navigation"), (CComponent**)&m_pNavigationCom)))
+		return E_FAIL;
+
+
 
 	return S_OK;
 }
@@ -181,6 +196,7 @@ void CTerrain::Free()
 {
 	__super::Free();
 
+	Safe_Release(m_pNavigationCom);
 	Safe_Release(m_pShaderCom);
 	for (size_t i = 0; i < TYPE_END; i++)
 		Safe_Release(m_pTextureCom[i]);

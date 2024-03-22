@@ -132,6 +132,20 @@ HRESULT CPlayer_Study::Add_Components()
 	if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_Collider_AABB"),
 		TEXT("Com_Collider"), (CComponent**)&m_pColliderCom, &ColliderDesc)))
 		return E_FAIL;
+
+
+	///* For.Com_Navigation */
+	//CNavigation::NAVIGATION_DESC			NavigationDesc{};
+
+	//NavigationDesc.iCurrentIndex = 0;
+
+	//if (FAILED(__super::Add_Component(LEVEL_GAMEPLAY, TEXT("Prototype_Component_Navigation"),
+	//	TEXT("Com_Navigation"), (CComponent**)&m_pNavigationCom, &NavigationDesc)))
+	//	return E_FAIL;
+
+
+
+
 	return S_OK;
 }
 
@@ -201,6 +215,7 @@ CGameObject* CPlayer_Study::Clone(void* pArg)
 void CPlayer_Study::Free()
 {
 	__super::Free();
+	Safe_Release(m_pNavigationCom);
 	Safe_Release(m_pColliderCom);
 
 	for (auto& Pair : m_PartObjects)

@@ -1,4 +1,4 @@
-#pragma once
+	#pragma once
 
 #include "Bounding.h"
 
@@ -12,6 +12,7 @@ public:
 		_float3		vSize;
 		_float3		vRotation;
 	}BOUNDING_OBB_DESC;
+
 private:
 	CBounding_OBB(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);
 	virtual ~CBounding_OBB() = default;

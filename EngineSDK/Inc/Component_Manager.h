@@ -5,6 +5,7 @@
 #include "Texture.h"
 #include "Collider.h"
 #include "Transform.h"
+#include "Navigation.h"
 #include "VIBUffer_Line.h"
 #include "VIBuffer_Rect.h"
 //#include "VIBuffer_Cube.h"

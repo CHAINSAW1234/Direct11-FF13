@@ -682,5 +682,8 @@
     <FxCompile Include="..\Bin\ShaderFiles\Shader_VtxPosTex_UI.hlsl">
       <Filter>97.ShaderFiles</Filter>
     </FxCompile>
+    <FxCompile Include="..\Bin\ShaderFiles\Shader_Cell.hlsl">
+      <Filter>97.ShaderFiles</Filter>
+    </FxCompile>
   </ItemGroup>
 </Project>

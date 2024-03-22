@@ -5,7 +5,11 @@
       <FullPath>C:\Users\stgo5015\Documents\GitHub\Direct11_FF13\Engine\Bin\Engine.dll</FullPath>
     </ProjectOutput>
   </ProjectOutputs>
-  <ContentFiles />
+  <ContentFiles>
+    <ContentFile>
+      <FullPath>C:\Users\stgo5015\Documents\GitHub\Direct11_FF13\Engine\Bin\Shader_Cell.cso</FullPath>
+    </ContentFile>
+  </ContentFiles>
   <SatelliteDlls />
   <NonRecipeFileRefs />
 </Project>
