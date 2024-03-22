@@ -45,13 +45,13 @@ void CUI_ATB::Tick(_float fTimeDelta)
 	m_fRatio = m_pPlayerInfo->Get_Leader()->Get_ATB() / m_pPlayerInfo->Get_Leader()->Get_MaxATB();
 
 	if (m_fRatio >= m_fCurRatio) {
-		m_fCurRatio += fTimeDelta * 5;
+		m_fCurRatio += fTimeDelta * 2.5;
 		if (m_fCurRatio > m_fRatio) {
 			m_fCurRatio = m_fRatio;
 		}
 	}
 	else {
-		m_fCurRatio -= fTimeDelta * 5;
+		m_fCurRatio -= fTimeDelta * 2.5;
 		if (m_fCurRatio < m_fRatio) {
 			m_fCurRatio = m_fRatio;
 		}

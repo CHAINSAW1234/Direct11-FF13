@@ -26,22 +26,23 @@ public:
 	virtual HRESULT Render() override;
 
 public:
-	/*============================GET/*============================*/
+	/*============================GET============================*/
 	_float Get_ATB() { return m_fATB; }
 	_float Get_MaxATB()  { return m_fMaxATB; }
 	CAbility* Get_Ability() { return m_pAbility; }
 
 
-	/*============================SET/*============================*/
+	/*============================SET============================*/
 	void Set_UpdateATB(_bool isUpdateATB) {	m_isUpdateATB = isUpdateATB; }
 	void Set_ATB_Full() { m_fATB = m_fMaxATB; }
 
+	/*============================기타============================*/
+	void Update_ATB(_float fTimeDelta);
 
 protected:
 	/*===========================생성 관련=====================*/
 	virtual HRESULT Add_Ability();
 private:
-	void Update_ATB(_float fTimeDelta);
 
 
 

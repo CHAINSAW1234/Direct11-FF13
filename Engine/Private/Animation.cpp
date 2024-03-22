@@ -112,6 +112,7 @@ HRESULT CAnimation::Save_Animation(ofstream& OFS)
 void CAnimation::Set_TrackPosition(_float fTrackPosition)
 {
 	m_fTrackPosition = fTrackPosition;
+	m_isFinished = false;
 	for (size_t i = 0; i < m_Channels.size(); ++i) {
 		m_Channels[i]->Update_KeyFrame(m_fTrackPosition, &m_CurrentKeyFrameIndices[i]);
 	}

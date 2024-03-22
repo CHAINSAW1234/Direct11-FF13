@@ -63,17 +63,10 @@ HRESULT CChr_Battle_Light::Initialize(void* pArg)
 void CChr_Battle_Light::Tick(_float fTimeDelta)
 {
     __super::Tick(fTimeDelta);
-    if (m_fATB == 3.0f) {
-        m_fATB = 0.f;
-    }
 
     m_pFSMCom->Update(fTimeDelta);
     Update_FSMState(fTimeDelta);
 
-    //if (m_pGameInstance->Get_KeyState(KEY_DOWN, DIK_UPARROW))
-    //    m_pModelCom->Set_Animation(m_pModelCom->Get_CurrentAnimationIndex() + 1, true);
-    //if (m_pGameInstance->Get_KeyState(KEY_DOWN, DIK_DOWNARROW))
-    //    m_pModelCom->Set_Animation(m_pModelCom->Get_CurrentAnimationIndex() - 1, true);
 
     m_pImGUI_Manager->Tick(fTimeDelta);
     Show_ImGUI();
@@ -154,12 +147,47 @@ _float4 CChr_Battle_Light::Get_Look()
     return vChrLook;
 }
 
+_int CChr_Battle_Light::Get_Command_Cost_Sum()
+{
+    _int iCost = { 0 };
+    for (size_t i = 0; i < m_pCommands->size(); ++i) {
+        iCost += m_pCommands->at(i).second;
+    }
+    return iCost;
+}
+
+CRole::SKILL CChr_Battle_Light::Get_Current_Command()
+{
+    if (nullptr == m_pCommands || m_pCommands->empty())
+        return CRole::SKILL_END;
+
+    return m_pCommands->front().first;
+}
+
+void CChr_Battle_Light::Use_Command()
+{
+    if (nullptr != m_pCommands && !m_pCommands->empty()) {
+        m_fATB -= Get_Current_Command_Cost();
+        m_pCommands->pop_front();
+    }
+}
+
 void CChr_Battle_Light::Cancel_Command()
 {
-    if (m_pCommands->empty())
-        return;
+    if (nullptr != m_pCommands && !m_pCommands->empty())
+        m_pCommands->pop_back();
+}
 
-    m_pCommands->pop_back();
+void CChr_Battle_Light::Set_Command(deque<pair<CRole::SKILL, _int>>* pCommand)
+{
+    Safe_Delete(m_pCommands);
+
+    m_pCommands = pCommand;
+}
+
+void CChr_Battle_Light::Use_Item()
+{
+    m_eItem = CInventory::ITEM_END;
 }
 
 HRESULT CChr_Battle_Light::Add_Components()
@@ -206,18 +234,17 @@ HRESULT CChr_Battle_Light::Add_Ability()
 
 void CChr_Battle_Light::Update_FSMState(_float fTimeDelta)
 {
-
-    if (m_pGameInstance->Get_DIMouseState(DIMKS_LBUTTON)) {
+    /*if (m_pGameInstance->Get_DIMouseState(DIMKS_LBUTTON)) {
         Change_State(ATTACK);
-    }
+    }*/
 
     if (m_pGameInstance->Get_DIMouseState(DIMKS_RBUTTON)) {
         Change_State(HIT);
     }
 
-    if (m_pGameInstance->Get_KeyState(KEY_DOWN, DIK_I)) {
-        Change_State(ITEM);
-    }
+    //if (m_pGameInstance->Get_KeyState(KEY_DOWN, DIK_I)) {
+    //    Change_State(ITEM);
+    //}
 
     if (m_pGameInstance->Get_KeyState(KEY_DOWN, DIK_O)) {
         Change_Animation(DEAD_START, false);
@@ -227,8 +254,6 @@ void CChr_Battle_Light::Update_FSMState(_float fTimeDelta)
     if (m_pGameInstance->Get_KeyState(KEY_DOWN, DIK_U)) {
         Change_State(FINISH);
     }
-
-
 }
 
 void CChr_Battle_Light::Show_ImGUI()
@@ -276,7 +301,25 @@ void CChr_Battle_Light::Show_ImGUI()
     ImGui::Text("Animation Index : %d", Get_CurrentAnimationIndex());
     ImGui::Text("Animation Frame : %f", Get_CurrentTrackPosition());
 
+    if (nullptr != m_pCommands) {
+        ImGui::Text("Queue size : %d", m_pCommands->size());
+    }
+
+
+
     ImGui::End();
+}
+
+void CChr_Battle_Light::Determine_Action_Based_On_Command()
+{
+    // IDLE일때만 사용하시오
+    if (nullptr != m_pCommands && !m_pCommands->empty() && m_fATB >= Get_Command_Cost_Sum()) {
+        Change_State(ATTACK);
+    }
+    else if (CInventory::ITEM_END !=  m_eItem) {
+        Change_State(ITEM);
+    }
+
 }
 
 HRESULT CChr_Battle_Light::Add_PartObjects()
@@ -346,8 +389,11 @@ void CChr_Battle_Light::Free()
 {
     __super::Free();
 
+    Safe_Delete(m_pCommands);
+
     for (auto& iter : m_PartObjects)
         Safe_Release(iter);
+
 
     m_PartObjects.clear();
     Safe_Release(m_pFSMCom);

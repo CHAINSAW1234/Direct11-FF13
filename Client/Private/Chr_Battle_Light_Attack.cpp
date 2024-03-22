@@ -9,35 +9,31 @@ CChr_Battle_Light_Attack::CChr_Battle_Light_Attack(CChr_Battle_Light* pChr_Battl
 
 void CChr_Battle_Light_Attack::OnStateEnter()
 {
-	// 스킬이면 그자리에서 쓰도록 처리
-	if (0) {		// 조건 추가
+	CRole::SKILL eSkill = m_pChr_Battle_Light->Get_Current_Command();
+	Update_LookAt();
+	m_isCommandFinish = false;
+
+	if (eSkill == CRole::ATTACK || eSkill == CRole::AREA_BLAST) {	// 공격이면 달려가야함
+		m_eState = RUN;
+
+		if (abs(m_fDegree) < 45)
+			m_pChr_Battle_Light->Change_Animation(CChr_Battle_Light::RUN_START, false);
+		else if (m_fDegree > 0)
+			m_pChr_Battle_Light->Change_Animation(CChr_Battle_Light::RUN_START_WITH_TURN_LEFT, false);
+		else
+			m_pChr_Battle_Light->Change_Animation(CChr_Battle_Light::RUN_START_WITH_TURN_RIGHT, false);
+
+	}
+	else if (eSkill != CRole::SKILL_END) {	// 스킬이면 그자리에서 쓰도록 처리
 		m_eState = SKILL;
 		m_pChr_Battle_Light->Change_Animation(CChr_Battle_Light::SKILL, false);
 	}
 
-	m_eState = RUN;
-
-	Update_LookAt();
-
-	if (abs(m_fDegree) < 45)
-		m_pChr_Battle_Light->Change_Animation(CChr_Battle_Light::RUN_START, false);
-	else if (m_fDegree > 0)
-		m_pChr_Battle_Light->Change_Animation(CChr_Battle_Light::RUN_START_WITH_TURN_LEFT, false);
-	else
-		m_pChr_Battle_Light->Change_Animation(CChr_Battle_Light::RUN_START_WITH_TURN_RIGHT, false);
-
-	m_testAttack = false;
 }
 
 void CChr_Battle_Light_Attack::OnStateUpdate(_float fTimeDelta)
 {
 	Update_LookAt();
-
-	if (m_eState == ATTACK) {
-		if (m_pGameInstance->Get_DIMouseState(DIMKS_LBUTTON)) {
-			m_testAttack = true;
-		}
-	}
 
 	switch (m_eState) {
 	case RUN:
@@ -88,14 +84,24 @@ void CChr_Battle_Light_Attack::Run(_float fTimeDelta)
 	}
 
 	if (fDist <= 2) {
-		if (fTargetPositionY - fCurrentPositionY >= 3) {
-			m_eState = UP;
-			m_pChr_Battle_Light->Change_Animation(CChr_Battle_Light::JUMP_START, false);
+		if (m_pChr_Battle_Light->Get_Current_Command() == CRole::AREA_BLAST) {
+			m_eState = ATTACK;
+			m_pChr_Battle_Light->Change_Animation(CChr_Battle_Light::ATTACK_AREABLAST, false);
 		}
 		else {
-			m_eState = ATTACK;
-			m_pChr_Battle_Light->Change_Animation(CChr_Battle_Light::ATTACK_NOR1, false);
+			if (fTargetPositionY - fCurrentPositionY >= 3) {
+				m_eState = UP;
+				m_pChr_Battle_Light->Change_Animation(CChr_Battle_Light::JUMP_START, false);
+			}
+			else {
+				m_eState = ATTACK;
+				m_pChr_Battle_Light->Change_Animation(CChr_Battle_Light::ATTACK_NOR1, false);
+
+			}
+
 		}
+
+		
 	}
 
 }
@@ -122,75 +128,211 @@ void CChr_Battle_Light_Attack::Down(_float fTimeDelta)
 {
 	_float fCurrentPositionY = m_pChr_Battle_Light->Get_Transform()->Get_State_Float4(CTransform::STATE_POSITION).y;
 
-	if (fCurrentPositionY > 1) {
+	if (fCurrentPositionY > 0) {
 		m_pChr_Battle_Light->Get_Transform()->Go_Down(fTimeDelta);
 	}
 	else {
-		m_pChr_Battle_Light->Change_Animation(CChr_Battle_Light::JUMP_LAND, false);
+		CRole::SKILL eSkill = m_pChr_Battle_Light->Get_Current_Command();
 
+		if (eSkill == CRole::ATTACK || eSkill == CRole::AREA_BLAST) {	// 공격이면 달려가야함
+			m_eState = RUN;
+			m_pChr_Battle_Light->Change_Animation(CChr_Battle_Light::RUN_START, false);
+		}
+		else if (eSkill != CRole::SKILL_END) {	// 스킬이면 그자리에서 쓰도록 처리
+			m_eState = SKILL;
+			m_pChr_Battle_Light->Change_Animation(CChr_Battle_Light::SKILL, false);
+		}
+
+		m_pChr_Battle_Light->Change_Animation(CChr_Battle_Light::JUMP_LAND, false);
 		m_eState = FINISH;
 	}
 }
 
 void CChr_Battle_Light_Attack::Attack(_float fTimeDelta)
 {
-	if (m_testAttack ) {
-		if (m_pChr_Battle_Light->Get_Transform()->Get_State_Float4(CTransform::STATE_POSITION).y > 2) {
-			if (m_pChr_Battle_Light->Get_CurrentTrackPosition() >= 23) {
-				_uint iCurAnimation = m_pChr_Battle_Light->Get_CurrentAnimationIndex();
-				_int nextAnimation = iCurAnimation;
-				while (nextAnimation == iCurAnimation) {
-					nextAnimation = rand() % 3;
-				}
+	// if문 순서 : 
+	// 1. 공중과 지상 구분
+	// 2. 다음 공격과의 연계 체크
+	// 3. 공격 종료시 다음 애니메이션 체크
 
-				m_pChr_Battle_Light->Change_Animation(CChr_Battle_Light::ANIMATION_CHR_BATTLE_LIGHT(nextAnimation), false);
-				m_testAttack = false;
+
+	if (m_pChr_Battle_Light->Get_Transform()->Get_State_Float4(CTransform::STATE_POSITION).y > 1) {
+		if (!m_isCommandFinish) {
+			if (m_pChr_Battle_Light->Get_CurrentTrackPosition() >= 23) {
+				m_pChr_Battle_Light->Use_Command();
+				CRole::SKILL eSkill = m_pChr_Battle_Light->Get_Current_Command();
+
+				switch (eSkill) {
+				case CRole::ATTACK: 
+				{
+					_uint iCurAnimation = m_pChr_Battle_Light->Get_CurrentAnimationIndex();
+					_int nextAnimation = iCurAnimation;
+
+					while (nextAnimation == iCurAnimation)
+						nextAnimation = rand() % 3;
+
+					m_pChr_Battle_Light->Change_Animation(CChr_Battle_Light::ANIMATION_CHR_BATTLE_LIGHT(nextAnimation), false);
+				}
+				break;
+				case CRole::AREA_BLAST:
+					m_eState = DOWN;
+					m_pChr_Battle_Light->Change_Animation(CChr_Battle_Light::JUMP_FALL, true);
+					break;
+				case CRole::SKILL_END:
+					m_isCommandFinish = true;
+					break;
+				default:
+					m_eState = SKILL;
+					m_pChr_Battle_Light->Change_Animation(CChr_Battle_Light::SKILL_AIR, false);
+					break;
+				}
 			}
 		}
 		else {
+			if (m_pChr_Battle_Light->Is_Animation_Finished()) {
+				m_eState = DOWN;
+				m_pChr_Battle_Light->Change_Animation(CChr_Battle_Light::JUMP_FALL, true);
+			}
+		}
+	}
+
+	else  {
+		if (!m_isCommandFinish) {
 			if (m_pChr_Battle_Light->Get_CurrentTrackPosition() >= 17) {
-				m_pChr_Battle_Light->Change_Animation(CChr_Battle_Light::ANIMATION_CHR_BATTLE_LIGHT(m_pChr_Battle_Light->Get_CurrentAnimationIndex() + 1), false);
-				m_testAttack = false;
+				m_pChr_Battle_Light->Use_Command();
+				CRole::SKILL eSkill = m_pChr_Battle_Light->Get_Current_Command();
+
+				switch (eSkill) {
+				case CRole::ATTACK:
+				{
+					if (Get_Dist_Y() >= 3) {
+						m_eState = UP;
+						m_pChr_Battle_Light->Change_Animation(CChr_Battle_Light::JUMP_START, false);
+						return;
+					}
+					_uint iCurAnimation = m_pChr_Battle_Light->Get_CurrentAnimationIndex();
+					_int nextAnimation = iCurAnimation;
+					while (nextAnimation == iCurAnimation)
+						nextAnimation = rand() % 4 + CChr_Battle_Light::ATTACK_NOR1;
+
+					m_pChr_Battle_Light->Change_Animation(CChr_Battle_Light::ANIMATION_CHR_BATTLE_LIGHT(nextAnimation), false);
+				}
+					break;
+				case CRole::AREA_BLAST:
+					m_pChr_Battle_Light->Change_Animation(CChr_Battle_Light::ATTACK_AREABLAST, false);
+					break;
+				case CRole::SKILL_END:
+					m_isCommandFinish = true;
+					break;
+				default:
+					m_eState = SKILL;
+					m_pChr_Battle_Light->Change_Animation(CChr_Battle_Light::SKILL, false);
+					break;
+				}
 			}
 			
 		}
-	}
-
-	// 공격이 끝났을때, 공중에 있다면 Down으로 이동
-	_float fCurrentPositionY = m_pChr_Battle_Light->Get_Transform()->Get_State_Float4(CTransform::STATE_POSITION).y;
-
-	if (m_pChr_Battle_Light->Is_Animation_Finished()) {
-		if (fCurrentPositionY > 1) {
-			m_eState = DOWN;
-			m_pChr_Battle_Light->Change_Animation(CChr_Battle_Light::JUMP_FALL, true);
-		}
 		else {
-			m_pChr_Battle_Light->Change_Animation(CChr_Battle_Light::ATTACK_END, false);
-			m_eState = FINISH;
+			if (m_pChr_Battle_Light->Is_Animation_Finished()) {
+				CRole::SKILL eSkill = m_pChr_Battle_Light->Get_Current_Command();
+
+				if (eSkill == CRole::SKILL_END) {
+					m_pChr_Battle_Light->Change_Animation(CChr_Battle_Light::ATTACK_END, false);
+					m_eState = FINISH;
+				}
+				else {
+					m_pChr_Battle_Light->Change_Animation(CChr_Battle_Light::SKILL, false);
+					m_eState = SKILL;
+					m_isCommandFinish = false;
+				}
+
+
+			}
 		}
 	}
+
 }
 
 void CChr_Battle_Light_Attack::Skill(_float fTimeDelta)
 {
-	// 이부분 수정 많이 필요함
-	switch (m_pChr_Battle_Light->Get_CurrentAnimationIndex()) {
-	case CChr_Battle_Light::SKILL:
-		//if()
-		break;
-	case CChr_Battle_Light::SKILL_AIR:
-		break;
-	}
+	if (m_pChr_Battle_Light->Get_Transform()->Get_State_Float4(CTransform::STATE_POSITION).y > 1) {
+		if (!m_isCommandFinish) {
+			if (m_pChr_Battle_Light->Is_Animation_Finished()) {
+				m_pChr_Battle_Light->Use_Command();
+				CRole::SKILL eSkill = m_pChr_Battle_Light->Get_Current_Command();
 
-	if (m_pChr_Battle_Light->Is_Animation_Finished()) {
-		m_pChr_Battle_Light->Change_Animation(CChr_Battle_Light::ANIM_IDLE, false);
-		m_eState = RUN;
+				switch (eSkill) {
+				case CRole::ATTACK:
+					m_eState = ATTACK;
+					m_pChr_Battle_Light->Change_Animation(CChr_Battle_Light::ATTACK_AIR, false);
+					break;
+				case CRole::AREA_BLAST:
+					m_eState = DOWN;
+					m_pChr_Battle_Light->Change_Animation(CChr_Battle_Light::JUMP_FALL, true);
+					break;
+				case CRole::SKILL_END:
+					m_isCommandFinish = true;
+					break;
+				default:
+					m_pChr_Battle_Light->Set_TrackPosition(0.f);
+					break;
+				}
+			}
+		}
+		else {
+			if (m_pChr_Battle_Light->Is_Animation_Finished()) {
+				m_eState = DOWN;
+				m_pChr_Battle_Light->Change_Animation(CChr_Battle_Light::JUMP_FALL, true);
+			}
+		}
+	}
+	else {
+		if (!m_isCommandFinish) {
+			if (m_pChr_Battle_Light->Get_CurrentTrackPosition() >= 30) {
+				m_pChr_Battle_Light->Use_Command();
+				CRole::SKILL eSkill = m_pChr_Battle_Light->Get_Current_Command();
+
+				switch (eSkill) {
+				case CRole::ATTACK:
+				case CRole::AREA_BLAST:
+				case CRole::SKILL_END:
+					m_isCommandFinish = true;
+					break;
+				default:
+					if (m_pChr_Battle_Light->Get_CurrentAnimationIndex() == CChr_Battle_Light::SKILL) {
+						m_pChr_Battle_Light->Change_Animation(CChr_Battle_Light::SKILL_2, false);
+						m_pChr_Battle_Light->Set_TrackPosition(15.f);
+					}
+					else {
+						m_pChr_Battle_Light->Change_Animation(CChr_Battle_Light::SKILL, false);
+						m_pChr_Battle_Light->Set_TrackPosition(15.f);
+					}
+					break;
+				}
+			}
+		}
+		else {
+			if (m_pChr_Battle_Light->Is_Animation_Finished()) {
+				CRole::SKILL eSkill = m_pChr_Battle_Light->Get_Current_Command();
+
+				if (eSkill == CRole::SKILL_END) {
+					m_pChr_Battle_Light->Change_State(CChr_Battle_Light::IDLE);
+				}
+				else {
+					m_pChr_Battle_Light->Change_Animation(CChr_Battle_Light::RUN_START, false);
+					m_eState = RUN;
+					m_isCommandFinish = false;
+				}
+			}
+		}
 	}
 
 }
 
 void CChr_Battle_Light_Attack::Finish(_float fTimeDelta)
 {
+	m_pChr_Battle_Light->Update_ATB(fTimeDelta);
+
 	if (m_pChr_Battle_Light->Is_Animation_Finished()) {
 		switch (m_pChr_Battle_Light->Get_CurrentAnimationIndex()) {
 		case CChr_Battle_Light::JUMP_LAND:
@@ -218,6 +360,22 @@ void CChr_Battle_Light_Attack::Update_LookAt()
 	
 	_float4 vCurrentLook = m_pChr_Battle_Light->Get_Transform()->Get_State_Float4(CTransform::STATE_LOOK);
 	m_fDegree = Cal_Degree_From_Directions_Between_Min180_To_180(vCurrentLook, vTargetLook);
+}
+_float CChr_Battle_Light_Attack::Get_Dist_Y()
+{
+	// Target과 현재 위치사이의 길이를 y값을 제외하고 구한다 
+
+	_vector vTargetPosition = XMLoadFloat4(&m_pChr_Battle_Light->Get_Target_Position());
+	_float fTargetPositionY = vTargetPosition.m128_f32[1];
+	vTargetPosition.m128_f32[1] = 0.f;
+
+	_vector vCurrentPosition = m_pChr_Battle_Light->Get_Transform()->Get_State_Vector(CTransform::STATE_POSITION);
+	_float fCurrentPositionY = vTargetPosition.m128_f32[1];
+	vCurrentPosition.m128_f32[1] = 0.f;
+
+	_float fDist = XMVector3Length(vTargetPosition - vCurrentPosition).m128_f32[0];
+
+	return fTargetPositionY - fCurrentPositionY;
 }
 CChr_Battle_Light_Attack* CChr_Battle_Light_Attack::Create(CChr_Battle_Light* pChr_Battle_Light)
 {

@@ -29,13 +29,15 @@ private:
 
 	void Update_LookAt();			// Target 위치와 내 Look벡터간의 각도를 계산해서 저장함
 
+	_float Get_Dist_Y();
+	
 private:
 	class CChr_Battle_Light* m_pChr_Battle_Light = { nullptr };
 	STATE m_eState = { STATE_END };
 	LAND m_eLand = { LAND_END };
 
 	_float m_fDegree = { 0.f };
-	_bool	m_testAttack = { false };
+	_bool  m_isCommandFinish = { false };
 
 public:
 	static	CChr_Battle_Light_Attack* Create(class CChr_Battle_Light* pChr_Battle_Light);

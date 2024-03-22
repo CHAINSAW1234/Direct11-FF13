@@ -8,6 +8,7 @@
 
 #include "UI_Cursor.h"
 #include "UI_Pnal_Attack.h"
+#include "UI_Pnal_Item.h"
 #include "UI_Pnal.h"
 #include "UI_ATB.h"
 
@@ -209,13 +210,18 @@ HRESULT CLoader::Loading_Prototype()
 		return E_FAIL;
 
 	/* For.Prototype_GameObject_UI_Pnal */
+	if (FAILED(m_pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_UI_Pnal"),
+		CUI_Pnal::Create(m_pDevice, m_pContext))))
+		return E_FAIL;
+
+	/* For.Prototype_GameObject_UI_Pnal_Attack */
 	if (FAILED(m_pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_UI_Pnal_Attack"),
 		CUI_Pnal_Attack::Create(m_pDevice, m_pContext))))
 		return E_FAIL;
 
-	/* For.Prototype_GameObject_UI_Pnal */
-	if (FAILED(m_pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_UI_Pnal"),
-		CUI_Pnal::Create(m_pDevice, m_pContext))))
+	/* For.Prototype_GameObject_UI_Pnal_Item */
+	if (FAILED(m_pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_UI_Pnal_Item"),
+		CUI_Pnal_Item::Create(m_pDevice, m_pContext))))
 		return E_FAIL;
 
 	/* For.Prototype_GameObject_UI_ATB */

@@ -58,7 +58,6 @@ HRESULT CUI_Pnal_Attack::Late_Tick(_float fTimeDelta)
 
 HRESULT CUI_Pnal_Attack::Render()
 {
-
 	if (m_isDead) {
 		if (FAILED(Bind_ShaderResources()))
 			return E_FAIL;

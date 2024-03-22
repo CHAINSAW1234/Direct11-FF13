@@ -26,6 +26,7 @@ public:
 private:
 	HRESULT Add_Pnals();
 	void Update_Cursor();
+	void Create_Pnal_Item();
 
 private:
 	CPlayer_Battle*		m_pPlayer_Battle = { nullptr };

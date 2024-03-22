@@ -17,14 +17,14 @@ BEGIN(Client)
 class CChr_Battle_Light final : public CChr_Battle
 {
 public:
-	enum STATE { IDLE, ATTACK, ITEM, HIT, DEAD, TP, FINISH, STATE_END };
+	enum STATE { IDLE, PREPARE, ATTACK, ITEM, HIT, DEAD, TP, FINISH, STATE_END };
 	enum ANIMATION_CHR_BATTLE_LIGHT {	// FINISH -> 전투 종료	// IDLE_IDLE은 STATE랑 겹처서 만듬
 		ATTACK_AIR, ATTACK_AIR_SPIN, ATTACK_AIR_SPIN2, ATTACK_AMBUSH, ATTACK_AMBUSH2, ATTACK_AREABLAST,
-		ATTACK_END, ATTACK_END2, ATTACK_NOR1, ATTACK_NOR2_2, ATTACK_NOR_3, ATTACK_PREPARE,
+		ATTACK_END, ATTACK_END2, ATTACK_NOR1, ATTACK_NOR2, ATTACK_NOR_3, ATTACK_NOR_4, ATTACK_PREPARE,
 		DEAD_END, DEAD_IDLE, DEAD_START, ANIM_FINISH,
 		HIT_AIR, HIT_AIR_START, HIT_BACK, HIT_FALL, HIT_FALL_DEAD, HIT_FALL_GETUP, HIT_LEFT, HIT_RIGHT,
 		HIT_STRAIGHT_LEFT, HIT_STRAIGHT_RIGHT, ANIM_IDLE, IDLE_HURT, IDLE_HURT_START, IDLE_HURT_END,
-		IDLE_TURN_LEFT, IDLE_TURN_RIGHT, ITEM_OTHER, ITEM_SELF,
+		IDLE_TURN_LEFT, IDLE_TURN_RIGHT, ITEM_SELF,
 		JUMP_FALL, JUMP_LAND, JUMP_START, JUMP_UP,
 		MOVE_BACK, MOVE_BACK_STOP_LEFT, MOVE_BACK_STOP_RIGHT,
 		MOVE_LEFT, MOVE_LEFT_STOP_LEFT, MOVE_LEFT_STOP_RIGHT,
@@ -33,7 +33,7 @@ public:
 		OPTIMACHANGE, RUN_IDLE, RUN_START, RUN_START_WITH_TURN_LEFT, RUN_START_WITH_TURN_RIGHT, RUN_STOP,
 		SKILL, SKILL_AIR, 
 		SKILL_AIR_END, SKILL_AIR_IDLE, SKILL_AIR_START,
-		SKILL_END, SKILL_IDLE, SKILL_START, ANIM_TP };
+		SKILL_2, SKILL_END, SKILL_IDLE, SKILL_START, ANIM_TP };
 	enum ANIMATION_CHR_BATTLE_LIGHT_WEAPON {
 		WEAPON_CLOSE, WEAPON_CLOSE_IDLE, WEAPON_OPEN, WEAPON_OPEN_IDLE
 	};
@@ -56,10 +56,11 @@ public:
 	_uint		Get_CurrentAnimationIndex();
 	_float		Get_CurrentTrackPosition();
 	_bool		Is_Animation_Finished();
-	void		Set_TrackPosition(_float fTrackPosition);
 
 	_float4		Get_Target_Position() { return ((CTransform*)m_pTargetObject->Get_Component(g_strTransformTag))->Get_State_Float4(CTransform::STATE_POSITION); }
 	_float4		Get_Start_Position() { return m_vStartPosition; }
+
+	void		Set_TrackPosition(_float fTrackPosition);
 	void		Set_Target(CGameObject* pTargetObject) { m_pTargetObject = pTargetObject; }
 
 public:
@@ -68,11 +69,19 @@ public:
 	void	Change_Animation_Weapon(ANIMATION_CHR_BATTLE_LIGHT_WEAPON iAnimationIndex);
 	_float4	Get_Look();						// Player의 Look vector를 Y값을 지우고 리턴
 	
-
 	size_t	Get_Command_Size() { return m_pCommands->size(); }
+	_int	Get_Command_Cost_Sum();
+	_int	Get_Current_Command_Cost() { return m_pCommands->front().second; }
+	CRole::SKILL Get_Current_Command();
+	void	Use_Command();
 	void	Cancel_Command();
-	void	Set_Command(deque<CRole::SKILL>* pCommand) { m_pCommands = pCommand; } 				// Player에게 명령을 전달
+	void	Set_Command(deque<pair<CRole::SKILL, _int>>* pCommand);				// Player에게 명령을 전달
+	
+	CInventory::ITEM Get_Item() { return m_eItem; }
+	void	Use_Item();
+	void	Set_Item(CInventory::ITEM eItem) { m_eItem = eItem; }
 
+	void	Determine_Action_Based_On_Command();						// queue에 의거하여 행동을 결정
 
 private:
 	HRESULT Add_Components();
@@ -82,6 +91,7 @@ private:
 
 	void	Update_FSMState(_float fTimeDelta);
 	void	Show_ImGUI();
+
 
 private:
 	CGameObject* m_pTargetObject = { nullptr };
@@ -94,11 +104,9 @@ private:
 
 	// 초기위치 필요한?
 
-	deque<CRole::SKILL>*	m_pCommands = { nullptr };
-	CInventory::ITEM*		m_pItem = { nullptr };
+	deque<pair<CRole::SKILL, _int>>*	m_pCommands = { nullptr };
+	CInventory::ITEM		m_eItem = { CInventory::ITEM_END };
 	class CImGUI_Manager*	m_pImGUI_Manager = { nullptr };
-
-
 
 public:
 	static CChr_Battle_Light* Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);

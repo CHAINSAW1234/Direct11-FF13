@@ -27,7 +27,7 @@ private:
 	HRESULT Add_Pnals();
 	void	Update_Cursor();
 	void	Change_Stage();
-
+	void	Auto_Commands();		// 자동으로 커멘드 넣기
 private:
 	CPlayer_Battle*		m_pPlayer_Battle = { nullptr };
 	vector<CUI_Pnal*>	m_Pnals;

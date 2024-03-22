@@ -24,17 +24,8 @@ void CChr_Battle_Light_Idle::OnStateEnter()
 
 void CChr_Battle_Light_Idle::OnStateUpdate(_float fTimeDelta)
 {
-	if (m_pGameInstance->Get_KeyState(KEY_DOWN, DIK_H)) {
-		m_isHurt = !m_isHurt;
-	}
-
-	if (m_pGameInstance->Get_KeyState(KEY_DOWN, DIK_P)) {
-		m_eState = IDLE;
-		m_pChr_Battle_Light->Change_Animation(CChr_Battle_Light::ATTACK_PREPARE, false);
-		m_pChr_Battle_Light->Set_TrackPosition(10.f);
-		m_fTimeDelta = 0.f;
-
-	}
+	m_pChr_Battle_Light->Determine_Action_Based_On_Command();
+	m_pChr_Battle_Light->Update_ATB(fTimeDelta);
 
 	Update_LookAt();
 

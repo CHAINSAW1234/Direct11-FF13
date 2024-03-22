@@ -159,7 +159,7 @@ void CUI_Battle_Stage_Command::Create_Pnal_Attack()
 	UI_Pnal_Attack_desc.vTargetPosition = { 0.f, 0.f, 0.f };
 	UI_Pnal_Attack_desc.eSkill = eSkill;
 	UI_Pnal_Attack_desc.iSize = pRole->Get_Skill_Cost(eSkill);
-	UI_Pnal_Attack_desc.strName = pRole->Get_SkillName(eSkill);
+	UI_Pnal_Attack_desc.strName = CRole::Get_SkillName(eSkill);
 
 	CUI_Pnal_Attack* pPnal_Attack = dynamic_cast<CUI_Pnal_Attack*>(m_pGameInstance->Add_Clone_With_Object(g_Level, TEXT("Layer_UI"), TEXT("Prototype_GameObject_UI_Pnal_Attack"), &UI_Pnal_Attack_desc));
 
@@ -180,8 +180,8 @@ CUI_Battle_Stage_Command* CUI_Battle_Stage_Command::Create(CPlayer_Battle* pPlay
 void CUI_Battle_Stage_Command::Free()
 {
 	__super::Free();
+
 	for (auto& pPnal : m_Pnals)
 		Safe_Release(pPnal);
-
 	m_Pnals.clear();
 }

@@ -12,6 +12,7 @@ C:\Users\stgo5015\Documents\GitHub\Direct11_FF13\Client\Private\Chr_Battle_Light
 C:\Users\stgo5015\Documents\GitHub\Direct11_FF13\Client\Private\Chr_Battle_Light_Hit.cpp;C:\Users\stgo5015\Documents\GitHub\Direct11_FF13\Client\Default\x64\Debug\Chr_Battle_Light_Hit.obj
 C:\Users\stgo5015\Documents\GitHub\Direct11_FF13\Client\Private\Chr_Battle_Light_Idle.cpp;C:\Users\stgo5015\Documents\GitHub\Direct11_FF13\Client\Default\x64\Debug\Chr_Battle_Light_Idle.obj
 C:\Users\stgo5015\Documents\GitHub\Direct11_FF13\Client\Private\Chr_Battle_Light_Item.cpp;C:\Users\stgo5015\Documents\GitHub\Direct11_FF13\Client\Default\x64\Debug\Chr_Battle_Light_Item.obj
+C:\Users\stgo5015\Documents\GitHub\Direct11_FF13\Client\Private\Chr_Battle_Light_Preprare.cpp;C:\Users\stgo5015\Documents\GitHub\Direct11_FF13\Client\Default\x64\Debug\Chr_Battle_Light_Preprare.obj
 C:\Users\stgo5015\Documents\GitHub\Direct11_FF13\Client\Private\Chr_Battle_Light_State_Finish.cpp;C:\Users\stgo5015\Documents\GitHub\Direct11_FF13\Client\Default\x64\Debug\Chr_Battle_Light_State_Finish.obj
 C:\Users\stgo5015\Documents\GitHub\Direct11_FF13\Client\Private\Chr_Field.cpp;C:\Users\stgo5015\Documents\GitHub\Direct11_FF13\Client\Default\x64\Debug\Chr_Field.obj
 C:\Users\stgo5015\Documents\GitHub\Direct11_FF13\Client\Private\Chr_Field_State_Battle_Begin.cpp;C:\Users\stgo5015\Documents\GitHub\Direct11_FF13\Client\Default\x64\Debug\Chr_Field_State_Battle_Begin.obj
@@ -45,10 +46,12 @@ C:\Users\stgo5015\Documents\GitHub\Direct11_FF13\Client\Private\UI_Battle_Stage_
 C:\Users\stgo5015\Documents\GitHub\Direct11_FF13\Client\Private\UI_Battle_Stage_Item.cpp;C:\Users\stgo5015\Documents\GitHub\Direct11_FF13\Client\Default\x64\Debug\UI_Battle_Stage_Item.obj
 C:\Users\stgo5015\Documents\GitHub\Direct11_FF13\Client\Private\UI_Battle_Stage_Select.cpp;C:\Users\stgo5015\Documents\GitHub\Direct11_FF13\Client\Default\x64\Debug\UI_Battle_Stage_Select.obj
 C:\Users\stgo5015\Documents\GitHub\Direct11_FF13\Client\Private\UI_Battle_Stage_Target.cpp;C:\Users\stgo5015\Documents\GitHub\Direct11_FF13\Client\Default\x64\Debug\UI_Battle_Stage_Target.obj
+C:\Users\stgo5015\Documents\GitHub\Direct11_FF13\Client\Private\UI_Battle_Stage_Target_Member.cpp;C:\Users\stgo5015\Documents\GitHub\Direct11_FF13\Client\Default\x64\Debug\UI_Battle_Stage_Target_Member.obj
 C:\Users\stgo5015\Documents\GitHub\Direct11_FF13\Client\Private\UI_Battle_Stage_Wait.cpp;C:\Users\stgo5015\Documents\GitHub\Direct11_FF13\Client\Default\x64\Debug\UI_Battle_Stage_Wait.obj
 C:\Users\stgo5015\Documents\GitHub\Direct11_FF13\Client\Private\UI_Cursor.cpp;C:\Users\stgo5015\Documents\GitHub\Direct11_FF13\Client\Default\x64\Debug\UI_Cursor.obj
 C:\Users\stgo5015\Documents\GitHub\Direct11_FF13\Client\Private\UI_Pnal.cpp;C:\Users\stgo5015\Documents\GitHub\Direct11_FF13\Client\Default\x64\Debug\UI_Pnal.obj
 C:\Users\stgo5015\Documents\GitHub\Direct11_FF13\Client\Private\UI_Pnal_Attack.cpp;C:\Users\stgo5015\Documents\GitHub\Direct11_FF13\Client\Default\x64\Debug\UI_Pnal_Attack.obj
+C:\Users\stgo5015\Documents\GitHub\Direct11_FF13\Client\Private\UI_Pnal_Item.cpp;C:\Users\stgo5015\Documents\GitHub\Direct11_FF13\Client\Default\x64\Debug\UI_Pnal_Item.obj
 C:\Users\stgo5015\Documents\GitHub\Direct11_FF13\Client\Private\Weapon_Anim.cpp;C:\Users\stgo5015\Documents\GitHub\Direct11_FF13\Client\Default\x64\Debug\Weapon_Anim.obj
 C:\Users\stgo5015\Documents\GitHub\Direct11_FF13\Client\Private\Weapon_Study.cpp;C:\Users\stgo5015\Documents\GitHub\Direct11_FF13\Client\Default\x64\Debug\Weapon_Study.obj
 C:\Users\stgo5015\Documents\GitHub\Direct11_FF13\Client\Public\Chr_Field_State_Move.cpp;C:\Users\stgo5015\Documents\GitHub\Direct11_FF13\Client\Default\x64\Debug\Chr_Field_State_Move.obj

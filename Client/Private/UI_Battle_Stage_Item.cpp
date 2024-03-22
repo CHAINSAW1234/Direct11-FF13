@@ -2,7 +2,7 @@
 #include "UI_Battle_Stage_Item.h"
 #include "Player_Battle.h"
 #include "Inventory.h"
-#include "UI_Pnal.h"
+#include "UI_Pnal_Item.h"
 
 CUI_Battle_Stage_Item::CUI_Battle_Stage_Item(CPlayer_Battle* pPlayer_Battle)
 {
@@ -21,6 +21,11 @@ void CUI_Battle_Stage_Item::OnStateEnter()
 void CUI_Battle_Stage_Item::OnStateUpdate(_float fTimeDelta)
 {
 	Update_Cursor();
+	if (m_pGameInstance->Get_KeyState(KEY_DOWN, DIK_RETURN)) {
+		Create_Pnal_Item();
+		m_pPlayer_Battle->Change_Stage(CPlayer_Battle::STAGE_TARGET_MEMBER);
+	}
+
 	if (m_pGameInstance->Get_KeyState(KEY_DOWN, DIK_BACKSPACE)) {
 		m_pPlayer_Battle->Back_Stage();
 	}
@@ -104,6 +109,25 @@ void CUI_Battle_Stage_Item::Update_Cursor()
 
 	m_pPlayer_Battle->Set_CursorPosition(m_Pnals[m_iCursor]->Get_TargetPosition());
 
+}
+
+void CUI_Battle_Stage_Item::Create_Pnal_Item()
+{
+	CInventory::ITEM eItem = m_pPlayer_Battle->Get_Inventory()->Get_Item_Index(m_iCursor);
+
+	CUI_Pnal_Item::UI_PNAL_ITEM_DESC UI_Pnal_Item_desc = {};
+
+	UI_Pnal_Item_desc.vStartPosition = { 0.f, -150.f, 0.f };
+	UI_Pnal_Item_desc.vTargetPosition = { 0.f, 0.f, 0.f };
+	UI_Pnal_Item_desc.eItem = eItem;
+	UI_Pnal_Item_desc.strName = CInventory::Get_Item_Name(eItem);
+
+	CUI_Pnal_Item* pPnal_Item = dynamic_cast<CUI_Pnal_Item*>(m_pGameInstance->Add_Clone_With_Object(g_Level, TEXT("Layer_UI"), TEXT("Prototype_GameObject_UI_Pnal_Item"), &UI_Pnal_Item_desc));
+
+	if (nullptr == pPnal_Item)
+		return;
+
+	m_pPlayer_Battle->Add_Item(pPnal_Item);
 }
 
 CUI_Battle_Stage_Item* CUI_Battle_Stage_Item::Create(CPlayer_Battle* pPlayer_Battle)

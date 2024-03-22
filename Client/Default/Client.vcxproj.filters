@@ -169,18 +169,6 @@
     <Filter Include="03.UI\Battle\UI_Pnal">
       <UniqueIdentifier>{fab70c61-7430-46ae-acbd-4a14299e7ac4}</UniqueIdentifier>
     </Filter>
-    <Filter Include="03.UI\Battle\Player_Battle\UI_Battle_Stage_Select">
-      <UniqueIdentifier>{2d5efb4e-6630-457e-92c5-a34022573405}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="03.UI\Battle\Player_Battle\UI_Battle_Stage_Target">
-      <UniqueIdentifier>{bfec82ff-10c8-4871-ba0e-13fda9ca6827}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="03.UI\Battle\Player_Battle\UI_Battle_Stage_Command">
-      <UniqueIdentifier>{74f80acb-4b13-4062-8004-fe90110afb38}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="03.UI\Battle\Player_Battle\UI_Battle_Stage_Item">
-      <UniqueIdentifier>{0a91e821-e0ef-4cc1-be58-e4123098482e}</UniqueIdentifier>
-    </Filter>
     <Filter Include="03.UI\Battle\UI_Cursor">
       <UniqueIdentifier>{8988a428-1f6c-464b-9eb8-2b2002989556}</UniqueIdentifier>
     </Filter>
@@ -196,11 +184,35 @@
     <Filter Include="02.GameObjects\Optima\Role">
       <UniqueIdentifier>{a628c111-b9b2-4404-8126-e375d8676e62}</UniqueIdentifier>
     </Filter>
-    <Filter Include="03.UI\Battle\Player_Battle\UI_Battle_Stage_Wait">
-      <UniqueIdentifier>{87f153bf-279c-4a22-a90e-367cdcd5a7aa}</UniqueIdentifier>
-    </Filter>
     <Filter Include="03.UI\Battle\UI_Pnal\UI_Pnal_Attack">
       <UniqueIdentifier>{89672019-5e9b-490b-9879-3731d92e0cb7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="03.UI\Battle\UI_Pnal\UI_Pnal_Item">
+      <UniqueIdentifier>{8ae775f8-3fa0-4eea-85dc-226b83fca0de}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="03.UI\Battle\Player_Battle\Stage">
+      <UniqueIdentifier>{1bc4f72c-01cb-4692-9cac-a3e23be5c581}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="03.UI\Battle\Player_Battle\Stage\UI_Battle_Stage_Command">
+      <UniqueIdentifier>{74f80acb-4b13-4062-8004-fe90110afb38}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="03.UI\Battle\Player_Battle\Stage\UI_Battle_Stage_Item">
+      <UniqueIdentifier>{0a91e821-e0ef-4cc1-be58-e4123098482e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="03.UI\Battle\Player_Battle\Stage\UI_Battle_Stage_Select">
+      <UniqueIdentifier>{2d5efb4e-6630-457e-92c5-a34022573405}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="03.UI\Battle\Player_Battle\Stage\UI_Battle_Stage_Target">
+      <UniqueIdentifier>{bfec82ff-10c8-4871-ba0e-13fda9ca6827}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="03.UI\Battle\Player_Battle\Stage\UI_Battle_Stage_Target_Member">
+      <UniqueIdentifier>{c1a6c6d9-61b5-4039-9069-9bbfcad5aac4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="03.UI\Battle\Player_Battle\Stage\UI_Battle_Stage_Wait">
+      <UniqueIdentifier>{87f153bf-279c-4a22-a90e-367cdcd5a7aa}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\Chr\Chr_Battle\Light\State\Chr_Battle_Light_Prepare">
+      <UniqueIdentifier>{f889615a-48b7-41c8-9a36-aa36c3b178d9}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -385,13 +397,13 @@
       <Filter>03.UI\Battle\UI_Pnal</Filter>
     </ClInclude>
     <ClInclude Include="..\Public\UI_Battle_Stage_Command.h">
-      <Filter>03.UI\Battle\Player_Battle\UI_Battle_Stage_Command</Filter>
+      <Filter>03.UI\Battle\Player_Battle\Stage\UI_Battle_Stage_Command</Filter>
     </ClInclude>
     <ClInclude Include="..\Public\UI_Battle_Stage_Target.h">
-      <Filter>03.UI\Battle\Player_Battle\UI_Battle_Stage_Target</Filter>
+      <Filter>03.UI\Battle\Player_Battle\Stage\UI_Battle_Stage_Target</Filter>
     </ClInclude>
     <ClInclude Include="..\Public\UI_Battle_Stage_Select.h">
-      <Filter>03.UI\Battle\Player_Battle\UI_Battle_Stage_Select</Filter>
+      <Filter>03.UI\Battle\Player_Battle\Stage\UI_Battle_Stage_Select</Filter>
     </ClInclude>
     <ClInclude Include="..\Public\UI_Cursor.h">
       <Filter>03.UI\Battle\UI_Cursor</Filter>
@@ -412,10 +424,19 @@
       <Filter>03.UI\Battle\UI_Pnal\UI_Pnal_Attack</Filter>
     </ClInclude>
     <ClInclude Include="..\Public\UI_Battle_Stage_Item.h">
-      <Filter>03.UI\Battle\Player_Battle\UI_Battle_Stage_Item</Filter>
+      <Filter>03.UI\Battle\Player_Battle\Stage\UI_Battle_Stage_Item</Filter>
     </ClInclude>
     <ClInclude Include="..\Public\UI_Battle_Stage_Wait.h">
-      <Filter>03.UI\Battle\Player_Battle\UI_Battle_Stage_Wait</Filter>
+      <Filter>03.UI\Battle\Player_Battle\Stage\UI_Battle_Stage_Wait</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\UI_Battle_Stage_Target_Member.h">
+      <Filter>03.UI\Battle\Player_Battle\Stage\UI_Battle_Stage_Target_Member</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\UI_Pnal_Item.h">
+      <Filter>03.UI\Battle\UI_Pnal\UI_Pnal_Item</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\Chr_Battle_Light_Preprare.h">
+      <Filter>02.GameObjects\Chr\Chr_Battle\Light\State\Chr_Battle_Light_Prepare</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -582,16 +603,16 @@
       <Filter>03.UI\Battle\UI_Pnal</Filter>
     </ClCompile>
     <ClCompile Include="..\Private\UI_Battle_Stage_Select.cpp">
-      <Filter>03.UI\Battle\Player_Battle\UI_Battle_Stage_Select</Filter>
+      <Filter>03.UI\Battle\Player_Battle\Stage\UI_Battle_Stage_Select</Filter>
     </ClCompile>
     <ClCompile Include="..\Private\UI_Battle_Stage_Item.cpp">
-      <Filter>03.UI\Battle\Player_Battle\UI_Battle_Stage_Item</Filter>
+      <Filter>03.UI\Battle\Player_Battle\Stage\UI_Battle_Stage_Item</Filter>
     </ClCompile>
     <ClCompile Include="..\Private\UI_Battle_Stage_Command.cpp">
-      <Filter>03.UI\Battle\Player_Battle\UI_Battle_Stage_Command</Filter>
+      <Filter>03.UI\Battle\Player_Battle\Stage\UI_Battle_Stage_Command</Filter>
     </ClCompile>
     <ClCompile Include="..\Private\UI_Battle_Stage_Target.cpp">
-      <Filter>03.UI\Battle\Player_Battle\UI_Battle_Stage_Target</Filter>
+      <Filter>03.UI\Battle\Player_Battle\Stage\UI_Battle_Stage_Target</Filter>
     </ClCompile>
     <ClCompile Include="..\Private\UI_Cursor.cpp">
       <Filter>03.UI\Battle\UI_Cursor</Filter>
@@ -612,7 +633,16 @@
       <Filter>03.UI\Battle\UI_Pnal\UI_Pnal_Attack</Filter>
     </ClCompile>
     <ClCompile Include="..\Private\UI_Battle_Stage_Wait.cpp">
-      <Filter>03.UI\Battle\Player_Battle\UI_Battle_Stage_Wait</Filter>
+      <Filter>03.UI\Battle\Player_Battle\Stage\UI_Battle_Stage_Wait</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\UI_Battle_Stage_Target_Member.cpp">
+      <Filter>03.UI\Battle\Player_Battle\Stage\UI_Battle_Stage_Target_Member</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\UI_Pnal_Item.cpp">
+      <Filter>03.UI\Battle\UI_Pnal\UI_Pnal_Item</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Chr_Battle_Light_Preprare.cpp">
+      <Filter>02.GameObjects\Chr\Chr_Battle\Light\State\Chr_Battle_Light_Prepare</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

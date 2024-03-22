@@ -11,8 +11,8 @@ END
 BEGIN(Client)
 class CChr_Battle_Light;
 class CChr_Battle;
-class CUI_Pnal;
 class CUI_Pnal_Attack;
+class CUI_Pnal_Item;
 class CMonster;
 class CPlayer_Study;
 class CInventory;
@@ -21,7 +21,7 @@ class CAbility;
 class CPlayer_Battle final : public CBase, public CObserver_Handler
 {
 public:
-	enum UISTAGE  { STAGE_SELECT, STAGE_TARGET, STAGE_COMMAND, STAGE_ITEM, STAGE_WAIT, STAGE_END };
+	enum UISTAGE  { STAGE_SELECT, STAGE_TARGET, STAGE_COMMAND, STAGE_ITEM, STAGE_TARGET_MEMBER, STAGE_WAIT, STAGE_END };
 private:
 	CPlayer_Battle();
 	~CPlayer_Battle() = default;
@@ -33,7 +33,7 @@ public:
 	
 public:
 	UISTAGE					Get_Stage() { return m_eStage; }
-	CChr_Battle_Light*			Get_Leader() { return m_pLeader; }
+	CChr_Battle_Light*		Get_Leader() { return m_pLeader; }
 	vector<CChr_Battle*>	Get_Members() { return m_Memebers; }
 	vector<CPlayer_Study*>	Get_Monsters() { return m_Monsters; }
 	CInventory*				Get_Inventory() { return m_pInventory; }
@@ -45,17 +45,27 @@ public:
 
 public:
 	void Set_CursorPosition(_float3 vCursorPosition);
-
+	/*=========================FSM 관련/*=========================*/
 	void Change_Stage(UISTAGE eStage);
 	void Back_Stage();
 
+	/*=========================커맨드 관련=========================*/
+	_int Get_Command_Cost() { return m_iCommandCost; }
 	void Check_Command_Insert(_uint iCost);
 	_bool Check_Command_Full();
 	void Add_Command(CUI_Pnal_Attack* pPnal_Attack);
 	void Cancel_Command();								// 커맨드 예약을 취소 -> 뒤에서 부터 삭제됨
 	void Use_Command();									// 커멘드가 사용됨 -> 공격이 수행됬을 경우
 
-	void Set_Leader_Action();							// dequeue 정보를 바탕을 Leader에게 명령을 전달
+	/*=========================ITEM 관련=========================*/
+	_bool Check_Item();
+	void Add_Item(CUI_Pnal_Item* pPnal_Item);
+	void Cancel_Item();
+	void Use_Item();
+
+	void Set_Leader_Command();							// dequeue 정보를 바탕을 Leader에게 명령을 전달
+	void Set_Leader_Item();
+	void Check_Leader_Action();
 
 private:
 	virtual void NotifyObserver();
@@ -83,7 +93,7 @@ private:
 	_int					m_iCommandCost = { 0 };			// 저장된 공격 명령
 	deque<CUI_Pnal_Attack*>	m_Commands;						// 공격 명령들					// 명령이 완성되면 전달할 것
 																							// deque 정보를 바탕으로 queue를 만들어서 전달
-	//CUI_Pnal_Item*		m_Command_Item;
+	CUI_Pnal_Item*			m_pCommand_Item;
 
 
 	// 아이템 사용시의 Command 별개로 들고있기?

@@ -10,6 +10,7 @@ CUI_Pnal::CUI_Pnal(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
 CUI_Pnal::CUI_Pnal(const CUI_Pnal& rhs)
 	: CUI{ rhs }
 	, m_tFrame{rhs.m_tFrame }
+	, m_vColor{rhs.m_vColor}
 {
 }
 
@@ -18,8 +19,8 @@ void CUI_Pnal::Set_TargetPosition(_bool isAnimated, _float3 vTargetPosition)
 	m_vTargetPosition = vTargetPosition;
 
 	m_isAnimated = isAnimated;
+	m_fMoveTimeDelta = 0.f;
 	if (m_isAnimated) {
-		m_fMoveTimeDelta = 0.f;
 		m_tFrame.iCurFrame = 0;
 	}
 

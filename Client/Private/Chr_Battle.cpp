@@ -30,7 +30,7 @@ HRESULT CChr_Battle::Initialize(void* pArg)
 
 void CChr_Battle::Tick(_float fTimeDelta)
 {
-	Update_ATB(fTimeDelta);
+
 }
 
 HRESULT CChr_Battle::Late_Tick(_float fTimeDelta)

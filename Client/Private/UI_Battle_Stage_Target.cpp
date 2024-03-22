@@ -32,8 +32,8 @@ void CUI_Battle_Stage_Target::OnStateUpdate(_float fTimeDelta)
 
 	}
 
-	if (m_pGameInstance->Get_KeyState(KEY_DOWN, DIK_ESCAPE)) {
-		;
+	if (m_pGameInstance->Get_KeyState(KEY_DOWN, DIK_RETURN)) {
+		m_pPlayer_Battle->Change_Stage(CPlayer_Battle::STAGE_WAIT); 
 
 	}
 }
@@ -124,8 +124,8 @@ CUI_Battle_Stage_Target* CUI_Battle_Stage_Target::Create(CPlayer_Battle* pPlayer
 void CUI_Battle_Stage_Target::Free()
 {
 	__super::Free();
+
 	for (auto& pPnal : m_Pnals)
 		Safe_Release(pPnal);
-
 	m_Pnals.clear();
 }

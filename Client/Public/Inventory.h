@@ -27,7 +27,7 @@ public:
 	HRESULT Insert_Item(ITEM pItem);
 	HRESULT	Delete_Item(ITEM pItem, int iNum = 1);
 	ITEM	Get_Item_Index(size_t iNum);
-	wstring Get_Item_Name(ITEM pItem);
+	static wstring Get_Item_Name(ITEM pItem);
 	_uint	Get_Item_Count(ITEM pItem);
 
 	void	Fill_Inventory_At_GameStart();				// 게임 실행시 처음 한번만 수행하는 함수 : 기본 인벤토리 체우기 임

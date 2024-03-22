@@ -1,7 +1,8 @@
 #include "stdafx.h"
 #include "UI_Battle_Stage_Select.h"
 #include "Player_Battle.h"
-#include "UI_Pnal.h"
+#include "Ability.h"
+#include "UI_Pnal_Attack.h"
 
 CUI_Battle_Stage_Select::CUI_Battle_Stage_Select(CPlayer_Battle* pPlayer_Battle)
 {
@@ -13,6 +14,10 @@ void CUI_Battle_Stage_Select::OnStateEnter()
 	for (auto& pPnal : m_Pnals) {
 		pPnal->Set_Render(true);
 		pPnal->Reset_Position();
+	}
+
+	while (!m_pPlayer_Battle->Get_Command_empty()) {
+		m_pPlayer_Battle->Cancel_Command();
 	}
 
 	if (m_Pnals.size() > 0) {
@@ -86,6 +91,7 @@ void CUI_Battle_Stage_Select::Change_Stage()
 	switch (m_iCursor) {
 	case 0:
 		//공격 큐 꽉 체워야 함
+		Auto_Commands();
 		m_pPlayer_Battle->Change_Stage(CPlayer_Battle::STAGE_TARGET);
 		break;
 	case 1:
@@ -94,6 +100,32 @@ void CUI_Battle_Stage_Select::Change_Stage()
 	case 2:
 		m_pPlayer_Battle->Change_Stage(CPlayer_Battle::STAGE_ITEM);
 		break;
+
+	}
+
+}
+
+void CUI_Battle_Stage_Select::Auto_Commands()
+{
+	CRole* pRole = m_pPlayer_Battle->Get_Ability()->Get_CurrentRole();
+	//size_t iSkillSet = pRole->Get_SkillSet_Count();
+	while (!m_pPlayer_Battle->Check_Command_Full()) {
+		CRole::SKILL eSkill = pRole->Get_Skill_Index(0);
+
+		CUI_Pnal_Attack::UI_PNAL_ATTACK_DESC UI_Pnal_Attack_desc = {};
+
+		UI_Pnal_Attack_desc.vStartPosition = { 0.f, -150.f, 0.f };
+		UI_Pnal_Attack_desc.vTargetPosition = { 0.f, 0.f, 0.f };
+		UI_Pnal_Attack_desc.eSkill = eSkill;
+		UI_Pnal_Attack_desc.iSize = pRole->Get_Skill_Cost(eSkill);
+		UI_Pnal_Attack_desc.strName = CRole::Get_SkillName(eSkill);
+
+		CUI_Pnal_Attack* pPnal_Attack = dynamic_cast<CUI_Pnal_Attack*>(m_pGameInstance->Add_Clone_With_Object(g_Level, TEXT("Layer_UI"), TEXT("Prototype_GameObject_UI_Pnal_Attack"), &UI_Pnal_Attack_desc));
+
+		if (nullptr == pPnal_Attack)
+			return;
+
+		m_pPlayer_Battle->Add_Command(pPnal_Attack);
 
 	}
 

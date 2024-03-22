@@ -140,7 +140,7 @@ PS_OUT PS_Disappear(PS_IN In)
     if (0.3 > vTextureColor.a)
         discard;
     
-    Out.vColor = vTextureColor * (1 - g_Ratio);
+    Out.vColor = vTextureColor * saturate((1 - g_Ratio * 2));
     
     return Out;
 }

@@ -183,6 +183,7 @@
     <ClInclude Include="..\Public\Chr_Battle_Light_Hit.h" />
     <ClInclude Include="..\Public\Chr_Battle_Light_Idle.h" />
     <ClInclude Include="..\Public\Chr_Battle_Light_Item.h" />
+    <ClInclude Include="..\Public\Chr_Battle_Light_Preprare.h" />
     <ClInclude Include="..\Public\Chr_Battle_Light_State_Finish.h" />
     <ClInclude Include="..\Public\Chr_Field.h" />
     <ClInclude Include="..\Public\Chr_Field_State_Battle_Begin.h" />
@@ -218,10 +219,12 @@
     <ClInclude Include="..\Public\UI_Battle_Stage_Item.h" />
     <ClInclude Include="..\Public\UI_Battle_Stage_Select.h" />
     <ClInclude Include="..\Public\UI_Battle_Stage_Target.h" />
+    <ClInclude Include="..\Public\UI_Battle_Stage_Target_Member.h" />
     <ClInclude Include="..\Public\UI_Battle_Stage_Wait.h" />
     <ClInclude Include="..\Public\UI_Cursor.h" />
     <ClInclude Include="..\Public\UI_Pnal.h" />
     <ClInclude Include="..\Public\UI_Pnal_Attack.h" />
+    <ClInclude Include="..\Public\UI_Pnal_Item.h" />
     <ClInclude Include="..\Public\Weapon_Anim.h" />
     <ClInclude Include="..\Public\Weapon_Study.h" />
     <ClInclude Include="Client.h" />
@@ -256,6 +259,7 @@
     <ClCompile Include="..\Private\Chr_Battle_Light_Hit.cpp" />
     <ClCompile Include="..\Private\Chr_Battle_Light_Idle.cpp" />
     <ClCompile Include="..\Private\Chr_Battle_Light_Item.cpp" />
+    <ClCompile Include="..\Private\Chr_Battle_Light_Preprare.cpp" />
     <ClCompile Include="..\Private\Chr_Battle_Light_State_Finish.cpp" />
     <ClCompile Include="..\Private\Chr_Field.cpp" />
     <ClCompile Include="..\Private\Chr_Field_State_Battle_Begin.cpp" />
@@ -289,10 +293,12 @@
     <ClCompile Include="..\Private\UI_Battle_Stage_Item.cpp" />
     <ClCompile Include="..\Private\UI_Battle_Stage_Select.cpp" />
     <ClCompile Include="..\Private\UI_Battle_Stage_Target.cpp" />
+    <ClCompile Include="..\Private\UI_Battle_Stage_Target_Member.cpp" />
     <ClCompile Include="..\Private\UI_Battle_Stage_Wait.cpp" />
     <ClCompile Include="..\Private\UI_Cursor.cpp" />
     <ClCompile Include="..\Private\UI_Pnal.cpp" />
     <ClCompile Include="..\Private\UI_Pnal_Attack.cpp" />
+    <ClCompile Include="..\Private\UI_Pnal_Item.cpp" />
     <ClCompile Include="..\Private\Weapon_Anim.cpp" />
     <ClCompile Include="..\Private\Weapon_Study.cpp" />
     <ClCompile Include="..\Public\Chr_Field_State_Move.cpp" />

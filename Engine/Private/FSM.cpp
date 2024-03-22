@@ -39,7 +39,6 @@ void CFSM::Update(_float fTimeDelta)
 	if (pCurrent_State == nullptr)
 		return;
 
-
 	/* FSM function& 람다로 해보려는 시도 : Update에서 ChangeState까지 처리할 수 있게끔
 	////현재 상태에서 subfsm~ 를 찾음
 	//auto mapiter = m_mapFSM_subState.find(0); //idle;

@@ -5,10 +5,13 @@
 
 #include "UI_Battle_Stage_Select.h"
 #include "UI_Battle_Stage_Target.h"
+#include "UI_Battle_Stage_Target_Member.h"
 #include "UI_Battle_Stage_Command.h"
 #include "UI_Battle_Stage_Item.h"
+#include "UI_Battle_Stage_Wait.h"
 
 #include "UI_Pnal_Attack.h"
+#include "UI_Pnal_Item.h"
 
 #include "Chr_Battle_Light.h"
 #include "Player_Study.h"
@@ -90,6 +93,8 @@ void CPlayer_Battle::Cancel_Command()
 	pPnal_Attack->Set_Dead(true);
 
 	Safe_Release(pPnal_Attack);
+
+	m_pLeader->Cancel_Command();
 	Update_CommandCost();
 
 }
@@ -107,15 +112,84 @@ void CPlayer_Battle::Use_Command()
 	Update_CommandPosition();
 }
 
-void CPlayer_Battle::Set_Leader_Action()
+_bool CPlayer_Battle::Check_Item()
 {
-	deque<CRole::SKILL> Actions;
+	if (nullptr == m_pCommand_Item)
+		return false;
+	return true;
+}
+
+void CPlayer_Battle::Add_Item(CUI_Pnal_Item* pPnal_Item)
+{
+	pPnal_Item->Start();
+
+	_float3 vTargetPosition = { (_float)g_iWinSizeX * -0.5f + 200, -150.f, 0.f };
+	vTargetPosition.x += 64;
+
+	pPnal_Item->Set_TargetPosition(true, vTargetPosition);
+
+
+	m_pCommand_Item = pPnal_Item;
+	Safe_AddRef(pPnal_Item);
+
+}
+
+void CPlayer_Battle::Cancel_Item()
+{
+	if (nullptr == m_pCommand_Item)
+		return;
+
+	m_pCommand_Item->Set_TargetPosition(true, { 0.f, -150.f, 0.f });
+	m_pCommand_Item->Set_Dead(true);
+	Safe_Release(m_pCommand_Item);
+
+	m_pCommand_Item = nullptr;
+}
+
+void CPlayer_Battle::Use_Item()
+{
+	if (nullptr == m_pCommand_Item)
+		return;
+
+	m_pCommand_Item->Set_TargetPosition(true, { (_float)g_iWinSizeX * -0.5f, -150.f, 0.f });
+	m_pCommand_Item->Set_Dead(true);
+
+	Safe_Release(m_pCommand_Item);
+	m_pCommand_Item = nullptr;
+}
+
+void CPlayer_Battle::Set_Leader_Command()
+{
+	deque<pair<CRole::SKILL, _int>>* Actions = new deque<pair<CRole::SKILL, _int>>();
+
 
 	for (auto& pCommand : m_Commands) {
-		Actions.push_back(pCommand->Get_Skill());
+		Actions->push_back({ pCommand->Get_Skill(),pCommand->Get_Size()});
 	}
 
-	//m_pLeader->Set_Action();
+	m_pLeader->Set_Command(Actions);
+
+}
+
+void CPlayer_Battle::Set_Leader_Item()
+{
+	if (nullptr == m_pCommand_Item)
+		return;
+
+	CInventory::ITEM eItem = m_pCommand_Item->Get_Item();
+	m_pLeader->Set_Item(eItem);
+
+}
+
+void CPlayer_Battle::Check_Leader_Action()
+{
+	if (m_pLeader->Get_Command_Size() < m_Commands.size()) {
+		Use_Command();
+	}
+	if (nullptr != m_pCommand_Item && m_pLeader->Get_Item() == CInventory::ITEM_END) {
+		Use_Item();
+	}
+
 }
 
 void CPlayer_Battle::Set_CursorPosition(_float3 vCursorPosition)
@@ -153,7 +227,8 @@ HRESULT CPlayer_Battle::Add_Component_FSM()
 	m_pFSMCom->Add_State(STAGE_TARGET, CUI_Battle_Stage_Target::Create(this));
 	m_pFSMCom->Add_State(STAGE_COMMAND, CUI_Battle_Stage_Command::Create(this));
 	m_pFSMCom->Add_State(STAGE_ITEM, CUI_Battle_Stage_Item::Create(this));
-
+	m_pFSMCom->Add_State(STAGE_TARGET_MEMBER, CUI_Battle_Stage_Target_Member::Create(this));
+	m_pFSMCom->Add_State(STAGE_WAIT, CUI_Battle_Stage_Wait::Create(this));
 	Change_Stage(STAGE_SELECT);
 
 	return S_OK;
@@ -247,11 +322,6 @@ void CPlayer_Battle::Tick(_float fTimeDelta)
 {
 	m_pFSMCom->Update(fTimeDelta);
 	Update_Command();
-
-	if (m_pGameInstance->Get_KeyState(KEY_DOWN, DIK_SPACE)) {
-		if (!Get_Command_empty())
-			Use_Command();
-	}
 
 }
 
