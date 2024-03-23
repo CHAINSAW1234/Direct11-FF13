@@ -1,20 +1,20 @@
 #include "stdafx.h"
 #include "Chr_Battle_Light.h"
 
-#include "Chr_Battle_Light_Idle.h"
-#include "Chr_Battle_Light_Attack.h"
-#include "Chr_Battle_Light_Hit.h"
-#include "Chr_Battle_Light_Dead.h"
-#include "Chr_Battle_Light_Item.h"
+#include "Chr_Battle_Light_State_Idle.h"
+#include "Chr_Battle_Light_State_Attack.h"
+#include "Chr_Battle_Light_State_Hit.h"
+#include "Chr_Battle_Light_State_Dead.h"
+#include "Chr_Battle_Light_State_Item.h"
 #include "Chr_Battle_Light_State_Finish.h"
-
-#include "Body.h"
-#include "Weapon_Anim.h"
-#include "Ability.h"
 
 #include "FSM.h"
 #include "Model.h"
 #include "Shader.h"
+
+#include "Body.h"
+#include "Weapon_Anim.h"
+#include "Ability.h"
 
 #include "ImGUI_Manager.h"
 
@@ -29,14 +29,13 @@ CChr_Battle_Light::CChr_Battle_Light(const CChr_Battle_Light& rhs)
 }
 
 HRESULT CChr_Battle_Light::Initialize_Prototype()
-{
+{   
+    m_strChrName = TEXT("라이트닝");
     return S_OK;
 }
 
 HRESULT CChr_Battle_Light::Initialize(void* pArg)
 {
-    m_eLevel = g_Level;
-
     GAMEOBJECT_DESC		GameObjectDesc{};
 
     GameObjectDesc.fSpeedPerSec = 10.f;
@@ -45,18 +44,8 @@ HRESULT CChr_Battle_Light::Initialize(void* pArg)
     if (FAILED(__super::Initialize(&GameObjectDesc)))
         return E_FAIL;
 
-    if (FAILED(Add_PartObjects()))
-        return E_FAIL;
-
-    if (FAILED(Add_Components()))
-        return E_FAIL;
-
     m_pImGUI_Manager = CImGUI_Manager::Get_Instance(m_pDevice, m_pContext);
 
-    m_pTransformCom->Set_State(CTransform::STATE_POSITION, XMVectorSet(_float(rand() % 20), 0.f, _float(rand() % 20), 1.f));
-    //m_pModelCom->Set_Animation(0, false);
-    //m_vStartPosition = m_pTransformCom->Get_State_Float4(CTransform::STATE_POSITION);
-    
     return S_OK;
 }
 
@@ -64,21 +53,15 @@ void CChr_Battle_Light::Tick(_float fTimeDelta)
 {
     __super::Tick(fTimeDelta);
 
-    m_pFSMCom->Update(fTimeDelta);
+
     Update_FSMState(fTimeDelta);
 
-
-    m_pImGUI_Manager->Tick(fTimeDelta);
-    Show_ImGUI();
 }
 
 HRESULT CChr_Battle_Light::Late_Tick(_float fTimeDelta)
 {
     if (FAILED(__super::Late_Tick(fTimeDelta)))
         return E_FAIL;
-
-    for (auto& Parts : m_PartObjects)
-        Parts->Late_Tick(fTimeDelta);
 
     // 임시
     m_pGameInstance->Add_RenderGroup(CRenderer::RENDER_UI, this);
@@ -87,37 +70,21 @@ HRESULT CChr_Battle_Light::Late_Tick(_float fTimeDelta)
 
 HRESULT CChr_Battle_Light::Render()
 {
-    m_pImGUI_Manager->Render();
+    /*m_pImGUI_Manager->Tick(0);
+    Show_ImGUI();
+    m_pImGUI_Manager->Render();*/
 
     return S_OK;
 }
 
 void CChr_Battle_Light::Start()
 {
+    Set_Target(m_pGameInstance->Get_GameObject(g_Level, g_strMonsterLayerTag, 0));
+    m_pTransformCom->Set_State(CTransform::STATE_POSITION, XMVectorSet(_float(rand() % 20), 0.f, _float(rand() % 20), 1.f));
     m_pTransformCom->Look_At_ForLandObject(((CTransform*)m_pTargetObject->Get_Component(g_strTransformTag))->Get_State_Vector(CTransform::STATE_POSITION));
     Change_Animation_Weapon(WEAPON_OPEN_IDLE);
+    Change_Animation_Weapon(CChr_Battle_Light::WEAPON_OPEN_IDLE);
 }
-
-_uint CChr_Battle_Light::Get_CurrentAnimationIndex()
-{
-    return dynamic_cast<CBody*>(m_PartObjects[0])->Get_CurrentAnimationIndex();
-}
-
-_float CChr_Battle_Light::Get_CurrentTrackPosition()
-{
-    return dynamic_cast<CBody*>(m_PartObjects[0])->Get_CurrentTrackPosition();
-}
-
-_bool CChr_Battle_Light::Is_Animation_Finished()
-{
-    return dynamic_cast<CBody*>(m_PartObjects[0])->Is_Animation_Finished();
-}
-
-void CChr_Battle_Light::Set_TrackPosition(_float fTrackPosition)
-{
-    dynamic_cast<CBody*>(m_PartObjects[0])->Set_TrackPosition(fTrackPosition);
-}
-
 
 HRESULT CChr_Battle_Light::Change_State(STATE eState)
 {
@@ -137,15 +104,7 @@ void CChr_Battle_Light::Change_Animation_Weapon(ANIMATION_CHR_BATTLE_LIGHT_WEAPO
     dynamic_cast<CWeapon_Anim*>(m_PartObjects[1])->Change_Animation(iAnimationIndex, false);
 }
 
-_float4 CChr_Battle_Light::Get_Look()
-{
-    // Player의 Look vector를 Y값을 지우고 리턴
-    _float4 vChrLook = m_pTransformCom->Get_State_Float4(CTransform::STATE_LOOK);
-    vChrLook.y = 0;
-    XMStoreFloat4(&vChrLook, XMVectorSetW(XMVector3Normalize(XMLoadFloat4(&vChrLook)), 0.f));
 
-    return vChrLook;
-}
 
 _int CChr_Battle_Light::Get_Command_Cost_Sum()
 {
@@ -192,7 +151,7 @@ void CChr_Battle_Light::Use_Item()
 
 HRESULT CChr_Battle_Light::Add_Components()
 {
-    if (FAILED(Add_Component_FSM()))
+    if (FAILED(__super::Add_Components()))
         return E_FAIL;
 
     return S_OK;
@@ -200,15 +159,14 @@ HRESULT CChr_Battle_Light::Add_Components()
 
 HRESULT CChr_Battle_Light::Add_Component_FSM()
 {
-    if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_FSM"),
-        TEXT("Com_FSM"), (CComponent**)&m_pFSMCom)))
+    if (FAILED(__super::Add_Component_FSM()))
         return E_FAIL;
 
-    m_pFSMCom->Add_State(IDLE, CChr_Battle_Light_Idle::Create(this));
-    m_pFSMCom->Add_State(ATTACK, CChr_Battle_Light_Attack::Create(this));
-    m_pFSMCom->Add_State(HIT, CChr_Battle_Light_Hit::Create(this));
-    m_pFSMCom->Add_State(DEAD, CChr_Battle_Light_Dead::Create(this));
-    m_pFSMCom->Add_State(ITEM, CChr_Battle_Light_Item::Create(this));
+    m_pFSMCom->Add_State(IDLE, CChr_Battle_Light_State_Idle::Create(this));
+    m_pFSMCom->Add_State(ATTACK, CChr_Battle_Light_State_Attack::Create(this));
+    m_pFSMCom->Add_State(HIT, CChr_Battle_Light_State_Hit::Create(this));
+    m_pFSMCom->Add_State(DEAD, CChr_Battle_Light_State_Dead::Create(this));
+    m_pFSMCom->Add_State(ITEM, CChr_Battle_Light_State_Item::Create(this));
     m_pFSMCom->Add_State(FINISH, CChr_Battle_Light_State_Finish::Create(this));
 
     Change_State(IDLE);
@@ -305,8 +263,6 @@ void CChr_Battle_Light::Show_ImGUI()
         ImGui::Text("Queue size : %d", m_pCommands->size());
     }
 
-
-
     ImGui::End();
 }
 
@@ -390,13 +346,6 @@ void CChr_Battle_Light::Free()
     __super::Free();
 
     Safe_Delete(m_pCommands);
-
-    for (auto& iter : m_PartObjects)
-        Safe_Release(iter);
-
-
-    m_PartObjects.clear();
-    Safe_Release(m_pFSMCom);
 
     CImGUI_Manager::Destroy_Instance();
 }

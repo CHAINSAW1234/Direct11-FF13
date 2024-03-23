@@ -112,21 +112,6 @@
     <Filter Include="02.GameObjects\Chr\Chr_Battle\Light\State">
       <UniqueIdentifier>{4f77da41-38da-403f-ace5-f03a6fbf8ad2}</UniqueIdentifier>
     </Filter>
-    <Filter Include="02.GameObjects\Chr\Chr_Battle\Light\State\Chr_Battle_Light_Idle">
-      <UniqueIdentifier>{f8cded0f-694e-4321-b443-ed63d07fbdd5}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="02.GameObjects\Chr\Chr_Battle\Light\State\Chr_Battle_Light_Attack">
-      <UniqueIdentifier>{1cc222e9-6687-4762-a7a4-f194e1f28ed2}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="02.GameObjects\Chr\Chr_Battle\Light\State\Chr_Battle_Light_Hit">
-      <UniqueIdentifier>{ed77c07f-dfa2-487a-b818-16b9c913d231}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="02.GameObjects\Chr\Chr_Battle\Light\State\Chr_Battle_Light_Dead">
-      <UniqueIdentifier>{0831c19d-8056-4f5c-9fd5-07785dba5e3f}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="02.GameObjects\Chr\Chr_Battle\Light\State\Chr_Battle_Light_Item">
-      <UniqueIdentifier>{0273c261-ecd2-4f62-9865-b4483682fdff}</UniqueIdentifier>
-    </Filter>
     <Filter Include="02.GameObjects\Chr\Chr_PartObject">
       <UniqueIdentifier>{95fe7ebe-e220-4936-8227-a039964aac02}</UniqueIdentifier>
     </Filter>
@@ -138,9 +123,6 @@
     </Filter>
     <Filter Include="01.Levels\Battle">
       <UniqueIdentifier>{4c83c9f4-eec9-496e-adfa-8c2a87addec6}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="02.GameObjects\Chr\Chr_Battle\Light\State\Chr_Battle_Light_Finish">
-      <UniqueIdentifier>{247965c5-0206-42b3-a48d-7e7cef73b739}</UniqueIdentifier>
     </Filter>
     <Filter Include="04.Tool">
       <UniqueIdentifier>{e891e4cc-0e2a-4c07-8237-84151f973697}</UniqueIdentifier>
@@ -211,8 +193,53 @@
     <Filter Include="03.UI\Battle\Player_Battle\Stage\UI_Battle_Stage_Wait">
       <UniqueIdentifier>{87f153bf-279c-4a22-a90e-367cdcd5a7aa}</UniqueIdentifier>
     </Filter>
-    <Filter Include="02.GameObjects\Chr\Chr_Battle\Light\State\Chr_Battle_Light_Prepare">
+    <Filter Include="02.GameObjects\Chr\Chr_Battle\Sazh">
+      <UniqueIdentifier>{d3b92d5d-3914-462f-b1e4-68407e2f9a03}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\Chr\Chr_Battle\Vanila">
+      <UniqueIdentifier>{5f29861d-d01c-49b5-8409-3f45b9d292c4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\Chr\Chr_Battle\Sazh\State">
+      <UniqueIdentifier>{37ed52e6-503b-4a14-961f-099f062f4b66}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\Chr\Chr_Battle\Sazh\State\Chr_Battle_Sazh_State_Idle">
+      <UniqueIdentifier>{63d33f5b-8e51-48bc-9709-b3b605e5528b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\Chr\Chr_Battle\Light\State\Chr_Battle_Light_State_Finish">
+      <UniqueIdentifier>{247965c5-0206-42b3-a48d-7e7cef73b739}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\Chr\Chr_Battle\Light\State\Chr_Battle_Light_State_Dead">
+      <UniqueIdentifier>{0831c19d-8056-4f5c-9fd5-07785dba5e3f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\Chr\Chr_Battle\Light\State\Chr_Battle_Light_State_Attack">
+      <UniqueIdentifier>{1cc222e9-6687-4762-a7a4-f194e1f28ed2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\Chr\Chr_Battle\Light\State\Chr_Battle_Light_State_Hit">
+      <UniqueIdentifier>{ed77c07f-dfa2-487a-b818-16b9c913d231}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\Chr\Chr_Battle\Light\State\Chr_Battle_Light_State_Idle">
+      <UniqueIdentifier>{f8cded0f-694e-4321-b443-ed63d07fbdd5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\Chr\Chr_Battle\Light\State\Chr_Battle_Light_State_Item">
+      <UniqueIdentifier>{0273c261-ecd2-4f62-9865-b4483682fdff}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\Chr\Chr_Battle\Light\State\Chr_Battle_Light_State_Prepare">
       <UniqueIdentifier>{f889615a-48b7-41c8-9a36-aa36c3b178d9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\Chr\Chr_Battle\Sazh\State\Chr_Battle_Sazh_State_Attack">
+      <UniqueIdentifier>{9ef5747c-da4f-4f09-9c76-e2d97cde4801}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\Chr\Chr_Battle\Sazh\State\Chr_Battle_Sazh_State_Skill">
+      <UniqueIdentifier>{286d316e-42b6-43c4-ad28-8384f5216258}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\Chr\Chr_Battle\Sazh\State\Chr_Battle_Sazh_State_Hit">
+      <UniqueIdentifier>{695bbc1d-f565-4ef1-bcba-fad7338208c6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\Chr\Chr_Battle\Sazh\State\Chr_Battle_Sazh_State_Finish">
+      <UniqueIdentifier>{61fd60c9-149a-4fe0-be13-0416af117786}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\Chr\Chr_Battle\Sazh\State\Chr_Battle_Sazh_State_Dead">
+      <UniqueIdentifier>{25da10fc-de39-4dee-a063-09c0e71a7edf}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -354,23 +381,23 @@
     <ClInclude Include="..\Public\Chr_Battle.h">
       <Filter>02.GameObjects\Chr\Chr_Battle</Filter>
     </ClInclude>
-    <ClInclude Include="..\Public\Chr_Battle_Light_Idle.h">
-      <Filter>02.GameObjects\Chr\Chr_Battle\Light\State\Chr_Battle_Light_Idle</Filter>
+    <ClInclude Include="..\Public\Chr_Battle_Light_State_Idle.h">
+      <Filter>02.GameObjects\Chr\Chr_Battle\Light\State\Chr_Battle_Light_State_Idle</Filter>
     </ClInclude>
     <ClInclude Include="..\Public\Chr_Battle_Light.h">
       <Filter>02.GameObjects\Chr\Chr_Battle\Light</Filter>
     </ClInclude>
-    <ClInclude Include="..\Public\Chr_Battle_Light_Attack.h">
-      <Filter>02.GameObjects\Chr\Chr_Battle\Light\State\Chr_Battle_Light_Attack</Filter>
+    <ClInclude Include="..\Public\Chr_Battle_Light_State_Attack.h">
+      <Filter>02.GameObjects\Chr\Chr_Battle\Light\State\Chr_Battle_Light_State_Attack</Filter>
     </ClInclude>
-    <ClInclude Include="..\Public\Chr_Battle_Light_Hit.h">
-      <Filter>02.GameObjects\Chr\Chr_Battle\Light\State\Chr_Battle_Light_Hit</Filter>
+    <ClInclude Include="..\Public\Chr_Battle_Light_State_Hit.h">
+      <Filter>02.GameObjects\Chr\Chr_Battle\Light\State\Chr_Battle_Light_State_Hit</Filter>
     </ClInclude>
-    <ClInclude Include="..\Public\Chr_Battle_Light_Dead.h">
-      <Filter>02.GameObjects\Chr\Chr_Battle\Light\State\Chr_Battle_Light_Dead</Filter>
+    <ClInclude Include="..\Public\Chr_Battle_Light_State_Dead.h">
+      <Filter>02.GameObjects\Chr\Chr_Battle\Light\State\Chr_Battle_Light_State_Dead</Filter>
     </ClInclude>
-    <ClInclude Include="..\Public\Chr_Battle_Light_Item.h">
-      <Filter>02.GameObjects\Chr\Chr_Battle\Light\State\Chr_Battle_Light_Item</Filter>
+    <ClInclude Include="..\Public\Chr_Battle_Light_State_Item.h">
+      <Filter>02.GameObjects\Chr\Chr_Battle\Light\State\Chr_Battle_Light_State_Item</Filter>
     </ClInclude>
     <ClInclude Include="..\Public\Body.h">
       <Filter>02.GameObjects\Chr\Chr_PartObject\Body</Filter>
@@ -382,7 +409,7 @@
       <Filter>01.Levels\Battle</Filter>
     </ClInclude>
     <ClInclude Include="..\Public\Chr_Battle_Light_State_Finish.h">
-      <Filter>02.GameObjects\Chr\Chr_Battle\Light\State\Chr_Battle_Light_Finish</Filter>
+      <Filter>02.GameObjects\Chr\Chr_Battle\Light\State\Chr_Battle_Light_State_Finish</Filter>
     </ClInclude>
     <ClInclude Include="..\Public\UI.h">
       <Filter>03.UI</Filter>
@@ -435,8 +462,29 @@
     <ClInclude Include="..\Public\UI_Pnal_Item.h">
       <Filter>03.UI\Battle\UI_Pnal\UI_Pnal_Item</Filter>
     </ClInclude>
-    <ClInclude Include="..\Public\Chr_Battle_Light_Preprare.h">
-      <Filter>02.GameObjects\Chr\Chr_Battle\Light\State\Chr_Battle_Light_Prepare</Filter>
+    <ClInclude Include="..\Public\Chr_Battle_Light_State_Preprare.h">
+      <Filter>02.GameObjects\Chr\Chr_Battle\Light\State\Chr_Battle_Light_State_Prepare</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\Chr_Battle_Sazh.h">
+      <Filter>02.GameObjects\Chr\Chr_Battle\Sazh</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\Chr_Battle_Sazh_State_Idle.h">
+      <Filter>02.GameObjects\Chr\Chr_Battle\Sazh\State\Chr_Battle_Sazh_State_Idle</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\Chr_Battle_Sazh_State_Attack.h">
+      <Filter>02.GameObjects\Chr\Chr_Battle\Sazh\State\Chr_Battle_Sazh_State_Attack</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\Chr_Battle_Sazh_State_Dead.h">
+      <Filter>02.GameObjects\Chr\Chr_Battle\Sazh\State\Chr_Battle_Sazh_State_Dead</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\Chr_Battle_Sazh_State_Finish.h">
+      <Filter>02.GameObjects\Chr\Chr_Battle\Sazh\State\Chr_Battle_Sazh_State_Finish</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\Chr_Battle_Sazh_State_Hit.h">
+      <Filter>02.GameObjects\Chr\Chr_Battle\Sazh\State\Chr_Battle_Sazh_State_Hit</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\Chr_Battle_Sazh_State_Skill.h">
+      <Filter>02.GameObjects\Chr\Chr_Battle\Sazh\State\Chr_Battle_Sazh_State_Skill</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -563,20 +611,20 @@
     <ClCompile Include="..\Private\Chr_Battle_Light.cpp">
       <Filter>02.GameObjects\Chr\Chr_Battle\Light</Filter>
     </ClCompile>
-    <ClCompile Include="..\Private\Chr_Battle_Light_Idle.cpp">
-      <Filter>02.GameObjects\Chr\Chr_Battle\Light\State\Chr_Battle_Light_Idle</Filter>
+    <ClCompile Include="..\Private\Chr_Battle_Light_State_Idle.cpp">
+      <Filter>02.GameObjects\Chr\Chr_Battle\Light\State\Chr_Battle_Light_State_Idle</Filter>
     </ClCompile>
-    <ClCompile Include="..\Private\Chr_Battle_Light_Attack.cpp">
-      <Filter>02.GameObjects\Chr\Chr_Battle\Light\State\Chr_Battle_Light_Attack</Filter>
+    <ClCompile Include="..\Private\Chr_Battle_Light_State_Attack.cpp">
+      <Filter>02.GameObjects\Chr\Chr_Battle\Light\State\Chr_Battle_Light_State_Attack</Filter>
     </ClCompile>
-    <ClCompile Include="..\Private\Chr_Battle_Light_Hit.cpp">
-      <Filter>02.GameObjects\Chr\Chr_Battle\Light\State\Chr_Battle_Light_Hit</Filter>
+    <ClCompile Include="..\Private\Chr_Battle_Light_State_Hit.cpp">
+      <Filter>02.GameObjects\Chr\Chr_Battle\Light\State\Chr_Battle_Light_State_Hit</Filter>
     </ClCompile>
-    <ClCompile Include="..\Private\Chr_Battle_Light_Dead.cpp">
-      <Filter>02.GameObjects\Chr\Chr_Battle\Light\State\Chr_Battle_Light_Dead</Filter>
+    <ClCompile Include="..\Private\Chr_Battle_Light_State_Dead.cpp">
+      <Filter>02.GameObjects\Chr\Chr_Battle\Light\State\Chr_Battle_Light_State_Dead</Filter>
     </ClCompile>
-    <ClCompile Include="..\Private\Chr_Battle_Light_Item.cpp">
-      <Filter>02.GameObjects\Chr\Chr_Battle\Light\State\Chr_Battle_Light_Item</Filter>
+    <ClCompile Include="..\Private\Chr_Battle_Light_State_Item.cpp">
+      <Filter>02.GameObjects\Chr\Chr_Battle\Light\State\Chr_Battle_Light_State_Item</Filter>
     </ClCompile>
     <ClCompile Include="..\Private\Body.cpp">
       <Filter>02.GameObjects\Chr\Chr_PartObject\Body</Filter>
@@ -588,7 +636,7 @@
       <Filter>01.Levels\Battle</Filter>
     </ClCompile>
     <ClCompile Include="..\Private\Chr_Battle_Light_State_Finish.cpp">
-      <Filter>02.GameObjects\Chr\Chr_Battle\Light\State\Chr_Battle_Light_Finish</Filter>
+      <Filter>02.GameObjects\Chr\Chr_Battle\Light\State\Chr_Battle_Light_State_Finish</Filter>
     </ClCompile>
     <ClCompile Include="..\Private\UI.cpp">
       <Filter>03.UI</Filter>
@@ -641,8 +689,29 @@
     <ClCompile Include="..\Private\UI_Pnal_Item.cpp">
       <Filter>03.UI\Battle\UI_Pnal\UI_Pnal_Item</Filter>
     </ClCompile>
-    <ClCompile Include="..\Private\Chr_Battle_Light_Preprare.cpp">
-      <Filter>02.GameObjects\Chr\Chr_Battle\Light\State\Chr_Battle_Light_Prepare</Filter>
+    <ClCompile Include="..\Private\Chr_Battle_Light_State_Preprare.cpp">
+      <Filter>02.GameObjects\Chr\Chr_Battle\Light\State\Chr_Battle_Light_State_Prepare</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Chr_Battle_Sazh.cpp">
+      <Filter>02.GameObjects\Chr\Chr_Battle\Sazh</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Chr_Battle_Sazh_State_Idle.cpp">
+      <Filter>02.GameObjects\Chr\Chr_Battle\Sazh\State\Chr_Battle_Sazh_State_Idle</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Chr_Battle_Sazh_State_Attack.cpp">
+      <Filter>02.GameObjects\Chr\Chr_Battle\Sazh\State\Chr_Battle_Sazh_State_Attack</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Chr_Battle_Sazh_State_Dead.cpp">
+      <Filter>02.GameObjects\Chr\Chr_Battle\Sazh\State\Chr_Battle_Sazh_State_Dead</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Chr_Battle_Sazh_State_Finish.cpp">
+      <Filter>02.GameObjects\Chr\Chr_Battle\Sazh\State\Chr_Battle_Sazh_State_Finish</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Chr_Battle_Sazh_State_Hit.cpp">
+      <Filter>02.GameObjects\Chr\Chr_Battle\Sazh\State\Chr_Battle_Sazh_State_Hit</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Chr_Battle_Sazh_State_Skill.cpp">
+      <Filter>02.GameObjects\Chr\Chr_Battle\Sazh\State\Chr_Battle_Sazh_State_Skill</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

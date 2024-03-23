@@ -1,17 +1,7 @@
 #pragma once
 #include "Client_Defines.h"
 #include "Chr_Battle.h"
-#include "GameObject.h"
-#include "PartObject.h"
-#include "Role.h"
 #include "Inventory.h"
-
-BEGIN(Engine)
-class CFSM;
-class CModel;
-class CShader;
-class CPartObject;
-END
 
 BEGIN(Client)
 class CChr_Battle_Light final : public CChr_Battle
@@ -52,31 +42,20 @@ public:
 	virtual void Start() override;
 
 public:
-	CTransform* Get_Transform() { return m_pTransformCom; }
-	_uint		Get_CurrentAnimationIndex();
-	_float		Get_CurrentTrackPosition();
-	_bool		Is_Animation_Finished();
-
-	_float4		Get_Target_Position() { return ((CTransform*)m_pTargetObject->Get_Component(g_strTransformTag))->Get_State_Float4(CTransform::STATE_POSITION); }
-	_float4		Get_Start_Position() { return m_vStartPosition; }
-
-	void		Set_TrackPosition(_float fTrackPosition);
-	void		Set_Target(CGameObject* pTargetObject) { m_pTargetObject = pTargetObject; }
-
-public:
 	HRESULT Change_State(STATE eState);
 	void	Change_Animation(ANIMATION_CHR_BATTLE_LIGHT iAnimationIndex, _bool isLoop);
 	void	Change_Animation_Weapon(ANIMATION_CHR_BATTLE_LIGHT_WEAPON iAnimationIndex);
-	_float4	Get_Look();						// Player의 Look vector를 Y값을 지우고 리턴
 	
+	/*============================COMNMAND============================*/
 	size_t	Get_Command_Size() { return m_pCommands->size(); }
 	_int	Get_Command_Cost_Sum();
 	_int	Get_Current_Command_Cost() { return m_pCommands->front().second; }
-	CRole::SKILL Get_Current_Command();
-	void	Use_Command();
+	virtual CRole::SKILL Get_Current_Command() override;
+	virtual void	Use_Command() override;
 	void	Cancel_Command();
 	void	Set_Command(deque<pair<CRole::SKILL, _int>>* pCommand);				// Player에게 명령을 전달
-	
+
+	/*============================ITEM============================*/
 	CInventory::ITEM Get_Item() { return m_eItem; }
 	void	Use_Item();
 	void	Set_Item(CInventory::ITEM eItem) { m_eItem = eItem; }
@@ -84,25 +63,17 @@ public:
 	void	Determine_Action_Based_On_Command();						// queue에 의거하여 행동을 결정
 
 private:
-	HRESULT Add_Components();
-	HRESULT Add_PartObjects();
-	HRESULT Add_Component_FSM();
+	virtual HRESULT Add_Components() override;
+	virtual HRESULT Add_Component_FSM() override;
+	virtual HRESULT Add_PartObjects() override;
 	virtual HRESULT Add_Ability() override;
 
 	void	Update_FSMState(_float fTimeDelta);
 	void	Show_ImGUI();
 
-
 private:
-	CGameObject* m_pTargetObject = { nullptr };
-	CFSM*		m_pFSMCom = { nullptr };
-
 	STATE		m_eState = { STATE_END };
 	_bool		m_isControl = { true };				// 조작 가능 여부 -> 아이템 조작, 전투시 false 처리
-
-	vector<CPartObject*> m_PartObjects;				// PartObject를 보관 -> vector가 낫다고 판단, 무기 교체 가능성이 0에 수렴
-
-	// 초기위치 필요한?
 
 	deque<pair<CRole::SKILL, _int>>*	m_pCommands = { nullptr };
 	CInventory::ITEM		m_eItem = { CInventory::ITEM_END };

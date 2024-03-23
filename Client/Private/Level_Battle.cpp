@@ -155,12 +155,12 @@ HRESULT CLevel_Battle::Ready_Layer_BackGround(const wstring& strLayerTag)
 
 HRESULT CLevel_Battle::Ready_Layer_Chr(const wstring& strLayerTag)
 {
-    //if (FAILED(m_pGameInstance->Add_Clone(g_Level, strLayerTag, TEXT("Prototype_GameObject_Chr_Field"))))
-        //	return E_FAIL;
 
-    CChr_Battle_Light* pInstance = dynamic_cast<CChr_Battle_Light*>(m_pGameInstance->Add_Clone_With_Object(g_Level, strLayerTag, TEXT("Prototype_GameObject_Chr_Battle_Light")));
+    if (FAILED(m_pGameInstance->Add_Clone(g_Level, strLayerTag, TEXT("Prototype_GameObject_Chr_Battle_Light"))))
+        	return E_FAIL;
 
-    pInstance->Set_Target(m_pGameInstance->Get_GameObject(g_Level, g_strMonsterLayerTag, 0));
+    if (FAILED(m_pGameInstance->Add_Clone(g_Level, strLayerTag, TEXT("Prototype_GameObject_Chr_Battle_Sazh"))))
+        return E_FAIL;
 
     return S_OK;
 }
@@ -179,12 +179,12 @@ CLevel_Battle* CLevel_Battle::Create(ID3D11Device* pDevice, ID3D11DeviceContext*
 {
     CLevel_Battle* pInstance = new CLevel_Battle(pDevice, pContext);
 
-if (FAILED(pInstance->Initialize()))
-{
-    MSG_BOX(TEXT("Failed To Created : CLevel_Battle"));
+    if (FAILED(pInstance->Initialize()))
+    {
+        MSG_BOX(TEXT("Failed To Created : CLevel_Battle"));
 
-    Safe_Release(pInstance);
-}
+        Safe_Release(pInstance);
+    }
 
 return pInstance;
 }

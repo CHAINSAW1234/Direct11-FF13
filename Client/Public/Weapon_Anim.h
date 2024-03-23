@@ -36,6 +36,7 @@ public:
 	_float		Get_CurrentTrackPosition() { return m_pModelCom->Get_CurrentTrackPosition(); }
 	_bool		Is_Animation_Finished() { return m_pModelCom->isFinished(); }
 	void		Change_Animation(_uint iAnimationIndex, _bool isLoop) { m_pModelCom->Set_Animation(iAnimationIndex, isLoop); }
+	void		Set_TrackPosition(_float fTrackPosition) { m_pModelCom->Set_TrackPosition(fTrackPosition); }
 
 private:
 	CModel* m_pModelCom = { nullptr };

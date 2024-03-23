@@ -79,8 +79,8 @@ void CGameInstance::Tick_Engine(_float fTimeDelta)
 
 	m_pInput_Device->Tick();
 
-	m_pLevel_Manager->Open_Level();
 	m_pLevel_Manager->Tick(fTimeDelta);
+	m_pLevel_Manager->Open_Level();
 
 	m_pObject_Manager->Tick(fTimeDelta);
 	m_pPipeLine->Tick();

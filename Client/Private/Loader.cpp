@@ -16,6 +16,7 @@
 #include "Chr.h"
 #include "Chr_Field.h"
 #include "Chr_Battle_Light.h"
+#include "Chr_Battle_Sazh.h"
 #include "Body.h"
 #include "Weapon_Anim.h"
 
@@ -193,6 +194,12 @@ HRESULT CLoader::Loading_Prototype()
 	if (FAILED(m_pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_Chr_Battle_Light"),
 		CChr_Battle_Light::Create(m_pDevice, m_pContext))))
 		return E_FAIL;
+
+	/* For.Prototype_GameObject_Chr_Battle_Light */
+	if (FAILED(m_pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_Chr_Battle_Sazh"),
+		CChr_Battle_Sazh::Create(m_pDevice, m_pContext))))
+		return E_FAIL;
+
 
 	/* For.Prototype_GameObject_Inventory */
 	if (FAILED(m_pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_Inventory"),
@@ -549,6 +556,15 @@ HRESULT CLoader::Loading_For_Battle()
 	if (FAILED(m_pGameInstance->Add_Prototype(g_Level, TEXT("Prototype_Component_Model_Light_Weapon"),
 		CModel::Create(m_pDevice, m_pContext, "../Bin/Resources/Models/Chr/Light/Weapon/Light_Weapon" + tag))))
 		return E_FAIL;
+
+	if (FAILED(m_pGameInstance->Add_Prototype(g_Level, TEXT("Prototype_Component_Model_Sazh_Battle"),
+		CModel::Create(m_pDevice, m_pContext, "../Bin/Resources/Models/Chr/Sazh/Body/Sazh_Battle" + tag))))
+		return E_FAIL;
+
+	if (FAILED(m_pGameInstance->Add_Prototype(g_Level, TEXT("Prototype_Component_Model_Sazh_Weapon"),
+		CModel::Create(m_pDevice, m_pContext, "../Bin/Resources/Models/Chr/Sazh/Weapon/Sazh_Weapon" + tag))))
+		return E_FAIL;
+
 
 #pragma region Temp
 

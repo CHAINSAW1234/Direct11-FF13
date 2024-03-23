@@ -294,6 +294,13 @@ void CPlayer_Battle::Start()
 {
 	m_pLeader = dynamic_cast<CChr_Battle_Light*>(m_pGameInstance->Get_GameObject(g_Level, TEXT("Layer_Chr"), 0));
 	Safe_AddRef(m_pLeader);
+
+	size_t iNum = m_pGameInstance->Get_LayerCnt(g_Level, TEXT("Layer_Chr"));
+	for (size_t i = 1; i < iNum; ++i) {
+		m_Memebers.push_back(dynamic_cast<CChr_Battle*>(m_pGameInstance->Get_GameObject(g_Level, TEXT("Layer_Chr"), (_uint)i)));
+		Safe_AddRef(m_Memebers[i-1]);
+	}
+
 	// 牢亥配府 绢录备历录备
 	// 
 	// 阁胶磐 绢录备历录备
@@ -349,10 +356,6 @@ void CPlayer_Battle::Free()
 {
 	__super::Free();
 
-	for (auto& pPnal_Attack : m_Commands)
-		Safe_Release(pPnal_Attack);
-	m_Memebers.clear();
-
 	Safe_Release(m_pLeader);
 
 	for (auto& pChr_Battle : m_Memebers)
@@ -361,7 +364,13 @@ void CPlayer_Battle::Free()
 
 	for (auto& pMonster : m_Monsters)
 		Safe_Release(pMonster);
-	m_Memebers.clear();
+	m_Monsters.clear();
+
+	for (auto& pPnal_Attack : m_Commands)
+		Safe_Release(pPnal_Attack);
+	m_Commands.clear();
+
+	Safe_Release(m_pCommand_Item);
 
 	Safe_Release(m_pInventory);
 	Safe_Release(m_pAbility);
