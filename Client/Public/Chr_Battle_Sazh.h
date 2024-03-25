@@ -6,7 +6,7 @@ BEGIN(Client)
 class CChr_Battle_Sazh final : public CChr_Battle
 {
 public:
-	enum STATE { IDLE, ATTACK, SKILL, HIT, DEAD, FINISH, STATE_END };
+	enum STATE { IDLE, ATTACK, SKILL, HIT, DEAD, OPTIMA, FINISH, STATE_END };
 	enum ANIMATION_CHR_BATTLE_SAZH {	// FINISH -> ÀüÅõ Á¾·á	// IDLE_IDLEÀº STATE¶û °ãÃ³¼­ ¸¸µë
 		ATTACK_NOR1, ATTACK_NOR2, ATTACK_NOR3,
 		DEAD_END, DEAD_IDLE, DEAD_START, ANIM_FINISH, 
@@ -37,7 +37,8 @@ public:
 public:
 	HRESULT Change_State(STATE eState);
 	void	Change_Animation(ANIMATION_CHR_BATTLE_SAZH iAnimationIndex, _bool isLoop);
-	
+	virtual void Change_Role(CAbility::ROLE eRole) override;
+
 private:
 	virtual HRESULT Add_Components() override;
 	virtual HRESULT Add_Component_FSM() override;

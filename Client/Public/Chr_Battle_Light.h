@@ -7,7 +7,7 @@ BEGIN(Client)
 class CChr_Battle_Light final : public CChr_Battle
 {
 public:
-	enum STATE { IDLE, PREPARE, ATTACK, ITEM, HIT, DEAD, TP, FINISH, STATE_END };
+	enum STATE { IDLE, ATTACK, ITEM, HIT, DEAD, OPTIMA, FINISH, STATE_END };
 	enum ANIMATION_CHR_BATTLE_LIGHT {	// FINISH -> 전투 종료	// IDLE_IDLE은 STATE랑 겹처서 만듬
 		ATTACK_AIR, ATTACK_AIR_SPIN, ATTACK_AIR_SPIN2, ATTACK_AMBUSH, ATTACK_AMBUSH2, ATTACK_AREABLAST,
 		ATTACK_END, ATTACK_END2, ATTACK_NOR1, ATTACK_NOR2, ATTACK_NOR_3, ATTACK_NOR_4, ATTACK_PREPARE,
@@ -61,6 +61,10 @@ public:
 	void	Set_Item(CInventory::ITEM eItem) { m_eItem = eItem; }
 
 	void	Determine_Action_Based_On_Command();						// queue에 의거하여 행동을 결정
+
+
+	/*============================ABILITY============================*/
+	virtual void Change_Role(CAbility::ROLE eRole) override;
 
 private:
 	virtual HRESULT Add_Components() override;

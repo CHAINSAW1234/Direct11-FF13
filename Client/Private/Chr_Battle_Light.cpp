@@ -6,6 +6,7 @@
 #include "Chr_Battle_Light_State_Hit.h"
 #include "Chr_Battle_Light_State_Dead.h"
 #include "Chr_Battle_Light_State_Item.h"
+#include "Chr_Battle_Light_State_Optima.h"
 #include "Chr_Battle_Light_State_Finish.h"
 
 #include "FSM.h"
@@ -53,8 +54,14 @@ void CChr_Battle_Light::Tick(_float fTimeDelta)
 {
     __super::Tick(fTimeDelta);
 
-
     Update_FSMState(fTimeDelta);
+
+    if (m_pGameInstance->Get_KeyState(KEY_DOWN, DIK_2))
+        Min_Hp(50);
+
+    if (m_pGameInstance->Get_KeyState(KEY_DOWN, DIK_3))
+        Add_Hp(50);
+
 
 }
 
@@ -79,11 +86,14 @@ HRESULT CChr_Battle_Light::Render()
 
 void CChr_Battle_Light::Start()
 {
+    m_iMaxHp = m_iHp = 300;
+
     Set_Target(m_pGameInstance->Get_GameObject(g_Level, g_strMonsterLayerTag, 0));
     m_pTransformCom->Set_State(CTransform::STATE_POSITION, XMVectorSet(_float(rand() % 20), 0.f, _float(rand() % 20), 1.f));
     m_pTransformCom->Look_At_ForLandObject(((CTransform*)m_pTargetObject->Get_Component(g_strTransformTag))->Get_State_Vector(CTransform::STATE_POSITION));
     Change_Animation_Weapon(WEAPON_OPEN_IDLE);
     Change_Animation_Weapon(CChr_Battle_Light::WEAPON_OPEN_IDLE);
+    
 }
 
 HRESULT CChr_Battle_Light::Change_State(STATE eState)
@@ -149,6 +159,12 @@ void CChr_Battle_Light::Use_Item()
     m_eItem = CInventory::ITEM_END;
 }
 
+void CChr_Battle_Light::Change_Role(CAbility::ROLE eRole)
+{
+    __super::Change_Role(eRole);
+    Change_State(OPTIMA);
+}
+
 HRESULT CChr_Battle_Light::Add_Components()
 {
     if (FAILED(__super::Add_Components()))
@@ -164,9 +180,10 @@ HRESULT CChr_Battle_Light::Add_Component_FSM()
 
     m_pFSMCom->Add_State(IDLE, CChr_Battle_Light_State_Idle::Create(this));
     m_pFSMCom->Add_State(ATTACK, CChr_Battle_Light_State_Attack::Create(this));
+    m_pFSMCom->Add_State(ITEM, CChr_Battle_Light_State_Item::Create(this));
     m_pFSMCom->Add_State(HIT, CChr_Battle_Light_State_Hit::Create(this));
     m_pFSMCom->Add_State(DEAD, CChr_Battle_Light_State_Dead::Create(this));
-    m_pFSMCom->Add_State(ITEM, CChr_Battle_Light_State_Item::Create(this));
+    m_pFSMCom->Add_State(OPTIMA, CChr_Battle_Light_State_Optima::Create(this));
     m_pFSMCom->Add_State(FINISH, CChr_Battle_Light_State_Finish::Create(this));
 
     Change_State(IDLE);
@@ -238,9 +255,6 @@ void CChr_Battle_Light::Show_ImGUI()
     //    break;
     case DEAD:
         str = "DEAD";
-        break;
-    case TP:
-        str = "TP";
         break;
     }
 

@@ -1,7 +1,8 @@
 #pragma once
 #include "Client_Defines.h"
 #include "GameObject.h"
-#include "Role.h"
+#include "Ability.h"
+#include "Observer_Handler.h"
 
 BEGIN(Engine)
 class CFSM;
@@ -11,9 +12,8 @@ class CPartObject;
 END
 
 BEGIN(Client)
-class CAbility;
 
-class CChr_Battle abstract : public CGameObject
+class CChr_Battle abstract : public CGameObject, public CObserver_Handler
 {
 protected:
 	CChr_Battle(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);
@@ -59,6 +59,7 @@ public:
 	void Add_Hp(_int iHp);
 	void Min_Hp(_int iHp);
 	void Update_ATB(_float fTimeDelta);
+	virtual void Change_Role(CAbility::ROLE eRole);
 	virtual void Use_Command();
 	virtual CRole::SKILL Get_Current_Command();
 

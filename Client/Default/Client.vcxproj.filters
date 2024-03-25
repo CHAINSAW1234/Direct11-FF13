@@ -91,9 +91,6 @@
     <Filter Include="02.GameObjects\For_Study\Monster">
       <UniqueIdentifier>{e197b717-c7cd-4f12-87ea-66937e11f1b7}</UniqueIdentifier>
     </Filter>
-    <Filter Include="02.GameObjects\For_Study\Forklift">
-      <UniqueIdentifier>{71dcb4da-a072-4364-a534-e77e2b804c60}</UniqueIdentifier>
-    </Filter>
     <Filter Include="02.GameObjects\For_Study\Player">
       <UniqueIdentifier>{46e1137b-286d-4161-aff2-58514f47a53b}</UniqueIdentifier>
     </Filter>
@@ -241,6 +238,21 @@
     <Filter Include="02.GameObjects\Chr\Chr_Battle\Sazh\State\Chr_Battle_Sazh_State_Dead">
       <UniqueIdentifier>{25da10fc-de39-4dee-a063-09c0e71a7edf}</UniqueIdentifier>
     </Filter>
+    <Filter Include="03.UI\Battle\Player_Battle\Stage\UI_Battle_Stage_Optima">
+      <UniqueIdentifier>{ceeaa113-bf8b-4a1c-b400-218cf2b8bacb}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\Inventory\Forklift">
+      <UniqueIdentifier>{71dcb4da-a072-4364-a534-e77e2b804c60}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\Chr\Chr_Battle\Light\State\Chr_Battle_Light_State_Optima">
+      <UniqueIdentifier>{df8f323e-3e7e-4deb-b2b0-dba191edfd52}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\Chr\Chr_Battle\Sazh\State\Chr_Battle_Sazh_State_Optima">
+      <UniqueIdentifier>{44694f36-a689-461e-a10f-cfa31888ca3f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="03.UI\Battle\UI_Chr">
+      <UniqueIdentifier>{87eb5331-c567-42e8-93d8-1b8c21ba9ade}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\public\MainApp.h">
@@ -349,7 +361,7 @@
       <Filter>01.Levels\00. Loading\Loader</Filter>
     </ClInclude>
     <ClInclude Include="..\Public\Forklift.h">
-      <Filter>02.GameObjects\For_Study\Forklift</Filter>
+      <Filter>02.GameObjects\Inventory\Forklift</Filter>
     </ClInclude>
     <ClInclude Include="..\Public\Chr_Field.h">
       <Filter>02.GameObjects\Chr\Chr_Field</Filter>
@@ -486,6 +498,21 @@
     <ClInclude Include="..\Public\Chr_Battle_Sazh_State_Skill.h">
       <Filter>02.GameObjects\Chr\Chr_Battle\Sazh\State\Chr_Battle_Sazh_State_Skill</Filter>
     </ClInclude>
+    <ClInclude Include="..\Public\Chr_Battle_Vanila.h">
+      <Filter>02.GameObjects\Chr\Chr_Battle\Vanila</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\UI_Battle_Stage_Optima.h">
+      <Filter>03.UI\Battle\Player_Battle\Stage\UI_Battle_Stage_Optima</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\Chr_Battle_Light_State_Optima.h">
+      <Filter>02.GameObjects\Chr\Chr_Battle\Light\State\Chr_Battle_Light_State_Optima</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\Chr_Battle_Sazh_State_Optima.h">
+      <Filter>02.GameObjects\Chr\Chr_Battle\Sazh\State\Chr_Battle_Sazh_State_Optima</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\UI_Chr.h">
+      <Filter>03.UI\Battle\UI_Chr</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\private\MainApp.cpp">
@@ -576,7 +603,7 @@
       <Filter>02.GameObjects\Chr</Filter>
     </ClCompile>
     <ClCompile Include="..\Private\Forklift.cpp">
-      <Filter>02.GameObjects\For_Study\Forklift</Filter>
+      <Filter>02.GameObjects\Inventory\Forklift</Filter>
     </ClCompile>
     <ClCompile Include="..\Private\Chr_Field.cpp">
       <Filter>02.GameObjects\Chr\Chr_Field</Filter>
@@ -712,6 +739,21 @@
     </ClCompile>
     <ClCompile Include="..\Private\Chr_Battle_Sazh_State_Skill.cpp">
       <Filter>02.GameObjects\Chr\Chr_Battle\Sazh\State\Chr_Battle_Sazh_State_Skill</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Chr_Battle_Vanila.cpp">
+      <Filter>02.GameObjects\Chr\Chr_Battle\Vanila</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\UI_Battle_Stage_Optima.cpp">
+      <Filter>03.UI\Battle\Player_Battle\Stage\UI_Battle_Stage_Optima</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Chr_Battle_Light_State_Optima.cpp">
+      <Filter>02.GameObjects\Chr\Chr_Battle\Light\State\Chr_Battle_Light_State_Optima</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Chr_Battle_Sazh_State_Optima.cpp">
+      <Filter>02.GameObjects\Chr\Chr_Battle\Sazh\State\Chr_Battle_Sazh_State_Optima</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\UI_Chr.cpp">
+      <Filter>03.UI\Battle\UI_Chr</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

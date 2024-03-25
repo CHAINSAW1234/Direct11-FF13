@@ -53,6 +53,8 @@ HRESULT CUI_Battle_Stage_Command::Add_Pnals()
 		else {
 			UI_Pnal_Desc.vTargetPosition.x -= 128 * 1.3f + 5;
 			UI_Pnal_Desc.vStartPosition.x -= 128 * 1.3f + 5;
+			UI_Pnal_Desc.vTargetPosition.x += 15;
+			UI_Pnal_Desc.vStartPosition.x += 15;
 			UI_Pnal_Desc.vStartPosition.y -= 25.f;
 			UI_Pnal_Desc.vTargetPosition.y -= 25.f;
 		}
@@ -74,7 +76,7 @@ void CUI_Battle_Stage_Command::Update_Pnals()
 {
 	CRole* pRole = m_pPlayer_Battle->Get_Ability()->Get_CurrentRole();
 
-	m_iPnalCount = pRole->Get_SkillSet_Count();
+	m_iPnalCount = (_int)pRole->Get_SkillSet_Count();
 	for (size_t i = 0; i < pRole->Get_SkillSet_Count(); ++i) {
 		CRole::SKILL eSkill = pRole->Get_Skill_Index(i);
 

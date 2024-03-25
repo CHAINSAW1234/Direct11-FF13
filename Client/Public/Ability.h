@@ -35,7 +35,6 @@ public:
 private:
 	CRole* Find_Role(ROLE eRole);
 
-
 private:
 	map<ROLE, CRole*>	m_Role;
 	ROLE				m_eCurrentRole = {ROLE_END};

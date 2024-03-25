@@ -130,12 +130,12 @@ HRESULT CUI_ATB::Bind_ShaderResources()
 
 void CUI_ATB::OnNotify()
 {
-	//if (m_pPlayerInfo->Get_Stage() == CPlayer_Battle::STAGE_ITEM) {
-	//	m_isRender = false;
-	//}
-	//else {
-	//	m_isRender = true;
-	//}
+	if (m_pPlayerInfo->Get_Stage() == CPlayer_Battle::STAGE_OPTIMA) {
+		m_isRender = false;
+	}
+	else {
+		m_isRender = true;
+	}
 
 }
 

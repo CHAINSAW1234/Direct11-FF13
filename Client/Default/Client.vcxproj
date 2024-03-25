@@ -183,6 +183,7 @@
     <ClInclude Include="..\Public\Chr_Battle_Light_State_Hit.h" />
     <ClInclude Include="..\Public\Chr_Battle_Light_State_Idle.h" />
     <ClInclude Include="..\Public\Chr_Battle_Light_State_Item.h" />
+    <ClInclude Include="..\Public\Chr_Battle_Light_State_Optima.h" />
     <ClInclude Include="..\Public\Chr_Battle_Light_State_Preprare.h" />
     <ClInclude Include="..\Public\Chr_Battle_Light_State_Finish.h" />
     <ClInclude Include="..\Public\Chr_Battle_Sazh.h" />
@@ -191,7 +192,9 @@
     <ClInclude Include="..\Public\Chr_Battle_Sazh_State_Finish.h" />
     <ClInclude Include="..\Public\Chr_Battle_Sazh_State_Hit.h" />
     <ClInclude Include="..\Public\Chr_Battle_Sazh_State_Idle.h" />
+    <ClInclude Include="..\Public\Chr_Battle_Sazh_State_Optima.h" />
     <ClInclude Include="..\Public\Chr_Battle_Sazh_State_Skill.h" />
+    <ClInclude Include="..\Public\Chr_Battle_Vanila.h" />
     <ClInclude Include="..\Public\Chr_Field.h" />
     <ClInclude Include="..\Public\Chr_Field_State_Battle_Begin.h" />
     <ClInclude Include="..\Public\Chr_Field_State_Idle.h" />
@@ -224,11 +227,13 @@
     <ClInclude Include="..\Public\UI_ATB.h" />
     <ClInclude Include="..\Public\UI_Battle_Stage_Command.h" />
     <ClInclude Include="..\Public\UI_Battle_Stage_Item.h" />
+    <ClInclude Include="..\Public\UI_Battle_Stage_Optima.h" />
     <ClInclude Include="..\Public\UI_Battle_Stage_Select.h" />
     <ClInclude Include="..\Public\UI_Battle_Stage_Target.h" />
     <ClInclude Include="..\Public\UI_Battle_Stage_Target_Member.h" />
     <ClInclude Include="..\Public\UI_Battle_Stage_Wait.h" />
     <ClInclude Include="..\Public\UI_Cursor.h" />
+    <ClInclude Include="..\Public\UI_Chr.h" />
     <ClInclude Include="..\Public\UI_Pnal.h" />
     <ClInclude Include="..\Public\UI_Pnal_Attack.h" />
     <ClInclude Include="..\Public\UI_Pnal_Item.h" />
@@ -266,6 +271,7 @@
     <ClCompile Include="..\Private\Chr_Battle_Light_State_Hit.cpp" />
     <ClCompile Include="..\Private\Chr_Battle_Light_State_Idle.cpp" />
     <ClCompile Include="..\Private\Chr_Battle_Light_State_Item.cpp" />
+    <ClCompile Include="..\Private\Chr_Battle_Light_State_Optima.cpp" />
     <ClCompile Include="..\Private\Chr_Battle_Light_State_Preprare.cpp" />
     <ClCompile Include="..\Private\Chr_Battle_Light_State_Finish.cpp" />
     <ClCompile Include="..\Private\Chr_Battle_Sazh.cpp" />
@@ -274,7 +280,9 @@
     <ClCompile Include="..\Private\Chr_Battle_Sazh_State_Finish.cpp" />
     <ClCompile Include="..\Private\Chr_Battle_Sazh_State_Hit.cpp" />
     <ClCompile Include="..\Private\Chr_Battle_Sazh_State_Idle.cpp" />
+    <ClCompile Include="..\Private\Chr_Battle_Sazh_State_Optima.cpp" />
     <ClCompile Include="..\Private\Chr_Battle_Sazh_State_Skill.cpp" />
+    <ClCompile Include="..\Private\Chr_Battle_Vanila.cpp" />
     <ClCompile Include="..\Private\Chr_Field.cpp" />
     <ClCompile Include="..\Private\Chr_Field_State_Battle_Begin.cpp" />
     <ClCompile Include="..\Private\Chr_Field_State_Idle.cpp" />
@@ -305,11 +313,13 @@
     <ClCompile Include="..\Private\UI_ATB.cpp" />
     <ClCompile Include="..\Private\UI_Battle_Stage_Command.cpp" />
     <ClCompile Include="..\Private\UI_Battle_Stage_Item.cpp" />
+    <ClCompile Include="..\Private\UI_Battle_Stage_Optima.cpp" />
     <ClCompile Include="..\Private\UI_Battle_Stage_Select.cpp" />
     <ClCompile Include="..\Private\UI_Battle_Stage_Target.cpp" />
     <ClCompile Include="..\Private\UI_Battle_Stage_Target_Member.cpp" />
     <ClCompile Include="..\Private\UI_Battle_Stage_Wait.cpp" />
     <ClCompile Include="..\Private\UI_Cursor.cpp" />
+    <ClCompile Include="..\Private\UI_Chr.cpp" />
     <ClCompile Include="..\Private\UI_Pnal.cpp" />
     <ClCompile Include="..\Private\UI_Pnal_Attack.cpp" />
     <ClCompile Include="..\Private\UI_Pnal_Item.cpp" />

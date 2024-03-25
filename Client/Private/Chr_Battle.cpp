@@ -127,12 +127,14 @@ void CChr_Battle::Add_Hp(_int iHp)
 {
 	m_iHp += iHp;
 	m_iHp = min(m_iHp, m_iMaxHp);
+	NotifyObserver();
 }
 
 void CChr_Battle::Min_Hp(_int iHp)
 {
 	m_iHp -= iHp;
 	m_iHp = max(m_iHp, 0);
+	NotifyObserver();
 }
 
 void CChr_Battle::Set_TrackPosition(_float fTrackPosition)
@@ -151,10 +153,16 @@ void CChr_Battle::Set_Target(CGameObject* pTargetObject)
 
 void CChr_Battle::Update_ATB(_float fTimeDelta)
 {
-	m_fATB += fTimeDelta * 0.8;
+	m_fATB += fTimeDelta * 0.8f;
 	m_fATB = min(m_fATB, m_fMaxATB);
 
 }
+
+void CChr_Battle::Change_Role(CAbility::ROLE eRole)
+{
+	m_pAbility->Set_CurrentRole(eRole);
+}
+
 
 void CChr_Battle::Update_Command()
 {

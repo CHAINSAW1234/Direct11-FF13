@@ -55,6 +55,8 @@ HRESULT CUI_Battle_Stage_Target_Member::Add_Pnals()
 	vector<CChr_Battle*> vecMembers = m_pPlayer_Battle->Get_Members();
 
 	for (auto& pMemeber : vecMembers) {
+		UI_Pnal_Desc.vTargetPosition.x += 15;
+		UI_Pnal_Desc.vStartPosition.x += 15;
 		UI_Pnal_Desc.vStartPosition.y -= 25.f;
 		UI_Pnal_Desc.vTargetPosition.y -= 25.f;
 		//UI_Pnal_Desc.strName = pMonster->Get_Name();

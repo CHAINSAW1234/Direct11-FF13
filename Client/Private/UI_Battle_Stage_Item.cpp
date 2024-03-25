@@ -64,6 +64,8 @@ HRESULT CUI_Battle_Stage_Item::Add_Pnals()
 		else {
 			UI_Pnal_Desc.vTargetPosition.x -= 128 * 1.3f + 5;
 			UI_Pnal_Desc.vStartPosition.x -= 128 * 1.3f + 5;
+			UI_Pnal_Desc.vTargetPosition.x += 15;
+			UI_Pnal_Desc.vStartPosition.x += 15;
 			UI_Pnal_Desc.vStartPosition.y -= 25.f;
 			UI_Pnal_Desc.vTargetPosition.y -= 25.f;
 		}

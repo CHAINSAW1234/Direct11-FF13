@@ -5,6 +5,7 @@
 #include "Chr_Battle_Sazh_State_Skill.h"
 #include "Chr_Battle_Sazh_State_Hit.h"
 #include "Chr_Battle_Sazh_State_Dead.h"
+#include "Chr_Battle_Sazh_State_Optima.h"
 #include "Chr_Battle_Sazh_State_Finish.h"
 
 #include "FSM.h"
@@ -100,6 +101,12 @@ void CChr_Battle_Sazh::Change_Animation(ANIMATION_CHR_BATTLE_SAZH iAnimationInde
 	dynamic_cast<CBody*>(m_PartObjects[0])->Change_Animation(iAnimationIndex, isLoop);
 }
 
+void CChr_Battle_Sazh::Change_Role(CAbility::ROLE eRole)
+{
+	__super::Change_Role(eRole);
+	Change_State(OPTIMA);
+}
+
 HRESULT CChr_Battle_Sazh::Add_Components()
 {
 	if (FAILED(__super::Add_Components()))
@@ -117,6 +124,7 @@ HRESULT CChr_Battle_Sazh::Add_Component_FSM()
 	m_pFSMCom->Add_State(SKILL, CChr_Battle_Sazh_State_Skill::Create(this));
 	m_pFSMCom->Add_State(HIT, CChr_Battle_Sazh_State_Hit::Create(this));
 	m_pFSMCom->Add_State(DEAD, CChr_Battle_Sazh_State_Dead::Create(this));
+	m_pFSMCom->Add_State(OPTIMA, CChr_Battle_Sazh_State_Optima::Create(this));
 	m_pFSMCom->Add_State(FINISH, CChr_Battle_Sazh_State_Finish::Create(this));
 
 	m_pFSMCom->Change_State(IDLE);

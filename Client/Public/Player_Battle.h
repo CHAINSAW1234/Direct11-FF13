@@ -2,6 +2,7 @@
 
 #include "Client_Defines.h"
 #include "Observer_Handler.h"
+#include "Optima.h"
 
 BEGIN(Engine)
 class CGameInstance;
@@ -16,12 +17,12 @@ class CUI_Pnal_Item;
 class CMonster;
 class CPlayer_Study;
 class CInventory;
-class CAbility;
+
 
 class CPlayer_Battle final : public CBase, public CObserver_Handler
 {
 public:
-	enum UISTAGE  { STAGE_SELECT, STAGE_TARGET, STAGE_COMMAND, STAGE_ITEM, STAGE_TARGET_MEMBER, STAGE_WAIT, STAGE_END };
+	enum UISTAGE  { STAGE_SELECT, STAGE_TARGET, STAGE_COMMAND, STAGE_ITEM, STAGE_TARGET_MEMBER, STAGE_OPTIMA, STAGE_WAIT, STAGE_END };
 private:
 	CPlayer_Battle();
 	~CPlayer_Battle() = default;
@@ -56,6 +57,7 @@ public:
 	void Add_Command(CUI_Pnal_Attack* pPnal_Attack);
 	void Cancel_Command();								// 커맨드 예약을 취소 -> 뒤에서 부터 삭제됨
 	void Use_Command();									// 커멘드가 사용됨 -> 공격이 수행됬을 경우
+	void Set_Command_Render(_bool isRender);
 
 	/*=========================ITEM 관련=========================*/
 	_bool Check_Item();
@@ -63,6 +65,15 @@ public:
 	void Cancel_Item();
 	void Use_Item();
 
+	/*=========================OPTIMA 관련=========================*/
+	HRESULT Create_Optima();
+	COptima::Optima* Get_Current_Optima();
+	size_t Get_Optima_Size() { return m_pOptima->Get_Optima_Size(); }
+	_int Get_Current_Optima_Num() { return m_pOptima->Get_Current_Optima_Num(); }
+	wstring Get_Optima_Name(_int iOptimaIndex) { return m_pOptima->Get_Optima_Name(iOptimaIndex); }
+	HRESULT Change_Optima(_int iOptimaIndex);
+
+	void Set_Leader_Target(CGameObject* pTargetObject);
 	void Set_Leader_Command();							// dequeue 정보를 바탕을 Leader에게 명령을 전달
 	void Set_Leader_Item();
 	void Check_Leader_Action();
@@ -72,7 +83,7 @@ private:
 
 	HRESULT	Initialize();
 	HRESULT	Add_Component_FSM();
-	//void	Update_FSMState();		// 사용 안할 지도?
+	void	Update_FSMState();		// 사용 안할 지도?
 	void	Update_Monsters();
 	void	Update_Command();
 	void	Update_CommandCost();
@@ -89,11 +100,12 @@ private:
 	vector<CChr_Battle*>	m_Memebers;						// Leader 이외의 AI들
 	vector<CPlayer_Study*>	m_Monsters;						// 여기도 변경 해야 함 
 	CInventory*				m_pInventory = { nullptr };		// 인벤토리
+	COptima*				m_pOptima = { nullptr };		// 옵티마
 	CAbility*				m_pAbility = { nullptr };		// 스킬셋 
 	_int					m_iCommandCost = { 0 };			// 저장된 공격 명령
 	deque<CUI_Pnal_Attack*>	m_Commands;						// 공격 명령들					// 명령이 완성되면 전달할 것
 																							// deque 정보를 바탕으로 queue를 만들어서 전달
-	CUI_Pnal_Item*			m_pCommand_Item;
+	CUI_Pnal_Item*			m_pCommand_Item = { nullptr };
 
 
 	// 아이템 사용시의 Command 별개로 들고있기?

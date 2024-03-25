@@ -38,6 +38,9 @@ HRESULT CPlayer_Study::Initialize(void* pArg)
 	if (FAILED(Add_PartObjects()))
 		return E_FAIL;
 
+	m_pTransformCom->Set_State(CTransform::STATE_POSITION, XMVectorSet(_float(rand() % 10 -5), 0.f, _float(rand() % 10 - 5), 1.f));
+
+
 	return S_OK;
 }
 

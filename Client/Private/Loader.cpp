@@ -11,6 +11,7 @@
 #include "UI_Pnal_Item.h"
 #include "UI_Pnal.h"
 #include "UI_ATB.h"
+#include "UI_Chr.h"
 
 #include "Inventory.h"
 #include "Chr.h"
@@ -234,6 +235,11 @@ HRESULT CLoader::Loading_Prototype()
 	/* For.Prototype_GameObject_UI_ATB */
 	if (FAILED(m_pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_UI_ATB"),
 		CUI_ATB::Create(m_pDevice, m_pContext))))
+		return E_FAIL;
+
+	/* For.Prototype_GameObject_UI_Chr */
+	if (FAILED(m_pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_UI_Chr"),
+		CUI_Chr::Create(m_pDevice, m_pContext))))
 		return E_FAIL;
 
 	/* For.Prototype_GameObject_MapTool */
@@ -534,6 +540,11 @@ HRESULT CLoader::Loading_For_Battle()
 	/* For.Prototype_Component_Texture_UI_ATB_Inner */
 	if (FAILED(m_pGameInstance->Add_Prototype(g_Level, TEXT("Prototype_Component_Texture_UI_ATB_Mask"),
 		CTexture::Create(m_pDevice, m_pContext, TEXT("../Bin/Resources/UI/ATB_Mask.dds")))))
+		return E_FAIL;
+
+	/* For.Prototype_Component_Texture_UI_Grad */
+	if (FAILED(m_pGameInstance->Add_Prototype(g_Level, TEXT("Prototype_Component_Texture_UI_Grad"),
+		CTexture::Create(m_pDevice, m_pContext, TEXT("../Bin/Resources/UI/Grad.dds")))))
 		return E_FAIL;
 
 #pragma endregion

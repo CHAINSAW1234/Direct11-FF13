@@ -33,8 +33,9 @@ void CUI_Battle_Stage_Target::OnStateUpdate(_float fTimeDelta)
 	}
 
 	if (m_pGameInstance->Get_KeyState(KEY_DOWN, DIK_RETURN)) {
-		m_pPlayer_Battle->Change_Stage(CPlayer_Battle::STAGE_WAIT); 
-
+		CGameObject* pTargetObject = m_pGameInstance->Get_GameObject(g_Level, g_strMonsterLayerTag, (_uint)m_iCursor);
+		m_pPlayer_Battle->Set_Leader_Target(pTargetObject);
+		m_pPlayer_Battle->Change_Stage(CPlayer_Battle::STAGE_WAIT);
 	}
 }
 
@@ -61,6 +62,8 @@ HRESULT CUI_Battle_Stage_Target::Add_Pnals()
 	vector<CPlayer_Study*> vecMonsters =  m_pPlayer_Battle->Get_Monsters();
 
 	for (auto& pMonster : vecMonsters) {
+		UI_Pnal_Desc.vTargetPosition.x += 15;
+		UI_Pnal_Desc.vStartPosition.x += 15;
 		UI_Pnal_Desc.vStartPosition.y -= 25.f;
 		UI_Pnal_Desc.vTargetPosition.y -= 25.f;
 		//UI_Pnal_Desc.strName = pMonster->Get_Name();

@@ -43,7 +43,6 @@ VS_OUT VS_MAIN(VS_IN In)
 
     matrix matWV, matWVP;
 
-    
     matWV = mul(g_WorldMatrix, g_ViewMatrix);
     matWVP = mul(matWV, g_ProjMatrix);
     float2 vMask = { In.vTexcoord.x - g_MaskMovement , In.vTexcoord.y / g_SizeY + g_MaskMovement };
@@ -51,8 +50,9 @@ VS_OUT VS_MAIN(VS_IN In)
     Out.vPosition = mul(vector(In.vPosition, 1.f), matWVP);
     Out.vTexcoord = In.vTexcoord;
     Out.vTexcoordMask = vMask;
-        return Out;
-    }
+    return Out;
+}
+
 
 struct PS_IN
 {
@@ -82,7 +82,7 @@ PS_OUT PS_Border(PS_IN In)
 {
     PS_OUT Out = (PS_OUT) 0;
     
-    Out.vColor = g_Texture_Border.Sample(LinearSampler, In.vTexcoord);
+    Out.vColor = g_Texture_Border.Sample(LinearSampler, In.vTexcoord);  // border 텍스처가 적용됨
     
     if (0.3 > Out.vColor.a)
         discard;
@@ -128,7 +128,6 @@ PS_OUT PS_Mask(PS_IN In)
         Out.vColor = vInnerTexture;
     }
 
-	
     return Out;
 }
 
@@ -145,10 +144,41 @@ PS_OUT PS_Disappear(PS_IN In)
     return Out;
 }
 
+PS_OUT PS_Black_5(PS_IN In)     // 알파값 0.5를 먹여서 렌더링 한다
+{
+    PS_OUT Out = (PS_OUT) 0;
+    Out.vColor = float4(0.f, 0.f, 0.f, 0.5f);
+
+    return Out;
+}
+
+PS_OUT PS_Color_And_Ratio(PS_IN In)     // 특정 비율까지만 색을 렌더링 한다
+{
+    PS_OUT Out = (PS_OUT) 0;
+    if (In.vTexcoord.x >= g_Ratio)
+        discard;
+    
+    Out.vColor = g_Color;
+    return Out;
+}
+
+
+PS_OUT PS_Color_And_Ratio_And_Mask(PS_IN In)     // 특정 비율까지만 색을 마스크를 먹여서 렌더링 한다
+{
+    PS_OUT Out = (PS_OUT) 0;
+    
+    if (In.vTexcoord.x >= g_Ratio)
+        discard;
+   
+    Out.vColor = g_Color - saturate(cos(g_MaskMovement)) * 0.3;
+    Out.vColor.w = 1.f;
+
+    return Out;
+}
 
 technique11 DefaultTechnique
 {
-    pass Default
+    pass Default                                            //0
     {
         VertexShader = compile vs_5_0 VS_MAIN();
         GeometryShader = /*compile gs_5_0 GS_MAIN()*/NULL;
@@ -157,28 +187,47 @@ technique11 DefaultTechnique
         PixelShader = compile ps_5_0 PS_MAIN();
     }
 
-    pass Inner
+    pass Inner                                              // 1
     {
         VertexShader = compile vs_5_0 VS_MAIN();
         PixelShader = compile ps_5_0 PS_Inner();
     }
 
-    pass Mask
+    pass Mask                                               //2
     {
         VertexShader = compile vs_5_0 VS_MAIN();
         PixelShader = compile ps_5_0 PS_Mask();
     }
 
-    pass Border
+    pass Border                                             //3
     {
         VertexShader = compile vs_5_0 VS_MAIN();
         PixelShader = compile ps_5_0 PS_Border();
     }
 
-    pass Disappear
+    pass Disappear                                          //4
     {
         VertexShader = compile vs_5_0 VS_MAIN();
         PixelShader = compile ps_5_0 PS_Disappear();
+    }
+
+
+    pass Black_5 // 검은 색 사각형을 알파값 0.5로 렌더링  //5
+    {
+        VertexShader = compile vs_5_0 VS_MAIN();
+        PixelShader = compile ps_5_0 PS_Black_5();
+    }
+
+    pass Color_And_Ratio // 전달한 색으로 특정 비율까지만 렌더링        //6
+    {
+        VertexShader = compile vs_5_0 VS_MAIN();
+        PixelShader = compile ps_5_0 PS_Color_And_Ratio();
+    }
+
+    pass Color_And_Ratio_And_Mask // 전달한 색으로 특정 비율까지만 마스크를 포함하여 //7
+    {
+        VertexShader = compile vs_5_0 VS_MAIN();
+        PixelShader = compile ps_5_0 PS_Color_And_Ratio_And_Mask();
     }
 
 

@@ -8,6 +8,7 @@
 #include "UI_Battle_Stage_Target_Member.h"
 #include "UI_Battle_Stage_Command.h"
 #include "UI_Battle_Stage_Item.h"
+#include "UI_Battle_Stage_Optima.h"
 #include "UI_Battle_Stage_Wait.h"
 
 #include "UI_Pnal_Attack.h"
@@ -17,7 +18,7 @@
 #include "Player_Study.h"
 #include "Monster.h"
 #include "Inventory.h"
-#include "Ability.h"
+#include "Optima.h"
 
 CPlayer_Battle::CPlayer_Battle()
 	: m_pGameInstance{ CGameInstance::Get_Instance() }
@@ -28,8 +29,10 @@ CPlayer_Battle::CPlayer_Battle()
 void CPlayer_Battle::Change_Stage(UISTAGE eStage)
 {
 	m_pFSMCom->Change_State(eStage);
-	m_PrevStage.push(m_eStage);
-	m_eStage = eStage;
+	if (m_eStage != eStage) {
+		m_PrevStage.push(m_eStage);
+		m_eStage = eStage;
+	}
 
 	if (m_eStage == STAGE_SELECT) {				//Select로 돌아오면 스택 비우기
 		while (!m_PrevStage.empty())
@@ -112,6 +115,12 @@ void CPlayer_Battle::Use_Command()
 	Update_CommandPosition();
 }
 
+void CPlayer_Battle::Set_Command_Render(_bool isRender)
+{
+	for (auto& pPnal : m_Commands)
+		pPnal->Set_Render(isRender);
+}
+
 _bool CPlayer_Battle::Check_Item()
 {
 	if (nullptr == m_pCommand_Item)
@@ -156,6 +165,54 @@ void CPlayer_Battle::Use_Item()
 
 	Safe_Release(m_pCommand_Item);
 	m_pCommand_Item = nullptr;
+}
+
+COptima::Optima* CPlayer_Battle::Get_Current_Optima()
+{
+	return m_pOptima->Get_Current_Optima();
+}
+
+HRESULT CPlayer_Battle::Change_Optima(_int iOptimaIndex)
+{
+	if (FAILED(m_pOptima->Change_Optima(iOptimaIndex)))
+		return E_FAIL;
+
+	COptima::Optima* pOptima = m_pOptima->Get_Current_Optima();
+
+	m_pLeader->Change_Role(*pOptima[0]);		// 리더의 Role 변경
+	m_Memebers[0]->Change_Role(*pOptima[1]);	// 멤버 0 : 삿즈
+	//m_Memebers[1]->Change_Role(*pOptima[2]);		// 멤버 1 : 바닐라
+
+	return S_OK;
+}
+
+HRESULT CPlayer_Battle::Create_Optima()
+{
+	m_pOptima = COptima::Create();
+
+	m_pOptima->Add_Optima(TEXT("러시 어설트"));
+	m_pOptima->Change_Role(0, 0, CAbility::ATTACKER);
+	m_pOptima->Change_Role(0, 1, CAbility::BLASTER);
+	m_pOptima->Change_Role(0, 2, CAbility::BLASTER);
+
+	m_pOptima->Add_Optima(TEXT("용천의 개가"));
+	m_pOptima->Change_Role(1, 0, CAbility::ATTACKER);
+	m_pOptima->Change_Role(1, 1, CAbility::BLASTER);
+	m_pOptima->Change_Role(1, 2, CAbility::HEALER);
+
+	m_pOptima->Add_Optima(TEXT("트라이 디재스터"));
+	m_pOptima->Change_Role(2, 0, CAbility::BLASTER);
+	m_pOptima->Change_Role(2, 1, CAbility::BLASTER);
+	m_pOptima->Change_Role(2, 2, CAbility::BLASTER);
+
+	return S_OK;
+}
+
+void CPlayer_Battle::Set_Leader_Target(CGameObject* pTargetObject)
+{
+	if (nullptr == pTargetObject)
+		return;
+	m_pLeader->Set_Target(pTargetObject);
 }
 
 void CPlayer_Battle::Set_Leader_Command()
@@ -228,10 +285,18 @@ HRESULT CPlayer_Battle::Add_Component_FSM()
 	m_pFSMCom->Add_State(STAGE_COMMAND, CUI_Battle_Stage_Command::Create(this));
 	m_pFSMCom->Add_State(STAGE_ITEM, CUI_Battle_Stage_Item::Create(this));
 	m_pFSMCom->Add_State(STAGE_TARGET_MEMBER, CUI_Battle_Stage_Target_Member::Create(this));
+	m_pFSMCom->Add_State(STAGE_OPTIMA, CUI_Battle_Stage_Optima::Create(this));
 	m_pFSMCom->Add_State(STAGE_WAIT, CUI_Battle_Stage_Wait::Create(this));
 	Change_Stage(STAGE_SELECT);
 
 	return S_OK;
+}
+
+void CPlayer_Battle::Update_FSMState()
+{
+	if (m_pGameInstance->Get_KeyState(KEY_DOWN, DIK_TAB)) {
+		Change_Stage(STAGE_OPTIMA);
+	}
 }
 
 void CPlayer_Battle::Update_Monsters()
@@ -301,9 +366,7 @@ void CPlayer_Battle::Start()
 		Safe_AddRef(m_Memebers[i-1]);
 	}
 
-	// 인벤토리 어쩌구저쩌구
-	// 
-	// 몬스터 어쩌구저쩌구
+	// 몬스터 데이터 받아옴
 	size_t iNumMonster = m_pGameInstance->Get_LayerCnt(g_Level, g_strMonsterLayerTag);
 	
 	for (size_t i = 0; i < iNumMonster; ++i) {
@@ -315,8 +378,11 @@ void CPlayer_Battle::Start()
 		Safe_AddRef(pMonster);
 	}
 
+	// 인벤토리 받아옴
 	m_pInventory = dynamic_cast<CInventory*>(m_pGameInstance->Get_GameObject(g_Level, TEXT("Layer_Inventory"), 0));
 	Safe_AddRef(m_pInventory);
+
+	Create_Optima();
 
 	m_pAbility = m_pLeader->Get_Ability();
 	Safe_AddRef(m_pAbility);
@@ -328,6 +394,7 @@ void CPlayer_Battle::Start()
 void CPlayer_Battle::Tick(_float fTimeDelta)
 {
 	m_pFSMCom->Update(fTimeDelta);
+	Update_FSMState();
 	Update_Command();
 
 }
@@ -373,6 +440,7 @@ void CPlayer_Battle::Free()
 	Safe_Release(m_pCommand_Item);
 
 	Safe_Release(m_pInventory);
+	Safe_Release(m_pOptima);
 	Safe_Release(m_pAbility);
 
 	Safe_Release(m_pFSMCom);
