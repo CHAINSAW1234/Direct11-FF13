@@ -70,6 +70,7 @@ protected:
 	virtual HRESULT Add_PartObjects();
 	virtual HRESULT Add_Ability();
 	void			Update_Command();
+
 protected:
 	wstring m_strChrName = {};
 	_int	m_iMaxHp = { 1 };

@@ -17,7 +17,9 @@ private:
 public:
 	HRESULT Initialize_Engine(HINSTANCE hInstance, _uint iNumLevels, const ENGINE_DESC& EngineDesc, _Inout_ ID3D11Device** ppDevice, _Inout_ ID3D11DeviceContext** ppContext);
 	void Tick_Engine(_float fTimeDelta);
-	HRESULT Draw(const _float4& vClearColor = _float4(0.f, 0.f, 1.f, 1.f));
+	HRESULT Begin_Draw(const _float4& vClearColor);
+	HRESULT End_Draw();
+	HRESULT Draw();
 	HRESULT Clear(_uint iClearLevelIndex);
 
 public: /* For.Input_Device */
@@ -65,6 +67,10 @@ public: /* For.PipeLine */
 public: /* For.Light_Manager */
 	const LIGHT_DESC* Get_LightDesc(_uint iIndex);
 	HRESULT Add_Light(const LIGHT_DESC& LightDesc);
+
+public: /* For.Font_Manager */
+	HRESULT Add_Font(ID3D11Device* pDevice, ID3D11DeviceContext* pContext, const wstring& strFontTag, const wstring& strFontFilePath);
+	HRESULT Render_Font(const wstring& strFontTag, const wstring& strText, const _float2& vPosition, _fvector vColor, _float fRadian);
 
 private:
 	class CGraphic_Device*			m_pGraphic_Device = { nullptr };

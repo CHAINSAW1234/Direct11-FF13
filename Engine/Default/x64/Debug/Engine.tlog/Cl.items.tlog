@@ -11,7 +11,9 @@ C:\Users\stgo5015\Documents\GitHub\Direct11_FF13\Engine\Private\Channel.cpp;C:\U
 C:\Users\stgo5015\Documents\GitHub\Direct11_FF13\Engine\Private\Collider.cpp;C:\Users\stgo5015\Documents\GitHub\Direct11_FF13\Engine\Default\x64\Debug\Collider.obj
 C:\Users\stgo5015\Documents\GitHub\Direct11_FF13\Engine\Private\Component.cpp;C:\Users\stgo5015\Documents\GitHub\Direct11_FF13\Engine\Default\x64\Debug\Component.obj
 C:\Users\stgo5015\Documents\GitHub\Direct11_FF13\Engine\Private\Component_Manager.cpp;C:\Users\stgo5015\Documents\GitHub\Direct11_FF13\Engine\Default\x64\Debug\Component_Manager.obj
+C:\Users\stgo5015\Documents\GitHub\Direct11_FF13\Engine\Private\CustomFont.cpp;C:\Users\stgo5015\Documents\GitHub\Direct11_FF13\Engine\Default\x64\Debug\CustomFont.obj
 C:\Users\stgo5015\Documents\GitHub\Direct11_FF13\Engine\Private\DebugDraw.cpp;C:\Users\stgo5015\Documents\GitHub\Direct11_FF13\Engine\Default\x64\Debug\DebugDraw.obj
+C:\Users\stgo5015\Documents\GitHub\Direct11_FF13\Engine\Private\Font_Manager.cpp;C:\Users\stgo5015\Documents\GitHub\Direct11_FF13\Engine\Default\x64\Debug\Font_Manager.obj
 C:\Users\stgo5015\Documents\GitHub\Direct11_FF13\Engine\Private\FSM.cpp;C:\Users\stgo5015\Documents\GitHub\Direct11_FF13\Engine\Default\x64\Debug\FSM.obj
 C:\Users\stgo5015\Documents\GitHub\Direct11_FF13\Engine\Private\FSM_State.cpp;C:\Users\stgo5015\Documents\GitHub\Direct11_FF13\Engine\Default\x64\Debug\FSM_State.obj
 C:\Users\stgo5015\Documents\GitHub\Direct11_FF13\Engine\Private\GameInstance.cpp;C:\Users\stgo5015\Documents\GitHub\Direct11_FF13\Engine\Default\x64\Debug\GameInstance.obj

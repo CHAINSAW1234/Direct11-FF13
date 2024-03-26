@@ -35,6 +35,7 @@ void CUI_Battle_Stage_Target::OnStateUpdate(_float fTimeDelta)
 	if (m_pGameInstance->Get_KeyState(KEY_DOWN, DIK_RETURN)) {
 		CGameObject* pTargetObject = m_pGameInstance->Get_GameObject(g_Level, g_strMonsterLayerTag, (_uint)m_iCursor);
 		m_pPlayer_Battle->Set_Leader_Target(pTargetObject);
+		m_pPlayer_Battle->Set_Member_Target(pTargetObject);
 		m_pPlayer_Battle->Change_Stage(CPlayer_Battle::STAGE_WAIT);
 	}
 }

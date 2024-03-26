@@ -206,6 +206,10 @@
     <ClInclude Include="..\Public\Grid.h" />
     <ClInclude Include="..\Public\ImGUI_Manager.h" />
     <ClInclude Include="..\Public\Inventory.h" />
+    <ClInclude Include="..\Public\Leopard.h" />
+    <ClInclude Include="..\Public\Leopard_State_Attack.h" />
+    <ClInclude Include="..\Public\Leopard_State_Hit.h" />
+    <ClInclude Include="..\Public\Leopard_State_Idle.h" />
     <ClInclude Include="..\Public\Level_Battle.h" />
     <ClInclude Include="..\Public\Level_Field.h" />
     <ClInclude Include="..\Public\Level_GamePlay.h" />
@@ -218,6 +222,7 @@
     <ClInclude Include="..\Public\MapObject.h" />
     <ClInclude Include="..\Public\MapTool.h" />
     <ClInclude Include="..\Public\Monster.h" />
+    <ClInclude Include="..\Public\Monster_Study.h" />
     <ClInclude Include="..\Public\Optima.h" />
     <ClInclude Include="..\Public\Player_Battle.h" />
     <ClInclude Include="..\Public\Player_Study.h" />
@@ -232,6 +237,8 @@
     <ClInclude Include="..\Public\UI_Battle_Stage_Target.h" />
     <ClInclude Include="..\Public\UI_Battle_Stage_Target_Member.h" />
     <ClInclude Include="..\Public\UI_Battle_Stage_Wait.h" />
+    <ClInclude Include="..\PUblic\UI_Battle_Stage_Wait_Optima.h" />
+    <ClInclude Include="..\Public\UI_Chain.h" />
     <ClInclude Include="..\Public\UI_Cursor.h" />
     <ClInclude Include="..\Public\UI_Chr.h" />
     <ClInclude Include="..\Public\UI_Pnal.h" />
@@ -292,6 +299,10 @@
     <ClCompile Include="..\Private\Grid.cpp" />
     <ClCompile Include="..\Private\ImGUI_Manager.cpp" />
     <ClCompile Include="..\Private\Inventory.cpp" />
+    <ClCompile Include="..\Private\Leopard.cpp" />
+    <ClCompile Include="..\Private\Leopard_State_Attack.cpp" />
+    <ClCompile Include="..\Private\Leopard_State_Hit.cpp" />
+    <ClCompile Include="..\Private\Leopard_State_Idle.cpp" />
     <ClCompile Include="..\Private\Level_Battle.cpp" />
     <ClCompile Include="..\Private\Level_Field.cpp" />
     <ClCompile Include="..\Private\Level_GamePlay.cpp" />
@@ -304,6 +315,7 @@
     <ClCompile Include="..\Private\MapObject.cpp" />
     <ClCompile Include="..\Private\MapTool.cpp" />
     <ClCompile Include="..\Private\Monster.cpp" />
+    <ClCompile Include="..\Private\Monster_Study.cpp" />
     <ClCompile Include="..\Private\Optima.cpp" />
     <ClCompile Include="..\Private\Player_Battle.cpp" />
     <ClCompile Include="..\Private\Player_Study.cpp" />
@@ -318,6 +330,8 @@
     <ClCompile Include="..\Private\UI_Battle_Stage_Target.cpp" />
     <ClCompile Include="..\Private\UI_Battle_Stage_Target_Member.cpp" />
     <ClCompile Include="..\Private\UI_Battle_Stage_Wait.cpp" />
+    <ClCompile Include="..\Private\UI_Battle_Stage_Wait_Optima.cpp" />
+    <ClCompile Include="..\Private\UI_Chain.cpp" />
     <ClCompile Include="..\Private\UI_Cursor.cpp" />
     <ClCompile Include="..\Private\UI_Chr.cpp" />
     <ClCompile Include="..\Private\UI_Pnal.cpp" />

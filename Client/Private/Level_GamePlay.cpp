@@ -2,7 +2,7 @@
 #include "..\Public\Level_GamePlay.h"
 
 #include "Terrain.h"
-#include "Monster.h"
+#include "Monster_Study.h"
 #include "Camera_Free.h"
 
 CLevel_GamePlay::CLevel_GamePlay(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
@@ -44,7 +44,7 @@ void CLevel_GamePlay::Tick(_float fTimeDelta)
 	_float4 vPickingPos = { 0.f,0.f,0.f,0.f };
 	if (m_pGameInstance->Get_KeyState(KEY_DOWN, DIK_LBRACKET)) {
 		if (pTerrain->Compute_Picking(&vPickingPos)) {
-			CMonster* pMonster = dynamic_cast<CMonster*>(m_pGameInstance->Add_Clone_With_Object(LEVEL_GAMEPLAY, g_strMonsterLayerTag, TEXT("Prototype_GameObject_Monster")));
+			CMonster_Study* pMonster = dynamic_cast<CMonster_Study*>(m_pGameInstance->Add_Clone_With_Object(LEVEL_GAMEPLAY, g_strMonsterLayerTag, TEXT("Prototype_GameObject_Monster")));
 			((CTransform*)pMonster->Get_Component(g_strTransformTag))->Set_State(CTransform::STATE_POSITION, vPickingPos);
 		}
 	}

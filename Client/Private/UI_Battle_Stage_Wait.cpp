@@ -24,21 +24,11 @@ void CUI_Battle_Stage_Wait::OnStateUpdate(_float fTimeDelta)
 		m_pPlayer_Battle->Change_Stage(CPlayer_Battle::STAGE_SELECT);
 	}
 
-
-
 	//m_pPlayer_Battle->Set_Leader_Action();
 
 }
 
 void CUI_Battle_Stage_Wait::OnStateExit()
-{
-}
-
-void CUI_Battle_Stage_Wait::Start()
-{
-}
-
-void CUI_Battle_Stage_Wait::Update_Cursor()
 {
 }
 

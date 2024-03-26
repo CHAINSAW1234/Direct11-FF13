@@ -45,7 +45,7 @@ void CUI_Chr::Tick(_float fTimeDelta)
 {
 	Update_Hp(fTimeDelta);	// 체력 선형 보간, 비율까지 보두 계산
 	Move(fTimeDelta);
-	m_fGradMovement += fTimeDelta * (50 * (1-m_fRatio));
+	m_fGradMovement += fTimeDelta * (30 * (1-m_fRatio));
 
 }
 

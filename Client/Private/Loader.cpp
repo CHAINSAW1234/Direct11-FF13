@@ -12,6 +12,7 @@
 #include "UI_Pnal.h"
 #include "UI_ATB.h"
 #include "UI_Chr.h"
+#include "UI_Chain.h"
 
 #include "Inventory.h"
 #include "Chr.h"
@@ -26,7 +27,7 @@
 #include "Player_Study.h"
 #include "Body_Player.h"
 #include "Weapon_Study.h"
-#include "Monster.h"
+#include "Monster_Study.h"
 #include "Forklift.h"
 #include "Terrain.h"
 //#include "Effect.h"
@@ -146,7 +147,7 @@ HRESULT CLoader::Loading_Prototype()
 
 	/* For.Prototype_GameObject_Monster */
 	if (FAILED(m_pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_Monster"),
-		CMonster::Create(m_pDevice, m_pContext))))
+		CMonster_Study::Create(m_pDevice, m_pContext))))
 		return E_FAIL;
 
 	/* For.Prototype_GameObject_Monster */
@@ -196,7 +197,7 @@ HRESULT CLoader::Loading_Prototype()
 		CChr_Battle_Light::Create(m_pDevice, m_pContext))))
 		return E_FAIL;
 
-	/* For.Prototype_GameObject_Chr_Battle_Light */
+	/* For.Prototype_GameObject_Chr_Battle_Sazh */
 	if (FAILED(m_pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_Chr_Battle_Sazh"),
 		CChr_Battle_Sazh::Create(m_pDevice, m_pContext))))
 		return E_FAIL;
@@ -240,6 +241,11 @@ HRESULT CLoader::Loading_Prototype()
 	/* For.Prototype_GameObject_UI_Chr */
 	if (FAILED(m_pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_UI_Chr"),
 		CUI_Chr::Create(m_pDevice, m_pContext))))
+		return E_FAIL;
+
+	/* For.Prototype_GameObject_UI_Chr */
+	if (FAILED(m_pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_UI_Chain"),
+		CUI_Chain::Create(m_pDevice, m_pContext))))
 		return E_FAIL;
 
 	/* For.Prototype_GameObject_MapTool */
@@ -540,6 +546,11 @@ HRESULT CLoader::Loading_For_Battle()
 	/* For.Prototype_Component_Texture_UI_ATB_Inner */
 	if (FAILED(m_pGameInstance->Add_Prototype(g_Level, TEXT("Prototype_Component_Texture_UI_ATB_Mask"),
 		CTexture::Create(m_pDevice, m_pContext, TEXT("../Bin/Resources/UI/ATB_Mask.dds")))))
+		return E_FAIL;
+
+	/* For.Prototype_Component_Texture_UI_Chain_Inner */
+	if (FAILED(m_pGameInstance->Add_Prototype(g_Level, TEXT("Prototype_Component_Texture_UI_Chain_Border"),
+		CTexture::Create(m_pDevice, m_pContext, TEXT("../Bin/Resources/UI/Pnal/Chain_Border.png")))))
 		return E_FAIL;
 
 	/* For.Prototype_Component_Texture_UI_Grad */

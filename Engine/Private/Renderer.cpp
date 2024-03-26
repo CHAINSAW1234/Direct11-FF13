@@ -168,6 +168,7 @@ HRESULT CRenderer::Render_UI_Late()
 	m_RenderObjects[RENDER_UI_LATE].clear();
 
 	m_pContext->OMSetDepthStencilState(nullptr, 1);
+	m_pContext->OMSetBlendState(nullptr, 0, 0xffff);
 
 	return S_OK;
 }

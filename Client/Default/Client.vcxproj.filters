@@ -109,15 +109,6 @@
     <Filter Include="02.GameObjects\Chr\Chr_Battle\Light\State">
       <UniqueIdentifier>{4f77da41-38da-403f-ace5-f03a6fbf8ad2}</UniqueIdentifier>
     </Filter>
-    <Filter Include="02.GameObjects\Chr\Chr_PartObject">
-      <UniqueIdentifier>{95fe7ebe-e220-4936-8227-a039964aac02}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="02.GameObjects\Chr\Chr_PartObject\Weapon">
-      <UniqueIdentifier>{85fb4cd4-db4e-43e2-9a77-fe9e2fcda899}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="02.GameObjects\Chr\Chr_PartObject\Body">
-      <UniqueIdentifier>{683680ad-6438-4de8-be42-2c64ec5f7f27}</UniqueIdentifier>
-    </Filter>
     <Filter Include="01.Levels\Battle">
       <UniqueIdentifier>{4c83c9f4-eec9-496e-adfa-8c2a87addec6}</UniqueIdentifier>
     </Filter>
@@ -253,6 +244,39 @@
     <Filter Include="03.UI\Battle\UI_Chr">
       <UniqueIdentifier>{87eb5331-c567-42e8-93d8-1b8c21ba9ade}</UniqueIdentifier>
     </Filter>
+    <Filter Include="03.UI\Battle\Player_Battle\Stage\UI_Battle_Stage_Wait_Optima">
+      <UniqueIdentifier>{bfc8ca65-01dc-4cb4-8516-f3b7cb16b016}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\Monster">
+      <UniqueIdentifier>{d955b6a9-2b8f-41c2-a13e-d6547b75bf5e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\PartObject">
+      <UniqueIdentifier>{95fe7ebe-e220-4936-8227-a039964aac02}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\PartObject\Weapon">
+      <UniqueIdentifier>{85fb4cd4-db4e-43e2-9a77-fe9e2fcda899}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\PartObject\Body">
+      <UniqueIdentifier>{683680ad-6438-4de8-be42-2c64ec5f7f27}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\Monster\Leopard">
+      <UniqueIdentifier>{04a5c080-3f75-4752-a4da-2ce81d703b28}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\Monster\Leopard\State">
+      <UniqueIdentifier>{bdf5f643-7eec-40fb-8fe5-d5a445f9a285}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\Monster\Leopard\State\Leopard_State_Idle">
+      <UniqueIdentifier>{5b09d7ce-3fe6-46a4-b951-4e7ff3364e73}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\Monster\Leopard\State\Leopard_State_Attack">
+      <UniqueIdentifier>{b953c171-55e7-4fd0-a6b7-31e208a6ee0d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\Monster\Leopard\State\Leopard_State_Hit">
+      <UniqueIdentifier>{589af1da-c33d-4619-851e-413b412cf105}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="03.UI\Battle\UI_Chain">
+      <UniqueIdentifier>{d49ced27-8dd5-452c-a439-9bf1a68f3e74}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\public\MainApp.h">
@@ -327,7 +351,7 @@
     <ClInclude Include="targetver.h">
       <Filter>98.Default\Default</Filter>
     </ClInclude>
-    <ClInclude Include="..\Public\Monster.h">
+    <ClInclude Include="..\Public\Monster_Study.h">
       <Filter>02.GameObjects\For_Study\Monster</Filter>
     </ClInclude>
     <ClInclude Include="..\Public\Camera_Field.h">
@@ -412,10 +436,10 @@
       <Filter>02.GameObjects\Chr\Chr_Battle\Light\State\Chr_Battle_Light_State_Item</Filter>
     </ClInclude>
     <ClInclude Include="..\Public\Body.h">
-      <Filter>02.GameObjects\Chr\Chr_PartObject\Body</Filter>
+      <Filter>02.GameObjects\PartObject\Body</Filter>
     </ClInclude>
     <ClInclude Include="..\Public\Weapon_Anim.h">
-      <Filter>02.GameObjects\Chr\Chr_PartObject\Weapon</Filter>
+      <Filter>02.GameObjects\PartObject\Weapon</Filter>
     </ClInclude>
     <ClInclude Include="..\Public\Level_Battle.h">
       <Filter>01.Levels\Battle</Filter>
@@ -513,6 +537,27 @@
     <ClInclude Include="..\Public\UI_Chr.h">
       <Filter>03.UI\Battle\UI_Chr</Filter>
     </ClInclude>
+    <ClInclude Include="..\PUblic\UI_Battle_Stage_Wait_Optima.h">
+      <Filter>03.UI\Battle\Player_Battle\Stage\UI_Battle_Stage_Wait_Optima</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\Monster.h">
+      <Filter>02.GameObjects\Monster</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\Leopard.h">
+      <Filter>02.GameObjects\Monster\Leopard</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\Leopard_State_Idle.h">
+      <Filter>02.GameObjects\Monster\Leopard\State\Leopard_State_Idle</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\Leopard_State_Attack.h">
+      <Filter>02.GameObjects\Monster\Leopard\State\Leopard_State_Attack</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\Leopard_State_Hit.h">
+      <Filter>02.GameObjects\Monster\Leopard\State\Leopard_State_Hit</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\UI_Chain.h">
+      <Filter>03.UI\Battle\UI_Chain</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\private\MainApp.cpp">
@@ -578,7 +623,7 @@
     <ClCompile Include="stdafx.cpp">
       <Filter>98.Default\Default</Filter>
     </ClCompile>
-    <ClCompile Include="..\Private\Monster.cpp">
+    <ClCompile Include="..\Private\Monster_Study.cpp">
       <Filter>02.GameObjects\For_Study\Monster</Filter>
     </ClCompile>
     <ClCompile Include="..\Private\Camera_Field.cpp">
@@ -654,10 +699,10 @@
       <Filter>02.GameObjects\Chr\Chr_Battle\Light\State\Chr_Battle_Light_State_Item</Filter>
     </ClCompile>
     <ClCompile Include="..\Private\Body.cpp">
-      <Filter>02.GameObjects\Chr\Chr_PartObject\Body</Filter>
+      <Filter>02.GameObjects\PartObject\Body</Filter>
     </ClCompile>
     <ClCompile Include="..\Private\Weapon_Anim.cpp">
-      <Filter>02.GameObjects\Chr\Chr_PartObject\Weapon</Filter>
+      <Filter>02.GameObjects\PartObject\Weapon</Filter>
     </ClCompile>
     <ClCompile Include="..\Private\Level_Battle.cpp">
       <Filter>01.Levels\Battle</Filter>
@@ -754,6 +799,27 @@
     </ClCompile>
     <ClCompile Include="..\Private\UI_Chr.cpp">
       <Filter>03.UI\Battle\UI_Chr</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\UI_Battle_Stage_Wait_Optima.cpp">
+      <Filter>03.UI\Battle\Player_Battle\Stage\UI_Battle_Stage_Wait_Optima</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Monster.cpp">
+      <Filter>02.GameObjects\Monster</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Leopard.cpp">
+      <Filter>02.GameObjects\Monster\Leopard</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Leopard_State_Idle.cpp">
+      <Filter>02.GameObjects\Monster\Leopard\State\Leopard_State_Idle</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Leopard_State_Attack.cpp">
+      <Filter>02.GameObjects\Monster\Leopard\State\Leopard_State_Attack</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Leopard_State_Hit.cpp">
+      <Filter>02.GameObjects\Monster\Leopard\State\Leopard_State_Hit</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\UI_Chain.cpp">
+      <Filter>03.UI\Battle\UI_Chain</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

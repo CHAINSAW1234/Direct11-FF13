@@ -8,6 +8,7 @@
 #include "Renderer.h"
 #include "Picking.h"
 #include "Light_Manager.h"
+#include "Font_Manager.h"
 
 IMPLEMENT_SINGLETON(CGameInstance)
 
@@ -67,6 +68,10 @@ HRESULT CGameInstance::Initialize_Engine(HINSTANCE hInstance, _uint iNumLevels, 
 	if (nullptr == m_pLight_Manager)
 		return E_FAIL;
 
+	m_pFont_Manager = CFont_Manager::Create();
+	if (nullptr == m_pFont_Manager)
+		return E_FAIL;
+
 	return S_OK;
 }
 
@@ -89,18 +94,30 @@ void CGameInstance::Tick_Engine(_float fTimeDelta)
 
 	m_pObject_Manager->Late_Tick(fTimeDelta);
 	
-
-
 }
 
-HRESULT CGameInstance::Draw(const _float4& vClearColor)
+HRESULT CGameInstance::Begin_Draw(const _float4& vClearColor)
 {
-	if (nullptr == m_pGraphic_Device || 
-		nullptr == m_pLevel_Manager)
+	if (nullptr == m_pGraphic_Device)
 		return E_FAIL;
 
 	m_pGraphic_Device->Clear_BackBuffer_View(vClearColor);
 	m_pGraphic_Device->Clear_DepthStencil_View();
+
+	return S_OK;
+}
+
+HRESULT CGameInstance::End_Draw()
+{
+	return m_pGraphic_Device->Present();
+}
+
+
+HRESULT CGameInstance::Draw()
+{
+	if (nullptr == m_pGraphic_Device ||
+		nullptr == m_pLevel_Manager)
+		return E_FAIL;
 
 	/* 화면에 그려져야할 객체들을 그리낟. == 오브젝트 매니져에 들어가있을꺼야 .*/
 	/* 오브젝트 매니져에 렌더함수를 만들어서 호출하면 객체들을 다 그린다. */
@@ -108,13 +125,10 @@ HRESULT CGameInstance::Draw(const _float4& vClearColor)
 	/* But. CRenderer객체의 렌더함수를 호출하여 객체를 그리낟. */
 	m_pRenderer->Render();
 
-	m_pLevel_Manager->Render();	
-
-	m_pGraphic_Device->Present();
+	m_pLevel_Manager->Render();
 
 	return S_OK;
 }
-
 HRESULT CGameInstance::Clear(_uint iClearLevelIndex)
 {
 	if (nullptr == m_pObject_Manager ||
@@ -343,6 +357,17 @@ HRESULT CGameInstance::Add_Light(const LIGHT_DESC& LightDesc)
 	return m_pLight_Manager->Add_Light(LightDesc);
 }
 
+HRESULT CGameInstance::Add_Font(ID3D11Device* pDevice, ID3D11DeviceContext* pContext, const wstring& strFontTag, const wstring& strFontFilePath)
+{
+	return m_pFont_Manager->Add_Font(pDevice, pContext, strFontTag, strFontFilePath);
+}
+
+HRESULT CGameInstance::Render_Font(const wstring& strFontTag, const wstring& strText, const _float2& vPosition, _fvector vColor, _float fRadian)
+{
+	return m_pFont_Manager->Render(strFontTag, strText, vPosition, vColor, fRadian);
+}
+
+
 void CGameInstance::Release_Engine()
 {
 	CGameInstance::Get_Instance()->Free();
@@ -362,4 +387,5 @@ void CGameInstance::Free()
 	Safe_Release(m_pInput_Device);
 	Safe_Release(m_pGraphic_Device);
 	Safe_Release(m_pLight_Manager);
+	Safe_Release(m_pFont_Manager);
 }

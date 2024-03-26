@@ -44,6 +44,8 @@ void CUI_ATB::Tick(_float fTimeDelta)
 {
 	m_fRatio = m_pPlayerInfo->Get_Leader()->Get_ATB() / m_pPlayerInfo->Get_Leader()->Get_MaxATB();
 
+	Move(fTimeDelta);
+
 	if (m_fRatio >= m_fCurRatio) {
 		m_fCurRatio += fTimeDelta * 2.5f;
 		if (m_fCurRatio > m_fRatio) {
@@ -95,13 +97,14 @@ HRESULT CUI_ATB::Render()
 
 void CUI_ATB::Start()
 {
-	// 이 부분 수정 들어가야됨
 	m_fSizeX = 128 * 3;
 	m_fSizeY = 10;
+	m_fMoveTimeDelta = 0.f;
+	m_vStartPosition = { g_iWinSizeX * -0.5f, -175.f, 0.f };
+	m_vTargetPosition = { -315.f, -175.f, 0.f };
 	m_pTransformCom->Set_Scaled(m_fSizeX, m_fSizeY, 1.f);
-	m_pTransformCom->Set_State(CTransform::STATE_POSITION, XMVectorSet(
-		-315.f,  -175.f,
-		0.f ,1.f)); 
+	m_pTransformCom->Set_State(CTransform::STATE_POSITION, XMVectorSetW(XMLoadFloat3(&m_vTargetPosition), 1.f));
+
 }
 
 HRESULT CUI_ATB::Bind_ShaderResources()
@@ -134,7 +137,10 @@ void CUI_ATB::OnNotify()
 		m_isRender = false;
 	}
 	else {
-		m_isRender = true;
+		if (m_isRender == false) {
+			Reset_Position();
+			m_isRender = true;
+		}
 	}
 
 }
@@ -167,6 +173,29 @@ HRESULT CUI_ATB::Add_Components()
 		return E_FAIL;
 
 	return S_OK;
+}
+
+void CUI_ATB::Reset_Position()
+{
+	m_pTransformCom->Set_State(CTransform::STATE_POSITION, XMVectorSetW(XMLoadFloat3(&m_vStartPosition), 1.f));
+	m_fMoveTimeDelta = 0.f;
+}
+
+void CUI_ATB::Move(_float fTimeDelta)
+{
+	if (m_fMoveTimeDelta >= 1.0f) {
+		return;
+	}
+
+	m_fMoveTimeDelta += fTimeDelta;
+	if (m_fMoveTimeDelta >= 1.0f) {
+		m_fMoveTimeDelta = 1.0f;
+	}
+
+	_float4 vCurPos = {};
+	XMStoreFloat4(&vCurPos, XMVectorSetW(XMVectorLerp(m_pTransformCom->Get_State_Vector(CTransform::STATE_POSITION), XMLoadFloat3(&m_vTargetPosition), m_fMoveTimeDelta), 1.f));
+
+	m_pTransformCom->Set_State(CTransform::STATE_POSITION, vCurPos);
 }
 
 CUI_ATB* CUI_ATB::Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)

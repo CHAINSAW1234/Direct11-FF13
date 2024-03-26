@@ -5,7 +5,6 @@
 
 #include "Player_Battle.h"
 #include "UI.h"
-#include "UI_Chr.h"
 
 #include "Camera_Field.h"
 
@@ -162,25 +161,6 @@ HRESULT CLevel_Battle::Ready_Layer_Chr(const wstring& strLayerTag)
 
     if (FAILED(m_pGameInstance->Add_Clone(g_Level, strLayerTag, TEXT("Prototype_GameObject_Chr_Battle_Sazh"))))
         return E_FAIL;
-
-    CUI_Chr::UI_CHR_DESC UI_Chr_Desc = {};
-    UI_Chr_Desc.pChr_Battle = dynamic_cast<CChr_Battle*>(m_pGameInstance->Get_GameObject(g_Level, strLayerTag, 0));
-    UI_Chr_Desc.vStartPosition = { g_iWinSizeX * 0.5f, -200.f,0.f };
-    UI_Chr_Desc.vTargetPosition = { 300.f,-200.f,0.f };
-
-    if (FAILED(m_pGameInstance->Add_Clone(g_Level, TEXT("Layer_UI"), TEXT("Prototype_GameObject_UI_Chr"), &UI_Chr_Desc)))
-        return E_FAIL;
-
-
-    UI_Chr_Desc.pChr_Battle = dynamic_cast<CChr_Battle*>(m_pGameInstance->Get_GameObject(g_Level, strLayerTag, 1));
-    UI_Chr_Desc.vStartPosition.x += 40.f;
-    UI_Chr_Desc.vStartPosition.y -= 30.f;
-    UI_Chr_Desc.vTargetPosition.x += 40.f;
-    UI_Chr_Desc.vTargetPosition.y -= 30.f;
-
-    if (FAILED(m_pGameInstance->Add_Clone(g_Level, TEXT("Layer_UI"), TEXT("Prototype_GameObject_UI_Chr"), &UI_Chr_Desc)))
-        return E_FAIL;
-
 
     return S_OK;
 }

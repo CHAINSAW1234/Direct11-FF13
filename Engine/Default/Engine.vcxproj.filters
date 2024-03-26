@@ -109,12 +109,6 @@
     <Filter Include="01.Utility\06.Lights\Manager">
       <UniqueIdentifier>{bb4b3ff0-5b8a-45e3-a75c-92403abc210c}</UniqueIdentifier>
     </Filter>
-    <Filter Include="01.Utility\07.Observer">
-      <UniqueIdentifier>{0d237c6e-d231-4fa4-945c-40b7d0c69fb8}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="01.Utility\07.Observer\Handler">
-      <UniqueIdentifier>{bf2ee945-08e9-47f6-beaa-c573e2bbbda0}</UniqueIdentifier>
-    </Filter>
     <Filter Include="01.Utility\01.GameObjects\PartObject">
       <UniqueIdentifier>{dad279cc-4130-4b8c-98bf-0d6992ea4d56}</UniqueIdentifier>
     </Filter>
@@ -147,6 +141,18 @@
     </Filter>
     <Filter Include="98.ShaderFiles">
       <UniqueIdentifier>{e46ef061-99a0-4ddb-b51f-51d408898caa}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="01.Utility\08.Observer">
+      <UniqueIdentifier>{0d237c6e-d231-4fa4-945c-40b7d0c69fb8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="01.Utility\08.Observer\Handler">
+      <UniqueIdentifier>{bf2ee945-08e9-47f6-beaa-c573e2bbbda0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="01.Utility\07.Fonts">
+      <UniqueIdentifier>{756656b7-918c-4a97-bf0b-19dd194333e8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="01.Utility\07.Fonts\Manager">
+      <UniqueIdentifier>{07f71a02-11e8-44d5-926c-b46ee2c7e387}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -253,10 +259,10 @@
       <Filter>01.Utility\06.Lights\Manager</Filter>
     </ClCompile>
     <ClCompile Include="..\Private\Observer.cpp">
-      <Filter>01.Utility\07.Observer</Filter>
+      <Filter>01.Utility\08.Observer</Filter>
     </ClCompile>
     <ClCompile Include="..\Private\Observer_Handler.cpp">
-      <Filter>01.Utility\07.Observer\Handler</Filter>
+      <Filter>01.Utility\08.Observer\Handler</Filter>
     </ClCompile>
     <ClCompile Include="..\Private\PartObject.cpp">
       <Filter>01.Utility\01.GameObjects\PartObject</Filter>
@@ -287,6 +293,12 @@
     </ClCompile>
     <ClCompile Include="..\Private\VIBuffer_Cell.cpp">
       <Filter>01.Utility\02.Components\VIBuffer\Cell</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\CustomFont.cpp">
+      <Filter>01.Utility\07.Fonts</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Font_Manager.cpp">
+      <Filter>01.Utility\07.Fonts\Manager</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -405,10 +417,10 @@
       <Filter>01.Utility\06.Lights\Manager</Filter>
     </ClInclude>
     <ClInclude Include="..\Public\Observer.h">
-      <Filter>01.Utility\07.Observer</Filter>
+      <Filter>01.Utility\08.Observer</Filter>
     </ClInclude>
     <ClInclude Include="..\Public\Observer_Handler.h">
-      <Filter>01.Utility\07.Observer\Handler</Filter>
+      <Filter>01.Utility\08.Observer\Handler</Filter>
     </ClInclude>
     <ClInclude Include="..\Public\PartObject.h">
       <Filter>01.Utility\01.GameObjects\PartObject</Filter>
@@ -439,6 +451,12 @@
     </ClInclude>
     <ClInclude Include="..\Public\VIBuffer_Cell.h">
       <Filter>01.Utility\02.Components\VIBuffer\Cell</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\CustomFont.h">
+      <Filter>01.Utility\07.Fonts</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\Font_Manager.h">
+      <Filter>01.Utility\07.Fonts\Manager</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

@@ -20,16 +20,11 @@ public:
 	// 상태가 변경될 때 호출
 	virtual void OnStateExit() override;
 
-	virtual void Start() override;
-
 private:
-	void	Update_Cursor();
 	void	Update_KeyInput();
-
 
 private:
 	CPlayer_Battle* m_pPlayer_Battle = { nullptr };
-	_int				m_iCursor = { 0 };
 
 public:
 	static	CUI_Battle_Stage_Wait* Create(CPlayer_Battle* pPlayer_Battle);

@@ -14,10 +14,11 @@ class CChr_Battle_Light;
 class CChr_Battle;
 class CUI_Pnal_Attack;
 class CUI_Pnal_Item;
-class CMonster;
+class CUI_Chr;
+class CUI_Chain;
+class CMonster_Study;
 class CPlayer_Study;
 class CInventory;
-
 
 class CPlayer_Battle final : public CBase, public CObserver_Handler
 {
@@ -78,11 +79,16 @@ public:
 	void Set_Leader_Item();
 	void Check_Leader_Action();
 
+	void Set_Member_Target(CGameObject* pTargetObject);
+	void Change_Chain_Target(CGameObject* pTargetObject);
+
 private:
 	virtual void NotifyObserver();
 
 	HRESULT	Initialize();
 	HRESULT	Add_Component_FSM();
+	void	Create_UI();			// 다른 UI들 생성
+
 	void	Update_FSMState();		// 사용 안할 지도?
 	void	Update_Monsters();
 	void	Update_Command();
@@ -106,7 +112,9 @@ private:
 	deque<CUI_Pnal_Attack*>	m_Commands;						// 공격 명령들					// 명령이 완성되면 전달할 것
 																							// deque 정보를 바탕으로 queue를 만들어서 전달
 	CUI_Pnal_Item*			m_pCommand_Item = { nullptr };
-
+	vector<CUI_Chr*>		m_pUI_Chr;						// 캐릭터의 상태를 보여주는 UI
+															// 렌더 상태 변경을 위해서 직접 가지고있음
+	CUI_Chain*				m_pUI_Chain = { nullptr };		// 타겟의 Chain 정보를 보여주는 UI, 위치 이동을 위해 직접 갖고 있음
 
 	// 아이템 사용시의 Command 별개로 들고있기?
 

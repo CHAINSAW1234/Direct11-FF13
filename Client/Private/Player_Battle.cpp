@@ -11,8 +11,11 @@
 #include "UI_Battle_Stage_Optima.h"
 #include "UI_Battle_Stage_Wait.h"
 
+
 #include "UI_Pnal_Attack.h"
 #include "UI_Pnal_Item.h"
+#include "UI_Chr.h"
+#include "UI_Chain.h"
 
 #include "Chr_Battle_Light.h"
 #include "Player_Study.h"
@@ -249,6 +252,21 @@ void CPlayer_Battle::Check_Leader_Action()
 
 }
 
+void CPlayer_Battle::Set_Member_Target(CGameObject* pTargetObject)
+{
+	if (nullptr == pTargetObject)
+		return;
+	for (auto& pMemeber : m_Memebers) {
+		pMemeber->Set_Target(pTargetObject);
+	}
+
+}
+
+void CPlayer_Battle::Change_Chain_Target(CGameObject* pTargetObject)
+{
+	m_pUI_Chain->Change_Target(pTargetObject);
+}
+
 void CPlayer_Battle::Set_CursorPosition(_float3 vCursorPosition)
 {
 	m_vCursorPosition = vCursorPosition;
@@ -290,6 +308,38 @@ HRESULT CPlayer_Battle::Add_Component_FSM()
 	Change_Stage(STAGE_SELECT);
 
 	return S_OK;
+}
+
+void CPlayer_Battle::Create_UI()
+{
+	CUI_Chr* pUI_Chr = { nullptr };
+	CUI_Chr::UI_CHR_DESC UI_Chr_Desc = {};
+	UI_Chr_Desc.pChr_Battle = m_pLeader;
+	UI_Chr_Desc.vStartPosition = { g_iWinSizeX * 0.5f, -200.f,0.f };
+	UI_Chr_Desc.vTargetPosition = { 300.f,-200.f,0.f };
+
+	pUI_Chr = dynamic_cast<CUI_Chr*>(m_pGameInstance->Add_Clone_With_Object(g_Level, TEXT("Layer_UI"), TEXT("Prototype_GameObject_UI_Chr"), &UI_Chr_Desc));
+	
+	m_pUI_Chr.push_back(pUI_Chr);
+
+
+	for (auto& pChr : m_Memebers) {
+		UI_Chr_Desc.pChr_Battle = pChr;
+		UI_Chr_Desc.vStartPosition.x += 40.f;
+		UI_Chr_Desc.vStartPosition.y -= 30.f;
+		UI_Chr_Desc.vTargetPosition.x += 40.f;
+		UI_Chr_Desc.vTargetPosition.y -= 30.f;
+
+		pUI_Chr = dynamic_cast<CUI_Chr*>(m_pGameInstance->Add_Clone_With_Object(g_Level, TEXT("Layer_UI"), TEXT("Prototype_GameObject_UI_Chr"), &UI_Chr_Desc));
+		m_pUI_Chr.push_back(pUI_Chr);
+	}
+	
+	for (auto& pUI : m_pUI_Chr)
+		Safe_AddRef(pUI);
+
+	m_pUI_Chain = dynamic_cast<CUI_Chain*>(m_pGameInstance->Add_Clone_With_Object(g_Level, TEXT("Layer_UI"), TEXT("Prototype_GameObject_UI_Chain")));
+	Safe_AddRef(m_pUI_Chain);
+	Change_Chain_Target(m_pLeader);
 }
 
 void CPlayer_Battle::Update_FSMState()
@@ -366,6 +416,9 @@ void CPlayer_Battle::Start()
 		Safe_AddRef(m_Memebers[i-1]);
 	}
 
+	Create_UI();
+
+
 	// 몬스터 데이터 받아옴
 	size_t iNumMonster = m_pGameInstance->Get_LayerCnt(g_Level, g_strMonsterLayerTag);
 	
@@ -439,11 +492,15 @@ void CPlayer_Battle::Free()
 
 	Safe_Release(m_pCommand_Item);
 
+	for (auto& pUI_Chr : m_pUI_Chr)
+		Safe_Release(pUI_Chr);
+	m_pUI_Chr.clear();
+
 	Safe_Release(m_pInventory);
 	Safe_Release(m_pOptima);
 	Safe_Release(m_pAbility);
 
 	Safe_Release(m_pFSMCom);
 	Safe_Release(m_pGameInstance);
-
+	Safe_Release(m_pUI_Chain);
 }

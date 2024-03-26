@@ -26,13 +26,18 @@ private:
 	ID3D11DeviceContext*	m_pContext = { nullptr };
 
 private:
-	HRESULT Ready_Default_Setting();
+	_float					m_fTimeAcc = { 0.0f };
+	_uint					m_iRenderCnt = { 0 };
+	_tchar					m_szFPS[MAX_PATH] = TEXT("");
+
+private:
 	HRESULT Open_Level(LEVEL eLevelID);
 	HRESULT Ready_Prototype_GameObject();
 	HRESULT Ready_Prototype_Component_For_Static();
 
 	HRESULT Ready_Gara_Light();
 	HRESULT Ready_Gara();
+	HRESULT Ready_Fonts();
 
 public:	
 	static CMainApp* Create();
