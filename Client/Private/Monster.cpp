@@ -12,7 +12,7 @@ CMonster::CMonster(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
 
 CMonster::CMonster(const CMonster& rhs)
     : CGameObject { rhs }
-    , m_strChrName{ rhs.m_strChrName }
+    , m_strMonsterName{ rhs.m_strMonsterName }
     , m_iMaxHp{ rhs.m_iMaxHp }
     , m_iHp{ rhs.m_iMaxHp }
     , m_fStagger{ rhs.m_fStagger }
@@ -39,7 +39,7 @@ HRESULT CMonster::Initialize(void* pArg)
 
 void CMonster::Tick(_float fTimeDelta)
 {
-    m_pFSMCom->Update(fTimeDelta);
+    //m_pFSMCom->Update(fTimeDelta);
     Update_Chain(fTimeDelta);
 }
 
@@ -48,11 +48,16 @@ HRESULT CMonster::Late_Tick(_float fTimeDelta)
     if (FAILED(__super::Late_Tick(fTimeDelta)))
         return E_FAIL;
 
+    m_pModelCom->Play_Animation(fTimeDelta);
+
     return S_OK;
 }
 
 HRESULT CMonster::Render()
 {
+    if (FAILED(Bind_ShaderResources()))
+        return E_FAIL;
+
     _uint iNumMeshes = m_pModelCom->Get_NumMeshes();
 
     for (_uint i = 0; i < iNumMeshes; i++)
@@ -86,6 +91,28 @@ void CMonster::Set_Target(CGameObject* pTargetObject)
     Safe_AddRef(m_pTargetObject);
 }
 
+_uint CMonster::Get_CurrentAnimationIndex()
+{
+    if (nullptr == m_pModelCom)
+        return INFINITE;
+
+    return m_pModelCom->Get_CurrentAnimationIndex();
+}
+
+_float CMonster::Get_CurrentTrackPosition()
+{
+    if (nullptr == m_pModelCom)
+        return INFINITY;
+    return m_pModelCom->Get_CurrentTrackPosition();
+}
+
+_bool CMonster::Is_Animation_Finished()
+{
+    if (nullptr == m_pModelCom)
+        return false;
+    return m_pModelCom->isFinished();
+}
+
 void CMonster::Add_Hp(_int iHp)
 {
     m_iHp += iHp;
@@ -100,8 +127,11 @@ void CMonster::Min_Hp(_int iHp)
 
 void CMonster::Add_Chain(_float fChain)
 {
+
     m_fChain += fChain;
-    if (m_fChain >= m_fStagger) {
+    m_fCurChain = m_fChain;
+    m_fMagnification = 1 / (m_fStagger - 100) * 0.1f;
+    if (!m_isBreak && m_fChain >= m_fStagger) {
         m_isBreak = true;
         m_fBreakTimeDelta = 0.f;
     }
@@ -109,26 +139,23 @@ void CMonster::Add_Chain(_float fChain)
 
 void CMonster::Update_Chain(_float fTimeDelta)
 {
-
     if (m_isBreak) {
         m_fBreakTimeDelta += fTimeDelta;
         if (m_fBreakTimeDelta >= 20.f) {
             m_isBreak = false;
             m_fChain = 100.f;
             m_fCurChain = 100.f;
-
         }
     }
     else {
-        m_fMagnification += fTimeDelta / 2;
+        m_fMagnification += fTimeDelta / 10;
         m_fCurChain -= fTimeDelta * m_fMagnification;
         if (m_fCurChain <= 100.f) {
             m_fChain = 100.f;
             m_fCurChain = 100.f;
-            m_fMagnification = 1.f;
+            m_fMagnification = 1 / (m_fStagger -100) * 0.1f;
         }
     }
-
 }
 
 HRESULT CMonster::Add_Components()

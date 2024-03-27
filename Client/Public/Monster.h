@@ -26,7 +26,8 @@ public:
 
 public:
 	/*============================GET============================*/
-	wstring	Get_Name() { return m_strChrName; }
+	CTransform* Get_Transform() { return m_pTransformCom; }
+	wstring	Get_Name() { return m_strMonsterName; }
 	_int	Get_Hp() { return m_iHp; }
 	_int	Get_MaxHp() { return m_iMaxHp; }
 	_bool	Get_Break() { return m_isBreak; }
@@ -37,6 +38,11 @@ public:
 
 	/*============================SET============================*/
 	void Set_Target(CGameObject* pTargetObject);
+
+	/*============================Model============================*/
+	_uint		Get_CurrentAnimationIndex();
+	_float		Get_CurrentTrackPosition();
+	_bool		Is_Animation_Finished();
 
 	/*============================±‚≈∏============================*/
 	void Add_Hp(_int iHp);
@@ -51,7 +57,7 @@ protected:
 	CShader*	m_pShaderCom = { nullptr };
 	CFSM*		m_pFSMCom = { nullptr };
 
-	wstring		m_strChrName = {};
+	wstring		m_strMonsterName = {};
 	_int		m_iMaxHp = { 1 };
 	_int		m_iHp = { 1 };
 

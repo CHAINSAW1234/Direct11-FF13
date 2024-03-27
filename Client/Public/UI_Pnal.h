@@ -33,6 +33,7 @@ public:
 	virtual void	Tick(_float fTimeDelta);
 	virtual HRESULT Late_Tick(_float fTimeDelta);
 	virtual HRESULT Render();
+	virtual HRESULT Render_Font();
 	virtual void	Start();
 
 protected:
@@ -58,6 +59,7 @@ protected:
 	FRAME m_tFrame = {};
 	_float3 m_vStartPosition = { 0.f,0.f,0.f };			// 이 Pnal의 애니메이션 시작 위치 
 	_float3 m_vTargetPosition = { 0.f,0.f,0.f };		// 이 Pnal이 이동시의 도착 위치
+	_float2 m_vFontPosition = { 0.f,0.f };
 
 public:
 	static CUI_Pnal* Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);

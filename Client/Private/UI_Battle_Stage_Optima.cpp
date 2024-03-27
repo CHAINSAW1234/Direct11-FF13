@@ -45,13 +45,13 @@ HRESULT CUI_Battle_Stage_Optima::Add_Pnals()
 	CUI_Pnal* pPnal = { nullptr };
 
 	CUI_Pnal::UI_PNAL_DESC UI_Pnal_Desc = {};
-	UI_Pnal_Desc.vStartPosition = { (_float)g_iWinSizeX * -0.5f + 15.f, -150.f + 23.f, 0.f };
-	UI_Pnal_Desc.vTargetPosition = { (_float)g_iWinSizeX * -0.5f + 200 + 15.f, -150.f + 23.f, 0.f };
+	UI_Pnal_Desc.vStartPosition = { (_float)g_iWinSizeX * -0.5f + 15.f, -150.f + 33.f, 0.f };
+	UI_Pnal_Desc.vTargetPosition = { (_float)g_iWinSizeX * -0.5f + 200 + 15.f, -150.f + 33.f, 0.f };
 	UI_Pnal_Desc.strName = TEXT("");
 
 	for (int i = 0; i < m_pPlayer_Battle->Get_Optima_Size(); ++i) {
-		UI_Pnal_Desc.vStartPosition.y -= 23.f;
-		UI_Pnal_Desc.vTargetPosition.y -= 23.f;
+		UI_Pnal_Desc.vStartPosition.y -= 33.f;
+		UI_Pnal_Desc.vTargetPosition.y -= 33.f;
 		UI_Pnal_Desc.strName = m_pPlayer_Battle->Get_Optima_Name(i);
 
 		pPnal = dynamic_cast<CUI_Pnal*>(m_pGameInstance->Add_Clone_With_Object(g_Level, TEXT("Layer_Pnal"), TEXT("Prototype_GameObject_UI_Pnal"), &UI_Pnal_Desc));

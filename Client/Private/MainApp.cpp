@@ -86,7 +86,8 @@ HRESULT CMainApp::Render()
 
 #ifdef _DEBUG
 
-	//m_pGameInstance->Render_Font(TEXT("Font_Default"), m_szFPS, _float2(0.f, 0.f), XMVectorSet(1.f, 0.f, 0.f, 1.f), 0.f);
+	m_pGameInstance->Render_Font(g_strFont14Tag, m_szFPS, _float2(0.f, 0.f), XMVectorSet(1.f, 0.f, 0.f, 1.f), 0.f);
+	m_pGameInstance->Render_Font(g_strFontNumTag, TEXT("ABCDEFGHIJKLMNOPQRSTUVWXYZ"), _float2(100.f, 100.f), XMVectorSet(1.f, 0.f, 0.f, 1.f), 0.f);
 
 #endif
 
@@ -306,10 +307,13 @@ HRESULT CMainApp::Ready_Gara()
 
 HRESULT CMainApp::Ready_Fonts()
 {
-	// MakeSpriteFont "³Ø½¼lv1°íµñ Bold" /FontSize:30 /FastPack /CharacterRegion:0x0020-0x00FF /CharacterRegion:0x3131-0x3163 /CharacterRegion:0xAC00-0xD800 /DefaultCharacter:0xAC00 140.spritefont
-	if (FAILED(m_pGameInstance->Add_Font(m_pDevice, m_pContext, TEXT("Font_Default"), TEXT("../Bin/Resources/Fonts/141ex.spriteFont"))))
+	// MakeSpriteFont "´øÆÄ ¿¬´ÜµÈ Ä®³¯ Medium" /FontSize:10 /FastPack /CharacterRegion:0x0020-0x00FF /CharacterRegion:0x3131-0x3163 /CharacterRegion:0xAC00-0xD800 /DefaultCharacter:0xAC00 141ex.spritefont
+	if (FAILED(m_pGameInstance->Add_Font(m_pDevice, m_pContext, g_strFont10Tag, TEXT("../Bin/Resources/Fonts/Default10.spriteFont"))))
 		return E_FAIL;
-
+	if (FAILED(m_pGameInstance->Add_Font(m_pDevice, m_pContext, g_strFont14Tag, TEXT("../Bin/Resources/Fonts/Default14.spriteFont"))))
+		return E_FAIL;
+	if (FAILED(m_pGameInstance->Add_Font(m_pDevice, m_pContext, g_strFontNumTag, TEXT("../Bin/Resources/Fonts/NumFont.spriteFont"))))
+		return E_FAIL;
 	return S_OK;
 }
 

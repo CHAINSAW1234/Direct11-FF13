@@ -16,8 +16,7 @@ class CUI_Pnal_Attack;
 class CUI_Pnal_Item;
 class CUI_Chr;
 class CUI_Chain;
-class CMonster_Study;
-class CPlayer_Study;
+class CMonster;
 class CInventory;
 
 class CPlayer_Battle final : public CBase, public CObserver_Handler
@@ -37,7 +36,7 @@ public:
 	UISTAGE					Get_Stage() { return m_eStage; }
 	CChr_Battle_Light*		Get_Leader() { return m_pLeader; }
 	vector<CChr_Battle*>	Get_Members() { return m_Memebers; }
-	vector<CPlayer_Study*>	Get_Monsters() { return m_Monsters; }
+	vector<CMonster*>		Get_Monsters() { return m_Monsters; }
 	CInventory*				Get_Inventory() { return m_pInventory; }
 	CAbility*				Get_Ability() { return m_pAbility; }
 	_float3					Get_CursorPosition() { return m_vCursorPosition; }
@@ -62,17 +61,17 @@ public:
 
 	/*=========================ITEM 관련=========================*/
 	_bool Check_Item();
-	void Add_Item(CUI_Pnal_Item* pPnal_Item);
-	void Cancel_Item();
-	void Use_Item();
+	void  Add_Item(CUI_Pnal_Item* pPnal_Item);
+	void  Cancel_Item();
+	void  Use_Item();
 
 	/*=========================OPTIMA 관련=========================*/
-	HRESULT Create_Optima();
-	COptima::Optima* Get_Current_Optima();
-	size_t Get_Optima_Size() { return m_pOptima->Get_Optima_Size(); }
-	_int Get_Current_Optima_Num() { return m_pOptima->Get_Current_Optima_Num(); }
-	wstring Get_Optima_Name(_int iOptimaIndex) { return m_pOptima->Get_Optima_Name(iOptimaIndex); }
-	HRESULT Change_Optima(_int iOptimaIndex);
+	HRESULT				Create_Optima();
+	COptima::Optima*	Get_Current_Optima();
+	size_t				Get_Optima_Size() { return m_pOptima->Get_Optima_Size(); }
+	_int				Get_Current_Optima_Num() { return m_pOptima->Get_Current_Optima_Num(); }
+	wstring				Get_Optima_Name(_int iOptimaIndex) { return m_pOptima->Get_Optima_Name(iOptimaIndex); }
+	HRESULT				Change_Optima(_int iOptimaIndex);
 
 	void Set_Leader_Target(CGameObject* pTargetObject);
 	void Set_Leader_Command();							// dequeue 정보를 바탕을 Leader에게 명령을 전달
@@ -104,7 +103,7 @@ private:
 	UISTAGE					m_eStage = { STAGE_END };
 	CChr_Battle_Light*		m_pLeader = { nullptr };		// Leader는 따로 갖고있자
 	vector<CChr_Battle*>	m_Memebers;						// Leader 이외의 AI들
-	vector<CPlayer_Study*>	m_Monsters;						// 여기도 변경 해야 함 
+	vector<CMonster*>		m_Monsters;						// 여기도 변경 해야 함 
 	CInventory*				m_pInventory = { nullptr };		// 인벤토리
 	COptima*				m_pOptima = { nullptr };		// 옵티마
 	CAbility*				m_pAbility = { nullptr };		// 스킬셋 

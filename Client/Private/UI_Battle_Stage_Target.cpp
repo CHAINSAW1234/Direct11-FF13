@@ -56,18 +56,18 @@ HRESULT CUI_Battle_Stage_Target::Add_Pnals()
 {
 	CUI_Pnal* pPnal = { nullptr };
 	CUI_Pnal::UI_PNAL_DESC UI_Pnal_Desc = {};
-	UI_Pnal_Desc.vStartPosition = { (_float)g_iWinSizeX * -0.5f - 15.f,-200.f + 25.f,0.f };
-	UI_Pnal_Desc.vTargetPosition = { (_float)g_iWinSizeX * -0.5f + 215.f, -200.f + 25.f,0.f };
+	UI_Pnal_Desc.vStartPosition = { (_float)g_iWinSizeX * -0.5f,-200.f + 33.f,0.f };
+	UI_Pnal_Desc.vTargetPosition = { (_float)g_iWinSizeX * -0.5f + 200.f, -200.f + 33.f,0.f };
 
 
-	vector<CPlayer_Study*> vecMonsters =  m_pPlayer_Battle->Get_Monsters();
+	vector<CMonster*> vecMonsters =  m_pPlayer_Battle->Get_Monsters();
 
 	for (auto& pMonster : vecMonsters) {
 		UI_Pnal_Desc.vTargetPosition.x += 15;
 		UI_Pnal_Desc.vStartPosition.x += 15;
-		UI_Pnal_Desc.vStartPosition.y -= 25.f;
-		UI_Pnal_Desc.vTargetPosition.y -= 25.f;
-		//UI_Pnal_Desc.strName = pMonster->Get_Name();
+		UI_Pnal_Desc.vStartPosition.y -= 33.f;
+		UI_Pnal_Desc.vTargetPosition.y -= 33.f;
+		UI_Pnal_Desc.strName = pMonster->Get_Name();
 		pPnal = dynamic_cast<CUI_Pnal*>(m_pGameInstance->Add_Clone_With_Object(g_Level, TEXT("Layer_Pnal"), TEXT("Prototype_GameObject_UI_Pnal"), &UI_Pnal_Desc));
 		m_Pnals.push_back(pPnal);
 	}
@@ -100,10 +100,10 @@ void CUI_Battle_Stage_Target::Update_Cursor()
 
 void CUI_Battle_Stage_Target::Update_Pnals()
 {
-	vector<CPlayer_Study*> vecMonsters = m_pPlayer_Battle->Get_Monsters();
+	vector<CMonster*> vecMonsters = m_pPlayer_Battle->Get_Monsters();
 	
 	for (int i = 0; i < vecMonsters.size(); ++i) {
-		m_Pnals[i]->Set_Name(L"TEST"/*vecMonsters[i]->Get_Name()*/);
+		m_Pnals[i]->Set_Name(vecMonsters[i]->Get_Name());
 	}
 
 	while (vecMonsters.size() > m_Pnals.size()) {

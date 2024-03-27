@@ -154,6 +154,9 @@
     <Filter Include="01.Utility\07.Fonts\Manager">
       <UniqueIdentifier>{07f71a02-11e8-44d5-926c-b46ee2c7e387}</UniqueIdentifier>
     </Filter>
+    <Filter Include="01.Utility\02.Components\VIBuffer\Cube">
+      <UniqueIdentifier>{db281a0d-e120-4528-ad51-193357e12b82}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\Private\Base.cpp">
@@ -299,6 +302,9 @@
     </ClCompile>
     <ClCompile Include="..\Private\Font_Manager.cpp">
       <Filter>01.Utility\07.Fonts\Manager</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\VIBuffer_Cube.cpp">
+      <Filter>01.Utility\02.Components\VIBuffer\Cube</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -458,10 +464,18 @@
     <ClInclude Include="..\Public\Font_Manager.h">
       <Filter>01.Utility\07.Fonts\Manager</Filter>
     </ClInclude>
+    <ClInclude Include="..\Public\VIBuffer_Cube.h">
+      <Filter>01.Utility\02.Components\VIBuffer\Cube</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="..\Bin\ShaderFiles\Shader_Cell.hlsl">
       <Filter>98.ShaderFiles</Filter>
     </FxCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="..\Bin\ShaderFiles\Engine_Shader_Defines.hlsli">
+      <Filter>98.ShaderFiles</Filter>
+    </None>
   </ItemGroup>
 </Project>

@@ -46,8 +46,6 @@ private:
 private:
 	HRESULT Add_Components();
 	HRESULT Bind_ShaderResources();
-	HRESULT Set_RenderState();
-	HRESULT Reset_RenderState();
 
 
 public:

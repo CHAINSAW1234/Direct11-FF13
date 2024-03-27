@@ -49,25 +49,26 @@ HRESULT CUI_Battle_Stage_Item::Add_Pnals()
 	CUI_Pnal* pPnal = { nullptr };
 
 	CUI_Pnal::UI_PNAL_DESC UI_Pnal_Desc = {};
-	UI_Pnal_Desc.vStartPosition = { (_float)g_iWinSizeX * -0.5f + 15.f, -200.f + 25, 0.f };
-	UI_Pnal_Desc.vTargetPosition = { (_float)g_iWinSizeX * -0.5f + 200 + 15.f,-200.f + 25, 0.f };
-	UI_Pnal_Desc.vTargetPosition.x += 128 * 1.3f + 5;
-	UI_Pnal_Desc.vStartPosition.x += 128 * 1.3f + 5;
+
+	UI_Pnal_Desc.vStartPosition = { (_float)g_iWinSizeX * -0.5f, -200.f + 33.f, 0.f };
+	UI_Pnal_Desc.vTargetPosition = { (_float)g_iWinSizeX * -0.5f + 200,-200.f + 33.f, 0.f };
+	UI_Pnal_Desc.vTargetPosition.x += 150 * 1.3f + 5;
+	UI_Pnal_Desc.vStartPosition.x += 150 * 1.3f + 5;
 
 	CInventory* pInventory = m_pPlayer_Battle->Get_Inventory();
 
 	for (size_t i = 0; i < pInventory->Get_Inventory_Count(); ++i) {
 		if (i % 2) {
-			UI_Pnal_Desc.vTargetPosition.x += 128 * 1.3f + 5;
-			UI_Pnal_Desc.vStartPosition.x += 128 * 1.3f + 5;
+			UI_Pnal_Desc.vTargetPosition.x += 150 * 1.3f + 5;
+			UI_Pnal_Desc.vStartPosition.x += 150 * 1.3f + 5;
 		}
 		else {
-			UI_Pnal_Desc.vTargetPosition.x -= 128 * 1.3f + 5;
-			UI_Pnal_Desc.vStartPosition.x -= 128 * 1.3f + 5;
+			UI_Pnal_Desc.vTargetPosition.x -= 150 * 1.3f + 5;
+			UI_Pnal_Desc.vStartPosition.x -= 150 * 1.3f + 5;
 			UI_Pnal_Desc.vTargetPosition.x += 15;
 			UI_Pnal_Desc.vStartPosition.x += 15;
-			UI_Pnal_Desc.vStartPosition.y -= 25.f;
-			UI_Pnal_Desc.vTargetPosition.y -= 25.f;
+			UI_Pnal_Desc.vStartPosition.y -= 33.f;
+			UI_Pnal_Desc.vTargetPosition.y -= 33.f;
 		}
 
 		CInventory::ITEM eItem = pInventory->Get_Item_Index(i);
@@ -118,6 +119,7 @@ void CUI_Battle_Stage_Item::Create_Pnal_Item()
 	CInventory::ITEM eItem = m_pPlayer_Battle->Get_Inventory()->Get_Item_Index(m_iCursor);
 
 	CUI_Pnal_Item::UI_PNAL_ITEM_DESC UI_Pnal_Item_desc = {};
+
 
 	UI_Pnal_Item_desc.vStartPosition = { 0.f, -150.f, 0.f };
 	UI_Pnal_Item_desc.vTargetPosition = { 0.f, 0.f, 0.f };

@@ -67,26 +67,26 @@ HRESULT CUI_Chain::Render()
 	/* 이 함수 내부에서 호출되는 Apply함수 호출 이전에 쉐이더 전역에 던져야할 모든 데이터를 다 던져야한다. */
 
 	if (m_isBreak) {
-		if (FAILED(m_pShaderCom->Begin(2)))	// inner
+		if (FAILED(m_pShaderCom->Begin(3)))	// inner
 			return E_FAIL;
 
 		if (FAILED(m_pVIBufferCom->Render()))
 			return E_FAIL;
 
-		if (FAILED(m_pShaderCom->Begin(3)))	// border
+		if (FAILED(m_pShaderCom->Begin(4)))	// border
 			return E_FAIL;
 
 		if (FAILED(m_pVIBufferCom->Render()))
 			return E_FAIL;
 	}
 	else {
-		if (FAILED(m_pShaderCom->Begin(2)))	// inner1	: fRatio, fCurRatio 반영	// pass 바꿀것
+		if (FAILED(m_pShaderCom->Begin(3)))	// inner1	: fRatio, fCurRatio 반영	// pass 바꿀것
 			return E_FAIL;
 
 		if (FAILED(m_pVIBufferCom->Render()))
 			return E_FAIL;
 
-		if (FAILED(m_pShaderCom->Begin(3)))	// Border
+		if (FAILED(m_pShaderCom->Begin(4)))	// Border
 			return E_FAIL;
 
 		if (FAILED(m_pVIBufferCom->Render()))
@@ -121,7 +121,8 @@ void CUI_Chain::Change_Target(CGameObject* pGameObject)
 
 HRESULT CUI_Chain::Bind_ShaderResources()
 {
-	_float4 vColor = { 0.f,1.f,1.f,1.f };
+	_float4 vColor = { 1.f,0.f,0.f,1.f };
+	_float4 vCurColor = { 1.f,1.f,0.f,1.f };
 	if (FAILED(__super::Bind_ShaderResources()))
 		return E_FAIL;
 
@@ -135,7 +136,11 @@ HRESULT CUI_Chain::Bind_ShaderResources()
 		return E_FAIL;
 	if (FAILED(m_pShaderCom->Bind_RawValue("g_Color", &vColor, sizeof(_float4))))
 		return E_FAIL;
-	if (FAILED(m_pShaderCom->Bind_RawValue("g_Ratio", &m_fCurRatio, sizeof(_float))))
+	if (FAILED(m_pShaderCom->Bind_RawValue("g_CurColor", &vCurColor, sizeof(_float4))))
+		return E_FAIL;
+	if (FAILED(m_pShaderCom->Bind_RawValue("g_Ratio", &m_fRatio, sizeof(_float))))
+		return E_FAIL;
+	if (FAILED(m_pShaderCom->Bind_RawValue("g_CurRatio", &m_fCurRatio, sizeof(_float))))
 		return E_FAIL;
 	if (FAILED(m_pShaderCom->Bind_RawValue("g_MaskMovement", &m_fMaskMovement, sizeof(_float))))
 		return E_FAIL;
@@ -156,7 +161,7 @@ HRESULT CUI_Chain::Add_Components()
 		return E_FAIL;
 
 	/* For.Com_Texture_Inner */
-	if (FAILED(__super::Add_Component(g_Level, TEXT("Prototype_Component_Texture_UI_ATB_Inner"),
+	if (FAILED(__super::Add_Component(g_Level, TEXT("Prototype_Component_Texture_UI_Pnal_Inner"),
 		TEXT("Com_Texture_Inner"), (CComponent**)&m_pTextureCom)))
 		return E_FAIL;
 
@@ -230,12 +235,11 @@ void CUI_Chain::Update_Ratio()
 	}
 
 	if (m_isBreak) {
-		m_fChain = pMonster->Get_Chain();
-		m_fRatio = m_fCurRatio = 20.f - m_fBreakTimeDelta / 20.f;
+		m_fRatio = m_fCurRatio = (20.f - m_fBreakTimeDelta) / 20.f;
 	}
 	else {
-		m_fRatio = m_fChain / m_fStagger;
-		m_fCurRatio = m_fCurChain / m_fStagger;
+  		m_fRatio = (m_fChain - 100.f) / (m_fStagger - 100.f);
+		m_fCurRatio = (m_fCurChain - 100.f) / (m_fStagger-100.f);
 	}
 
 }

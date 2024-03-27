@@ -76,6 +76,9 @@ HRESULT CUI_Pnal::Late_Tick(_float fTimeDelta)
 	if (FAILED(__super::Late_Tick(fTimeDelta)))
 		return E_FAIL;
 
+	_float4 vPosition = m_pTransformCom->Get_State_Float4(CTransform::STATE_POSITION);
+	m_vFontPosition = { vPosition.x + (g_iWinSizeX - m_fSizeX) * 0.5f + 20 , -vPosition.y + 2 + (g_iWinSizeY - m_fSizeY) * 0.5f };
+
 	return S_OK;
 }
 
@@ -100,12 +103,23 @@ HRESULT CUI_Pnal::Render()
 		if (FAILED(m_pVIBufferCom->Render()))
 			return E_FAIL;
 
-		if (FAILED(m_pShaderCom->Begin(3)))		// border
+		if (FAILED(m_pShaderCom->Begin(4)))		// border
 			return E_FAIL;
 
 		if (FAILED(m_pVIBufferCom->Render()))
 			return E_FAIL;
+
+		if (FAILED(Render_Font()))
+			return E_FAIL;
 	}
+
+	return S_OK;
+}
+
+HRESULT CUI_Pnal::Render_Font()
+{
+	if (FAILED(m_pGameInstance->Render_Font(g_strFont14Tag, m_strName, m_vFontPosition, XMVectorSet(1.f, 1.f, 1.f, 1.f), 0.f)))
+		return E_FAIL;
 
 	return S_OK;
 }
@@ -113,8 +127,8 @@ HRESULT CUI_Pnal::Render()
 void CUI_Pnal::Start()
 {
 	// 이 부분 수정 들어가야됨
-	m_fSizeX = 128 * 1.3f;
-	m_fSizeY = 22;
+	m_fSizeX = 150 * 1.3f;
+	m_fSizeY = 30;
 	m_fMaskMovement = Random_Float(10);
 	m_pTransformCom->Set_Scaled(m_fSizeX, m_fSizeY, 1.f);
 	m_pTransformCom->Set_State(CTransform::STATE_POSITION, XMVectorSetW(XMLoadFloat3(&m_vStartPosition), 1.f));

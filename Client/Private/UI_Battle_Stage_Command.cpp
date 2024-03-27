@@ -12,6 +12,7 @@ CUI_Battle_Stage_Command::CUI_Battle_Stage_Command(CPlayer_Battle* pPlayer_Battl
 void CUI_Battle_Stage_Command::OnStateEnter()
 {
 	Update_Pnals();
+	m_iCursor = 0;
 }
 
 void CUI_Battle_Stage_Command::OnStateUpdate(_float fTimeDelta)
@@ -38,25 +39,25 @@ HRESULT CUI_Battle_Stage_Command::Add_Pnals()
 	CUI_Pnal* pPnal = { nullptr };
 
 	CUI_Pnal::UI_PNAL_DESC UI_Pnal_Desc = {};
-	UI_Pnal_Desc.vStartPosition = { (_float)g_iWinSizeX * -0.5f + 15.f, -200.f + 25, 0.f };
-	UI_Pnal_Desc.vTargetPosition = { (_float)g_iWinSizeX * -0.5f + 200 + 15.f,-200.f + 25, 0.f };
-	UI_Pnal_Desc.vTargetPosition.x += 128 * 1.3f + 5;
-	UI_Pnal_Desc.vStartPosition.x += 128 * 1.3f + 5;
+	UI_Pnal_Desc.vStartPosition = { (_float)g_iWinSizeX * -0.5f, -200.f + 33.f, 0.f };
+	UI_Pnal_Desc.vTargetPosition = { (_float)g_iWinSizeX * -0.5f + 200,-200.f + 33.f, 0.f };
+	UI_Pnal_Desc.vTargetPosition.x += 150 * 1.3f + 5;
+	UI_Pnal_Desc.vStartPosition.x += 150 * 1.3f + 5;
 	UI_Pnal_Desc.strName = TEXT("");
 
 
 	for (size_t i = 0; i < 4; ++i) {
 		if (i % 2) {
-			UI_Pnal_Desc.vTargetPosition.x += 128 * 1.3f + 5;
-			UI_Pnal_Desc.vStartPosition.x += 128 * 1.3f + 5;
+			UI_Pnal_Desc.vTargetPosition.x += 150 * 1.3f + 5;
+			UI_Pnal_Desc.vStartPosition.x += 150 * 1.3f + 5;
 		}
 		else {
-			UI_Pnal_Desc.vTargetPosition.x -= 128 * 1.3f + 5;
-			UI_Pnal_Desc.vStartPosition.x -= 128 * 1.3f + 5;
+			UI_Pnal_Desc.vTargetPosition.x -= 150 * 1.3f + 5;
+			UI_Pnal_Desc.vStartPosition.x -= 150 * 1.3f + 5;
 			UI_Pnal_Desc.vTargetPosition.x += 15;
 			UI_Pnal_Desc.vStartPosition.x += 15;
-			UI_Pnal_Desc.vStartPosition.y -= 25.f;
-			UI_Pnal_Desc.vTargetPosition.y -= 25.f;
+			UI_Pnal_Desc.vStartPosition.y -= 33.f;
+			UI_Pnal_Desc.vTargetPosition.y -= 33.f;
 		}
 
 		pPnal = dynamic_cast<CUI_Pnal*>(m_pGameInstance->Add_Clone_With_Object(g_Level, TEXT("Layer_Pnal"), TEXT("Prototype_GameObject_UI_Pnal"), &UI_Pnal_Desc));

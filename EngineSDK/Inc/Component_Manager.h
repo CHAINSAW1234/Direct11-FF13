@@ -8,7 +8,7 @@
 #include "Navigation.h"
 #include "VIBUffer_Line.h"
 #include "VIBuffer_Rect.h"
-//#include "VIBuffer_Cube.h"
+#include "VIBuffer_Cube.h"
 #include "VIBuffer_Terrain.h"
 
 #include "Bounding_AABB.h"

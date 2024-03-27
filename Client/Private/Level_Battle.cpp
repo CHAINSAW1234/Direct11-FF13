@@ -9,7 +9,7 @@
 #include "Camera_Field.h"
 
 #include "Chr_Battle_Light.h"
-#include "Chr.h"
+#include "Monster.h"
 
 CLevel_Battle::CLevel_Battle(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
     : CLevel{ pDevice, pContext }
@@ -168,7 +168,7 @@ HRESULT CLevel_Battle::Ready_Layer_Chr(const wstring& strLayerTag)
 HRESULT CLevel_Battle::Ready_Layer_Monster(const wstring& strLayerTag)
 {
     for (int i = 0; i < 3; ++i) {
-        if (FAILED(m_pGameInstance->Add_Clone(g_Level, strLayerTag, TEXT("Prototype_GameObject_Player_Study"))))
+        if (FAILED(m_pGameInstance->Add_Clone(g_Level, strLayerTag, TEXT("Prototype_GameObject_Leopard"))))
             return E_FAIL;
     }
 

@@ -56,10 +56,6 @@ HRESULT CMapObject::Late_Tick(_float fTimeDelta)
 
 HRESULT CMapObject::Render()
 {
-    if (FAILED(Set_RenderState()))
-        return E_FAIL;
-
-    //for test
     if (FAILED(Bind_ShaderResources()))
         return E_FAIL;
 
@@ -68,14 +64,11 @@ HRESULT CMapObject::Render()
     for (_uint i = 0; i < iNumMeshes; ++i) {
         m_pModelCom->Bind_ShaderResource(m_pShaderCom, "g_DiffuseTexture", i, aiTextureType_DIFFUSE);
 
-        if (FAILED(m_pShaderCom->Begin(0)))
+        if (FAILED(m_pShaderCom->Begin(1)))
             return E_FAIL;
 
         m_pModelCom->Render(i);
     }
-
-    if (FAILED(Reset_RenderState()))
-        return E_FAIL;
 
     return S_OK;
 }
@@ -128,70 +121,6 @@ HRESULT CMapObject::Bind_ShaderResources()
 
     if (FAILED(m_pShaderCom->Bind_RawValue("g_vCamPosition", &m_pGameInstance->Get_CamPosition_Float4(), sizeof(_float4))))
         return E_FAIL;
-
-    return S_OK;
-}
-
-HRESULT CMapObject::Set_RenderState()
-{
-    D3D11_RASTERIZER_DESC RSDesc = {};
-
-    //D3D11_FILL_MODE FillMode;
-    //D3D11_CULL_MODE CullMode;
-    //BOOL FrontCounterClockwise;
-    //INT DepthBias;
-    //FLOAT DepthBiasClamp;
-    //FLOAT SlopeScaledDepthBias;
-    //BOOL DepthClipEnable;
-    //BOOL ScissorEnable;
-    //BOOL MultisampleEnable;
-    //BOOL AntialiasedLineEnable;
-
-    RSDesc.FillMode = D3D11_FILL_SOLID;
-    RSDesc.CullMode = D3D11_CULL_NONE;
-    RSDesc.FrontCounterClockwise = FALSE;
-    RSDesc.DepthBias = 0;
-    RSDesc.DepthBiasClamp = 0.f;
-    RSDesc.SlopeScaledDepthBias = 0.f;
-    RSDesc.DepthClipEnable = TRUE;
-    RSDesc.ScissorEnable = FALSE;
-    RSDesc.MultisampleEnable = FALSE;
-    RSDesc.AntialiasedLineEnable = FALSE;
-
-    ID3D11RasterizerState* RSState = { nullptr };
-
-    if (FAILED(m_pDevice->CreateRasterizerState(&RSDesc, &RSState)))
-        return E_FAIL;
-
-    m_pContext->RSSetState(RSState);
-
-    Safe_Release(RSState);
-
-    return S_OK;
-}
-
-HRESULT CMapObject::Reset_RenderState()
-{
-    D3D11_RASTERIZER_DESC RSDesc = {};
-    RSDesc.FillMode = D3D11_FILL_SOLID;
-    RSDesc.CullMode = D3D11_CULL_BACK;
-    RSDesc.FrontCounterClockwise = FALSE;
-    RSDesc.DepthBias = 0;
-    RSDesc.DepthBiasClamp = 0.f;
-    RSDesc.SlopeScaledDepthBias = 0.f;
-    RSDesc.DepthClipEnable = TRUE;
-    RSDesc.ScissorEnable = FALSE;
-    RSDesc.MultisampleEnable = FALSE;
-    RSDesc.AntialiasedLineEnable = FALSE;
-
-    ID3D11RasterizerState* RSState;
-
-    if (FAILED(m_pDevice->CreateRasterizerState(&RSDesc, &RSState)))
-        return E_FAIL;
-
-    m_pContext->RSSetState(RSState);
-
-    Safe_Release(RSState);
 
     return S_OK;
 }

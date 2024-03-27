@@ -62,6 +62,5 @@ namespace Engine
 		// 각도가 0보다 크면 왼쪽이다
 		return fDegree;
 	}
-
 }
 

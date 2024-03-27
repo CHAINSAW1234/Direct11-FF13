@@ -1,6 +1,8 @@
 #include "stdafx.h"
 #include "Leopard.h"
 
+#include "FSM.h"
+
 CLeopard::CLeopard(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
     : CMonster{ pDevice, pContext }
 {
@@ -15,6 +17,7 @@ HRESULT CLeopard::Initialize_Prototype()
 {
     m_iMaxHp = m_iHp = 375;
     m_fStagger = 103.f;
+    m_strMonsterName = TEXT("게파드 열조");
 
     return S_OK;
 }
@@ -35,6 +38,42 @@ HRESULT CLeopard::Initialize(void* pArg)
 void CLeopard::Tick(_float fTimeDelta)
 {
     __super::Tick(fTimeDelta);
+
+    if (m_pGameInstance->Get_KeyState(KEY_DOWN, DIK_4))
+        Add_Chain(1.f);
+
+    if (GetKeyState(VK_LEFT) & 0x8000)
+    {
+        m_pTransformCom->Turn(XMVectorSet(0.f, 1.f, 0.f, 0.f), fTimeDelta * -1.f);
+    }
+
+    if (GetKeyState(VK_RIGHT) & 0x8000)
+    {
+        m_pTransformCom->Turn(XMVectorSet(0.f, 1.f, 0.f, 0.f), fTimeDelta);
+    }
+
+    if (GetKeyState('T') & 0x8000)
+    {
+        m_pTransformCom->Go_Up(fTimeDelta);
+    }
+
+    if (GetKeyState('G') & 0x8000)
+    {
+        m_pTransformCom->Go_Down(fTimeDelta);
+    }
+
+    if (GetKeyState(VK_DOWN) & 0x8000)
+    {
+        m_pTransformCom->Go_Backward(fTimeDelta);
+    }
+
+    if (GetKeyState(VK_UP) & 0x8000)
+    {
+        m_pTransformCom->Go_Straight(fTimeDelta);
+    }
+
+
+
 }
 
 HRESULT CLeopard::Late_Tick(_float fTimeDelta)
@@ -43,7 +82,7 @@ HRESULT CLeopard::Late_Tick(_float fTimeDelta)
         return E_FAIL;
 
     // 임시
-    m_pGameInstance->Add_RenderGroup(CRenderer::RENDER_UI, this);
+    m_pGameInstance->Add_RenderGroup(CRenderer::RENDER_NONBLEND, this);
     return S_OK;
 }
 
@@ -57,10 +96,28 @@ HRESULT CLeopard::Render()
 
 void CLeopard::Start()
 {
+    Change_Animation(BATTLE_IDLE, true);
+    m_pTransformCom->Set_State(CTransform::STATE_POSITION, XMVectorSet(_float(rand() % 10 - 5), 0.f, _float(rand() % 10 - 5), 1.f));
+}
+
+HRESULT CLeopard::Change_State(STATE eState)
+{
+    m_eState = eState;
+    m_pFSMCom->Change_State(eState);
+
+    return S_OK;
+}
+
+void CLeopard::Change_Animation(ANIMATION_LEOPARD iAnimationIndex, _bool isLoop)
+{
+    m_pModelCom->Set_Animation(iAnimationIndex, isLoop);
 }
 
 HRESULT CLeopard::Add_Components()
 {
+    if (FAILED(__super::Add_Components()))
+        return E_FAIL;
+
     /* For.Com_Model */
     if (FAILED(__super::Add_Component(g_Level, TEXT("Prototype_Component_Model_Leopard"),
         TEXT("Com_Model"), (CComponent**)&m_pModelCom)))

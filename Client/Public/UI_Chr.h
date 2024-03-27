@@ -27,12 +27,17 @@ public:
 	virtual void	Tick(_float fTimeDelta);
 	virtual HRESULT Late_Tick(_float fTimeDelta);
 	virtual HRESULT Render();
+
 	virtual void	Start();
 	virtual void	OnNotify() override;
 
 protected:
 	virtual HRESULT Bind_ShaderResources();
 	HRESULT Add_Components();
+
+	HRESULT Render_Name();
+	HRESULT Render_Role();
+	HRESULT Render_Hp();
 
 	void Update_Hp(_float fTimeDelta);
 	virtual void Move(_float fTimeDelta);		// 현재 위치에서 목표 위치로의 이동, 선형 보간
@@ -58,6 +63,10 @@ private:
 	
 	_float3 m_vStartPosition = { 0.f,0.f,0.f };			// 이 Pnal의 애니메이션 시작 위치 
 	_float3 m_vTargetPosition = { 0.f,0.f,0.f };		// 이 Pnal이 이동시의 도착 위치
+	
+	_float2 m_vFont_NamePosition = { 0.f,0.f };
+	_float2 m_vFont_RolePosition = { 0.f,0.f };
+	_float2 m_vFont_HpPosition = { 0.f,0.f };
 
 public:
 	static CUI_Chr* Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);

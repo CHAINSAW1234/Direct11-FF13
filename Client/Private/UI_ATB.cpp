@@ -86,7 +86,7 @@ HRESULT CUI_ATB::Render()
 	if (FAILED(m_pVIBufferCom->Render()))
 		return E_FAIL;
 
-	if (FAILED(m_pShaderCom->Begin(3)))
+	if (FAILED(m_pShaderCom->Begin(4)))
 		return E_FAIL;
 
 	if (FAILED(m_pVIBufferCom->Render()))
@@ -97,11 +97,11 @@ HRESULT CUI_ATB::Render()
 
 void CUI_ATB::Start()
 {
-	m_fSizeX = 128 * 3;
+	m_fSizeX = 150 * 3;
 	m_fSizeY = 10;
 	m_fMoveTimeDelta = 0.f;
 	m_vStartPosition = { g_iWinSizeX * -0.5f, -175.f, 0.f };
-	m_vTargetPosition = { -315.f, -175.f, 0.f };
+	m_vTargetPosition = { -300.f, -175.f, 0.f };
 	m_pTransformCom->Set_Scaled(m_fSizeX, m_fSizeY, 1.f);
 	m_pTransformCom->Set_State(CTransform::STATE_POSITION, XMVectorSetW(XMLoadFloat3(&m_vTargetPosition), 1.f));
 

@@ -11,14 +11,12 @@
 #include "UI_Battle_Stage_Optima.h"
 #include "UI_Battle_Stage_Wait.h"
 
-
 #include "UI_Pnal_Attack.h"
 #include "UI_Pnal_Item.h"
 #include "UI_Chr.h"
 #include "UI_Chain.h"
 
 #include "Chr_Battle_Light.h"
-#include "Player_Study.h"
 #include "Monster.h"
 #include "Inventory.h"
 #include "Optima.h"
@@ -77,10 +75,10 @@ void CPlayer_Battle::Add_Command(CUI_Pnal_Attack* pPnal_Attack)
 {
 	pPnal_Attack->Start();
 
-	_float3 vTargetPosition = { (_float)g_iWinSizeX * -0.5f + 200, -150.f, 0.f };
-	vTargetPosition.x += 64 * (pPnal_Attack->Get_Size()-1);
+	_float3 vTargetPosition = { (_float)g_iWinSizeX * -0.5f + 193, -150.f, 0.f };
+	vTargetPosition.x += 75 * (pPnal_Attack->Get_Size()-1);
 
-	vTargetPosition.x += 128.f  * (m_iCommandCost);
+	vTargetPosition.x += 150.f * (m_iCommandCost);
 
 	pPnal_Attack->Set_TargetPosition(true, vTargetPosition);
 
@@ -135,8 +133,8 @@ void CPlayer_Battle::Add_Item(CUI_Pnal_Item* pPnal_Item)
 {
 	pPnal_Item->Start();
 
-	_float3 vTargetPosition = { (_float)g_iWinSizeX * -0.5f + 200, -150.f, 0.f };
-	vTargetPosition.x += 64;
+	_float3 vTargetPosition = { (_float)g_iWinSizeX * -0.5f + 193, -150.f, 0.f };
+	vTargetPosition.x += 75;
 
 	pPnal_Item->Set_TargetPosition(true, vTargetPosition);
 
@@ -270,7 +268,7 @@ void CPlayer_Battle::Change_Chain_Target(CGameObject* pTargetObject)
 void CPlayer_Battle::Set_CursorPosition(_float3 vCursorPosition)
 {
 	m_vCursorPosition = vCursorPosition;
-	m_vCursorPosition.x -= (128 * 0.65f + 12);
+	m_vCursorPosition.x -= (150 * 0.65f + 12);
 	m_vCursorPosition.y -= 5.f;
 	NotifyObserver();
 }
@@ -339,7 +337,7 @@ void CPlayer_Battle::Create_UI()
 
 	m_pUI_Chain = dynamic_cast<CUI_Chain*>(m_pGameInstance->Add_Clone_With_Object(g_Level, TEXT("Layer_UI"), TEXT("Prototype_GameObject_UI_Chain")));
 	Safe_AddRef(m_pUI_Chain);
-	Change_Chain_Target(m_pLeader);
+	Change_Chain_Target(m_Monsters[0]);
 }
 
 void CPlayer_Battle::Update_FSMState()
@@ -389,7 +387,7 @@ void CPlayer_Battle::Update_CommandCost()
 
 void CPlayer_Battle::Update_CommandPosition()
 {
-	_float3 vTargetPosition = { (_float)g_iWinSizeX * -0.5f + 200, -150.f, 0.f };
+	_float3 vTargetPosition = { (_float)g_iWinSizeX* -0.5f + 193.f, -150.f, 0.f };
 	//vTargetPosition.x += 64 * (pPnal_Attack->Get_Size() - 1);
 	//vTargetPosition.x += 128.f * (m_iCommandCost);
 
@@ -397,8 +395,8 @@ void CPlayer_Battle::Update_CommandPosition()
 	for (auto& pPnal_Attack : m_Commands) {
 
 		_float3 vPos = vTargetPosition;
-		vPos.x += 64 * (pPnal_Attack->Get_Size() - 1);
-		vPos.x += 128.f * (iCost);
+		vPos.x += 75.f * (pPnal_Attack->Get_Size() - 1);
+		vPos.x += 150.f * (iCost);
 		iCost += pPnal_Attack->Get_Size();
 		pPnal_Attack->Set_TargetPosition(false, vPos);
 	}
@@ -416,20 +414,19 @@ void CPlayer_Battle::Start()
 		Safe_AddRef(m_Memebers[i-1]);
 	}
 
-	Create_UI();
-
-
 	// 몬스터 데이터 받아옴
 	size_t iNumMonster = m_pGameInstance->Get_LayerCnt(g_Level, g_strMonsterLayerTag);
 	
 	for (size_t i = 0; i < iNumMonster; ++i) {
-		CPlayer_Study* pMonster = dynamic_cast<CPlayer_Study*>(m_pGameInstance->Get_GameObject(g_Level, g_strMonsterLayerTag, (_uint)i));
+		CMonster* pMonster = dynamic_cast<CMonster*>(m_pGameInstance->Get_GameObject(g_Level, g_strMonsterLayerTag, (_uint)i));
 
 		if (nullptr == pMonster)
 			return;
 		m_Monsters.push_back(pMonster);
 		Safe_AddRef(pMonster);
 	}
+
+	Create_UI();
 
 	// 인벤토리 받아옴
 	m_pInventory = dynamic_cast<CInventory*>(m_pGameInstance->Get_GameObject(g_Level, TEXT("Layer_Inventory"), 0));

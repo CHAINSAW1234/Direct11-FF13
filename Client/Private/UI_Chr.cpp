@@ -45,7 +45,7 @@ void CUI_Chr::Tick(_float fTimeDelta)
 {
 	Update_Hp(fTimeDelta);	// 체력 선형 보간, 비율까지 보두 계산
 	Move(fTimeDelta);
-	m_fGradMovement += fTimeDelta * (30 * (1-m_fRatio));
+	m_fGradMovement += fTimeDelta * (20 * (1-m_fRatio));
 
 }
 
@@ -67,22 +67,25 @@ HRESULT CUI_Chr::Render()
 
 	/* 이 함수 내부에서 호출되는 Apply함수 호출 이전에 쉐이더 전역에 던져야할 모든 데이터를 다 던져야한다. */
 
-	if (FAILED(m_pShaderCom->Begin(5)))
+	if (FAILED(m_pShaderCom->Begin(6)))
 		return E_FAIL;
 
 	if (FAILED(m_pVIBufferCom->Render()))
 		return E_FAIL;
 
 	if (m_fRatio < 0.6666) {
-		if (FAILED(m_pShaderCom->Begin(7)))
+		if (FAILED(m_pShaderCom->Begin(8)))
 			return E_FAIL;
 	}
 	else {
-		if (FAILED(m_pShaderCom->Begin(6)))
+		if (FAILED(m_pShaderCom->Begin(7)))
 			return E_FAIL;
 	}
 
 	if (FAILED(m_pVIBufferCom->Render()))
+		return E_FAIL;
+
+	if (FAILED(Render_Name()))
 		return E_FAIL;
 
 	return S_OK;
@@ -155,6 +158,29 @@ HRESULT CUI_Chr::Add_Components()
 	return S_OK;
 }
 
+HRESULT CUI_Chr::Render_Name()
+{
+	wstring strName = m_pChr_Battle->Get_Name();
+
+	if (FAILED(m_pGameInstance->Render_Font(g_strFont14Tag, strName, { m_vFont_NamePosition.x - 1, m_vFont_NamePosition.y - 1 }, XMVectorSet(0.f, 0.f, 0.f, 1.f), 0.f)))
+		return E_FAIL;
+
+	if (FAILED(m_pGameInstance->Render_Font(g_strFont14Tag, strName, { m_vFont_NamePosition.x - 1, m_vFont_NamePosition.y + 1 }, XMVectorSet(0.f, 0.f, 0.f, 1.f), 0.f)))
+		return E_FAIL;
+
+	if (FAILED(m_pGameInstance->Render_Font(g_strFont14Tag, strName, { m_vFont_NamePosition.x + 1, m_vFont_NamePosition.y - 1 }, XMVectorSet(0.f, 0.f, 0.f, 1.f), 0.f)))
+		return E_FAIL;
+
+	if (FAILED(m_pGameInstance->Render_Font(g_strFont14Tag, strName, { m_vFont_NamePosition.x + 1, m_vFont_NamePosition.y + 1 }, XMVectorSet(0.f, 0.f, 0.f, 1.f), 0.f)))
+		return E_FAIL;
+
+	if (FAILED(m_pGameInstance->Render_Font(g_strFont14Tag, strName, m_vFont_NamePosition, XMVectorSet(1.f, 1.f, 1.f, 1.f), 0.f)))
+		return E_FAIL;
+
+
+	return S_OK;
+}
+
 void CUI_Chr::Update_Hp(_float fTimeDelta)
 {
 	if (m_fHpLerpTimeDelta >= 1.f) {
@@ -173,7 +199,7 @@ void CUI_Chr::Update_Hp(_float fTimeDelta)
 	// 색깔 결정
 	m_vColor = { 0.f,1.f,0.f,1.f };
 	if (m_fRatio <= 0.6666)
-		m_vColor = {1.f,0.5f,0.f,1.f };
+		m_vColor = {1.f,0.83f,0.f,1.f };
 	if (m_fRatio <= 0.3)
 		m_vColor = { 1.f,0.f,0.f,1.f };
 
@@ -194,6 +220,16 @@ void CUI_Chr::Move(_float fTimeDelta)
 	XMStoreFloat4(&vCurPos, XMVectorSetW(XMVectorLerp(m_pTransformCom->Get_State_Vector(CTransform::STATE_POSITION), XMLoadFloat3(&m_vTargetPosition), m_fMoveTimeDelta), 1.f));
 
 	m_pTransformCom->Set_State(CTransform::STATE_POSITION, vCurPos);
+
+	// 폰트 위치 지정
+	// 1. vCurPos -> WIndow 좌표계로 변경 직교투영이므로 winsize만 뺴면됨
+	// { vPosition.x + (g_iWinSizeX - m_fSizeX) * 0.5f + 20 , -vPosition.y + 2 + (g_iWinSizeY - m_fSizeY) * 0.5f };
+
+	vCurPos.x += g_iWinSizeX * 0.5f;
+	vCurPos.y = -vCurPos.y + g_iWinSizeY * 0.5f -28;
+	m_vFont_NamePosition = { vCurPos.x - m_fSizeX * 0.5f , vCurPos.y };
+
+
 }
 
 CUI_Chr* CUI_Chr::Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)

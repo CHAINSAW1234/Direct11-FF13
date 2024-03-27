@@ -22,6 +22,9 @@
 #include "Body.h"
 #include "Weapon_Anim.h"
 
+#include "Leopard.h"
+
+
 #include "Camera_Free.h"
 #include "BackGround.h"
 #include "Player_Study.h"
@@ -202,6 +205,10 @@ HRESULT CLoader::Loading_Prototype()
 		CChr_Battle_Sazh::Create(m_pDevice, m_pContext))))
 		return E_FAIL;
 
+	/* For.Prototype_GameObject_Leopard */
+	if (FAILED(m_pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_Leopard"),
+		CLeopard::Create(m_pDevice, m_pContext))))
+		return E_FAIL;
 
 	/* For.Prototype_GameObject_Inventory */
 	if (FAILED(m_pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_Inventory"),
@@ -587,6 +594,9 @@ HRESULT CLoader::Loading_For_Battle()
 		CModel::Create(m_pDevice, m_pContext, "../Bin/Resources/Models/Chr/Sazh/Weapon/Sazh_Weapon" + tag))))
 		return E_FAIL;
 
+	if (FAILED(m_pGameInstance->Add_Prototype(g_Level, TEXT("Prototype_Component_Model_Leopard"),
+		CModel::Create(m_pDevice, m_pContext, "../Bin/Resources/Models/Monster/Leopard/Leopard" + tag))))
+		return E_FAIL;
 
 #pragma region Temp
 

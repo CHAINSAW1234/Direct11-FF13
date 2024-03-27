@@ -1,6 +1,7 @@
 #pragma once
 #include "Client_Defines.h"
 #include "Monster.h"
+#include <Chr_Battle_Light.h>
 
 BEGIN(Client)
 
@@ -8,6 +9,14 @@ class CLeopard final : public CMonster
 {
 public:
 	enum STATE { STATE_IDLE, STATE_ATTACK, STATE_HIT, STATE_END };
+	enum ANIMATION_LEOPARD {
+		BATTLE_IDLE, BATTLE_START, FIELD_IDLE,
+		HIT, HIT_RUN,
+		MOVE_BACK_IDLE, MOVE_BACK_START, MOVE_BACK_STOP_LEFT, MOVE_BACK_STOP_RIGHT,
+		MOVE_STRAIGHT_IDLE, MOVE_STRAIGHT_START, MOVE_STRAIGHT_STOP_LEFT, MOVE_STRAIGHT_STOP_RIGHT,
+		RUN_IDLE, RUN_START, RUN_STOP, 
+		TURN_JUMP_LEFT, TURN_JUMP_RIGHT, TURN_LEFT, TURN_RIGHT, ANIMATION_END};
+
 private:
 	CLeopard(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);
 	CLeopard(const CMonster& rhs);
@@ -23,10 +32,10 @@ public:
 
 public:
 	HRESULT Change_State(STATE eState);
+	void	Change_Animation(ANIMATION_LEOPARD iAnimationIndex, _bool isLoop);
 
 private:
-	STATE eState = { STATE_END };
-
+	STATE	m_eState = { STATE_END };
 
 private:
 	virtual HRESULT Add_Components() override;

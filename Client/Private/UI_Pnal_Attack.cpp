@@ -49,6 +49,12 @@ HRESULT CUI_Pnal_Attack::Late_Tick(_float fTimeDelta)
 	if (m_isDead && !m_isAnimated)
 		return E_FAIL;
 
+	_float4 vPosition = m_pTransformCom->Get_State_Float4(CTransform::STATE_POSITION);
+	m_vFontPosition = { vPosition.x + g_iWinSizeX  * 0.5f , -vPosition.y + 3 + (g_iWinSizeY - m_fSizeY) * 0.5f };
+	m_vFontPosition.x -= (m_strName.size()+1) * 0.5 * 14 ;
+
+
+
 	if (m_isRender) {
 		m_pGameInstance->Add_RenderGroup(CRenderer::RENDER_UI, this);
 	}
@@ -62,7 +68,7 @@ HRESULT CUI_Pnal_Attack::Render()
 		if (FAILED(Bind_ShaderResources()))
 			return E_FAIL;
 
-		if (FAILED(m_pShaderCom->Begin(4)))		//Disapper
+		if (FAILED(m_pShaderCom->Begin(5)))		//Disapper
 			return E_FAIL;
 
 		if (FAILED(m_pVIBufferCom->Render()))
@@ -77,10 +83,18 @@ HRESULT CUI_Pnal_Attack::Render()
 	return S_OK;
 }
 
+HRESULT CUI_Pnal_Attack::Render_Font()
+{
+	if (FAILED(m_pGameInstance->Render_Font(g_strFont14Tag, m_strName, m_vFontPosition, XMVectorSet(1.f, 1.f, 1.f, 1.f), 0.f)))
+		return E_FAIL;
+
+	return S_OK;
+}
+
 void CUI_Pnal_Attack::Start()
 {
 	// 이 부분 수정 들어가야됨
-	m_fSizeX = 128 * m_iSize;
+	m_fSizeX = 150.f * m_iSize;
 	m_fSizeY = 30;
 	m_fMaskMovement = Random_Float(10);
 	m_pTransformCom->Set_Scaled(m_fSizeX, m_fSizeY, 1.f);

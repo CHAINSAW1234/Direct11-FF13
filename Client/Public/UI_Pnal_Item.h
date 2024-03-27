@@ -21,12 +21,13 @@ public:
 	CInventory::ITEM Get_Item() { return m_eItem; }
 
 public:
-	virtual HRESULT Initialize_Prototype();
-	virtual HRESULT Initialize(void* pArg);
-	virtual void	Tick(_float fTimeDelta);
-	virtual HRESULT Late_Tick(_float fTimeDelta);
-	virtual HRESULT Render();
-	virtual void	Start();
+	virtual HRESULT Initialize_Prototype() override;
+	virtual HRESULT Initialize(void* pArg) override;
+	virtual void	Tick(_float fTimeDelta) override;
+	virtual HRESULT Late_Tick(_float fTimeDelta) override;
+	virtual HRESULT Render() override;
+	virtual HRESULT Render_Font() override;
+	virtual void	Start() override;
 
 private:
 	HRESULT Add_Components();
