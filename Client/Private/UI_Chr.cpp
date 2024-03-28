@@ -88,6 +88,12 @@ HRESULT CUI_Chr::Render()
 	if (FAILED(Render_Name()))
 		return E_FAIL;
 
+	if (FAILED(Render_Role()))
+		return E_FAIL;
+
+	if (FAILED(Render_Hp()))
+		return E_FAIL;
+
 	return S_OK;
 }
 
@@ -181,6 +187,40 @@ HRESULT CUI_Chr::Render_Name()
 	return S_OK;
 }
 
+HRESULT CUI_Chr::Render_Role()
+{
+	CAbility::ROLE eRole = m_pChr_Battle->Get_Ability()->Get_CurrentRole();
+	wstring strName = CAbility::Get_RoleName(eRole);
+	_float4 vColorName = CAbility::Get_RoleColor(eRole);
+
+	if (FAILED(m_pGameInstance->Render_Font(g_strFontAlphaTag, strName,  m_vFont_RolePosition, XMLoadFloat4(&vColorName), 0.f)))
+		return E_FAIL;
+
+	return S_OK;
+}
+
+HRESULT CUI_Chr::Render_Hp()
+{
+
+	wstring strHp = to_wstring(m_iCurHp);
+
+	if (FAILED(m_pGameInstance->Render_Font(g_strFont10Tag, TEXT("HP"), { m_vFont_HpPosition.x - 1, m_vFont_HpPosition.y - 1 }, XMVectorSet(0.f, 0.f, 0.f, 1.f), 0.f)))
+		return E_FAIL;
+	if (FAILED(m_pGameInstance->Render_Font(g_strFont10Tag, TEXT("HP"), { m_vFont_HpPosition.x - 1, m_vFont_HpPosition.y - 1 }, XMVectorSet(0.f, 0.f, 0.f, 1.f), 0.f)))
+		return E_FAIL;
+	if (FAILED(m_pGameInstance->Render_Font(g_strFont10Tag, TEXT("HP"), { m_vFont_HpPosition.x + 1, m_vFont_HpPosition.y + 1 }, XMVectorSet(0.f, 0.f, 0.f, 1.f), 0.f)))
+		return E_FAIL;
+	if (FAILED(m_pGameInstance->Render_Font(g_strFont10Tag, TEXT("HP"), { m_vFont_HpPosition.x + 1, m_vFont_HpPosition.y + 1 }, XMVectorSet(0.f, 0.f, 0.f, 1.f), 0.f)))
+		return E_FAIL;
+	if (FAILED(m_pGameInstance->Render_Font(g_strFont10Tag, TEXT("HP"), { m_vFont_HpPosition.x, m_vFont_HpPosition.y }, XMVectorSet(0.f, 1.f, 0.f, 1.f), 0.f)))
+		return E_FAIL;
+
+	if (FAILED(m_pGameInstance->Render_Font(g_strFontNum24Tag, strHp, { m_vFont_HpPosition.x + 23, m_vFont_HpPosition.y  }, XMVectorSet(1.f, 1.f, 1.f, 1.f), 0.f)))
+		return E_FAIL;
+
+	return S_OK;
+}
+
 void CUI_Chr::Update_Hp(_float fTimeDelta)
 {
 	if (m_fHpLerpTimeDelta >= 1.f) {
@@ -228,7 +268,8 @@ void CUI_Chr::Move(_float fTimeDelta)
 	vCurPos.x += g_iWinSizeX * 0.5f;
 	vCurPos.y = -vCurPos.y + g_iWinSizeY * 0.5f -28;
 	m_vFont_NamePosition = { vCurPos.x - m_fSizeX * 0.5f , vCurPos.y };
-
+	m_vFont_RolePosition = { vCurPos.x - 40, vCurPos.y +5 };
+	m_vFont_HpPosition = { vCurPos.x + 50, vCurPos.y + 5 };
 
 }
 

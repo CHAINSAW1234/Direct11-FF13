@@ -70,9 +70,6 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
     wstring      str = L"";
     // 기본 메시지 루프입니다.
 	while (true) 
-
-
-
 	{
 		if (PeekMessage(&msg, nullptr, 0, 0, PM_REMOVE))
 		{
@@ -84,7 +81,6 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
 				DispatchMessage(&msg);
 			}
 		}
-
 
 		fTimeAcc += pGameInstance->Compute_TimeDelta(TEXT("Timer_Default"));
         //++iFrame;

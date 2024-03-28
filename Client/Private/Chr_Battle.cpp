@@ -171,7 +171,7 @@ void CChr_Battle::Update_Command()
 	else {
 
 		m_iNextCommandCount = rand() % 3 + 1;
-		CRole* pRole = m_pAbility->Get_CurrentRole();
+		CRole* pRole = m_pAbility->Get_CurrentSkillSet();
 
 		CRole::SKILL eSkill = pRole->Get_Skill_Index(rand()% pRole->Get_SkillSet_Count());
 

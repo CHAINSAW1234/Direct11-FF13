@@ -1,7 +1,7 @@
 #pragma once
 #include "Client_Defines.h"
 #include "GameObject.h"
-
+#include "Observer_Handler.h"
 BEGIN(Engine)
 class CModel;
 class CShader;
@@ -9,7 +9,7 @@ class CFSM;
 END
 
 BEGIN(Client)
-class CMonster abstract : public CGameObject
+class CMonster abstract : public CGameObject, public CObserver_Handler
 {
 protected:
 	CMonster(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);
@@ -35,10 +35,11 @@ public:
 	_float  Get_Chain() { return m_fChain; }
 	_float  Get_CurrentChain() { return m_fCurChain; }
 	_float  Get_Stagger() { return m_fStagger; }
+	_bool	Get_isTarget() { return m_isTarget; }
 
 	/*============================SET============================*/
 	void Set_Target(CGameObject* pTargetObject);
-
+	void Set_isTarget(_bool isTarget); 
 	/*============================Model============================*/
 	_uint		Get_CurrentAnimationIndex();
 	_float		Get_CurrentTrackPosition();
@@ -50,7 +51,9 @@ public:
 	void Add_Chain(_float fChain);
 
 protected:
+	HRESULT Create_UI_Hp();
 	void Update_Chain(_float fTimeDelta);
+
 
 protected:
 	CModel*		m_pModelCom = { nullptr };
@@ -60,6 +63,8 @@ protected:
 	wstring		m_strMonsterName = {};
 	_int		m_iMaxHp = { 1 };
 	_int		m_iHp = { 1 };
+
+	_bool		m_isTarget = { false };						// 이 객체가 지금 타겟으로 보여줘야되는 상태이다 -> 체력 등등의 정보 전달할 것
 
 	// 체인의 지속시간은 20초로 고정합시다
 	_bool		m_isBreak = { false };						// 브레이크 상태인지에 대한 처리

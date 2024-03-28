@@ -12,7 +12,10 @@ namespace Client
 	const unsigned int	g_iWinSizeY = 720;
 	const wstring		g_strFont10Tag = TEXT("Font_10");
 	const wstring		g_strFont14Tag = TEXT("Font_14");
-	const wstring		g_strFontNumTag = TEXT("Font_Num");
+	const wstring		g_strFontEng32Tag = TEXT("Font_Eng32");
+	const wstring		g_strFontNum14Tag = TEXT("Font_Num14");
+	const wstring		g_strFontNum24Tag = TEXT("Font_Num24");
+	const wstring		g_strFontAlphaTag = TEXT("Font_Alpha");
 
 	const wstring		g_strCameraLayerTag = TEXT("Layer_ZZZCamera");
 	const wstring		g_strMonsterLayerTag = TEXT("Layer_Monster");

@@ -80,6 +80,7 @@ public:
 
 	void Set_Member_Target(CGameObject* pTargetObject);
 	void Change_Chain_Target(CGameObject* pTargetObject);
+	void Set_Chain_Move();
 
 private:
 	virtual void NotifyObserver();

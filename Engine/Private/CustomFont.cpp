@@ -22,7 +22,7 @@ HRESULT CCustomFont::Render(const wstring& strText, const _float2& vPosition, _f
 
 	m_pFont->DrawString(m_pBatch, strText.c_str(), vPosition, vColor, fRadian);
 
-	m_pBatch->End();
+  	m_pBatch->End();
 
 	return S_OK;
 }

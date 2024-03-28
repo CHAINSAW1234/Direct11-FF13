@@ -23,8 +23,9 @@ public:
 	virtual void	OnNotify();
 
 private:
-	HRESULT Add_Components();
 	virtual HRESULT Bind_ShaderResources();
+	HRESULT Add_Components();
+
 
 private:
 	class CPlayer_Battle* m_pPlayerInfo = { nullptr };

@@ -107,7 +107,7 @@ void CUI_Battle_Stage_Select::Change_Stage()
 
 void CUI_Battle_Stage_Select::Auto_Commands()
 {
-	CRole* pRole = m_pPlayer_Battle->Get_Ability()->Get_CurrentRole();
+	CRole* pRole = m_pPlayer_Battle->Get_Ability()->Get_CurrentSkillSet();
 	//size_t iSkillSet = pRole->Get_SkillSet_Count();
 	while (!m_pPlayer_Battle->Check_Command_Full()) {
 		CRole::SKILL eSkill = pRole->Get_Skill_Index(0);

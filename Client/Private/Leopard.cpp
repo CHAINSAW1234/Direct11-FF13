@@ -40,7 +40,7 @@ void CLeopard::Tick(_float fTimeDelta)
     __super::Tick(fTimeDelta);
 
     if (m_pGameInstance->Get_KeyState(KEY_DOWN, DIK_4))
-        Add_Chain(1.f);
+        Add_Chain(1.3f);
 
     if (GetKeyState(VK_LEFT) & 0x8000)
     {

@@ -75,7 +75,7 @@ HRESULT CUI_Battle_Stage_Command::Add_Pnals()
 
 void CUI_Battle_Stage_Command::Update_Pnals()
 {
-	CRole* pRole = m_pPlayer_Battle->Get_Ability()->Get_CurrentRole();
+	CRole* pRole = m_pPlayer_Battle->Get_Ability()->Get_CurrentSkillSet();
 
 	m_iPnalCount = (_int)pRole->Get_SkillSet_Count();
 	for (size_t i = 0; i < pRole->Get_SkillSet_Count(); ++i) {
@@ -124,7 +124,7 @@ void CUI_Battle_Stage_Command::Update_Cursor()
 void CUI_Battle_Stage_Command::Update_KeyInput()
 {
 	if (m_pGameInstance->Get_KeyState(KEY_DOWN, DIK_RETURN)) {
-		CRole* pRole = m_pPlayer_Battle->Get_Ability()->Get_CurrentRole();
+		CRole* pRole = m_pPlayer_Battle->Get_Ability()->Get_CurrentSkillSet();
 		CRole::SKILL eSkill = pRole->Get_Skill_Index(m_iCursor);
 
 		m_pPlayer_Battle->Check_Command_Insert(pRole->Get_Skill_Cost(eSkill));
@@ -152,7 +152,7 @@ void CUI_Battle_Stage_Command::Update_KeyInput()
 
 void CUI_Battle_Stage_Command::Create_Pnal_Attack()
 {
-	CRole* pRole = m_pPlayer_Battle->Get_Ability()->Get_CurrentRole();
+	CRole* pRole = m_pPlayer_Battle->Get_Ability()->Get_CurrentSkillSet();
 
 	CRole::SKILL eSkill = pRole->Get_Skill_Index(m_iCursor);
 

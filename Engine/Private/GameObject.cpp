@@ -115,6 +115,18 @@ HRESULT CGameObject::Compute_ViewZ()
 	return S_OK;
 }
 
+void CGameObject::SetUp_BillBoard()
+{
+	_float3		vScaled = m_pTransformCom->Get_Scaled();
+	_vector		vLook = m_pTransformCom->Get_State_Vector(CTransform::STATE_LOOK);
+	_vector		vRight = XMVector3Cross(XMVectorSet(0.f, 1.f, 0.f, 0.f), vLook);
+
+	vLook = XMVector3Cross(vRight, XMVectorSet(0.f, 1.f, 0.f, 0.f));
+
+	m_pTransformCom->Set_State(CTransform::STATE::STATE_RIGHT, XMVector3Normalize(vRight) * vScaled.x);
+	m_pTransformCom->Set_State(CTransform::STATE::STATE_LOOK, XMVector3Normalize(vLook) * vScaled.z);
+}
+
 void CGameObject::Free()
 {
 	__super::Free();

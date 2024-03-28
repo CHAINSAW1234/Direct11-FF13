@@ -10,16 +10,20 @@ public:
 	enum ROLE { ATTACKER, BLASTER, HEALER, ROLE_END };
 
 private:
-	const static wstring strRollName[ROLE_END];
-
+	const static wstring strRoleName[ROLE_END];
+	const static _float4 vRoleColor[ROLE_END];
 private:
 	CAbility();
 	~CAbility() = default;
 
 public:
-	size_t	Get_RoleCount() { return m_Role.size(); }
+	static wstring Get_RoleName(ROLE eRole) { return strRoleName[eRole]; }
+	static _float4 Get_RoleColor(ROLE eRole) { return vRoleColor[eRole]; }
 
-	CRole* Get_CurrentRole();
+	size_t	Get_RoleCount() { return m_Role.size(); }
+	
+	ROLE	Get_CurrentRole() { return m_eCurrentRole; }
+	CRole* Get_CurrentSkillSet();
 	CRole* Get_Role(ROLE eRole);
 	HRESULT Add_Role(ROLE eRole);
 	HRESULT Delete_Role(ROLE eRole);

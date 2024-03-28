@@ -13,6 +13,7 @@
 #include "UI_ATB.h"
 #include "UI_Chr.h"
 #include "UI_Chain.h"
+#include "UI_Monster_Hp.h"
 
 #include "Inventory.h"
 #include "Chr.h"
@@ -255,6 +256,11 @@ HRESULT CLoader::Loading_Prototype()
 		CUI_Chain::Create(m_pDevice, m_pContext))))
 		return E_FAIL;
 
+	/* For.Prototype_GameObject_UI_Monster_Hp */
+	if (FAILED(m_pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_UI_Monster_Hp"),
+		CUI_Monster_Hp::Create(m_pDevice, m_pContext))))
+		return E_FAIL;
+	
 	/* For.Prototype_GameObject_MapTool */
 	if (FAILED(m_pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_MapTool"),
 		CMapTool::Create(m_pDevice, m_pContext))))

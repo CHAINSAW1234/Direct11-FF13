@@ -265,6 +265,11 @@ void CPlayer_Battle::Change_Chain_Target(CGameObject* pTargetObject)
 	m_pUI_Chain->Change_Target(pTargetObject);
 }
 
+void CPlayer_Battle::Set_Chain_Move()
+{
+	m_pUI_Chain->Set_Movement();
+}
+
 void CPlayer_Battle::Set_CursorPosition(_float3 vCursorPosition)
 {
 	m_vCursorPosition = vCursorPosition;

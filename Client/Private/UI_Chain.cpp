@@ -78,6 +78,9 @@ HRESULT CUI_Chain::Render()
 
 		if (FAILED(m_pVIBufferCom->Render()))
 			return E_FAIL;
+
+		if (FAILED(Render_BreakChain()))
+			return E_FAIL;
 	}
 	else {
 		if (FAILED(m_pShaderCom->Begin(3)))	// inner1	: fRatio, fCurRatio ¹İ¿µ	// pass ¹Ù²Ü°Í
@@ -91,20 +94,28 @@ HRESULT CUI_Chain::Render()
 
 		if (FAILED(m_pVIBufferCom->Render()))
 			return E_FAIL;
+
+		if (FAILED(Render_Chain()))
+			return E_FAIL;
 	}
+
+	if (FAILED(Render_Name()))
+		return E_FAIL;
 
 	return S_OK;
 }
 
 void CUI_Chain::Start()
 {
-	m_fSizeX = 200;
+	m_fSizeX = 300;
 	m_fSizeY = 10;
 	m_fMoveTimeDelta = 1.f;
 	m_vTargetPosition = { 350.f, 200.f, 0.f };
 	m_pTransformCom->Set_Scaled(m_fSizeX, m_fSizeY, 1.f);
 	m_pTransformCom->Set_State(CTransform::STATE_POSITION, XMVectorSetW(XMLoadFloat3(&m_vTargetPosition), 1.f));
-}
+
+	m_vFontPosition = { m_vTargetPosition.x  + (g_iWinSizeX - m_fSizeX) * 0.5f , -m_vTargetPosition.y + g_iWinSizeY * 0.5f + 5.f };
+}	
 
 void CUI_Chain::OnNotify()
 {
@@ -116,13 +127,40 @@ void CUI_Chain::Change_Target(CGameObject* pGameObject)
 	Safe_Release(m_pTarget);
 	m_pTarget = pGameObject;
 	Safe_AddRef(m_pTarget);
-	m_pTransformCom->Set_State(CTransform::STATE_POSITION, ((CTransform*)(m_pTarget->Get_Component(g_strTransformTag)))->Get_State_Vector(CTransform::STATE_POSITION));
+
+	_vector vPos = ((CTransform*)(m_pTarget->Get_Component(g_strTransformTag)))->Get_State_Vector(CTransform::STATE_POSITION);
+
+	_matrix vViewMatrix = m_pGameInstance->Get_Transform_Matrix(CPipeLine::D3DTS_VIEW);
+	_matrix vProjMatrix = m_pGameInstance->Get_Transform_Matrix(CPipeLine::D3DTS_PROJ);
+	vPos = XMVector3TransformCoord(XMVector3TransformCoord(vPos, vViewMatrix), vProjMatrix);
+	_float4 vfPos;
+	XMStoreFloat4(&vfPos, vPos);
+	
+
+	/*vfPos.x = clamp(vfPos.x, -.5f, .5f);
+	vfPos.y = clamp(vfPos.y, -.5f, .5f);*/
+	vfPos.z = 0.f;
+	//vfPos.x += 1.f;
+	//vfPos.y = 1.f - vfPos.y;
+	vfPos.x *= g_iWinSizeX/2;
+	vfPos.y *= g_iWinSizeY/2;
+	vfPos.y += 100;
+	vfPos.z = 0.f;
+	//vfPos.z = 0.f;
+	//vfPos.w = 1.f;
+	//
+	// 
+	// 
+	// 
+	// vfPos = { 0.f,0.f,0.f,1.f };
+	m_pTransformCom->Set_State(CTransform::STATE_POSITION, vfPos);
+
 }
 
 HRESULT CUI_Chain::Bind_ShaderResources()
 {
 	_float4 vColor = { 1.f,0.f,0.f,1.f };
-	_float4 vCurColor = { 1.f,1.f,0.f,1.f };
+	_float4 vCurColor = { 1.f,.8f,0.f,1.f };
 	if (FAILED(__super::Bind_ShaderResources()))
 		return E_FAIL;
 
@@ -178,6 +216,61 @@ HRESULT CUI_Chain::Add_Components()
 	return S_OK;
 }
 
+HRESULT CUI_Chain::Render_Name()
+{
+	_float2 vFontPosition = m_vFontPosition;
+	vFontPosition.y -= 35.f;
+
+	if (FAILED(m_pGameInstance->Render_Font(g_strFont14Tag, m_strName, { vFontPosition.x - 1, vFontPosition.y - 1 }, XMVectorSet(0.f, 0.f, 0.f, 1.f), 0.f)))
+		return E_FAIL;
+	if (FAILED(m_pGameInstance->Render_Font(g_strFont14Tag, m_strName, { vFontPosition.x - 1, vFontPosition.y + 1 }, XMVectorSet(0.f, 0.f, 0.f, 1.f), 0.f)))
+		return E_FAIL;
+	if (FAILED(m_pGameInstance->Render_Font(g_strFont14Tag, m_strName, { vFontPosition.x + 1, vFontPosition.y - 1 }, XMVectorSet(0.f, 0.f, 0.f, 1.f), 0.f)))
+		return E_FAIL;
+	if (FAILED(m_pGameInstance->Render_Font(g_strFont14Tag, m_strName, { vFontPosition.x + 1, vFontPosition.y + 1 }, XMVectorSet(0.f, 0.f, 0.f, 1.f), 0.f)))
+		return E_FAIL;
+	if (FAILED(m_pGameInstance->Render_Font(g_strFont14Tag, m_strName, vFontPosition, XMVectorSet(1.f, 1.f, 1.f, 1.f), 0.f)))
+		return E_FAIL;
+
+	return S_OK;
+}
+
+HRESULT CUI_Chain::Render_BreakChain()
+{
+	_float4 vColor = { 1.f,0.83f,0.f,1.f };
+	_float2 vFontPosition = m_vFontPosition;
+	wstring strChain = to_wstring((_int)m_fChain);
+	if (FAILED(m_pGameInstance->Render_Font(g_strFontEng32Tag, strChain, vFontPosition, XMLoadFloat4(&vColor), 0.f)))
+		return E_FAIL;
+
+	vFontPosition.x += 130.f;
+
+	strChain = TEXT(".") + to_wstring((_int(m_fChain * 10)) % 10);
+
+	if (FAILED(m_pGameInstance->Render_Font(g_strFontNum24Tag, strChain, vFontPosition, XMLoadFloat4(&vColor), 0.f)))
+		return E_FAIL;
+
+	return S_OK;;
+}
+
+HRESULT CUI_Chain::Render_Chain()
+{
+	_float2 vFontPosition = m_vFontPosition;
+	wstring strChain = to_wstring((_int)m_fChain);
+	if (FAILED(m_pGameInstance->Render_Font(g_strFontEng32Tag, strChain, vFontPosition, XMVectorSet(1.f, 1.f, 1.f, 1.f), 0.f)))
+		return E_FAIL;
+
+	vFontPosition.x += 110.f;
+
+
+	strChain = TEXT(".") + to_wstring((_int(m_fChain * 10)) % 10) + TEXT("%/") + to_wstring((_int)m_fStagger) + TEXT(".") + to_wstring((_int(m_fStagger * 10)) % 10) + TEXT("%");
+	
+	if (FAILED(m_pGameInstance->Render_Font(g_strFontNum24Tag, strChain, vFontPosition, XMVectorSet(1.f, 1.f, 1.f, 1.f), 0.f)))
+		return E_FAIL;
+
+	return S_OK;;
+}
+
 void CUI_Chain::Set_Movement()
 {
 	m_fMoveTimeDelta = 0.f;
@@ -212,6 +305,12 @@ void CUI_Chain::Move(_float fTimeDelta)
 	XMStoreFloat4(&vCurPos, XMVectorSetW(XMVectorLerp(m_pTransformCom->Get_State_Vector(CTransform::STATE_POSITION), XMLoadFloat3(&m_vTargetPosition), m_fMoveTimeDelta), 1.f));
 
 	m_pTransformCom->Set_State(CTransform::STATE_POSITION, vCurPos);
+
+	vCurPos.x += (g_iWinSizeX - m_fSizeX) * 0.5f;
+	vCurPos.y = -vCurPos.y + g_iWinSizeY * 0.5f + 5.f;
+	m_vFontPosition = { vCurPos.x, vCurPos.y };
+
+
 }
 
 void CUI_Chain::Update_Ratio()
@@ -225,11 +324,14 @@ void CUI_Chain::Update_Ratio()
 		return;
 	}
 
+	m_strName = pMonster->Get_Name();
 	m_isBreak = pMonster->Get_Break();
-	if(m_isBreak)
+	m_fChain = pMonster->Get_Chain();
+	if (m_isBreak) {
 		m_fBreakTimeDelta = pMonster->Get_BreakTime();
+	}
+
 	else {
-		m_fChain = pMonster->Get_Chain();
 		m_fCurChain = pMonster->Get_CurrentChain();
 		m_fStagger = pMonster->Get_Stagger();
 	}

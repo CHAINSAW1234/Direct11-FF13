@@ -1,6 +1,7 @@
 #include "stdafx.h"
 #include "Monster.h"
 
+#include "UI.h"
 #include "FSM.h"
 #include "Model.h"
 #include "Shader.h"
@@ -34,6 +35,8 @@ HRESULT CMonster::Initialize(void* pArg)
     if (FAILED(Add_Components()))
         return E_FAIL;
 
+    if (FAILED(Create_UI_Hp()))
+        return E_FAIL;
     return S_OK;
 }
 
@@ -91,6 +94,12 @@ void CMonster::Set_Target(CGameObject* pTargetObject)
     Safe_AddRef(m_pTargetObject);
 }
 
+void CMonster::Set_isTarget(_bool isTarget)
+{
+    m_isTarget = isTarget;
+    NotifyObserver();
+}
+
 _uint CMonster::Get_CurrentAnimationIndex()
 {
     if (nullptr == m_pModelCom)
@@ -127,14 +136,25 @@ void CMonster::Min_Hp(_int iHp)
 
 void CMonster::Add_Chain(_float fChain)
 {
-
     m_fChain += fChain;
     m_fCurChain = m_fChain;
     m_fMagnification = 1 / (m_fStagger - 100) * 0.1f;
     if (!m_isBreak && m_fChain >= m_fStagger) {
+        m_fChain = m_fStagger + 100.f;
         m_isBreak = true;
         m_fBreakTimeDelta = 0.f;
     }
+}
+
+HRESULT CMonster::Create_UI_Hp()
+{
+    CUI::UI_DESC UI_desc = {};
+    UI_desc.pObserver_Hander = this;
+
+    if (FAILED(m_pGameInstance->Add_Clone(g_Level, TEXT("Layer_UI"), TEXT("Prototype_GameObject_UI_Monster_Hp"), &UI_desc)))
+        return E_FAIL;
+
+    return S_OK;
 }
 
 void CMonster::Update_Chain(_float fTimeDelta)

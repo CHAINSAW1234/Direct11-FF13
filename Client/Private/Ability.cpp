@@ -1,8 +1,8 @@
 #include "stdafx.h"
 #include "Ability.h"
 
-const wstring CAbility::strRollName[ROLE_END] = { TEXT("ATK"), TEXT("BLA"), TEXT("HLR") };
-
+const wstring CAbility::strRoleName[ROLE_END] = { TEXT("ATK"), TEXT("BLA"), TEXT("HLR") };
+const _float4 CAbility::vRoleColor[ROLE_END] = { {1.f,0.f,0.f,1.f}, {0.f,0.f,1.f,1.f}, { 0.f,1.f,0.f,1.f } };
 CAbility::CAbility()
 	: CBase{}
 {
@@ -16,7 +16,7 @@ CRole* CAbility::Get_Role(ROLE eRole)
 	return pRole;
 }
 
-CRole* CAbility::Get_CurrentRole()
+CRole* CAbility::Get_CurrentSkillSet()
 {
 	return Find_Role(m_eCurrentRole);
 }

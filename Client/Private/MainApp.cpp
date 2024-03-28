@@ -87,7 +87,6 @@ HRESULT CMainApp::Render()
 #ifdef _DEBUG
 
 	m_pGameInstance->Render_Font(g_strFont14Tag, m_szFPS, _float2(0.f, 0.f), XMVectorSet(1.f, 0.f, 0.f, 1.f), 0.f);
-	m_pGameInstance->Render_Font(g_strFontNumTag, TEXT("ABCDEFGHIJKLMNOPQRSTUVWXYZ"), _float2(100.f, 100.f), XMVectorSet(1.f, 0.f, 0.f, 1.f), 0.f);
 
 #endif
 
@@ -312,7 +311,14 @@ HRESULT CMainApp::Ready_Fonts()
 		return E_FAIL;
 	if (FAILED(m_pGameInstance->Add_Font(m_pDevice, m_pContext, g_strFont14Tag, TEXT("../Bin/Resources/Fonts/Default14.spriteFont"))))
 		return E_FAIL;
-	if (FAILED(m_pGameInstance->Add_Font(m_pDevice, m_pContext, g_strFontNumTag, TEXT("../Bin/Resources/Fonts/NumFont.spriteFont"))))
+	if (FAILED(m_pGameInstance->Add_Font(m_pDevice, m_pContext, g_strFontAlphaTag, TEXT("../Bin/Resources/Fonts/Font_Alpha.spriteFont"))))
+		return E_FAIL;
+
+	if (FAILED(m_pGameInstance->Add_Font(m_pDevice, m_pContext, g_strFontEng32Tag, TEXT("../Bin/Resources/Fonts/Font_Eng32.spriteFont"))))
+		return E_FAIL;
+	if (FAILED(m_pGameInstance->Add_Font(m_pDevice, m_pContext, g_strFontNum24Tag, TEXT("../Bin/Resources/Fonts/Font_Num24.spriteFont"))))
+		return E_FAIL;
+	if (FAILED(m_pGameInstance->Add_Font(m_pDevice, m_pContext, g_strFontNum14Tag, TEXT("../Bin/Resources/Fonts/Font_Num14.spriteFont"))))
 		return E_FAIL;
 	return S_OK;
 }

@@ -23,11 +23,16 @@ public:
 
 public:
 	void Change_Target(CGameObject* pGameObject);
+	void Set_Movement();
 
 private:
 	virtual HRESULT Bind_ShaderResources() override;
 	HRESULT Add_Components();
-	void	Set_Movement();
+
+	HRESULT Render_Name();
+	HRESULT Render_BreakChain();
+	HRESULT Render_Chain();
+
 	void	Update_Position(_float fTimeDelta);
 	void	Move(_float fTimeDelta);
 	void	Update_Ratio();
@@ -42,11 +47,13 @@ private:
 	//CPlayer_Battle* m_pPlayerInfo = { nullptr };
 	CGameObject* m_pTarget = { nullptr };
 
+	wstring m_strName = {};
+
 	_bool m_isChasing = { false };						// true이면 직교 투영, false이면 원근 투영 할 것 
 	_float m_fMaskMovement = { 0.f };
 	_float	m_fMoveTimeDelta = { 0.f };
 	_float3 m_vTargetPosition = { 0.f,0.f,0.f };		// 이 Pnal이 이동시의 도착 위치
-
+	_float2 m_vFontPosition = {};
 	// 이하 변수들은 몬스터의 Chain과 관련된 데이터이다
 	_bool  m_isBreak = { false };
 	_float m_fBreakTimeDelta = { 0.f };
