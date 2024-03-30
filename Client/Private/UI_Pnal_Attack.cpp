@@ -51,7 +51,7 @@ HRESULT CUI_Pnal_Attack::Late_Tick(_float fTimeDelta)
 
 	_float4 vPosition = m_pTransformCom->Get_State_Float4(CTransform::STATE_POSITION);
 	m_vFontPosition = { vPosition.x + g_iWinSizeX  * 0.5f , -vPosition.y + 3 + (g_iWinSizeY - m_fSizeY) * 0.5f };
-	m_vFontPosition.x -= (m_strName.size()+1) * 0.5 * 14 ;
+	m_vFontPosition.x -= (m_strName.size()+1) * 0.5f * 14.f ;
 
 
 

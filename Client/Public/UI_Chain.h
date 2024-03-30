@@ -33,7 +33,9 @@ private:
 	HRESULT Render_BreakChain();
 	HRESULT Render_Chain();
 
+	void	Parse_World_to_ViewPort();
 	void	Update_Position(_float fTimeDelta);
+
 	void	Move(_float fTimeDelta);
 	void	Update_Ratio();
 	void	Check_Target();

@@ -49,7 +49,6 @@ HRESULT CLevel_Manager::Request_Open_Level(_uint iNewLevelID, CLevel* pNewLevel)
 {
 	m_queueRequestLevel.push({ iNewLevelID , pNewLevel });
 
-
 	return S_OK;
 }
 

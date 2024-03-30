@@ -40,7 +40,7 @@ private:
 	_uint m_iCurrent_Mesh_Index = { INFINITE };
 
 private:
-	CTexture*				m_PrevTextures;		// 미리 저장해 둔 모델의 기본 이미지
+	CTexture*				m_PrevTextures = { nullptr };		// 미리 저장해 둔 모델의 기본 이미지
 	vector<wstring>			m_strModelTags;		// 이미지와 매칭되는 실제 객체의 Tag
 
 	vector<CMapObject*>		m_MapObjects;		// 생성된 객체

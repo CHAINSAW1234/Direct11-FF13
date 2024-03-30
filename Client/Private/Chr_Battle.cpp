@@ -51,7 +51,11 @@ HRESULT CChr_Battle::Initialize(void* pArg)
 void CChr_Battle::Tick(_float fTimeDelta)
 {
 	m_pFSMCom->Update(fTimeDelta);
+	if(nullptr != m_pColliderCom)
+		m_pColliderCom->Tick(m_pTransformCom->Get_WorldMatrix());
 
+	for (auto& pPartObject : m_PartObjects)
+		pPartObject->Tick(fTimeDelta);
 }
 
 HRESULT CChr_Battle::Late_Tick(_float fTimeDelta)
@@ -67,6 +71,12 @@ HRESULT CChr_Battle::Late_Tick(_float fTimeDelta)
 
 HRESULT CChr_Battle::Render()
 {
+
+#ifdef _DEBUG
+	if (nullptr != m_pColliderCom)
+		m_pColliderCom->Render();
+#endif 
+
 	return S_OK;
 }
 
@@ -208,6 +218,7 @@ void CChr_Battle::Free()
 	m_PartObjects.clear();
 
 	Safe_Release(m_pFSMCom);
+	Safe_Release(m_pColliderCom);
 	Safe_Release(m_pAbility);
 	Safe_Release(m_pTargetObject);
 }

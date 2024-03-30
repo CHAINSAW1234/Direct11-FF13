@@ -90,7 +90,6 @@ HRESULT CMapTool::Render()
 void CMapTool::Set_PickingTarget()
 {
     for (auto& pMapObject : m_MapObjects) {
-        _float3 vOutPos;
         if (pMapObject->Compute_Picking()) {
             m_pTargetObject = pMapObject;
         }

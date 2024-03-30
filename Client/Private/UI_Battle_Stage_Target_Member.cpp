@@ -1,6 +1,7 @@
 #include "stdafx.h"
 #include "UI_Battle_Stage_Target_Member.h"
 #include "Player_Battle.h"
+#include "Chr_Battle_Light.h"
 #include "UI_Pnal.h"
 
 CUI_Battle_Stage_Target_Member::CUI_Battle_Stage_Target_Member(CPlayer_Battle* pPlayer_Battle)
@@ -46,7 +47,7 @@ HRESULT CUI_Battle_Stage_Target_Member::Add_Pnals()
 
 	UI_Pnal_Desc.vStartPosition.y -= 33.f;
 	UI_Pnal_Desc.vTargetPosition.y -= 33.f;
-	//UI_Pnal_Desc.strName = pMonster->Get_Name();
+	UI_Pnal_Desc.strName = m_pPlayer_Battle->Get_Leader()->Get_Name();
 	pPnal = dynamic_cast<CUI_Pnal*>(m_pGameInstance->Add_Clone_With_Object(g_Level, TEXT("Layer_Pnal"), TEXT("Prototype_GameObject_UI_Pnal"), &UI_Pnal_Desc));
 	m_Pnals.push_back(pPnal);
 
@@ -59,7 +60,7 @@ HRESULT CUI_Battle_Stage_Target_Member::Add_Pnals()
 		UI_Pnal_Desc.vStartPosition.x += 15;
 		UI_Pnal_Desc.vStartPosition.y -= 33.f;
 		UI_Pnal_Desc.vTargetPosition.y -= 33.f;
-		//UI_Pnal_Desc.strName = pMonster->Get_Name();
+		UI_Pnal_Desc.strName = pMemeber->Get_Name();
 		pPnal = dynamic_cast<CUI_Pnal*>(m_pGameInstance->Add_Clone_With_Object(g_Level, TEXT("Layer_Pnal"), TEXT("Prototype_GameObject_UI_Pnal"), &UI_Pnal_Desc));
 		m_Pnals.push_back(pPnal);
 	}

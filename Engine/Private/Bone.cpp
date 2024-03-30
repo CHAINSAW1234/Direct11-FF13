@@ -38,7 +38,7 @@ HRESULT CBone::Save_Bone(ofstream& OFS)
 {
 	size_t szNameLength = strlen(m_szName);
 	OFS.write(reinterpret_cast<const char*>(&szNameLength), sizeof(size_t));
-	OFS.write(reinterpret_cast<const char*>(&m_szName), sizeof(char) * szNameLength);
+	OFS.write(reinterpret_cast<const char*>(&m_szName), sizeof(_char) * szNameLength);
 	OFS.write(reinterpret_cast<const char*>(&m_TransformationMatrix), sizeof(_float4x4));
 	OFS.write(reinterpret_cast<const char*>(&m_iParentBoneIndex), sizeof(_int));
 

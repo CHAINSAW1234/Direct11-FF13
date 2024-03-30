@@ -1,6 +1,6 @@
 #include "stdafx.h"
 #include "Weapon_Anim.h"
-
+#include "Collider.h"
 #include "Bone.h"
 
 CWeapon_Anim::CWeapon_Anim(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
@@ -31,7 +31,7 @@ HRESULT CWeapon_Anim::Initialize(void* pArg)
 	if (FAILED(__super::Initialize(pArg)))
 		return E_FAIL;
 
-	if (FAILED(Add_Components(pWeapon_Desc->strModelTag)))
+	if (FAILED(Add_Components(pWeapon_Desc->strModelTag, pWeapon_Desc->Bounding_OBB_Desc, pWeapon_Desc->isAddCollider)))
 		return E_FAIL;
 
 	return S_OK;
@@ -39,6 +39,17 @@ HRESULT CWeapon_Anim::Initialize(void* pArg)
 
 void CWeapon_Anim::Tick(_float fTimeDelta)
 {
+	_matrix		SocketMatrix = XMLoadFloat4x4(m_pSocket->Get_CombinedTransformationMatrix());
+
+	SocketMatrix.r[0] = XMVector3Normalize(SocketMatrix.r[0]);
+	SocketMatrix.r[1] = XMVector3Normalize(SocketMatrix.r[1]);
+	SocketMatrix.r[2] = XMVector3Normalize(SocketMatrix.r[2]);
+
+	XMStoreFloat4x4(&m_WorldMatrix, m_pTransformCom->Get_WorldMatrix() * SocketMatrix * XMLoadFloat4x4(m_pParentMatrix));
+
+	if (nullptr != m_pColliderCom)
+		m_pColliderCom->Tick(XMLoadFloat4x4(&m_WorldMatrix));
+
 }
 
 HRESULT CWeapon_Anim::Late_Tick(_float fTimeDelta)
@@ -79,10 +90,15 @@ HRESULT CWeapon_Anim::Render()
 		m_pModelCom->Render(i);
 	}
 
+#ifdef _DEBUG
+	if (nullptr != m_pColliderCom)
+		m_pColliderCom->Render();
+#endif 
+
 	return S_OK;
 }
 
-HRESULT CWeapon_Anim::Add_Components(const wstring& strModelTag)
+HRESULT CWeapon_Anim::Add_Components(const wstring& strModelTag, CBounding_OBB::BOUNDING_OBB_DESC Bounding_OBB_Desc, _bool isAddCollider)
 {
 	/* For.Com_Shader */
 	if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_Shader_VtxAnimModel"),
@@ -93,6 +109,11 @@ HRESULT CWeapon_Anim::Add_Components(const wstring& strModelTag)
 	if (FAILED(__super::Add_Component(g_Level, strModelTag,
 		TEXT("Com_Model"), (CComponent**)&m_pModelCom)))
 		return E_FAIL;
+
+	if(isAddCollider)
+		if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_Collider_OBB"),
+		TEXT("Com_Collider"), (CComponent**)&m_pColliderCom, &Bounding_OBB_Desc)))
+			return E_FAIL;
 
 	return S_OK;
 }
@@ -166,4 +187,5 @@ void CWeapon_Anim::Free()
 	Safe_Release(m_pSocket);
 	Safe_Release(m_pShaderCom);
 	Safe_Release(m_pModelCom);
+	Safe_Release(m_pColliderCom);
 }

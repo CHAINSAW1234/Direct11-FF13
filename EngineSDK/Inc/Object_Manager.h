@@ -27,7 +27,6 @@ public:
 	class CGameObject* Clone_GameObject(const wstring& strPrototypeTag, void* pArg);														// Add_Clone 하지 않는 함수
 	size_t	Get_LayerCnt(_uint iLevelIndex, const wstring& strLayerTag);
 
-
 	void Tick(_float fTimeDelta);
 	void Start();
 	void Late_Tick(_float fTimeDelta);

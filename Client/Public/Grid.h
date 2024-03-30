@@ -24,8 +24,8 @@ public:
 	virtual HRESULT Render() override;
 
 private:
-	CShader*			m_pShaderCom;
-	CVIBuffer_Rect*		m_pVIBufferCom;
+	CShader* m_pShaderCom = { nullptr };
+	CVIBuffer_Rect* m_pVIBufferCom = { nullptr };
 
 private:
 	HRESULT Add_Components();

@@ -9,6 +9,7 @@
 #include "Camera_Field.h"
 
 #include "Chr_Battle_Light.h"
+#include "Troup.h"
 #include "Monster.h"
 
 CLevel_Battle::CLevel_Battle(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
@@ -18,6 +19,8 @@ CLevel_Battle::CLevel_Battle(ID3D11Device* pDevice, ID3D11DeviceContext* pContex
 
 HRESULT CLevel_Battle::Initialize()
 {
+    g_Level = LEVEL_BATTLE;
+
     if (FAILED(__super::Initialize()))
         return E_FAIL;
 
@@ -148,8 +151,8 @@ HRESULT CLevel_Battle::Ready_Layer_Camera(const wstring& strLayerTag)
 
 HRESULT CLevel_Battle::Ready_Layer_BackGround(const wstring& strLayerTag)
 {
-    if (FAILED(m_pGameInstance->Add_Clone(g_Level, strLayerTag, TEXT("Prototype_GameObject_Grid"))))
-        return E_FAIL;
+    //if (FAILED(m_pGameInstance->Add_Clone(g_Level, strLayerTag, TEXT("Prototype_GameObject_Grid"))))
+    //    return E_FAIL;
     return S_OK;
 }
 
@@ -167,10 +170,29 @@ HRESULT CLevel_Battle::Ready_Layer_Chr(const wstring& strLayerTag)
 
 HRESULT CLevel_Battle::Ready_Layer_Monster(const wstring& strLayerTag)
 {
-    for (int i = 0; i < 3; ++i) {
-        if (FAILED(m_pGameInstance->Add_Clone(g_Level, strLayerTag, TEXT("Prototype_GameObject_Leopard"))))
+    // write file해서 읽어오기
+   /* string filepath = "../Bin/DataFiles/Troup.dat";
+    ifstream IFS{ filepath, ios::in | ios::binary };
+
+    _int iNum = { 0 };
+    IFS.read(reinterpret_cast<char*>(&iNum), sizeof(_int));
+
+    for (_int i = 0; i < 1; ++i) {
+        size_t iStringNum = { 0 };
+        _tchar strPrototypeTag[MAX_PATH] = {};
+
+        IFS.read(reinterpret_cast<char*>(&iStringNum), sizeof(size_t));
+        IFS.read(reinterpret_cast<char*>(&strPrototypeTag), sizeof(_tchar) * iStringNum);
+        
+        if (FAILED(m_pGameInstance->Add_Clone(g_Level, strLayerTag, strPrototypeTag)))
             return E_FAIL;
     }
+
+    IFS.close();*/
+
+
+    if (FAILED(m_pGameInstance->Add_Clone(g_Level, strLayerTag, TEXT("Prototype_GameObject_Leopard"))))
+        return E_FAIL;
 
     return S_OK;
 }
@@ -186,7 +208,7 @@ CLevel_Battle* CLevel_Battle::Create(ID3D11Device* pDevice, ID3D11DeviceContext*
         Safe_Release(pInstance);
     }
 
-return pInstance;
+    return pInstance;
 }
 
 void CLevel_Battle::Free()

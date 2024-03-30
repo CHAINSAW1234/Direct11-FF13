@@ -14,7 +14,7 @@ protected:
 public:
 	virtual HRESULT Initialize();
 	virtual void Tick(_float fTimeDelta);
-	void	Start();
+	virtual void Start();
 	virtual HRESULT Render();
 
 

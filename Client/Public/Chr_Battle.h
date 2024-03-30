@@ -8,6 +8,7 @@ BEGIN(Engine)
 class CFSM;
 class CModel;
 class CShader;
+class CCollider;
 class CPartObject;
 END
 
@@ -72,6 +73,12 @@ protected:
 	void			Update_Command();
 
 protected:
+	CFSM* m_pFSMCom = { nullptr };
+	CCollider* m_pColliderCom = { nullptr };
+	CAbility* m_pAbility = { nullptr };
+
+	vector<CPartObject*> m_PartObjects; // PartObject를 보관 -> vector가 낫다고 판단, 무기 교체 가능성이 0에 수렴
+
 	wstring m_strChrName = {};
 	_int	m_iMaxHp = { 1 };
 	_int	m_iHp = { 1 };
@@ -80,10 +87,6 @@ protected:
 	_int	m_iNextCommandCount = { 0 };					// AI용 : 매번 연속으로 사용하는 커맨드 개수를 랜덤으로 주기
 	queue<CRole::SKILL> m_Commands;
 	_float4	m_vStartPosition = { 0.f,0.f,0.f,0.f };
-
-	CFSM* m_pFSMCom = { nullptr };
-	CAbility* m_pAbility = { nullptr };
-	vector<CPartObject*> m_PartObjects; // PartObject를 보관 -> vector가 낫다고 판단, 무기 교체 가능성이 0에 수렴
 
 	CGameObject* m_pTargetObject = { nullptr };
 

@@ -112,18 +112,6 @@
     <Filter Include="01.Levels\Battle">
       <UniqueIdentifier>{4c83c9f4-eec9-496e-adfa-8c2a87addec6}</UniqueIdentifier>
     </Filter>
-    <Filter Include="04.Tool">
-      <UniqueIdentifier>{e891e4cc-0e2a-4c07-8237-84151f973697}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="04.Tool\ImGUI_Manager">
-      <UniqueIdentifier>{93a60aa1-4561-4bfd-8cdf-53fc3a87d7b7}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="04.Tool\MapTool">
-      <UniqueIdentifier>{baf87ab4-a580-4033-af33-f67b69e39352}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="04.Tool\Grid">
-      <UniqueIdentifier>{361cfe83-dc5d-4c85-bce0-b5a6a5336b45}</UniqueIdentifier>
-    </Filter>
     <Filter Include="03.UI">
       <UniqueIdentifier>{26f02351-70da-4d79-be15-7d457a3942b0}</UniqueIdentifier>
     </Filter>
@@ -141,18 +129,6 @@
     </Filter>
     <Filter Include="03.UI\Battle\UI_Cursor">
       <UniqueIdentifier>{8988a428-1f6c-464b-9eb8-2b2002989556}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="02.GameObjects\Inventory">
-      <UniqueIdentifier>{7fd4db24-0678-4943-8efa-77fa9329d58d}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="02.GameObjects\Optima">
-      <UniqueIdentifier>{00f5fadc-97b8-4b6b-8e14-1e99d240a0b4}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="02.GameObjects\Optima\Ability">
-      <UniqueIdentifier>{fb285cf8-82d9-4f4d-8e3a-135e009c626c}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="02.GameObjects\Optima\Role">
-      <UniqueIdentifier>{a628c111-b9b2-4404-8126-e375d8676e62}</UniqueIdentifier>
     </Filter>
     <Filter Include="03.UI\Battle\UI_Pnal\UI_Pnal_Attack">
       <UniqueIdentifier>{89672019-5e9b-490b-9879-3731d92e0cb7}</UniqueIdentifier>
@@ -280,6 +256,39 @@
     <Filter Include="03.UI\Battle\UI_Monster_Hp">
       <UniqueIdentifier>{eee862fd-b5a2-4192-b4b1-ee86df379428}</UniqueIdentifier>
     </Filter>
+    <Filter Include="05.Tool">
+      <UniqueIdentifier>{e891e4cc-0e2a-4c07-8237-84151f973697}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="05.Tool\ImGUI_Manager">
+      <UniqueIdentifier>{93a60aa1-4561-4bfd-8cdf-53fc3a87d7b7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="05.Tool\MapTool">
+      <UniqueIdentifier>{baf87ab4-a580-4033-af33-f67b69e39352}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="05.Tool\Grid">
+      <UniqueIdentifier>{361cfe83-dc5d-4c85-bce0-b5a6a5336b45}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="04.Custom">
+      <UniqueIdentifier>{a1a8ac96-9f62-4546-9b36-ec30934ff01f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="04.Custom\Optima">
+      <UniqueIdentifier>{00f5fadc-97b8-4b6b-8e14-1e99d240a0b4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="04.Custom\Optima\Ability">
+      <UniqueIdentifier>{fb285cf8-82d9-4f4d-8e3a-135e009c626c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="04.Custom\Optima\Role">
+      <UniqueIdentifier>{a628c111-b9b2-4404-8126-e375d8676e62}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="04.Custom\Inventory">
+      <UniqueIdentifier>{7fd4db24-0678-4943-8efa-77fa9329d58d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="04.Custom\Troup">
+      <UniqueIdentifier>{c8226e7f-e115-40a2-8f4a-0be39f41f8c9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\Monster\Leopard\State\Leopard_State_Field">
+      <UniqueIdentifier>{6166dde2-f0a7-45fa-bf28-2409019313cb}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\public\MainApp.h">
@@ -337,10 +346,10 @@
       <Filter>01.Levels\MapTool</Filter>
     </ClInclude>
     <ClInclude Include="..\Public\ImGUI_Manager.h">
-      <Filter>04.Tool\ImGUI_Manager</Filter>
+      <Filter>05.Tool\ImGUI_Manager</Filter>
     </ClInclude>
     <ClInclude Include="..\Public\MapTool.h">
-      <Filter>04.Tool\MapTool</Filter>
+      <Filter>05.Tool\MapTool</Filter>
     </ClInclude>
     <ClInclude Include="Client.h">
       <Filter>98.Default\Default</Filter>
@@ -361,7 +370,7 @@
       <Filter>02.GameObjects\Camera\Camera_Field</Filter>
     </ClInclude>
     <ClInclude Include="..\Public\Grid.h">
-      <Filter>04.Tool\Grid</Filter>
+      <Filter>05.Tool\Grid</Filter>
     </ClInclude>
     <ClInclude Include="..\Public\MapObject.h">
       <Filter>02.GameObjects\MapObject</Filter>
@@ -475,16 +484,16 @@
       <Filter>03.UI\Battle\UI_Cursor</Filter>
     </ClInclude>
     <ClInclude Include="..\Public\Inventory.h">
-      <Filter>02.GameObjects\Inventory</Filter>
+      <Filter>04.Custom\Inventory</Filter>
     </ClInclude>
     <ClInclude Include="..\Public\Role.h">
-      <Filter>02.GameObjects\Optima\Role</Filter>
+      <Filter>04.Custom\Optima\Role</Filter>
     </ClInclude>
     <ClInclude Include="..\Public\Optima.h">
-      <Filter>02.GameObjects\Optima</Filter>
+      <Filter>04.Custom\Optima</Filter>
     </ClInclude>
     <ClInclude Include="..\Public\Ability.h">
-      <Filter>02.GameObjects\Optima\Ability</Filter>
+      <Filter>04.Custom\Optima\Ability</Filter>
     </ClInclude>
     <ClInclude Include="..\Public\UI_Pnal_Attack.h">
       <Filter>03.UI\Battle\UI_Pnal\UI_Pnal_Attack</Filter>
@@ -501,7 +510,7 @@
     <ClInclude Include="..\Public\UI_Pnal_Item.h">
       <Filter>03.UI\Battle\UI_Pnal\UI_Pnal_Item</Filter>
     </ClInclude>
-    <ClInclude Include="..\Public\Chr_Battle_Light_State_Preprare.h">
+    <ClInclude Include="..\Public\Chr_Battle_Light_State_Prepare.h">
       <Filter>02.GameObjects\Chr\Chr_Battle\Light\State\Chr_Battle_Light_State_Prepare</Filter>
     </ClInclude>
     <ClInclude Include="..\Public\Chr_Battle_Sazh.h">
@@ -564,6 +573,9 @@
     <ClInclude Include="..\Public\UI_Monster_Hp.h">
       <Filter>03.UI\Battle\UI_Monster_Hp</Filter>
     </ClInclude>
+    <ClInclude Include="..\Public\Troup.h">
+      <Filter>04.Custom\Troup</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\private\MainApp.cpp">
@@ -618,10 +630,10 @@
       <Filter>01.Levels\MapTool</Filter>
     </ClCompile>
     <ClCompile Include="..\Private\ImGUI_Manager.cpp">
-      <Filter>04.Tool\ImGUI_Manager</Filter>
+      <Filter>05.Tool\ImGUI_Manager</Filter>
     </ClCompile>
     <ClCompile Include="..\Private\MapTool.cpp">
-      <Filter>04.Tool\MapTool</Filter>
+      <Filter>05.Tool\MapTool</Filter>
     </ClCompile>
     <ClCompile Include="Client.cpp">
       <Filter>98.Default\Default</Filter>
@@ -636,7 +648,7 @@
       <Filter>02.GameObjects\Camera\Camera_Field</Filter>
     </ClCompile>
     <ClCompile Include="..\Private\Grid.cpp">
-      <Filter>04.Tool\Grid</Filter>
+      <Filter>05.Tool\Grid</Filter>
     </ClCompile>
     <ClCompile Include="..\Private\MapObject.cpp">
       <Filter>02.GameObjects\MapObject</Filter>
@@ -744,16 +756,16 @@
       <Filter>03.UI\Battle\UI_Cursor</Filter>
     </ClCompile>
     <ClCompile Include="..\Private\Inventory.cpp">
-      <Filter>02.GameObjects\Inventory</Filter>
+      <Filter>04.Custom\Inventory</Filter>
     </ClCompile>
     <ClCompile Include="..\Private\Role.cpp">
-      <Filter>02.GameObjects\Optima\Role</Filter>
+      <Filter>04.Custom\Optima\Role</Filter>
     </ClCompile>
     <ClCompile Include="..\Private\Optima.cpp">
-      <Filter>02.GameObjects\Optima</Filter>
+      <Filter>04.Custom\Optima</Filter>
     </ClCompile>
     <ClCompile Include="..\Private\Ability.cpp">
-      <Filter>02.GameObjects\Optima\Ability</Filter>
+      <Filter>04.Custom\Optima\Ability</Filter>
     </ClCompile>
     <ClCompile Include="..\Private\UI_Pnal_Attack.cpp">
       <Filter>03.UI\Battle\UI_Pnal\UI_Pnal_Attack</Filter>
@@ -767,7 +779,7 @@
     <ClCompile Include="..\Private\UI_Pnal_Item.cpp">
       <Filter>03.UI\Battle\UI_Pnal\UI_Pnal_Item</Filter>
     </ClCompile>
-    <ClCompile Include="..\Private\Chr_Battle_Light_State_Preprare.cpp">
+    <ClCompile Include="..\Private\Chr_Battle_Light_State_Prepare.cpp">
       <Filter>02.GameObjects\Chr\Chr_Battle\Light\State\Chr_Battle_Light_State_Prepare</Filter>
     </ClCompile>
     <ClCompile Include="..\Private\Chr_Battle_Sazh.cpp">
@@ -829,6 +841,9 @@
     </ClCompile>
     <ClCompile Include="..\Private\UI_Monster_Hp.cpp">
       <Filter>03.UI\Battle\UI_Monster_Hp</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Troup.cpp">
+      <Filter>04.Custom\Troup</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

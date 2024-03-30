@@ -60,6 +60,11 @@ namespace Engine
 		// 각도를 -180 ~ 180도 사이로 세팅
 		_float fDegree = XMConvertToDegrees(fRadian * vCross / abs(vCross)); // 0 ~ 180 사이의 값 
 		// 각도가 0보다 크면 왼쪽이다
+		if (isnan(fDegree))
+			if (XMVector3Equal(XMLoadFloat4(&vDir1), XMVectorScale(XMLoadFloat4(&vDir2), -1)))
+				return 180.f;
+			else 
+				return 0.f;
 		return fDegree;
 	}
 }

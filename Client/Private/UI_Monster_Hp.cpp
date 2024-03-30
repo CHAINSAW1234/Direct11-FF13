@@ -86,7 +86,7 @@ void CUI_Monster_Hp::Start()
     m_iHp = m_iStartHp = m_iCurHp = m_pTargetMonster->Get_MaxHp();
     m_iMaxHp = m_pTargetMonster->Get_MaxHp();
     m_fRatio = 1;
-    m_fSizeX = 220;
+    m_fSizeX = 300;
     m_fSizeY = 5;
     m_fHpLerpTimeDelta = 0.f;
     m_pTransformCom->Set_Scaled(m_fSizeX, m_fSizeY, 1.f);
@@ -165,25 +165,21 @@ void CUI_Monster_Hp::Update_Position()
 
     XMStoreFloat4(&vPos, vPosition);
 
-
-    if (abs(vPos.x) > 1.f || abs(vPos.y) > 1.f)
-        m_isRender = false;
-    else
-        m_isRender = true;
-
     vPos.x *= g_iWinSizeX / 2;
     vPos.y *= g_iWinSizeY / 2;
-    //vPos.y += 100;
     vPos.z = 0.f;
 
-    m_pTransformCom->Set_State(CTransform::STATE_POSITION, vPos);
-    //SetUp_BillBoard();
+    vPos.x = clamp(vPos.x, -(_float)g_iWinSizeX / 3.f, (_float)g_iWinSizeX / 3.f);
+    vPos.y = clamp(vPos.y, -(_float)g_iWinSizeY / 3.f, (_float)g_iWinSizeY / 3.f);
+    vPos.y += 10;
 
+    m_pTransformCom->Set_State(CTransform::STATE_POSITION, vPos);
+    m_vFontPosition = { vPos.x +(g_iWinSizeX - m_fSizeX) * 0.5f ,-vPos.y + g_iWinSizeY * 0.5f - 28.f };
 }
 
 HRESULT CUI_Monster_Hp::Render_Font()
 {
-    if (FAILED(m_pGameInstance->Render_Font(g_strFont14Tag, TEXT("Target"), m_vFontPosition, XMVectorSet(0.f, 0.f, 0.f, 1.f), 0.f)))
+    if (FAILED(m_pGameInstance->Render_Font(g_strFont14Tag, TEXT("Target"), m_vFontPosition, XMVectorSet(1.f, 1.f, 1.f, 1.f), 0.f)))
         return E_FAIL;
 
     return S_OK;

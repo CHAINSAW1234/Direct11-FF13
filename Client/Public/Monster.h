@@ -6,6 +6,7 @@ BEGIN(Engine)
 class CModel;
 class CShader;
 class CFSM;
+class CCollider;
 END
 
 BEGIN(Client)
@@ -27,6 +28,8 @@ public:
 public:
 	/*============================GET============================*/
 	CTransform* Get_Transform() { return m_pTransformCom; }
+	CCollider* Get_Collider() { return m_pColliderCom; }
+	_float4 Get_StartPosition() { return m_vStartPosition; }
 	wstring	Get_Name() { return m_strMonsterName; }
 	_int	Get_Hp() { return m_iHp; }
 	_int	Get_MaxHp() { return m_iMaxHp; }
@@ -59,6 +62,8 @@ protected:
 	CModel*		m_pModelCom = { nullptr };
 	CShader*	m_pShaderCom = { nullptr };
 	CFSM*		m_pFSMCom = { nullptr };
+	CCollider* m_pColliderCom = { nullptr };
+	CGameObject* m_pTargetObject = { nullptr };
 
 	wstring		m_strMonsterName = {};
 	_int		m_iMaxHp = { 1 };
@@ -75,7 +80,7 @@ protected:
 	_float		m_fStagger = { 100.f };						// Chain이 이 값보다 높아지면 Break상태로 변환
 	_float4		m_vStartPosition = { 0.f,0.f,0.f,1.f };		// 흠
 
-	CGameObject* m_pTargetObject = { nullptr };
+
 
 protected:
 	virtual HRESULT Add_Components();

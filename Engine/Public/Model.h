@@ -42,18 +42,12 @@ public:
 	void Set_Animation(_uint iAnimIndex, _bool isLoop) {
 		if (iAnimIndex < m_iNumAnimations) {	// 애니메이션 전환 중에 애니메이션 변경을 요청하면 멈춤
 
-			//m_Animations[m_iCurrentAnimIndex]->Reset_Animation();
-			//m_iCurrentAnimIndex = iAnimIndex;
-			//m_isLoop = isLoop;
-
 			if (m_iNextAnimIndex == INFINITE)
 				m_fTime_Iinear_Interpolation = 0;
 			m_NextAnimationLoop = isLoop;
 			// 이하 statement는 선형 보간을 위함
 			m_iNextAnimIndex = iAnimIndex;
-
 		}
-
 	}
 
 	void Set_TrackPosition(_float fTrackPosition) {
@@ -107,7 +101,7 @@ private:
 
 	// 오프셋, 회전행렬, 스케일등을 위한 행렬
 	// 모델에 따라 다르므로, 로더에서 처리
-	_float4x4					m_TransformMatrix;
+	_float4x4					m_TransformMatrix = {};
 
 	// 이 모델이 사용하는 모든 뼈를 저장하고 있음
 	vector<class CBone*>		m_Bones;
@@ -119,7 +113,7 @@ private:
 
 	// 셰이더에 전달할 m_OffsetMatrices
 	// 셰이더 바인드 이전에 메쉬로 부터 받아옴
-	_float4x4					m_MeshBoneMatrices[512];
+	_float4x4					m_MeshBoneMatrices[512] = {};
 
 	// 이전 애니메이션 인덱스를 저장
 	_uint						m_iNextAnimIndex = { INFINITE };

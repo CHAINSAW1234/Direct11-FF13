@@ -2,6 +2,9 @@
 #include "Leopard.h"
 
 #include "FSM.h"
+#include "Leopard_State_Idle.h"
+#include "Leopard_State_Attack.h"
+#include "Leopard_State_Hit.h"
 
 CLeopard::CLeopard(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
     : CMonster{ pDevice, pContext }
@@ -26,7 +29,7 @@ HRESULT CLeopard::Initialize(void* pArg)
 {
     GAMEOBJECT_DESC		GameObjectDesc{};
 
-    GameObjectDesc.fSpeedPerSec = 10.f;
+    GameObjectDesc.fSpeedPerSec = 5.f;
     GameObjectDesc.fRotationPerSec = XMConvertToRadians(360.f);
 
     if (FAILED(__super::Initialize(&GameObjectDesc)))
@@ -38,6 +41,10 @@ HRESULT CLeopard::Initialize(void* pArg)
 void CLeopard::Tick(_float fTimeDelta)
 {
     __super::Tick(fTimeDelta);
+
+    m_pFSMCom->Update(fTimeDelta);
+
+    m_pColliderCom->Tick(m_pTransformCom->Get_WorldMatrix());
 
     if (m_pGameInstance->Get_KeyState(KEY_DOWN, DIK_4))
         Add_Chain(1.3f);
@@ -96,8 +103,10 @@ HRESULT CLeopard::Render()
 
 void CLeopard::Start()
 {
+    //m_pTargetObject = m_pGameInstance->Get_GameObject(g_Level, g_strChrLayerTag, 0);
+    //Safe_AddRef(m_pTargetObject);
     Change_Animation(BATTLE_IDLE, true);
-    m_pTransformCom->Set_State(CTransform::STATE_POSITION, XMVectorSet(_float(rand() % 10 - 5), 0.f, _float(rand() % 10 - 5), 1.f));
+    /*m_pTransformCom->Set_State(CTransform::STATE_POSITION, XMVectorSet(_float(rand() % 10 - 5), 0.f, _float(rand() % 10 - 5), 1.f));*/
 }
 
 HRESULT CLeopard::Change_State(STATE eState)
@@ -115,12 +124,24 @@ void CLeopard::Change_Animation(ANIMATION_LEOPARD iAnimationIndex, _bool isLoop)
 
 HRESULT CLeopard::Add_Components()
 {
-    if (FAILED(__super::Add_Components()))
-        return E_FAIL;
-
     /* For.Com_Model */
     if (FAILED(__super::Add_Component(g_Level, TEXT("Prototype_Component_Model_Leopard"),
         TEXT("Com_Model"), (CComponent**)&m_pModelCom)))
+        return E_FAIL;
+
+    /* Com_Collider_Body */
+    CBounding_OBB::BOUNDING_OBB_DESC		ColliderOBBDesc{};
+
+    /* 로컬상의 정보를 셋팅한다. */
+    ColliderOBBDesc.vRotation = _float3(0.f, 0.f, 0.f);
+    ColliderOBBDesc.vSize = _float3(1.f, .9f, 2.f);
+    ColliderOBBDesc.vCenter = _float3(0.f, ColliderOBBDesc.vSize.y * 0.5f, -.3f);
+
+    if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_Collider_OBB"),
+        TEXT("Com_Collider"), (CComponent**)&m_pColliderCom, &ColliderOBBDesc)))
+        return E_FAIL;
+
+    if (FAILED(__super::Add_Components()))
         return E_FAIL;
 
     return S_OK;
@@ -131,6 +152,9 @@ HRESULT CLeopard::Add_Component_FSM()
     if (FAILED(__super::Add_Component_FSM()))
         return E_FAIL;
 
+    m_pFSMCom->Add_State(STATE_IDLE, CLeopard_State_Idle::Create(this));
+
+    Change_State(STATE_IDLE);
     return S_OK;
 }
 

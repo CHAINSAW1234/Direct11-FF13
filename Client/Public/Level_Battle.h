@@ -4,6 +4,7 @@
 #include "Level.h"
 
 BEGIN(Client)
+class CTroup;
 
 class CLevel_Battle final : public CLevel
 {
@@ -16,6 +17,7 @@ public:
 	virtual HRESULT Initialize() override;
 	virtual void Tick(_float fTimeDelta) override;
 	virtual HRESULT Render() override;
+
 
 private:
 	HRESULT Read_Map();

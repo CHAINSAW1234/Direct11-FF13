@@ -1,21 +1,26 @@
 ﻿  Camera.cpp
+  Collider.cpp
+  Component.cpp
+  Component_Manager.cpp
+  FSM_State.cpp
+  GameInstance.cpp
   GameObject.cpp
-  Layer.cpp
-  Object_Manager.cpp
-  PartObject.cpp
-  Renderer.cpp
+  Level.cpp
+  Level_Manager.cpp
+  Mesh.cpp
+C:\Users\stgo5015\Documents\GitHub\Direct11_FF13\Engine\Private\Mesh.cpp(343,26): warning C4244: '인수': '__int64'에서 '_Ty'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+C:\Users\stgo5015\Documents\GitHub\Direct11_FF13\Engine\Private\Mesh.cpp(343,26): warning C4244:         with
+C:\Users\stgo5015\Documents\GitHub\Direct11_FF13\Engine\Private\Mesh.cpp(343,26): warning C4244:         [
+C:\Users\stgo5015\Documents\GitHub\Direct11_FF13\Engine\Private\Mesh.cpp(343,26): warning C4244:             _Ty=Engine::_uint
+C:\Users\stgo5015\Documents\GitHub\Direct11_FF13\Engine\Private\Mesh.cpp(343,26): warning C4244:         ]
+C:\Users\stgo5015\Documents\GitHub\Direct11_FF13\Engine\Private\Mesh.cpp(384,26): warning C4244: '인수': '__int64'에서 '_Ty'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+C:\Users\stgo5015\Documents\GitHub\Direct11_FF13\Engine\Private\Mesh.cpp(384,26): warning C4244:         with
+C:\Users\stgo5015\Documents\GitHub\Direct11_FF13\Engine\Private\Mesh.cpp(384,26): warning C4244:         [
+C:\Users\stgo5015\Documents\GitHub\Direct11_FF13\Engine\Private\Mesh.cpp(384,26): warning C4244:             _Ty=Engine::_uint
+C:\Users\stgo5015\Documents\GitHub\Direct11_FF13\Engine\Private\Mesh.cpp(384,26): warning C4244:         ]
+  Model.cpp
+  Navigation.cpp
+  VIBuffer_Terrain.cpp
+  VIBuffer_Rect.cpp
   코드를 생성하고 있습니다...
-DirectXTKd.lib(PrimitiveBatch.obj) : warning LNK4204: ''에 참조 모듈에 대한 디버깅 정보가 없습니다. 디버깅 정보가 없는 것처럼 개체를 링크합니다.
-DirectXTKd.lib(BasicEffect.obj) : warning LNK4204: ''에 참조 모듈에 대한 디버깅 정보가 없습니다. 디버깅 정보가 없는 것처럼 개체를 링크합니다.
-DirectXTKd.lib(VertexTypes.obj) : warning LNK4204: ''에 참조 모듈에 대한 디버깅 정보가 없습니다. 디버깅 정보가 없는 것처럼 개체를 링크합니다.
-DirectXTKd.lib(SpriteBatch.obj) : warning LNK4204: ''에 참조 모듈에 대한 디버깅 정보가 없습니다. 디버깅 정보가 없는 것처럼 개체를 링크합니다.
-DirectXTKd.lib(SpriteFont.obj) : warning LNK4204: ''에 참조 모듈에 대한 디버깅 정보가 없습니다. 디버깅 정보가 없는 것처럼 개체를 링크합니다.
-DirectXTKd.lib(DDSTextureLoader.obj) : warning LNK4204: ''에 참조 모듈에 대한 디버깅 정보가 없습니다. 디버깅 정보가 없는 것처럼 개체를 링크합니다.
-DirectXTKd.lib(WICTextureLoader.obj) : warning LNK4204: ''에 참조 모듈에 대한 디버깅 정보가 없습니다. 디버깅 정보가 없는 것처럼 개체를 링크합니다.
-DirectXTKd.lib(pch.obj) : warning LNK4204: ''에 참조 모듈에 대한 디버깅 정보가 없습니다. 디버깅 정보가 없는 것처럼 개체를 링크합니다.
-DirectXTKd.lib(EffectCommon.obj) : warning LNK4204: ''에 참조 모듈에 대한 디버깅 정보가 없습니다. 디버깅 정보가 없는 것처럼 개체를 링크합니다.
-DirectXTKd.lib(BufferHelpers.obj) : warning LNK4204: ''에 참조 모듈에 대한 디버깅 정보가 없습니다. 디버깅 정보가 없는 것처럼 개체를 링크합니다.
-DirectXTKd.lib(CommonStates.obj) : warning LNK4204: ''에 참조 모듈에 대한 디버깅 정보가 없습니다. 디버깅 정보가 없는 것처럼 개체를 링크합니다.
-DirectXTKd.lib(BinaryReader.obj) : warning LNK4204: ''에 참조 모듈에 대한 디버깅 정보가 없습니다. 디버깅 정보가 없는 것처럼 개체를 링크합니다.
-     ../Bin/Engine.lib 라이브러리 및 ../Bin/Engine.exp 개체를 생성하고 있습니다.
   Engine.vcxproj -> C:\Users\stgo5015\Documents\GitHub\Direct11_FF13\Engine\Bin\Engine.dll

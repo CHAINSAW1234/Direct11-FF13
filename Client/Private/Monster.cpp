@@ -78,6 +78,12 @@ HRESULT CMonster::Render()
         m_pModelCom->Render(i);
     }
 
+#ifdef _DEBUG
+    if (nullptr != m_pColliderCom)
+        m_pColliderCom->Render();
+
+#endif 
+
     return S_OK;
 }
 
@@ -242,5 +248,6 @@ void CMonster::Free()
     Safe_Release(m_pModelCom);
     Safe_Release(m_pShaderCom);
     Safe_Release(m_pFSMCom);
+    Safe_Release(m_pColliderCom);
     Safe_Release(m_pTargetObject);
 }

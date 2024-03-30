@@ -4,8 +4,8 @@
 #include "Camera_Free.h"
 #include "MapObject.h"
 
-#include "Chr_Battle_Light.h"
-#include "Chr.h"
+#include "Troup.h"
+#include "Monster.h"
 
 #include "Level_Loading.h"
 
@@ -25,6 +25,9 @@ HRESULT CLevel_Field::Initialize()
 	if (FAILED(Ready_Layer_Chr(TEXT("Layer_Chr"))))
 		return E_FAIL;
 
+	if (FAILED(Ready_Layer_Monster(TEXT("Layer_Monster"))))
+		return E_FAIL;
+
 	if (FAILED(Ready_Layer_Camera(g_strCameraLayerTag)))
 		return E_FAIL;
 
@@ -35,11 +38,14 @@ void CLevel_Field::Tick(_float fTimeDelta)
 {
     __super::Tick(fTimeDelta);
 
-	if (m_pGameInstance->Get_KeyState(KEY_DOWN, DIK_RETURN)) {
-		m_pGameInstance->Open_Level(LEVEL_LOADING, CLevel_Loading::Create(m_pDevice, m_pContext, LEVEL_BATTLE));
-	}
+	for (auto& pTroup : m_Troups)
+		pTroup->Tick();
+		//if (m_pGameInstance->Get_KeyState(KEY_DOWN, DIK_RETURN)) {
+	//	m_pGameInstance->Open_Level(LEVEL_LOADING, CLevel_Loading::Create(m_pDevice, m_pContext, LEVEL_BATTLE));
+	//}
 
 }
+
 
 HRESULT CLevel_Field::Render()
 {
@@ -49,6 +55,11 @@ HRESULT CLevel_Field::Render()
 	SetWindowText(g_hWnd, TEXT("Field 레벨입니다."));
 
 	return S_OK;
+}
+
+HRESULT CLevel_Field::Initialize_Parsed()
+{
+	return E_NOTIMPL;
 }
 
 HRESULT CLevel_Field::Read_Map()
@@ -123,6 +134,48 @@ HRESULT CLevel_Field::Ready_Layer_Chr(const wstring& strLayerTag)
 	return S_OK;
 }
 
+HRESULT CLevel_Field::Ready_Layer_Monster(const wstring& strLayerTag)
+{
+	CTroup* pTroup = CTroup::Create(m_pDevice, m_pContext);
+	CMonster* pMonster = dynamic_cast<CMonster*>(m_pGameInstance->Add_Clone_With_Object(g_Level, strLayerTag, TEXT("Prototype_GameObject_Leopard")));
+	if (pMonster == nullptr)
+		return E_FAIL;
+	pMonster->Get_Transform()->Set_State(CTransform::STATE_POSITION, _float4{ 1.f,0.f,1.f,1.f });
+	pTroup->Add_Monster(TEXT("Prototype_GameObject_Leopard") , pMonster);
+
+	pMonster = dynamic_cast<CMonster*>(m_pGameInstance->Add_Clone_With_Object(g_Level, strLayerTag, TEXT("Prototype_GameObject_Leopard")));
+	if (pMonster == nullptr)
+		return E_FAIL;
+	pMonster->Get_Transform()->Set_State(CTransform::STATE_POSITION, _float4{2.f,0.f,1.f,1.f });
+	pTroup->Add_Monster(TEXT("Prototype_GameObject_Leopard"), pMonster);
+
+	pMonster = dynamic_cast<CMonster*>(m_pGameInstance->Add_Clone_With_Object(g_Level, strLayerTag, TEXT("Prototype_GameObject_Leopard")));
+	if (pMonster == nullptr)
+		return E_FAIL;
+	pMonster->Get_Transform()->Set_State(CTransform::STATE_POSITION, _float4{ 3.f,0.f,1.f,1.f });
+	pTroup->Add_Monster(TEXT("Prototype_GameObject_Leopard"), pMonster);
+
+	m_Troups.push_back(pTroup);
+	
+	pTroup = CTroup::Create(m_pDevice, m_pContext);
+	pMonster = dynamic_cast<CMonster*>(m_pGameInstance->Add_Clone_With_Object(g_Level, strLayerTag, TEXT("Prototype_GameObject_Leopard")));
+	if (pMonster == nullptr)
+		return E_FAIL;
+	pMonster->Get_Transform()->Set_State(CTransform::STATE_POSITION, _float4{ -1.f,0.f,1.f,1.f });
+	pTroup->Add_Monster(TEXT("Prototype_GameObject_Leopard"), pMonster);
+
+	pMonster = dynamic_cast<CMonster*>(m_pGameInstance->Add_Clone_With_Object(g_Level, strLayerTag, TEXT("Prototype_GameObject_Leopard")));
+	if (pMonster == nullptr)
+		return E_FAIL;
+	pMonster->Get_Transform()->Set_State(CTransform::STATE_POSITION, _float4{ -2.f,0.f,1.f,1.f });
+	pTroup->Add_Monster(TEXT("Prototype_GameObject_Leopard"), pMonster);
+
+	m_Troups.push_back(pTroup);
+
+	return S_OK;
+
+}
+
 CLevel_Field* CLevel_Field::Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
 {
 	CLevel_Field* pInstance = new CLevel_Field(pDevice, pContext);
@@ -137,7 +190,26 @@ CLevel_Field* CLevel_Field::Create(ID3D11Device* pDevice, ID3D11DeviceContext* p
 	return pInstance;
 }
 
+CLevel_Field* CLevel_Field::Create_Parsed(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
+{
+	CLevel_Field* pInstance = new CLevel_Field(pDevice, pContext);
+
+	if (FAILED(pInstance->Initialize_Parsed()))
+	{
+		MSG_BOX(TEXT("Failed To Created : CLevel_Field"));
+
+		Safe_Release(pInstance);
+	}
+
+	return pInstance;
+}
+
+
 void CLevel_Field::Free()
 {
 	__super::Free();
+	
+	for (auto& pTroup : m_Troups)
+		Safe_Release(pTroup);
+	m_Troups.clear();
 }

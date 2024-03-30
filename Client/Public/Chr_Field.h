@@ -5,6 +5,7 @@
 BEGIN(Engine)
 class CModel;
 class CShader;
+class CCollider;
 class CFSM;
 END
 
@@ -41,6 +42,7 @@ public:
 private:
 	CModel*		m_pModelCom = { nullptr };
 	CShader*	m_pShaderCom = { nullptr };
+	CCollider*	m_pColliderCom = { nullptr };
 	CFSM*		m_pFSMCom = { nullptr };
 
 	STATE		m_eState = { STATE_END };
@@ -50,6 +52,7 @@ private:
 
 public: 
 	CTransform* Get_Transform() { return m_pTransformCom; }
+	CCollider*	Get_Collider() { return m_pColliderCom; }
 	_uint		Get_CurrentAnimationIndex() { return m_pModelCom->Get_CurrentAnimationIndex(); }
 	_float		Get_CurrentTrackPosition() { return m_pModelCom->Get_CurrentTrackPosition(); }
 	_bool		Is_Animation_Finished() { return m_pModelCom->isFinished(); }
@@ -69,7 +72,8 @@ private:
 	void	Update_FSMState(_float fTimeDelta);
 
 	void	Show_ImGUI();
-
+	void	Write_Field();
+	void	Read_Field();
 public:
 	static CChr_Field* Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);
 	virtual CGameObject* Clone(void* pArg) override;

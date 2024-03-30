@@ -34,9 +34,9 @@ public: /* For.Level_Manager */
 	HRESULT Open_Level(_uint iNewLevelID, class CLevel* pNewLevel);
 
 public: /* For.Object_Manager */
+	void Start();
 	HRESULT Add_Prototype(const wstring& strPrototypeTag, class CGameObject* pPrototype);
 	HRESULT Add_Clone(_uint iLevelIndex, const wstring& strLayerTag, const wstring& strPrototypeTag, void* pArg = nullptr);
-	void Start();
 	class CGameObject* Add_Clone_With_Object(_uint iLevelIndex, const wstring& strLayerTag, const wstring& strPrototypeTag, void* pArg = nullptr);
 	class CGameObject* Clone_GameObject(const wstring& strPrototypeTag, void* pArg = nullptr);
 	class CGameObject* Get_GameObject(_uint iLevelIndex, const wstring& strLayerTag, _uint iIndex = 0);

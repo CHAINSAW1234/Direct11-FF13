@@ -86,6 +86,13 @@ HRESULT CCamera_Field::Render()
 	return S_OK;
 }
 
+void CCamera_Field::Set_Target(CGameObject* pGameObject)
+{
+	Safe_Release(m_pTargetObject);
+	m_pTargetObject = pGameObject;
+	Safe_AddRef(pGameObject);
+}
+
 void CCamera_Field::Update_With_Mouse(_float fTimeDelta)
 {
 	//Set_CursorPos();
@@ -173,4 +180,5 @@ CGameObject* CCamera_Field::Clone(void* pArg)
 void CCamera_Field::Free()
 {
 	__super::Free();
+	Safe_Release(m_pTargetObject);
 }

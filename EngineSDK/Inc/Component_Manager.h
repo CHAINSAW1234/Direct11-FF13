@@ -25,6 +25,7 @@ BEGIN(Engine)
 
 class CComponent_Manager final : public CBase
 {
+	typedef map<const wstring, class CComponent*>	PROTOTYPES;
 private:
 	CComponent_Manager();
 	virtual ~CComponent_Manager() = default;
@@ -36,9 +37,8 @@ public:
 	void Clear(_uint iLevelIndex);
 
 private:
-	map<const wstring, class CComponent*>*			m_pPrototypes = { nullptr };
-	typedef map<const wstring, class CComponent*>	PROTOTYPES;
-	_uint											m_iNumLevels = { 0 };
+	PROTOTYPES*			m_pPrototypes = { nullptr };
+	_uint				m_iNumLevels = { 0 };
 
 private:
 	class CComponent* Find_Prototype(_uint iLevelIndex, const wstring& strPrototypeTag);

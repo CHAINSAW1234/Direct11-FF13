@@ -484,30 +484,14 @@ HRESULT CLoader::Loading_For_Field()
 		CModel::Create(m_pDevice, m_pContext, "../Bin/Resources/Models/Chr/Light/Body/Light_Field" + tag))))
 		return E_FAIL;
 
+
+	if (FAILED(m_pGameInstance->Add_Prototype(g_Level, TEXT("Prototype_Component_Model_Leopard"),
+		CModel::Create(m_pDevice, m_pContext, "../Bin/Resources/Models/Monster/Leopard/Leopard" + tag))))
+		return E_FAIL;
+
 	//if (FAILED(m_pGameInstance->Add_Prototype(g_Level, TEXT("Prototype_Component_Model_Light_Weapon"),
 	//	CModel::Create(m_pDevice, m_pContext, "../Bin/Resources/Models/Chr/Light/Weapon/Light_Weapon" + tag))))
 	//	return E_FAIL;
-
-#pragma region Temp
-
-	_matrix		TransformMatrix = XMMatrixIdentity();
-
-	/* Prototype_Component_Model_Fiona */
-	TransformMatrix = XMMatrixRotationY(XMConvertToRadians(180.0f));
-
-	if (FAILED(m_pGameInstance->Add_Prototype(g_Level, TEXT("Prototype_Component_Model_Fiona"),
-		CModel::Create(m_pDevice, m_pContext, CModel::TYPE_ANIM, "../Bin/Resources/Models/Fiona/Fiona.fbx", TransformMatrix))))
-		return E_FAIL;
-
-	/* Prototype_Component_Model_ForkLift */
-	TransformMatrix = XMMatrixScaling(0.01f, 0.01f, 0.01f) * XMMatrixRotationY(XMConvertToRadians(180.0f));
-
-	if (FAILED(m_pGameInstance->Add_Prototype(g_Level, TEXT("Prototype_Component_Model_ForkLift"),
-		CModel::Create(m_pDevice, m_pContext, CModel::TYPE_NONANIM, "../Bin/Resources/Models/ForkLift/ForkLift.fbx", TransformMatrix))))
-		return E_FAIL;
-
-#pragma endregion
-
 
 	m_strLoadingText = TEXT("셰이더를(을) 로딩 중 입니다.");
 
@@ -522,52 +506,53 @@ HRESULT CLoader::Loading_For_Field()
 
 HRESULT CLoader::Loading_For_Battle()
 {
+	LEVEL eLevel = LEVEL_BATTLE;
 	m_strLoadingText = TEXT("텍스쳐를(을) 로딩 중 입니다.");
 
 #pragma region UI
 
 	/* For.Prototype_Component_Texture_UI_Cursor */
-	if (FAILED(m_pGameInstance->Add_Prototype(g_Level, TEXT("Prototype_Component_Texture_UI_Cursor"),
+	if (FAILED(m_pGameInstance->Add_Prototype(eLevel, TEXT("Prototype_Component_Texture_UI_Cursor"),
 		CTexture::Create(m_pDevice, m_pContext, TEXT("../Bin/Resources/UI/Cursor.png")))))
 		return E_FAIL;
 
 	/* For.Prototype_Component_Texture_UI_ATB_Inner */
-	if (FAILED(m_pGameInstance->Add_Prototype(g_Level, TEXT("Prototype_Component_Texture_UI_Pnal_Anim"),
+	if (FAILED(m_pGameInstance->Add_Prototype(eLevel, TEXT("Prototype_Component_Texture_UI_Pnal_Anim"),
 		CTexture::Create(m_pDevice, m_pContext, TEXT("../Bin/Resources/UI/Pnal/Pnalanm_%d.png"), 16))))
 		return E_FAIL;
 
 	/* For.Prototype_Component_Texture_UI_ATB_Border */
-	if (FAILED(m_pGameInstance->Add_Prototype(g_Level, TEXT("Prototype_Component_Texture_UI_Pnal_Border"),
+	if (FAILED(m_pGameInstance->Add_Prototype(eLevel, TEXT("Prototype_Component_Texture_UI_Pnal_Border"),
 		CTexture::Create(m_pDevice, m_pContext, TEXT("../Bin/Resources/UI/Pnal/Pnal_Border.png")))))
 		return E_FAIL;
 
 	/* For.Prototype_Component_Texture_UI_ATB_Border */
-	if (FAILED(m_pGameInstance->Add_Prototype(g_Level, TEXT("Prototype_Component_Texture_UI_Pnal_Inner"),
+	if (FAILED(m_pGameInstance->Add_Prototype(eLevel, TEXT("Prototype_Component_Texture_UI_Pnal_Inner"),
 		CTexture::Create(m_pDevice, m_pContext, TEXT("../Bin/Resources/UI/Pnal/Pnal_Inner.png")))))
 		return E_FAIL;
 
 	/* For.Prototype_Component_Texture_UI_ATB_Border */
-	if (FAILED(m_pGameInstance->Add_Prototype(g_Level, TEXT("Prototype_Component_Texture_UI_ATB_Border"),
+	if (FAILED(m_pGameInstance->Add_Prototype(eLevel, TEXT("Prototype_Component_Texture_UI_ATB_Border"),
 		CTexture::Create(m_pDevice, m_pContext, TEXT("../Bin/Resources/UI/Pnal/Pnal_ATB_Border.png")))))
 		return E_FAIL;
 
 	/* For.Prototype_Component_Texture_UI_ATB_Inner */
-	if (FAILED(m_pGameInstance->Add_Prototype(g_Level, TEXT("Prototype_Component_Texture_UI_ATB_Inner"),
+	if (FAILED(m_pGameInstance->Add_Prototype(eLevel, TEXT("Prototype_Component_Texture_UI_ATB_Inner"),
 		CTexture::Create(m_pDevice, m_pContext, TEXT("../Bin/Resources/UI/Pnal/Pnal_ATB_Inner.png")))))
 		return E_FAIL;
 
 	/* For.Prototype_Component_Texture_UI_ATB_Inner */
-	if (FAILED(m_pGameInstance->Add_Prototype(g_Level, TEXT("Prototype_Component_Texture_UI_ATB_Mask"),
+	if (FAILED(m_pGameInstance->Add_Prototype(eLevel, TEXT("Prototype_Component_Texture_UI_ATB_Mask"),
 		CTexture::Create(m_pDevice, m_pContext, TEXT("../Bin/Resources/UI/ATB_Mask.dds")))))
 		return E_FAIL;
 
 	/* For.Prototype_Component_Texture_UI_Chain_Inner */
-	if (FAILED(m_pGameInstance->Add_Prototype(g_Level, TEXT("Prototype_Component_Texture_UI_Chain_Border"),
+	if (FAILED(m_pGameInstance->Add_Prototype(eLevel, TEXT("Prototype_Component_Texture_UI_Chain_Border"),
 		CTexture::Create(m_pDevice, m_pContext, TEXT("../Bin/Resources/UI/Pnal/Chain_Border.png")))))
 		return E_FAIL;
 
 	/* For.Prototype_Component_Texture_UI_Grad */
-	if (FAILED(m_pGameInstance->Add_Prototype(g_Level, TEXT("Prototype_Component_Texture_UI_Grad"),
+	if (FAILED(m_pGameInstance->Add_Prototype(eLevel, TEXT("Prototype_Component_Texture_UI_Grad"),
 		CTexture::Create(m_pDevice, m_pContext, TEXT("../Bin/Resources/UI/Grad.dds")))))
 		return E_FAIL;
 
@@ -575,54 +560,34 @@ HRESULT CLoader::Loading_For_Battle()
 
 	m_strLoadingText = TEXT("모델를(을) 로딩 중 입니다.");
 
-	if (FAILED(m_pGameInstance->Add_Prototype(g_Level, TEXT("Prototype_Component_VIBuffer_Line"),
+	if (FAILED(m_pGameInstance->Add_Prototype(eLevel, TEXT("Prototype_Component_VIBuffer_Line"),
 		CVIBuffer_Line::Create(m_pDevice, m_pContext))))
 		return E_FAIL;
 
 	string tag = ".bin";
-	if (FAILED(m_pGameInstance->Add_Prototype(g_Level, TEXT("Prototype_Component_Model_Map_Battle"),
+	if (FAILED(m_pGameInstance->Add_Prototype(eLevel, TEXT("Prototype_Component_Model_Map_Battle"),
 		CModel::Create(m_pDevice, m_pContext, "../Bin/Resources/Models/MapObject/MapObject/Map_Battle" + tag))))
 		return E_FAIL;
 
-	if (FAILED(m_pGameInstance->Add_Prototype(g_Level, TEXT("Prototype_Component_Model_Light_Battle"),
+	if (FAILED(m_pGameInstance->Add_Prototype(eLevel, TEXT("Prototype_Component_Model_Light_Battle"),
 		CModel::Create(m_pDevice, m_pContext, "../Bin/Resources/Models/Chr/Light/Body/Light_Battle" + tag))))
 		return E_FAIL;
 
-	if (FAILED(m_pGameInstance->Add_Prototype(g_Level, TEXT("Prototype_Component_Model_Light_Weapon"),
+	if (FAILED(m_pGameInstance->Add_Prototype(eLevel, TEXT("Prototype_Component_Model_Light_Weapon"),
 		CModel::Create(m_pDevice, m_pContext, "../Bin/Resources/Models/Chr/Light/Weapon/Light_Weapon" + tag))))
 		return E_FAIL;
 
-	if (FAILED(m_pGameInstance->Add_Prototype(g_Level, TEXT("Prototype_Component_Model_Sazh_Battle"),
+	if (FAILED(m_pGameInstance->Add_Prototype(eLevel, TEXT("Prototype_Component_Model_Sazh_Battle"),
 		CModel::Create(m_pDevice, m_pContext, "../Bin/Resources/Models/Chr/Sazh/Body/Sazh_Battle" + tag))))
 		return E_FAIL;
 
-	if (FAILED(m_pGameInstance->Add_Prototype(g_Level, TEXT("Prototype_Component_Model_Sazh_Weapon"),
+	if (FAILED(m_pGameInstance->Add_Prototype(eLevel, TEXT("Prototype_Component_Model_Sazh_Weapon"),
 		CModel::Create(m_pDevice, m_pContext, "../Bin/Resources/Models/Chr/Sazh/Weapon/Sazh_Weapon" + tag))))
 		return E_FAIL;
 
-	if (FAILED(m_pGameInstance->Add_Prototype(g_Level, TEXT("Prototype_Component_Model_Leopard"),
+	if (FAILED(m_pGameInstance->Add_Prototype(eLevel, TEXT("Prototype_Component_Model_Leopard"),
 		CModel::Create(m_pDevice, m_pContext, "../Bin/Resources/Models/Monster/Leopard/Leopard" + tag))))
 		return E_FAIL;
-
-#pragma region Temp
-
-	_matrix		TransformMatrix = XMMatrixIdentity();
-
-	/* Prototype_Component_Model_Fiona */
-	TransformMatrix = XMMatrixRotationY(XMConvertToRadians(180.0f));
-
-	if (FAILED(m_pGameInstance->Add_Prototype(g_Level, TEXT("Prototype_Component_Model_Fiona"),
-		CModel::Create(m_pDevice, m_pContext, CModel::TYPE_ANIM, "../Bin/Resources/Models/Fiona/Fiona.fbx", TransformMatrix))))
-		return E_FAIL;
-
-	/* Prototype_Component_Model_ForkLift */
-	TransformMatrix = XMMatrixScaling(0.01f, 0.01f, 0.01f) * XMMatrixRotationY(XMConvertToRadians(180.0f));
-
-	if (FAILED(m_pGameInstance->Add_Prototype(g_Level, TEXT("Prototype_Component_Model_ForkLift"),
-		CModel::Create(m_pDevice, m_pContext, CModel::TYPE_NONANIM, "../Bin/Resources/Models/ForkLift/ForkLift.fbx", TransformMatrix))))
-		return E_FAIL;
-
-#pragma endregion
 
 
 	m_strLoadingText = TEXT("셰이더를(을) 로딩 중 입니다.");
@@ -649,7 +614,6 @@ CLoader * CLoader::Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext, 
 
 	return pInstance;
 }
-
 
 void CLoader::Free()
 {

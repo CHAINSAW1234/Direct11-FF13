@@ -7,7 +7,7 @@ BEGIN(Client)
 class CChr_Battle_Light final : public CChr_Battle
 {
 public:
-	enum STATE { IDLE, ATTACK, ITEM, HIT, DEAD, OPTIMA, FINISH, STATE_END };
+	enum STATE { IDLE, ATTACK, ITEM, PREPARE, HIT, DEAD, OPTIMA, FINISH, STATE_END };
 	enum ANIMATION_CHR_BATTLE_LIGHT {	// FINISH -> 전투 종료	// IDLE_IDLE은 STATE랑 겹처서 만듬
 		ATTACK_AIR, ATTACK_AIR_SPIN, ATTACK_AIR_SPIN2, ATTACK_AMBUSH, ATTACK_AMBUSH2, ATTACK_AREABLAST,
 		ATTACK_END, ATTACK_END2, ATTACK_NOR1, ATTACK_NOR2, ATTACK_NOR_3, ATTACK_NOR_4, ATTACK_PREPARE,
@@ -51,7 +51,7 @@ public:
 	_int	Get_Command_Cost_Sum();
 	_int	Get_Current_Command_Cost() { return m_pCommands->front().second; }
 	virtual CRole::SKILL Get_Current_Command() override;
-	virtual void	Use_Command() override;
+	virtual void Use_Command() override;
 	void	Cancel_Command();
 	void	Set_Command(deque<pair<CRole::SKILL, _int>>* pCommand);				// Player에게 명령을 전달
 

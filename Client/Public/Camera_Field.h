@@ -29,7 +29,7 @@ public:
 	virtual HRESULT Render() override;
 
 public:
-	void Set_Target(CGameObject* pGameObject) { m_pTargetObject = pGameObject; }
+	void Set_Target(CGameObject* pGameObject); 
 
 private:
 	CGameObject*	m_pTargetObject = { nullptr };

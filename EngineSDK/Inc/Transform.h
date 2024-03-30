@@ -22,6 +22,8 @@ public:
 	virtual ~CTransform() = default;
 
 public:
+	void Set_RotationPerSec(_float fRotationPerSec) { m_fRotationPerSec = fRotationPerSec; }
+
 	void Set_State(STATE eState, _fvector vState) {
 		/*
 			_matrix WorldMatrix;

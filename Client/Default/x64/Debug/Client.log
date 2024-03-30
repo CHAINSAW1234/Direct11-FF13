@@ -1,2 +1,132 @@
-﻿  UI_Monster_Hp.cpp
+﻿  Ability.cpp
+  Body.cpp
+  Body_Player.cpp
+  Camera_Field.cpp
+  Camera_Free.cpp
+  Chr.cpp
+  Chr_Battle.cpp
+  Chr_Battle_Light.cpp
+  Chr_Battle_Light_State_Attack.cpp
+  Chr_Battle_Light_State_Dead.cpp
+  Chr_Battle_Light_State_Finish.cpp
+  Chr_Battle_Light_State_Hit.cpp
+  Chr_Battle_Light_State_Idle.cpp
+  Chr_Battle_Light_State_Item.cpp
+  Chr_Battle_Light_State_Optima.cpp
+  Chr_Battle_Light_State_Prepare.cpp
+  Chr_Battle_Sazh.cpp
+  Chr_Battle_Sazh_State_Attack.cpp
+  Chr_Battle_Sazh_State_Dead.cpp
+  Chr_Battle_Sazh_State_Finish.cpp
+  코드를 생성하고 있습니다...
+  컴파일하고 있습니다...
+  Chr_Battle_Sazh_State_Hit.cpp
+  Chr_Battle_Sazh_State_Idle.cpp
+  Chr_Battle_Sazh_State_Optima.cpp
+  Chr_Battle_Sazh_State_Skill.cpp
+  Chr_Field.cpp
+  Chr_Field_State_Battle_Begin.cpp
+  Chr_Field_State_Idle.cpp
+  Chr_Field_State_Item.cpp
+  Chr_Field_State_Walk.cpp
+  Forklift.cpp
+  Grid.cpp
+  ImGUI_Manager.cpp
+  Inventory.cpp
+  Leopard.cpp
+  Leopard_State_Attack.cpp
+  Leopard_State_Hit.cpp
+  Leopard_State_Idle.cpp
+C:\Users\stgo5015\Documents\GitHub\Direct11_FF13\Client\Private\Leopard_State_Idle.cpp(110,12): warning C4244: '초기화 중': 'double'에서 'Engine::_float'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+C:\Users\stgo5015\Documents\GitHub\Direct11_FF13\Client\Private\Leopard_State_Idle.cpp(111,12): warning C4244: '초기화 중': 'double'에서 'Engine::_float'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+  Level_Battle.cpp
+  Level_Field.cpp
+  Level_GamePlay.cpp
+  코드를 생성하고 있습니다...
+  컴파일하고 있습니다...
+  Level_Loading.cpp
+  Level_Logo.cpp
+  Level_MapTool.cpp
+  Level_Parsing.cpp
+  Loader.cpp
+  MapObject.cpp
+  MapTool.cpp
+C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.39.33519\include\xutility(4537,18): warning C4244: '=': 'wchar_t'에서 'char'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+  (소스 파일 '../Private/MapTool.cpp'을(를) 컴파일하는 중)
+  C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.39.33519\include\xutility(4537,18):
+  템플릿 인스턴스화 컨텍스트(가장 오래된 인스턴스화 컨텍스트)가
+  	C:\Users\stgo5015\Documents\GitHub\Direct11_FF13\Client\Private\MapTool.cpp(239,28):
+  	컴파일되는 함수 템플릿 인스턴스화 'std::basic_string<char,std::char_traits<char>,std::allocator<char>> &std::basic_string<char,std::char_traits<char>,std::allocator<char>>::assign<std::_String_iterator<std::_String_val<std::_Simple_types<_Elem>>>,0>(const _Iter,const _Iter)'에 대한 참조를 확인하세요.
+          with
+          [
+              _Elem=wchar_t,
+              _Iter=std::_String_iterator<std::_String_val<std::_Simple_types<wchar_t>>>
+          ]
+  		C:\Users\stgo5015\Documents\GitHub\Direct11_FF13\Client\Private\MapTool.cpp(239,35):
+  		'Client::CMapTool::ModelList_Window'에서 'std::basic_string<char,std::char_traits<char>,std::allocator<char>>::assign'에 대한 첫 번째 참조를 확인하세요.
+  	C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.39.33519\include\xstring(3463,32):
+  	컴파일되는 함수 템플릿 인스턴스화 'std::basic_string<char,std::char_traits<char>,std::allocator<char>>::basic_string<wchar_t*,0>(_Iter,_Iter,const _Alloc &)'에 대한 참조를 확인하세요.
+          with
+          [
+              _Iter=wchar_t *,
+              _Alloc=std::allocator<char>
+          ]
+  	C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.39.33519\include\xstring(2600,17):
+  	컴파일되는 함수 템플릿 인스턴스화 'void std::basic_string<char,std::char_traits<char>,std::allocator<char>>::_Construct_from_iter<wchar_t*,wchar_t*,_Size_type>(_Iter,const _Sent,_Size)'에 대한 참조를 확인하세요.
+          with
+          [
+              _Size_type=unsigned __int64,
+              _Iter=wchar_t *,
+              _Sent=wchar_t *,
+              _Size=unsigned __int64
+          ]
+  	C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.39.33519\include\xstring(2756,18):
+  	컴파일되는 함수 템플릿 인스턴스화 '_OutIt *std::_Copy_n_unchecked4<wchar_t*,_Size,char*>(_InIt,_SizeTy,_OutIt)'에 대한 참조를 확인하세요.
+          with
+          [
+              _OutIt=char *,
+              _Size=unsigned __int64,
+              _InIt=wchar_t *,
+              _SizeTy=unsigned __int64
+          ]
+  
+  Monster.cpp
+  Monster_Study.cpp
+  Optima.cpp
+  Player_Battle.cpp
+  Player_Study.cpp
+  Role.cpp
+  Terrain.cpp
+  Troup.cpp
+  UI.cpp
+  UI_ATB.cpp
+  UI_Battle_Stage_Command.cpp
+  UI_Battle_Stage_Item.cpp
+  UI_Battle_Stage_Optima.cpp
+  코드를 생성하고 있습니다...
+  컴파일하고 있습니다...
+  UI_Battle_Stage_Select.cpp
+  UI_Battle_Stage_Target.cpp
+  UI_Battle_Stage_Target_Member.cpp
+  UI_Battle_Stage_Wait.cpp
+  UI_Battle_Stage_Wait_Optima.cpp
+  UI_Chain.cpp
+  UI_Chr.cpp
+  UI_Cursor.cpp
+  UI_Monster_Hp.cpp
+  UI_Pnal.cpp
+  UI_Pnal_Attack.cpp
+  UI_Pnal_Item.cpp
+  Weapon_Anim.cpp
+  Weapon_Study.cpp
+  Chr_Field_State_Move.cpp
+  BackGround.cpp
+  MainApp.cpp
+  Client.cpp
+C:\Users\stgo5015\Documents\GitHub\Direct11_FF13\Client\Default\Client.cpp(68,15): warning C4244: '인수': 'time_t'에서 'unsigned int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+  코드를 생성하고 있습니다...
+DirectXTKd.lib(ScreenGrab.obj) : warning LNK4099: '' PDB를 'DirectXTKd.lib(ScreenGrab.obj)' 또는 ''에서 찾을 수 없습니다. 디버그 정보가 없는 것처럼 개체를 링크합니다.
+DirectXTKd.lib(WICTextureLoader.obj) : warning LNK4099: '' PDB를 'DirectXTKd.lib(WICTextureLoader.obj)' 또는 ''에서 찾을 수 없습니다. 디버그 정보가 없는 것처럼 개체를 링크합니다.
+DirectXTKd.lib(pch.obj) : warning LNK4099: '' PDB를 'DirectXTKd.lib(pch.obj)' 또는 ''에서 찾을 수 없습니다. 디버그 정보가 없는 것처럼 개체를 링크합니다.
+     ../Bin/Client.lib 라이브러리 및 ../Bin/Client.exp 개체를 생성하고 있습니다.
   Client.vcxproj -> C:\Users\stgo5015\Documents\GitHub\Direct11_FF13\Client\Bin\Client.exe

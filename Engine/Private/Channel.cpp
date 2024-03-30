@@ -116,7 +116,7 @@ void CChannel::Invalidate_TransformationMatrix_Linear_Interpolation(const vector
 	}
 
 	// 2. 현재 위치와 새 애니메이션의 시작 위치를 선형 보간한다
-	fRatio = fTimeDelta / 0.1;
+	fRatio = fTimeDelta / 0.1f;
 	XMStoreFloat3(&vScale, XMVectorLerp(XMLoadFloat3(&vScale), XMLoadFloat3(&NextKeyFrame.vScale), fRatio));
 	XMStoreFloat4(&vRotation, XMQuaternionSlerp(XMLoadFloat4(&vRotation), XMLoadFloat4(&NextKeyFrame.vRotation), fRatio));
 	XMStoreFloat3(&vTranslation, XMVectorLerp(XMLoadFloat3(&vTranslation), XMLoadFloat3(&NextKeyFrame.vTranslation), fRatio));
@@ -138,7 +138,7 @@ HRESULT CChannel::Save_Channel(ofstream& OFS)
 {
 	size_t szNameLength = strlen(m_szName);
 	OFS.write(reinterpret_cast<const char*>(&szNameLength), sizeof(size_t));
-	OFS.write(reinterpret_cast<const char*>(&m_szName), sizeof(char) * szNameLength);
+	OFS.write(reinterpret_cast<const char*>(&m_szName), sizeof(_char) * szNameLength);
 
 	OFS.write(reinterpret_cast<const char*>(&m_iBoneIndex), sizeof(_uint));
 	OFS.write(reinterpret_cast<const char*>(&m_iNumKeyFrames), sizeof(_uint));

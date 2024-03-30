@@ -44,7 +44,7 @@ HRESULT CChr_Field::Initialize(void* pArg)
 		return E_FAIL;
 
 	m_pImGUI_Manager = CImGUI_Manager::Get_Instance(m_pDevice, m_pContext);
-
+	Safe_AddRef(m_pImGUI_Manager);
 
 	m_pModelCom->Set_Animation(0, false);
 	m_pTransformCom->Set_State(CTransform::STATE_POSITION, XMVectorSet(_float(rand() % 20), 2.f, _float(rand() % 20), 1.f));
@@ -57,8 +57,9 @@ void CChr_Field::Tick(_float fTimeDelta)
 	m_pFSMCom->Update(fTimeDelta);
 	Update_FSMState(fTimeDelta);
 
-	m_pImGUI_Manager->Tick(fTimeDelta);
-	Show_ImGUI();
+
+	m_pColliderCom->Tick(m_pTransformCom->Get_WorldMatrix());
+
 }
 
 HRESULT CChr_Field::Late_Tick(_float fTimeDelta)
@@ -94,6 +95,12 @@ HRESULT CChr_Field::Render()
 		m_pModelCom->Render(i);
 	}
 
+#ifdef _DEBUG
+	if (nullptr != m_pColliderCom)
+		m_pColliderCom->Render();
+#endif 
+	m_pImGUI_Manager->Tick(0);
+	Show_ImGUI();
 	m_pImGUI_Manager->Render();
 
 	return S_OK;
@@ -165,6 +172,18 @@ HRESULT CChr_Field::Add_Components()
 	/* For.Com_Model */
 	if (FAILED(__super::Add_Component(m_eLevel, TEXT("Prototype_Component_Model_Light_Field"),
 		TEXT("Com_Model"), (CComponent**)&m_pModelCom)))
+		return E_FAIL;
+
+	/* Com_Collider_Body */
+	CBounding_OBB::BOUNDING_OBB_DESC		ColliderOBBDesc{};
+
+	/* 로컬상의 정보를 셋팅한다. */
+	ColliderOBBDesc.vRotation = _float3(0.f, 0.f, 0.f);
+	ColliderOBBDesc.vSize = _float3(.6f, 1.6f, .6f);
+	ColliderOBBDesc.vCenter = _float3(0.f, ColliderOBBDesc.vSize.y * 0.5f, 0.f);
+
+	if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_Collider_OBB"),
+		TEXT("Com_Collider"), (CComponent**)&m_pColliderCom, &ColliderOBBDesc)))
 		return E_FAIL;
 
 	if(FAILED(Add_Component_FSM()))
@@ -346,6 +365,7 @@ void CChr_Field::Free()
 {
 	__super::Free();
 
+	Safe_Release(m_pColliderCom);
 	Safe_Release(m_pShaderCom);
 	Safe_Release(m_pModelCom);
 	Safe_Release(m_pFSMCom);

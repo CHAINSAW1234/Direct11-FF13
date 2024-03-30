@@ -26,7 +26,6 @@ public:
 	void Output() {
 		SetWindowText(g_hWnd, m_strLoadingText.c_str());
 	}
-	
 
 private:
 	ID3D11Device*				m_pDevice = { nullptr };
@@ -38,7 +37,6 @@ private:
 	_bool						m_isFinished = { false };
 
 	CGameInstance*				m_pGameInstance = { nullptr };
-
 
 private:
 	HRESULT Loading_Prototype();

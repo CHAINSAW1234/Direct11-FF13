@@ -1,11 +1,13 @@
 #pragma once
 #include "Client_Defines.h"
 #include "PartObject.h"
+#include "Bounding_OBB.h"
 
 BEGIN(Engine)
 class CBone;
 class CModel;
 class CShader;
+class CCollider;
 END
 
 BEGIN(Client)
@@ -16,7 +18,10 @@ public:
 	typedef struct Weapon_Anim_Desc : public CPartObject::PARTOBJECT_DESC
 	{
 		CBone* pSocket = { nullptr };
-		wstring strModelTag;
+		wstring strModelTag = {};
+		CBounding_OBB::BOUNDING_OBB_DESC Bounding_OBB_Desc = {};
+		_bool	isAddCollider = { true };
+		
 	}WEAPON_ANIM_DESC;
 
 private:
@@ -40,12 +45,13 @@ public:
 
 private:
 	CModel* m_pModelCom = { nullptr };
+	CCollider* m_pColliderCom = { nullptr };
 	CShader* m_pShaderCom = { nullptr };
 	CBone*	m_pSocket = { nullptr };	
 	_bool	m_isVisible = { true };
 
 private:
-	HRESULT Add_Components(const wstring& strModelTag);
+	HRESULT Add_Components(const wstring& strModelTag, CBounding_OBB::BOUNDING_OBB_DESC Bounding_OBB_Desc, _bool isAddCollider = true);
 	HRESULT Bind_ShaderResources();
 
 public:

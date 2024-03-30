@@ -6,8 +6,9 @@ BEGIN(Client)
 
 class CLeopard_State_Attack final : public CFSM_State
 {
+	enum STATE { RUN, ATTACK, STATE_END};
 private:
-	CLeopard_State_Attack(class CLeopard* m_pLeopard);
+	CLeopard_State_Attack(class CLeopard* pLeopard);
 	virtual ~CLeopard_State_Attack() = default;
 
 public:
@@ -21,9 +22,9 @@ public:
 
 private:
 	class CLeopard* m_pLeopard = { nullptr };
-
+	STATE	m_eState = { STATE_END };
 public:
-	static	CLeopard_State_Attack* Create(class CLeopard* m_pLeopard);
+	static	CLeopard_State_Attack* Create(class CLeopard* pLeopard);
 	virtual void Free() override;
 
 };

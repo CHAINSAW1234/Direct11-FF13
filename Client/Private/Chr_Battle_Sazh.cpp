@@ -47,7 +47,7 @@ HRESULT CChr_Battle_Sazh::Initialize(void* pArg)
 
 
 	m_pImGUI_Manager = CImGUI_Manager::Get_Instance(m_pDevice, m_pContext);
-
+	Safe_AddRef(m_pImGUI_Manager);
 	return S_OK;
 }
 
@@ -141,7 +141,6 @@ HRESULT CChr_Battle_Sazh::Add_PartObjects()
 	BodyDesc.pParentMatrix = m_pTransformCom->Get_WorldFloat4x4_Ptr();
 	BodyDesc.strModelTag = TEXT("Prototype_Component_Model_Sazh_Battle");
 
-
 	pBodyObject = dynamic_cast<CPartObject*>(m_pGameInstance->Clone_GameObject(TEXT("Prototype_GameObject_Part_Body"), &BodyDesc));
 	if (nullptr == pBodyObject)
 		return E_FAIL;
@@ -157,7 +156,7 @@ HRESULT CChr_Battle_Sazh::Add_PartObjects()
 	WeaponDesc.pParentMatrix = m_pTransformCom->Get_WorldFloat4x4_Ptr();
 	WeaponDesc.pSocket = pModel->Get_BonePtr("R_weapon");
 	WeaponDesc.strModelTag = TEXT("Prototype_Component_Model_Sazh_Weapon");
-
+	WeaponDesc.isAddCollider = false;
 	pWeaponObject = dynamic_cast<CPartObject*>(m_pGameInstance->Clone_GameObject(TEXT("Prototype_GameObject_Part_Weapon_Anim"), &WeaponDesc));
 	if (nullptr == pWeaponObject)
 		return E_FAIL;
@@ -216,7 +215,7 @@ void CChr_Battle_Sazh::Show_ImGUI()
 		break;
 	}
 
-	ImGui::Begin("Chr_Battle Tool");
+	ImGui::Begin("Chr_Battle_Sazh");
 	if (ImGui::TreeNode("Transform")) {
 		ImGui::InputFloat4("Right", vRight);
 		ImGui::InputFloat4("Up", vUp);

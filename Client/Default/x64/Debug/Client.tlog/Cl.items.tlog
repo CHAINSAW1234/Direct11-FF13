@@ -13,7 +13,7 @@ C:\Users\stgo5015\Documents\GitHub\Direct11_FF13\Client\Private\Chr_Battle_Light
 C:\Users\stgo5015\Documents\GitHub\Direct11_FF13\Client\Private\Chr_Battle_Light_State_Idle.cpp;C:\Users\stgo5015\Documents\GitHub\Direct11_FF13\Client\Default\x64\Debug\Chr_Battle_Light_State_Idle.obj
 C:\Users\stgo5015\Documents\GitHub\Direct11_FF13\Client\Private\Chr_Battle_Light_State_Item.cpp;C:\Users\stgo5015\Documents\GitHub\Direct11_FF13\Client\Default\x64\Debug\Chr_Battle_Light_State_Item.obj
 C:\Users\stgo5015\Documents\GitHub\Direct11_FF13\Client\Private\Chr_Battle_Light_State_Optima.cpp;C:\Users\stgo5015\Documents\GitHub\Direct11_FF13\Client\Default\x64\Debug\Chr_Battle_Light_State_Optima.obj
-C:\Users\stgo5015\Documents\GitHub\Direct11_FF13\Client\Private\Chr_Battle_Light_State_Preprare.cpp;C:\Users\stgo5015\Documents\GitHub\Direct11_FF13\Client\Default\x64\Debug\Chr_Battle_Light_State_Preprare.obj
+C:\Users\stgo5015\Documents\GitHub\Direct11_FF13\Client\Private\Chr_Battle_Light_State_Prepare.cpp;C:\Users\stgo5015\Documents\GitHub\Direct11_FF13\Client\Default\x64\Debug\Chr_Battle_Light_State_Prepare.obj
 C:\Users\stgo5015\Documents\GitHub\Direct11_FF13\Client\Private\Chr_Battle_Light_State_Finish.cpp;C:\Users\stgo5015\Documents\GitHub\Direct11_FF13\Client\Default\x64\Debug\Chr_Battle_Light_State_Finish.obj
 C:\Users\stgo5015\Documents\GitHub\Direct11_FF13\Client\Private\Chr_Battle_Sazh.cpp;C:\Users\stgo5015\Documents\GitHub\Direct11_FF13\Client\Default\x64\Debug\Chr_Battle_Sazh.obj
 C:\Users\stgo5015\Documents\GitHub\Direct11_FF13\Client\Private\Chr_Battle_Sazh_State_Attack.cpp;C:\Users\stgo5015\Documents\GitHub\Direct11_FF13\Client\Default\x64\Debug\Chr_Battle_Sazh_State_Attack.obj
@@ -55,6 +55,7 @@ C:\Users\stgo5015\Documents\GitHub\Direct11_FF13\Client\Private\Player_Battle.cp
 C:\Users\stgo5015\Documents\GitHub\Direct11_FF13\Client\Private\Player_Study.cpp;C:\Users\stgo5015\Documents\GitHub\Direct11_FF13\Client\Default\x64\Debug\Player_Study.obj
 C:\Users\stgo5015\Documents\GitHub\Direct11_FF13\Client\Private\Role.cpp;C:\Users\stgo5015\Documents\GitHub\Direct11_FF13\Client\Default\x64\Debug\Role.obj
 C:\Users\stgo5015\Documents\GitHub\Direct11_FF13\Client\Private\Terrain.cpp;C:\Users\stgo5015\Documents\GitHub\Direct11_FF13\Client\Default\x64\Debug\Terrain.obj
+C:\Users\stgo5015\Documents\GitHub\Direct11_FF13\Client\Private\Troup.cpp;C:\Users\stgo5015\Documents\GitHub\Direct11_FF13\Client\Default\x64\Debug\Troup.obj
 C:\Users\stgo5015\Documents\GitHub\Direct11_FF13\Client\Private\UI.cpp;C:\Users\stgo5015\Documents\GitHub\Direct11_FF13\Client\Default\x64\Debug\UI.obj
 C:\Users\stgo5015\Documents\GitHub\Direct11_FF13\Client\Private\UI_ATB.cpp;C:\Users\stgo5015\Documents\GitHub\Direct11_FF13\Client\Default\x64\Debug\UI_ATB.obj
 C:\Users\stgo5015\Documents\GitHub\Direct11_FF13\Client\Private\UI_Battle_Stage_Command.cpp;C:\Users\stgo5015\Documents\GitHub\Direct11_FF13\Client\Default\x64\Debug\UI_Battle_Stage_Command.obj

@@ -78,9 +78,7 @@ void CCollider::Tick(_fmatrix WorldMatrix)
 
 _bool CCollider::Intersect(CCollider* pTargetCollider)
 {
-	m_pBounding->Intersect(pTargetCollider->m_eType, pTargetCollider->m_pBounding);
-
-	return _bool();
+	return 	m_pBounding->Intersect(pTargetCollider->m_eType, pTargetCollider->m_pBounding);
 }
 
 HRESULT CCollider::Render()

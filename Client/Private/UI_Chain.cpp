@@ -20,22 +20,11 @@ HRESULT CUI_Chain::Initialize_Prototype()
 
 HRESULT CUI_Chain::Initialize(void* pArg)
 {
-	//if (nullptr == pArg)
-	//	return E_FAIL;
-
-	//UI_DESC* pUI_Desc = (UI_DESC*)pArg;
-	//m_pPlayerInfo = (CPlayer_Battle*)pUI_Desc->pObserver_Hander;
-	//if (nullptr == m_pPlayerInfo)	// 이부분 주의
-	//	return E_FAIL;
-	//Safe_AddRef(m_pPlayerInfo);
-
 	if (FAILED(__super::Initialize(pArg)))
 		return E_FAIL;
 
 	if (FAILED(Add_Components()))
 		return E_FAIL;
-
-	//m_pPlayerInfo->RegisterObserver(this);
 
 	return S_OK;
 }
@@ -110,7 +99,7 @@ void CUI_Chain::Start()
 	m_fSizeX = 300;
 	m_fSizeY = 10;
 	m_fMoveTimeDelta = 1.f;
-	m_vTargetPosition = { 350.f, 200.f, 0.f };
+	m_vTargetPosition = { 400.f, 250.f, 0.f };
 	m_pTransformCom->Set_Scaled(m_fSizeX, m_fSizeY, 1.f);
 	m_pTransformCom->Set_State(CTransform::STATE_POSITION, XMVectorSetW(XMLoadFloat3(&m_vTargetPosition), 1.f));
 
@@ -124,43 +113,17 @@ void CUI_Chain::OnNotify()
 void CUI_Chain::Change_Target(CGameObject* pGameObject)
 {
 	m_isRender = true;
+	m_isChasing = true;
 	Safe_Release(m_pTarget);
 	m_pTarget = pGameObject;
 	Safe_AddRef(m_pTarget);
-
-	_vector vPos = ((CTransform*)(m_pTarget->Get_Component(g_strTransformTag)))->Get_State_Vector(CTransform::STATE_POSITION);
-
-	_matrix vViewMatrix = m_pGameInstance->Get_Transform_Matrix(CPipeLine::D3DTS_VIEW);
-	_matrix vProjMatrix = m_pGameInstance->Get_Transform_Matrix(CPipeLine::D3DTS_PROJ);
-	vPos = XMVector3TransformCoord(XMVector3TransformCoord(vPos, vViewMatrix), vProjMatrix);
-	_float4 vfPos;
-	XMStoreFloat4(&vfPos, vPos);
-	
-
-	/*vfPos.x = clamp(vfPos.x, -.5f, .5f);
-	vfPos.y = clamp(vfPos.y, -.5f, .5f);*/
-	vfPos.z = 0.f;
-	//vfPos.x += 1.f;
-	//vfPos.y = 1.f - vfPos.y;
-	vfPos.x *= g_iWinSizeX/2;
-	vfPos.y *= g_iWinSizeY/2;
-	vfPos.y += 100;
-	vfPos.z = 0.f;
-	//vfPos.z = 0.f;
-	//vfPos.w = 1.f;
-	//
-	// 
-	// 
-	// 
-	// vfPos = { 0.f,0.f,0.f,1.f };
-	m_pTransformCom->Set_State(CTransform::STATE_POSITION, vfPos);
 
 }
 
 HRESULT CUI_Chain::Bind_ShaderResources()
 {
 	_float4 vColor = { 1.f,0.f,0.f,1.f };
-	_float4 vCurColor = { 1.f,.8f,0.f,1.f };
+	_float4 vCurColor = { 1.f,.83f,0.f,1.f };
 	if (FAILED(__super::Bind_ShaderResources()))
 		return E_FAIL;
 
@@ -219,7 +182,7 @@ HRESULT CUI_Chain::Add_Components()
 HRESULT CUI_Chain::Render_Name()
 {
 	_float2 vFontPosition = m_vFontPosition;
-	vFontPosition.y -= 35.f;
+	vFontPosition.y -= 40.f;
 
 	if (FAILED(m_pGameInstance->Render_Font(g_strFont14Tag, m_strName, { vFontPosition.x - 1, vFontPosition.y - 1 }, XMVectorSet(0.f, 0.f, 0.f, 1.f), 0.f)))
 		return E_FAIL;
@@ -273,7 +236,31 @@ HRESULT CUI_Chain::Render_Chain()
 
 void CUI_Chain::Set_Movement()
 {
+	m_isChasing = false;
 	m_fMoveTimeDelta = 0.f;
+}
+
+void CUI_Chain::Parse_World_to_ViewPort()
+{
+	_vector vPosition = ((CTransform*)(m_pTarget->Get_Component(g_strTransformTag)))->Get_State_Vector(CTransform::STATE_POSITION);
+	vPosition.m128_f32[1] += 2.f;
+	_matrix vViewMatrix = m_pGameInstance->Get_Transform_Matrix(CPipeLine::D3DTS_VIEW);
+	_matrix vProjMatrix = m_pGameInstance->Get_Transform_Matrix(CPipeLine::D3DTS_PROJ);
+	vPosition = XMVector3TransformCoord(XMVector3TransformCoord(vPosition, vViewMatrix), vProjMatrix);
+	_float4 vPos;
+	XMStoreFloat4(&vPos, vPosition);
+
+
+	vPos.x *= g_iWinSizeX / 2;
+	vPos.y *= g_iWinSizeY / 2;
+	vPos.z = 0.f;
+
+	vPos.x = clamp(vPos.x , -(_float)g_iWinSizeX / 3.f, (_float)g_iWinSizeX / 3.f);
+	vPos.y = clamp(vPos.y, -(_float)g_iWinSizeY / 3.f, (_float)g_iWinSizeY / 3.f);
+
+	m_pTransformCom->Set_State(CTransform::STATE_POSITION, vPos);
+	m_vFontPosition = { vPos.x + (g_iWinSizeX - m_fSizeX) * 0.5f ,-vPos.y + g_iWinSizeY * 0.5f + 5.f };
+
 }
 
 void CUI_Chain::Update_Position(_float fTimeDelta)
@@ -281,9 +268,7 @@ void CUI_Chain::Update_Position(_float fTimeDelta)
 	if (m_isChasing) {
 		if (nullptr == m_pTarget)
 			return;
-		_float4 vPosition = ((CTransform*)(m_pTarget->Get_Component(g_strTransformTag)))->Get_State_Float4(CTransform::STATE_POSITION);
-		m_pTransformCom->Set_State(CTransform::STATE_POSITION, vPosition);	// 수정 필요함
-
+		Parse_World_to_ViewPort();
 	}
 	else {
 		Move(fTimeDelta);
@@ -309,7 +294,6 @@ void CUI_Chain::Move(_float fTimeDelta)
 	vCurPos.x += (g_iWinSizeX - m_fSizeX) * 0.5f;
 	vCurPos.y = -vCurPos.y + g_iWinSizeY * 0.5f + 5.f;
 	m_vFontPosition = { vCurPos.x, vCurPos.y };
-
 
 }
 

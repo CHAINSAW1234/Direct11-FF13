@@ -8,6 +8,7 @@
 #include "Chr_Battle_Light_State_Item.h"
 #include "Chr_Battle_Light_State_Optima.h"
 #include "Chr_Battle_Light_State_Finish.h"
+#include "Chr_Battle_Light_State_Prepare.h"
 
 #include "FSM.h"
 #include "Model.h"
@@ -46,7 +47,7 @@ HRESULT CChr_Battle_Light::Initialize(void* pArg)
         return E_FAIL;
 
     m_pImGUI_Manager = CImGUI_Manager::Get_Instance(m_pDevice, m_pContext);
-
+    Safe_AddRef(m_pImGUI_Manager);
     return S_OK;
 }
 
@@ -77,9 +78,15 @@ HRESULT CChr_Battle_Light::Late_Tick(_float fTimeDelta)
 
 HRESULT CChr_Battle_Light::Render()
 {
-    /*m_pImGUI_Manager->Tick(0);
+    if(FAILED(__super::Render()))
+        return E_FAIL;
+
+    m_pImGUI_Manager->Tick(0);
     Show_ImGUI();
-    m_pImGUI_Manager->Render();*/
+    m_pImGUI_Manager->Render();
+
+
+
 
     return S_OK;
 }
@@ -152,6 +159,7 @@ void CChr_Battle_Light::Set_Command(deque<pair<CRole::SKILL, _int>>* pCommand)
     Safe_Delete(m_pCommands);
 
     m_pCommands = pCommand;
+    m_pFSMCom->Change_State(PREPARE);
 }
 
 void CChr_Battle_Light::Use_Item()
@@ -170,6 +178,18 @@ HRESULT CChr_Battle_Light::Add_Components()
     if (FAILED(__super::Add_Components()))
         return E_FAIL;
 
+    /* Com_Collider_Body */
+    CBounding_OBB::BOUNDING_OBB_DESC		ColliderOBBDesc{};
+
+    /* 로컬상의 정보를 셋팅한다. */
+    ColliderOBBDesc.vRotation = _float3(0.f, 0.f, 0.f);
+    ColliderOBBDesc.vSize = _float3(.6f, 1.6f, .6f);
+    ColliderOBBDesc.vCenter = _float3(0.f, ColliderOBBDesc.vSize.y * 0.5f, 0.f);
+
+    if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_Collider_OBB"),
+        TEXT("Com_Collider"), (CComponent**)&m_pColliderCom, &ColliderOBBDesc)))
+        return E_FAIL;
+
     return S_OK;
 }
 
@@ -181,6 +201,8 @@ HRESULT CChr_Battle_Light::Add_Component_FSM()
     m_pFSMCom->Add_State(IDLE, CChr_Battle_Light_State_Idle::Create(this));
     m_pFSMCom->Add_State(ATTACK, CChr_Battle_Light_State_Attack::Create(this));
     m_pFSMCom->Add_State(ITEM, CChr_Battle_Light_State_Item::Create(this));
+    m_pFSMCom->Add_State(PREPARE, CChr_Battle_Light_State_Prepare::Create(this));
+
     m_pFSMCom->Add_State(HIT, CChr_Battle_Light_State_Hit::Create(this));
     m_pFSMCom->Add_State(DEAD, CChr_Battle_Light_State_Dead::Create(this));
     m_pFSMCom->Add_State(OPTIMA, CChr_Battle_Light_State_Optima::Create(this));
@@ -258,7 +280,7 @@ void CChr_Battle_Light::Show_ImGUI()
         break;
     }
 
-    ImGui::Begin("Chr_Battle Tool");
+    ImGui::Begin("Chr_Battle_Light");
     if (ImGui::TreeNode("Transform")) {
         ImGui::InputFloat4("Right", vRight);
         ImGui::InputFloat4("Up", vUp);
@@ -317,6 +339,10 @@ HRESULT CChr_Battle_Light::Add_PartObjects()
     WeaponDesc.pParentMatrix = m_pTransformCom->Get_WorldFloat4x4_Ptr();
     WeaponDesc.pSocket = pModel->Get_BonePtr("R_weapon");
     WeaponDesc.strModelTag = TEXT("Prototype_Component_Model_Light_Weapon");
+    WeaponDesc.Bounding_OBB_Desc.vSize = { 0.1f,0.3f,1.2f };
+    WeaponDesc.Bounding_OBB_Desc.vCenter = { 0.f, 0.3f, -0.3f };
+
+    WeaponDesc.Bounding_OBB_Desc.vRotation = { XMConvertToRadians(45),XMConvertToRadians(0),XMConvertToRadians(0) };
 
     pWeaponObject = dynamic_cast<CPartObject*>(m_pGameInstance->Clone_GameObject(TEXT("Prototype_GameObject_Part_Weapon_Anim"), &WeaponDesc));
     if (nullptr == pWeaponObject)
