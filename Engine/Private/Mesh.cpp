@@ -115,10 +115,8 @@ HRESULT CMesh::Stock_Matrices(const vector<CBone*>& Bones, _Out_ _float4x4* pMes
 	if (nullptr == pMeshBoneMatrices)
 		return E_FAIL;
 
-	for (size_t i = 0; i < m_iNumBones; ++i) {
-
+	for (size_t i = 0; i < m_iNumBones; ++i) 
 		XMStoreFloat4x4(&pMeshBoneMatrices[i], XMLoadFloat4x4(&m_OffsetMatrices[i]) * XMLoadFloat4x4(Bones[m_Bones[i]]->Get_CombinedTransformationMatrix()));
-	}
 
 	return S_OK;
 }

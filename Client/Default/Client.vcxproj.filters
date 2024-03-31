@@ -289,6 +289,15 @@
     <Filter Include="02.GameObjects\Monster\Leopard\State\Leopard_State_Field">
       <UniqueIdentifier>{6166dde2-f0a7-45fa-bf28-2409019313cb}</UniqueIdentifier>
     </Filter>
+    <Filter Include="02.GameObjects\Monster\Leopard\State\Leopard_State_Start">
+      <UniqueIdentifier>{1a63bfcd-e2ed-4651-a29a-a81014657ba9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\For_Study\Particle_Blue">
+      <UniqueIdentifier>{14ece91c-59ef-432d-9907-3f7868a9cafd}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\Sky">
+      <UniqueIdentifier>{a0d4ae99-69da-486a-bb87-7bbe6240322e}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\public\MainApp.h">
@@ -576,6 +585,18 @@
     <ClInclude Include="..\Public\Troup.h">
       <Filter>04.Custom\Troup</Filter>
     </ClInclude>
+    <ClInclude Include="..\Public\Leopard_State_Field.h">
+      <Filter>02.GameObjects\Monster\Leopard\State\Leopard_State_Field</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\Leopard_State_Start.h">
+      <Filter>02.GameObjects\Monster\Leopard\State\Leopard_State_Start</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\Particle_Blue.h">
+      <Filter>02.GameObjects\For_Study\Particle_Blue</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\Sky.h">
+      <Filter>02.GameObjects\Sky</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\private\MainApp.cpp">
@@ -845,6 +866,18 @@
     <ClCompile Include="..\Private\Troup.cpp">
       <Filter>04.Custom\Troup</Filter>
     </ClCompile>
+    <ClCompile Include="..\Private\Leopard_State_Field.cpp">
+      <Filter>02.GameObjects\Monster\Leopard\State\Leopard_State_Field</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Leopard_State_Start.cpp">
+      <Filter>02.GameObjects\Monster\Leopard\State\Leopard_State_Start</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Particle_Blue.cpp">
+      <Filter>02.GameObjects\For_Study\Particle_Blue</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Sky.cpp">
+      <Filter>02.GameObjects\Sky</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Image Include="Client.ico">
@@ -887,6 +920,9 @@
       <Filter>97.ShaderFiles</Filter>
     </FxCompile>
     <FxCompile Include="..\Bin\ShaderFiles\Shader_VtxCube.hlsl">
+      <Filter>97.ShaderFiles</Filter>
+    </FxCompile>
+    <FxCompile Include="..\Bin\ShaderFiles\Shader_VtxInstance.hlsl">
       <Filter>97.ShaderFiles</Filter>
     </FxCompile>
   </ItemGroup>

@@ -19,10 +19,14 @@ public:
 	// 상태가 변경될 때 호출
 	virtual void OnStateExit() override;
 
+private:
+	void Run(_float fTimeDelta);
+	void Attack();
 
 private:
 	class CLeopard* m_pLeopard = { nullptr };
-	STATE	m_eState = { STATE_END };
+	STATE			m_eState = { STATE_END };
+
 public:
 	static	CLeopard_State_Attack* Create(class CLeopard* pLeopard);
 	virtual void Free() override;

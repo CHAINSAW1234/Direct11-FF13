@@ -22,7 +22,7 @@ namespace Client
 	const wstring		g_strChrLayerTag = TEXT("Layer_Chr");
 }
 
-#define Random_Float(size) static_cast<_float>(std::rand() / (RAND_MAX / (_float)size) - (_float)size/2);
+#define Random_Float(size) (static_cast<_float>(std::rand() / (RAND_MAX / (_float)size) - (_float)size/2));
 #define EaseOutCublic(fTimeDelta)  (1 - pow(1-fTimeDelta, 3));
 
 extern HWND				g_hWnd;

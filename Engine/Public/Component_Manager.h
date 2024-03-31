@@ -10,6 +10,7 @@
 #include "VIBuffer_Rect.h"
 #include "VIBuffer_Cube.h"
 #include "VIBuffer_Terrain.h"
+#include "VIBuffer_Instance_Rect.h"
 
 #include "Bounding_AABB.h"
 #include "Bounding_OBB.h"

@@ -5,6 +5,7 @@
 #include "FSM.h"
 #include "Model.h"
 #include "Shader.h"
+#include "Chr_Battle.h"
 
 CMonster::CMonster(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
     :CGameObject { pDevice, pContext }
@@ -91,7 +92,15 @@ void CMonster::Start()
 {
 }
 
-void CMonster::Set_Target(CGameObject* pTargetObject)
+_float4 CMonster::Get_TargetPosition()
+{
+    if (nullptr == m_pTargetObject)
+        return _float4(0.f, 0.f, 0.f, 1.f);
+
+    return m_pTargetObject->Get_Transform()->Get_State_Float4(CTransform::STATE_POSITION);
+}
+
+void CMonster::Set_Target(CChr_Battle* pTargetObject)
 {
     if (nullptr != m_pTargetObject)
         Safe_Release(m_pTargetObject);
@@ -140,6 +149,11 @@ void CMonster::Min_Hp(_int iHp)
     m_iHp = max(m_iHp, 0);
 }
 
+void CMonster::Update_Attack_Time(_float fTimeDelta)
+{
+    m_fAttackTimeDelta += fTimeDelta;
+}
+
 void CMonster::Add_Chain(_float fChain)
 {
     m_fChain += fChain;
@@ -150,6 +164,34 @@ void CMonster::Add_Chain(_float fChain)
         m_isBreak = true;
         m_fBreakTimeDelta = 0.f;
     }
+}
+
+_float CMonster::Cal_Degree_Start()
+{
+    _float4 vLook = m_pTransformCom->Get_State_Float4(CTransform::STATE_LOOK);
+    _vector vDir_to_Start = XMLoadFloat4(&m_vStartPosition) - m_pTransformCom->Get_State_Vector(CTransform::STATE_POSITION);
+    vDir_to_Start.m128_f32[1] = 0.f;
+    vDir_to_Start = XMVector3Normalize(vDir_to_Start);
+
+    _float4 vTargetLook;
+    XMStoreFloat4(&vTargetLook, vDir_to_Start);
+    return Cal_Degree_From_Directions_Between_Min180_To_180(vLook, vTargetLook);
+}
+
+_float CMonster::Cal_Degree_Target()
+{
+    if (nullptr == m_pTargetObject) {
+        return Cal_Degree_Start();
+    }
+
+    _float4 vLook = m_pTransformCom->Get_State_Float4(CTransform::STATE_LOOK);
+    _vector vDir_to_Target = m_pTargetObject->Get_Transform()->Get_State_Vector(CTransform::STATE_POSITION) - m_pTransformCom->Get_State_Vector(CTransform::STATE_POSITION);
+    vDir_to_Target.m128_f32[1] = 0.f;
+    vDir_to_Target = XMVector3Normalize(vDir_to_Target);
+
+    _float4 vTargetLook;
+    XMStoreFloat4(&vTargetLook, vDir_to_Target);
+    return Cal_Degree_From_Directions_Between_Min180_To_180(vLook, vTargetLook);
 }
 
 HRESULT CMonster::Create_UI_Hp()
@@ -249,5 +291,5 @@ void CMonster::Free()
     Safe_Release(m_pShaderCom);
     Safe_Release(m_pFSMCom);
     Safe_Release(m_pColliderCom);
-    Safe_Release(m_pTargetObject);
+    //Safe_Release(m_pTargetObject);
 }

@@ -5,6 +5,10 @@
 #include "Leopard_State_Idle.h"
 #include "Leopard_State_Attack.h"
 #include "Leopard_State_Hit.h"
+#include "Leopard_State_Field.h"
+#include "Leopard_State_Start.h"
+
+#include "Chr_Battle.h"
 
 CLeopard::CLeopard(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
     : CMonster{ pDevice, pContext }
@@ -29,7 +33,7 @@ HRESULT CLeopard::Initialize(void* pArg)
 {
     GAMEOBJECT_DESC		GameObjectDesc{};
 
-    GameObjectDesc.fSpeedPerSec = 5.f;
+    GameObjectDesc.fSpeedPerSec = 2.5f;
     GameObjectDesc.fRotationPerSec = XMConvertToRadians(360.f);
 
     if (FAILED(__super::Initialize(&GameObjectDesc)))
@@ -49,7 +53,10 @@ void CLeopard::Tick(_float fTimeDelta)
     if (m_pGameInstance->Get_KeyState(KEY_DOWN, DIK_4))
         Add_Chain(1.3f);
 
-    if (GetKeyState(VK_LEFT) & 0x8000)
+    if (m_pGameInstance->Get_KeyState(KEY_DOWN, DIK_5))
+        Change_State(STATE_HIT);
+
+   /* if (GetKeyState(VK_LEFT) & 0x8000)
     {
         m_pTransformCom->Turn(XMVectorSet(0.f, 1.f, 0.f, 0.f), fTimeDelta * -1.f);
     }
@@ -77,10 +84,7 @@ void CLeopard::Tick(_float fTimeDelta)
     if (GetKeyState(VK_UP) & 0x8000)
     {
         m_pTransformCom->Go_Straight(fTimeDelta);
-    }
-
-
-
+    }*/
 }
 
 HRESULT CLeopard::Late_Tick(_float fTimeDelta)
@@ -103,9 +107,14 @@ HRESULT CLeopard::Render()
 
 void CLeopard::Start()
 {
-    //m_pTargetObject = m_pGameInstance->Get_GameObject(g_Level, g_strChrLayerTag, 0);
+    m_pTargetObject = dynamic_cast<CChr_Battle*>(m_pGameInstance->Get_GameObject(g_Level, g_strChrLayerTag, 0));
     //Safe_AddRef(m_pTargetObject);
-    Change_Animation(BATTLE_IDLE, true);
+    if (g_Level == LEVEL_BATTLE) {
+        Change_State(STATE_IDLE);
+        Change_Animation(BATTLE_IDLE, true);
+    }
+    else
+        Change_State(STATE_FIELD);
     /*m_pTransformCom->Set_State(CTransform::STATE_POSITION, XMVectorSet(_float(rand() % 10 - 5), 0.f, _float(rand() % 10 - 5), 1.f));*/
 }
 
@@ -113,7 +122,6 @@ HRESULT CLeopard::Change_State(STATE eState)
 {
     m_eState = eState;
     m_pFSMCom->Change_State(eState);
-
     return S_OK;
 }
 
@@ -153,8 +161,11 @@ HRESULT CLeopard::Add_Component_FSM()
         return E_FAIL;
 
     m_pFSMCom->Add_State(STATE_IDLE, CLeopard_State_Idle::Create(this));
+    m_pFSMCom->Add_State(STATE_ATTACK, CLeopard_State_Attack::Create(this));
+    m_pFSMCom->Add_State(STATE_HIT, CLeopard_State_Hit::Create(this));
+    m_pFSMCom->Add_State(STATE_FIELD, CLeopard_State_Field::Create(this));
 
-    Change_State(STATE_IDLE);
+    //Change_State(STATE_IDLE);
     return S_OK;
 }
 

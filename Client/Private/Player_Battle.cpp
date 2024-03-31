@@ -410,12 +410,12 @@ void CPlayer_Battle::Update_CommandPosition()
 
 void CPlayer_Battle::Start()
 {
-	m_pLeader = dynamic_cast<CChr_Battle_Light*>(m_pGameInstance->Get_GameObject(g_Level, TEXT("Layer_Chr"), 0));
+	m_pLeader = dynamic_cast<CChr_Battle_Light*>(m_pGameInstance->Get_GameObject(g_Level, g_strChrLayerTag, 0));
 	Safe_AddRef(m_pLeader);
 
-	size_t iNum = m_pGameInstance->Get_LayerCnt(g_Level, TEXT("Layer_Chr"));
+	size_t iNum = m_pGameInstance->Get_LayerCnt(g_Level, g_strChrLayerTag);
 	for (size_t i = 1; i < iNum; ++i) {
-		m_Memebers.push_back(dynamic_cast<CChr_Battle*>(m_pGameInstance->Get_GameObject(g_Level, TEXT("Layer_Chr"), (_uint)i)));
+		m_Memebers.push_back(dynamic_cast<CChr_Battle*>(m_pGameInstance->Get_GameObject(g_Level, g_strChrLayerTag, (_uint)i)));
 		Safe_AddRef(m_Memebers[i-1]);
 	}
 

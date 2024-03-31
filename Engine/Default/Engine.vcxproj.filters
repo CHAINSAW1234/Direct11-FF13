@@ -157,6 +157,12 @@
     <Filter Include="01.Utility\02.Components\VIBuffer\Cube">
       <UniqueIdentifier>{db281a0d-e120-4528-ad51-193357e12b82}</UniqueIdentifier>
     </Filter>
+    <Filter Include="01.Utility\02.Components\VIBuffer\Instance">
+      <UniqueIdentifier>{fea7b08d-6b40-4c02-a2d5-2fdd11b64b0e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="01.Utility\02.Components\VIBuffer\Instance\Rect">
+      <UniqueIdentifier>{11b552c1-778c-4c0a-aa9a-d3de6dc41185}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\Private\Base.cpp">
@@ -305,6 +311,12 @@
     </ClCompile>
     <ClCompile Include="..\Private\VIBuffer_Cube.cpp">
       <Filter>01.Utility\02.Components\VIBuffer\Cube</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\VIBuffer_Instance.cpp">
+      <Filter>01.Utility\02.Components\VIBuffer\Instance</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\VIBuffer_Instance_Rect.cpp">
+      <Filter>01.Utility\02.Components\VIBuffer\Instance\Rect</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -466,6 +478,12 @@
     </ClInclude>
     <ClInclude Include="..\Public\VIBuffer_Cube.h">
       <Filter>01.Utility\02.Components\VIBuffer\Cube</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\VIBuffer_Instance.h">
+      <Filter>01.Utility\02.Components\VIBuffer\Instance</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\VIBuffer_Instance_Rect.h">
+      <Filter>01.Utility\02.Components\VIBuffer\Instance\Rect</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

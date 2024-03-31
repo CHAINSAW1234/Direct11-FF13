@@ -47,7 +47,7 @@ HRESULT CChr_Field::Initialize(void* pArg)
 	Safe_AddRef(m_pImGUI_Manager);
 
 	m_pModelCom->Set_Animation(0, false);
-	m_pTransformCom->Set_State(CTransform::STATE_POSITION, XMVectorSet(_float(rand() % 20), 2.f, _float(rand() % 20), 1.f));
+	m_pTransformCom->Set_State(CTransform::STATE_POSITION, XMVectorSet(_float(rand() % 20), 0.f, _float(rand() % 20), 1.f));
 
 	return S_OK;
 }

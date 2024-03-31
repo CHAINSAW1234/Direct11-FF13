@@ -44,6 +44,8 @@ using namespace DirectX;
 #include <list>
 #include <map>
 #include <unordered_map>
+#include <random>
+
 using namespace std;
 
 namespace Engine

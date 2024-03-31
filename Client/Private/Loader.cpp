@@ -25,7 +25,7 @@
 
 #include "Leopard.h"
 
-
+#include "Particle_Blue.h"
 #include "Camera_Free.h"
 #include "BackGround.h"
 #include "Player_Study.h"
@@ -34,8 +34,9 @@
 #include "Monster_Study.h"
 #include "Forklift.h"
 #include "Terrain.h"
+#include "Sky.h"
 //#include "Effect.h"
-//#include "Sky.h"
+
 
 #pragma region MapTool
 
@@ -76,7 +77,7 @@ HRESULT CLoader::Initialize(LEVEL eNextLevelID)
 	InitializeCriticalSection(&m_Critical_Section);
 
 	Loading_Prototype();
-
+	//Loading_For_Battle();
 	/* 스레드를 생성하낟. */
 	m_hThread = (HANDLE)_beginthreadex(nullptr, 0, LoadingMain, this, 0, nullptr);
 	if (0 == m_hThread)
@@ -133,6 +134,11 @@ HRESULT CLoader::Loading_Prototype()
 {
 
 #pragma region For_Study
+	
+	/* For.Prototype_GameObject_Particle_Blue */
+	if (FAILED(m_pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_Particle_Blue"),
+		CParticle_Blue::Create(m_pDevice, m_pContext))))
+		return E_FAIL;
 
 	/* For.Prototype_GameObject_Terrain */
 	if (FAILED(m_pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_Terrain"),
@@ -167,6 +173,11 @@ HRESULT CLoader::Loading_Prototype()
 	/* For.Prototype_GameObject_Part_Weapon */
 	if (FAILED(m_pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_Part_Weapon_Study"),
 		CWeapon_Study::Create(m_pDevice, m_pContext))))
+		return E_FAIL;
+
+	/* For.Prototype_GameObject_Part_Weapon */
+	if (FAILED(m_pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_Sky"),
+		CSky::Create(m_pDevice, m_pContext))))
 		return E_FAIL;
 
 #pragma endregion
@@ -313,6 +324,10 @@ HRESULT CLoader::Loading_For_GamePlay()
 		CTexture::Create(m_pDevice, m_pContext, TEXT("../Bin/Resources/Textures/Terrain/Brush.png"), 1))))
 		return E_FAIL;
 
+	/* Prototype_Component_Texture_Snow */
+	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_GAMEPLAY, TEXT("Prototype_Component_Texture_Snow"),
+		CTexture::Create(m_pDevice, m_pContext, TEXT("../Bin/Resources/Textures/Snow/Snow.png"), 1))))
+		return E_FAIL;
 
 	///* Prototype_Component_Texture_Player */
 	//if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_GAMEPLAY, TEXT("Prototype_Component_Texture_Player"),
@@ -377,6 +392,23 @@ HRESULT CLoader::Loading_For_GamePlay()
 	//	CVIBuffer_Terrain::Create(m_pGraphic_Device, 1000, 1000))))
 	//	return E_FAIL;*/	
 	
+		/* Prototype_Component_VIBuffer_Instance_Rect */
+	CVIBuffer_Instance::INSTANCE_DESC		InstanceDesc{};
+
+	InstanceDesc.vPivot = _float3(0.f, 0.f, 0.f);
+	InstanceDesc.vRange = _float3(2.f, 2.f, 2.f);
+	InstanceDesc.vMinScale = _float3(0.2f, 0.2f, 0.2f);
+	InstanceDesc.vMaxScale = _float3(0.4f, 0.4f, 0.4f);
+	InstanceDesc.iNumInstance = 100;
+	InstanceDesc.vLifeTime = _float2(0.f, 5.0f);
+
+
+	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_GAMEPLAY, TEXT("Prototype_Component_VIBuffer_Instance_Rect"),
+		CVIBuffer_Instance_Rect::Create(m_pDevice, m_pContext, InstanceDesc))))
+		return E_FAIL;
+
+
+
 	m_strLoadingText = TEXT("셰이더를(을) 로딩 중 입니다.");
 	
 	m_strLoadingText = TEXT("객체를(을) 로딩 중 입니다.");

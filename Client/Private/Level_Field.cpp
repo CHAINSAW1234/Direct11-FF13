@@ -22,10 +22,10 @@ HRESULT CLevel_Field::Initialize()
 	if (FAILED(Read_Map()))
 		return E_FAIL;
 
-	if (FAILED(Ready_Layer_Chr(TEXT("Layer_Chr"))))
+	if (FAILED(Ready_Layer_Chr(g_strChrLayerTag)))
 		return E_FAIL;
 
-	if (FAILED(Ready_Layer_Monster(TEXT("Layer_Monster"))))
+	if (FAILED(Ready_Layer_Monster(g_strMonsterLayerTag)))
 		return E_FAIL;
 
 	if (FAILED(Ready_Layer_Camera(g_strCameraLayerTag)))
@@ -121,7 +121,7 @@ HRESULT CLevel_Field::Ready_Layer_Camera(const wstring& strLayerTag)
 		return E_FAIL;
 
 	dynamic_cast<CCamera_Field*>(m_pGameInstance->Get_GameObject(g_Level, strLayerTag, 0))->Set_Target(
-		m_pGameInstance->Get_GameObject(g_Level, TEXT("Layer_Chr"), 0)
+		m_pGameInstance->Get_GameObject(g_Level, g_strChrLayerTag, 0)
 	);
 	return S_OK;
 }
@@ -156,7 +156,7 @@ HRESULT CLevel_Field::Ready_Layer_Monster(const wstring& strLayerTag)
 	pTroup->Add_Monster(TEXT("Prototype_GameObject_Leopard"), pMonster);
 
 	m_Troups.push_back(pTroup);
-	
+	/*
 	pTroup = CTroup::Create(m_pDevice, m_pContext);
 	pMonster = dynamic_cast<CMonster*>(m_pGameInstance->Add_Clone_With_Object(g_Level, strLayerTag, TEXT("Prototype_GameObject_Leopard")));
 	if (pMonster == nullptr)
@@ -170,7 +170,7 @@ HRESULT CLevel_Field::Ready_Layer_Monster(const wstring& strLayerTag)
 	pMonster->Get_Transform()->Set_State(CTransform::STATE_POSITION, _float4{ -2.f,0.f,1.f,1.f });
 	pTroup->Add_Monster(TEXT("Prototype_GameObject_Leopard"), pMonster);
 
-	m_Troups.push_back(pTroup);
+	m_Troups.push_back(pTroup);*/
 
 	return S_OK;
 

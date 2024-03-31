@@ -35,8 +35,10 @@ C:\Users\stgo5015\Documents\GitHub\Direct11_FF13\Client\Private\ImGUI_Manager.cp
 C:\Users\stgo5015\Documents\GitHub\Direct11_FF13\Client\Private\Inventory.cpp;C:\Users\stgo5015\Documents\GitHub\Direct11_FF13\Client\Default\x64\Debug\Inventory.obj
 C:\Users\stgo5015\Documents\GitHub\Direct11_FF13\Client\Private\Leopard.cpp;C:\Users\stgo5015\Documents\GitHub\Direct11_FF13\Client\Default\x64\Debug\Leopard.obj
 C:\Users\stgo5015\Documents\GitHub\Direct11_FF13\Client\Private\Leopard_State_Attack.cpp;C:\Users\stgo5015\Documents\GitHub\Direct11_FF13\Client\Default\x64\Debug\Leopard_State_Attack.obj
+C:\Users\stgo5015\Documents\GitHub\Direct11_FF13\Client\Private\Leopard_State_Field.cpp;C:\Users\stgo5015\Documents\GitHub\Direct11_FF13\Client\Default\x64\Debug\Leopard_State_Field.obj
 C:\Users\stgo5015\Documents\GitHub\Direct11_FF13\Client\Private\Leopard_State_Hit.cpp;C:\Users\stgo5015\Documents\GitHub\Direct11_FF13\Client\Default\x64\Debug\Leopard_State_Hit.obj
 C:\Users\stgo5015\Documents\GitHub\Direct11_FF13\Client\Private\Leopard_State_Idle.cpp;C:\Users\stgo5015\Documents\GitHub\Direct11_FF13\Client\Default\x64\Debug\Leopard_State_Idle.obj
+C:\Users\stgo5015\Documents\GitHub\Direct11_FF13\Client\Private\Leopard_State_Start.cpp;C:\Users\stgo5015\Documents\GitHub\Direct11_FF13\Client\Default\x64\Debug\Leopard_State_Start.obj
 C:\Users\stgo5015\Documents\GitHub\Direct11_FF13\Client\Private\Level_Battle.cpp;C:\Users\stgo5015\Documents\GitHub\Direct11_FF13\Client\Default\x64\Debug\Level_Battle.obj
 C:\Users\stgo5015\Documents\GitHub\Direct11_FF13\Client\Private\Level_Field.cpp;C:\Users\stgo5015\Documents\GitHub\Direct11_FF13\Client\Default\x64\Debug\Level_Field.obj
 C:\Users\stgo5015\Documents\GitHub\Direct11_FF13\Client\Private\Level_GamePlay.cpp;C:\Users\stgo5015\Documents\GitHub\Direct11_FF13\Client\Default\x64\Debug\Level_GamePlay.obj
@@ -51,9 +53,11 @@ C:\Users\stgo5015\Documents\GitHub\Direct11_FF13\Client\Private\MapTool.cpp;C:\U
 C:\Users\stgo5015\Documents\GitHub\Direct11_FF13\Client\Private\Monster.cpp;C:\Users\stgo5015\Documents\GitHub\Direct11_FF13\Client\Default\x64\Debug\Monster.obj
 C:\Users\stgo5015\Documents\GitHub\Direct11_FF13\Client\Private\Monster_Study.cpp;C:\Users\stgo5015\Documents\GitHub\Direct11_FF13\Client\Default\x64\Debug\Monster_Study.obj
 C:\Users\stgo5015\Documents\GitHub\Direct11_FF13\Client\Private\Optima.cpp;C:\Users\stgo5015\Documents\GitHub\Direct11_FF13\Client\Default\x64\Debug\Optima.obj
+C:\Users\stgo5015\Documents\GitHub\Direct11_FF13\Client\Private\Particle_Blue.cpp;C:\Users\stgo5015\Documents\GitHub\Direct11_FF13\Client\Default\x64\Debug\Particle_Blue.obj
 C:\Users\stgo5015\Documents\GitHub\Direct11_FF13\Client\Private\Player_Battle.cpp;C:\Users\stgo5015\Documents\GitHub\Direct11_FF13\Client\Default\x64\Debug\Player_Battle.obj
 C:\Users\stgo5015\Documents\GitHub\Direct11_FF13\Client\Private\Player_Study.cpp;C:\Users\stgo5015\Documents\GitHub\Direct11_FF13\Client\Default\x64\Debug\Player_Study.obj
 C:\Users\stgo5015\Documents\GitHub\Direct11_FF13\Client\Private\Role.cpp;C:\Users\stgo5015\Documents\GitHub\Direct11_FF13\Client\Default\x64\Debug\Role.obj
+C:\Users\stgo5015\Documents\GitHub\Direct11_FF13\Client\Private\Sky.cpp;C:\Users\stgo5015\Documents\GitHub\Direct11_FF13\Client\Default\x64\Debug\Sky.obj
 C:\Users\stgo5015\Documents\GitHub\Direct11_FF13\Client\Private\Terrain.cpp;C:\Users\stgo5015\Documents\GitHub\Direct11_FF13\Client\Default\x64\Debug\Terrain.obj
 C:\Users\stgo5015\Documents\GitHub\Direct11_FF13\Client\Private\Troup.cpp;C:\Users\stgo5015\Documents\GitHub\Direct11_FF13\Client\Default\x64\Debug\Troup.obj
 C:\Users\stgo5015\Documents\GitHub\Direct11_FF13\Client\Private\UI.cpp;C:\Users\stgo5015\Documents\GitHub\Direct11_FF13\Client\Default\x64\Debug\UI.obj

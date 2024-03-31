@@ -21,7 +21,7 @@ public:
 	virtual _bool	Compute_Picking(const CTransform* pTransform, _Out_  _float4* vOutPos = nullptr) = 0;
 
 public:
-	HRESULT Bind_Buffers();
+	virtual HRESULT Bind_Buffers();
 
 protected:
 	ID3D11Buffer*				m_pVB = { nullptr };

@@ -7,7 +7,7 @@ BEGIN(Client)
 class CLeopard_State_Hit final : public CFSM_State
 {
 private:
-	CLeopard_State_Hit(class CLeopard* m_pLeopard);
+	CLeopard_State_Hit(class CLeopard* pLeopard);
 	virtual ~CLeopard_State_Hit() = default;
 
 public:
@@ -23,7 +23,7 @@ private:
 	class CLeopard* m_pLeopard = { nullptr };
 
 public:
-	static	CLeopard_State_Hit* Create(class CLeopard* m_pLeopard);
+	static	CLeopard_State_Hit* Create(class CLeopard* pLeopard);
 	virtual void Free() override;
 
 };

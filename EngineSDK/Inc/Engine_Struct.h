@@ -76,6 +76,22 @@ namespace Engine
 		static const D3D11_INPUT_ELEMENT_DESC	Elements[3];
 	}VTXNORTEX;
 
+	typedef struct ENGINE_DLL VTXMatrix
+	{
+		XMFLOAT4		vRight;
+		XMFLOAT4		vUp;
+		XMFLOAT4		vLook;
+		XMFLOAT4		vPosition;
+		bool			isLived;
+
+	}VTXMATRIX;
+
+	typedef struct ENGINE_DLL VTXInstnace
+	{
+		static const unsigned int	iNumElements = { 7 };
+		static const D3D11_INPUT_ELEMENT_DESC	Elements[7];
+	}VTXINSTANCE;
+
 	typedef struct ENGINE_DLL VTXMesh
 	{
 		XMFLOAT3		vPosition;

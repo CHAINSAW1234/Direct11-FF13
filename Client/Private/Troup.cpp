@@ -4,6 +4,7 @@
 #include "Monster.h"
 #include "GameInstance.h"
 #include "Level_Loading.h"
+#include "Level_Battle.h"
 #include "Chr_Field.h"
 
 CTroup::CTroup(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
@@ -24,6 +25,7 @@ void CTroup::Tick()
 		if (m_pGameInstance->Get_KeyState(KEY_DOWN, DIK_RETURN)) {
 			Write_Troup();
 			m_pGameInstance->Open_Level(LEVEL_LOADING, CLevel_Loading::Create(m_pDevice, m_pContext, LEVEL_BATTLE));
+			//m_pGameInstance->Open_Level(LEVEL_BATTLE, CLevel_Battle::Create(m_pDevice, m_pContext));
 		}
 
 }
@@ -37,7 +39,7 @@ void CTroup::Add_Monster(wstring strPrototypeTag, CMonster* pMonster)
 
 _bool CTroup::Check_Collision()
 {
-	CCollider* pTargetCollider = dynamic_cast<CChr_Field*>(m_pGameInstance->Get_GameObject(g_Level, TEXT("Layer_Chr"), 0))->Get_Collider();
+	CCollider* pTargetCollider = dynamic_cast<CChr_Field*>(m_pGameInstance->Get_GameObject(g_Level, g_strChrLayerTag, 0))->Get_Collider();
 	if (nullptr == pTargetCollider)
 		return false;
 

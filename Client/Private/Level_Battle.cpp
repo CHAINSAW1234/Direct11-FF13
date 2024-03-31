@@ -36,7 +36,7 @@ HRESULT CLevel_Battle::Initialize()
     if (FAILED(Ready_Layer_Monster(g_strMonsterLayerTag)))
         return E_FAIL;
 
-    if (FAILED(Ready_Layer_Chr(TEXT("Layer_Chr"))))
+    if (FAILED(Ready_Layer_Chr(g_strChrLayerTag)))
         return E_FAIL;
 
     if (FAILED(Ready_Layer_Camera(g_strCameraLayerTag)))
@@ -144,7 +144,7 @@ HRESULT CLevel_Battle::Ready_Layer_Camera(const wstring& strLayerTag)
         return E_FAIL;
 
     dynamic_cast<CCamera_Field*>(m_pGameInstance->Get_GameObject(g_Level, strLayerTag, 0))->Set_Target(
-        m_pGameInstance->Get_GameObject(g_Level, TEXT("Layer_Chr"), 0)
+        m_pGameInstance->Get_GameObject(g_Level, g_strChrLayerTag, 0)
     );
     return S_OK;
 }
@@ -170,14 +170,14 @@ HRESULT CLevel_Battle::Ready_Layer_Chr(const wstring& strLayerTag)
 
 HRESULT CLevel_Battle::Ready_Layer_Monster(const wstring& strLayerTag)
 {
-    // write file해서 읽어오기
-   /* string filepath = "../Bin/DataFiles/Troup.dat";
+   //  write file해서 읽어오기
+    string filepath = "../Bin/DataFiles/Troup.dat";
     ifstream IFS{ filepath, ios::in | ios::binary };
 
     _int iNum = { 0 };
     IFS.read(reinterpret_cast<char*>(&iNum), sizeof(_int));
 
-    for (_int i = 0; i < 1; ++i) {
+    for (_int i = 0; i < iNum; ++i) {
         size_t iStringNum = { 0 };
         _tchar strPrototypeTag[MAX_PATH] = {};
 
@@ -188,11 +188,7 @@ HRESULT CLevel_Battle::Ready_Layer_Monster(const wstring& strLayerTag)
             return E_FAIL;
     }
 
-    IFS.close();*/
-
-
-    if (FAILED(m_pGameInstance->Add_Clone(g_Level, strLayerTag, TEXT("Prototype_GameObject_Leopard"))))
-        return E_FAIL;
+    IFS.close();
 
     return S_OK;
 }
