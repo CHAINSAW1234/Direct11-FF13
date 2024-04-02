@@ -30,6 +30,7 @@ public:
 	virtual void Start() override;
 
 public:
+	virtual void Set_Hit(_int iDamage) override;
 	HRESULT Change_State(STATE eState);
 	void	Change_Animation(ANIMATION_LEOPARD iAnimationIndex, _bool isLoop);
 

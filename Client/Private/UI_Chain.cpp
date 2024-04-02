@@ -299,6 +299,8 @@ void CUI_Chain::Move(_float fTimeDelta)
 
 void CUI_Chain::Update_Ratio()
 {
+	if (m_pTarget == nullptr)
+		return;
 	CMonster* pMonster = dynamic_cast<CMonster*>(m_pTarget);
 	if (nullptr == pMonster) {
 		m_isBreak = false;
@@ -327,7 +329,6 @@ void CUI_Chain::Update_Ratio()
   		m_fRatio = (m_fChain - 100.f) / (m_fStagger - 100.f);
 		m_fCurRatio = (m_fCurChain - 100.f) / (m_fStagger-100.f);
 	}
-
 }
 
 void CUI_Chain::Check_Target()
@@ -337,8 +338,11 @@ void CUI_Chain::Check_Target()
 
 	if (true == m_pTarget->Get_Dead()) {
 		Safe_Release(m_pTarget);
-		m_pTarget = nullptr;
-		m_isRender = false;
+		m_pTarget = m_pGameInstance->Get_GameObject(g_Level, g_strMonsterLayerTag, 0);
+		if (nullptr == m_pTarget)
+			m_isRender = false;
+		else 
+			Safe_AddRef(m_pTarget);
 	}
 
 }

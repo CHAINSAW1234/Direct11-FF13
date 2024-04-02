@@ -32,7 +32,7 @@ private:
 	_int	m_iMaxHp = { 1 };						// 플레이어의 전체 체력 
 	_int	m_iStartHp = { 0 };						// 선형 보간을 위한, 체력 변화시의 UI 체력
 	_int	m_iCurHp = { 0 };
-	_int	m_iHp = { 0 };							// 플레이어의 체력
+	_int	m_iHp = { 0 };							// 몬스터의 체력
 	_float	m_fRatio = { 0.f };						// 비율 저장
 
 	_float	m_fHpLerpTimeDelta = { 0.f };				// 체력에 변화가 있을 경우, 선형 보간을 위한 시간 계산 

@@ -7,11 +7,13 @@ CLayer::CLayer()
 
 CGameObject* CLayer::Get_GameObject(_uint iIndex)
 {
-	auto	iter = m_GameObjects.begin();
+	if (m_GameObjects.size() <= iIndex)
+		return nullptr;
 
+	auto	iter = m_GameObjects.begin();
 	std::advance(iter, iIndex);
-	/*for (size_t i = 0; i < iIndex; i++)
-		++iter;*/
+	//for (size_t i = 0; i < iIndex; i++)
+	//	++iter;
 
 	return *iter;
 }

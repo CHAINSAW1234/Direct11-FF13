@@ -59,6 +59,7 @@ void CChr_Battle_Light_State_Attack::OnStateUpdate(_float fTimeDelta)
 
 void CChr_Battle_Light_State_Attack::OnStateExit()
 {
+	m_pChr_Battle_Light->Reset_Attakable();
 }
 
 void CChr_Battle_Light_State_Attack::Run(_float fTimeDelta)
@@ -98,12 +99,8 @@ void CChr_Battle_Light_State_Attack::Run(_float fTimeDelta)
 				m_pChr_Battle_Light->Change_Animation(CChr_Battle_Light::ATTACK_NOR1, false);
 
 			}
-
 		}
-
-		
 	}
-
 }
 
 void CChr_Battle_Light_State_Attack::Up(_float fTimeDelta)
@@ -155,10 +152,18 @@ void CChr_Battle_Light_State_Attack::Attack(_float fTimeDelta)
 	// 2. 다음 공격과의 연계 체크
 	// 3. 공격 종료시 다음 애니메이션 체크
 
+	if(m_pChr_Battle_Light->Get_Current_Command() == CRole::AREA_BLAST)
+		m_pChr_Battle_Light->Check_Interact_Weapon_Multi();
+	else {
+		m_pChr_Battle_Light->Check_Interact_Weapon();
+	}
+
 	if (m_pChr_Battle_Light->Get_Transform()->Get_State_Float4(CTransform::STATE_POSITION).y > 1) {
+		m_pChr_Battle_Light->Check_Interact_Weapon();
 		if (!m_isCommandFinish) {
 			if (m_pChr_Battle_Light->Get_CurrentTrackPosition() >= 23) {
 				m_pChr_Battle_Light->Use_Command();
+				m_pChr_Battle_Light->Reset_Attakable();
 				CRole::SKILL eSkill = m_pChr_Battle_Light->Get_Current_Command();
 
 				switch (eSkill) {
@@ -200,11 +205,11 @@ void CChr_Battle_Light_State_Attack::Attack(_float fTimeDelta)
 			}
 		}
 	}
-
 	else  {
 		if (!m_isCommandFinish) {
 			if (m_pChr_Battle_Light->Get_CurrentTrackPosition() >= 17) {
 				m_pChr_Battle_Light->Use_Command();
+				m_pChr_Battle_Light->Reset_Attakable();
 				CRole::SKILL eSkill = m_pChr_Battle_Light->Get_Current_Command();
 
 				switch (eSkill) {

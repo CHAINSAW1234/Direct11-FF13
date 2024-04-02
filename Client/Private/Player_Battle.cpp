@@ -342,7 +342,10 @@ void CPlayer_Battle::Create_UI()
 
 	m_pUI_Chain = dynamic_cast<CUI_Chain*>(m_pGameInstance->Add_Clone_With_Object(g_Level, TEXT("Layer_UI"), TEXT("Prototype_GameObject_UI_Chain")));
 	Safe_AddRef(m_pUI_Chain);
+
 	Change_Chain_Target(m_Monsters[0]);
+	m_Monsters[0]->Set_isTarget(true);
+
 }
 
 void CPlayer_Battle::Update_FSMState()
@@ -448,8 +451,11 @@ void CPlayer_Battle::Start()
 
 void CPlayer_Battle::Tick(_float fTimeDelta)
 {
+
+
 	m_pFSMCom->Update(fTimeDelta);
 	Update_FSMState();
+	Update_Monsters();
 	Update_Command();
 
 }

@@ -44,15 +44,14 @@ HRESULT CCollider::Initialize_Prototype(TYPE eType)
 	m_pDevice->CreateInputLayout(VertexPositionColor::InputElements, VertexPositionColor::InputElementCount, pShaderByteCode, iShaderByteCodeLength, &m_pInputLayout);
 #endif
 
-
-
-
-
 	return S_OK;
 }
 
 HRESULT CCollider::Initialize(void* pArg)
 {
+	if (nullptr == pArg)
+		return E_FAIL;
+
 	CBounding::BOUNDING_DESC* pBoundDesc = (CBounding::BOUNDING_DESC*)pArg;
 
 	switch (m_eType)

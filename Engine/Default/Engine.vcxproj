@@ -185,6 +185,7 @@ start .\UpdateLib.bat</Command>
     <ClCompile Include="..\Private\Cell.cpp" />
     <ClCompile Include="..\Private\Channel.cpp" />
     <ClCompile Include="..\Private\Collider.cpp" />
+    <ClCompile Include="..\Private\Collider_Bone.cpp" />
     <ClCompile Include="..\Private\Component.cpp" />
     <ClCompile Include="..\Private\Component_Manager.cpp" />
     <ClCompile Include="..\Private\CustomFont.cpp" />
@@ -238,6 +239,7 @@ start .\UpdateLib.bat</Command>
     <ClInclude Include="..\Public\Cell.h" />
     <ClInclude Include="..\Public\Channel.h" />
     <ClInclude Include="..\Public\Collider.h" />
+    <ClInclude Include="..\Public\Collider_Bone.h" />
     <ClInclude Include="..\Public\Component.h" />
     <ClInclude Include="..\Public\Component_Manager.h" />
     <ClInclude Include="..\Public\CustomFont.h" />

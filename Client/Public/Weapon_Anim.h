@@ -40,6 +40,8 @@ public:
 	_uint		Get_CurrentAnimationIndex() { return m_pModelCom->Get_CurrentAnimationIndex(); }
 	_float		Get_CurrentTrackPosition() { return m_pModelCom->Get_CurrentTrackPosition(); }
 	_bool		Is_Animation_Finished() { return m_pModelCom->isFinished(); }
+	CCollider*	Get_Collider() { return m_pColliderCom; }
+
 	void		Change_Animation(_uint iAnimationIndex, _bool isLoop) { m_pModelCom->Set_Animation(iAnimationIndex, isLoop); }
 	void		Set_TrackPosition(_float fTrackPosition) { m_pModelCom->Set_TrackPosition(fTrackPosition); }
 

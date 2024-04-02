@@ -6,6 +6,7 @@
 #include "Model.h"
 #include "Shader.h"
 #include "Chr_Battle.h"
+#include "UI_Number.h"
 
 CMonster::CMonster(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
     :CGameObject { pDevice, pContext }
@@ -38,13 +39,21 @@ HRESULT CMonster::Initialize(void* pArg)
 
     if (FAILED(Create_UI_Hp()))
         return E_FAIL;
+
     return S_OK;
 }
 
 void CMonster::Tick(_float fTimeDelta)
 {
-    //m_pFSMCom->Update(fTimeDelta);
+
+    m_pFSMCom->Update(fTimeDelta);
     Update_Chain(fTimeDelta);
+    Check_Interact_Chr();
+    Check_Interact_Monster();
+
+    m_pColliderCom->Tick(m_pTransformCom->Get_WorldMatrix());
+    m_pCollider_WeaponCom->Tick(m_pTransformCom->Get_WorldMatrix());
+
 }
 
 HRESULT CMonster::Late_Tick(_float fTimeDelta)
@@ -82,6 +91,8 @@ HRESULT CMonster::Render()
 #ifdef _DEBUG
     if (nullptr != m_pColliderCom)
         m_pColliderCom->Render();
+    if (nullptr != m_pCollider_WeaponCom)
+        m_pCollider_WeaponCom->Render();
 
 #endif 
 
@@ -166,6 +177,12 @@ void CMonster::Add_Chain(_float fChain)
     }
 }
 
+void CMonster::Reset_Attakable()
+{
+    for (auto& i : m_isAttackable)
+        i = true;
+}
+
 _float CMonster::Cal_Degree_Start()
 {
     _float4 vLook = m_pTransformCom->Get_State_Float4(CTransform::STATE_LOOK);
@@ -192,6 +209,87 @@ _float CMonster::Cal_Degree_Target()
     _float4 vTargetLook;
     XMStoreFloat4(&vTargetLook, vDir_to_Target);
     return Cal_Degree_From_Directions_Between_Min180_To_180(vLook, vTargetLook);
+}
+
+void CMonster::Set_Hit(_int iDamage)
+{
+}
+
+void CMonster::Create_Damage(_int iDamage)
+{
+    CUI_Number::UI_NUMBER_DESC UI_Number_desc = {};
+    UI_Number_desc.eType = CUI_Number::DAMAGE;
+    if(m_isBreak)
+        UI_Number_desc.eType = CUI_Number::CRITICAL;
+    UI_Number_desc.iNumber = iDamage;
+    UI_Number_desc.vPosition = m_pTransformCom->Get_State_Float4(CTransform::STATE_POSITION);
+
+    if (FAILED(m_pGameInstance->Add_Clone(g_Level, TEXT("Layer_UI"), TEXT("Prototype_GameObject_UI_Number"), &UI_Number_desc)))
+        return;
+}
+
+void CMonster::Check_Interact_Chr()
+{
+    _int iSizeChr = (_int)m_pGameInstance->Get_LayerCnt(g_Level, g_strChrLayerTag);
+    for (int i = 0; i < iSizeChr; ++i) {
+        CChr_Battle* pChr_Battle = dynamic_cast<CChr_Battle*>(m_pGameInstance->Get_GameObject(g_Level, g_strChrLayerTag, i));
+
+        if (nullptr == pChr_Battle)
+            continue;
+
+        if (m_pColliderCom->Intersect(pChr_Battle->Get_Collider())) {
+            pChr_Battle->Get_Transform()->Set_State(CTransform::STATE_POSITION,
+                pChr_Battle->Get_Transform()->Get_State_Vector(CTransform::STATE_POSITION) + m_pTransformCom->Get_LastMovement_Vector());
+        }
+
+        // 중점 간의 방향으로 밀기
+        if (m_pColliderCom->Intersect(pChr_Battle->Get_Collider())) {
+            _vector VectorDir = pChr_Battle->Get_Transform()->Get_State_Vector(CTransform::STATE_POSITION) - m_pTransformCom->Get_State_Vector(CTransform::STATE_POSITION);
+            VectorDir = XMVector3Normalize(VectorDir);
+            // 미는 힘은 힘으로 처리함
+            pChr_Battle->Get_Transform()->Move_To_Direction(VectorDir, (XMVector3Length(m_pTransformCom->Get_LastMovement_Vector()) * 2.f / pChr_Battle->Get_Transform()->Get_SpeedPerSec()).m128_f32[0]);
+        }
+    }
+}
+
+void CMonster::Check_Interact_Monster()
+{
+    _int iSizeMonster = (_int)m_pGameInstance->Get_LayerCnt(g_Level, g_strMonsterLayerTag);
+    for (int i = 0; i < iSizeMonster; ++i) {
+        CMonster* pMonster = dynamic_cast<CMonster*>(m_pGameInstance->Get_GameObject(g_Level, g_strMonsterLayerTag, i));
+
+        if (nullptr == pMonster)
+            continue;
+        if (this == pMonster)
+            continue;
+
+        // 중점 간의 방향으로 밀기
+        if (m_pColliderCom->Intersect(pMonster->Get_Collider())) {
+            _vector VectorDir= pMonster->Get_Transform()->Get_State_Vector(CTransform::STATE_POSITION) - m_pTransformCom->Get_State_Vector(CTransform::STATE_POSITION);
+            VectorDir = XMVector3Normalize(VectorDir);
+            // 미는 힘은 힘으로 처리함
+            pMonster->Get_Transform()->Move_To_Direction(VectorDir, (XMVector3Length(m_pTransformCom->Get_LastMovement_Vector()) * 2.f / pMonster->Get_Transform()->Get_SpeedPerSec()).m128_f32[0]);
+        }
+    }
+}
+
+void CMonster::Check_Interact_Weapon()
+{
+    _int iSizeChr = (_int)m_pGameInstance->Get_LayerCnt(g_Level, g_strChrLayerTag);
+    for (int i = 0; i < iSizeChr; ++i) {
+        if (!m_isAttackable[i])
+            continue;
+
+        CChr_Battle* pChr_Battle = dynamic_cast<CChr_Battle*>(m_pGameInstance->Get_GameObject(g_Level, g_strChrLayerTag, i));
+
+        if (nullptr == pChr_Battle)
+            return;
+
+        if (m_pCollider_WeaponCom->Intersect(pChr_Battle->Get_Collider())) {
+            Set_AttackAble(i);
+            pChr_Battle->Set_Hit(m_iDamage);
+        }
+    }
 }
 
 HRESULT CMonster::Create_UI_Hp()
@@ -291,5 +389,6 @@ void CMonster::Free()
     Safe_Release(m_pShaderCom);
     Safe_Release(m_pFSMCom);
     Safe_Release(m_pColliderCom);
+    Safe_Release(m_pCollider_WeaponCom);
     //Safe_Release(m_pTargetObject);
 }

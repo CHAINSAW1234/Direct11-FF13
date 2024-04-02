@@ -298,6 +298,9 @@
     <Filter Include="02.GameObjects\Sky">
       <UniqueIdentifier>{a0d4ae99-69da-486a-bb87-7bbe6240322e}</UniqueIdentifier>
     </Filter>
+    <Filter Include="03.UI\Battle\UI_Damage">
+      <UniqueIdentifier>{6397687d-ad98-4564-8400-9adea8cab298}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\public\MainApp.h">
@@ -398,9 +401,6 @@
     </ClInclude>
     <ClInclude Include="..\Public\Level_Field.h">
       <Filter>01.Levels\Field</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Public\Chr.h">
-      <Filter>02.GameObjects\Chr</Filter>
     </ClInclude>
     <ClInclude Include="..\Public\Loader.h">
       <Filter>01.Levels\00. Loading\Loader</Filter>
@@ -597,6 +597,9 @@
     <ClInclude Include="..\Public\Sky.h">
       <Filter>02.GameObjects\Sky</Filter>
     </ClInclude>
+    <ClInclude Include="..\Public\UI_Number.h">
+      <Filter>03.UI\Battle\UI_Damage</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\private\MainApp.cpp">
@@ -682,9 +685,6 @@
     </ClCompile>
     <ClCompile Include="..\Private\Level_Field.cpp">
       <Filter>01.Levels\Field</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Private\Chr.cpp">
-      <Filter>02.GameObjects\Chr</Filter>
     </ClCompile>
     <ClCompile Include="..\Private\Forklift.cpp">
       <Filter>02.GameObjects\For_Study\Forklift</Filter>
@@ -877,6 +877,9 @@
     </ClCompile>
     <ClCompile Include="..\Private\Sky.cpp">
       <Filter>02.GameObjects\Sky</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\UI_Number.cpp">
+      <Filter>03.UI\Battle\UI_Damage</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

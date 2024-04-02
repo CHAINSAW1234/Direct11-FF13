@@ -54,7 +54,10 @@ void CTransform::Go_Straight(_float fTimeDelta, CNavigation* pNavigation)
 	_vector		vPosition = Get_State_Vector(STATE_POSITION);
 	_vector		vLook = Get_State_Vector(STATE_LOOK);
 
-	vPosition += XMVector3Normalize(vLook) * m_fSpeedPerSec * fTimeDelta;
+	_vector		vMovement = XMVector3Normalize(vLook) * m_fSpeedPerSec * fTimeDelta;
+	XMStoreFloat4(&m_vLastMovement, vMovement);
+
+	vPosition += vMovement;
 
 	if (nullptr == pNavigation)
 		Set_State(STATE_POSITION, vPosition);
@@ -72,7 +75,10 @@ void CTransform::Go_Backward(_float fTimeDelta)
 	_vector		vPosition = Get_State_Vector(STATE_POSITION);
 	_vector		vLook = Get_State_Vector(STATE_LOOK);
 
-	vPosition -= XMVector3Normalize(vLook) * m_fSpeedPerSec * fTimeDelta;
+	_vector		vMovement = -XMVector3Normalize(vLook) * m_fSpeedPerSec * fTimeDelta;
+	XMStoreFloat4(&m_vLastMovement, vMovement);
+
+	vPosition += vMovement;
 
 	Set_State(STATE_POSITION, vPosition);
 }
@@ -82,7 +88,10 @@ void CTransform::Go_Left(_float fTimeDelta)
 	_vector		vPosition = Get_State_Vector(STATE_POSITION);
 	_vector		vRight = Get_State_Vector(STATE_RIGHT);
 
-	vPosition -= XMVector3Normalize(vRight) * m_fSpeedPerSec * fTimeDelta;
+	_vector		vMovement = -XMVector3Normalize(vRight) * m_fSpeedPerSec * fTimeDelta;
+	XMStoreFloat4(&m_vLastMovement, vMovement);
+
+	vPosition += vMovement;
 
 	Set_State(STATE_POSITION, vPosition);
 }
@@ -92,7 +101,10 @@ void CTransform::Go_Right(_float fTimeDelta)
 	_vector		vPosition = Get_State_Vector(STATE_POSITION);
 	_vector		vRight = Get_State_Vector(STATE_RIGHT);
 
-	vPosition += XMVector3Normalize(vRight) * m_fSpeedPerSec * fTimeDelta;
+	_vector		vMovement = XMVector3Normalize(vRight) * m_fSpeedPerSec * fTimeDelta;
+	XMStoreFloat4(&m_vLastMovement, vMovement);
+
+	vPosition += vMovement;
 
 	Set_State(STATE_POSITION, vPosition);
 }
@@ -102,7 +114,10 @@ void CTransform::Go_Up(_float fTimeDelta)
 	_vector		vPosition = Get_State_Vector(STATE_POSITION);
 	_vector		vUp = Get_State_Vector(STATE_UP);
 
-	vPosition += XMVector3Normalize(vUp) * m_fSpeedPerSec * fTimeDelta;
+	_vector		vMovement = XMVector3Normalize(vUp) * m_fSpeedPerSec * fTimeDelta;
+	XMStoreFloat4(&m_vLastMovement, vMovement);
+
+	vPosition += vMovement;
 
 	Set_State(STATE_POSITION, vPosition);
 }
@@ -112,7 +127,10 @@ void CTransform::Go_Down(_float fTimeDelta)
 	_vector		vPosition = Get_State_Vector(STATE_POSITION);
 	_vector		vUp = Get_State_Vector(STATE_UP);
 
-	vPosition -= XMVector3Normalize(vUp) * m_fSpeedPerSec * fTimeDelta;
+	_vector		vMovement = -XMVector3Normalize(vUp) * m_fSpeedPerSec * fTimeDelta;
+	XMStoreFloat4(&m_vLastMovement, vMovement);
+
+	vPosition += vMovement;
 
 	Set_State(STATE_POSITION, vPosition);
 }
@@ -163,7 +181,10 @@ void CTransform::Move_To_Target(_fvector vTargetPos, _float fTimeDelta, _float f
 
 void CTransform::Move_To_Direction(_fvector vDirection, _float fTimeDelta)
 {
-	Set_State(STATE_POSITION, Get_State_Vector(STATE_POSITION) + vDirection * fTimeDelta);
+	_vector		vMovement = vDirection * fTimeDelta;
+	XMStoreFloat4(&m_vLastMovement, vMovement);
+
+	Set_State(STATE_POSITION, Get_State_Vector(STATE_POSITION) + vMovement);
 }
 
 void CTransform::Turn(_fvector vAxis, _float fTimeDelta)

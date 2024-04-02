@@ -16,7 +16,17 @@ void CUI_Battle_Stage_Target::OnStateEnter()
 		pPnal->Reset_Position();
 	}
 
-	m_pPlayer_Battle->Set_CursorPosition(m_Pnals[m_iCursor]->Get_TargetPosition());
+	Update_Pnals();
+
+	for (_int i = 0; i < (_int)m_pPlayer_Battle->Get_Monsters().size(); ++i) {
+		m_pPlayer_Battle->Get_Monsters()[m_iCursor]->Set_isTarget(false);
+	}
+
+	if (m_iCursor >= 0) {
+		m_pPlayer_Battle->Get_Monsters()[m_iCursor]->Set_isTarget(true);
+		m_pPlayer_Battle->Set_CursorPosition(m_Pnals[m_iCursor]->Get_TargetPosition());
+	}
+
 }
 
 void CUI_Battle_Stage_Target::OnStateUpdate(_float fTimeDelta)
@@ -113,7 +123,7 @@ void CUI_Battle_Stage_Target::Update_Pnals()
 		m_Pnals[i]->Set_Name(vecMonsters[i]->Get_Name());
 	}
 
-	while (vecMonsters.size() > m_Pnals.size()) {
+	while (vecMonsters.size() < m_Pnals.size()) {
 		m_Pnals.back()->Set_Dead(true);
 		Safe_Release(m_Pnals.back());
 		m_Pnals.pop_back();
@@ -121,8 +131,8 @@ void CUI_Battle_Stage_Target::Update_Pnals()
 
 	if (m_iCursor > m_Pnals.size() - 1) {
 		m_iCursor = m_Pnals.size() - 1;
+		m_pPlayer_Battle->Get_Monsters()[m_iCursor]->Set_isTarget(true);
 	}
-
 }
 
 CUI_Battle_Stage_Target* CUI_Battle_Stage_Target::Create(CPlayer_Battle* pPlayer_Battle)

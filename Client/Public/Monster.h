@@ -60,8 +60,18 @@ public:
 	void Update_Attack_Time(_float fTimeDelta);
 	void Add_Chain(_float fChain);
 	
+	void Set_AttackAble(_int iIndex) { m_isAttackable[iIndex] = false; }
+	void Reset_Attakable();
+
 	_float Cal_Degree_Start();
 	_float Cal_Degree_Target();
+	
+	virtual void Set_Hit(_int iDamage);
+	void   Create_Damage(_int iDamage);
+	void   Check_Interact_Chr();		// 몸통의 충돌 체크 -> 상대 객체 -> 플레이어 캐릭터 밀어냄
+	void   Check_Interact_Monster();	// 몸통의 충돌 체크 -> 상대 객체 -> 플레이어 캐릭터 밀어냄
+	void   Check_Interact_Weapon();		// 무기의 충돌 체크 -> 상대 객체 -> 플레이어 캐릭터 피격 판정 주기
+
 
 protected:
 	HRESULT Create_UI_Hp();
@@ -73,11 +83,15 @@ protected:
 	CShader*		m_pShaderCom = { nullptr };
 	CFSM*			m_pFSMCom = { nullptr };
 	CCollider*		m_pColliderCom = { nullptr };
+	CCollider*		m_pCollider_WeaponCom = { nullptr };
 	CChr_Battle*	m_pTargetObject = { nullptr };
 
 	wstring		m_strMonsterName = {};
 	_int		m_iMaxHp = { 1 };
 	_int		m_iHp = { 1 };
+
+	_int		m_iDamage = { 1 };
+	_bool		m_isAttackable[3] = { true, true, true };	// 공격 판정을 줄 때 한 번의 공격 행동에 한번만 피격처리 하기 위한 배열
 
 	_float		m_fAttackTimeDelta = { 0.f };				// 공격 주기 계산
 

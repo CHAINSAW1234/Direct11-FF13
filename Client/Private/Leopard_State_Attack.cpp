@@ -10,7 +10,7 @@ CLeopard_State_Attack::CLeopard_State_Attack(CLeopard* pLeopard)
 void CLeopard_State_Attack::OnStateEnter()
 {
 	m_eState = RUN;
-	m_pLeopard->Reset_AttackTime();
+	m_pLeopard->Reset_Attakable();
 	m_pLeopard->Change_Animation(CLeopard::RUN_START, false);
 }
 
@@ -21,13 +21,14 @@ void CLeopard_State_Attack::OnStateUpdate(_float fTimeDelta)
 		Run(fTimeDelta);
 		break;
 	case ATTACK:
-		Attack();
+		Attack(fTimeDelta);
 		break;
 	}
 }
 
 void CLeopard_State_Attack::OnStateExit()
 {
+	m_pLeopard->Reset_AttackTime();
 }
 
 void CLeopard_State_Attack::Run(_float fTimeDelta)
@@ -52,7 +53,7 @@ void CLeopard_State_Attack::Run(_float fTimeDelta)
 		m_pLeopard->Get_Transform()->Look_At_ForLandObject(XMLoadFloat4(&m_pLeopard->Get_TargetPosition()));
 	}
 
-	if (fDist <= 1) {
+	if (fDist <= 2) {
 		m_eState = ATTACK;
 		m_pLeopard->Change_Animation(CLeopard::ATTACK, false);
 	}
@@ -63,8 +64,14 @@ void CLeopard_State_Attack::Run(_float fTimeDelta)
 		m_pLeopard->Change_Animation(CLeopard::RUN_IDLE, true);
 }
 
-void CLeopard_State_Attack::Attack()
+void CLeopard_State_Attack::Attack(_float fTimeDelta)
 {
+	m_pLeopard->Check_Interact_Weapon();
+
+	if (23.f <= m_pLeopard->Get_CurrentTrackPosition() &&
+		m_pLeopard->Get_CurrentTrackPosition() <= 33.f)
+		m_pLeopard->Get_Transform()->Go_Backward(fTimeDelta*3);
+
 	if (m_pLeopard->Is_Animation_Finished())
 		m_pLeopard->Change_State(CLeopard::STATE_IDLE);
 

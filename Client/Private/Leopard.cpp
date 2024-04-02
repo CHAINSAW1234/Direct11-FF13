@@ -46,10 +46,6 @@ void CLeopard::Tick(_float fTimeDelta)
 {
     __super::Tick(fTimeDelta);
 
-    m_pFSMCom->Update(fTimeDelta);
-
-    m_pColliderCom->Tick(m_pTransformCom->Get_WorldMatrix());
-
     if (m_pGameInstance->Get_KeyState(KEY_DOWN, DIK_4))
         Add_Chain(1.3f);
 
@@ -107,6 +103,7 @@ HRESULT CLeopard::Render()
 
 void CLeopard::Start()
 {
+    m_iDamage = 15;
     m_pTargetObject = dynamic_cast<CChr_Battle*>(m_pGameInstance->Get_GameObject(g_Level, g_strChrLayerTag, 0));
     //Safe_AddRef(m_pTargetObject);
     if (g_Level == LEVEL_BATTLE) {
@@ -116,6 +113,18 @@ void CLeopard::Start()
     else
         Change_State(STATE_FIELD);
     /*m_pTransformCom->Set_State(CTransform::STATE_POSITION, XMVectorSet(_float(rand() % 10 - 5), 0.f, _float(rand() % 10 - 5), 1.f));*/
+}
+
+void CLeopard::Set_Hit(_int iDamage)
+{
+    Min_Hp(iDamage);
+    Create_Damage(iDamage);
+
+    if (m_iHp <= 0)
+        m_isDead = true;
+    
+    Change_State(STATE_HIT);
+    NotifyObserver();
 }
 
 HRESULT CLeopard::Change_State(STATE eState)
@@ -147,6 +156,17 @@ HRESULT CLeopard::Add_Components()
 
     if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_Collider_OBB"),
         TEXT("Com_Collider"), (CComponent**)&m_pColliderCom, &ColliderOBBDesc)))
+        return E_FAIL;
+
+    ColliderOBBDesc.vSize = _float3(1.f, .5f, .5f);
+    ColliderOBBDesc.vCenter = _float3(0.f, 0.f, 0.f);
+
+    CCollider_Bone::COLLIDER_BONE_DESC  ColliderBone_Desc = {};
+    ColliderBone_Desc.pSocket = m_pModelCom->Get_BonePtr("L_fing");
+    ColliderBone_Desc.pBounding_Desc = &ColliderOBBDesc;
+
+    if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_Collider_Bone_OBB"),
+        TEXT("Com_Collider_Weapon"), (CComponent**)&m_pCollider_WeaponCom, &ColliderBone_Desc)))
         return E_FAIL;
 
     if (FAILED(__super::Add_Components()))

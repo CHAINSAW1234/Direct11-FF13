@@ -69,7 +69,7 @@ void CLeopard_State_Idle::Idle(_float fTimeDelta)
 		}
 	}
 
-	if (m_pLeopard->Get_AttackTime() >= 5.f)
+	if ((abs(m_fDegree) < 45.f) && m_pLeopard->Get_AttackTime() >= 5.f)
 		m_pLeopard->Change_State(CLeopard::STATE_ATTACK);
 
 	if (m_pLeopard->Is_Animation_Finished())
@@ -124,8 +124,8 @@ void CLeopard_State_Idle::Move_Back(_float fTimeDelta)
 
 void CLeopard_State_Idle::Turn(_float fTimeDelta)
 {
-	_float t1 = EaseOutCublic(m_fPrevTimeDelta/2);
-	_float t2 = EaseOutCublic(m_fTimeDelta/2);
+	_float t1 = EaseOutCublic(m_fPrevTimeDelta / 2.f);
+	_float t2 = EaseOutCublic(m_fTimeDelta / 2.f);
 
 	m_pLeopard->Get_Transform()->Turn(XMVectorSet(0.f, 1.f, 0.f, 0.f), (t2-t1) * m_fDegree / 360);
 

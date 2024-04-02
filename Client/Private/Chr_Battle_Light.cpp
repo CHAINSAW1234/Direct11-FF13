@@ -17,6 +17,7 @@
 #include "Body.h"
 #include "Weapon_Anim.h"
 #include "Ability.h"
+#include "Monster.h"
 
 #include "ImGUI_Manager.h"
 
@@ -94,7 +95,8 @@ HRESULT CChr_Battle_Light::Render()
 void CChr_Battle_Light::Start()
 {
     m_iMaxHp = m_iHp = 300;
-
+    m_iDamage = 30;
+    m_isAttackable = vector<int>(m_pGameInstance->Get_LayerCnt(g_Level, g_strMonsterLayerTag), true);
     Set_Target(m_pGameInstance->Get_GameObject(g_Level, g_strMonsterLayerTag, 0));
     m_pTransformCom->Set_State(CTransform::STATE_POSITION, XMVectorSet(_float(rand() % 20), 0.f, _float(rand() % 20), 1.f));
     m_pTransformCom->Look_At_ForLandObject(((CTransform*)m_pTargetObject->Get_Component(g_strTransformTag))->Get_State_Vector(CTransform::STATE_POSITION));
@@ -162,6 +164,16 @@ void CChr_Battle_Light::Set_Command(deque<pair<CRole::SKILL, _int>>* pCommand)
     m_pFSMCom->Change_State(PREPARE);
 }
 
+void CChr_Battle_Light::Set_Hit(_int iDamage)
+{
+    Min_Hp(iDamage);
+
+    if (m_iHp <= 0) {
+        Change_State(DEAD);
+    }
+    Change_State(HIT);
+}
+
 void CChr_Battle_Light::Use_Item()
 {
     m_eItem = CInventory::ITEM_END;
@@ -171,6 +183,40 @@ void CChr_Battle_Light::Change_Role(CAbility::ROLE eRole)
 {
     __super::Change_Role(eRole);
     Change_State(OPTIMA);
+}
+
+void CChr_Battle_Light::Check_Interact_Weapon()
+{
+    CMonster* pMonster = dynamic_cast<CMonster*>(m_pTargetObject);
+    if (nullptr == pMonster)
+        return;
+
+    if (!m_isAttackable[0])
+        return;
+    
+    if (Get_Collider_Weapon()->Intersect(pMonster->Get_Collider())) {
+        Set_AttackAble(0);
+        pMonster->Set_Hit(m_iDamage);
+    }
+}
+
+void CChr_Battle_Light::Check_Interact_Weapon_Multi()
+{
+    _int iSizeChr = (_int)m_pGameInstance->Get_LayerCnt(g_Level, g_strMonsterLayerTag);
+    for (int i = 0; i < iSizeChr; ++i) {
+        if (!m_isAttackable[i])
+            continue;
+
+        CMonster* pMonster = dynamic_cast<CMonster*>(m_pGameInstance->Get_GameObject(g_Level, g_strMonsterLayerTag, i));
+
+        if (nullptr == pMonster)
+            return;
+
+        if (Get_Collider_Weapon()->Intersect(pMonster->Get_Collider())) {
+            Set_AttackAble(i);
+            pMonster->Set_Hit(m_iDamage);
+        }
+    }
 }
 
 HRESULT CChr_Battle_Light::Add_Components()
@@ -272,11 +318,14 @@ void CChr_Battle_Light::Show_ImGUI()
     case ITEM:
         str = "ITEM";
         break;
-    //case HIT:
-    //    str = "HIT";
-    //    break;
+    case HIT:
+        str = "HIT";
+        break;
     case DEAD:
         str = "DEAD";
+        break;
+    case OPTIMA:
+        str = "OPTIMA";
         break;
     }
 

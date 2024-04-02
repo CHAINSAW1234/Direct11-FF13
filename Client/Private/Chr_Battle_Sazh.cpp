@@ -72,15 +72,19 @@ HRESULT CChr_Battle_Sazh::Late_Tick(_float fTimeDelta)
 
 HRESULT CChr_Battle_Sazh::Render()
 {
-	m_pImGUI_Manager->Tick(0);
-	Show_ImGUI();
-	m_pImGUI_Manager->Render();
+	if (FAILED(__super::Render()))
+		return E_FAIL;
+
+	//m_pImGUI_Manager->Tick(0);
+	//Show_ImGUI();
+	//m_pImGUI_Manager->Render();
 
 	return S_OK;
 }
 
 void CChr_Battle_Sazh::Start()
 {
+	m_isAttackable = vector<int>(m_pGameInstance->Get_LayerCnt(g_Level, g_strMonsterLayerTag), true);
 	Set_Target(m_pGameInstance->Get_GameObject(g_Level, g_strMonsterLayerTag, 0));
 	m_pTransformCom->Set_State(CTransform::STATE_POSITION, XMVectorSet(_float(rand() % 20), 0.f, _float(rand() % 20), 1.f));
 	m_pTransformCom->Look_At_ForLandObject(((CTransform*)m_pTargetObject->Get_Component(g_strTransformTag))->Get_State_Vector(CTransform::STATE_POSITION));
@@ -111,6 +115,19 @@ HRESULT CChr_Battle_Sazh::Add_Components()
 {
 	if (FAILED(__super::Add_Components()))
 		return E_FAIL;
+
+	/* Com_Collider_Body */
+	CBounding_OBB::BOUNDING_OBB_DESC		ColliderOBBDesc{};
+
+	/* 로컬상의 정보를 셋팅한다. */
+	ColliderOBBDesc.vRotation = _float3(0.f, 0.f, 0.f);
+	ColliderOBBDesc.vSize = _float3(.6f, 1.8f, .6f);
+	ColliderOBBDesc.vCenter = _float3(0.f, ColliderOBBDesc.vSize.y * 0.5f, 0.f);
+
+	if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_Collider_OBB"),
+		TEXT("Com_Collider"), (CComponent**)&m_pColliderCom, &ColliderOBBDesc)))
+		return E_FAIL;
+
 
 	return S_OK;
 }

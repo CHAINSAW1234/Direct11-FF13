@@ -22,6 +22,8 @@ public:
 	virtual ~CTransform() = default;
 
 public:
+	_float Get_SpeedPerSec() { return m_fSpeedPerSec; }
+	
 	void Set_RotationPerSec(_float fRotationPerSec) { m_fRotationPerSec = fRotationPerSec; }
 
 	void Set_State(STATE eState, _fvector vState) {
@@ -95,6 +97,14 @@ public:
 		return XMMatrixInverse(nullptr, XMLoadFloat4x4(&m_WorldMatrix));
 	}
 
+	_float4 Get_LastMovement_Float4() const {
+		return m_vLastMovement;
+	}
+
+	_vector Get_LastMovement_Vector() const {
+		return XMLoadFloat4(&m_vLastMovement);
+	}
+
 public:
 	virtual HRESULT Initialize_Prototype() override;
 	virtual HRESULT Initialize(void* pArg) override;
@@ -109,7 +119,7 @@ public:
 	void Go_Right(_float fTimeDelta);
 	void Go_Up(_float fTimeDelta);
 	void Go_Down(_float fTimeDelta);
-	void Look_At(_fvector vTargetPosition);			// LookAt _ Target
+	void Look_At(_fvector vTargetPosition);			// LookAt_Target
 	void Look_At_ForLandObject(_fvector vTargetPosition);
 	void Move_To_Target(_fvector vTargetPos, _float fTimeDelta, _float fMinDistance = 0.f);
 	void Move_To_Direction(_fvector vDirection, _float fTimeDelta);
@@ -122,7 +132,8 @@ private:
 	_float4x4				m_WorldMatrix;
 	_float					m_fSpeedPerSec = { 0.0f };
 	_float					m_fRotationPerSec = { 0.0f };
-
+	_float4					m_vLastMovement = { 0.f, 0.f, 0.f, 0.f };
+	
 public:
 	static CTransform* Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);
 	virtual CComponent* Clone(void* pArg);

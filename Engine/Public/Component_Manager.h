@@ -4,6 +4,7 @@
 #include "Model.h"
 #include "Texture.h"
 #include "Collider.h"
+#include "Collider_Bone.h"
 #include "Transform.h"
 #include "Navigation.h"
 #include "VIBUffer_Line.h"

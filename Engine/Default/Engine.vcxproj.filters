@@ -163,6 +163,9 @@
     <Filter Include="01.Utility\02.Components\VIBuffer\Instance\Rect">
       <UniqueIdentifier>{11b552c1-778c-4c0a-aa9a-d3de6dc41185}</UniqueIdentifier>
     </Filter>
+    <Filter Include="01.Utility\02.Components\Collider\Collider_Bone">
+      <UniqueIdentifier>{c423c699-3678-4822-9587-829eab62e0ee}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\Private\Base.cpp">
@@ -317,6 +320,9 @@
     </ClCompile>
     <ClCompile Include="..\Private\VIBuffer_Instance_Rect.cpp">
       <Filter>01.Utility\02.Components\VIBuffer\Instance\Rect</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Collider_Bone.cpp">
+      <Filter>01.Utility\02.Components\Collider\Collider_Bone</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -484,6 +490,9 @@
     </ClInclude>
     <ClInclude Include="..\Public\VIBuffer_Instance_Rect.h">
       <Filter>01.Utility\02.Components\VIBuffer\Instance\Rect</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\Collider_Bone.h">
+      <Filter>01.Utility\02.Components\Collider\Collider_Bone</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

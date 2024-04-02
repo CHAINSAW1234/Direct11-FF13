@@ -4,11 +4,11 @@
 
 BEGIN(Engine)
 
-class ENGINE_DLL CCollider final : public CComponent
+class ENGINE_DLL CCollider : public CComponent
 {
 public:
 	enum TYPE { TYPE_AABB, TYPE_OBB, TYPE_SPHERE, TYPE_END };
-private:
+protected:
 	CCollider(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);
 	CCollider(const CCollider& rhs);
 	virtual ~CCollider() = default;
@@ -17,7 +17,7 @@ public:
 	virtual HRESULT Initialize_Prototype(TYPE eType);
 	virtual HRESULT Initialize(void* pArg) override;
 	virtual void Tick(_fmatrix WorldMatrix);
-	_bool Intersect(CCollider* pTargetCollider);
+	virtual _bool Intersect(CCollider* pTargetCollider);
 
 #ifdef _DEBUG
 public:
@@ -25,12 +25,13 @@ public:
 
 #endif
 
-private:
-	TYPE						m_eType = { TYPE_END };
-	class CBounding* m_pBounding = { nullptr };
+protected:
+	TYPE				m_eType = { TYPE_END };
+	_bool				m_isTrigger = { false };	// 충돌시 밀기?
+	class CBounding*	m_pBounding = { nullptr };
 
 #ifdef _DEBUG
-private:
+protected:
 	PrimitiveBatch<VertexPositionColor>* m_pBatch = { nullptr };
 	BasicEffect* m_pEffect = { nullptr };
 	ID3D11InputLayout* m_pInputLayout = { nullptr };

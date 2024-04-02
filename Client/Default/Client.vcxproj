@@ -175,7 +175,6 @@
     <ClInclude Include="..\Public\Body_Player.h" />
     <ClInclude Include="..\Public\Camera_Free.h" />
     <ClInclude Include="..\Public\Camera_Field.h" />
-    <ClInclude Include="..\Public\Chr.h" />
     <ClInclude Include="..\Public\Chr_Battle.h" />
     <ClInclude Include="..\Public\Chr_Battle_Light.h" />
     <ClInclude Include="..\Public\Chr_Battle_Light_State_Attack.h" />
@@ -246,6 +245,7 @@
     <ClInclude Include="..\Public\UI_Chain.h" />
     <ClInclude Include="..\Public\UI_Cursor.h" />
     <ClInclude Include="..\Public\UI_Chr.h" />
+    <ClInclude Include="..\Public\UI_Number.h" />
     <ClInclude Include="..\Public\UI_Monster_Hp.h" />
     <ClInclude Include="..\Public\UI_Pnal.h" />
     <ClInclude Include="..\Public\UI_Pnal_Attack.h" />
@@ -276,7 +276,6 @@
     <ClCompile Include="..\Private\Body_Player.cpp" />
     <ClCompile Include="..\Private\Camera_Free.cpp" />
     <ClCompile Include="..\Private\Camera_Field.cpp" />
-    <ClCompile Include="..\Private\Chr.cpp" />
     <ClCompile Include="..\Private\Chr_Battle.cpp" />
     <ClCompile Include="..\Private\Chr_Battle_Light.cpp" />
     <ClCompile Include="..\Private\Chr_Battle_Light_State_Attack.cpp" />
@@ -345,6 +344,7 @@
     <ClCompile Include="..\Private\UI_Chain.cpp" />
     <ClCompile Include="..\Private\UI_Cursor.cpp" />
     <ClCompile Include="..\Private\UI_Chr.cpp" />
+    <ClCompile Include="..\Private\UI_Number.cpp" />
     <ClCompile Include="..\Private\UI_Monster_Hp.cpp" />
     <ClCompile Include="..\Private\UI_Pnal.cpp" />
     <ClCompile Include="..\Private\UI_Pnal_Attack.cpp" />

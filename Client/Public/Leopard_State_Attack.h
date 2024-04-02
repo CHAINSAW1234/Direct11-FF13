@@ -21,7 +21,7 @@ public:
 
 private:
 	void Run(_float fTimeDelta);
-	void Attack();
+	void Attack(_float fTimeDelta);
 
 private:
 	class CLeopard* m_pLeopard = { nullptr };

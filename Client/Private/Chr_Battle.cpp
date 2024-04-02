@@ -7,8 +7,9 @@
 
 #include "Body.h"
 #include "Ability.h"
-
-
+#include "Weapon_Anim.h"
+#include "UI_Number.h"
+#include "Monster.h"
 
 CChr_Battle::CChr_Battle(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
 	: CGameObject{ pDevice, pContext }
@@ -51,6 +52,9 @@ HRESULT CChr_Battle::Initialize(void* pArg)
 void CChr_Battle::Tick(_float fTimeDelta)
 {
 	m_pFSMCom->Update(fTimeDelta);
+
+	Update_Target();
+
 	if(nullptr != m_pColliderCom)
 		m_pColliderCom->Tick(m_pTransformCom->Get_WorldMatrix());
 
@@ -108,6 +112,14 @@ HRESULT CChr_Battle::Add_PartObjects()
 	return S_OK;
 }
 
+_float4 CChr_Battle::Get_Target_Position()
+{
+	if (nullptr == m_pTargetObject)
+		return _float4(0.f, 0.f, 0.f, 1.f);
+
+	return ((CTransform*)m_pTargetObject->Get_Component(g_strTransformTag))->Get_State_Float4(CTransform::STATE_POSITION);
+}
+
 _float4 CChr_Battle::Get_Look()
 {
 	// Player의 Look vector를 Y값을 지우고 리턴
@@ -132,6 +144,13 @@ _bool CChr_Battle::Is_Animation_Finished()
 {
 	return dynamic_cast<CBody*>(m_PartObjects[0])->Is_Animation_Finished();
 }
+
+CCollider* CChr_Battle::Get_Collider_Weapon()
+{
+	return dynamic_cast<CWeapon_Anim*>(m_PartObjects[1])->Get_Collider();
+}
+
+
 
 void CChr_Battle::Add_Hp(_int iHp)
 {
@@ -161,10 +180,49 @@ void CChr_Battle::Set_Target(CGameObject* pTargetObject)
 	Safe_AddRef(m_pTargetObject);
 }
 
+void CChr_Battle::Reset_Attakable()
+{
+	for (auto& i : m_isAttackable)
+		i = true;
+}
+
+void CChr_Battle::Set_Hit(_int iDamage)
+{
+}
+
+void CChr_Battle::Create_Damage(_int iDamage)
+{
+	CUI_Number::UI_NUMBER_DESC UI_Number_desc = {};
+	UI_Number_desc.eType = CUI_Number::HIT;
+	UI_Number_desc.iNumber = iDamage;
+	UI_Number_desc.vPosition = m_pTransformCom->Get_State_Float4(CTransform::STATE_POSITION);
+
+	if (FAILED(m_pGameInstance->Add_Clone(g_Level, TEXT("Layer_UI"), TEXT("Prototype_GameObject_UI_Number"), &UI_Number_desc)))
+		return;
+}
+
 void CChr_Battle::Update_ATB(_float fTimeDelta)
 {
 	m_fATB += fTimeDelta * 0.8f;
 	m_fATB = min(m_fATB, m_fMaxATB);
+
+}
+
+void CChr_Battle::Update_Target()
+{
+	if (nullptr == m_pTargetObject) {
+		return;
+	}
+
+	if (m_pTargetObject->Get_Dead()) {
+		Safe_Release(m_pTargetObject);
+		m_pTargetObject = m_pGameInstance->Get_GameObject(g_Level, g_strMonsterLayerTag, 0);
+
+		if (nullptr != m_pTargetObject) {
+			Safe_AddRef(m_pTargetObject);
+			((CMonster*)m_pTargetObject)->Set_isTarget(true);
+		}
+	}
 
 }
 
@@ -207,6 +265,51 @@ CRole::SKILL CChr_Battle::Get_Current_Command()
 		return CRole::SKILL_END;
 
 	return m_Commands.front();
+}
+
+void CChr_Battle::Check_Interact_Chr()
+{
+	_int iSizeChr = (_int)m_pGameInstance->Get_LayerCnt(g_Level, g_strChrLayerTag);
+	for (int i = 0; i < iSizeChr; ++i) {
+		CChr_Battle* pChr_Battle = dynamic_cast<CChr_Battle*>(m_pGameInstance->Get_GameObject(g_Level, g_strChrLayerTag, i));
+
+		if (nullptr == pChr_Battle)
+			continue;
+		if (this == pChr_Battle)
+			continue;
+
+		if (m_pColliderCom->Intersect(pChr_Battle->Get_Collider())) {
+			pChr_Battle->Get_Transform()->Set_State(CTransform::STATE_POSITION,
+				pChr_Battle->Get_Transform()->Get_State_Vector(CTransform::STATE_POSITION) + m_pTransformCom->Get_LastMovement_Vector());
+		}
+
+		// 중점 간의 방향으로 밀기
+		if (m_pColliderCom->Intersect(pChr_Battle->Get_Collider())) {
+			_vector VectorDir = pChr_Battle->Get_Transform()->Get_State_Vector(CTransform::STATE_POSITION) - m_pTransformCom->Get_State_Vector(CTransform::STATE_POSITION);
+			VectorDir = XMVector3Normalize(VectorDir);
+			// 미는 힘은 힘으로 처리함
+			pChr_Battle->Get_Transform()->Move_To_Direction(VectorDir, (XMVector3Length(m_pTransformCom->Get_LastMovement_Vector()) * 2.f / pChr_Battle->Get_Transform()->Get_SpeedPerSec()).m128_f32[0]);
+		}
+	}
+}
+
+void CChr_Battle::Check_Interact_Monster()
+{
+	_int iSizeMonster = (_int)m_pGameInstance->Get_LayerCnt(g_Level, g_strMonsterLayerTag);
+	for (int i = 0; i < iSizeMonster; ++i) {
+		CMonster* pMonster = dynamic_cast<CMonster*>(m_pGameInstance->Get_GameObject(g_Level, g_strMonsterLayerTag, i));
+
+		if (nullptr == pMonster)
+			continue;
+
+		// 중점 간의 방향으로 밀기
+		if (m_pColliderCom->Intersect(pMonster->Get_Collider())) {
+			_vector VectorDir = pMonster->Get_Transform()->Get_State_Vector(CTransform::STATE_POSITION) - m_pTransformCom->Get_State_Vector(CTransform::STATE_POSITION);
+			VectorDir = XMVector3Normalize(VectorDir);
+			// 미는 힘은 힘으로 처리함
+			pMonster->Get_Transform()->Move_To_Direction(VectorDir, (XMVector3Length(m_pTransformCom->Get_LastMovement_Vector()) * 2.f / pMonster->Get_Transform()->Get_SpeedPerSec()).m128_f32[0]);
+		}
+	}
 }
 
 void CChr_Battle::Free()

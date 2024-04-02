@@ -4,7 +4,6 @@ C:\Users\stgo5015\Documents\GitHub\Direct11_FF13\Client\Private\Body.cpp;C:\User
 C:\Users\stgo5015\Documents\GitHub\Direct11_FF13\Client\Private\Body_Player.cpp;C:\Users\stgo5015\Documents\GitHub\Direct11_FF13\Client\Default\x64\Debug\Body_Player.obj
 C:\Users\stgo5015\Documents\GitHub\Direct11_FF13\Client\Private\Camera_Free.cpp;C:\Users\stgo5015\Documents\GitHub\Direct11_FF13\Client\Default\x64\Debug\Camera_Free.obj
 C:\Users\stgo5015\Documents\GitHub\Direct11_FF13\Client\Private\Camera_Field.cpp;C:\Users\stgo5015\Documents\GitHub\Direct11_FF13\Client\Default\x64\Debug\Camera_Field.obj
-C:\Users\stgo5015\Documents\GitHub\Direct11_FF13\Client\Private\Chr.cpp;C:\Users\stgo5015\Documents\GitHub\Direct11_FF13\Client\Default\x64\Debug\Chr.obj
 C:\Users\stgo5015\Documents\GitHub\Direct11_FF13\Client\Private\Chr_Battle.cpp;C:\Users\stgo5015\Documents\GitHub\Direct11_FF13\Client\Default\x64\Debug\Chr_Battle.obj
 C:\Users\stgo5015\Documents\GitHub\Direct11_FF13\Client\Private\Chr_Battle_Light.cpp;C:\Users\stgo5015\Documents\GitHub\Direct11_FF13\Client\Default\x64\Debug\Chr_Battle_Light.obj
 C:\Users\stgo5015\Documents\GitHub\Direct11_FF13\Client\Private\Chr_Battle_Light_State_Attack.cpp;C:\Users\stgo5015\Documents\GitHub\Direct11_FF13\Client\Default\x64\Debug\Chr_Battle_Light_State_Attack.obj
@@ -73,6 +72,7 @@ C:\Users\stgo5015\Documents\GitHub\Direct11_FF13\Client\Private\UI_Battle_Stage_
 C:\Users\stgo5015\Documents\GitHub\Direct11_FF13\Client\Private\UI_Chain.cpp;C:\Users\stgo5015\Documents\GitHub\Direct11_FF13\Client\Default\x64\Debug\UI_Chain.obj
 C:\Users\stgo5015\Documents\GitHub\Direct11_FF13\Client\Private\UI_Cursor.cpp;C:\Users\stgo5015\Documents\GitHub\Direct11_FF13\Client\Default\x64\Debug\UI_Cursor.obj
 C:\Users\stgo5015\Documents\GitHub\Direct11_FF13\Client\Private\UI_Chr.cpp;C:\Users\stgo5015\Documents\GitHub\Direct11_FF13\Client\Default\x64\Debug\UI_Chr.obj
+C:\Users\stgo5015\Documents\GitHub\Direct11_FF13\Client\Private\UI_Number.cpp;C:\Users\stgo5015\Documents\GitHub\Direct11_FF13\Client\Default\x64\Debug\UI_Number.obj
 C:\Users\stgo5015\Documents\GitHub\Direct11_FF13\Client\Private\UI_Monster_Hp.cpp;C:\Users\stgo5015\Documents\GitHub\Direct11_FF13\Client\Default\x64\Debug\UI_Monster_Hp.obj
 C:\Users\stgo5015\Documents\GitHub\Direct11_FF13\Client\Private\UI_Pnal.cpp;C:\Users\stgo5015\Documents\GitHub\Direct11_FF13\Client\Default\x64\Debug\UI_Pnal.obj
 C:\Users\stgo5015\Documents\GitHub\Direct11_FF13\Client\Private\UI_Pnal_Attack.cpp;C:\Users\stgo5015\Documents\GitHub\Direct11_FF13\Client\Default\x64\Debug\UI_Pnal_Attack.obj

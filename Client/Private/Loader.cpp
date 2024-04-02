@@ -6,6 +6,7 @@
 #include "Camera_Field.h"
 #include "MapObject.h"
 
+#include "UI_Number.h"
 #include "UI_Cursor.h"
 #include "UI_Pnal_Attack.h"
 #include "UI_Pnal_Item.h"
@@ -16,7 +17,6 @@
 #include "UI_Monster_Hp.h"
 
 #include "Inventory.h"
-#include "Chr.h"
 #include "Chr_Field.h"
 #include "Chr_Battle_Light.h"
 #include "Chr_Battle_Sazh.h"
@@ -72,13 +72,17 @@ _uint APIENTRY LoadingMain(void* pArg)
 
 HRESULT CLoader::Initialize(LEVEL eNextLevelID)
 {
+	static int isStart = true;
+
 	m_eNextLevelID = eNextLevelID;
 
 	InitializeCriticalSection(&m_Critical_Section);
 
-	Loading_Prototype();
-	//Loading_For_Battle();
-	/* 스레드를 생성하낟. */
+	if (isStart) {
+		Loading_Prototype();
+		isStart = false;
+	}
+
 	m_hThread = (HANDLE)_beginthreadex(nullptr, 0, LoadingMain, this, 0, nullptr);
 	if (0 == m_hThread)
 		return E_FAIL;
@@ -187,11 +191,6 @@ HRESULT CLoader::Loading_Prototype()
 		CCamera_Field::Create(m_pDevice, m_pContext))))
 		return E_FAIL;
 
-	/* For.Prototype_GameObject_Chr */
-	if (FAILED(m_pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_Chr"),
-		CChr::Create(m_pDevice, m_pContext))))
-		return E_FAIL;
-
 	/* For.Prototype_GameObject_Part_Body */
 	if (FAILED(m_pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_Part_Body"),
 		CBody::Create(m_pDevice, m_pContext))))
@@ -230,6 +229,11 @@ HRESULT CLoader::Loading_Prototype()
 	/* For.Prototype_GameObject_MapObject */
 	if (FAILED(m_pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_MapObject"),
 		CMapObject::Create(m_pDevice, m_pContext))))
+		return E_FAIL;
+
+	/* For.Prototype_GameObject_UI_Cursor */
+	if (FAILED(m_pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_UI_Number"),
+		CUI_Number::Create(m_pDevice, m_pContext))))
 		return E_FAIL;
 
 	/* For.Prototype_GameObject_UI_Cursor */

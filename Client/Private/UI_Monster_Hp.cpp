@@ -33,6 +33,7 @@ HRESULT CUI_Monster_Hp::Initialize(void* pArg)
     if (FAILED(Add_Components()))
         return E_FAIL;
 
+    m_isRender = false;
     Safe_AddRef(m_pTargetMonster);
     m_pTargetMonster->RegisterObserver(this);
 
@@ -49,6 +50,9 @@ void CUI_Monster_Hp::Tick(_float fTimeDelta)
 HRESULT CUI_Monster_Hp::Late_Tick(_float fTimeDelta)
 {
     if (FAILED(__super::Late_Tick(fTimeDelta)))
+        return E_FAIL;
+
+    if (m_pTargetMonster->Get_Dead())
         return E_FAIL;
 
     return S_OK;
@@ -82,7 +86,6 @@ HRESULT CUI_Monster_Hp::Render()
 
 void CUI_Monster_Hp::Start()
 {
-    m_isRender = false;
     m_iHp = m_iStartHp = m_iCurHp = m_pTargetMonster->Get_MaxHp();
     m_iMaxHp = m_pTargetMonster->Get_MaxHp();
     m_fRatio = 1;
@@ -98,6 +101,10 @@ void CUI_Monster_Hp::OnNotify()
         m_isRender = true;
     else
         m_isRender = false;
+
+    m_fHpLerpTimeDelta = 0.f;
+    m_iStartHp = m_iCurHp;
+    m_iHp = m_pTargetMonster->Get_Hp();
 }
 
 HRESULT CUI_Monster_Hp::Bind_ShaderResources()
