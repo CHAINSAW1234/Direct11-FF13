@@ -24,6 +24,8 @@
 #include "Weapon_Anim.h"
 
 #include "Leopard.h"
+#include "Warload.h"
+#include "Solider.h"
 
 #include "Particle_Blue.h"
 #include "Camera_Free.h"
@@ -219,6 +221,16 @@ HRESULT CLoader::Loading_Prototype()
 	/* For.Prototype_GameObject_Leopard */
 	if (FAILED(m_pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_Leopard"),
 		CLeopard::Create(m_pDevice, m_pContext))))
+		return E_FAIL;
+
+	/* For.Prototype_GameObject_Warload */
+	if (FAILED(m_pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_Warload"),
+		CWarload::Create(m_pDevice, m_pContext))))
+		return E_FAIL;
+
+	/* For.Prototype_GameObject_Warload */
+	if (FAILED(m_pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_Solider"),
+		CSolider::Create(m_pDevice, m_pContext))))
 		return E_FAIL;
 
 	/* For.Prototype_GameObject_Inventory */
@@ -525,6 +537,18 @@ HRESULT CLoader::Loading_For_Field()
 		CModel::Create(m_pDevice, m_pContext, "../Bin/Resources/Models/Monster/Leopard/Leopard" + tag))))
 		return E_FAIL;
 
+	if (FAILED(m_pGameInstance->Add_Prototype(g_Level, TEXT("Prototype_Component_Model_Warload"),
+		CModel::Create(m_pDevice, m_pContext, "../Bin/Resources/Models/Monster/Warload/Warload" + tag))))
+		return E_FAIL;
+
+	if (FAILED(m_pGameInstance->Add_Prototype(g_Level, TEXT("Prototype_Component_Model_Solider"),
+		CModel::Create(m_pDevice, m_pContext, "../Bin/Resources/Models/Monster/Solider/Solider" + tag))))
+		return E_FAIL;
+
+	if (FAILED(m_pGameInstance->Add_Prototype(g_Level, TEXT("Prototype_Component_Model_Solider_Weapon"),
+		CModel::Create(m_pDevice, m_pContext, "../Bin/Resources/Models/Monster/Solider/Weapon/Solider_Weapon" + tag))))
+		return E_FAIL;
+
 	//if (FAILED(m_pGameInstance->Add_Prototype(g_Level, TEXT("Prototype_Component_Model_Light_Weapon"),
 	//	CModel::Create(m_pDevice, m_pContext, "../Bin/Resources/Models/Chr/Light/Weapon/Light_Weapon" + tag))))
 	//	return E_FAIL;
@@ -625,6 +649,17 @@ HRESULT CLoader::Loading_For_Battle()
 		CModel::Create(m_pDevice, m_pContext, "../Bin/Resources/Models/Monster/Leopard/Leopard" + tag))))
 		return E_FAIL;
 
+	if (FAILED(m_pGameInstance->Add_Prototype(eLevel, TEXT("Prototype_Component_Model_Warload"),
+		CModel::Create(m_pDevice, m_pContext, "../Bin/Resources/Models/Monster/Warload/Warload" + tag))))
+		return E_FAIL;
+
+	if (FAILED(m_pGameInstance->Add_Prototype(g_Level, TEXT("Prototype_Component_Model_Solider"),
+		CModel::Create(m_pDevice, m_pContext, "../Bin/Resources/Models/Monster/Solider/Solider" + tag))))
+		return E_FAIL;
+
+	if (FAILED(m_pGameInstance->Add_Prototype(g_Level, TEXT("Prototype_Component_Model_Solider_Weapon"),
+		CModel::Create(m_pDevice, m_pContext, "../Bin/Resources/Models/Monster/Solider/Weapon/Solider_Weapon" + tag))))
+		return E_FAIL;
 
 	m_strLoadingText = TEXT("셰이더를(을) 로딩 중 입니다.");
 

@@ -89,7 +89,7 @@ HRESULT CLevel_Parsing::Ready_Models()
 	/* Prototype_Component_Model_Fiona */
 	TransformMatrix = XMMatrixRotationY(XMConvertToRadians(180.0f));
 
-	path = "../Bin/Resources/Models/Monster/Leopard/Leopard.fbx";
+	path = "../Bin/Resources/Models/Monster/Solider/Weapon/Solider_Weapon_Gun.fbx";
 	CModel* pModel = { nullptr };
 	pModel = CModel::Create(m_pDevice, m_pContext, CModel::TYPE_ANIM, path, TransformMatrix);
 	if (nullptr == pModel)
@@ -138,7 +138,7 @@ HRESULT CLevel_Parsing::Parse_Models()
 
 #pragma endregion
 
-	path = "../Bin/Resources/Models/Monster/Leopard/Leopard.bin";
+	path = "../Bin/Resources/Models/Monster/Solider/Weapon/Solider_Weapon_Gun.bin";
 	if (FAILED(m_Models[0]->Save_Model(path)))
 		return E_FAIL;
 

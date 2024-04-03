@@ -19,6 +19,7 @@ CMonster::CMonster(const CMonster& rhs)
     , m_iMaxHp{ rhs.m_iMaxHp }
     , m_iHp{ rhs.m_iMaxHp }
     , m_fStagger{ rhs.m_fStagger }
+    , m_iDamage{rhs.m_iDamage}
 {
 }
 
@@ -126,6 +127,10 @@ void CMonster::Set_isTarget(_bool isTarget)
     NotifyObserver();
 }
 
+void CMonster::Set_State_Battle_Start()
+{
+}
+
 _uint CMonster::Get_CurrentAnimationIndex()
 {
     if (nullptr == m_pModelCom)
@@ -152,12 +157,14 @@ void CMonster::Add_Hp(_int iHp)
 {
     m_iHp += iHp;
     m_iHp = min(m_iHp, m_iMaxHp);
+    NotifyObserver();
 }
 
 void CMonster::Min_Hp(_int iHp)
 {
     m_iHp -= iHp;
     m_iHp = max(m_iHp, 0);
+    NotifyObserver();
 }
 
 void CMonster::Update_Attack_Time(_float fTimeDelta)

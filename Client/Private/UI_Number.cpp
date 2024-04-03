@@ -37,11 +37,9 @@ HRESULT CUI_Number::Initialize(void* pArg)
 	vPosition.y += Random_Float(2);
 	vPosition.z += Random_Float(5);
 	m_pTransformCom->Set_State(CTransform::STATE_POSITION, vPosition);
-
-
-
+ 
 	m_eState = LERP;
-	m_iCurNumber = (_int)(m_iNumber * 0.9) - rand() % (m_iNumber/10);
+	m_iCurNumber = (_int)(m_iNumber * 0.5) - rand() % (m_iNumber/10);
 	m_iCurNumber = max(m_iCurNumber, 1);
 	m_iStartNumber = m_iCurNumber;
 

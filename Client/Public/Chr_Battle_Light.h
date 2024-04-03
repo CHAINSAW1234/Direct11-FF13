@@ -52,6 +52,7 @@ public:
 	_int	Get_Current_Command_Cost() { return m_pCommands->front().second; }
 	virtual CRole::SKILL Get_Current_Command() override;
 	virtual void Use_Command() override;
+	void	Lost_Command();												// ATB 소모없이 큐만 삭제함 
 	void	Cancel_Command();
 	void	Set_Command(deque<pair<CRole::SKILL, _int>>* pCommand);				// Player에게 명령을 전달
 

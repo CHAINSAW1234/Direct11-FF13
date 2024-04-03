@@ -23,6 +23,7 @@ void CChr_Battle_Light_State_Item::OnStateUpdate(_float fTimeDelta)
 
 void CChr_Battle_Light_State_Item::OnStateExit()
 {
+	m_pChr_Battle_Light->Set_Target(m_pGameInstance->Get_GameObject(g_Level, g_strMonsterLayerTag, 0));
 }
 
 CChr_Battle_Light_State_Item* CChr_Battle_Light_State_Item::Create(CChr_Battle_Light* pChr_Battle_Light)

@@ -54,6 +54,8 @@ void CChr_Battle::Tick(_float fTimeDelta)
 	m_pFSMCom->Update(fTimeDelta);
 
 	Update_Target();
+	Check_Interact_Chr();
+	Check_Interact_Monster();
 
 	if(nullptr != m_pColliderCom)
 		m_pColliderCom->Tick(m_pTransformCom->Get_WorldMatrix());

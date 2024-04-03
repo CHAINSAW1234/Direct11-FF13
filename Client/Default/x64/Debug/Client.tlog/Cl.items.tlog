@@ -57,6 +57,12 @@ C:\Users\stgo5015\Documents\GitHub\Direct11_FF13\Client\Private\Player_Battle.cp
 C:\Users\stgo5015\Documents\GitHub\Direct11_FF13\Client\Private\Player_Study.cpp;C:\Users\stgo5015\Documents\GitHub\Direct11_FF13\Client\Default\x64\Debug\Player_Study.obj
 C:\Users\stgo5015\Documents\GitHub\Direct11_FF13\Client\Private\Role.cpp;C:\Users\stgo5015\Documents\GitHub\Direct11_FF13\Client\Default\x64\Debug\Role.obj
 C:\Users\stgo5015\Documents\GitHub\Direct11_FF13\Client\Private\Sky.cpp;C:\Users\stgo5015\Documents\GitHub\Direct11_FF13\Client\Default\x64\Debug\Sky.obj
+C:\Users\stgo5015\Documents\GitHub\Direct11_FF13\Client\Private\Solider.cpp;C:\Users\stgo5015\Documents\GitHub\Direct11_FF13\Client\Default\x64\Debug\Solider.obj
+C:\Users\stgo5015\Documents\GitHub\Direct11_FF13\Client\Private\Solider_State_Attack.cpp;C:\Users\stgo5015\Documents\GitHub\Direct11_FF13\Client\Default\x64\Debug\Solider_State_Attack.obj
+C:\Users\stgo5015\Documents\GitHub\Direct11_FF13\Client\Private\Solider_State_Field.cpp;C:\Users\stgo5015\Documents\GitHub\Direct11_FF13\Client\Default\x64\Debug\Solider_State_Field.obj
+C:\Users\stgo5015\Documents\GitHub\Direct11_FF13\Client\Private\Solider_State_Hit.cpp;C:\Users\stgo5015\Documents\GitHub\Direct11_FF13\Client\Default\x64\Debug\Solider_State_Hit.obj
+C:\Users\stgo5015\Documents\GitHub\Direct11_FF13\Client\Private\Solider_State_Idle.cpp;C:\Users\stgo5015\Documents\GitHub\Direct11_FF13\Client\Default\x64\Debug\Solider_State_Idle.obj
+C:\Users\stgo5015\Documents\GitHub\Direct11_FF13\Client\Private\Solider_State_Start.cpp;C:\Users\stgo5015\Documents\GitHub\Direct11_FF13\Client\Default\x64\Debug\Solider_State_Start.obj
 C:\Users\stgo5015\Documents\GitHub\Direct11_FF13\Client\Private\Terrain.cpp;C:\Users\stgo5015\Documents\GitHub\Direct11_FF13\Client\Default\x64\Debug\Terrain.obj
 C:\Users\stgo5015\Documents\GitHub\Direct11_FF13\Client\Private\Troup.cpp;C:\Users\stgo5015\Documents\GitHub\Direct11_FF13\Client\Default\x64\Debug\Troup.obj
 C:\Users\stgo5015\Documents\GitHub\Direct11_FF13\Client\Private\UI.cpp;C:\Users\stgo5015\Documents\GitHub\Direct11_FF13\Client\Default\x64\Debug\UI.obj
@@ -77,6 +83,13 @@ C:\Users\stgo5015\Documents\GitHub\Direct11_FF13\Client\Private\UI_Monster_Hp.cp
 C:\Users\stgo5015\Documents\GitHub\Direct11_FF13\Client\Private\UI_Pnal.cpp;C:\Users\stgo5015\Documents\GitHub\Direct11_FF13\Client\Default\x64\Debug\UI_Pnal.obj
 C:\Users\stgo5015\Documents\GitHub\Direct11_FF13\Client\Private\UI_Pnal_Attack.cpp;C:\Users\stgo5015\Documents\GitHub\Direct11_FF13\Client\Default\x64\Debug\UI_Pnal_Attack.obj
 C:\Users\stgo5015\Documents\GitHub\Direct11_FF13\Client\Private\UI_Pnal_Item.cpp;C:\Users\stgo5015\Documents\GitHub\Direct11_FF13\Client\Default\x64\Debug\UI_Pnal_Item.obj
+C:\Users\stgo5015\Documents\GitHub\Direct11_FF13\Client\Private\Warload.cpp;C:\Users\stgo5015\Documents\GitHub\Direct11_FF13\Client\Default\x64\Debug\Warload.obj
+C:\Users\stgo5015\Documents\GitHub\Direct11_FF13\Client\Private\Warload_State_Attack.cpp;C:\Users\stgo5015\Documents\GitHub\Direct11_FF13\Client\Default\x64\Debug\Warload_State_Attack.obj
+C:\Users\stgo5015\Documents\GitHub\Direct11_FF13\Client\Private\Warload_State_Field.cpp;C:\Users\stgo5015\Documents\GitHub\Direct11_FF13\Client\Default\x64\Debug\Warload_State_Field.obj
+C:\Users\stgo5015\Documents\GitHub\Direct11_FF13\Client\Private\Warload_State_Hit.cpp;C:\Users\stgo5015\Documents\GitHub\Direct11_FF13\Client\Default\x64\Debug\Warload_State_Hit.obj
+C:\Users\stgo5015\Documents\GitHub\Direct11_FF13\Client\Private\Warload_State_Idle.cpp;C:\Users\stgo5015\Documents\GitHub\Direct11_FF13\Client\Default\x64\Debug\Warload_State_Idle.obj
+C:\Users\stgo5015\Documents\GitHub\Direct11_FF13\Client\Private\Warload_State_Skill.cpp;C:\Users\stgo5015\Documents\GitHub\Direct11_FF13\Client\Default\x64\Debug\Warload_State_Skill.obj
+C:\Users\stgo5015\Documents\GitHub\Direct11_FF13\Client\Private\Warload_State_Start.cpp;C:\Users\stgo5015\Documents\GitHub\Direct11_FF13\Client\Default\x64\Debug\Warload_State_Start.obj
 C:\Users\stgo5015\Documents\GitHub\Direct11_FF13\Client\Private\Weapon_Anim.cpp;C:\Users\stgo5015\Documents\GitHub\Direct11_FF13\Client\Default\x64\Debug\Weapon_Anim.obj
 C:\Users\stgo5015\Documents\GitHub\Direct11_FF13\Client\Private\Weapon_Study.cpp;C:\Users\stgo5015\Documents\GitHub\Direct11_FF13\Client\Default\x64\Debug\Weapon_Study.obj
 C:\Users\stgo5015\Documents\GitHub\Direct11_FF13\Client\Public\Chr_Field_State_Move.cpp;C:\Users\stgo5015\Documents\GitHub\Direct11_FF13\Client\Default\x64\Debug\Chr_Field_State_Move.obj

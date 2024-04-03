@@ -49,6 +49,8 @@ public:
 	void Set_Target(CChr_Battle* pTargetObject);
 	void Set_isTarget(_bool isTarget); 
 	void Reset_AttackTime() { m_fAttackTimeDelta = 0.f; };
+	virtual void Set_State_Battle_Start();
+
 	/*============================Model============================*/
 	_uint		Get_CurrentAnimationIndex();
 	_float		Get_CurrentTrackPosition();

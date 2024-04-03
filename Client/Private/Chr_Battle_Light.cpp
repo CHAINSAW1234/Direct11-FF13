@@ -86,16 +86,13 @@ HRESULT CChr_Battle_Light::Render()
     Show_ImGUI();
     m_pImGUI_Manager->Render();
 
-
-
-
     return S_OK;
 }
 
 void CChr_Battle_Light::Start()
 {
     m_iMaxHp = m_iHp = 300;
-    m_iDamage = 30;
+    m_iDamage = 500;
     m_isAttackable = vector<int>(m_pGameInstance->Get_LayerCnt(g_Level, g_strMonsterLayerTag), true);
     Set_Target(m_pGameInstance->Get_GameObject(g_Level, g_strMonsterLayerTag, 0));
     m_pTransformCom->Set_State(CTransform::STATE_POSITION, XMVectorSet(_float(rand() % 20), 0.f, _float(rand() % 20), 1.f));
@@ -150,6 +147,13 @@ void CChr_Battle_Light::Use_Command()
     }
 }
 
+void CChr_Battle_Light::Lost_Command()
+{
+    if (nullptr != m_pCommands && !m_pCommands->empty()) {
+        m_pCommands->pop_front();
+    }
+}
+
 void CChr_Battle_Light::Cancel_Command()
 {
     if (nullptr != m_pCommands && !m_pCommands->empty())
@@ -166,7 +170,15 @@ void CChr_Battle_Light::Set_Command(deque<pair<CRole::SKILL, _int>>* pCommand)
 
 void CChr_Battle_Light::Set_Hit(_int iDamage)
 {
+    if (m_eState == DEAD)
+        return;
+
     Min_Hp(iDamage);
+    Create_Damage(iDamage);
+
+    if (m_eState == ATTACK) {
+        Lost_Command();
+    }
 
     if (m_iHp <= 0) {
         Change_State(DEAD);

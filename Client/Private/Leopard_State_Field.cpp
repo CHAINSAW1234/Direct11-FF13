@@ -104,7 +104,6 @@ _float CLeopard_State_Field::Cal_Next_Degree()
 {
 	_float4 vLook = m_pLeopard->Get_Transform()->Get_State_Float4(CTransform::STATE_LOOK);
 
-
 	_float4 vRandPos;
 	vRandPos.x = Random_Float(20.f);
 	vRandPos.z = Random_Float(20.f);

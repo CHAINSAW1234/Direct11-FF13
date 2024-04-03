@@ -298,8 +298,59 @@
     <Filter Include="02.GameObjects\Sky">
       <UniqueIdentifier>{a0d4ae99-69da-486a-bb87-7bbe6240322e}</UniqueIdentifier>
     </Filter>
-    <Filter Include="03.UI\Battle\UI_Damage">
+    <Filter Include="03.UI\Battle\UI_Number">
       <UniqueIdentifier>{6397687d-ad98-4564-8400-9adea8cab298}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\Monster\Warload">
+      <UniqueIdentifier>{20e65fe9-6cd1-43d0-af8c-3f7319b239d6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\Monster\Solider">
+      <UniqueIdentifier>{d2bb7455-0c34-4775-8782-c558b3a3617c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\Monster\Solider_Gun">
+      <UniqueIdentifier>{7b9fb106-db8a-4d28-8af1-abcb03626a77}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\Monster\Boss">
+      <UniqueIdentifier>{cb4038e4-5c5e-4d89-99e8-39c39bc17716}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\Monster\Warload\State">
+      <UniqueIdentifier>{7102a672-69ec-4954-b702-f81bcc626580}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\Monster\Warload\State\Warload_State_Idle">
+      <UniqueIdentifier>{3e54e011-8453-4dd8-b7ae-8985214998a5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\Monster\Warload\State\Warload_State_Attack">
+      <UniqueIdentifier>{a044fadb-f35b-4e19-bef2-2931f9f31c14}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\Monster\Warload\State\Warload_State_Skill">
+      <UniqueIdentifier>{c3c61362-1ef2-4469-8cf1-3ba25d2f0cd7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\Monster\Warload\State\Warload_State_Field">
+      <UniqueIdentifier>{83827e46-90fd-421d-9601-8465bd03d491}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\Monster\Warload\State\Warload_State_Start">
+      <UniqueIdentifier>{ed5aecda-9631-4b0b-b4d9-12fa4a98df94}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\Monster\Warload\State\Warload_State_Hit">
+      <UniqueIdentifier>{e26683a5-a331-404e-87e8-e97bde6ae083}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\Monster\Solider\State">
+      <UniqueIdentifier>{1e14ccc5-ed3a-427a-a97d-84d0f4883062}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\Monster\Solider\State\Solider_State_Idle">
+      <UniqueIdentifier>{8daf29fd-ea40-43c6-9aac-fd40434eceef}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\Monster\Solider\State\Solider_State_Attack">
+      <UniqueIdentifier>{94e05eb0-3059-40be-be3e-c48066b0d67f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\Monster\Solider\State\Solider_State_Hit">
+      <UniqueIdentifier>{b29671a2-e9e5-4228-ade4-68041b75d986}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\Monster\Solider\State\Solider_State_Start">
+      <UniqueIdentifier>{0a6f22e8-167c-498d-8890-da757abc7bec}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\Monster\Solider\State\Solider_State_Field">
+      <UniqueIdentifier>{36b0b038-49f7-46f5-9531-aa4821896802}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -598,7 +649,46 @@
       <Filter>02.GameObjects\Sky</Filter>
     </ClInclude>
     <ClInclude Include="..\Public\UI_Number.h">
-      <Filter>03.UI\Battle\UI_Damage</Filter>
+      <Filter>03.UI\Battle\UI_Number</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\Warload.h">
+      <Filter>02.GameObjects\Monster\Warload</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\Warload_State_Idle.h">
+      <Filter>02.GameObjects\Monster\Warload\State\Warload_State_Idle</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\Warload_State_Attack.h">
+      <Filter>02.GameObjects\Monster\Warload\State\Warload_State_Attack</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\Warload_State_Field.h">
+      <Filter>02.GameObjects\Monster\Warload\State\Warload_State_Field</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\Warload_State_Hit.h">
+      <Filter>02.GameObjects\Monster\Warload\State\Warload_State_Hit</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\Warload_State_Skill.h">
+      <Filter>02.GameObjects\Monster\Warload\State\Warload_State_Skill</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\Warload_State_Start.h">
+      <Filter>02.GameObjects\Monster\Warload\State\Warload_State_Start</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\Solider_State_Idle.h">
+      <Filter>02.GameObjects\Monster\Solider\State\Solider_State_Idle</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\Solider.h">
+      <Filter>02.GameObjects\Monster\Solider\State</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\Solider_State_Field.h">
+      <Filter>02.GameObjects\Monster\Solider\State\Solider_State_Field</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\Solider_State_Attack.h">
+      <Filter>02.GameObjects\Monster\Solider\State\Solider_State_Attack</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\Solider_State_Start.h">
+      <Filter>02.GameObjects\Monster\Solider\State\Solider_State_Start</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\Solider_State_Hit.h">
+      <Filter>02.GameObjects\Monster\Solider\State\Solider_State_Hit</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -879,7 +969,46 @@
       <Filter>02.GameObjects\Sky</Filter>
     </ClCompile>
     <ClCompile Include="..\Private\UI_Number.cpp">
-      <Filter>03.UI\Battle\UI_Damage</Filter>
+      <Filter>03.UI\Battle\UI_Number</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Warload.cpp">
+      <Filter>02.GameObjects\Monster\Warload</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Warload_State_Idle.cpp">
+      <Filter>02.GameObjects\Monster\Warload\State\Warload_State_Idle</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Warload_State_Attack.cpp">
+      <Filter>02.GameObjects\Monster\Warload\State\Warload_State_Attack</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Warload_State_Field.cpp">
+      <Filter>02.GameObjects\Monster\Warload\State\Warload_State_Field</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Warload_State_Hit.cpp">
+      <Filter>02.GameObjects\Monster\Warload\State\Warload_State_Hit</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Warload_State_Skill.cpp">
+      <Filter>02.GameObjects\Monster\Warload\State\Warload_State_Skill</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Warload_State_Start.cpp">
+      <Filter>02.GameObjects\Monster\Warload\State\Warload_State_Start</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Solider_State_Idle.cpp">
+      <Filter>02.GameObjects\Monster\Solider\State\Solider_State_Idle</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Solider.cpp">
+      <Filter>02.GameObjects\Monster\Solider\State</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Solider_State_Field.cpp">
+      <Filter>02.GameObjects\Monster\Solider\State\Solider_State_Field</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Solider_State_Attack.cpp">
+      <Filter>02.GameObjects\Monster\Solider\State\Solider_State_Attack</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Solider_State_Start.cpp">
+      <Filter>02.GameObjects\Monster\Solider\State\Solider_State_Start</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Solider_State_Hit.cpp">
+      <Filter>02.GameObjects\Monster\Solider\State\Solider_State_Hit</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

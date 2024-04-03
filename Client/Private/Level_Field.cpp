@@ -137,40 +137,25 @@ HRESULT CLevel_Field::Ready_Layer_Chr(const wstring& strLayerTag)
 HRESULT CLevel_Field::Ready_Layer_Monster(const wstring& strLayerTag)
 {
 	CTroup* pTroup = CTroup::Create(m_pDevice, m_pContext);
-	CMonster* pMonster = dynamic_cast<CMonster*>(m_pGameInstance->Add_Clone_With_Object(g_Level, strLayerTag, TEXT("Prototype_GameObject_Leopard")));
+	CMonster* pMonster = dynamic_cast<CMonster*>(m_pGameInstance->Add_Clone_With_Object(g_Level, strLayerTag, TEXT("Prototype_GameObject_Solider")));
 	if (pMonster == nullptr)
 		return E_FAIL;
 	pMonster->Get_Transform()->Set_State(CTransform::STATE_POSITION, _float4{ 1.f,0.f,1.f,1.f });
-	pTroup->Add_Monster(TEXT("Prototype_GameObject_Leopard") , pMonster);
+	pTroup->Add_Monster(TEXT("Prototype_GameObject_Solider") , pMonster);
 
-	pMonster = dynamic_cast<CMonster*>(m_pGameInstance->Add_Clone_With_Object(g_Level, strLayerTag, TEXT("Prototype_GameObject_Leopard")));
-	if (pMonster == nullptr)
-		return E_FAIL;
-	pMonster->Get_Transform()->Set_State(CTransform::STATE_POSITION, _float4{2.f,0.f,1.f,1.f });
-	pTroup->Add_Monster(TEXT("Prototype_GameObject_Leopard"), pMonster);
+	//pMonster = dynamic_cast<CMonster*>(m_pGameInstance->Add_Clone_With_Object(g_Level, strLayerTag, TEXT("Prototype_GameObject_Leopard")));
+	//if (pMonster == nullptr)
+	//	return E_FAIL;
+	//pMonster->Get_Transform()->Set_State(CTransform::STATE_POSITION, _float4{2.f,0.f,1.f,1.f });
+	//pTroup->Add_Monster(TEXT("Prototype_GameObject_Leopard"), pMonster);
 
-	pMonster = dynamic_cast<CMonster*>(m_pGameInstance->Add_Clone_With_Object(g_Level, strLayerTag, TEXT("Prototype_GameObject_Leopard")));
-	if (pMonster == nullptr)
-		return E_FAIL;
-	pMonster->Get_Transform()->Set_State(CTransform::STATE_POSITION, _float4{ 3.f,0.f,1.f,1.f });
-	pTroup->Add_Monster(TEXT("Prototype_GameObject_Leopard"), pMonster);
+	//pMonster = dynamic_cast<CMonster*>(m_pGameInstance->Add_Clone_With_Object(g_Level, strLayerTag, TEXT("Prototype_GameObject_Leopard")));
+	//if (pMonster == nullptr)
+	//	return E_FAIL;
+	//pMonster->Get_Transform()->Set_State(CTransform::STATE_POSITION, _float4{ 3.f,0.f,1.f,1.f });
+	//pTroup->Add_Monster(TEXT("Prototype_GameObject_Leopard"), pMonster);
 
 	m_Troups.push_back(pTroup);
-	/*
-	pTroup = CTroup::Create(m_pDevice, m_pContext);
-	pMonster = dynamic_cast<CMonster*>(m_pGameInstance->Add_Clone_With_Object(g_Level, strLayerTag, TEXT("Prototype_GameObject_Leopard")));
-	if (pMonster == nullptr)
-		return E_FAIL;
-	pMonster->Get_Transform()->Set_State(CTransform::STATE_POSITION, _float4{ -1.f,0.f,1.f,1.f });
-	pTroup->Add_Monster(TEXT("Prototype_GameObject_Leopard"), pMonster);
-
-	pMonster = dynamic_cast<CMonster*>(m_pGameInstance->Add_Clone_With_Object(g_Level, strLayerTag, TEXT("Prototype_GameObject_Leopard")));
-	if (pMonster == nullptr)
-		return E_FAIL;
-	pMonster->Get_Transform()->Set_State(CTransform::STATE_POSITION, _float4{ -2.f,0.f,1.f,1.f });
-	pTroup->Add_Monster(TEXT("Prototype_GameObject_Leopard"), pMonster);
-
-	m_Troups.push_back(pTroup);*/
 
 	return S_OK;
 

@@ -24,6 +24,7 @@ HRESULT CLeopard::Initialize_Prototype()
 {
     m_iMaxHp = m_iHp = 375;
     m_fStagger = 103.f;
+    m_iDamage = 15;
     m_strMonsterName = TEXT("게파드 열조");
 
     return S_OK;
@@ -45,42 +46,6 @@ HRESULT CLeopard::Initialize(void* pArg)
 void CLeopard::Tick(_float fTimeDelta)
 {
     __super::Tick(fTimeDelta);
-
-    if (m_pGameInstance->Get_KeyState(KEY_DOWN, DIK_4))
-        Add_Chain(1.3f);
-
-    if (m_pGameInstance->Get_KeyState(KEY_DOWN, DIK_5))
-        Change_State(STATE_HIT);
-
-   /* if (GetKeyState(VK_LEFT) & 0x8000)
-    {
-        m_pTransformCom->Turn(XMVectorSet(0.f, 1.f, 0.f, 0.f), fTimeDelta * -1.f);
-    }
-
-    if (GetKeyState(VK_RIGHT) & 0x8000)
-    {
-        m_pTransformCom->Turn(XMVectorSet(0.f, 1.f, 0.f, 0.f), fTimeDelta);
-    }
-
-    if (GetKeyState('T') & 0x8000)
-    {
-        m_pTransformCom->Go_Up(fTimeDelta);
-    }
-
-    if (GetKeyState('G') & 0x8000)
-    {
-        m_pTransformCom->Go_Down(fTimeDelta);
-    }
-
-    if (GetKeyState(VK_DOWN) & 0x8000)
-    {
-        m_pTransformCom->Go_Backward(fTimeDelta);
-    }
-
-    if (GetKeyState(VK_UP) & 0x8000)
-    {
-        m_pTransformCom->Go_Straight(fTimeDelta);
-    }*/
 }
 
 HRESULT CLeopard::Late_Tick(_float fTimeDelta)
@@ -103,7 +68,6 @@ HRESULT CLeopard::Render()
 
 void CLeopard::Start()
 {
-    m_iDamage = 15;
     m_pTargetObject = dynamic_cast<CChr_Battle*>(m_pGameInstance->Get_GameObject(g_Level, g_strChrLayerTag, 0));
     //Safe_AddRef(m_pTargetObject);
     if (g_Level == LEVEL_BATTLE) {
@@ -124,7 +88,11 @@ void CLeopard::Set_Hit(_int iDamage)
         m_isDead = true;
     
     Change_State(STATE_HIT);
-    NotifyObserver();
+}
+
+void CLeopard::Set_State_Battle_Start()
+{
+    Change_State(STATE_START);
 }
 
 HRESULT CLeopard::Change_State(STATE eState)

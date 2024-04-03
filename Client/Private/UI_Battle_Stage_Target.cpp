@@ -19,7 +19,7 @@ void CUI_Battle_Stage_Target::OnStateEnter()
 	Update_Pnals();
 
 	for (_int i = 0; i < (_int)m_pPlayer_Battle->Get_Monsters().size(); ++i) {
-		m_pPlayer_Battle->Get_Monsters()[m_iCursor]->Set_isTarget(false);
+		m_pPlayer_Battle->Get_Monsters()[i]->Set_isTarget(false);
 	}
 
 	if (m_iCursor >= 0) {

@@ -154,21 +154,22 @@ void CChr_Battle_Light_State_Attack::Attack(_float fTimeDelta)
 
 	if(m_pChr_Battle_Light->Get_Current_Command() == CRole::AREA_BLAST)
 		m_pChr_Battle_Light->Check_Interact_Weapon_Multi();
-	else {
+	else
 		m_pChr_Battle_Light->Check_Interact_Weapon();
-	}
 
+	// 1. 공중에서
 	if (m_pChr_Battle_Light->Get_Transform()->Get_State_Float4(CTransform::STATE_POSITION).y > 1) {
 		m_pChr_Battle_Light->Check_Interact_Weapon();
 		if (!m_isCommandFinish) {
 			if (m_pChr_Battle_Light->Get_CurrentTrackPosition() >= 23) {
 				m_pChr_Battle_Light->Use_Command();
-				m_pChr_Battle_Light->Reset_Attakable();
 				CRole::SKILL eSkill = m_pChr_Battle_Light->Get_Current_Command();
 
 				switch (eSkill) {
 				case CRole::ATTACK: 
 				{
+					m_pChr_Battle_Light->Reset_Attakable();
+
 					if (Get_Distance() > 2) {
 						m_pChr_Battle_Light->Change_Animation(CChr_Battle_Light::JUMP_FALL, false);
 						m_eState = DOWN;
@@ -185,6 +186,7 @@ void CChr_Battle_Light_State_Attack::Attack(_float fTimeDelta)
 				}
 				break;
 				case CRole::AREA_BLAST:
+					m_pChr_Battle_Light->Reset_Attakable();
 					m_eState = DOWN;
 					m_pChr_Battle_Light->Change_Animation(CChr_Battle_Light::JUMP_FALL, true);
 					break;
@@ -192,6 +194,7 @@ void CChr_Battle_Light_State_Attack::Attack(_float fTimeDelta)
 					m_isCommandFinish = true;
 					break;
 				default:
+					m_pChr_Battle_Light->Reset_Attakable();
 					m_eState = SKILL;
 					m_pChr_Battle_Light->Change_Animation(CChr_Battle_Light::SKILL_AIR, false);
 					break;
@@ -205,16 +208,16 @@ void CChr_Battle_Light_State_Attack::Attack(_float fTimeDelta)
 			}
 		}
 	}
-	else  {
+	else  { // 2. 지상에서 
 		if (!m_isCommandFinish) {
 			if (m_pChr_Battle_Light->Get_CurrentTrackPosition() >= 17) {
 				m_pChr_Battle_Light->Use_Command();
-				m_pChr_Battle_Light->Reset_Attakable();
 				CRole::SKILL eSkill = m_pChr_Battle_Light->Get_Current_Command();
 
 				switch (eSkill) {
 				case CRole::ATTACK:
 				{
+					m_pChr_Battle_Light->Reset_Attakable();
 					// 1. 지상에서의 거리 비교, 거리가 짧으면 다시 쫒아가야함
 					if (Get_Distance() > 2) {
 						m_pChr_Battle_Light->Change_Animation(CChr_Battle_Light::RUN_START, false);
@@ -239,18 +242,19 @@ void CChr_Battle_Light_State_Attack::Attack(_float fTimeDelta)
 				}
 					break;
 				case CRole::AREA_BLAST:
+					m_pChr_Battle_Light->Reset_Attakable();
 					m_pChr_Battle_Light->Change_Animation(CChr_Battle_Light::ATTACK_AREABLAST, false);
 					break;
 				case CRole::SKILL_END:
 					m_isCommandFinish = true;
 					break;
 				default:
+					m_pChr_Battle_Light->Reset_Attakable();
 					m_eState = SKILL;
 					m_pChr_Battle_Light->Change_Animation(CChr_Battle_Light::SKILL, false);
 					break;
 				}
 			}
-			
 		}
 		else {
 			if (m_pChr_Battle_Light->Is_Animation_Finished()) {
