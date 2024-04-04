@@ -60,14 +60,17 @@ public:
 	void Add_Hp(_int iHp);
 	void Min_Hp(_int iHp);
 	void Update_Attack_Time(_float fTimeDelta);
-	void Add_Chain(_float fChain);
+	virtual void Add_Chain(_float fChain);
 	
 	void Set_AttackAble(_int iIndex) { m_isAttackable[iIndex] = false; }
 	void Reset_Attakable();
 
 	_float Cal_Degree_Start();
+	_float Cal_Dist_Start();
 	_float Cal_Degree_Target();
-	
+	_float Cal_Dist_Target();
+
+
 	virtual void Set_Hit(_int iDamage);
 	void   Create_Damage(_int iDamage);
 	void   Check_Interact_Chr();		// 몸통의 충돌 체크 -> 상대 객체 -> 플레이어 캐릭터 밀어냄
@@ -77,7 +80,7 @@ public:
 
 protected:
 	HRESULT Create_UI_Hp();
-	void Update_Chain(_float fTimeDelta);
+	virtual void Update_Chain(_float fTimeDelta);
 
 
 protected:
@@ -87,6 +90,8 @@ protected:
 	CCollider*		m_pColliderCom = { nullptr };
 	CCollider*		m_pCollider_WeaponCom = { nullptr };
 	CChr_Battle*	m_pTargetObject = { nullptr };
+
+	_float		m_fColliderSizeZ = { 0 };
 
 	wstring		m_strMonsterName = {};
 	_int		m_iMaxHp = { 1 };

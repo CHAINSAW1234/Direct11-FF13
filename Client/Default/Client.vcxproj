@@ -173,6 +173,14 @@
     <ClInclude Include="..\public\BackGround.h" />
     <ClInclude Include="..\Public\Body.h" />
     <ClInclude Include="..\Public\Body_Player.h" />
+    <ClInclude Include="..\Public\Boss.h" />
+    <ClInclude Include="..\Public\Boss_State_Attack_Magic.h" />
+    <ClInclude Include="..\Public\Boss_State_Attack_Physic.h" />
+    <ClInclude Include="..\Public\Boss_State_Field.h" />
+    <ClInclude Include="..\Public\Boss_State_Hit.h" />
+    <ClInclude Include="..\Public\Boss_State_Idle.h" />
+    <ClInclude Include="..\Public\Boss_State_Skill_Barrier.h" />
+    <ClInclude Include="..\Public\Boss_State_Skill_HellBlast.h" />
     <ClInclude Include="..\Public\Camera_Free.h" />
     <ClInclude Include="..\Public\Camera_Field.h" />
     <ClInclude Include="..\Public\Chr_Battle.h" />
@@ -231,6 +239,8 @@
     <ClInclude Include="..\Public\Role.h" />
     <ClInclude Include="..\Public\Sky.h" />
     <ClInclude Include="..\Public\Solider.h" />
+    <ClInclude Include="..\Public\Solider_Gun.h" />
+    <ClInclude Include="..\Public\Solider_Gun_State_Attack.h" />
     <ClInclude Include="..\Public\Solider_State_Attack.h" />
     <ClInclude Include="..\Public\Solider_State_Field.h" />
     <ClInclude Include="..\Public\Solider_State_Hit.h" />
@@ -287,6 +297,14 @@
     <ClCompile Include="..\private\BackGround.cpp" />
     <ClCompile Include="..\Private\Body.cpp" />
     <ClCompile Include="..\Private\Body_Player.cpp" />
+    <ClCompile Include="..\Private\Boss.cpp" />
+    <ClCompile Include="..\Private\Boss_State_Attack_Magic.cpp" />
+    <ClCompile Include="..\Private\Boss_State_Attack_Physic.cpp" />
+    <ClCompile Include="..\Private\Boss_State_Field.cpp" />
+    <ClCompile Include="..\Private\Boss_State_Hit.cpp" />
+    <ClCompile Include="..\Private\Boss_State_Idle.cpp" />
+    <ClCompile Include="..\Private\Boss_State_Skill_Barrier.cpp" />
+    <ClCompile Include="..\Private\Boss_State_Skill_HellBlast.cpp" />
     <ClCompile Include="..\Private\Camera_Free.cpp" />
     <ClCompile Include="..\Private\Camera_Field.cpp" />
     <ClCompile Include="..\Private\Chr_Battle.cpp" />
@@ -343,6 +361,8 @@
     <ClCompile Include="..\Private\Role.cpp" />
     <ClCompile Include="..\Private\Sky.cpp" />
     <ClCompile Include="..\Private\Solider.cpp" />
+    <ClCompile Include="..\Private\Solider_Gun.cpp" />
+    <ClCompile Include="..\Private\Solider_Gun_State_Attack.cpp" />
     <ClCompile Include="..\Private\Solider_State_Attack.cpp" />
     <ClCompile Include="..\Private\Solider_State_Field.cpp" />
     <ClCompile Include="..\Private\Solider_State_Hit.cpp" />

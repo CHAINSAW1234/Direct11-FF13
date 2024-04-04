@@ -23,10 +23,12 @@ private:
 	void Idle(_float fTimeDelta);
 	void Hurt();
 	void Move(_float fTimeDelta);
+	void Turn(_float fTimeDelta);
 
+
+	void Change_State(STATE eState);
 	void Change_MovementAnimation();
 	void Update_Movement();
-	void Update_LookAt();			// Target 위치와 내 Look벡터간의 각도를 계산해서 저장함
 	_int Check_Movement_Next(FXMVECTOR vTargetPos, FXMVECTOR vLineDir, FXMVECTOR vCurPos);
 
 private:
@@ -46,6 +48,15 @@ private:
 
 	_bool		m_isPatternEnable = { true };		// 이동 패턴 실행 여부 -> 공격, 피격시 초기화	-> 피격시에는 앞, 뒤 이동 고정 인듯
 												// false인 경우 Startposition위치에서 있도록 최소한의 Move
+
+	/*
+	_float			m_fDegree = { 0.f };
+	_float			m_fTimeDelta = { 0.f };
+	_float			m_fStateTime = { 0.f };
+	_float			m_fPrevTimeDelta = { 0.f };
+	*/
+
+
 public:
 	static	CChr_Battle_Light_State_Idle* Create(class CChr_Battle_Light* pChr_Battle_Light);
 	virtual void Free() override;

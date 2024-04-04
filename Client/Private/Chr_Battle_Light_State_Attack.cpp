@@ -10,7 +10,7 @@ CChr_Battle_Light_State_Attack::CChr_Battle_Light_State_Attack(CChr_Battle_Light
 void CChr_Battle_Light_State_Attack::OnStateEnter()
 {
 	CRole::SKILL eSkill = m_pChr_Battle_Light->Get_Current_Command();
-	Update_LookAt();
+	m_fDegree = m_pChr_Battle_Light->Cal_Degree_Target();
 	m_isCommandFinish = false;
 
 	if (eSkill == CRole::ATTACK || eSkill == CRole::AREA_BLAST) {	// 공격이면 달려가야함
@@ -33,7 +33,7 @@ void CChr_Battle_Light_State_Attack::OnStateEnter()
 
 void CChr_Battle_Light_State_Attack::OnStateUpdate(_float fTimeDelta)
 {
-	Update_LookAt();
+	m_fDegree = m_pChr_Battle_Light->Cal_Degree_Target();
 
 	switch (m_eState) {
 	case RUN:
@@ -64,15 +64,8 @@ void CChr_Battle_Light_State_Attack::OnStateExit()
 
 void CChr_Battle_Light_State_Attack::Run(_float fTimeDelta)
 {
-	_vector vTargetPosition = XMLoadFloat4(&m_pChr_Battle_Light->Get_Target_Position());
-	_float fTargetPositionY = vTargetPosition.m128_f32[1];
-	vTargetPosition.m128_f32[1] = 0.f;
 
-	_vector vCurrentPosition = m_pChr_Battle_Light->Get_Transform()->Get_State_Vector(CTransform::STATE_POSITION);
-	_float fCurrentPositionY = vTargetPosition.m128_f32[1];
-	vCurrentPosition.m128_f32[1] = 0.f;
-
-	_float fDist = XMVector3Length(vTargetPosition - vCurrentPosition).m128_f32[0];
+	_float fDist = m_pChr_Battle_Light->Cal_Dist_Target();
 
 	if (abs(m_fDegree) > 5) {
 		m_pChr_Battle_Light->Get_Transform()->Turn(XMVectorSet(0.f, 1.f, 0.f, 0.f), fTimeDelta * m_fDegree / abs(m_fDegree));
@@ -84,13 +77,13 @@ void CChr_Battle_Light_State_Attack::Run(_float fTimeDelta)
 		m_pChr_Battle_Light->Change_Animation(CChr_Battle_Light::RUN_IDLE, true);
 	}
 
-	if (fDist <= 2) {
+	if (fDist <= 1) {
 		if (m_pChr_Battle_Light->Get_Current_Command() == CRole::AREA_BLAST) {
 			m_eState = ATTACK;
 			m_pChr_Battle_Light->Change_Animation(CChr_Battle_Light::ATTACK_AREABLAST, false);
 		}
 		else {
-			if (fTargetPositionY - fCurrentPositionY >= 3) {
+			if (Get_Dist_Y() >= 2.f) {
 				m_eState = UP;
 				m_pChr_Battle_Light->Change_Animation(CChr_Battle_Light::JUMP_START, false);
 			}
@@ -112,8 +105,8 @@ void CChr_Battle_Light_State_Attack::Up(_float fTimeDelta)
 		m_pChr_Battle_Light->Change_Animation(CChr_Battle_Light::JUMP_UP, true);
 	}
 
-	if (fTargetPositionY - fCurrentPositionY > 1) {
-		m_pChr_Battle_Light->Get_Transform()->Go_Up(fTimeDelta);
+	if (Get_Dist_Y() > 1) {
+		m_pChr_Battle_Light->Get_Transform()->Go_Up(fTimeDelta * 3);
 	}
 	else {
 		m_eState = ATTACK;
@@ -125,8 +118,8 @@ void CChr_Battle_Light_State_Attack::Down(_float fTimeDelta)
 {
 	_float fCurrentPositionY = m_pChr_Battle_Light->Get_Transform()->Get_State_Float4(CTransform::STATE_POSITION).y;
 
-	if (fCurrentPositionY > 0) {
-		m_pChr_Battle_Light->Get_Transform()->Go_Down(fTimeDelta);
+	if (fCurrentPositionY >= 0.1) {
+		m_pChr_Battle_Light->Get_Transform()->Go_Down(fTimeDelta * 3);
 	}
 	else {
 		CRole::SKILL eSkill = m_pChr_Battle_Light->Get_Current_Command();
@@ -139,9 +132,11 @@ void CChr_Battle_Light_State_Attack::Down(_float fTimeDelta)
 			m_eState = SKILL;
 			m_pChr_Battle_Light->Change_Animation(CChr_Battle_Light::SKILL, false);
 		}
+		else {
+			m_pChr_Battle_Light->Change_Animation(CChr_Battle_Light::JUMP_LAND, false);
+			m_eState = FINISH;
+		}
 
-		m_pChr_Battle_Light->Change_Animation(CChr_Battle_Light::JUMP_LAND, false);
-		m_eState = FINISH;
 	}
 }
 
@@ -170,7 +165,7 @@ void CChr_Battle_Light_State_Attack::Attack(_float fTimeDelta)
 				{
 					m_pChr_Battle_Light->Reset_Attakable();
 
-					if (Get_Distance() > 2) {
+					if (m_pChr_Battle_Light->Cal_Dist_Target() > 2.f) {
 						m_pChr_Battle_Light->Change_Animation(CChr_Battle_Light::JUMP_FALL, false);
 						m_eState = DOWN;
 						return;
@@ -219,7 +214,7 @@ void CChr_Battle_Light_State_Attack::Attack(_float fTimeDelta)
 				{
 					m_pChr_Battle_Light->Reset_Attakable();
 					// 1. 지상에서의 거리 비교, 거리가 짧으면 다시 쫒아가야함
-					if (Get_Distance() > 2) {
+					if (m_pChr_Battle_Light->Cal_Dist_Target() > 2.f) {
 						m_pChr_Battle_Light->Change_Animation(CChr_Battle_Light::RUN_START, false);
 						m_eState = RUN;
 						return;
@@ -355,7 +350,6 @@ void CChr_Battle_Light_State_Attack::Skill(_float fTimeDelta)
 
 void CChr_Battle_Light_State_Attack::Finish(_float fTimeDelta)
 {
-	m_pChr_Battle_Light->Update_ATB(fTimeDelta);
 
 	if (m_pChr_Battle_Light->Is_Animation_Finished()) {
 		switch (m_pChr_Battle_Light->Get_CurrentAnimationIndex()) {
@@ -368,49 +362,26 @@ void CChr_Battle_Light_State_Attack::Finish(_float fTimeDelta)
 		}
 	}
 	if (m_pChr_Battle_Light->Get_CurrentAnimationIndex() == CChr_Battle_Light::ATTACK_END) {
+		m_pChr_Battle_Light->Update_ATB(fTimeDelta);
 		if (m_pChr_Battle_Light->Get_CurrentTrackPosition() <= 25.f) {
 			m_pChr_Battle_Light->Get_Transform()->Go_Backward(fTimeDelta);
 		}
 	}
 }
 
-void CChr_Battle_Light_State_Attack::Update_LookAt()
-{
-	_float4 vTargetLook;
-	_vector vCurrent_To_Target_Look = (XMLoadFloat4(&m_pChr_Battle_Light->Get_Target_Position())
-		- m_pChr_Battle_Light->Get_Transform()->Get_State_Vector(CTransform::STATE_POSITION));
-	vCurrent_To_Target_Look.m128_f32[1] = 0.f;
-	XMStoreFloat4(&vTargetLook, XMVectorSetW(XMVector3Normalize(vCurrent_To_Target_Look), 0.f));
-	
-	_float4 vCurrentLook = m_pChr_Battle_Light->Get_Transform()->Get_State_Float4(CTransform::STATE_LOOK);
-	m_fDegree = Cal_Degree_From_Directions_Between_Min180_To_180(vCurrentLook, vTargetLook);
-}
 _float CChr_Battle_Light_State_Attack::Get_Dist_Y()
 {
-	// Target과 현재 위치사이의 길이를 y값을 제외하고 구한다 
+	// Target과 현재 위치사이의 Y값 차이를 구한다 
 
 	_vector vTargetPosition = XMLoadFloat4(&m_pChr_Battle_Light->Get_Target_Position());
 	_float fTargetPositionY = vTargetPosition.m128_f32[1];
-	vTargetPosition.m128_f32[1] = 0.f;
 
 	_vector vCurrentPosition = m_pChr_Battle_Light->Get_Transform()->Get_State_Vector(CTransform::STATE_POSITION);
-	_float fCurrentPositionY = vTargetPosition.m128_f32[1];
-	vCurrentPosition.m128_f32[1] = 0.f;
-
-	_float fDist = XMVector3Length(vTargetPosition - vCurrentPosition).m128_f32[0];
+	_float fCurrentPositionY = vCurrentPosition.m128_f32[1];
 
 	return fTargetPositionY - fCurrentPositionY;
 }
-_float CChr_Battle_Light_State_Attack::Get_Distance()
-{
-	_vector vTargetPosition = XMLoadFloat4(&m_pChr_Battle_Light->Get_Target_Position());
-	vTargetPosition.m128_f32[1] = 0.f;
 
-	_vector vCurrentPosition = m_pChr_Battle_Light->Get_Transform()->Get_State_Vector(CTransform::STATE_POSITION);
-	vCurrentPosition.m128_f32[1] = 0.f;
-
-	return XMVector3Length(vTargetPosition - vCurrentPosition).m128_f32[0];
-}
 CChr_Battle_Light_State_Attack* CChr_Battle_Light_State_Attack::Create(CChr_Battle_Light* pChr_Battle_Light)
 {
 	CChr_Battle_Light_State_Attack* pInstance = new CChr_Battle_Light_State_Attack(pChr_Battle_Light);

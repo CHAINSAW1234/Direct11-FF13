@@ -2,7 +2,6 @@
 #include "Solider_State_Hit.h"
 #include "Solider.h"
 
-
 CSolider_State_Hit::CSolider_State_Hit(CSolider* pSolider)
 {
     m_pSolider = pSolider;
@@ -10,6 +9,7 @@ CSolider_State_Hit::CSolider_State_Hit(CSolider* pSolider)
 
 void CSolider_State_Hit::OnStateEnter()
 {
+    m_pSolider->Change_Animation(CSolider::HIT, false);
 }
 
 void CSolider_State_Hit::OnStateUpdate(_float fTimeDelta)

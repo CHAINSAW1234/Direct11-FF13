@@ -23,7 +23,7 @@ public:
 	virtual HRESULT Initialize(CBounding::BOUNDING_DESC* pBoundingDesc);
 	virtual void Tick(_fmatrix WorldMatrix) = 0;
 	virtual _bool Intersect(CCollider::TYPE eType, CBounding* pBoundingDesc) = 0;
-
+	virtual _bool IntersectRay(_fvector Origin, _fvector Direction, _Out_ float& Dist) = 0;
 #ifdef _DEBUG
 public:
 	virtual HRESULT Render(PrimitiveBatch<VertexPositionColor>* pBatch);

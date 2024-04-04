@@ -36,18 +36,29 @@ void CSolider_State_Field::OnStateExit()
 
 void CSolider_State_Field::Idle(_float fTimeDelta)
 {
+
+
 	if (m_fTimeDelta >= m_fStateTime) {
 
-		if (rand() % 4) {
+		if (rand() % 3) {
 			m_fTimeDelta = 0.f;
 			m_fStateTime = 2.f;
+			return;
 		}
 		m_fDegree = Cal_Next_Degree();
-		Change_State(TURN);
-		if (m_fDegree >= 0)
-			m_pSolider->Change_Animation(CSolider::FIELD_TURN_LEFT, false);
-		else
-			m_pSolider->Change_Animation(CSolider::FIELD_TURN_RIGHT, false);
+
+		if (abs(m_fDegree >= 120)) {
+			Change_State(TURN);
+			if (m_fDegree >= 0)
+				m_pSolider->Change_Animation(CSolider::FIELD_TURN_LEFT, false);
+			else
+				m_pSolider->Change_Animation(CSolider::FIELD_TURN_RIGHT, false);
+		}
+		else {
+			Change_State(MOVE);
+			m_pSolider->Change_Animation(CSolider::FIELD_MOVE_IDLE, true);
+		}
+		
 	}
 
 	if (m_pSolider->Is_Animation_Finished())
@@ -60,19 +71,12 @@ void CSolider_State_Field::Move(_float fTimeDelta)
 
 	if (m_fTimeDelta >= m_fStateTime) {
 		if (round(m_pSolider->Get_CurrentTrackPosition()) == 13.f) {
-			m_pSolider->Change_Animation(CSolider::MOVE_STRAIGHT_STOP_LEFT, false);
+			m_pSolider->Change_Animation(CSolider::FIELD_MOVE_STOP, false);
 			Change_State(IDLE);
 		}
 
-		else if (round(m_pSolider->Get_CurrentTrackPosition()) == 27.f) {
-			m_pSolider->Change_Animation(CSolider::MOVE_STRAIGHT_STOP_RIGHT, false);
-			Change_State(IDLE);
-		}
 	}
 
-	if (m_pSolider->Is_Animation_Finished()) {
-		m_pSolider->Change_Animation(CSolider::MOVE_STRAIGHT_IDLE, true);
-	}
 }
 
 void CSolider_State_Field::Turn(_float fTimeDelta)
@@ -84,7 +88,7 @@ void CSolider_State_Field::Turn(_float fTimeDelta)
 
 	if (m_fTimeDelta >= 2.f) {
 		Change_State(IDLE);
-		m_pSolider->Change_Animation(CSolider::BATTLE_IDLE, true);
+		m_pSolider->Change_Animation(CSolider::FIELD_IDLE, true);
 	}
 
 	m_fPrevTimeDelta = m_fTimeDelta;

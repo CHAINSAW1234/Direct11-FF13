@@ -21,9 +21,9 @@ public:
 		TURN_LEFT, TURN_RIGHT, ANIMATION_END
 	};
 
-private:
+protected:
 	CSolider(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);
-	CSolider(const CMonster& rhs);
+	CSolider(const CSolider& rhs);
 	virtual ~CSolider() = default;
 
 public:
@@ -43,12 +43,13 @@ public:
 	virtual void Set_State_Battle_Start() override;
 	HRESULT Change_State(STATE eState);
 	void	Change_Animation(ANIMATION_SOLIDER iAnimationIndex, _bool isLoop);
-private:
+
+protected:
 	CWeapon_Anim* m_pWeapon = { nullptr };
 	STATE	m_eState = { STATE_END };
 	_bool	m_isJumpNext = { false };			// 공격 이후 반드시 백점프
 
-private:
+protected:
 	virtual HRESULT Add_Components() override;
 	virtual HRESULT Add_Component_FSM() override;
 	virtual HRESULT Add_PartObjects();

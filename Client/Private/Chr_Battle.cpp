@@ -269,6 +269,63 @@ CRole::SKILL CChr_Battle::Get_Current_Command()
 	return m_Commands.front();
 }
 
+_float CChr_Battle::Cal_Degree_Start()
+{
+	_float4 vLook = m_pTransformCom->Get_State_Float4(CTransform::STATE_LOOK);
+	_vector vDir_to_Start = XMLoadFloat4(&m_vStartPosition) - m_pTransformCom->Get_State_Vector(CTransform::STATE_POSITION);
+	vDir_to_Start.m128_f32[1] = 0.f;
+	vDir_to_Start = XMVector3Normalize(vDir_to_Start);
+
+	_float4 vTargetLook;
+	XMStoreFloat4(&vTargetLook, vDir_to_Start);
+	return Cal_Degree_From_Directions_Between_Min180_To_180(vLook, vTargetLook);
+}
+
+_float CChr_Battle::Cal_Dist_Start()
+{
+	_vector vDist = XMLoadFloat4(&m_vStartPosition) - m_pTransformCom->Get_State_Vector(CTransform::STATE_POSITION);
+	vDist.m128_f32[1] = 0.f;
+
+	return XMVector3Length(vDist).m128_f32[0];
+}
+
+_float CChr_Battle::Cal_Degree_Target()
+{
+	if (nullptr == m_pTargetObject) {
+		return Cal_Degree_Start();
+	}
+
+	_float4 vLook = m_pTransformCom->Get_State_Float4(CTransform::STATE_LOOK);
+	_vector vDir_to_Target = dynamic_cast<CTransform*>(m_pTargetObject->Get_Component(g_strTransformTag))->Get_State_Vector(CTransform::STATE_POSITION) - m_pTransformCom->Get_State_Vector(CTransform::STATE_POSITION);
+	vDir_to_Target.m128_f32[1] = 0.f;
+	vDir_to_Target = XMVector3Normalize(vDir_to_Target);
+
+	_float4 vTargetLook;
+	XMStoreFloat4(&vTargetLook, vDir_to_Target);
+	return Cal_Degree_From_Directions_Between_Min180_To_180(vLook, vTargetLook);
+}
+
+_float CChr_Battle::Cal_Dist_Target()
+{
+	if (nullptr == m_pTargetObject) {
+		return Cal_Dist_Start();
+	}
+	CMonster* pMonster = dynamic_cast<CMonster*>(m_pTargetObject);
+	if (nullptr == pMonster)
+		return Cal_Dist_Start();
+
+	_float fDist = INFINITY;
+
+	_vector vPos = m_pTransformCom->Get_State_Vector(CTransform::STATE_POSITION);
+	vPos.m128_f32[1] = pMonster->Get_Transform()->Get_State_Float4(CTransform::STATE_POSITION).y;
+	_vector vLook = m_pTransformCom->Get_State_Vector(CTransform::STATE_LOOK);
+	
+	if(pMonster->Get_Collider()->IntersectRay(vPos, vLook, fDist))
+		return fDist - m_fColliderSizeZ;
+	
+	return INFINITY;
+}
+
 void CChr_Battle::Check_Interact_Chr()
 {
 	_int iSizeChr = (_int)m_pGameInstance->Get_LayerCnt(g_Level, g_strChrLayerTag);
@@ -288,6 +345,7 @@ void CChr_Battle::Check_Interact_Chr()
 		// 중점 간의 방향으로 밀기
 		if (m_pColliderCom->Intersect(pChr_Battle->Get_Collider())) {
 			_vector VectorDir = pChr_Battle->Get_Transform()->Get_State_Vector(CTransform::STATE_POSITION) - m_pTransformCom->Get_State_Vector(CTransform::STATE_POSITION);
+			VectorDir.m128_f32[1] = 0.f;
 			VectorDir = XMVector3Normalize(VectorDir);
 			// 미는 힘은 힘으로 처리함
 			pChr_Battle->Get_Transform()->Move_To_Direction(VectorDir, (XMVector3Length(m_pTransformCom->Get_LastMovement_Vector()) * 2.f / pChr_Battle->Get_Transform()->Get_SpeedPerSec()).m128_f32[0]);
@@ -307,6 +365,7 @@ void CChr_Battle::Check_Interact_Monster()
 		// 중점 간의 방향으로 밀기
 		if (m_pColliderCom->Intersect(pMonster->Get_Collider())) {
 			_vector VectorDir = pMonster->Get_Transform()->Get_State_Vector(CTransform::STATE_POSITION) - m_pTransformCom->Get_State_Vector(CTransform::STATE_POSITION);
+			VectorDir.m128_f32[1] = 0.f;
 			VectorDir = XMVector3Normalize(VectorDir);
 			// 미는 힘은 힘으로 처리함
 			pMonster->Get_Transform()->Move_To_Direction(VectorDir, (XMVector3Length(m_pTransformCom->Get_LastMovement_Vector()) * 2.f / pMonster->Get_Transform()->Get_SpeedPerSec()).m128_f32[0]);

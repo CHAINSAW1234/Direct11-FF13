@@ -1,5 +1,4 @@
 #pragma once
-#include "Client_Defines.h"
 #include "Monster.h"
 
 BEGIN(Client)
@@ -19,7 +18,7 @@ public:
 
 private:
 	CWarload(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);
-	CWarload(const CMonster& rhs);
+	CWarload(const CWarload& rhs);
 	virtual ~CWarload() = default;
 
 public:

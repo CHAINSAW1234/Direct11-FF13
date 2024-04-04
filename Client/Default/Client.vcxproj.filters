@@ -307,9 +307,6 @@
     <Filter Include="02.GameObjects\Monster\Solider">
       <UniqueIdentifier>{d2bb7455-0c34-4775-8782-c558b3a3617c}</UniqueIdentifier>
     </Filter>
-    <Filter Include="02.GameObjects\Monster\Solider_Gun">
-      <UniqueIdentifier>{7b9fb106-db8a-4d28-8af1-abcb03626a77}</UniqueIdentifier>
-    </Filter>
     <Filter Include="02.GameObjects\Monster\Boss">
       <UniqueIdentifier>{cb4038e4-5c5e-4d89-99e8-39c39bc17716}</UniqueIdentifier>
     </Filter>
@@ -351,6 +348,36 @@
     </Filter>
     <Filter Include="02.GameObjects\Monster\Solider\State\Solider_State_Field">
       <UniqueIdentifier>{36b0b038-49f7-46f5-9531-aa4821896802}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\Monster\Solider\Solider_Gun">
+      <UniqueIdentifier>{7b9fb106-db8a-4d28-8af1-abcb03626a77}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\Monster\Solider\Solider_Gun\State">
+      <UniqueIdentifier>{6868921c-459f-4ecf-a9a0-f54f91d6982b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\Monster\Boss\State">
+      <UniqueIdentifier>{dfe1b190-754f-4cb3-8e69-c8c2f3d1b0e7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\Monster\Boss\State\Boss_State_Idle">
+      <UniqueIdentifier>{cd364357-c4a5-4195-97b8-bc4d74f13a1c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\Monster\Boss\State\Boss_State_Attack_Magic">
+      <UniqueIdentifier>{4bf58a2a-2618-46b0-aeea-c81d0f0e75c2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\Monster\Boss\State\Boss_State_Attack_Physic">
+      <UniqueIdentifier>{5dda34f2-f3f3-43aa-b7f3-f033ae9aed53}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\Monster\Boss\State\Boss_State_Skill_Barrier">
+      <UniqueIdentifier>{4d8bc0d7-03a2-4c5c-923d-9fcc5ecd8d31}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\Monster\Boss\State\Boss_State_Skill_HellBlast">
+      <UniqueIdentifier>{21f19486-adb2-4080-b502-ca71e5b410f5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\Monster\Boss\State\Boss_State_Hit">
+      <UniqueIdentifier>{a09dc564-cabc-4e4a-a474-e15cd77da83e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\Monster\Boss\State\Boss_State_Field">
+      <UniqueIdentifier>{9694b27c-912f-4c97-a70a-7eb179410837}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -675,9 +702,6 @@
     <ClInclude Include="..\Public\Solider_State_Idle.h">
       <Filter>02.GameObjects\Monster\Solider\State\Solider_State_Idle</Filter>
     </ClInclude>
-    <ClInclude Include="..\Public\Solider.h">
-      <Filter>02.GameObjects\Monster\Solider\State</Filter>
-    </ClInclude>
     <ClInclude Include="..\Public\Solider_State_Field.h">
       <Filter>02.GameObjects\Monster\Solider\State\Solider_State_Field</Filter>
     </ClInclude>
@@ -689,6 +713,39 @@
     </ClInclude>
     <ClInclude Include="..\Public\Solider_State_Hit.h">
       <Filter>02.GameObjects\Monster\Solider\State\Solider_State_Hit</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\Solider_Gun.h">
+      <Filter>02.GameObjects\Monster\Solider\Solider_Gun</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\Solider.h">
+      <Filter>02.GameObjects\Monster\Solider</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\Solider_Gun_State_Attack.h">
+      <Filter>02.GameObjects\Monster\Solider\Solider_Gun\State</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\Boss.h">
+      <Filter>02.GameObjects\Monster\Boss</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\Boss_State_Idle.h">
+      <Filter>02.GameObjects\Monster\Boss\State\Boss_State_Idle</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\Boss_State_Attack_Magic.h">
+      <Filter>02.GameObjects\Monster\Boss\State\Boss_State_Attack_Magic</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\Boss_State_Attack_Physic.h">
+      <Filter>02.GameObjects\Monster\Boss\State\Boss_State_Attack_Physic</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\Boss_State_Field.h">
+      <Filter>02.GameObjects\Monster\Boss\State\Boss_State_Field</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\Boss_State_Hit.h">
+      <Filter>02.GameObjects\Monster\Boss\State\Boss_State_Hit</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\Boss_State_Skill_Barrier.h">
+      <Filter>02.GameObjects\Monster\Boss\State\Boss_State_Skill_Barrier</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\Boss_State_Skill_HellBlast.h">
+      <Filter>02.GameObjects\Monster\Boss\State\Boss_State_Skill_HellBlast</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -995,9 +1052,6 @@
     <ClCompile Include="..\Private\Solider_State_Idle.cpp">
       <Filter>02.GameObjects\Monster\Solider\State\Solider_State_Idle</Filter>
     </ClCompile>
-    <ClCompile Include="..\Private\Solider.cpp">
-      <Filter>02.GameObjects\Monster\Solider\State</Filter>
-    </ClCompile>
     <ClCompile Include="..\Private\Solider_State_Field.cpp">
       <Filter>02.GameObjects\Monster\Solider\State\Solider_State_Field</Filter>
     </ClCompile>
@@ -1009,6 +1063,39 @@
     </ClCompile>
     <ClCompile Include="..\Private\Solider_State_Hit.cpp">
       <Filter>02.GameObjects\Monster\Solider\State\Solider_State_Hit</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Solider_Gun.cpp">
+      <Filter>02.GameObjects\Monster\Solider\Solider_Gun</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Solider.cpp">
+      <Filter>02.GameObjects\Monster\Solider</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Solider_Gun_State_Attack.cpp">
+      <Filter>02.GameObjects\Monster\Solider\Solider_Gun\State</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Boss.cpp">
+      <Filter>02.GameObjects\Monster\Boss</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Boss_State_Idle.cpp">
+      <Filter>02.GameObjects\Monster\Boss\State\Boss_State_Idle</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Boss_State_Attack_Magic.cpp">
+      <Filter>02.GameObjects\Monster\Boss\State\Boss_State_Attack_Magic</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Boss_State_Attack_Physic.cpp">
+      <Filter>02.GameObjects\Monster\Boss\State\Boss_State_Attack_Physic</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Boss_State_Field.cpp">
+      <Filter>02.GameObjects\Monster\Boss\State\Boss_State_Field</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Boss_State_Hit.cpp">
+      <Filter>02.GameObjects\Monster\Boss\State\Boss_State_Hit</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Boss_State_Skill_Barrier.cpp">
+      <Filter>02.GameObjects\Monster\Boss\State\Boss_State_Skill_Barrier</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Boss_State_Skill_HellBlast.cpp">
+      <Filter>02.GameObjects\Monster\Boss\State\Boss_State_Skill_HellBlast</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

@@ -26,6 +26,8 @@
 #include "Leopard.h"
 #include "Warload.h"
 #include "Solider.h"
+#include "Solider_Gun.h"
+#include "Boss.h"
 
 #include "Particle_Blue.h"
 #include "Camera_Free.h"
@@ -228,9 +230,19 @@ HRESULT CLoader::Loading_Prototype()
 		CWarload::Create(m_pDevice, m_pContext))))
 		return E_FAIL;
 
-	/* For.Prototype_GameObject_Warload */
+	/* For.Prototype_GameObject_Solider */
 	if (FAILED(m_pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_Solider"),
 		CSolider::Create(m_pDevice, m_pContext))))
+		return E_FAIL;
+
+	/* For.Prototype_GameObject_Solider_Gun */
+	if (FAILED(m_pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_Solider_Gun"),
+		CSolider_Gun::Create(m_pDevice, m_pContext))))
+		return E_FAIL;
+
+	/* For.Prototype_GameObject_Boss */
+	if (FAILED(m_pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_Boss"),
+		CBoss::Create(m_pDevice, m_pContext))))
 		return E_FAIL;
 
 	/* For.Prototype_GameObject_Inventory */
@@ -532,6 +544,7 @@ HRESULT CLoader::Loading_For_Field()
 		CModel::Create(m_pDevice, m_pContext, "../Bin/Resources/Models/Chr/Light/Body/Light_Field" + tag))))
 		return E_FAIL;
 
+#pragma region Monster
 
 	if (FAILED(m_pGameInstance->Add_Prototype(g_Level, TEXT("Prototype_Component_Model_Leopard"),
 		CModel::Create(m_pDevice, m_pContext, "../Bin/Resources/Models/Monster/Leopard/Leopard" + tag))))
@@ -548,6 +561,20 @@ HRESULT CLoader::Loading_For_Field()
 	if (FAILED(m_pGameInstance->Add_Prototype(g_Level, TEXT("Prototype_Component_Model_Solider_Weapon"),
 		CModel::Create(m_pDevice, m_pContext, "../Bin/Resources/Models/Monster/Solider/Weapon/Solider_Weapon" + tag))))
 		return E_FAIL;
+
+	if (FAILED(m_pGameInstance->Add_Prototype(g_Level, TEXT("Prototype_Component_Model_Solider_Gun"),
+		CModel::Create(m_pDevice, m_pContext, "../Bin/Resources/Models/Monster/Solider/Solider_Gun" + tag))))
+		return E_FAIL;
+
+	if (FAILED(m_pGameInstance->Add_Prototype(g_Level, TEXT("Prototype_Component_Model_Solider_Gun_Weapon"),
+		CModel::Create(m_pDevice, m_pContext, "../Bin/Resources/Models/Monster/Solider/Weapon/Solider_Weapon_Gun" + tag))))
+		return E_FAIL;
+
+	if (FAILED(m_pGameInstance->Add_Prototype(g_Level, TEXT("Prototype_Component_Model_Boss"),
+		CModel::Create(m_pDevice, m_pContext, "../Bin/Resources/Models/Monster/Boss/Boss" + tag))))
+		return E_FAIL;
+
+#pragma endregion
 
 	//if (FAILED(m_pGameInstance->Add_Prototype(g_Level, TEXT("Prototype_Component_Model_Light_Weapon"),
 	//	CModel::Create(m_pDevice, m_pContext, "../Bin/Resources/Models/Chr/Light/Weapon/Light_Weapon" + tag))))
@@ -625,6 +652,9 @@ HRESULT CLoader::Loading_For_Battle()
 		return E_FAIL;
 
 	string tag = ".bin";
+
+#pragma region Chr
+
 	if (FAILED(m_pGameInstance->Add_Prototype(eLevel, TEXT("Prototype_Component_Model_Map_Battle"),
 		CModel::Create(m_pDevice, m_pContext, "../Bin/Resources/Models/MapObject/MapObject/Map_Battle" + tag))))
 		return E_FAIL;
@@ -645,6 +675,9 @@ HRESULT CLoader::Loading_For_Battle()
 		CModel::Create(m_pDevice, m_pContext, "../Bin/Resources/Models/Chr/Sazh/Weapon/Sazh_Weapon" + tag))))
 		return E_FAIL;
 
+#pragma endregion
+
+#pragma region Monster 
 	if (FAILED(m_pGameInstance->Add_Prototype(eLevel, TEXT("Prototype_Component_Model_Leopard"),
 		CModel::Create(m_pDevice, m_pContext, "../Bin/Resources/Models/Monster/Leopard/Leopard" + tag))))
 		return E_FAIL;
@@ -661,12 +694,25 @@ HRESULT CLoader::Loading_For_Battle()
 		CModel::Create(m_pDevice, m_pContext, "../Bin/Resources/Models/Monster/Solider/Weapon/Solider_Weapon" + tag))))
 		return E_FAIL;
 
+	if (FAILED(m_pGameInstance->Add_Prototype(g_Level, TEXT("Prototype_Component_Model_Solider_Gun"),
+		CModel::Create(m_pDevice, m_pContext, "../Bin/Resources/Models/Monster/Solider/Solider_Gun" + tag))))
+		return E_FAIL;
+
+	if (FAILED(m_pGameInstance->Add_Prototype(g_Level, TEXT("Prototype_Component_Model_Solider_Gun_Weapon"),
+		CModel::Create(m_pDevice, m_pContext, "../Bin/Resources/Models/Monster/Solider/Weapon/Solider_Weapon_Gun" + tag))))
+		return E_FAIL;
+
+	if (FAILED(m_pGameInstance->Add_Prototype(g_Level, TEXT("Prototype_Component_Model_Boss"),
+		CModel::Create(m_pDevice, m_pContext, "../Bin/Resources/Models/Monster/Boss/Boss" + tag))))
+		return E_FAIL;
+
+#pragma endregion
+
 	m_strLoadingText = TEXT("셰이더를(을) 로딩 중 입니다.");
 
 	m_strLoadingText = TEXT("객체의 원형를(을) 로딩 중 입니다.");
 
 	m_strLoadingText = TEXT("로딩이 완료되었습니다.");
-
 
 	m_isFinished = true;
 	return S_OK;

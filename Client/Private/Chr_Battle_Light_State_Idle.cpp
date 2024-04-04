@@ -26,7 +26,7 @@ void CChr_Battle_Light_State_Idle::OnStateUpdate(_float fTimeDelta)
 	m_pChr_Battle_Light->Determine_Action_Based_On_Command();
 	m_pChr_Battle_Light->Update_ATB(fTimeDelta);
 
-	Update_LookAt();
+	m_fDegree = m_pChr_Battle_Light->Cal_Degree_Target();
 
 	m_fTurnCheckTimeDelta += fTimeDelta;
 
@@ -186,6 +186,29 @@ void CChr_Battle_Light_State_Idle::Move(_float fTimeDelta)
 
 }
 
+void CChr_Battle_Light_State_Idle::Turn(_float fTimeDelta)
+{
+	//_float t1 = EaseOutCublic(m_fPrevTimeDelta / 1.5f);
+	//_float t2 = EaseOutCublic(m_fTimeDelta / 1.5f);
+
+	//m_pChr_Battle_Light->Get_Transform()->Turn(XMVectorSet(0.f, 1.f, 0.f, 0.f), (t2 - t1) * m_fDegree / 360);
+
+	//if (m_fTimeDelta >= 1.5f) {
+	//	Change_State(IDLE);
+	//	m_pChr_Battle_Light->Change_Animation(CChr_Battle_Light::ANIM_IDLE, true);
+	//}
+
+	//m_fPrevTimeDelta = m_fTimeDelta;
+}
+
+void CChr_Battle_Light_State_Idle::Change_State(STATE eState)
+{
+	//m_eState = eState;
+	//m_fTimeDelta = 0.f;
+	//m_fStateTime = Random_Float(2.f);
+	//m_fStateTime += 2.5f;
+}
+
 void CChr_Battle_Light_State_Idle::Change_MovementAnimation()
 {
 	switch (m_eState) {
@@ -206,20 +229,7 @@ void CChr_Battle_Light_State_Idle::Change_MovementAnimation()
 			break;
 		case TO_START: {
 			// 방향 구해서 애니메이션 결정해야됨
-			_vector vCurrent_To_Target_Look = (XMLoadFloat4(&m_pChr_Battle_Light->Get_Target_Position())
-				- m_pChr_Battle_Light->Get_Transform()->Get_State_Vector(CTransform::STATE_POSITION));
-			vCurrent_To_Target_Look.m128_f32[1] = 0.f;
-			vCurrent_To_Target_Look = XMVector3Normalize(vCurrent_To_Target_Look);
-			_vector vCurrent_To_Start_Look = (XMLoadFloat4(&m_pChr_Battle_Light->Get_Target_Position())
-				- XMLoadFloat4(&m_pChr_Battle_Light->Get_Target_Position()));
-			vCurrent_To_Start_Look.m128_f32[1] = 0.f;
-			vCurrent_To_Start_Look = XMVector3Normalize(vCurrent_To_Start_Look);
-			
-			_float4 vCurrent_To_Target_Look_float4;
-			XMStoreFloat4(&vCurrent_To_Target_Look_float4, vCurrent_To_Target_Look);
-			_float4 vCurrent_To_Start_Look_float4;
-			XMStoreFloat4(&vCurrent_To_Start_Look_float4, vCurrent_To_Start_Look);
-			_float fDegree = Cal_Degree_From_Directions_Between_Min180_To_180(vCurrent_To_Start_Look_float4, vCurrent_To_Target_Look_float4);
+			_float fDegree = m_pChr_Battle_Light->Cal_Degree_Start();
 
 			if (abs(fDegree) < 60)
 				m_pChr_Battle_Light->Change_Animation(CChr_Battle_Light::MOVE_STRAIGHT, true);
@@ -280,19 +290,6 @@ void CChr_Battle_Light_State_Idle::Update_Movement()
 		break;
 	}
 
-}
-
-void CChr_Battle_Light_State_Idle::Update_LookAt()
-{
-	_float4 vTargetLook;
-	_vector vCurrent_To_Target_Look = (XMLoadFloat4(&m_pChr_Battle_Light->Get_Target_Position())
-		- m_pChr_Battle_Light->Get_Transform()->Get_State_Vector(CTransform::STATE_POSITION));
-	vCurrent_To_Target_Look.m128_f32[1] = 0.f;
-	XMStoreFloat4(&vTargetLook, XMVectorSetW(XMVector3Normalize(vCurrent_To_Target_Look), 0.f));
-
-	_float4 vCurrentLook = m_pChr_Battle_Light->Get_Transform()->Get_State_Float4(CTransform::STATE_LOOK);
-	
-	m_fDegree = Cal_Degree_From_Directions_Between_Min180_To_180(vCurrentLook, vTargetLook);
 }
 
 _int CChr_Battle_Light_State_Idle::Check_Movement_Next(FXMVECTOR vTargetPos, FXMVECTOR vLineDir, FXMVECTOR vCurPos)

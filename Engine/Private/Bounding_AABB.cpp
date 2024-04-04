@@ -50,6 +50,11 @@ _bool CBounding_AABB::Intersect(CCollider::TYPE eType, CBounding* pBounding)
 	return m_isCollision;
 }
 
+_bool CBounding_AABB::IntersectRay(_fvector Origin, _fvector Direction, _Out_ float& Dist)
+{
+	return m_pBoundingDesc->Intersects(Origin, Direction, Dist);
+}
+
 #ifdef _DEBUG
 
 HRESULT CBounding_AABB::Render(PrimitiveBatch<VertexPositionColor>* pBatch)

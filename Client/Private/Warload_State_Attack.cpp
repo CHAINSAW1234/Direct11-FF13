@@ -34,20 +34,11 @@ void CWarload_State_Attack::OnStateExit()
 
 void CWarload_State_Attack::Run(_float fTimeDelta)
 {
-	_vector vTargetPosition = XMLoadFloat4(&m_pWarload->Get_TargetPosition());
-	_float fTargetPositionY = vTargetPosition.m128_f32[1];
-	vTargetPosition.m128_f32[1] = 0.f;
-
-	_vector vCurrentPosition = m_pWarload->Get_Transform()->Get_State_Vector(CTransform::STATE_POSITION);
-	_float fCurrentPositionY = vTargetPosition.m128_f32[1];
-	vCurrentPosition.m128_f32[1] = 0.f;
-
-	_float fDist = XMVector3Length(vTargetPosition - vCurrentPosition).m128_f32[0];
-
+	_float fDist = m_pWarload->Cal_Dist_Target();
 
 	m_pWarload->Get_Transform()->Look_At_ForLandObject(XMLoadFloat4(&m_pWarload->Get_TargetPosition()));
 	
-	if (fDist <= 3) {
+	if (fDist <= 1) {
 		m_eState = ATTACK;
 		m_pWarload->Change_Animation(CWarload::ATTACK, false);
 	}

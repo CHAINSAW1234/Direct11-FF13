@@ -31,10 +31,10 @@ void CSolider_State_Idle::OnStateUpdate(_float fTimeDelta)
 		Move(fTimeDelta);
 		break;
 	case MOVE_LEFT:
-		Move(fTimeDelta);
+		Move_Left(fTimeDelta);
 		break;
 	case MOVE_RIGHT:
-		Move(fTimeDelta);
+		Move_Right(fTimeDelta);
 		break;
 	case MOVE_BACK:
 		Move_Back(fTimeDelta);
@@ -65,31 +65,39 @@ void CSolider_State_Idle::Idle(_float fTimeDelta)
 				m_pSolider->Change_Animation(CSolider::TURN_RIGHT, false);
 		}
 		else {	// 타겟을 바라보고 있다고 판단되면
-			_float fDegree_Start = m_pSolider->Cal_Degree_Start();
-			if (abs(m_fDegree) < 45.f) {
-				Change_State(MOVE);
-				m_pSolider->Change_Animation(CSolider::MOVE_STRAIGHT_START, false);
-			}
-			else if (abs(m_fDegree) > 135.f) {
-				Change_State(MOVE_BACK);
-				m_pSolider->Change_Animation(CSolider::MOVE_BACK_START, false);
-			}
-			else {
-				if (m_fDegree >= 0) {
-					Change_State(MOVE_LEFT);
-					m_pSolider->Change_Animation(CSolider::MOVE_LEFT_START, false);
+			_float fDist_Start = m_pSolider->Cal_Dist_Start();
+			if (fDist_Start >= 10.f) {
+				_float fDegree_Start = m_pSolider->Cal_Degree_Start();
+				if (abs(fDegree_Start) < 45.f) {
+					Change_State(MOVE);
+					m_pSolider->Change_Animation(CSolider::MOVE_STRAIGHT_START, false);
+				}
+				else if (abs(fDegree_Start) > 135.f) {
+					Change_State(MOVE_BACK);
+					m_pSolider->Change_Animation(CSolider::MOVE_BACK_START, false);
 				}
 				else {
-					Change_State(MOVE_RIGHT);
-					m_pSolider->Change_Animation(CSolider::MOVE_RIGHT_START, false);
-				}
+					if (fDegree_Start >= 0) {
+						Change_State(MOVE_LEFT);
+						m_pSolider->Change_Animation(CSolider::MOVE_LEFT_START, false);
+					}
+					else {
+						Change_State(MOVE_RIGHT);
+						m_pSolider->Change_Animation(CSolider::MOVE_RIGHT_START, false);
+					}
+			}
+			}
+			else {
+				int irand = rand() % 4 + 1;
+				Change_State(STATE(irand));
+				m_pSolider->Change_Animation(CSolider::ANIMATION_SOLIDER(CSolider::MOVE_BACK_START + 4 * (irand-1)), false);
+
 			}
 		}
-
-
 	}
 
-	if ((abs(m_fDegree) < 30.f) && m_pSolider->Get_AttackTime() >= 5.f)
+	if ((abs(m_fDegree) < 30.f) && m_pSolider->Get_AttackTime() >= 5.f &&
+		m_pSolider->Get_CurrentAnimationIndex() == CSolider::BATTLE_IDLE)
 		m_pSolider->Change_State(CSolider::STATE_ATTACK);
 
 	if (m_pSolider->Is_Animation_Finished())

@@ -2,6 +2,14 @@ C:\Users\stgo5015\Documents\GitHub\Direct11_FF13\Client\Private\Ability.cpp;C:\U
 C:\Users\stgo5015\Documents\GitHub\Direct11_FF13\Client\private\BackGround.cpp;C:\Users\stgo5015\Documents\GitHub\Direct11_FF13\Client\Default\x64\Debug\BackGround.obj
 C:\Users\stgo5015\Documents\GitHub\Direct11_FF13\Client\Private\Body.cpp;C:\Users\stgo5015\Documents\GitHub\Direct11_FF13\Client\Default\x64\Debug\Body.obj
 C:\Users\stgo5015\Documents\GitHub\Direct11_FF13\Client\Private\Body_Player.cpp;C:\Users\stgo5015\Documents\GitHub\Direct11_FF13\Client\Default\x64\Debug\Body_Player.obj
+C:\Users\stgo5015\Documents\GitHub\Direct11_FF13\Client\Private\Boss.cpp;C:\Users\stgo5015\Documents\GitHub\Direct11_FF13\Client\Default\x64\Debug\Boss.obj
+C:\Users\stgo5015\Documents\GitHub\Direct11_FF13\Client\Private\Boss_State_Attack_Magic.cpp;C:\Users\stgo5015\Documents\GitHub\Direct11_FF13\Client\Default\x64\Debug\Boss_State_Attack_Magic.obj
+C:\Users\stgo5015\Documents\GitHub\Direct11_FF13\Client\Private\Boss_State_Attack_Physic.cpp;C:\Users\stgo5015\Documents\GitHub\Direct11_FF13\Client\Default\x64\Debug\Boss_State_Attack_Physic.obj
+C:\Users\stgo5015\Documents\GitHub\Direct11_FF13\Client\Private\Boss_State_Field.cpp;C:\Users\stgo5015\Documents\GitHub\Direct11_FF13\Client\Default\x64\Debug\Boss_State_Field.obj
+C:\Users\stgo5015\Documents\GitHub\Direct11_FF13\Client\Private\Boss_State_Hit.cpp;C:\Users\stgo5015\Documents\GitHub\Direct11_FF13\Client\Default\x64\Debug\Boss_State_Hit.obj
+C:\Users\stgo5015\Documents\GitHub\Direct11_FF13\Client\Private\Boss_State_Idle.cpp;C:\Users\stgo5015\Documents\GitHub\Direct11_FF13\Client\Default\x64\Debug\Boss_State_Idle.obj
+C:\Users\stgo5015\Documents\GitHub\Direct11_FF13\Client\Private\Boss_State_Skill_Barrier.cpp;C:\Users\stgo5015\Documents\GitHub\Direct11_FF13\Client\Default\x64\Debug\Boss_State_Skill_Barrier.obj
+C:\Users\stgo5015\Documents\GitHub\Direct11_FF13\Client\Private\Boss_State_Skill_HellBlast.cpp;C:\Users\stgo5015\Documents\GitHub\Direct11_FF13\Client\Default\x64\Debug\Boss_State_Skill_HellBlast.obj
 C:\Users\stgo5015\Documents\GitHub\Direct11_FF13\Client\Private\Camera_Free.cpp;C:\Users\stgo5015\Documents\GitHub\Direct11_FF13\Client\Default\x64\Debug\Camera_Free.obj
 C:\Users\stgo5015\Documents\GitHub\Direct11_FF13\Client\Private\Camera_Field.cpp;C:\Users\stgo5015\Documents\GitHub\Direct11_FF13\Client\Default\x64\Debug\Camera_Field.obj
 C:\Users\stgo5015\Documents\GitHub\Direct11_FF13\Client\Private\Chr_Battle.cpp;C:\Users\stgo5015\Documents\GitHub\Direct11_FF13\Client\Default\x64\Debug\Chr_Battle.obj
@@ -58,6 +66,8 @@ C:\Users\stgo5015\Documents\GitHub\Direct11_FF13\Client\Private\Player_Study.cpp
 C:\Users\stgo5015\Documents\GitHub\Direct11_FF13\Client\Private\Role.cpp;C:\Users\stgo5015\Documents\GitHub\Direct11_FF13\Client\Default\x64\Debug\Role.obj
 C:\Users\stgo5015\Documents\GitHub\Direct11_FF13\Client\Private\Sky.cpp;C:\Users\stgo5015\Documents\GitHub\Direct11_FF13\Client\Default\x64\Debug\Sky.obj
 C:\Users\stgo5015\Documents\GitHub\Direct11_FF13\Client\Private\Solider.cpp;C:\Users\stgo5015\Documents\GitHub\Direct11_FF13\Client\Default\x64\Debug\Solider.obj
+C:\Users\stgo5015\Documents\GitHub\Direct11_FF13\Client\Private\Solider_Gun.cpp;C:\Users\stgo5015\Documents\GitHub\Direct11_FF13\Client\Default\x64\Debug\Solider_Gun.obj
+C:\Users\stgo5015\Documents\GitHub\Direct11_FF13\Client\Private\Solider_Gun_State_Attack.cpp;C:\Users\stgo5015\Documents\GitHub\Direct11_FF13\Client\Default\x64\Debug\Solider_Gun_State_Attack.obj
 C:\Users\stgo5015\Documents\GitHub\Direct11_FF13\Client\Private\Solider_State_Attack.cpp;C:\Users\stgo5015\Documents\GitHub\Direct11_FF13\Client\Default\x64\Debug\Solider_State_Attack.obj
 C:\Users\stgo5015\Documents\GitHub\Direct11_FF13\Client\Private\Solider_State_Field.cpp;C:\Users\stgo5015\Documents\GitHub\Direct11_FF13\Client\Default\x64\Debug\Solider_State_Field.obj
 C:\Users\stgo5015\Documents\GitHub\Direct11_FF13\Client\Private\Solider_State_Hit.cpp;C:\Users\stgo5015\Documents\GitHub\Direct11_FF13\Client\Default\x64\Debug\Solider_State_Hit.obj

@@ -80,6 +80,11 @@ _bool CCollider::Intersect(CCollider* pTargetCollider)
 	return 	m_pBounding->Intersect(pTargetCollider->m_eType, pTargetCollider->m_pBounding);
 }
 
+_bool CCollider::IntersectRay(_fvector Origin, _fvector Direction, float& Dist)
+{
+	return m_pBounding->IntersectRay(Origin, Direction, Dist);
+}
+
 HRESULT CCollider::Render()
 {
 	m_pEffect->SetWorld(XMMatrixIdentity());

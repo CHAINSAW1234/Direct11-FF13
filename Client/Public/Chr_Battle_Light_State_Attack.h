@@ -27,10 +27,8 @@ private:
 	void Skill(_float fTimeDelta);
 	void Finish(_float fTimeDelta);
 
-	void Update_LookAt();			// Target 위치와 내 Look벡터간의 각도를 계산해서 저장함
 
 	_float Get_Dist_Y();
-	_float Get_Distance();			// y값을 제외한 나머지 값을 이용해 거리를 계산
 	
 private:
 	class CChr_Battle_Light* m_pChr_Battle_Light = { nullptr };

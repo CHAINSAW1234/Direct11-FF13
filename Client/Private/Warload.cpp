@@ -16,7 +16,7 @@ CWarload::CWarload(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
 {
 }
 
-CWarload::CWarload(const CMonster& rhs)
+CWarload::CWarload(const CWarload& rhs)
     : CMonster{ rhs }
 {
 }
@@ -135,6 +135,7 @@ HRESULT CWarload::Add_Components()
     /* 로컬상의 정보를 셋팅한다. */
     ColliderOBBDesc.vRotation = _float3(0.f, 0.f, 0.f);
     ColliderOBBDesc.vSize = _float3(1.2f, 2.1f, .8f);
+    m_fColliderSizeZ = .4f;
     ColliderOBBDesc.vCenter = _float3(0.f, ColliderOBBDesc.vSize.y * 0.5f, 0.f);
 
     if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_Collider_OBB"),

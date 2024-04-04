@@ -44,6 +44,11 @@ _bool CBounding_Sphere::Intersect(CCollider::TYPE eType, CBounding* pBounding)
 	return m_isCollision;
 }
 
+_bool CBounding_Sphere::IntersectRay(_fvector Origin, _fvector Direction, _Out_ float& Dist)
+{
+	return m_pBoundingDesc->Intersects(Origin, Direction, Dist);
+}
+
 #ifdef _DEBUG
 
 HRESULT CBounding_Sphere::Render(PrimitiveBatch<VertexPositionColor>* pBatch)

@@ -34,17 +34,7 @@ void CLeopard_State_Attack::OnStateExit()
 void CLeopard_State_Attack::Run(_float fTimeDelta)
 {
 	_float fDegree = m_pLeopard->Cal_Degree_Target();
-
-	_vector vTargetPosition = XMLoadFloat4(&m_pLeopard->Get_TargetPosition());
-	_float fTargetPositionY = vTargetPosition.m128_f32[1];
-	vTargetPosition.m128_f32[1] = 0.f;
-
-	_vector vCurrentPosition = m_pLeopard->Get_Transform()->Get_State_Vector(CTransform::STATE_POSITION);
-	_float fCurrentPositionY = vTargetPosition.m128_f32[1];
-	vCurrentPosition.m128_f32[1] = 0.f;
-
-	_float fDist = XMVector3Length(vTargetPosition - vCurrentPosition).m128_f32[0];
-
+	_float fDist = m_pLeopard->Cal_Dist_Target();
 
 	if (abs(fDegree) > 5) {
 		m_pLeopard->Get_Transform()->Turn(XMVectorSet(0.f, 1.f, 0.f, 0.f), fTimeDelta * fDegree / (fDegree));

@@ -5,7 +5,7 @@
 BEGIN(Client)
 class CSolider_State_Idle final : public CFSM_State
 {
-	enum STATE { IDLE, MOVE, MOVE_BACK, MOVE_LEFT, MOVE_RIGHT, MOVE_BACK_JUMP, TURN, STATE_END };
+	enum STATE { IDLE, MOVE_BACK, MOVE_LEFT, MOVE_RIGHT, MOVE, MOVE_BACK_JUMP, TURN, STATE_END };
 private:
 	CSolider_State_Idle(class CSolider* pSolider);
 	virtual ~CSolider_State_Idle() = default;

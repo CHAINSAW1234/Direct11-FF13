@@ -16,7 +16,7 @@ CSolider::CSolider(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
 {
 }
 
-CSolider::CSolider(const CMonster& rhs)
+CSolider::CSolider(const CSolider& rhs)
 	: CMonster{ rhs }
 {
 }
@@ -70,7 +70,6 @@ HRESULT CSolider::Render()
 {
 	if (FAILED(__super::Render()))
 		return E_FAIL;
-
 
 	return S_OK;
 }
@@ -128,6 +127,7 @@ HRESULT CSolider::Add_Components()
 	/* 로컬상의 정보를 셋팅한다. */
 	ColliderOBBDesc.vRotation = _float3(0.f, 0.f, 0.f);
 	ColliderOBBDesc.vSize = _float3(.8f, 1.6f, 1.f);
+	m_fColliderSizeZ = .5f;
 	ColliderOBBDesc.vCenter = _float3(0.f, ColliderOBBDesc.vSize.y * 0.5f, 0.f);
 
 	if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_Collider_OBB"),

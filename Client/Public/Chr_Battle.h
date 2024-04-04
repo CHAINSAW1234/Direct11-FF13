@@ -70,6 +70,12 @@ public:
 	virtual void Use_Command();
 	virtual CRole::SKILL Get_Current_Command();
 
+	_float Cal_Degree_Start();
+	_float Cal_Dist_Start();
+	_float Cal_Degree_Target();
+	_float Cal_Dist_Target();
+
+
 	void   Check_Interact_Chr();		// 몸통의 충돌 체크 -> 다른 플레이어 객체 -> 플레이어 캐릭터 밀어냄
 	void   Check_Interact_Monster();	// 몸통의 충돌 체크 -> 상대 객체 -> 몬스터 밀어냄
 
@@ -85,6 +91,8 @@ protected:
 	CFSM* m_pFSMCom = { nullptr };
 	CCollider* m_pColliderCom = { nullptr };
 	CAbility* m_pAbility = { nullptr };
+
+	_float	m_fColliderSizeZ = { 0.f };
 
 	vector<CPartObject*> m_PartObjects; // PartObject를 보관 -> vector가 낫다고 판단, 무기 교체 가능성이 0에 수렴
 

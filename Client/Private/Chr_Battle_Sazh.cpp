@@ -122,6 +122,7 @@ HRESULT CChr_Battle_Sazh::Add_Components()
 	/* 로컬상의 정보를 셋팅한다. */
 	ColliderOBBDesc.vRotation = _float3(0.f, 0.f, 0.f);
 	ColliderOBBDesc.vSize = _float3(.6f, 1.8f, .6f);
+	m_fColliderSizeZ = 0.3f;
 	ColliderOBBDesc.vCenter = _float3(0.f, ColliderOBBDesc.vSize.y * 0.5f, 0.f);
 
 	if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_Collider_OBB"),
