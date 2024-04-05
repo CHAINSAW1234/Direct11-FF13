@@ -81,7 +81,7 @@ void CWarload_State_Idle::Idle(_float fTimeDelta)
 
 void CWarload_State_Idle::Move(_float fTimeDelta)
 {
-	m_pWarload->Get_Transform()->Go_Straight(fTimeDelta);
+	m_pWarload->Get_Transform()->Go_Straight(fTimeDelta, m_pWarload->Get_Navigation());
 
 	if (m_fTimeDelta >= m_fStateTime) {
 		if (round(m_pWarload->Get_CurrentTrackPosition()) == 21.f) {
@@ -98,7 +98,7 @@ void CWarload_State_Idle::Move(_float fTimeDelta)
 
 void CWarload_State_Idle::Move_Back(_float fTimeDelta)
 {
-	m_pWarload->Get_Transform()->Go_Backward(fTimeDelta);
+	m_pWarload->Get_Transform()->Go_Backward(fTimeDelta, m_pWarload->Get_Navigation());
 
 	if (m_fTimeDelta >= m_fStateTime) {
 		if (round(m_pWarload->Get_CurrentTrackPosition()) == 21.f) {
@@ -117,7 +117,7 @@ void CWarload_State_Idle::Move_Back_Jump(_float fTimeDelta)
 {
 	if(4.f <= m_pWarload->Get_CurrentTrackPosition() &&
 		m_pWarload->Get_CurrentTrackPosition() <= 15.f)
-		m_pWarload->Get_Transform()->Go_Backward(fTimeDelta * 5);
+		m_pWarload->Get_Transform()->Go_Backward(fTimeDelta * 5, m_pWarload->Get_Navigation());
 
 	if (m_pWarload->Is_Animation_Finished()) {
 		Change_State(IDLE);

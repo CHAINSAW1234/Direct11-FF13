@@ -46,7 +46,7 @@ void CBoss_State_Attack_Physic::Move(_float fTimeDelta)
         m_pBoss->Change_Animation(CBoss::ATTACK1, false);
     }
 
-    m_pBoss->Get_Transform()->Go_Straight(fTimeDelta * 3);
+    m_pBoss->Get_Transform()->Go_Straight(fTimeDelta * 3, m_pBoss->Get_Navigation());
 
     if (m_pBoss->Is_Animation_Finished())
         m_pBoss->Change_Animation(CBoss::MOVE_STRAIGHT_IDLE, true);

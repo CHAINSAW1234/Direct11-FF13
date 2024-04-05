@@ -67,7 +67,7 @@ void CSolider_State_Field::Idle(_float fTimeDelta)
 
 void CSolider_State_Field::Move(_float fTimeDelta)
 {
-	m_pSolider->Get_Transform()->Go_Straight(fTimeDelta);
+	m_pSolider->Get_Transform()->Go_Straight(fTimeDelta, m_pSolider->Get_Navigation());
 
 	if (m_fTimeDelta >= m_fStateTime) {
 		if (round(m_pSolider->Get_CurrentTrackPosition()) == 13.f) {

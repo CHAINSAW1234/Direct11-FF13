@@ -97,6 +97,8 @@ void CChr_Battle_Light::Start()
     Set_Target(m_pGameInstance->Get_GameObject(g_Level, g_strMonsterLayerTag, 0));
     m_pTransformCom->Set_State(CTransform::STATE_POSITION, XMVectorSet(_float(rand() % 20), 0.f, _float(rand() % 20), 1.f));
     m_pTransformCom->Look_At_ForLandObject(((CTransform*)m_pTargetObject->Get_Component(g_strTransformTag))->Get_State_Vector(CTransform::STATE_POSITION));
+    m_pNavigationCom->Set_Index(m_pTransformCom->Get_State_Vector(CTransform::STATE_POSITION));
+
     Change_Animation_Weapon(WEAPON_OPEN_IDLE);
     Change_Animation_Weapon(CChr_Battle_Light::WEAPON_OPEN_IDLE);
     

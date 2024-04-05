@@ -47,8 +47,8 @@ HRESULT CMainApp::Initialize()
 	//eLevel = LEVEL_GAMEPLAY;
 	//eLevel = LEVEL_MAPTOOL;
 	//eLevel = LEVEL_PARSING;
-	//eLevel = LEVEL_FIELD;
-	eLevel = LEVEL_BATTLE;
+	eLevel = LEVEL_FIELD;
+	//eLevel = LEVEL_BATTLE;
 
 	if (FAILED(Open_Level(eLevel)))
 		return E_FAIL;
@@ -154,6 +154,22 @@ HRESULT CMainApp::Ready_Prototype_Component_For_Static()
 
 #pragma endregion
 
+#pragma region Navigation
+
+	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Navigation_Field"),
+		CNavigation::Create_From_Model(m_pDevice, m_pContext, "../Bin/Resources/Models/MapObject/MapNavi/Map_Field_Navi.bin"))))
+		return E_FAIL;
+
+	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Navigation_Battle"),
+		CNavigation::Create_From_Model(m_pDevice, m_pContext, "../Bin/Resources/Models/MapObject/MapNavi/Map_Battle_Navi.bin"))))
+		return E_FAIL;
+
+	//if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Navigation_Boss_Battles"),
+	//	CNavigation::Create_From_Model(m_pDevice, m_pContext, "../Bin/Resources/Models/MapObject/MapNavi/Map_Field_Navi.bin"))))
+	//	return E_FAIL;
+
+#pragma endregion
+
 #pragma region Shader
 	/* For.Prototype_Component_Shader_VtxPosTex */
 	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Shader_VtxNorTex"),
@@ -192,6 +208,9 @@ HRESULT CMainApp::Ready_Prototype_Component_For_Static()
 
 
 #pragma endregion
+
+
+
 
 	return	S_OK;
 }

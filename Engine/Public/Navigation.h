@@ -20,6 +20,7 @@ public:
 	virtual HRESULT Initialize_Prototype(const wstring& strDataFile);
 	virtual HRESULT Initialize(void* pArg) override;
 	void Tick(_fmatrix WorldMatrix);
+	void Set_Index(_fvector vPosition);
 	_bool isMove(_fvector vPosition);
 
 #ifdef _DEBUG
@@ -41,10 +42,12 @@ private:
 #endif
 
 private:
+	HRESULT Initialize_Prototype_From_Model(const string& strDataFile);
 	HRESULT SetUp_Neighbors();
 
 public:
 	static CNavigation* Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext, const wstring& strDataFile);
+	static CNavigation* Create_From_Model(ID3D11Device* pDevice, ID3D11DeviceContext* pContext, const string& strDataFile);
 	virtual CComponent* Clone(void* pArg) override;
 	virtual void Free() override;
 };

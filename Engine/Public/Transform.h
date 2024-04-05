@@ -113,16 +113,17 @@ public:
 	HRESULT Bind_ShaderResource(class CShader* pShader, const _char* pConstantName);
 
 public:
+	void Set_Position(const _float4& vState, class CNavigation* pNavigation = nullptr);
 	void Go_Straight(_float fTimeDelta, class CNavigation* pNavigation = nullptr);
-	void Go_Backward(_float fTimeDelta);
-	void Go_Left(_float fTimeDelta);
-	void Go_Right(_float fTimeDelta);
+	void Go_Backward(_float fTimeDelta, class CNavigation* pNavigation = nullptr);
+	void Go_Left(_float fTimeDelta, class CNavigation* pNavigation = nullptr);
+	void Go_Right(_float fTimeDelta, class CNavigation* pNavigation = nullptr);
 	void Go_Up(_float fTimeDelta);
 	void Go_Down(_float fTimeDelta);
 	void Look_At(_fvector vTargetPosition);			// LookAt_Target
 	void Look_At_ForLandObject(_fvector vTargetPosition);
-	void Move_To_Target(_fvector vTargetPos, _float fTimeDelta, _float fMinDistance = 0.f);
-	void Move_To_Direction(_fvector vDirection, _float fTimeDelta);
+	void Move_To_Target(_fvector vTargetPos, _float fTimeDelta, _float fMinDistance = 0.f, class CNavigation* pNavigation = nullptr);
+	void Move_To_Direction(_fvector vDirection, _float fTimeDelta, class CNavigation* pNavigation = nullptr);
 	void Turn(_fvector vAxis, _float fTimeDelta);
 	void Rotation(_fvector vAxis, _float fRadian);			// 시간 없이 즉시 돌림
 

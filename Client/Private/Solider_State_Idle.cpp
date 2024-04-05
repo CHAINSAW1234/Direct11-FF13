@@ -107,7 +107,7 @@ void CSolider_State_Idle::Idle(_float fTimeDelta)
 
 void CSolider_State_Idle::Move(_float fTimeDelta)
 {
-	m_pSolider->Get_Transform()->Go_Straight(fTimeDelta);
+	m_pSolider->Get_Transform()->Go_Straight(fTimeDelta, m_pSolider->Get_Navigation());
 
 	if (m_fTimeDelta >= m_fStateTime) {
 		if (round(m_pSolider->Get_CurrentTrackPosition()) == 21.f) {
@@ -129,7 +129,7 @@ void CSolider_State_Idle::Move(_float fTimeDelta)
 
 void CSolider_State_Idle::Move_Left(_float fTimeDelta)
 {
-	m_pSolider->Get_Transform()->Go_Left(fTimeDelta);
+	m_pSolider->Get_Transform()->Go_Left(fTimeDelta, m_pSolider->Get_Navigation());
 
 	if (m_fTimeDelta >= m_fStateTime) {
 		if (round(m_pSolider->Get_CurrentTrackPosition()) == 21.f) {
@@ -150,7 +150,7 @@ void CSolider_State_Idle::Move_Left(_float fTimeDelta)
 
 void CSolider_State_Idle::Move_Right(_float fTimeDelta)
 {
-	m_pSolider->Get_Transform()->Go_Right(fTimeDelta);
+	m_pSolider->Get_Transform()->Go_Right(fTimeDelta, m_pSolider->Get_Navigation());
 
 	if (m_fTimeDelta >= m_fStateTime) {
 		if (round(m_pSolider->Get_CurrentTrackPosition()) == 21.f) {
@@ -171,7 +171,7 @@ void CSolider_State_Idle::Move_Right(_float fTimeDelta)
 
 void CSolider_State_Idle::Move_Back(_float fTimeDelta)
 {
-	m_pSolider->Get_Transform()->Go_Backward(fTimeDelta);
+	m_pSolider->Get_Transform()->Go_Backward(fTimeDelta, m_pSolider->Get_Navigation());
 
 	if (m_fTimeDelta >= m_fStateTime) {
 		if (round(m_pSolider->Get_CurrentTrackPosition()) == 21.f) {
@@ -194,7 +194,7 @@ void CSolider_State_Idle::Move_Back_Jump(_float fTimeDelta)
 {
 	if (4.f <= m_pSolider->Get_CurrentTrackPosition() &&
 		m_pSolider->Get_CurrentTrackPosition() <= 15.f)
-		m_pSolider->Get_Transform()->Go_Backward(fTimeDelta * 5);
+		m_pSolider->Get_Transform()->Go_Backward(fTimeDelta * 5, m_pSolider->Get_Navigation());
 
 	if (m_pSolider->Is_Animation_Finished()) {
 		Change_State(IDLE);

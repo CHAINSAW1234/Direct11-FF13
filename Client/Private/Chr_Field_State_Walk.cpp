@@ -69,7 +69,7 @@ void CChr_Field_State_Walk::Move(_float fTimeDelta)
 		m_pChr_Field->Get_Transform()->Turn(XMVectorSet(0.f, 1.f, 0.f, 0.f), fTimeDelta * m_fDegree / abs(m_fDegree));
 	}
 
-	m_pChr_Field->Get_Transform()->Go_Straight(fTimeDelta);
+	m_pChr_Field->Get_Transform()->Go_Straight(fTimeDelta, m_pChr_Field->Get_Navigation());
 }
 
 void CChr_Field_State_Walk::Turn(_float fTimeDelta)
@@ -77,11 +77,11 @@ void CChr_Field_State_Walk::Turn(_float fTimeDelta)
 	// 1.	
 	if ((m_pChr_Field->Get_CurrentTrackPosition() >= 5.f) && (abs(m_fDegree) > 5.f)) {
 		m_pChr_Field->Get_Transform()->Turn(XMVectorSet(0.f, 1.f, 0.f, 0.f), fTimeDelta * m_fDegree / abs(m_fDegree));
-		m_pChr_Field->Get_Transform()->Go_Straight(fTimeDelta/2);
+		m_pChr_Field->Get_Transform()->Go_Straight(fTimeDelta/2, m_pChr_Field->Get_Navigation());
 	}
 
 	if (m_pChr_Field->Get_CurrentTrackPosition() >= 21.f)
-		m_pChr_Field->Get_Transform()->Go_Straight(fTimeDelta);
+		m_pChr_Field->Get_Transform()->Go_Straight(fTimeDelta, m_pChr_Field->Get_Navigation());
 
 	if (m_pChr_Field->Is_Animation_Finished()) {
 		m_pChr_Field->Change_Animation(CChr_Field::WALK_IDLE, true);

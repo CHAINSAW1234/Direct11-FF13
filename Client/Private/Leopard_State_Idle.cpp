@@ -81,7 +81,7 @@ void CLeopard_State_Idle::Idle(_float fTimeDelta)
 
 void CLeopard_State_Idle::Move(_float fTimeDelta)
 {
-	m_pLeopard->Get_Transform()->Go_Straight(fTimeDelta);
+	m_pLeopard->Get_Transform()->Go_Straight(fTimeDelta, m_pLeopard->Get_Navigation());
 
 	if (m_fTimeDelta >= m_fStateTime) {
 		if (round(m_pLeopard->Get_CurrentTrackPosition()) == 13.f) {
@@ -102,7 +102,7 @@ void CLeopard_State_Idle::Move(_float fTimeDelta)
 
 void CLeopard_State_Idle::Move_Back(_float fTimeDelta)
 {
-	m_pLeopard->Get_Transform()->Go_Backward(fTimeDelta);
+	m_pLeopard->Get_Transform()->Go_Backward(fTimeDelta, m_pLeopard->Get_Navigation());
 
 	if (m_fTimeDelta >= m_fStateTime) {
 		if (round(m_pLeopard->Get_CurrentTrackPosition()) == 13.f) {

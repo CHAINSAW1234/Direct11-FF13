@@ -26,6 +26,8 @@ public:
 	virtual _bool	Compute_Picking(const CTransform* pTransform, _Out_  _float4* vOutPos = nullptr);
 
 public:
+	const _uint* Get_Indices() { return m_pIndices; }
+
 	HRESULT Stock_Matrices(const vector<CBone*>& Bones, _Out_ _float4x4* pMeshBoneMatrices);
 	HRESULT Save_Mesh(CModel::TYPE eModelType, ofstream& OFS);
 

@@ -122,7 +122,7 @@ HRESULT CLevel_Battle::Create_MapObject(const wstring strModelTag, _float4x4 Wor
         return E_FAIL;
 
     dynamic_cast<CTransform*>(pObject->Get_Component(g_strTransformTag))->Set_WorldMatrix(WorldMatrix);
-
+    pObject->Tick_Navigation();
     return S_OK;
 }
 

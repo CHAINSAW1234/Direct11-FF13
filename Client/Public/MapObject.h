@@ -37,16 +37,16 @@ public:
 
 public:
 	_bool Compute_Picking(_Out_ _float4* vOutPos = nullptr);
+	void Tick_Navigation();
 
 private:
 	wstring			m_strModelTag = {};			// 이 객체가 사용하는 모델의 이름
 	CModel*			m_pModelCom = { nullptr };
 	CShader*		m_pShaderCom = { nullptr };
-
+	CNavigation*	m_pNavigationCom = { nullptr };
 private:
 	HRESULT Add_Components();
 	HRESULT Bind_ShaderResources();
-
 
 public:
 	static CMapObject* Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);

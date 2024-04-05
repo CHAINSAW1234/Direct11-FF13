@@ -57,7 +57,7 @@ void CLeopard_State_Field::Idle(_float fTimeDelta)
 
 void CLeopard_State_Field::Move(_float fTimeDelta)
 {
-	m_pLeopard->Get_Transform()->Go_Straight(fTimeDelta);
+	m_pLeopard->Get_Transform()->Go_Straight(fTimeDelta, m_pLeopard->Get_Navigation());
 
 	if (m_fTimeDelta >= m_fStateTime) {
 		if (round(m_pLeopard->Get_CurrentTrackPosition()) == 13.f) {

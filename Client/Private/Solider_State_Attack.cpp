@@ -51,7 +51,7 @@ void CSolider_State_Attack::Run(_float fTimeDelta)
         m_pSolider->Change_Animation(CSolider::ANIMATION_SOLIDER(CSolider::ATTACK1 + rand()%3), false);
     }
 
-    m_pSolider->Get_Transform()->Go_Straight(fTimeDelta * 3);
+    m_pSolider->Get_Transform()->Go_Straight(fTimeDelta * 3, m_pSolider->Get_Navigation());
 
     if (m_pSolider->Is_Animation_Finished())
         m_pSolider->Change_Animation(CSolider::RUN_IDLE, true);

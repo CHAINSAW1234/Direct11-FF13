@@ -31,6 +31,7 @@ public:
 	/*============================GET============================*/
 	CTransform* Get_Transform() { return m_pTransformCom; }
 	CCollider* Get_Collider() { return m_pColliderCom; }
+	CNavigation* Get_Navigation() { return m_pNavigationCom; }
 	//CChr_Battle* Get_TargetObject() { return m_pTargetObject;  }
 	_float4 Get_StartPosition() { return m_vStartPosition; }
 	_float4 Get_TargetPosition();
@@ -90,6 +91,7 @@ protected:
 	CCollider*		m_pColliderCom = { nullptr };
 	CCollider*		m_pCollider_WeaponCom = { nullptr };
 	CChr_Battle*	m_pTargetObject = { nullptr };
+	CNavigation*	m_pNavigationCom = { nullptr };
 
 	_float		m_fColliderSizeZ = { 0 };
 
@@ -112,8 +114,6 @@ protected:
 	_float		m_fCurChain = { 100.f };					// 실시간으로 감소하는 Chain 값 : 이 값이 100이 되면 m_fChain을 100으로 초기화
 	_float		m_fStagger = { 100.f };						// Chain이 이 값보다 높아지면 Break상태로 변환
 	_float4		m_vStartPosition = { 0.f,0.f,0.f,1.f };		// 흠
-
-
 
 protected:
 	virtual HRESULT Add_Components();

@@ -75,6 +75,7 @@ HRESULT CWarload::Render()
 void CWarload::Start()
 {
     m_pTargetObject = dynamic_cast<CChr_Battle*>(m_pGameInstance->Get_GameObject(g_Level, g_strChrLayerTag, 0));
+    m_pNavigationCom->Set_Index(m_pTransformCom->Get_State_Vector(CTransform::STATE_POSITION));
     //Safe_AddRef(m_pTargetObject);
     if (g_Level == LEVEL_BATTLE) {
         Change_State(STATE_IDLE);

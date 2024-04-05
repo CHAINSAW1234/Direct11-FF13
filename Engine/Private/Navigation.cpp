@@ -1,6 +1,7 @@
 #include "..\Public\Navigation.h"
 #include "Cell.h"
 
+#include "Mesh.h"
 #include "Shader.h"
 #include "GameInstance.h"
 
@@ -79,6 +80,19 @@ void CNavigation::Tick(_fmatrix WorldMatrix)
 	XMStoreFloat4x4(&m_WorldMatrix, WorldMatrix);
 }
 
+void CNavigation::Set_Index(_fvector vPosition)
+{
+	for (size_t i = 0; i < m_Cells.size(); ++i) 
+	{
+		_int		iNeighborIndex = { -1 };
+
+		if (true == m_Cells[i]->isIn(vPosition, XMLoadFloat4x4(&m_WorldMatrix), &iNeighborIndex)) {
+			m_iCurrentIndex = i;
+			return;
+		}
+	}
+}
+
 _bool CNavigation::isMove(_fvector vPosition)
 {
 	if (-1 == m_iCurrentIndex)
@@ -125,8 +139,7 @@ HRESULT CNavigation::Render()
 		return E_FAIL;
 
 	if (FAILED(m_pShader->Bind_Matrix("g_ProjMatrix", &m_pGameInstance->Get_Transform_Float4x4(CPipeLine::D3DTS_PROJ))))
-		return E_FAIL
-		;
+		return E_FAIL;
 
 	m_pShader->Begin(0);
 
@@ -148,6 +161,49 @@ HRESULT CNavigation::Render()
 }
 
 #endif
+
+HRESULT CNavigation::Initialize_Prototype_From_Model(const string& strDataFile)
+{
+	CModel* pModel = CModel::Create(m_pDevice, m_pContext, strDataFile);
+	vector<class CMesh*> Meshes = pModel->Get_Meshes();
+
+	for (size_t i = 0; i < Meshes.size(); ++i) {		//actually size is one
+		const _float3* pVerticesPos = Meshes[i]->Get_Vertices();
+		const _uint* pIndices = Meshes[i]->Get_Indices();
+		_uint iNumIndices = Meshes[i]->Get_NumIndices();
+		_uint iCount = 0;
+
+		while (iCount + 3 <= iNumIndices)
+		{
+			_float3		vPoints[3];
+
+			vPoints[0] = pVerticesPos[pIndices[iCount]];
+			vPoints[1] = pVerticesPos[pIndices[iCount + 1]];
+			vPoints[2] = pVerticesPos[pIndices[iCount + 2]];
+
+			CCell* pCell = CCell::Create(m_pDevice, m_pContext, vPoints, m_Cells.size());
+			if (nullptr == pCell)
+				return E_FAIL;
+
+			m_Cells.emplace_back(pCell);
+
+			iCount += 3;
+		}
+	}
+
+	if (FAILED(SetUp_Neighbors()))
+		return E_FAIL;
+
+#ifdef _DEBUG
+	m_pShader = CShader::Create(m_pDevice, m_pContext, TEXT("../Bin/ShaderFiles/shader_Cell.hlsl"), VTXPOS::Elements, VTXPOS::iNumElements);
+	if (nullptr == m_pShader)
+		return E_FAIL;
+#endif
+
+	Safe_Release(pModel);
+
+	return S_OK;
+}
 
 HRESULT CNavigation::SetUp_Neighbors()
 {
@@ -178,6 +234,20 @@ CNavigation* CNavigation::Create(ID3D11Device* pDevice, ID3D11DeviceContext* pCo
 	CNavigation* pInstance = new CNavigation(pDevice, pContext);
 
 	if (FAILED(pInstance->Initialize_Prototype(strDataFile)))
+	{
+		MSG_BOX(TEXT("Failed To Created : CNavigation"));
+
+		Safe_Release(pInstance);
+	}
+
+	return pInstance;
+}
+
+CNavigation* CNavigation::Create_From_Model(ID3D11Device* pDevice, ID3D11DeviceContext* pContext, const string& strDataFile)
+{
+	CNavigation* pInstance = new CNavigation(pDevice, pContext);
+
+	if (FAILED(pInstance->Initialize_Prototype_From_Model(strDataFile)))
 	{
 		MSG_BOX(TEXT("Failed To Created : CNavigation"));
 

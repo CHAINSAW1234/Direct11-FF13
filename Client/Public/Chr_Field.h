@@ -44,6 +44,7 @@ private:
 	CShader*	m_pShaderCom = { nullptr };
 	CCollider*	m_pColliderCom = { nullptr };
 	CFSM*		m_pFSMCom = { nullptr };
+	CNavigation* m_pNavigationCom = { nullptr };
 
 	STATE		m_eState = { STATE_END };
 	_bool		m_isControl = { true };				// 조작 가능 여부 -> 아이템 조작, 전투시 false 처리
@@ -53,6 +54,7 @@ private:
 public: 
 	CTransform* Get_Transform() { return m_pTransformCom; }
 	CCollider*	Get_Collider() { return m_pColliderCom; }
+	CNavigation* Get_Navigation() { return m_pNavigationCom; }
 	_uint		Get_CurrentAnimationIndex() { return m_pModelCom->Get_CurrentAnimationIndex(); }
 	_float		Get_CurrentTrackPosition() { return m_pModelCom->Get_CurrentTrackPosition(); }
 	_bool		Is_Animation_Finished() { return m_pModelCom->isFinished(); }

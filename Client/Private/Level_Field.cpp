@@ -99,7 +99,7 @@ HRESULT CLevel_Field::Create_MapObject(const wstring strModelTag, _float4x4 Worl
 		return E_FAIL;
 
 	dynamic_cast<CTransform*>(pObject->Get_Component(g_strTransformTag))->Set_WorldMatrix(WorldMatrix);
-
+	pObject->Tick_Navigation();
 	return S_OK;
 }
 

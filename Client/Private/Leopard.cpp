@@ -76,6 +76,7 @@ void CLeopard::Start()
     }
     else
         Change_State(STATE_FIELD);
+    m_pNavigationCom->Set_Index(m_pTransformCom->Get_State_Vector(CTransform::STATE_POSITION));
     /*m_pTransformCom->Set_State(CTransform::STATE_POSITION, XMVectorSet(_float(rand() % 10 - 5), 0.f, _float(rand() % 10 - 5), 1.f));*/
 }
 

@@ -88,12 +88,12 @@ HRESULT CLevel_Parsing::Ready_Models()
 
 	/* Prototype_Component_Model_Fiona */
 
-	TransformMatrix = XMMatrixRotationY(XMConvertToRadians(180.0f));
-	TransformMatrix.r[3].m128_f32[1] = -5.f;
+	//TransformMatrix = XMMatrixRotationY(XMConvertToRadians(180.0f));
+	//TransformMatrix.r[3].m128_f32[1] = -5.f;
 
-	path = "../Bin/Resources/Models/Monster/Boss/Boss.fbx";
+	path = "../Bin/Resources/Models/MapObject/MapNavi/Map_Field_Navi.fbx";
 	CModel* pModel = { nullptr };
-	pModel = CModel::Create(m_pDevice, m_pContext, CModel::TYPE_ANIM, path, TransformMatrix);
+	pModel = CModel::Create(m_pDevice, m_pContext, CModel::TYPE_NONANIM, path, TransformMatrix);
 	if (nullptr == pModel)
 		return E_FAIL;
 	m_Models.push_back(pModel);
@@ -140,7 +140,7 @@ HRESULT CLevel_Parsing::Parse_Models()
 
 #pragma endregion
 
-	path = "../Bin/Resources/Models/Monster/Boss/Boss.bin";
+	path = "../Bin/Resources/Models/MapObject/MapNavi/Map_Field_Navi.bin";
 	if (FAILED(m_Models[0]->Save_Model(path)))
 		return E_FAIL;
 

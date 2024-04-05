@@ -41,7 +41,7 @@ void CBoss_State_Skill_HellBlast::Move(_float fTimeDelta)
         m_pBoss->Change_Animation(CBoss::SKILL_HELLBLAST, false);
     }
 
-    m_pBoss->Get_Transform()->Go_Straight(fTimeDelta * 5);
+    m_pBoss->Get_Transform()->Go_Straight(fTimeDelta * 5, m_pBoss->Get_Navigation());
 
     if (m_pBoss->Is_Animation_Finished())
         m_pBoss->Change_Animation(CBoss::MOVE_STRAIGHT_IDLE, true);

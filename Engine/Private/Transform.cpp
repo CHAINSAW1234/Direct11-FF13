@@ -49,6 +49,19 @@ HRESULT CTransform::Bind_ShaderResource(CShader * pShader, const _char * pConsta
 	
 }
 
+void CTransform::Set_Position(const _float4& vPosition, CNavigation* pNavigation)
+{
+	if (nullptr == pNavigation)
+		Set_State(STATE_POSITION, vPosition);
+	else
+	{
+		_vector vPos = XMLoadFloat4(&vPosition);
+
+		if (true == pNavigation->isMove(vPos))
+			Set_State(STATE_POSITION, vPosition);
+	}
+}
+
 void CTransform::Go_Straight(_float fTimeDelta, CNavigation* pNavigation)
 {
 	_vector		vPosition = Get_State_Vector(STATE_POSITION);
@@ -70,7 +83,7 @@ void CTransform::Go_Straight(_float fTimeDelta, CNavigation* pNavigation)
 
 
 
-void CTransform::Go_Backward(_float fTimeDelta)
+void CTransform::Go_Backward(_float fTimeDelta, CNavigation* pNavigation)
 {
 	_vector		vPosition = Get_State_Vector(STATE_POSITION);
 	_vector		vLook = Get_State_Vector(STATE_LOOK);
@@ -80,10 +93,16 @@ void CTransform::Go_Backward(_float fTimeDelta)
 
 	vPosition += vMovement;
 
-	Set_State(STATE_POSITION, vPosition);
+	if (nullptr == pNavigation)
+		Set_State(STATE_POSITION, vPosition);
+	else
+	{
+		if (true == pNavigation->isMove(vPosition))
+			Set_State(STATE_POSITION, vPosition);
+	}
 }
 
-void CTransform::Go_Left(_float fTimeDelta)
+void CTransform::Go_Left(_float fTimeDelta, CNavigation* pNavigation)
 {
 	_vector		vPosition = Get_State_Vector(STATE_POSITION);
 	_vector		vRight = Get_State_Vector(STATE_RIGHT);
@@ -93,10 +112,16 @@ void CTransform::Go_Left(_float fTimeDelta)
 
 	vPosition += vMovement;
 
-	Set_State(STATE_POSITION, vPosition);
+	if (nullptr == pNavigation)
+		Set_State(STATE_POSITION, vPosition);
+	else
+	{
+		if (true == pNavigation->isMove(vPosition))
+			Set_State(STATE_POSITION, vPosition);
+	}
 }
 
-void CTransform::Go_Right(_float fTimeDelta)
+void CTransform::Go_Right(_float fTimeDelta, CNavigation* pNavigation)
 {
 	_vector		vPosition = Get_State_Vector(STATE_POSITION);
 	_vector		vRight = Get_State_Vector(STATE_RIGHT);
@@ -106,7 +131,13 @@ void CTransform::Go_Right(_float fTimeDelta)
 
 	vPosition += vMovement;
 
-	Set_State(STATE_POSITION, vPosition);
+	if (nullptr == pNavigation)
+		Set_State(STATE_POSITION, vPosition);
+	else
+	{
+		if (true == pNavigation->isMove(vPosition))
+			Set_State(STATE_POSITION, vPosition);
+	}
 }
 
 void CTransform::Go_Up(_float fTimeDelta)
@@ -164,7 +195,7 @@ void CTransform::Look_At_ForLandObject(_fvector vTargetPosition)
 }
 
 
-void CTransform::Move_To_Target(_fvector vTargetPos, _float fTimeDelta, _float fMinDistance)
+void CTransform::Move_To_Target(_fvector vTargetPos, _float fTimeDelta, _float fMinDistance, CNavigation* pNavigation)
 {
 	_vector vPos = Get_State_Vector(STATE_POSITION);
 	_vector vDir = vTargetPos - vPos;
@@ -174,17 +205,28 @@ void CTransform::Move_To_Target(_fvector vTargetPos, _float fTimeDelta, _float f
 	if (fDistance > fMinDistance)
 	{
 		vPos += XMVector3Normalize(vDir) * m_fSpeedPerSec * fTimeDelta;
-		Set_State(STATE_POSITION, XMVectorSetW(vPos, 1.f));
-
+		if (nullptr == pNavigation)
+			Set_State(STATE_POSITION, XMVectorSetW(vPos, 1.f));
+		else
+		{
+			if (true == pNavigation->isMove(XMVectorSetW(vPos, 1.f)))
+				Set_State(STATE_POSITION, XMVectorSetW(vPos, 1.f));
+		}
 	}
 }
 
-void CTransform::Move_To_Direction(_fvector vDirection, _float fTimeDelta)
+void CTransform::Move_To_Direction(_fvector vDirection, _float fTimeDelta, CNavigation* pNavigation)
 {
 	_vector		vMovement = vDirection * fTimeDelta;
 	XMStoreFloat4(&m_vLastMovement, vMovement);
 
-	Set_State(STATE_POSITION, Get_State_Vector(STATE_POSITION) + vMovement);
+	if (nullptr == pNavigation)
+		Set_State(STATE_POSITION, Get_State_Vector(STATE_POSITION) + vMovement);
+	else
+	{
+		if (true == pNavigation->isMove(Get_State_Vector(STATE_POSITION) + vMovement))
+			Set_State(STATE_POSITION, Get_State_Vector(STATE_POSITION) + vMovement);
+	}
 }
 
 void CTransform::Turn(_fvector vAxis, _float fTimeDelta)

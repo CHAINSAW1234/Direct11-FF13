@@ -48,7 +48,7 @@ void CLeopard_State_Attack::Run(_float fTimeDelta)
 		m_pLeopard->Change_Animation(CLeopard::ATTACK, false);
 	}
 
-	m_pLeopard->Get_Transform()->Go_Straight(fTimeDelta * 3);
+	m_pLeopard->Get_Transform()->Go_Straight(fTimeDelta * 3, m_pLeopard->Get_Navigation());
 
 	if (m_pLeopard->Is_Animation_Finished())
 		m_pLeopard->Change_Animation(CLeopard::RUN_IDLE, true);
@@ -60,7 +60,7 @@ void CLeopard_State_Attack::Attack(_float fTimeDelta)
 
 	if (23.f <= m_pLeopard->Get_CurrentTrackPosition() &&
 		m_pLeopard->Get_CurrentTrackPosition() <= 33.f)
-		m_pLeopard->Get_Transform()->Go_Backward(fTimeDelta*3);
+		m_pLeopard->Get_Transform()->Go_Backward(fTimeDelta*3, m_pLeopard->Get_Navigation());
 
 	if (m_pLeopard->Is_Animation_Finished())
 		m_pLeopard->Change_State(CLeopard::STATE_IDLE);

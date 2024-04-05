@@ -52,6 +52,7 @@ public:
 	CCollider* Get_Collider() { return m_pColliderCom; }
 	CCollider* Get_Collider_Weapon();
 
+	CNavigation* Get_Navigation() { return m_pNavigationCom; }
 	/*============================SET============================*/
 	void Set_ATB_Full() { m_fATB = m_fMaxATB; }
 	void Set_TrackPosition(_float fTrackPosition);
@@ -90,6 +91,7 @@ protected:
 protected:
 	CFSM* m_pFSMCom = { nullptr };
 	CCollider* m_pColliderCom = { nullptr };
+	CNavigation* m_pNavigationCom = { nullptr };
 	CAbility* m_pAbility = { nullptr };
 
 	_float	m_fColliderSizeZ = { 0.f };

@@ -47,7 +47,8 @@ HRESULT CChr_Field::Initialize(void* pArg)
 	Safe_AddRef(m_pImGUI_Manager);
 
 	m_pModelCom->Set_Animation(0, false);
-	m_pTransformCom->Set_State(CTransform::STATE_POSITION, XMVectorSet(_float(rand() % 20), 0.f, _float(rand() % 20), 1.f));
+	m_pTransformCom->Set_State(CTransform::STATE_POSITION, XMVectorSet(55, 0.f, 60, 1.f));
+	m_pNavigationCom->Set_Index(m_pTransformCom->Get_State_Vector(CTransform::STATE_POSITION));
 
 	return S_OK;
 }
@@ -185,6 +186,21 @@ HRESULT CChr_Field::Add_Components()
 	if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_Collider_OBB"),
 		TEXT("Com_Collider"), (CComponent**)&m_pColliderCom, &ColliderOBBDesc)))
 		return E_FAIL;
+
+	wstring strNaviTag;
+	switch (m_eLevel) {
+	case LEVEL_FIELD:
+		strNaviTag = TEXT("Prototype_Component_Navigation_Field");
+		break;
+	case LEVEL_FIELD_BOSS:
+		strNaviTag = TEXT("Prototype_Component_Navigation_Field_Boss");
+		break;
+	}
+
+	if (FAILED(__super::Add_Component(LEVEL_STATIC, strNaviTag,
+	TEXT("Com_Navigation"), (CComponent**)&m_pNavigationCom)))
+	return E_FAIL;
+
 
 	if(FAILED(Add_Component_FSM()))
 		return E_FAIL;
@@ -367,6 +383,7 @@ void CChr_Field::Free()
 
 	Safe_Release(m_pColliderCom);
 	Safe_Release(m_pShaderCom);
+	Safe_Release(m_pNavigationCom);
 	Safe_Release(m_pModelCom);
 	Safe_Release(m_pFSMCom);
 

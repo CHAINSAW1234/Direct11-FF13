@@ -71,7 +71,7 @@ void CChr_Battle_Light_State_Attack::Run(_float fTimeDelta)
 		m_pChr_Battle_Light->Get_Transform()->Turn(XMVectorSet(0.f, 1.f, 0.f, 0.f), fTimeDelta * m_fDegree / abs(m_fDegree));
 	}
 
-	m_pChr_Battle_Light->Get_Transform()->Go_Straight(fTimeDelta);
+	m_pChr_Battle_Light->Get_Transform()->Go_Straight(fTimeDelta, m_pChr_Battle_Light->Get_Navigation());
 
 	if (m_pChr_Battle_Light->Is_Animation_Finished()) {
 		m_pChr_Battle_Light->Change_Animation(CChr_Battle_Light::RUN_IDLE, true);
@@ -264,12 +264,9 @@ void CChr_Battle_Light_State_Attack::Attack(_float fTimeDelta)
 					m_eState = SKILL;
 					m_isCommandFinish = false;
 				}
-
-
 			}
 		}
 	}
-
 }
 
 void CChr_Battle_Light_State_Attack::Skill(_float fTimeDelta)
@@ -364,7 +361,7 @@ void CChr_Battle_Light_State_Attack::Finish(_float fTimeDelta)
 	if (m_pChr_Battle_Light->Get_CurrentAnimationIndex() == CChr_Battle_Light::ATTACK_END) {
 		m_pChr_Battle_Light->Update_ATB(fTimeDelta);
 		if (m_pChr_Battle_Light->Get_CurrentTrackPosition() <= 25.f) {
-			m_pChr_Battle_Light->Get_Transform()->Go_Backward(fTimeDelta);
+			m_pChr_Battle_Light->Get_Transform()->Go_Backward(fTimeDelta, m_pChr_Battle_Light->Get_Navigation());
 		}
 	}
 }

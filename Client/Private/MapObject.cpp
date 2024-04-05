@@ -70,12 +70,22 @@ HRESULT CMapObject::Render()
         m_pModelCom->Render(i);
     }
 
+    if(nullptr != m_pNavigationCom)
+        m_pNavigationCom->Render();
+
     return S_OK;
 }
 
 _bool CMapObject::Compute_Picking(_Out_ _float4* vOutPos)
 {
     return m_pModelCom->Compute_Picking(m_pTransformCom, vOutPos);
+}
+
+void CMapObject::Tick_Navigation()
+{
+    _matrix vMatrix = m_pTransformCom->Get_WorldMatrix();
+    //_matrix vMatrix = XMMatrixIdentity();
+    m_pNavigationCom->Tick(vMatrix);
 }
 
 HRESULT CMapObject::Add_Components()
@@ -89,6 +99,28 @@ HRESULT CMapObject::Add_Components()
     if (FAILED(__super::Add_Component(m_eLevel, m_strModelTag,
         TEXT("Com_Model"), (CComponent**)&m_pModelCom)))
         return E_FAIL;
+
+    wstring strNaviTag;
+    switch (m_eLevel) {
+    case LEVEL_FIELD:
+        strNaviTag = TEXT("Prototype_Component_Navigation_Field");
+        break;
+    case LEVEL_FIELD_BOSS:
+        strNaviTag = TEXT("Prototype_Component_Navigation_Field_Boss");
+        break;
+    case LEVEL_BATTLE:
+        strNaviTag = TEXT("Prototype_Component_Navigation_Battle");
+        break;
+    case LEVEL_BATTLE_BOSS:
+        strNaviTag = TEXT("Prototype_Component_Navigation_Boss_Battle");
+        break;
+    }
+
+    if (FAILED(__super::Add_Component(LEVEL_STATIC, strNaviTag,
+        TEXT("Com_Navigation"), (CComponent**)&m_pNavigationCom)))
+        return S_OK;
+
+
 
     return S_OK;
 }
@@ -159,4 +191,5 @@ void CMapObject::Free()
 
     Safe_Release(m_pShaderCom);
     Safe_Release(m_pModelCom);
+    Safe_Release(m_pNavigationCom);
 }

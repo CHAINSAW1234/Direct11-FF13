@@ -43,7 +43,7 @@ void CWarload_State_Attack::Run(_float fTimeDelta)
 		m_pWarload->Change_Animation(CWarload::ATTACK, false);
 	}
 
-	m_pWarload->Get_Transform()->Go_Straight(fTimeDelta * 30);
+	m_pWarload->Get_Transform()->Go_Straight(fTimeDelta * 30, m_pWarload->Get_Navigation());
 
 	if (m_pWarload->Is_Animation_Finished())
 		m_pWarload->Change_Animation(CWarload::RUN_IDLE, true);
@@ -55,7 +55,7 @@ void CWarload_State_Attack::Attack(_float fTimeDelta)
 
 	if (30.f <= m_pWarload->Get_CurrentTrackPosition() &&
 		m_pWarload->Get_CurrentTrackPosition() <= 45.f)
-		m_pWarload->Get_Transform()->Go_Backward(fTimeDelta*2);
+		m_pWarload->Get_Transform()->Go_Backward(fTimeDelta*2, m_pWarload->Get_Navigation());
 
 	if (m_pWarload->Is_Animation_Finished())
 		m_pWarload->Change_State(CWarload::STATE_IDLE);

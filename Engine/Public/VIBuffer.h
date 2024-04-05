@@ -21,6 +21,8 @@ public:
 	virtual _bool	Compute_Picking(const CTransform* pTransform, _Out_  _float4* vOutPos = nullptr) = 0;
 
 public:
+	const _float3* Get_Vertices() { return m_pVerticesPos; }
+	_uint Get_NumIndices() { return m_iNumIndices; }
 	virtual HRESULT Bind_Buffers();
 
 protected:

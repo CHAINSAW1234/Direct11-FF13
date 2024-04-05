@@ -144,7 +144,7 @@ void CChr_Battle_Light_State_Idle::Move(_float fTimeDelta)
 		// STRAIGHT, BACKWARD는 지정한 위치 까지 이동
 	case STRAIGHT: {
 		_float fDist = XMVector3Length(vTargetPosition - vCurrentPosition).m128_f32[0];
-		m_pChr_Battle_Light->Get_Transform()->Go_Straight(fTimeDelta);
+		m_pChr_Battle_Light->Get_Transform()->Go_Straight(fTimeDelta, m_pChr_Battle_Light->Get_Navigation());
 		if (fDist <= m_fDist) {
 			Update_Movement();
 		}
@@ -152,7 +152,7 @@ void CChr_Battle_Light_State_Idle::Move(_float fTimeDelta)
 	}
 	case BACKWARD: {
 		_float fDist = XMVector3Length(vTargetPosition - vCurrentPosition).m128_f32[0];
-		m_pChr_Battle_Light->Get_Transform()->Go_Backward(fTimeDelta);
+		m_pChr_Battle_Light->Get_Transform()->Go_Backward(fTimeDelta, m_pChr_Battle_Light->Get_Navigation());
 		if (fDist >= m_fDist) {
 			Update_Movement();
 		}
@@ -165,17 +165,17 @@ void CChr_Battle_Light_State_Idle::Move(_float fTimeDelta)
 			Update_Movement();
 		}
 		else if (iSide == 1) { // 오른쪽
-			m_pChr_Battle_Light->Get_Transform()->Go_Right(fTimeDelta);
+			m_pChr_Battle_Light->Get_Transform()->Go_Right(fTimeDelta, m_pChr_Battle_Light->Get_Navigation());
 		}
 		else {
-			m_pChr_Battle_Light->Get_Transform()->Go_Left(fTimeDelta);
+			m_pChr_Battle_Light->Get_Transform()->Go_Left(fTimeDelta, m_pChr_Battle_Light->Get_Navigation());
 		}
 		break;
 	}
 	// TO_START인 경우, StartPosition으로 이동
 	case TO_START: {
 		_float fDist = XMVector3Length(vStartPosition - vCurrentPosition).m128_f32[0];
-		m_pChr_Battle_Light->Get_Transform()->Move_To_Target(vStartPosition, fTimeDelta);
+		m_pChr_Battle_Light->Get_Transform()->Move_To_Target(vStartPosition, fTimeDelta, 0.f, m_pChr_Battle_Light->Get_Navigation());
 		if (fDist <= 1) {
 			Update_Movement();
 		}

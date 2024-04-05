@@ -237,7 +237,7 @@ _float CMonster::Cal_Dist_Target()
     _float fDist = INFINITY;
 
     _vector vPos = m_pTransformCom->Get_State_Vector(CTransform::STATE_POSITION);
-    vPos.m128_f32[1] = m_pTargetObject->Get_Transform()->Get_State_Float4(CTransform::STATE_POSITION).y;
+    vPos.m128_f32[1] = m_pTargetObject->Get_Transform()->Get_State_Float4(CTransform::STATE_POSITION).y + 0.25f;;
     _vector vLook = m_pTransformCom->Get_State_Vector(CTransform::STATE_LOOK);
 
     if (m_pTargetObject->Get_Collider()->IntersectRay(vPos, vLook, fDist))
@@ -283,7 +283,7 @@ void CMonster::Check_Interact_Chr()
             VectorDir.m128_f32[1] = 0.f;
             VectorDir = XMVector3Normalize(VectorDir);
             // ¹Ì´Â ÈûÀº ÈûÀ¸·Î Ã³¸®ÇÔ
-            pChr_Battle->Get_Transform()->Move_To_Direction(VectorDir, (XMVector3Length(m_pTransformCom->Get_LastMovement_Vector()) * 2.f / pChr_Battle->Get_Transform()->Get_SpeedPerSec()).m128_f32[0]);
+            pChr_Battle->Get_Transform()->Move_To_Direction(VectorDir, (XMVector3Length(m_pTransformCom->Get_LastMovement_Vector()) * 2.f / pChr_Battle->Get_Transform()->Get_SpeedPerSec()).m128_f32[0], pChr_Battle->Get_Navigation());
         }
     }
 }
@@ -305,7 +305,7 @@ void CMonster::Check_Interact_Monster()
             VectorDir.m128_f32[1] = 0.f;
             VectorDir = XMVector3Normalize(VectorDir);
             // ¹Ì´Â ÈûÀº ÈûÀ¸·Î Ã³¸®ÇÔ
-            pMonster->Get_Transform()->Move_To_Direction(VectorDir, (XMVector3Length(m_pTransformCom->Get_LastMovement_Vector()) * 2.f / pMonster->Get_Transform()->Get_SpeedPerSec()).m128_f32[0]);
+            pMonster->Get_Transform()->Move_To_Direction(VectorDir, (XMVector3Length(m_pTransformCom->Get_LastMovement_Vector()) * 2.f / pMonster->Get_Transform()->Get_SpeedPerSec()).m128_f32[0], pMonster->Get_Navigation());
         }
     }
 }
@@ -371,6 +371,23 @@ HRESULT CMonster::Add_Components()
         TEXT("Com_Shader"), (CComponent**)&m_pShaderCom)))
         return E_FAIL;
 
+    wstring strNaviTag;
+    switch (m_eLevel) {
+    case LEVEL_FIELD:
+        strNaviTag = TEXT("Prototype_Component_Navigation_Field");
+        break;
+    case LEVEL_BATTLE:
+        strNaviTag = TEXT("Prototype_Component_Navigation_Battle");
+        break;
+    case LEVEL_BATTLE_BOSS:
+        strNaviTag = TEXT("Prototype_Component_Navigation_Boss_Battle");
+        break;
+    }
+
+    if (FAILED(__super::Add_Component(LEVEL_STATIC, strNaviTag,
+        TEXT("Com_Navigation"), (CComponent**)&m_pNavigationCom)))
+        return E_FAIL;
+
     if (FAILED(Add_Component_FSM()))
         return E_FAIL;
 
@@ -428,6 +445,7 @@ void CMonster::Free()
     Safe_Release(m_pModelCom);
     Safe_Release(m_pShaderCom);
     Safe_Release(m_pFSMCom);
+    Safe_Release(m_pNavigationCom);
     Safe_Release(m_pColliderCom);
     Safe_Release(m_pCollider_WeaponCom);
     //Safe_Release(m_pTargetObject);
