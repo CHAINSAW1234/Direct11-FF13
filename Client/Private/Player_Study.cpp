@@ -138,13 +138,13 @@ HRESULT CPlayer_Study::Add_Components()
 
 
 	///* For.Com_Navigation */
-	//CNavigation::NAVIGATION_DESC			NavigationDesc{};
+	CNavigation::NAVIGATION_DESC			NavigationDesc{};
 
-	//NavigationDesc.iCurrentIndex = 0;
+	NavigationDesc.iCurrentIndex = 0;
 
-	//if (FAILED(__super::Add_Component(LEVEL_GAMEPLAY, TEXT("Prototype_Component_Navigation"),
-	//	TEXT("Com_Navigation"), (CComponent**)&m_pNavigationCom, &NavigationDesc)))
-	//	return E_FAIL;
+	if (FAILED(__super::Add_Component(LEVEL_GAMEPLAY, TEXT("Prototype_Component_Navigation"),
+		TEXT("Com_Navigation"), (CComponent**)&m_pNavigationCom, &NavigationDesc)))
+		return E_FAIL;
 
 
 

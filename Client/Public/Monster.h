@@ -50,6 +50,8 @@ public:
 	void Set_Target(CChr_Battle* pTargetObject);
 	void Set_isTarget(_bool isTarget); 
 	void Reset_AttackTime() { m_fAttackTimeDelta = 0.f; };
+	void Set_AttackAble(_int iIndex) { m_isAttackable[iIndex] = false; }
+	void Set_StartPosition(_float4 vStartPosition);
 	virtual void Set_State_Battle_Start();
 
 	/*============================Model============================*/
@@ -62,8 +64,6 @@ public:
 	void Min_Hp(_int iHp);
 	void Update_Attack_Time(_float fTimeDelta);
 	virtual void Add_Chain(_float fChain);
-	
-	void Set_AttackAble(_int iIndex) { m_isAttackable[iIndex] = false; }
 	void Reset_Attakable();
 
 	_float Cal_Degree_Start();
@@ -71,13 +71,11 @@ public:
 	_float Cal_Degree_Target();
 	_float Cal_Dist_Target();
 
-
 	virtual void Set_Hit(_int iDamage);
 	void   Create_Damage(_int iDamage);
 	void   Check_Interact_Chr();		// 몸통의 충돌 체크 -> 상대 객체 -> 플레이어 캐릭터 밀어냄
 	void   Check_Interact_Monster();	// 몸통의 충돌 체크 -> 상대 객체 -> 플레이어 캐릭터 밀어냄
 	void   Check_Interact_Weapon();		// 무기의 충돌 체크 -> 상대 객체 -> 플레이어 캐릭터 피격 판정 주기
-
 
 protected:
 	HRESULT Create_UI_Hp();

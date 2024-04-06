@@ -1,16 +1,17 @@
 #include "stdafx.h"
 #include "Level_Battle.h"
-
-#include "MapObject.h"
-
-#include "Player_Battle.h"
-#include "UI.h"
+#include "Level_Loading.h"
 
 #include "Camera_Field.h"
+#include "MapObject.h"
+
+#include "UI.h"
+#include "Player_Battle.h"
 
 #include "Chr_Battle_Light.h"
-#include "Troup.h"
 #include "Monster.h"
+#include "Troup.h"
+
 
 CLevel_Battle::CLevel_Battle(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
     : CLevel{ pDevice, pContext }
@@ -51,6 +52,11 @@ void CLevel_Battle::Tick(_float fTimeDelta)
 {
     __super::Tick(fTimeDelta);
     m_pPlayer->Tick(fTimeDelta);
+
+    if(0 == m_pGameInstance->Get_LayerCnt(g_Level, g_strMonsterLayerTag))
+        m_pGameInstance->Open_Level(LEVEL_LOADING, CLevel_Loading::Create(m_pDevice, m_pContext, LEVEL_FIELD));
+
+
 }
 
 HRESULT CLevel_Battle::Render()
@@ -180,10 +186,10 @@ HRESULT CLevel_Battle::Ready_Layer_Monster(const wstring& strLayerTag)
     for (_int i = 0; i < iNum; ++i) {
         size_t iStringNum = { 0 };
         _tchar strPrototypeTag[MAX_PATH] = {};
-
+        _float4 vStartPosition;
         IFS.read(reinterpret_cast<char*>(&iStringNum), sizeof(size_t));
         IFS.read(reinterpret_cast<char*>(&strPrototypeTag), sizeof(_tchar) * iStringNum);
-        
+        IFS.read(reinterpret_cast<char*>(&vStartPosition), sizeof(_float4));
         if (FAILED(m_pGameInstance->Add_Clone(g_Level, strLayerTag, strPrototypeTag)))
             return E_FAIL;
     }

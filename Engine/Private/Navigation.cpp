@@ -106,9 +106,9 @@ _bool CNavigation::isMove(_fvector vPosition)
 	else
 	{
 		/* 나간 방향에 이웃이 없었다. */
-		if (-1 == iNeighborIndex)
+		if (-1 == iNeighborIndex) {
 			return false;
-
+		}
 		/* 나간 방향에 이웃이 있었다. */
 		else
 		{
@@ -125,6 +125,23 @@ _bool CNavigation::isMove(_fvector vPosition)
 			}
 		}
 	}
+}
+
+_float4 CNavigation::Sliding(_fvector vPosition, _fvector vMovement)
+{
+	if (m_iCurrentIndex == -1) {
+		return _float4{ 0.f,0.f,0.f,0.f };
+	}
+
+	return m_Cells[m_iCurrentIndex]->Sliding(vPosition, vMovement, m_WorldMatrix);
+}
+
+void CNavigation::Set_Y(CTransform* pTransform, _float fOffset)
+{
+	if (-1 == m_iCurrentIndex)
+		return ;
+
+	m_Cells[m_iCurrentIndex]->Take_Y(pTransform, fOffset, m_WorldMatrix);
 }
 
 #ifdef _DEBUG

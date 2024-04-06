@@ -9,6 +9,8 @@ CWarload_State_Field::CWarload_State_Field(CWarload* pWarload)
 
 void CWarload_State_Field::OnStateEnter()
 {
+	m_pWarload->Get_Transform()->Look_At_ForLandObject({ 65.f, 0.f,61.f,1.f });
+
 	m_pWarload->Change_Animation(CWarload::FIELD_IDLE, true);
 }
 

@@ -38,11 +38,17 @@ void CLevel_Field::Tick(_float fTimeDelta)
 {
     __super::Tick(fTimeDelta);
 
-	for (auto& pTroup : m_Troups)
-		pTroup->Tick();
-		//if (m_pGameInstance->Get_KeyState(KEY_DOWN, DIK_RETURN)) {
-	//	m_pGameInstance->Open_Level(LEVEL_LOADING, CLevel_Loading::Create(m_pDevice, m_pContext, LEVEL_BATTLE));
-	//}
+	for (auto& iter = m_Troups.begin(); iter != m_Troups.end(); )
+	{
+		if ((*iter)->Tick()) {
+			Safe_Release(*iter);
+			iter = m_Troups.erase(iter);
+			Save_Troup();
+			return;
+		}
+		else
+			++iter;
+	}
 
 }
 
@@ -55,11 +61,6 @@ HRESULT CLevel_Field::Render()
 	SetWindowText(g_hWnd, TEXT("Field 레벨입니다."));
 
 	return S_OK;
-}
-
-HRESULT CLevel_Field::Initialize_Parsed()
-{
-	return E_NOTIMPL;
 }
 
 HRESULT CLevel_Field::Read_Map()
@@ -136,29 +137,217 @@ HRESULT CLevel_Field::Ready_Layer_Chr(const wstring& strLayerTag)
 
 HRESULT CLevel_Field::Ready_Layer_Monster(const wstring& strLayerTag)
 {
-	CTroup* pTroup = CTroup::Create(m_pDevice, m_pContext);
-	CMonster* pMonster = dynamic_cast<CMonster*>(m_pGameInstance->Add_Clone_With_Object(g_Level, strLayerTag, TEXT("Prototype_GameObject_Boss")));
+	//static _bool isStart = true;
+
+	//if (isStart) {
+	//	isStart = false;
+	//	if(FAILED(Ready_Layer_Monster_Start(g_strMonsterLayerTag)))
+	//		return E_FAIL;
+
+	//	return S_OK;
+	//}
+
+	//if (FAILED(Load_Troup()))
+	//	return E_FAIL;
+
+	return S_OK;
+}
+
+HRESULT CLevel_Field::Ready_Layer_Monster_Start(const wstring& strLayerTag)
+{
+	wstring strPrototypeTag = L"";
+	CTroup* pTroup = { nullptr };
+	CMonster* pMonster = { nullptr };
+
+#pragma region Troup1
+	pTroup = CTroup::Create(m_pDevice, m_pContext);
+
+	strPrototypeTag = TEXT("Prototype_GameObject_Leopard");
+	pMonster = dynamic_cast<CMonster*>(m_pGameInstance->Add_Clone_With_Object(g_Level, strLayerTag, strPrototypeTag));
 	if (pMonster == nullptr)
 		return E_FAIL;
-	pMonster->Get_Transform()->Set_State(CTransform::STATE_POSITION, _float4{ 1.f,0.f,1.f,1.f });
-	pTroup->Add_Monster(TEXT("Prototype_GameObject_Boss") , pMonster);
+	pMonster->Set_StartPosition(_float4{ 23.f,0.f,63.f,1.f });
+	pTroup->Add_Monster(strPrototypeTag, pMonster);
 
-	//pMonster = dynamic_cast<CMonster*>(m_pGameInstance->Add_Clone_With_Object(g_Level, strLayerTag, TEXT("Prototype_GameObject_Leopard")));
-	//if (pMonster == nullptr)
-	//	return E_FAIL;
-	//pMonster->Get_Transform()->Set_State(CTransform::STATE_POSITION, _float4{2.f,0.f,1.f,1.f });
-	//pTroup->Add_Monster(TEXT("Prototype_GameObject_Leopard"), pMonster);
+	pMonster = dynamic_cast<CMonster*>(m_pGameInstance->Add_Clone_With_Object(g_Level, strLayerTag, strPrototypeTag));
+	if (pMonster == nullptr)
+		return E_FAIL;
+	pMonster->Set_StartPosition(_float4{ 27.f,0.f,67.f,1.f });
+	pTroup->Add_Monster(strPrototypeTag, pMonster);
 
-	//pMonster = dynamic_cast<CMonster*>(m_pGameInstance->Add_Clone_With_Object(g_Level, strLayerTag, TEXT("Prototype_GameObject_Leopard")));
-	//if (pMonster == nullptr)
-	//	return E_FAIL;
-	//pMonster->Get_Transform()->Set_State(CTransform::STATE_POSITION, _float4{ 3.f,0.f,1.f,1.f });
-	//pTroup->Add_Monster(TEXT("Prototype_GameObject_Leopard"), pMonster);
+	m_Troups.push_back(pTroup);
+#pragma endregion
+
+#pragma region Troup2
+	pTroup = CTroup::Create(m_pDevice, m_pContext);
+
+	strPrototypeTag = TEXT("Prototype_GameObject_Warload");
+	pMonster = dynamic_cast<CMonster*>(m_pGameInstance->Add_Clone_With_Object(g_Level, strLayerTag, strPrototypeTag));
+	if (pMonster == nullptr)
+		return E_FAIL;
+	pMonster->Set_StartPosition(_float4{ -10.f,0.f,65.f,1.f });
+	pTroup->Add_Monster(strPrototypeTag, pMonster);
+
+	strPrototypeTag = TEXT("Prototype_GameObject_Solider_Gun");
+	pMonster = dynamic_cast<CMonster*>(m_pGameInstance->Add_Clone_With_Object(g_Level, strLayerTag, strPrototypeTag));
+	if (pMonster == nullptr)
+		return E_FAIL;
+	pMonster->Set_StartPosition(_float4{ -0.5f,0.f,70.f,1.f });
+	pTroup->Add_Monster(strPrototypeTag, pMonster);
+
+	pMonster = dynamic_cast<CMonster*>(m_pGameInstance->Add_Clone_With_Object(g_Level, strLayerTag, strPrototypeTag));
+	if (pMonster == nullptr)
+		return E_FAIL;
+	pMonster->Set_StartPosition(_float4{ -0.5f,0.f,60.f,1.f });
+	pTroup->Add_Monster(strPrototypeTag, pMonster);
+
+	m_Troups.push_back(pTroup);
+#pragma endregion
+
+#pragma region Troup3
+	pTroup = CTroup::Create(m_pDevice, m_pContext);
+
+	strPrototypeTag = TEXT("Prototype_GameObject_Solider");
+	pMonster = dynamic_cast<CMonster*>(m_pGameInstance->Add_Clone_With_Object(g_Level, strLayerTag, strPrototypeTag));
+	if (pMonster == nullptr)
+		return E_FAIL;
+	pMonster->Set_StartPosition(_float4{ -100.f,0.f,50.f,1.f });
+	pTroup->Add_Monster(strPrototypeTag, pMonster);
+
+	strPrototypeTag = TEXT("Prototype_GameObject_Solider_Gun");
+	pMonster = dynamic_cast<CMonster*>(m_pGameInstance->Add_Clone_With_Object(g_Level, strLayerTag, strPrototypeTag));
+	if (pMonster == nullptr)
+		return E_FAIL;
+	pMonster->Set_StartPosition(_float4{ -108.f,0.f,57.f,1.f });
+	pTroup->Add_Monster(strPrototypeTag, pMonster);
+
+	pMonster = dynamic_cast<CMonster*>(m_pGameInstance->Add_Clone_With_Object(g_Level, strLayerTag, strPrototypeTag));
+	if (pMonster == nullptr)
+		return E_FAIL;
+	pMonster->Set_StartPosition(_float4{ -108.f,0.f,62.f,1.f });
+	pTroup->Add_Monster(strPrototypeTag, pMonster);
+
+	m_Troups.push_back(pTroup);
+#pragma endregion
+
+#pragma region Troup4
+	pTroup = CTroup::Create(m_pDevice, m_pContext);
+
+	strPrototypeTag = TEXT("Prototype_GameObject_Solider");
+	pMonster = dynamic_cast<CMonster*>(m_pGameInstance->Add_Clone_With_Object(g_Level, strLayerTag, strPrototypeTag));
+	if (pMonster == nullptr)
+		return E_FAIL;
+	pMonster->Set_StartPosition(_float4{ -65.f,0.f,93.f,1.f });
+	pTroup->Add_Monster(strPrototypeTag, pMonster);
+
+	pMonster = dynamic_cast<CMonster*>(m_pGameInstance->Add_Clone_With_Object(g_Level, strLayerTag, strPrototypeTag));
+	if (pMonster == nullptr)
+		return E_FAIL;
+	pMonster->Set_StartPosition(_float4{ -70.f,0.f,95.f,1.f });
+	pTroup->Add_Monster(strPrototypeTag, pMonster);
+
+	strPrototypeTag = TEXT("Prototype_GameObject_Solider_Gun");
+	pMonster = dynamic_cast<CMonster*>(m_pGameInstance->Add_Clone_With_Object(g_Level, strLayerTag, strPrototypeTag));
+	if (pMonster == nullptr)
+		return E_FAIL;
+	pMonster->Set_StartPosition(_float4{ -75.f,0.f,95.f,1.f });
+	pTroup->Add_Monster(strPrototypeTag, pMonster);
+
+	pMonster = dynamic_cast<CMonster*>(m_pGameInstance->Add_Clone_With_Object(g_Level, strLayerTag, strPrototypeTag));
+	if (pMonster == nullptr)
+		return E_FAIL;
+	pMonster->Set_StartPosition(_float4{ -61.f,0.f,97.f,1.f });
+	pTroup->Add_Monster(strPrototypeTag, pMonster);
+
+	strPrototypeTag = TEXT("Prototype_GameObject_Leopard");
+	pMonster = dynamic_cast<CMonster*>(m_pGameInstance->Add_Clone_With_Object(g_Level, strLayerTag, strPrototypeTag));
+	if (pMonster == nullptr)
+		return E_FAIL;
+	pMonster->Set_StartPosition(_float4{ -65.f,0.f,95.f,1.f });
+	pTroup->Add_Monster(strPrototypeTag, pMonster);
+
+	pMonster = dynamic_cast<CMonster*>(m_pGameInstance->Add_Clone_With_Object(g_Level, strLayerTag, strPrototypeTag));
+	if (pMonster == nullptr)
+		return E_FAIL;
+	pMonster->Set_StartPosition(_float4{ -65.f,0.f,100.f,1.f });
+	pTroup->Add_Monster(strPrototypeTag, pMonster);
 
 	m_Troups.push_back(pTroup);
 
-	return S_OK;
+#pragma endregion
 
+#pragma region Troup5
+	pTroup = CTroup::Create(m_pDevice, m_pContext);
+
+	strPrototypeTag = TEXT("Prototype_GameObject_Warload");
+	pMonster = dynamic_cast<CMonster*>(m_pGameInstance->Add_Clone_With_Object(g_Level, strLayerTag, strPrototypeTag));
+	if (pMonster == nullptr)
+		return E_FAIL;
+	pMonster->Set_StartPosition(_float4{ 58.f,0.f,192.f,1.f });
+	pTroup->Add_Monster(strPrototypeTag, pMonster);
+
+	strPrototypeTag = TEXT("Prototype_GameObject_Solider");
+	pMonster = dynamic_cast<CMonster*>(m_pGameInstance->Add_Clone_With_Object(g_Level, strLayerTag, strPrototypeTag));
+	if (pMonster == nullptr)
+		return E_FAIL;
+	pMonster->Set_StartPosition(_float4{ 53.f,0.f,183.f,1.f });
+	pTroup->Add_Monster(strPrototypeTag, pMonster);
+
+	pMonster = dynamic_cast<CMonster*>(m_pGameInstance->Add_Clone_With_Object(g_Level, strLayerTag, strPrototypeTag));
+	if (pMonster == nullptr)
+		return E_FAIL;
+	pMonster->Set_StartPosition(_float4{ 55.f,0.f, 186.f,1.f });
+	pTroup->Add_Monster(strPrototypeTag, pMonster);
+
+	strPrototypeTag = TEXT("Prototype_GameObject_Solider_Gun");
+	pMonster = dynamic_cast<CMonster*>(m_pGameInstance->Add_Clone_With_Object(g_Level, strLayerTag, strPrototypeTag));
+	if (pMonster == nullptr)
+		return E_FAIL;
+	pMonster->Set_StartPosition(_float4{ -55.f,0.f,180.f,1.f });
+	pTroup->Add_Monster(strPrototypeTag, pMonster);
+
+	m_Troups.push_back(pTroup);
+#pragma endregion
+
+	return S_OK;
+}
+
+HRESULT CLevel_Field::Load_Troup()
+{
+	string filepath = "../Bin/DataFiles/Level_Field.dat";
+	ifstream IFS{ filepath, ios::in | ios::binary };
+
+	_float4 vPositon;
+	IFS.read(reinterpret_cast<char*>(&vPositon), sizeof(_float4));
+	((CTransform*)m_pGameInstance->Get_Component(LEVEL_FIELD, g_strChrLayerTag, g_strTransformTag, 0))->Set_State(CTransform::STATE_POSITION, vPositon);
+
+
+	_int iNumTroup = 0;
+	IFS.read(reinterpret_cast<char*>(&iNumTroup), sizeof(_int));
+
+	for (int i = 0; i < iNumTroup; ++i) {
+		CTroup* pTroup = CTroup::Create(m_pDevice, m_pContext, IFS);
+		m_Troups.push_back(pTroup);
+	}
+
+	return S_OK;
+}
+
+HRESULT CLevel_Field::Save_Troup()
+{
+	string filepath = "../Bin/DataFiles/Level_Field.dat";
+	ofstream OFS{ filepath, ios::out | ios::binary };
+
+  	_float4 vPlayerPosition = ((CTransform*)m_pGameInstance->Get_Component(LEVEL_FIELD, g_strChrLayerTag, g_strTransformTag, 0))->Get_State_Float4(CTransform::STATE_POSITION);
+	OFS.write(reinterpret_cast<const char*>(&vPlayerPosition), sizeof(_float4));
+
+	_int iNumTroup = m_Troups.size();
+	OFS.write(reinterpret_cast<const char*>(&iNumTroup), sizeof(_int));
+	for (auto& iter = m_Troups.begin(); iter != m_Troups.end(); ++iter)
+		(*iter)->Save_Troup(OFS);
+
+	OFS.close();
+	return S_OK;
 }
 
 CLevel_Field* CLevel_Field::Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
@@ -174,21 +363,6 @@ CLevel_Field* CLevel_Field::Create(ID3D11Device* pDevice, ID3D11DeviceContext* p
 
 	return pInstance;
 }
-
-CLevel_Field* CLevel_Field::Create_Parsed(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
-{
-	CLevel_Field* pInstance = new CLevel_Field(pDevice, pContext);
-
-	if (FAILED(pInstance->Initialize_Parsed()))
-	{
-		MSG_BOX(TEXT("Failed To Created : CLevel_Field"));
-
-		Safe_Release(pInstance);
-	}
-
-	return pInstance;
-}
-
 
 void CLevel_Field::Free()
 {

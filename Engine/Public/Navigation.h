@@ -22,6 +22,8 @@ public:
 	void Tick(_fmatrix WorldMatrix);
 	void Set_Index(_fvector vPosition);
 	_bool isMove(_fvector vPosition);
+	_float4 Sliding(_fvector vPosition, _fvector vMovement);
+	void Set_Y(class CTransform* pTransform, _float vOffset = 0.f);
 
 #ifdef _DEBUG
 public:

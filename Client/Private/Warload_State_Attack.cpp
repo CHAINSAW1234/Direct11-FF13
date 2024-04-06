@@ -38,7 +38,7 @@ void CWarload_State_Attack::Run(_float fTimeDelta)
 
 	m_pWarload->Get_Transform()->Look_At_ForLandObject(XMLoadFloat4(&m_pWarload->Get_TargetPosition()));
 	
-	if (fDist <= 1) {
+	if (fDist <= 3.f) {
 		m_eState = ATTACK;
 		m_pWarload->Change_Animation(CWarload::ATTACK, false);
 	}
@@ -54,7 +54,7 @@ void CWarload_State_Attack::Attack(_float fTimeDelta)
 	m_pWarload->Check_Interact_Weapon();
 
 	if (30.f <= m_pWarload->Get_CurrentTrackPosition() &&
-		m_pWarload->Get_CurrentTrackPosition() <= 45.f)
+		m_pWarload->Get_CurrentTrackPosition() <= 35.f)
 		m_pWarload->Get_Transform()->Go_Backward(fTimeDelta*2, m_pWarload->Get_Navigation());
 
 	if (m_pWarload->Is_Animation_Finished())

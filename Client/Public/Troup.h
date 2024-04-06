@@ -17,17 +17,18 @@ private:
 	virtual ~CTroup() = default;
 
 public:
-	void Tick();
+	_bool Tick();
 	void Add_Monster(wstring strPrototypeTag, CMonster* pMonster);
-	
 	vector<pair<wstring, CMonster*>> Get_Monsters() { return m_Monsters; }
+	void Save_Troup(ofstream& OFS);
 
 private:
 	_bool Check_Collision();
-	void Write_Troup();
+	void Save_Troup_For_Battle();
+	HRESULT Load_Troup(ifstream& OFS);
+
 private:
 	CGameInstance* m_pGameInstance = { nullptr };
-
 	ID3D11Device* m_pDevice = { nullptr };
 	ID3D11DeviceContext* m_pContext = { nullptr };
 
@@ -36,6 +37,7 @@ private:
 
 public:
 	static CTroup* Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);
+	static CTroup* Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext, ifstream& IFS);
 	virtual void Free() override;
 };
 

@@ -25,8 +25,9 @@ public:
 public:
 	HRESULT Initialize(const _float3* pPoints, size_t iIndex);
 	_bool isIn(_fvector vPosition, _fmatrix TerrainWorldMatrix, _int* pNeighborIndex);
-
 	_bool Compare_Points(_fvector vSourPoint, _fvector vDestPoint);
+	void  Take_Y(class CTransform* pTransform, const _float fOffset, const _float4x4 vWorldMatrix);
+	_float4 Sliding(_fvector vPosition, _fvector vMovement, const _float4x4 vWorldMatrix);
 
 #ifdef _DEBUG
 public:

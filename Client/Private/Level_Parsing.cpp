@@ -91,7 +91,7 @@ HRESULT CLevel_Parsing::Ready_Models()
 	//TransformMatrix = XMMatrixRotationY(XMConvertToRadians(180.0f));
 	//TransformMatrix.r[3].m128_f32[1] = -5.f;
 
-	path = "../Bin/Resources/Models/MapObject/MapNavi/Map_Field_Navi.fbx";
+	path = "../Bin/Resources/Models/MapObject/MapNavi/Map_Field_Navi_Origin.fbx";
 	CModel* pModel = { nullptr };
 	pModel = CModel::Create(m_pDevice, m_pContext, CModel::TYPE_NONANIM, path, TransformMatrix);
 	if (nullptr == pModel)
@@ -140,7 +140,7 @@ HRESULT CLevel_Parsing::Parse_Models()
 
 #pragma endregion
 
-	path = "../Bin/Resources/Models/MapObject/MapNavi/Map_Field_Navi.bin";
+	path = "../Bin/Resources/Models/MapObject/MapNavi/Map_Field_Navi_Origin.bin";
 	if (FAILED(m_Models[0]->Save_Model(path)))
 		return E_FAIL;
 

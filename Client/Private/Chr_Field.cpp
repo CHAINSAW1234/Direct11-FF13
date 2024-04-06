@@ -46,10 +46,7 @@ HRESULT CChr_Field::Initialize(void* pArg)
 	m_pImGUI_Manager = CImGUI_Manager::Get_Instance(m_pDevice, m_pContext);
 	Safe_AddRef(m_pImGUI_Manager);
 
-	m_pModelCom->Set_Animation(0, false);
-	m_pTransformCom->Set_State(CTransform::STATE_POSITION, XMVectorSet(55, 0.f, 60, 1.f));
-	m_pNavigationCom->Set_Index(m_pTransformCom->Get_State_Vector(CTransform::STATE_POSITION));
-
+	m_pTransformCom->Set_State(CTransform::STATE_POSITION, XMVectorSet(65.f, 0.f, 61.f, 1.f));
 	return S_OK;
 }
 
@@ -58,7 +55,7 @@ void CChr_Field::Tick(_float fTimeDelta)
 	m_pFSMCom->Update(fTimeDelta);
 	Update_FSMState(fTimeDelta);
 
-
+	m_pNavigationCom->Set_Y(m_pTransformCom, -0.2f);
 	m_pColliderCom->Tick(m_pTransformCom->Get_WorldMatrix());
 
 }
@@ -105,6 +102,12 @@ HRESULT CChr_Field::Render()
 	m_pImGUI_Manager->Render();
 
 	return S_OK;
+}
+
+void CChr_Field::Start()
+{
+	m_pModelCom->Set_Animation(0, false);
+	m_pNavigationCom->Set_Index(m_pTransformCom->Get_State_Vector(CTransform::STATE_POSITION));
 }
 
 HRESULT CChr_Field::Change_State(STATE eState)

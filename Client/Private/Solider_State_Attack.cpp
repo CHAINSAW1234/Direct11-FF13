@@ -46,7 +46,7 @@ void CSolider_State_Attack::Run(_float fTimeDelta)
     }
 
 
-    if (fDist < 1.f) {
+    if (fDist < .5f) {
         m_eState = ATTACK;
         m_pSolider->Change_Animation(CSolider::ANIMATION_SOLIDER(CSolider::ATTACK1 + rand()%3), false);
     }

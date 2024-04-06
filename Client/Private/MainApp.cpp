@@ -157,7 +157,7 @@ HRESULT CMainApp::Ready_Prototype_Component_For_Static()
 #pragma region Navigation
 
 	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Navigation_Field"),
-		CNavigation::Create_From_Model(m_pDevice, m_pContext, "../Bin/Resources/Models/MapObject/MapNavi/Map_Field_Navi.bin"))))
+		CNavigation::Create_From_Model(m_pDevice, m_pContext, "../Bin/Resources/Models/MapObject/MapNavi/Map_Field_Navi_Origin.bin"))))
 		return E_FAIL;
 
 	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Navigation_Battle"),

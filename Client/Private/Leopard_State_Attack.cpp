@@ -43,7 +43,7 @@ void CLeopard_State_Attack::Run(_float fTimeDelta)
 		m_pLeopard->Get_Transform()->Look_At_ForLandObject(XMLoadFloat4(&m_pLeopard->Get_TargetPosition()));
 	}
 
-	if (fDist <= 2) {
+	if (fDist <= .5f) {
 		m_eState = ATTACK;
 		m_pLeopard->Change_Animation(CLeopard::ATTACK, false);
 	}

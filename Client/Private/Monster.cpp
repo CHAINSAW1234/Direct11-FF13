@@ -129,6 +129,12 @@ void CMonster::Set_isTarget(_bool isTarget)
     NotifyObserver();
 }
 
+void CMonster::Set_StartPosition(_float4 vStartPosition)
+{
+    m_vStartPosition = vStartPosition;
+    m_pTransformCom->Set_Position(m_vStartPosition);
+}
+
 void CMonster::Set_State_Battle_Start()
 {
 }

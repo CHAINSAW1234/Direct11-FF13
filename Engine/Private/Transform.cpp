@@ -70,14 +70,17 @@ void CTransform::Go_Straight(_float fTimeDelta, CNavigation* pNavigation)
 	_vector		vMovement = XMVector3Normalize(vLook) * m_fSpeedPerSec * fTimeDelta;
 	XMStoreFloat4(&m_vLastMovement, vMovement);
 
-	vPosition += vMovement;
-
 	if (nullptr == pNavigation)
-		Set_State(STATE_POSITION, vPosition);
+		Set_State(STATE_POSITION, vPosition + vMovement);
 	else
 	{
-		if (true == pNavigation->isMove(vPosition))
-			Set_State(STATE_POSITION, vPosition);
+		if (true == pNavigation->isMove(vPosition + vMovement))
+			Set_State(STATE_POSITION, vPosition + vMovement);
+		else {
+			// 슬라이딩 백터 처리
+			_vector vSliding = XMLoadFloat4(&pNavigation->Sliding(vPosition + vMovement, vMovement));
+			Move_To_Direction(vSliding, 1.f, pNavigation);
+		}
 	}
 }
 
@@ -91,14 +94,17 @@ void CTransform::Go_Backward(_float fTimeDelta, CNavigation* pNavigation)
 	_vector		vMovement = -XMVector3Normalize(vLook) * m_fSpeedPerSec * fTimeDelta;
 	XMStoreFloat4(&m_vLastMovement, vMovement);
 
-	vPosition += vMovement;
-
 	if (nullptr == pNavigation)
-		Set_State(STATE_POSITION, vPosition);
+		Set_State(STATE_POSITION, vPosition + vMovement);
 	else
 	{
-		if (true == pNavigation->isMove(vPosition))
-			Set_State(STATE_POSITION, vPosition);
+		if (true == pNavigation->isMove(vPosition + vMovement))
+			Set_State(STATE_POSITION, vPosition + vMovement);
+		else {
+			// 슬라이딩 백터 처리
+			_vector vSliding = XMLoadFloat4(&pNavigation->Sliding(vPosition + vMovement, vMovement));
+			Move_To_Direction(vSliding, 1.f, pNavigation);
+		}
 	}
 }
 
@@ -110,14 +116,17 @@ void CTransform::Go_Left(_float fTimeDelta, CNavigation* pNavigation)
 	_vector		vMovement = -XMVector3Normalize(vRight) * m_fSpeedPerSec * fTimeDelta;
 	XMStoreFloat4(&m_vLastMovement, vMovement);
 
-	vPosition += vMovement;
-
 	if (nullptr == pNavigation)
-		Set_State(STATE_POSITION, vPosition);
+		Set_State(STATE_POSITION, vPosition + vMovement);
 	else
 	{
-		if (true == pNavigation->isMove(vPosition))
-			Set_State(STATE_POSITION, vPosition);
+		if (true == pNavigation->isMove(vPosition + vMovement))
+			Set_State(STATE_POSITION, vPosition + vMovement);
+		else {
+			// 슬라이딩 백터 처리
+			_vector vSliding = XMLoadFloat4(&pNavigation->Sliding(vPosition + vMovement, vMovement));
+			Move_To_Direction(vSliding, 1.f, pNavigation);
+		}
 	}
 }
 
@@ -129,14 +138,17 @@ void CTransform::Go_Right(_float fTimeDelta, CNavigation* pNavigation)
 	_vector		vMovement = XMVector3Normalize(vRight) * m_fSpeedPerSec * fTimeDelta;
 	XMStoreFloat4(&m_vLastMovement, vMovement);
 
-	vPosition += vMovement;
-
 	if (nullptr == pNavigation)
-		Set_State(STATE_POSITION, vPosition);
+		Set_State(STATE_POSITION, vPosition + vMovement);
 	else
 	{
-		if (true == pNavigation->isMove(vPosition))
-			Set_State(STATE_POSITION, vPosition);
+		if (true == pNavigation->isMove(vPosition + vMovement))
+			Set_State(STATE_POSITION, vPosition + vMovement);
+		else {
+			// 슬라이딩 백터 처리
+			_vector vSliding = XMLoadFloat4(&pNavigation->Sliding(vPosition + vMovement, vMovement));
+			Move_To_Direction(vSliding, 1.f, pNavigation);
+		}
 	}
 }
 
