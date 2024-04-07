@@ -30,9 +30,6 @@ HRESULT CMainApp::Initialize()
 	if (FAILED(m_pGameInstance->Initialize_Engine(g_hInst, LEVEL_END, EngineDesc, &m_pDevice, &m_pContext)))
 		return E_FAIL;
 
-	if (FAILED(Ready_Prototype_GameObject()))
-		return E_FAIL;
-
 	if (FAILED(Ready_Fonts()))
 		return E_FAIL;
 
@@ -48,7 +45,7 @@ HRESULT CMainApp::Initialize()
 	//eLevel = LEVEL_MAPTOOL;
 	//eLevel = LEVEL_PARSING;
 	eLevel = LEVEL_FIELD;
-	//eLevel = LEVEL_BATTLE;
+	//eLevel = LEVEL_BOSS_BATTLE;
 
 	if (FAILED(Open_Level(eLevel)))
 		return E_FAIL;
@@ -106,19 +103,29 @@ HRESULT CMainApp::Open_Level(LEVEL eLevelID)
 	return	S_OK;
 }
 
-HRESULT CMainApp::Ready_Prototype_GameObject()
-{
-
-	return S_OK;
-}
-
 HRESULT CMainApp::Ready_Prototype_Component_For_Static()
 {
+
+	/* For.Prototype_Component_Texture_Sky */
+	//if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_Sky"),
+	//	CTexture::Create(m_pDevice, m_pContext, TEXT("../Bin/Resources/Textures/SkyBox/SkyBox.dds")))))
+	//	return E_FAIL;
+
+	///* Prototype_Component_Texture_Sky */
+	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_Sky"),
+		CTexture::Create(m_pDevice, m_pContext, TEXT("../Bin/Resources/Textures/SkyBox/Sky_%d.dds"), 4))))
+		return E_FAIL;
 
 	/* For.Prototype_Component_VIBuffer_Rect */
 	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_VIBuffer_Rect"),
 		CVIBuffer_Rect::Create(m_pDevice, m_pContext))))
 		return E_FAIL;
+
+	/* For.Prototype_Component_VIBuffer_Rect */
+	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_VIBuffer_Cube"),
+		CVIBuffer_Cube::Create(m_pDevice, m_pContext))))
+		return E_FAIL;
+
 
 	/* For.Prototype_Component_FSM */
 	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_FSM"),
@@ -163,15 +170,15 @@ HRESULT CMainApp::Ready_Prototype_Component_For_Static()
 	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Navigation_Battle"),
 		CNavigation::Create_From_Model(m_pDevice, m_pContext, "../Bin/Resources/Models/MapObject/MapNavi/Map_Battle_Navi.bin"))))
 		return E_FAIL;
-
-	//if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Navigation_Boss_Battles"),
-	//	CNavigation::Create_From_Model(m_pDevice, m_pContext, "../Bin/Resources/Models/MapObject/MapNavi/Map_Field_Navi.bin"))))
-	//	return E_FAIL;
+	
+	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Navigation_Boss_Battle"),
+		CNavigation::Create_From_Model(m_pDevice, m_pContext, "../Bin/Resources/Models/MapObject/MapNavi/Map_Boss_Battle_Navi.bin"))))
+		return E_FAIL;
 
 #pragma endregion
 
 #pragma region Shader
-	/* For.Prototype_Component_Shader_VtxPosTex */
+	/* For.Prototype_Component_Shader_VtxNorTex */
 	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Shader_VtxNorTex"),
 		CShader::Create(m_pDevice, m_pContext, TEXT("../Bin/ShaderFiles/Shader_VtxNorTex.hlsl"), VTXNORTEX::Elements, VTXNORTEX::iNumElements))))
 		return E_FAIL;
@@ -186,12 +193,17 @@ HRESULT CMainApp::Ready_Prototype_Component_For_Static()
 		CShader::Create(m_pDevice, m_pContext, TEXT("../Bin/ShaderFiles/Shader_VtxPosTex_UI.hlsl"), VTXPOSTEX::Elements, VTXPOSTEX::iNumElements))))
 		return E_FAIL;
 
+	/* For.Prototype_Component_Shader_VtxCube */
+	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Shader_VtxCube"),
+		CShader::Create(m_pDevice, m_pContext, TEXT("../Bin/ShaderFiles/Shader_VtxCube.hlsl"), VTXCUBE::Elements, VTXCUBE::iNumElements))))
+		return E_FAIL;
+
 	/* For.Prototype_Component_Shader_VtxModel */
 	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Shader_VtxModel"),
 		CShader::Create(m_pDevice, m_pContext, TEXT("../Bin/ShaderFiles/Shader_VtxModel.hlsl"), VTXMESH::Elements, VTXMESH::iNumElements))))
 		return E_FAIL;
 
-	/* For.Prototype_Component_Shader_VtxModel */
+	/* For.Prototype_Component_Shader_VtxAnimModel */
 	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Shader_VtxAnimModel"),
 		CShader::Create(m_pDevice, m_pContext, TEXT("../Bin/ShaderFiles/Shader_VtxAnimModel.hlsl"), VTXANIMMESH::Elements, VTXANIMMESH::iNumElements))))
 		return E_FAIL;
@@ -208,9 +220,6 @@ HRESULT CMainApp::Ready_Prototype_Component_For_Static()
 
 
 #pragma endregion
-
-
-
 
 	return	S_OK;
 }

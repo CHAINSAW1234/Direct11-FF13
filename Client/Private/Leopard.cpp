@@ -154,6 +154,7 @@ HRESULT CLeopard::Add_Component_FSM()
     m_pFSMCom->Add_State(STATE_ATTACK, CLeopard_State_Attack::Create(this));
     m_pFSMCom->Add_State(STATE_HIT, CLeopard_State_Hit::Create(this));
     m_pFSMCom->Add_State(STATE_FIELD, CLeopard_State_Field::Create(this));
+    m_pFSMCom->Add_State(STATE_START, CLeopard_State_Start::Create(this));
 
     //Change_State(STATE_IDLE);
     return S_OK;

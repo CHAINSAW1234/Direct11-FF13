@@ -95,7 +95,6 @@ void CChr_Battle_Light::Start()
     m_iDamage = 500;
     m_isAttackable = vector<int>(m_pGameInstance->Get_LayerCnt(g_Level, g_strMonsterLayerTag), true);
     Set_Target(m_pGameInstance->Get_GameObject(g_Level, g_strMonsterLayerTag, 0));
-    m_pTransformCom->Set_State(CTransform::STATE_POSITION, XMVectorSet(_float(rand() % 20), 0.f, _float(rand() % 20), 1.f));
     m_pTransformCom->Look_At_ForLandObject(((CTransform*)m_pTargetObject->Get_Component(g_strTransformTag))->Get_State_Vector(CTransform::STATE_POSITION));
     m_pNavigationCom->Set_Index(m_pTransformCom->Get_State_Vector(CTransform::STATE_POSITION));
 
@@ -376,6 +375,11 @@ void CChr_Battle_Light::Determine_Action_Based_On_Command()
         Change_State(ITEM);
     }
 
+}
+
+void CChr_Battle_Light::Set_State_Battle_Finish()
+{
+    Change_State(FINISH);
 }
 
 HRESULT CChr_Battle_Light::Add_PartObjects()

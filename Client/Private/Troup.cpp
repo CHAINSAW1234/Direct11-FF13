@@ -3,8 +3,6 @@
 
 #include "Monster.h"
 #include "GameInstance.h"
-#include "Level_Loading.h"
-#include "Level_Battle.h"
 #include "Chr_Field.h"
 
 CTroup::CTroup(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
@@ -21,13 +19,12 @@ CTroup::CTroup(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
 
 _bool CTroup::Tick()
 {
-	if (Check_Collision())
-		if (m_pGameInstance->Get_KeyState(KEY_DOWN, DIK_RETURN)) {
-			Save_Troup_For_Battle();
-			m_pGameInstance->Open_Level(LEVEL_LOADING, CLevel_Loading::Create(m_pDevice, m_pContext, LEVEL_BATTLE));
-			return true;
-			//m_pGameInstance->Open_Level(LEVEL_BATTLE, CLevel_Battle::Create(m_pDevice, m_pContext));
-		}
+	if (!m_isCollision && Check_Collision()){
+		m_isCollision = true;
+		Start_Battle();	
+		Save_Troup_For_Battle();
+		return true;
+	}
 
 	return false;
 }
@@ -72,11 +69,49 @@ HRESULT CTroup::Load_Troup(ifstream& IFS)
 	return S_OK;
 }
 
+void CTroup::Start_Battle()
+{
+	CChr_Field* pChr_Field = (CChr_Field*)(m_pGameInstance->Get_GameObject(g_Level, g_strChrLayerTag, 0));
+	pChr_Field->Set_State_Battle_Start();
+
+	for (auto& pMonsters : m_Monsters) {
+		pMonsters.second->Set_State_Battle_Start();
+	}
+}
+
+HRESULT CTroup::Add_Collider()
+{
+	/* Com_Collider_Body */
+	CBounding_OBB::BOUNDING_OBB_DESC		ColliderOBBDesc{};
+
+	/* 로컬상의 정보를 셋팅한다. */
+	ColliderOBBDesc.vRotation = _float3(0.f, 0.f, 0.f);
+	ColliderOBBDesc.vSize = _float3(6.f, 3.f, 3.f);
+	ColliderOBBDesc.vCenter = _float3(0.f, 0.f, 26.f);
+
+	CComponent* pComponent = m_pGameInstance->Clone_Component(LEVEL_STATIC, TEXT("Prototype_Component_Collider_OBB"), &ColliderOBBDesc);
+	if (nullptr == pComponent)
+		return E_FAIL;
+
+	m_pColliderCom = (CCollider*)pComponent;
+
+	return S_OK;
+
+
+}
+
 _bool CTroup::Check_Collision()
 {
 	CCollider* pTargetCollider = dynamic_cast<CChr_Field*>(m_pGameInstance->Get_GameObject(g_Level, g_strChrLayerTag, 0))->Get_Collider();
 	if (nullptr == pTargetCollider)
 		return false;
+
+	if (nullptr != m_pColliderCom) {
+		if (m_pColliderCom->Intersect(pTargetCollider))
+			return true;
+
+		m_pColliderCom->Render();
+	}
 
 	for (auto& pMonster : m_Monsters) {
 		if (pMonster.second->Get_Collider()->Intersect(pTargetCollider))
@@ -100,6 +135,11 @@ CTroup* CTroup::Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
 {
 	CTroup* pInstance = new CTroup(pDevice, pContext);
 
+	if (g_Level == LEVEL_FIELD_BOSS) {
+		if(FAILED(pInstance->Add_Collider()))
+			Safe_Release(pInstance);
+	}
+
 	return pInstance;
 }
 
@@ -120,6 +160,8 @@ void CTroup::Free()
 		Safe_Release(pMonster.second);
 	m_Monsters.clear();
 
+
+	Safe_Release(m_pColliderCom);
 	Safe_Release(m_pDevice);
 	Safe_Release(m_pContext);
 	Safe_Release(m_pGameInstance);

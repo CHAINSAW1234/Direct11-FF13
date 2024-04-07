@@ -170,7 +170,7 @@ HRESULT CWarload::Add_Component_FSM()
     m_pFSMCom->Add_State(STATE_HIT, CWarload_State_Hit::Create(this));
     m_pFSMCom->Add_State(STATE_SKILL, CWarload_State_Skill::Create(this));
     m_pFSMCom->Add_State(STATE_FIELD, CWarload_State_Field::Create(this));
-   //m_pFSMCom->Add_State(STATE_START, CWarload_State_Start::Create(this));
+   m_pFSMCom->Add_State(STATE_START, CWarload_State_Start::Create(this));
 
     return S_OK;
 }

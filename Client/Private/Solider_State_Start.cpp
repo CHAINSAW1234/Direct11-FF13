@@ -10,6 +10,7 @@ CSolider_State_Start::CSolider_State_Start(CSolider* pSolider)
 
 void CSolider_State_Start::OnStateEnter()
 {
+    m_pSolider->Change_Animation(CSolider::BATTLE_START, false);
 }
 
 void CSolider_State_Start::OnStateUpdate(_float fTimeDelta)

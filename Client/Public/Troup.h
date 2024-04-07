@@ -23,15 +23,20 @@ public:
 	void Save_Troup(ofstream& OFS);
 
 private:
+	HRESULT Add_Collider();
 	_bool Check_Collision();
 	void Save_Troup_For_Battle();
 	HRESULT Load_Troup(ifstream& OFS);
+	void Start_Battle();
 
 private:
 	CGameInstance* m_pGameInstance = { nullptr };
 	ID3D11Device* m_pDevice = { nullptr };
 	ID3D11DeviceContext* m_pContext = { nullptr };
 
+	CCollider* m_pColliderCom = { nullptr };
+
+	_bool m_isCollision = { false };
 	_int	m_iNumMonsters = { 0 };
 	vector<pair<wstring, CMonster*>> m_Monsters;
 

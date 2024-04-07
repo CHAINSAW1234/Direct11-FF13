@@ -59,6 +59,8 @@ public:
 	void Set_Target(CGameObject* pTargetObject);
 	void Set_AttackAble(_int iIndex) { m_isAttackable[iIndex] = false; }
 	void Reset_Attakable();
+	void Set_StartPosition(_float4 vStartPosition);
+	virtual void Set_State_Battle_Finish();
 
 	virtual void Set_Hit(_int iDamage);								// 피격 상태로 변경
 	void Create_Damage(_int iDamage);

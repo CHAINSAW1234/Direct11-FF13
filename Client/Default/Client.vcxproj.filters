@@ -379,6 +379,18 @@
     <Filter Include="02.GameObjects\Monster\Boss\State\Boss_State_Field">
       <UniqueIdentifier>{9694b27c-912f-4c97-a70a-7eb179410837}</UniqueIdentifier>
     </Filter>
+    <Filter Include="01.Levels\Field_Boss">
+      <UniqueIdentifier>{d06253b3-e0fc-4c6d-ae7b-b4935b0f6c0f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\Trigger">
+      <UniqueIdentifier>{a9f93bd7-da60-4ae8-8c9e-81e20ae1e5de}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="03.UI\Battle\Player_Battle\Stage\UI_Battle_Stage_Finish">
+      <UniqueIdentifier>{70b6cd19-f0bc-4768-8c63-b9420c6a555a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="01.Levels\Boss_Battle">
+      <UniqueIdentifier>{c1de3147-ed90-458c-99b5-39157b4ce6f3}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\public\MainApp.h">
@@ -747,6 +759,18 @@
     <ClInclude Include="..\Public\Boss_State_Skill_HellBlast.h">
       <Filter>02.GameObjects\Monster\Boss\State\Boss_State_Skill_HellBlast</Filter>
     </ClInclude>
+    <ClInclude Include="..\Public\Trigger.h">
+      <Filter>02.GameObjects\Trigger</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\Level_Field_Boss.h">
+      <Filter>01.Levels\Field_Boss</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\UI_Battle_Stage_Finish.h">
+      <Filter>03.UI\Battle\Player_Battle\Stage\UI_Battle_Stage_Finish</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\Level_Boss_Battle.h">
+      <Filter>01.Levels\Boss_Battle</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\private\MainApp.cpp">
@@ -1096,6 +1120,18 @@
     </ClCompile>
     <ClCompile Include="..\Private\Boss_State_Skill_HellBlast.cpp">
       <Filter>02.GameObjects\Monster\Boss\State\Boss_State_Skill_HellBlast</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Trigger.cpp">
+      <Filter>02.GameObjects\Trigger</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Level_Field_Boss.cpp">
+      <Filter>01.Levels\Field_Boss</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\UI_Battle_Stage_Finish.cpp">
+      <Filter>03.UI\Battle\Player_Battle\Stage\UI_Battle_Stage_Finish</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Level_Boss_Battle.cpp">
+      <Filter>01.Levels\Boss_Battle</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

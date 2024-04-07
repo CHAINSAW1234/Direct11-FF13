@@ -3,6 +3,8 @@
 #include "GameInstance.h"
 #include "FSM.h"
 
+#include "Level_Loading.h"
+
 #include "UI_Battle_Stage_Select.h"
 #include "UI_Battle_Stage_Target.h"
 #include "UI_Battle_Stage_Target_Member.h"
@@ -10,6 +12,7 @@
 #include "UI_Battle_Stage_Item.h"
 #include "UI_Battle_Stage_Optima.h"
 #include "UI_Battle_Stage_Wait.h"
+#include "UI_Battle_Stage_Finish.h"
 
 #include "UI_Pnal_Attack.h"
 #include "UI_Pnal_Item.h"
@@ -308,6 +311,8 @@ HRESULT CPlayer_Battle::Add_Component_FSM()
 	m_pFSMCom->Add_State(STAGE_TARGET_MEMBER, CUI_Battle_Stage_Target_Member::Create(this));
 	m_pFSMCom->Add_State(STAGE_OPTIMA, CUI_Battle_Stage_Optima::Create(this));
 	m_pFSMCom->Add_State(STAGE_WAIT, CUI_Battle_Stage_Wait::Create(this));
+	m_pFSMCom->Add_State(STAGE_FINISH, CUI_Battle_Stage_Finish::Create(this));
+
 	Change_Stage(STAGE_SELECT);
 
 	return S_OK;
@@ -411,6 +416,22 @@ void CPlayer_Battle::Update_CommandPosition()
 
 }
 
+void CPlayer_Battle::Check_Finish()
+{
+	if (m_eStage == STAGE_FINISH)
+		return;
+
+	if (m_Monsters.empty()) {
+		Change_Stage(STAGE_FINISH);
+		m_pLeader->Set_State_Battle_Finish();
+
+		for (auto& Member : m_Memebers) {
+			Member->Set_State_Battle_Finish();
+		}
+	}
+
+}
+
 void CPlayer_Battle::Start()
 {
 	m_pLeader = dynamic_cast<CChr_Battle_Light*>(m_pGameInstance->Get_GameObject(g_Level, g_strChrLayerTag, 0));
@@ -451,12 +472,12 @@ void CPlayer_Battle::Start()
 
 void CPlayer_Battle::Tick(_float fTimeDelta)
 {
-
-
 	m_pFSMCom->Update(fTimeDelta);
 	Update_FSMState();
 	Update_Monsters();
 	Update_Command();
+
+	Check_Finish();
 
 }
 

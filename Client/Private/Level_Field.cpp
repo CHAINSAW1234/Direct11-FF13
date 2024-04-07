@@ -1,11 +1,11 @@
 #include "stdafx.h"
 #include "Level_Field.h"
 #include "Camera_Field.h"
-#include "Camera_Free.h"
 #include "MapObject.h"
 
 #include "Troup.h"
 #include "Monster.h"
+#include "Chr_Field.h"
 
 #include "Level_Loading.h"
 
@@ -20,6 +20,12 @@ HRESULT CLevel_Field::Initialize()
         return E_FAIL;
     
 	if (FAILED(Read_Map()))
+		return E_FAIL;
+
+	if (FAILED(Ready_Layer_Sky(TEXT("Layer_Sky"))))
+		return E_FAIL;
+
+	if (FAILED(Ready_Layer_Trigger(TEXT("Layer_Trigger"))))
 		return E_FAIL;
 
 	if (FAILED(Ready_Layer_Chr(g_strChrLayerTag)))
@@ -129,26 +135,44 @@ HRESULT CLevel_Field::Ready_Layer_Camera(const wstring& strLayerTag)
 
 HRESULT CLevel_Field::Ready_Layer_Chr(const wstring& strLayerTag)
 {
-	if (FAILED(m_pGameInstance->Add_Clone(g_Level, strLayerTag, TEXT("Prototype_GameObject_Chr_Field"))))
+	CChr_Field* pChr_field = dynamic_cast<CChr_Field*>(m_pGameInstance->Add_Clone_With_Object(g_Level, strLayerTag, TEXT("Prototype_GameObject_Chr_Field")));
+	if (pChr_field == nullptr)
 		return E_FAIL;
+	pChr_field->Get_Transform()->Set_State(CTransform::STATE_POSITION, _float4(65.f, 0.f, 61.f, 1.f));
 
 	return S_OK;
 }
 
 HRESULT CLevel_Field::Ready_Layer_Monster(const wstring& strLayerTag)
 {
-	//static _bool isStart = true;
+	static _bool isStart = true;
 
-	//if (isStart) {
-	//	isStart = false;
-	//	if(FAILED(Ready_Layer_Monster_Start(g_strMonsterLayerTag)))
-	//		return E_FAIL;
+	if (isStart) {
+		isStart = false;
+		if(FAILED(Ready_Layer_Monster_Start(g_strMonsterLayerTag)))
+			return E_FAIL;
 
-	//	return S_OK;
-	//}
+		return S_OK;
+	}
 
-	//if (FAILED(Load_Troup()))
-	//	return E_FAIL;
+	if (FAILED(Load_Troup()))
+		return E_FAIL;
+
+	return S_OK;
+}
+
+HRESULT CLevel_Field::Ready_Layer_Trigger(const wstring& strLayerTag)
+{
+	if (FAILED(m_pGameInstance->Add_Clone(g_Level, strLayerTag, TEXT("Prototype_GameObject_Trigger"))))
+		return E_FAIL;
+
+	return S_OK;
+}
+
+HRESULT CLevel_Field::Ready_Layer_Sky(const wstring& strLayerTag)
+{
+	if (FAILED(m_pGameInstance->Add_Clone(g_Level, strLayerTag, TEXT("Prototype_GameObject_Sky"))))
+		return E_FAIL;
 
 	return S_OK;
 }
@@ -233,6 +257,19 @@ HRESULT CLevel_Field::Ready_Layer_Monster_Start(const wstring& strLayerTag)
 #pragma region Troup4
 	pTroup = CTroup::Create(m_pDevice, m_pContext);
 
+	strPrototypeTag = TEXT("Prototype_GameObject_Leopard");
+	pMonster = dynamic_cast<CMonster*>(m_pGameInstance->Add_Clone_With_Object(g_Level, strLayerTag, strPrototypeTag));
+	if (pMonster == nullptr)
+		return E_FAIL;
+	pMonster->Set_StartPosition(_float4{ -65.f,0.f,95.f,1.f });
+	pTroup->Add_Monster(strPrototypeTag, pMonster);
+
+	pMonster = dynamic_cast<CMonster*>(m_pGameInstance->Add_Clone_With_Object(g_Level, strLayerTag, strPrototypeTag));
+	if (pMonster == nullptr)
+		return E_FAIL;
+	pMonster->Set_StartPosition(_float4{ -65.f,0.f,100.f,1.f });
+	pTroup->Add_Monster(strPrototypeTag, pMonster);
+
 	strPrototypeTag = TEXT("Prototype_GameObject_Solider");
 	pMonster = dynamic_cast<CMonster*>(m_pGameInstance->Add_Clone_With_Object(g_Level, strLayerTag, strPrototypeTag));
 	if (pMonster == nullptr)
@@ -257,19 +294,6 @@ HRESULT CLevel_Field::Ready_Layer_Monster_Start(const wstring& strLayerTag)
 	if (pMonster == nullptr)
 		return E_FAIL;
 	pMonster->Set_StartPosition(_float4{ -61.f,0.f,97.f,1.f });
-	pTroup->Add_Monster(strPrototypeTag, pMonster);
-
-	strPrototypeTag = TEXT("Prototype_GameObject_Leopard");
-	pMonster = dynamic_cast<CMonster*>(m_pGameInstance->Add_Clone_With_Object(g_Level, strLayerTag, strPrototypeTag));
-	if (pMonster == nullptr)
-		return E_FAIL;
-	pMonster->Set_StartPosition(_float4{ -65.f,0.f,95.f,1.f });
-	pTroup->Add_Monster(strPrototypeTag, pMonster);
-
-	pMonster = dynamic_cast<CMonster*>(m_pGameInstance->Add_Clone_With_Object(g_Level, strLayerTag, strPrototypeTag));
-	if (pMonster == nullptr)
-		return E_FAIL;
-	pMonster->Set_StartPosition(_float4{ -65.f,0.f,100.f,1.f });
 	pTroup->Add_Monster(strPrototypeTag, pMonster);
 
 	m_Troups.push_back(pTroup);

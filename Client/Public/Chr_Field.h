@@ -11,7 +11,7 @@ END
 
 
 BEGIN(Client)
-
+class CWeapon_Anim;
 class CChr_Field final : public CGameObject
 {
 public:
@@ -26,6 +26,9 @@ public:
 		MOVE_STOP_LEFT, MOVE_STOP_RIGHT, MOVE_TURN_LEFT, MOVE_TURN_RIGHT,
 		WALK_IDLE, WALK_START_WITH_TURN_LEFT, WALK_START_WITH_TURN_RIGHT,
 		WALK_STOP_LEFT, WALK_STOP_RIGHT, ANIMATION_END };
+	enum ANIMATION_CHR_LIGHT_WEAPON {
+		WEAPON_CLOSE, WEAPON_CLOSE_IDLE, WEAPON_OPEN, WEAPON_OPEN_IDLE
+	};
 
 private:
 	CChr_Field(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);
@@ -39,12 +42,15 @@ public:
 	virtual HRESULT Late_Tick(_float fTimeDelta) override;
 	virtual HRESULT Render() override;
 	virtual void Start() override;
+
 private:
 	CModel*		m_pModelCom = { nullptr };
 	CShader*	m_pShaderCom = { nullptr };
 	CCollider*	m_pColliderCom = { nullptr };
 	CFSM*		m_pFSMCom = { nullptr };
 	CNavigation* m_pNavigationCom = { nullptr };
+
+	CWeapon_Anim* m_pWeapon = { nullptr };
 
 	STATE		m_eState = { STATE_END };
 	_bool		m_isControl = { true };				// 조작 가능 여부 -> 아이템 조작, 전투시 false 처리
@@ -61,7 +67,10 @@ public:
 
 public:
 	HRESULT Change_State(STATE eState);
+	void	Set_State_Battle_Start();
+	void	Open_Level();
 	void	Change_Animation(ANIMATION_CHR_FIELD iAnimationIndex, _bool isLoop);
+	void	Change_Animation_Weapon(ANIMATION_CHR_LIGHT_WEAPON iAnimationIndex);
 
 	_float4 Cal_Target_Direction();			// 카메라의 방향과 키입력을 바탕으로 이동 방향을 결정해서 리턴
 	_float4	Get_Look();						// Player의 Look vector를 Y값을 지우고 리턴
@@ -69,13 +78,12 @@ public:
 private:
 	HRESULT Add_Components();
 	HRESULT Add_Component_FSM();
+	HRESULT Add_Weapon();
 	HRESULT Bind_ShaderResources();
 
 	void	Update_FSMState(_float fTimeDelta);
 
 	void	Show_ImGUI();
-	void	Write_Field();
-	void	Read_Field();
 public:
 	static CChr_Field* Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);
 	virtual CGameObject* Clone(void* pArg) override;

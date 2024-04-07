@@ -79,7 +79,7 @@ HRESULT CSolider_Gun::Add_Component_FSM()
     m_pFSMCom->Add_State(STATE_ATTACK, CSolider_Gun_State_Attack::Create(this));
     m_pFSMCom->Add_State(STATE_HIT, CSolider_State_Hit::Create(this));
     m_pFSMCom->Add_State(STATE_FIELD, CSolider_State_Field::Create(this));
-    //m_pFSMCom->Add_State(STATE_START, CWarload_State_Start::Create(this));
+    m_pFSMCom->Add_State(STATE_START, CSolider_State_Start::Create(this));
 
     return S_OK;
 }

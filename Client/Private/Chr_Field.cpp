@@ -5,6 +5,9 @@
 #include "Model.h"
 #include "Shader.h"
 
+#include "Level_Loading.h"
+#include "Weapon_Anim.h"
+
 #include "Chr_Field_State_Idle.h"
 #include "Chr_Field_State_Move.h"
 #include "Chr_Field_State_Walk.h"
@@ -43,10 +46,12 @@ HRESULT CChr_Field::Initialize(void* pArg)
 	if (FAILED(Add_Components()))
 		return E_FAIL;
 
+	if (FAILED(Add_Weapon()))
+		return E_FAIL;
+
 	m_pImGUI_Manager = CImGUI_Manager::Get_Instance(m_pDevice, m_pContext);
 	Safe_AddRef(m_pImGUI_Manager);
 
-	m_pTransformCom->Set_State(CTransform::STATE_POSITION, XMVectorSet(65.f, 0.f, 61.f, 1.f));
 	return S_OK;
 }
 
@@ -58,12 +63,16 @@ void CChr_Field::Tick(_float fTimeDelta)
 	m_pNavigationCom->Set_Y(m_pTransformCom, -0.2f);
 	m_pColliderCom->Tick(m_pTransformCom->Get_WorldMatrix());
 
+	m_pWeapon->Tick(fTimeDelta);
 }
 
 HRESULT CChr_Field::Late_Tick(_float fTimeDelta)
 {
 	if (FAILED(__super::Late_Tick(fTimeDelta)))
 		return E_FAIL;
+
+	if(m_eState == BATTLE_BEGIN)
+		m_pWeapon->Late_Tick(fTimeDelta);
 
 	m_pModelCom->Play_Animation(fTimeDelta);
 
@@ -106,7 +115,8 @@ HRESULT CChr_Field::Render()
 
 void CChr_Field::Start()
 {
-	m_pModelCom->Set_Animation(0, false);
+	m_pModelCom->Set_Animation(IDLE_NOR, false);
+	Change_Animation_Weapon(CChr_Field::WEAPON_CLOSE_IDLE);
 	m_pNavigationCom->Set_Index(m_pTransformCom->Get_State_Vector(CTransform::STATE_POSITION));
 }
 
@@ -118,9 +128,31 @@ HRESULT CChr_Field::Change_State(STATE eState)
 	return S_OK;
 }
 
+void CChr_Field::Set_State_Battle_Start()
+{
+	Change_State(BATTLE_BEGIN);
+}
+
+void CChr_Field::Open_Level()
+{
+	switch (m_eLevel) {
+	case LEVEL_FIELD:
+		m_pGameInstance->Open_Level(LEVEL_LOADING, CLevel_Loading::Create(m_pDevice, m_pContext, LEVEL_BATTLE));
+		break;
+	case LEVEL_BOSS_BATTLE:
+		m_pGameInstance->Open_Level(LEVEL_LOADING, CLevel_Loading::Create(m_pDevice, m_pContext, LEVEL_BOSS_BATTLE));
+		break;
+	}
+}
+
 void CChr_Field::Change_Animation(ANIMATION_CHR_FIELD iAnimationIndex, _bool isLoop)
 {
 	m_pModelCom->Set_Animation(iAnimationIndex, isLoop);
+}
+
+void CChr_Field::Change_Animation_Weapon(ANIMATION_CHR_LIGHT_WEAPON iAnimationIndex)
+{
+	m_pWeapon->Change_Animation(iAnimationIndex, false);
 }
 
 _float4 CChr_Field::Cal_Target_Direction()
@@ -196,7 +228,7 @@ HRESULT CChr_Field::Add_Components()
 		strNaviTag = TEXT("Prototype_Component_Navigation_Field");
 		break;
 	case LEVEL_FIELD_BOSS:
-		strNaviTag = TEXT("Prototype_Component_Navigation_Field_Boss");
+		strNaviTag = TEXT("Prototype_Component_Navigation_Boss_Battle");
 		break;
 	}
 
@@ -223,6 +255,25 @@ HRESULT CChr_Field::Add_Component_FSM()
 	m_pFSMCom->Add_State(ITEM, CChr_Field_State_Item::Create(this));
 	m_pFSMCom->Add_State(BATTLE_BEGIN, CChr_Field_State_Battle_Begin::Create(this));
 	Change_State(IDLE);
+
+	return S_OK;
+}
+
+HRESULT CChr_Field::Add_Weapon()
+{
+	/* For.Part_Weapon */
+	CWeapon_Anim::WEAPON_ANIM_DESC	WeaponDesc{};
+
+	CModel* pModel = m_pModelCom;
+
+	WeaponDesc.pParentMatrix = m_pTransformCom->Get_WorldFloat4x4_Ptr();
+	WeaponDesc.pSocket = pModel->Get_BonePtr("R_weapon");
+	WeaponDesc.strModelTag = TEXT("Prototype_Component_Model_Light_Weapon");
+	WeaponDesc.isAddCollider = false;
+
+	m_pWeapon = dynamic_cast<CWeapon_Anim*>(m_pGameInstance->Clone_GameObject(TEXT("Prototype_GameObject_Part_Weapon_Anim"), &WeaponDesc));
+	if (nullptr == m_pWeapon)
+		return E_FAIL;
 
 	return S_OK;
 }
@@ -389,6 +440,7 @@ void CChr_Field::Free()
 	Safe_Release(m_pNavigationCom);
 	Safe_Release(m_pModelCom);
 	Safe_Release(m_pFSMCom);
+	Safe_Release(m_pWeapon);
 
 	CImGUI_Manager::Destroy_Instance();
 }

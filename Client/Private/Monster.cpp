@@ -41,6 +41,8 @@ HRESULT CMonster::Initialize(void* pArg)
     if (FAILED(Create_UI_Hp()))
         return E_FAIL;
 
+    m_pTransformCom->Rotation(XMVectorSet(0.f, 1.f, 0.f, 0.f), XMConvertToRadians(180));
+
     return S_OK;
 }
 
@@ -385,7 +387,8 @@ HRESULT CMonster::Add_Components()
     case LEVEL_BATTLE:
         strNaviTag = TEXT("Prototype_Component_Navigation_Battle");
         break;
-    case LEVEL_BATTLE_BOSS:
+    case LEVEL_FIELD_BOSS:
+    case LEVEL_BOSS_BATTLE:
         strNaviTag = TEXT("Prototype_Component_Navigation_Boss_Battle");
         break;
     }

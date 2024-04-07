@@ -9,15 +9,23 @@ CChr_Field_State_Battle_Begin::CChr_Field_State_Battle_Begin(CChr_Field* pChr_Fi
 
 void CChr_Field_State_Battle_Begin::OnStateEnter()
 {
-
+	m_fTimeDelta = 0.f;
+	m_pChr_Field->Change_Animation(CChr_Field::BATTLE_BEGIN_IDLE, false);
+	m_pChr_Field->Change_Animation_Weapon(CChr_Field::WEAPON_OPEN);
 }
 
 void CChr_Field_State_Battle_Begin::OnStateUpdate(_float fTimeDelta)
 {
 	// 카메라 무브?
 	
-	if (m_pChr_Field->Is_Animation_Finished())
-		m_pChr_Field->Change_State(CChr_Field::IDLE);
+	m_fTimeDelta += fTimeDelta;
+
+	if (m_fTimeDelta >= 1.5) {
+		m_pChr_Field->Open_Level();
+	}
+
+	//if (m_pChr_Field->Is_Animation_Finished())
+	//	m_pChr_Field->Change_State(CChr_Field::IDLE);
 
 }
 

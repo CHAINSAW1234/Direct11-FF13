@@ -62,7 +62,7 @@ public:
 	void	Set_Item(CInventory::ITEM eItem) { m_eItem = eItem; }
 
 	void	Determine_Action_Based_On_Command();						// queue에 의거하여 행동을 결정
-
+	virtual void Set_State_Battle_Finish() override;
 
 	/*============================ABILITY============================*/
 	virtual void Change_Role(CAbility::ROLE eRole) override;

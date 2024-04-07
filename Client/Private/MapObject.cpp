@@ -111,7 +111,7 @@ HRESULT CMapObject::Add_Components()
     case LEVEL_BATTLE:
         strNaviTag = TEXT("Prototype_Component_Navigation_Battle");
         break;
-    case LEVEL_BATTLE_BOSS:
+    case LEVEL_BOSS_BATTLE:
         strNaviTag = TEXT("Prototype_Component_Navigation_Boss_Battle");
         break;
     }

@@ -14,7 +14,7 @@ void CBoss_State_Idle::OnStateEnter()
 
 	_float fDist = m_pBoss->Cal_Dist_Start();
 
-	if (fDist <= 3.f) {
+	if (fDist < 2.f) {
 		Change_State(MOVE_BACK_JUMP);
 		m_pBoss->Change_Animation(CBoss::JUMP_BACK, false);
 	}
@@ -66,7 +66,7 @@ void CBoss_State_Idle::Move_Back_Jump(_float fTimeDelta)
 {
 	if (5.f <= m_pBoss->Get_CurrentTrackPosition() &&
 		m_pBoss->Get_CurrentTrackPosition() <= 20.f)
-		m_pBoss->Get_Transform()->Go_Backward(fTimeDelta * 3, m_pBoss->Get_Navigation());
+		m_pBoss->Get_Transform()->Go_Backward(fTimeDelta * 2, m_pBoss->Get_Navigation());
 
 	if (m_pBoss->Is_Animation_Finished()) {
 		Change_State(IDLE);

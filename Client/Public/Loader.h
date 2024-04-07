@@ -45,7 +45,8 @@ private:
 	HRESULT Loading_For_MapTool();
 	HRESULT Loading_For_Field();
 	HRESULT Loading_For_Battle();
-
+	HRESULT Loading_For_Field_Boss();
+	HRESULT Loading_For_Boss_Battle();
 public:
 	static CLoader* Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext, LEVEL eNextLevelID);
 	virtual void Free() override;

@@ -69,19 +69,23 @@ HRESULT CBoss::Render()
 
 void CBoss::Start()
 {
+    m_pTargetObject = dynamic_cast<CChr_Battle*>(m_pGameInstance->Get_GameObject(g_Level, g_strChrLayerTag, 0));
     _float4 vPosition = m_pTransformCom->Get_State_Float4(CTransform::STATE_POSITION);
     vPosition.y += 5.f;
     m_pTransformCom->Set_State(CTransform::STATE_POSITION, vPosition);
-    m_pTargetObject = dynamic_cast<CChr_Battle*>(m_pGameInstance->Get_GameObject(g_Level, g_strChrLayerTag, 0));
-    m_pNavigationCom->Set_Index(m_pTransformCom->Get_State_Vector(CTransform::STATE_POSITION));
-    //Safe_AddRef(m_pTargetObject);
-    if (g_Level == LEVEL_BATTLE)
+    if (g_Level == LEVEL_BOSS_BATTLE) {
+        vPosition.z += 2.f;
+        m_pTransformCom->Set_State(CTransform::STATE_POSITION, vPosition);
         Change_State(STATE_IDLE);
+
+    }
     else
         Change_State(STATE_FIELD);
 
+
+    m_pNavigationCom->Set_Index(m_pTransformCom->Get_State_Vector(CTransform::STATE_POSITION));
+
     m_ePhase = PHASE1;
-    //Change_Animation(IDLE, true);
 
 }
 

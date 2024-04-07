@@ -20,7 +20,7 @@ public:
 
 private:
 	class CChr_Field* m_pChr_Field = { nullptr };
-
+	_float m_fTimeDelta;
 public:
 	static	CChr_Field_State_Battle_Begin* Create(class CChr_Field* pChr_Field);
 	virtual void				  Free() override;

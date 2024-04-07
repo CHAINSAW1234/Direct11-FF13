@@ -220,7 +220,9 @@
     <ClInclude Include="..\Public\Leopard_State_Idle.h" />
     <ClInclude Include="..\Public\Leopard_State_Start.h" />
     <ClInclude Include="..\Public\Level_Battle.h" />
+    <ClInclude Include="..\Public\Level_Boss_Battle.h" />
     <ClInclude Include="..\Public\Level_Field.h" />
+    <ClInclude Include="..\Public\Level_Field_Boss.h" />
     <ClInclude Include="..\Public\Level_GamePlay.h" />
     <ClInclude Include="..\Public\Level_Loading.h" />
     <ClInclude Include="..\Public\Level_Logo.h" />
@@ -247,10 +249,12 @@
     <ClInclude Include="..\Public\Solider_State_Idle.h" />
     <ClInclude Include="..\Public\Solider_State_Start.h" />
     <ClInclude Include="..\Public\Terrain.h" />
+    <ClInclude Include="..\Public\Trigger.h" />
     <ClInclude Include="..\Public\Troup.h" />
     <ClInclude Include="..\Public\UI.h" />
     <ClInclude Include="..\Public\UI_ATB.h" />
     <ClInclude Include="..\Public\UI_Battle_Stage_Command.h" />
+    <ClInclude Include="..\Public\UI_Battle_Stage_Finish.h" />
     <ClInclude Include="..\Public\UI_Battle_Stage_Item.h" />
     <ClInclude Include="..\Public\UI_Battle_Stage_Optima.h" />
     <ClInclude Include="..\Public\UI_Battle_Stage_Select.h" />
@@ -342,7 +346,9 @@
     <ClCompile Include="..\Private\Leopard_State_Idle.cpp" />
     <ClCompile Include="..\Private\Leopard_State_Start.cpp" />
     <ClCompile Include="..\Private\Level_Battle.cpp" />
+    <ClCompile Include="..\Private\Level_Boss_Battle.cpp" />
     <ClCompile Include="..\Private\Level_Field.cpp" />
+    <ClCompile Include="..\Private\Level_Field_Boss.cpp" />
     <ClCompile Include="..\Private\Level_GamePlay.cpp" />
     <ClCompile Include="..\Private\Level_Loading.cpp" />
     <ClCompile Include="..\Private\Level_Logo.cpp" />
@@ -369,10 +375,12 @@
     <ClCompile Include="..\Private\Solider_State_Idle.cpp" />
     <ClCompile Include="..\Private\Solider_State_Start.cpp" />
     <ClCompile Include="..\Private\Terrain.cpp" />
+    <ClCompile Include="..\Private\Trigger.cpp" />
     <ClCompile Include="..\Private\Troup.cpp" />
     <ClCompile Include="..\Private\UI.cpp" />
     <ClCompile Include="..\Private\UI_ATB.cpp" />
     <ClCompile Include="..\Private\UI_Battle_Stage_Command.cpp" />
+    <ClCompile Include="..\Private\UI_Battle_Stage_Finish.cpp" />
     <ClCompile Include="..\Private\UI_Battle_Stage_Item.cpp" />
     <ClCompile Include="..\Private\UI_Battle_Stage_Optima.cpp" />
     <ClCompile Include="..\Private\UI_Battle_Stage_Select.cpp" />

@@ -38,6 +38,7 @@ public:
 	HRESULT Change_State(STATE eState);
 	void	Change_Animation(ANIMATION_CHR_BATTLE_SAZH iAnimationIndex, _bool isLoop);
 	virtual void Change_Role(CAbility::ROLE eRole) override;
+	virtual void Set_State_Battle_Finish() override;
 
 private:
 	virtual HRESULT Add_Components() override;

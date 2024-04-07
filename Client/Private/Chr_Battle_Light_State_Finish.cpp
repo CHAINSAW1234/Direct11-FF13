@@ -16,9 +16,6 @@ void CChr_Battle_Light_State_Finish::OnStateEnter()
 
 void CChr_Battle_Light_State_Finish::OnStateUpdate(_float fTimeDelta)
 {
-	if (m_pChr_Battle_Light->Is_Animation_Finished()) {
-		m_pChr_Battle_Light->Change_State(CChr_Battle_Light::IDLE);
-	}
 }
 
 void CChr_Battle_Light_State_Finish::OnStateExit()

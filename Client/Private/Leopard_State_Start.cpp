@@ -9,6 +9,7 @@ CLeopard_State_Start::CLeopard_State_Start(CLeopard* pLeopard)
 
 void CLeopard_State_Start::OnStateEnter()
 {
+	m_pLeopard->Change_Animation(CLeopard::BATTLE_START, false);
 }
 
 void CLeopard_State_Start::OnStateUpdate(_float fTimeDelta)

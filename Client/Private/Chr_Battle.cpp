@@ -99,7 +99,7 @@ HRESULT CChr_Battle::Add_Components()
 	case LEVEL_BATTLE:
 		strNaviTag = TEXT("Prototype_Component_Navigation_Battle");
 		break;
-	case LEVEL_BATTLE_BOSS:
+	case LEVEL_BOSS_BATTLE:
 		strNaviTag = TEXT("Prototype_Component_Navigation_Boss_Battle");
 		break;
 	}
@@ -201,6 +201,16 @@ void CChr_Battle::Reset_Attakable()
 {
 	for (auto& i : m_isAttackable)
 		i = true;
+}
+
+void CChr_Battle::Set_StartPosition(_float4 vStartPosition)
+{
+	m_vStartPosition = vStartPosition;
+	m_pTransformCom->Set_Position(m_vStartPosition);
+}
+
+void CChr_Battle::Set_State_Battle_Finish()
+{
 }
 
 void CChr_Battle::Set_Hit(_int iDamage)

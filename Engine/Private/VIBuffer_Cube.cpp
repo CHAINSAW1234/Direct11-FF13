@@ -170,3 +170,4 @@ void CVIBuffer_Cube::Free()
 
 
 }
+

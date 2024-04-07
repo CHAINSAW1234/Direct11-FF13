@@ -9,6 +9,7 @@ CWarload_State_Start::CWarload_State_Start(CWarload* pWarload)
 
 void CWarload_State_Start::OnStateEnter()
 {
+	m_pWarload->Change_Animation(CWarload::BATTLE_START, false);
 }
 
 void CWarload_State_Start::OnStateUpdate(_float fTimeDelta)

@@ -5,6 +5,8 @@
 
 #include "Camera_Field.h"
 #include "MapObject.h"
+#include "Trigger.h"
+#include "Inventory.h"
 
 #include "UI_Number.h"
 #include "UI_Cursor.h"
@@ -16,7 +18,7 @@
 #include "UI_Chain.h"
 #include "UI_Monster_Hp.h"
 
-#include "Inventory.h"
+
 #include "Chr_Field.h"
 #include "Chr_Battle_Light.h"
 #include "Chr_Battle_Sazh.h"
@@ -28,6 +30,7 @@
 #include "Solider.h"
 #include "Solider_Gun.h"
 #include "Boss.h"
+
 
 #include "Particle_Blue.h"
 #include "Camera_Free.h"
@@ -118,6 +121,14 @@ HRESULT CLoader::Start()
 		g_Level = LEVEL_BATTLE;
 		hr = Loading_For_Battle();
 		break;
+	case LEVEL_FIELD_BOSS:
+		g_Level = LEVEL_FIELD_BOSS;
+		hr = Loading_For_Field_Boss();
+		break;
+	case LEVEL_BOSS_BATTLE:
+		g_Level = LEVEL_BOSS_BATTLE;
+		hr = Loading_For_Boss_Battle();
+		break;
 	case LEVEL_MAPTOOL:
 		g_Level = LEVEL_MAPTOOL;
 		hr = Loading_For_MapTool();
@@ -183,12 +194,12 @@ HRESULT CLoader::Loading_Prototype()
 		CWeapon_Study::Create(m_pDevice, m_pContext))))
 		return E_FAIL;
 
-	/* For.Prototype_GameObject_Part_Weapon */
+#pragma endregion
+
+	/* For.Prototype_GameObject_Sky */
 	if (FAILED(m_pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_Sky"),
 		CSky::Create(m_pDevice, m_pContext))))
 		return E_FAIL;
-
-#pragma endregion
 
 	/* For.Prototype_GameObject_Camera_Field */
 	if (FAILED(m_pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_Camera_Field"),
@@ -253,6 +264,11 @@ HRESULT CLoader::Loading_Prototype()
 	/* For.Prototype_GameObject_MapObject */
 	if (FAILED(m_pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_MapObject"),
 		CMapObject::Create(m_pDevice, m_pContext))))
+		return E_FAIL;
+
+	/* For.Prototype_GameObject_Trigger */
+	if (FAILED(m_pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_Trigger"),
+		CTrigger::Create(m_pDevice, m_pContext))))
 		return E_FAIL;
 
 	/* For.Prototype_GameObject_UI_Cursor */
@@ -540,8 +556,135 @@ HRESULT CLoader::Loading_For_Field()
 		CModel::Create(m_pDevice, m_pContext, "../Bin/Resources/Models/Chr/Light/Body/Light_Field" + tag))))
 		return E_FAIL;
 
+	if (FAILED(m_pGameInstance->Add_Prototype(g_Level, TEXT("Prototype_Component_Model_Light_Weapon"),
+		CModel::Create(m_pDevice, m_pContext, "../Bin/Resources/Models/Chr/Light/Weapon/Light_Weapon" + tag))))
+		return E_FAIL;
+
 #pragma region Monster
 
+	if (FAILED(m_pGameInstance->Add_Prototype(g_Level, TEXT("Prototype_Component_Model_Leopard"),
+		CModel::Create(m_pDevice, m_pContext, "../Bin/Resources/Models/Monster/Leopard/Leopard" + tag))))
+		return E_FAIL;
+
+	if (FAILED(m_pGameInstance->Add_Prototype(g_Level, TEXT("Prototype_Component_Model_Warload"),
+		CModel::Create(m_pDevice, m_pContext, "../Bin/Resources/Models/Monster/Warload/Warload" + tag))))
+		return E_FAIL;
+
+	if (FAILED(m_pGameInstance->Add_Prototype(g_Level, TEXT("Prototype_Component_Model_Solider"),
+		CModel::Create(m_pDevice, m_pContext, "../Bin/Resources/Models/Monster/Solider/Solider" + tag))))
+		return E_FAIL;
+
+	if (FAILED(m_pGameInstance->Add_Prototype(g_Level, TEXT("Prototype_Component_Model_Solider_Weapon"),
+		CModel::Create(m_pDevice, m_pContext, "../Bin/Resources/Models/Monster/Solider/Weapon/Solider_Weapon" + tag))))
+		return E_FAIL;
+
+	if (FAILED(m_pGameInstance->Add_Prototype(g_Level, TEXT("Prototype_Component_Model_Solider_Gun"),
+		CModel::Create(m_pDevice, m_pContext, "../Bin/Resources/Models/Monster/Solider/Solider_Gun" + tag))))
+		return E_FAIL;
+
+	if (FAILED(m_pGameInstance->Add_Prototype(g_Level, TEXT("Prototype_Component_Model_Solider_Gun_Weapon"),
+		CModel::Create(m_pDevice, m_pContext, "../Bin/Resources/Models/Monster/Solider/Weapon/Solider_Weapon_Gun" + tag))))
+		return E_FAIL;
+
+#pragma endregion
+
+	m_strLoadingText = TEXT("셰이더를(을) 로딩 중 입니다.");
+
+	m_strLoadingText = TEXT("객체의 원형를(을) 로딩 중 입니다.");
+
+	m_strLoadingText = TEXT("로딩이 완료되었습니다.");
+
+
+	m_isFinished = true;
+	return S_OK;
+}
+
+HRESULT CLoader::Loading_For_Battle()
+{
+	m_strLoadingText = TEXT("텍스쳐를(을) 로딩 중 입니다.");
+
+#pragma region UI
+
+	/* For.Prototype_Component_Texture_UI_Cursor */
+	if (FAILED(m_pGameInstance->Add_Prototype(g_Level, TEXT("Prototype_Component_Texture_UI_Cursor"),
+		CTexture::Create(m_pDevice, m_pContext, TEXT("../Bin/Resources/UI/Cursor.png")))))
+		return E_FAIL;
+
+	/* For.Prototype_Component_Texture_UI_ATB_Inner */
+	if (FAILED(m_pGameInstance->Add_Prototype(g_Level, TEXT("Prototype_Component_Texture_UI_Pnal_Anim"),
+		CTexture::Create(m_pDevice, m_pContext, TEXT("../Bin/Resources/UI/Pnal/Pnalanm_%d.png"), 16))))
+		return E_FAIL;
+
+	/* For.Prototype_Component_Texture_UI_ATB_Border */
+	if (FAILED(m_pGameInstance->Add_Prototype(g_Level, TEXT("Prototype_Component_Texture_UI_Pnal_Border"),
+		CTexture::Create(m_pDevice, m_pContext, TEXT("../Bin/Resources/UI/Pnal/Pnal_Border.png")))))
+		return E_FAIL;
+
+	/* For.Prototype_Component_Texture_UI_ATB_Border */
+	if (FAILED(m_pGameInstance->Add_Prototype(g_Level, TEXT("Prototype_Component_Texture_UI_Pnal_Inner"),
+		CTexture::Create(m_pDevice, m_pContext, TEXT("../Bin/Resources/UI/Pnal/Pnal_Inner.png")))))
+		return E_FAIL;
+
+	/* For.Prototype_Component_Texture_UI_ATB_Border */
+	if (FAILED(m_pGameInstance->Add_Prototype(g_Level, TEXT("Prototype_Component_Texture_UI_ATB_Border"),
+		CTexture::Create(m_pDevice, m_pContext, TEXT("../Bin/Resources/UI/Pnal/Pnal_ATB_Border.png")))))
+		return E_FAIL;
+
+	/* For.Prototype_Component_Texture_UI_ATB_Inner */
+	if (FAILED(m_pGameInstance->Add_Prototype(g_Level, TEXT("Prototype_Component_Texture_UI_ATB_Inner"),
+		CTexture::Create(m_pDevice, m_pContext, TEXT("../Bin/Resources/UI/Pnal/Pnal_ATB_Inner.png")))))
+		return E_FAIL;
+
+	/* For.Prototype_Component_Texture_UI_ATB_Inner */
+	if (FAILED(m_pGameInstance->Add_Prototype(g_Level, TEXT("Prototype_Component_Texture_UI_ATB_Mask"),
+		CTexture::Create(m_pDevice, m_pContext, TEXT("../Bin/Resources/UI/ATB_Mask.dds")))))
+		return E_FAIL;
+
+	/* For.Prototype_Component_Texture_UI_Chain_Inner */
+	if (FAILED(m_pGameInstance->Add_Prototype(g_Level, TEXT("Prototype_Component_Texture_UI_Chain_Border"),
+		CTexture::Create(m_pDevice, m_pContext, TEXT("../Bin/Resources/UI/Pnal/Chain_Border.png")))))
+		return E_FAIL;
+
+	/* For.Prototype_Component_Texture_UI_Grad */
+	if (FAILED(m_pGameInstance->Add_Prototype(g_Level, TEXT("Prototype_Component_Texture_UI_Grad"),
+		CTexture::Create(m_pDevice, m_pContext, TEXT("../Bin/Resources/UI/Grad.dds")))))
+		return E_FAIL;
+
+#pragma endregion
+
+	m_strLoadingText = TEXT("모델를(을) 로딩 중 입니다.");
+
+	if (FAILED(m_pGameInstance->Add_Prototype(g_Level, TEXT("Prototype_Component_VIBuffer_Line"),
+		CVIBuffer_Line::Create(m_pDevice, m_pContext))))
+		return E_FAIL;
+
+	string tag = ".bin";
+
+#pragma region Chr
+
+	if (FAILED(m_pGameInstance->Add_Prototype(g_Level, TEXT("Prototype_Component_Model_Map_Battle"),
+		CModel::Create(m_pDevice, m_pContext, "../Bin/Resources/Models/MapObject/MapObject/Map_Battle" + tag))))
+		return E_FAIL;
+
+	if (FAILED(m_pGameInstance->Add_Prototype(g_Level, TEXT("Prototype_Component_Model_Light_Battle"),
+		CModel::Create(m_pDevice, m_pContext, "../Bin/Resources/Models/Chr/Light/Body/Light_Battle" + tag))))
+		return E_FAIL;
+
+	if (FAILED(m_pGameInstance->Add_Prototype(g_Level, TEXT("Prototype_Component_Model_Light_Weapon"),
+		CModel::Create(m_pDevice, m_pContext, "../Bin/Resources/Models/Chr/Light/Weapon/Light_Weapon" + tag))))
+		return E_FAIL;
+
+	if (FAILED(m_pGameInstance->Add_Prototype(g_Level, TEXT("Prototype_Component_Model_Sazh_Battle"),
+		CModel::Create(m_pDevice, m_pContext, "../Bin/Resources/Models/Chr/Sazh/Body/Sazh_Battle" + tag))))
+		return E_FAIL;
+
+	if (FAILED(m_pGameInstance->Add_Prototype(g_Level, TEXT("Prototype_Component_Model_Sazh_Weapon"),
+		CModel::Create(m_pDevice, m_pContext, "../Bin/Resources/Models/Chr/Sazh/Weapon/Sazh_Weapon" + tag))))
+		return E_FAIL;
+
+#pragma endregion
+
+#pragma region Monster 
 	if (FAILED(m_pGameInstance->Add_Prototype(g_Level, TEXT("Prototype_Component_Model_Leopard"),
 		CModel::Create(m_pDevice, m_pContext, "../Bin/Resources/Models/Monster/Leopard/Leopard" + tag))))
 		return E_FAIL;
@@ -572,9 +715,38 @@ HRESULT CLoader::Loading_For_Field()
 
 #pragma endregion
 
-	//if (FAILED(m_pGameInstance->Add_Prototype(g_Level, TEXT("Prototype_Component_Model_Light_Weapon"),
-	//	CModel::Create(m_pDevice, m_pContext, "../Bin/Resources/Models/Chr/Light/Weapon/Light_Weapon" + tag))))
-	//	return E_FAIL;
+	m_strLoadingText = TEXT("셰이더를(을) 로딩 중 입니다.");
+
+	m_strLoadingText = TEXT("객체의 원형를(을) 로딩 중 입니다.");
+
+	m_strLoadingText = TEXT("로딩이 완료되었습니다.");
+
+	m_isFinished = true;
+	return S_OK;
+}
+
+HRESULT CLoader::Loading_For_Field_Boss()
+{
+	m_strLoadingText = TEXT("텍스쳐를(을) 로딩 중 입니다.");
+
+	m_strLoadingText = TEXT("모델를(을) 로딩 중 입니다.");
+
+	string tag = ".bin";
+	if (FAILED(m_pGameInstance->Add_Prototype(g_Level, TEXT("Prototype_Component_Model_Map_BossBattle_1"),
+		CModel::Create(m_pDevice, m_pContext, "../Bin/Resources/Models/MapObject/MapObject/Map_BossBattle_1" + tag))))
+		return E_FAIL;
+
+	if (FAILED(m_pGameInstance->Add_Prototype(g_Level, TEXT("Prototype_Component_Model_Light_Field"),
+		CModel::Create(m_pDevice, m_pContext, "../Bin/Resources/Models/Chr/Light/Body/Light_Field" + tag))))
+		return E_FAIL;
+
+	if (FAILED(m_pGameInstance->Add_Prototype(g_Level, TEXT("Prototype_Component_Model_Boss"),
+		CModel::Create(m_pDevice, m_pContext, "../Bin/Resources/Models/Monster/Boss/Boss" + tag))))
+		return E_FAIL;
+
+	if (FAILED(m_pGameInstance->Add_Prototype(g_Level, TEXT("Prototype_Component_Model_Light_Weapon"),
+		CModel::Create(m_pDevice, m_pContext, "../Bin/Resources/Models/Chr/Light/Weapon/Light_Weapon" + tag))))
+		return E_FAIL;
 
 	m_strLoadingText = TEXT("셰이더를(을) 로딩 중 입니다.");
 
@@ -587,55 +759,54 @@ HRESULT CLoader::Loading_For_Field()
 	return S_OK;
 }
 
-HRESULT CLoader::Loading_For_Battle()
+HRESULT CLoader::Loading_For_Boss_Battle()
 {
-	LEVEL eLevel = LEVEL_BATTLE;
 	m_strLoadingText = TEXT("텍스쳐를(을) 로딩 중 입니다.");
 
 #pragma region UI
 
 	/* For.Prototype_Component_Texture_UI_Cursor */
-	if (FAILED(m_pGameInstance->Add_Prototype(eLevel, TEXT("Prototype_Component_Texture_UI_Cursor"),
+	if (FAILED(m_pGameInstance->Add_Prototype(g_Level, TEXT("Prototype_Component_Texture_UI_Cursor"),
 		CTexture::Create(m_pDevice, m_pContext, TEXT("../Bin/Resources/UI/Cursor.png")))))
 		return E_FAIL;
 
 	/* For.Prototype_Component_Texture_UI_ATB_Inner */
-	if (FAILED(m_pGameInstance->Add_Prototype(eLevel, TEXT("Prototype_Component_Texture_UI_Pnal_Anim"),
+	if (FAILED(m_pGameInstance->Add_Prototype(g_Level, TEXT("Prototype_Component_Texture_UI_Pnal_Anim"),
 		CTexture::Create(m_pDevice, m_pContext, TEXT("../Bin/Resources/UI/Pnal/Pnalanm_%d.png"), 16))))
 		return E_FAIL;
 
 	/* For.Prototype_Component_Texture_UI_ATB_Border */
-	if (FAILED(m_pGameInstance->Add_Prototype(eLevel, TEXT("Prototype_Component_Texture_UI_Pnal_Border"),
+	if (FAILED(m_pGameInstance->Add_Prototype(g_Level, TEXT("Prototype_Component_Texture_UI_Pnal_Border"),
 		CTexture::Create(m_pDevice, m_pContext, TEXT("../Bin/Resources/UI/Pnal/Pnal_Border.png")))))
 		return E_FAIL;
 
 	/* For.Prototype_Component_Texture_UI_ATB_Border */
-	if (FAILED(m_pGameInstance->Add_Prototype(eLevel, TEXT("Prototype_Component_Texture_UI_Pnal_Inner"),
+	if (FAILED(m_pGameInstance->Add_Prototype(g_Level, TEXT("Prototype_Component_Texture_UI_Pnal_Inner"),
 		CTexture::Create(m_pDevice, m_pContext, TEXT("../Bin/Resources/UI/Pnal/Pnal_Inner.png")))))
 		return E_FAIL;
 
 	/* For.Prototype_Component_Texture_UI_ATB_Border */
-	if (FAILED(m_pGameInstance->Add_Prototype(eLevel, TEXT("Prototype_Component_Texture_UI_ATB_Border"),
+	if (FAILED(m_pGameInstance->Add_Prototype(g_Level, TEXT("Prototype_Component_Texture_UI_ATB_Border"),
 		CTexture::Create(m_pDevice, m_pContext, TEXT("../Bin/Resources/UI/Pnal/Pnal_ATB_Border.png")))))
 		return E_FAIL;
 
 	/* For.Prototype_Component_Texture_UI_ATB_Inner */
-	if (FAILED(m_pGameInstance->Add_Prototype(eLevel, TEXT("Prototype_Component_Texture_UI_ATB_Inner"),
+	if (FAILED(m_pGameInstance->Add_Prototype(g_Level, TEXT("Prototype_Component_Texture_UI_ATB_Inner"),
 		CTexture::Create(m_pDevice, m_pContext, TEXT("../Bin/Resources/UI/Pnal/Pnal_ATB_Inner.png")))))
 		return E_FAIL;
 
 	/* For.Prototype_Component_Texture_UI_ATB_Inner */
-	if (FAILED(m_pGameInstance->Add_Prototype(eLevel, TEXT("Prototype_Component_Texture_UI_ATB_Mask"),
+	if (FAILED(m_pGameInstance->Add_Prototype(g_Level, TEXT("Prototype_Component_Texture_UI_ATB_Mask"),
 		CTexture::Create(m_pDevice, m_pContext, TEXT("../Bin/Resources/UI/ATB_Mask.dds")))))
 		return E_FAIL;
 
 	/* For.Prototype_Component_Texture_UI_Chain_Inner */
-	if (FAILED(m_pGameInstance->Add_Prototype(eLevel, TEXT("Prototype_Component_Texture_UI_Chain_Border"),
+	if (FAILED(m_pGameInstance->Add_Prototype(g_Level, TEXT("Prototype_Component_Texture_UI_Chain_Border"),
 		CTexture::Create(m_pDevice, m_pContext, TEXT("../Bin/Resources/UI/Pnal/Chain_Border.png")))))
 		return E_FAIL;
 
 	/* For.Prototype_Component_Texture_UI_Grad */
-	if (FAILED(m_pGameInstance->Add_Prototype(eLevel, TEXT("Prototype_Component_Texture_UI_Grad"),
+	if (FAILED(m_pGameInstance->Add_Prototype(g_Level, TEXT("Prototype_Component_Texture_UI_Grad"),
 		CTexture::Create(m_pDevice, m_pContext, TEXT("../Bin/Resources/UI/Grad.dds")))))
 		return E_FAIL;
 
@@ -643,66 +814,39 @@ HRESULT CLoader::Loading_For_Battle()
 
 	m_strLoadingText = TEXT("모델를(을) 로딩 중 입니다.");
 
-	if (FAILED(m_pGameInstance->Add_Prototype(eLevel, TEXT("Prototype_Component_VIBuffer_Line"),
+	if (FAILED(m_pGameInstance->Add_Prototype(g_Level, TEXT("Prototype_Component_VIBuffer_Line"),
 		CVIBuffer_Line::Create(m_pDevice, m_pContext))))
 		return E_FAIL;
 
 	string tag = ".bin";
 
-#pragma region Chr
-
-	if (FAILED(m_pGameInstance->Add_Prototype(eLevel, TEXT("Prototype_Component_Model_Map_Battle"),
-		CModel::Create(m_pDevice, m_pContext, "../Bin/Resources/Models/MapObject/MapObject/Map_Battle" + tag))))
+	if (FAILED(m_pGameInstance->Add_Prototype(g_Level, TEXT("Prototype_Component_Model_Map_BossBattle_1"),
+		CModel::Create(m_pDevice, m_pContext, "../Bin/Resources/Models/MapObject/MapObject/Map_BossBattle_1" + tag))))
 		return E_FAIL;
 
-	if (FAILED(m_pGameInstance->Add_Prototype(eLevel, TEXT("Prototype_Component_Model_Light_Battle"),
+#pragma region Chr
+
+	if (FAILED(m_pGameInstance->Add_Prototype(g_Level, TEXT("Prototype_Component_Model_Light_Battle"),
 		CModel::Create(m_pDevice, m_pContext, "../Bin/Resources/Models/Chr/Light/Body/Light_Battle" + tag))))
 		return E_FAIL;
 
-	if (FAILED(m_pGameInstance->Add_Prototype(eLevel, TEXT("Prototype_Component_Model_Light_Weapon"),
+	if (FAILED(m_pGameInstance->Add_Prototype(g_Level, TEXT("Prototype_Component_Model_Light_Weapon"),
 		CModel::Create(m_pDevice, m_pContext, "../Bin/Resources/Models/Chr/Light/Weapon/Light_Weapon" + tag))))
 		return E_FAIL;
 
-	if (FAILED(m_pGameInstance->Add_Prototype(eLevel, TEXT("Prototype_Component_Model_Sazh_Battle"),
+	if (FAILED(m_pGameInstance->Add_Prototype(g_Level, TEXT("Prototype_Component_Model_Sazh_Battle"),
 		CModel::Create(m_pDevice, m_pContext, "../Bin/Resources/Models/Chr/Sazh/Body/Sazh_Battle" + tag))))
 		return E_FAIL;
 
-	if (FAILED(m_pGameInstance->Add_Prototype(eLevel, TEXT("Prototype_Component_Model_Sazh_Weapon"),
+	if (FAILED(m_pGameInstance->Add_Prototype(g_Level, TEXT("Prototype_Component_Model_Sazh_Weapon"),
 		CModel::Create(m_pDevice, m_pContext, "../Bin/Resources/Models/Chr/Sazh/Weapon/Sazh_Weapon" + tag))))
 		return E_FAIL;
 
 #pragma endregion
 
-#pragma region Monster 
-	if (FAILED(m_pGameInstance->Add_Prototype(eLevel, TEXT("Prototype_Component_Model_Leopard"),
-		CModel::Create(m_pDevice, m_pContext, "../Bin/Resources/Models/Monster/Leopard/Leopard" + tag))))
-		return E_FAIL;
-
-	if (FAILED(m_pGameInstance->Add_Prototype(eLevel, TEXT("Prototype_Component_Model_Warload"),
-		CModel::Create(m_pDevice, m_pContext, "../Bin/Resources/Models/Monster/Warload/Warload" + tag))))
-		return E_FAIL;
-
-	if (FAILED(m_pGameInstance->Add_Prototype(g_Level, TEXT("Prototype_Component_Model_Solider"),
-		CModel::Create(m_pDevice, m_pContext, "../Bin/Resources/Models/Monster/Solider/Solider" + tag))))
-		return E_FAIL;
-
-	if (FAILED(m_pGameInstance->Add_Prototype(g_Level, TEXT("Prototype_Component_Model_Solider_Weapon"),
-		CModel::Create(m_pDevice, m_pContext, "../Bin/Resources/Models/Monster/Solider/Weapon/Solider_Weapon" + tag))))
-		return E_FAIL;
-
-	if (FAILED(m_pGameInstance->Add_Prototype(g_Level, TEXT("Prototype_Component_Model_Solider_Gun"),
-		CModel::Create(m_pDevice, m_pContext, "../Bin/Resources/Models/Monster/Solider/Solider_Gun" + tag))))
-		return E_FAIL;
-
-	if (FAILED(m_pGameInstance->Add_Prototype(g_Level, TEXT("Prototype_Component_Model_Solider_Gun_Weapon"),
-		CModel::Create(m_pDevice, m_pContext, "../Bin/Resources/Models/Monster/Solider/Weapon/Solider_Weapon_Gun" + tag))))
-		return E_FAIL;
-
 	if (FAILED(m_pGameInstance->Add_Prototype(g_Level, TEXT("Prototype_Component_Model_Boss"),
 		CModel::Create(m_pDevice, m_pContext, "../Bin/Resources/Models/Monster/Boss/Boss" + tag))))
 		return E_FAIL;
-
-#pragma endregion
 
 	m_strLoadingText = TEXT("셰이더를(을) 로딩 중 입니다.");
 

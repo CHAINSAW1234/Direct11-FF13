@@ -12,6 +12,16 @@
 #include "Monster.h"
 #include "Troup.h"
 
+_float4 CLevel_Battle::vMonsterStartPosition[][6] = {
+    { _float4(0.f, 0.f, 0.f, 1.f), },
+    { _float4(-3.f, 0.f, 3.f, 1.f), _float4(3.f, 0.f, 3.f, 1.f), },
+    { _float4(0.f, 0.f, 3.f, 1.f), _float4(-3.f, 0.f, 6.f, 1.f), _float4(3.f, 0.f, 6.f, 1.f), },
+    { _float4(3.f, 0.f, 3.f, 1.f), _float4(-3.f, 0.f, 3.f, 1.f), _float4(3.f, 0.f, 6.f, 1.f), _float4(-3.f, 0.f, 6.f, 1.f), },
+    { _float4(0.f, 0.f, 0.f, 1.f), },
+    { _float4(-6.f, 0.f, 3.f, 1.f), _float4(6.f, 0.f, 3.f, 1.f), _float4(-3.f, 0.f, 3.f, 1.f), _float4(-3.f, 0.f, 3.f, 1.f), _float4(-3.f, 0.f, 6.f, 1.f), _float4(-3.f, 0.f, 6.f, 1.f), },
+};
+
+
 
 CLevel_Battle::CLevel_Battle(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
     : CLevel{ pDevice, pContext }
@@ -20,7 +30,6 @@ CLevel_Battle::CLevel_Battle(ID3D11Device* pDevice, ID3D11DeviceContext* pContex
 
 HRESULT CLevel_Battle::Initialize()
 {
-    g_Level = LEVEL_BATTLE;
 
     if (FAILED(__super::Initialize()))
         return E_FAIL;
@@ -34,6 +43,9 @@ HRESULT CLevel_Battle::Initialize()
     if (FAILED(Ready_Layer_BackGround(TEXT("Layer_Grid"))))
         return E_FAIL;
 
+    if (FAILED(Ready_Layer_Sky(TEXT("Layer_Sky"))))
+        return E_FAIL;
+
     if (FAILED(Ready_Layer_Monster(g_strMonsterLayerTag)))
         return E_FAIL;
 
@@ -44,7 +56,7 @@ HRESULT CLevel_Battle::Initialize()
         return E_FAIL;
 
     m_pPlayer->Start();
-
+    Set_Object_Position();
     return S_OK;
 }
 
@@ -53,9 +65,11 @@ void CLevel_Battle::Tick(_float fTimeDelta)
     __super::Tick(fTimeDelta);
     m_pPlayer->Tick(fTimeDelta);
 
-    if(0 == m_pGameInstance->Get_LayerCnt(g_Level, g_strMonsterLayerTag))
-        m_pGameInstance->Open_Level(LEVEL_LOADING, CLevel_Loading::Create(m_pDevice, m_pContext, LEVEL_FIELD));
-
+    if (0 == m_pGameInstance->Get_LayerCnt(g_Level, g_strMonsterLayerTag)) {
+        m_fTimeDelta += fTimeDelta;
+        if(m_fTimeDelta >= 2.0f)
+          m_pGameInstance->Open_Level(LEVEL_LOADING, CLevel_Loading::Create(m_pDevice, m_pContext, LEVEL_FIELD));
+    }
 
 }
 
@@ -157,14 +171,13 @@ HRESULT CLevel_Battle::Ready_Layer_Camera(const wstring& strLayerTag)
 
 HRESULT CLevel_Battle::Ready_Layer_BackGround(const wstring& strLayerTag)
 {
-    //if (FAILED(m_pGameInstance->Add_Clone(g_Level, strLayerTag, TEXT("Prototype_GameObject_Grid"))))
-    //    return E_FAIL;
+    if (FAILED(m_pGameInstance->Add_Clone(g_Level, strLayerTag, TEXT("Prototype_GameObject_Grid"))))
+        return E_FAIL;
     return S_OK;
 }
 
 HRESULT CLevel_Battle::Ready_Layer_Chr(const wstring& strLayerTag)
 {
-
     if (FAILED(m_pGameInstance->Add_Clone(g_Level, strLayerTag, TEXT("Prototype_GameObject_Chr_Battle_Light"))))
         	return E_FAIL;
 
@@ -197,6 +210,30 @@ HRESULT CLevel_Battle::Ready_Layer_Monster(const wstring& strLayerTag)
     IFS.close();
 
     return S_OK;
+}
+
+HRESULT CLevel_Battle::Ready_Layer_Sky(const wstring& strLayerTag)
+{
+    if (FAILED(m_pGameInstance->Add_Clone(g_Level, strLayerTag, TEXT("Prototype_GameObject_Sky"))))
+        return E_FAIL;
+
+    return S_OK;
+}
+
+void CLevel_Battle::Set_Object_Position()
+{
+    for (_int i = 1; i < 3; ++i) {
+        CChr_Battle* pChr_Battle = (CChr_Battle*)m_pGameInstance->Get_GameObject(g_Level, g_strChrLayerTag, i-1);
+        pChr_Battle->Set_StartPosition(_float4({(i/2) * _float(pow(-1, (i%2))) * -3.f, 0.f, ((i / 2) + 1) * -3.f, 1.f}));
+    }
+
+    _int iMonsterCnt = m_pGameInstance->Get_LayerCnt(g_Level, g_strMonsterLayerTag);
+    for (_int i = 0; i < iMonsterCnt; ++i) {
+        CMonster* pMonster = (CMonster*)m_pGameInstance->Get_GameObject(g_Level, g_strMonsterLayerTag, i);
+        pMonster->Set_StartPosition(vMonsterStartPosition[iMonsterCnt-1][i]);
+    }
+
+   
 }
 
 CLevel_Battle* CLevel_Battle::Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)

@@ -1,5 +1,6 @@
 .vs/
 *.log
+*.tlog
 *.obj
 *.fbx
 Engine/Default/x64/
