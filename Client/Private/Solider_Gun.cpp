@@ -23,9 +23,9 @@ CSolider_Gun::CSolider_Gun(const CSolider_Gun& rhs)
 
 HRESULT CSolider_Gun::Initialize_Prototype()
 {
-    m_iMaxHp = m_iHp = 4050;
-    m_fStagger = 130.f;
-    m_iDamage = 70;
+    m_iMaxHp = m_iHp = 324;
+    m_fStagger = 200.f;
+    m_iDamage = 45;
     m_strMonsterName = TEXT("PSICOM Æ¯¹«¿±º´");
 
     return S_OK;
@@ -62,6 +62,13 @@ HRESULT CSolider_Gun::Add_Components()
 
     if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_Collider_OBB"),
         TEXT("Com_Collider"), (CComponent**)&m_pColliderCom, &ColliderOBBDesc)))
+        return E_FAIL;
+
+    CBounding_Sphere::BOUNDING_SPHERE_DESC ColliderSphereDesc = {};
+    ColliderSphereDesc.fRadius = .5f;
+    ColliderSphereDesc.vCenter = _float3(0.f, 0.f, 0.f);
+    if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_Collider_Sphere"),
+        TEXT("Com_Collider_Push"), (CComponent**)&m_pCollider_PushCom, &ColliderSphereDesc)))
         return E_FAIL;
 
     if (FAILED(CMonster::Add_Components()))

@@ -48,17 +48,11 @@ HRESULT CMonster::Initialize(void* pArg)
 
 void CMonster::Tick(_float fTimeDelta)
 {
-
     m_pFSMCom->Update(fTimeDelta);
     Update_Chain(fTimeDelta);
+    Update_Collider();
     Check_Interact_Chr();
     Check_Interact_Monster();
-
-    if(nullptr != m_pColliderCom)
-        m_pColliderCom->Tick(m_pTransformCom->Get_WorldMatrix());
-    if (nullptr != m_pCollider_WeaponCom)
-        m_pCollider_WeaponCom->Tick(m_pTransformCom->Get_WorldMatrix());
-
 }
 
 HRESULT CMonster::Late_Tick(_float fTimeDelta)
@@ -98,7 +92,8 @@ HRESULT CMonster::Render()
         m_pColliderCom->Render();
     if (nullptr != m_pCollider_WeaponCom)
         m_pCollider_WeaponCom->Render();
-
+    if (nullptr != m_pCollider_PushCom)
+        m_pCollider_PushCom->Render();
 #endif 
 
     return S_OK;
@@ -291,7 +286,9 @@ void CMonster::Check_Interact_Chr()
             VectorDir.m128_f32[1] = 0.f;
             VectorDir = XMVector3Normalize(VectorDir);
             // ¹Ì´Â ÈûÀº ÈûÀ¸·Î Ã³¸®ÇÔ
-            pChr_Battle->Get_Transform()->Move_To_Direction(VectorDir, (XMVector3Length(m_pTransformCom->Get_LastMovement_Vector()) * 2.f / pChr_Battle->Get_Transform()->Get_SpeedPerSec()).m128_f32[0], pChr_Battle->Get_Navigation());
+            pChr_Battle->Get_Transform()->Move_To_Direction(VectorDir, m_pCollider_PushCom->IntersectDist(pChr_Battle->Get_Collider_Push()) / pChr_Battle->Get_Transform()->Get_SpeedPerSec(), pChr_Battle->Get_Navigation());
+            //Update_Collider();
+            pChr_Battle->Update_Collider();
         }
     }
 }
@@ -313,7 +310,9 @@ void CMonster::Check_Interact_Monster()
             VectorDir.m128_f32[1] = 0.f;
             VectorDir = XMVector3Normalize(VectorDir);
             // ¹Ì´Â ÈûÀº ÈûÀ¸·Î Ã³¸®ÇÔ
-            pMonster->Get_Transform()->Move_To_Direction(VectorDir, (XMVector3Length(m_pTransformCom->Get_LastMovement_Vector()) * 2.f / pMonster->Get_Transform()->Get_SpeedPerSec()).m128_f32[0], pMonster->Get_Navigation());
+            pMonster->Get_Transform()->Move_To_Direction(VectorDir, m_pCollider_PushCom->IntersectDist(pMonster->Get_Collider_Push()) / pMonster->Get_Transform()->Get_SpeedPerSec(), pMonster->Get_Navigation());
+            //Update_Collider();
+            pMonster->Update_Collider();
         }
     }
 }
@@ -338,6 +337,16 @@ void CMonster::Check_Interact_Weapon()
             pChr_Battle->Set_Hit(m_iDamage);
         }
     }
+}
+
+void CMonster::Update_Collider()
+{
+    if (nullptr != m_pColliderCom)
+        m_pColliderCom->Tick(m_pTransformCom->Get_WorldMatrix());
+    if (nullptr != m_pCollider_WeaponCom)
+        m_pCollider_WeaponCom->Tick(m_pTransformCom->Get_WorldMatrix());
+    if (nullptr != m_pCollider_PushCom)
+        m_pCollider_PushCom->Tick(m_pTransformCom->Get_WorldMatrix());
 }
 
 HRESULT CMonster::Create_UI_Hp()
@@ -456,6 +465,7 @@ void CMonster::Free()
     Safe_Release(m_pFSMCom);
     Safe_Release(m_pNavigationCom);
     Safe_Release(m_pColliderCom);
+    Safe_Release(m_pCollider_PushCom);
     Safe_Release(m_pCollider_WeaponCom);
     //Safe_Release(m_pTargetObject);
 }

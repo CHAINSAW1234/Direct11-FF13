@@ -24,12 +24,12 @@ private:
 	void	Turn(_float fTimeDelta);
 
 private:
-	class CChr_Field* m_pChr_Field = { nullptr };
-	STATE			  m_eState = { STATE_END };
-	_float4			  m_vTargetDirection = { 0.f,0.f,0.f,0.f };
-	_float			  m_fDegree = { 0.f };
-
-
+	class CChr_Field*	m_pChr_Field = { nullptr };
+	STATE				m_eState = { STATE_END };
+	_float4				m_vTargetDirection = { 0.f,0.f,0.f,0.f };
+	_float				m_fDegree = { 0.f };
+	_float				m_fTimeDelta = { 0.f };
+	_float				m_fPrevTimeDelta = { 0.f };
 public:
 	static	CChr_Field_State_Walk* Create(class CChr_Field* pChr_Field);
 	virtual void				  Free() override;

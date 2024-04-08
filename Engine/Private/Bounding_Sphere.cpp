@@ -49,6 +49,18 @@ _bool CBounding_Sphere::IntersectRay(_fvector Origin, _fvector Direction, _Out_ 
 	return m_pBoundingDesc->Intersects(Origin, Direction, Dist);
 }
 
+_float CBounding_Sphere::IntersectDist(CCollider::TYPE eType, CBounding* pBoundingDesc)
+{
+	if(eType != CCollider::TYPE_SPHERE)
+		return 0.f;
+
+	CBounding_Sphere* pBoundingSphereDesc = (CBounding_Sphere*)pBoundingDesc;
+
+	_float fDist = XMVector3Length(XMLoadFloat3(&pBoundingSphereDesc->m_pBoundingDesc->Center) - XMLoadFloat3(&m_pBoundingDesc->Center)).m128_f32[0];
+	fDist = pBoundingSphereDesc->m_pBoundingDesc->Radius  + m_pBoundingDesc->Radius - fDist;
+	return abs(fDist);
+}
+
 #ifdef _DEBUG
 
 HRESULT CBounding_Sphere::Render(PrimitiveBatch<VertexPositionColor>* pBatch)

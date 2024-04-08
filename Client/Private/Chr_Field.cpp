@@ -37,7 +37,7 @@ HRESULT CChr_Field::Initialize(void* pArg)
 
 	GAMEOBJECT_DESC		GameObjectDesc{};
 
-	GameObjectDesc.fSpeedPerSec = 10.f;
+	GameObjectDesc.fSpeedPerSec = 3.f;
 	GameObjectDesc.fRotationPerSec = XMConvertToRadians(360.f);
 
 	if (FAILED(__super::Initialize(&GameObjectDesc)))

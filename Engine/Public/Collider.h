@@ -19,6 +19,7 @@ public:
 	virtual void Tick(_fmatrix WorldMatrix);
 	virtual _bool Intersect(CCollider* pTargetCollider);
 	virtual _bool IntersectRay(_fvector Origin, _fvector Direction, _Out_ float& Dist);
+	virtual _float IntersectDist(CCollider* pTargetCollider);
 #ifdef _DEBUG
 public:
 	HRESULT Render();

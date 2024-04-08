@@ -51,7 +51,7 @@ public:
 
 	CCollider* Get_Collider() { return m_pColliderCom; }
 	CCollider* Get_Collider_Weapon();
-
+	CCollider* Get_Collider_Push() { return m_pCollider_PushCom; }
 	CNavigation* Get_Navigation() { return m_pNavigationCom; }
 	/*============================SET============================*/
 	void Set_ATB_Full() { m_fATB = m_fMaxATB; }
@@ -78,10 +78,9 @@ public:
 	_float Cal_Degree_Target();
 	_float Cal_Dist_Target();
 
-
-	void   Check_Interact_Chr();		// 몸통의 충돌 체크 -> 다른 플레이어 객체 -> 플레이어 캐릭터 밀어냄
-	void   Check_Interact_Monster();	// 몸통의 충돌 체크 -> 상대 객체 -> 몬스터 밀어냄
-
+	void   Check_Interact_Chr(_float fTimeDelta);		// 몸통의 충돌 체크 -> 다른 플레이어 객체 -> 플레이어 캐릭터 밀어냄
+	void   Check_Interact_Monster(_float fTimeDelta);	// 몸통의 충돌 체크 -> 상대 객체 -> 몬스터 밀어냄
+	void   Update_Collider();
 protected:
 	/*===========================생성 관련=====================*/
 	virtual HRESULT Add_Components();
@@ -93,6 +92,7 @@ protected:
 protected:
 	CFSM* m_pFSMCom = { nullptr };
 	CCollider* m_pColliderCom = { nullptr };
+	CCollider* m_pCollider_PushCom = { nullptr };		// 밀기 전용 구 충돌체
 	CNavigation* m_pNavigationCom = { nullptr };
 	CAbility* m_pAbility = { nullptr };
 

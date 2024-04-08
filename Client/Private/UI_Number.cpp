@@ -132,7 +132,7 @@ void CUI_Number::Idle()
 void CUI_Number::Disappear(_float fTimeDelta)
 {
 
-	m_pTransformCom->Go_Up(fTimeDelta * 0.3);
+	m_pTransformCom->Go_Up(fTimeDelta * 0.3f);
 	Update_Position();
 
 	if (m_fTimeDelta >= 1.f) {

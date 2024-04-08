@@ -53,6 +53,8 @@ _bool CBounding_OBB::IntersectRay(_fvector Origin, _fvector Direction, _Out_ flo
 	return m_pBoundingDesc->Intersects(Origin, Direction, Dist);
 }
 
+
+
 #ifdef _DEBUG
 
 HRESULT CBounding_OBB::Render(PrimitiveBatch<VertexPositionColor>* pBatch)

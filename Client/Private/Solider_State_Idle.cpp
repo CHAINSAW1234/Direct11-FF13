@@ -85,12 +85,12 @@ void CSolider_State_Idle::Idle(_float fTimeDelta)
 						Change_State(MOVE_RIGHT);
 						m_pSolider->Change_Animation(CSolider::MOVE_RIGHT_START, false);
 					}
-			}
+				}
 			}
 			else {
 				int irand = rand() % 4 + 1;
 				Change_State(STATE(irand));
-				m_pSolider->Change_Animation(CSolider::ANIMATION_SOLIDER(CSolider::MOVE_BACK_START + 4 * (irand-1)), false);
+				m_pSolider->Change_Animation(CSolider::ANIMATION_SOLIDER(CSolider::MOVE_BACK_START + 4 * (irand - 1)), false);
 
 			}
 		}

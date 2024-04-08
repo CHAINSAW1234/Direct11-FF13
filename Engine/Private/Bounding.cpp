@@ -13,6 +13,11 @@ HRESULT CBounding::Initialize(CBounding::BOUNDING_DESC* pBoundingDesc)
 	return S_OK;
 }
 
+_float CBounding::IntersectDist(CCollider::TYPE eType, CBounding* pBoundingDesc)
+{
+	return 0.f;
+}
+
 HRESULT CBounding::Render(PrimitiveBatch<VertexPositionColor>* pBatch)
 {
 

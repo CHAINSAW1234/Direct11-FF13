@@ -54,11 +54,9 @@ void CChr_Battle::Tick(_float fTimeDelta)
 	m_pFSMCom->Update(fTimeDelta);
 
 	Update_Target();
-	Check_Interact_Chr();
-	Check_Interact_Monster();
-
-	if(nullptr != m_pColliderCom)
-		m_pColliderCom->Tick(m_pTransformCom->Get_WorldMatrix());
+	Update_Collider();
+	Check_Interact_Chr(fTimeDelta);
+	Check_Interact_Monster(fTimeDelta);
 
 	for (auto& pPartObject : m_PartObjects)
 		pPartObject->Tick(fTimeDelta);
@@ -81,6 +79,8 @@ HRESULT CChr_Battle::Render()
 #ifdef _DEBUG
 	if (nullptr != m_pColliderCom)
 		m_pColliderCom->Render();
+	if (nullptr != m_pCollider_PushCom)
+		m_pCollider_PushCom->Render();
 #endif 
 
 	return S_OK;
@@ -351,7 +351,7 @@ _float CChr_Battle::Cal_Dist_Target()
 	return INFINITY;
 }
 
-void CChr_Battle::Check_Interact_Chr()
+void CChr_Battle::Check_Interact_Chr(_float fTimeDelta)
 {
 	_int iSizeChr = (_int)m_pGameInstance->Get_LayerCnt(g_Level, g_strChrLayerTag);
 	for (int i = 0; i < iSizeChr; ++i) {
@@ -368,12 +368,16 @@ void CChr_Battle::Check_Interact_Chr()
 			VectorDir.m128_f32[1] = 0.f;
 			VectorDir = XMVector3Normalize(VectorDir);
 			// ¹Ì´Â ÈûÀº ÈûÀ¸·Î Ã³¸®ÇÔ
-			pChr_Battle->Get_Transform()->Move_To_Direction(VectorDir, (XMVector3Length(m_pTransformCom->Get_LastMovement_Vector()) * 2.f / pChr_Battle->Get_Transform()->Get_SpeedPerSec()).m128_f32[0], pChr_Battle->Get_Navigation());
+			_float fdist = m_pCollider_PushCom->IntersectDist(pChr_Battle->Get_Collider_Push());
+			pChr_Battle->Get_Transform()->Move_To_Direction(VectorDir, fdist / pChr_Battle->Get_Transform()->Get_SpeedPerSec(), pChr_Battle->Get_Navigation());
+			//Update_Collider();
+			pChr_Battle->Update_Collider();
 		}
+		
 	}
 }
 
-void CChr_Battle::Check_Interact_Monster()
+void CChr_Battle::Check_Interact_Monster(_float fTimeDelta)
 {
 	_int iSizeMonster = (_int)m_pGameInstance->Get_LayerCnt(g_Level, g_strMonsterLayerTag);
 	for (int i = 0; i < iSizeMonster; ++i) {
@@ -388,9 +392,20 @@ void CChr_Battle::Check_Interact_Monster()
 			VectorDir.m128_f32[1] = 0.f;
 			VectorDir = XMVector3Normalize(VectorDir);
 			// ¹Ì´Â ÈûÀº ÈûÀ¸·Î Ã³¸®ÇÔ
-			pMonster->Get_Transform()->Move_To_Direction(VectorDir, (XMVector3Length(m_pTransformCom->Get_LastMovement_Vector()) * 2.f / pMonster->Get_Transform()->Get_SpeedPerSec()).m128_f32[0], pMonster->Get_Navigation());
+
+			pMonster->Get_Transform()->Move_To_Direction(VectorDir, m_pCollider_PushCom->IntersectDist(pMonster->Get_Collider_Push()) / pMonster->Get_Transform()->Get_SpeedPerSec(), pMonster->Get_Navigation());
+			//Update_Collider();
+			pMonster->Update_Collider();
 		}
 	}
+}
+
+void CChr_Battle::Update_Collider()
+{
+	if (nullptr != m_pColliderCom)
+		m_pColliderCom->Tick(m_pTransformCom->Get_WorldMatrix());
+	if (nullptr != m_pCollider_PushCom)
+		m_pCollider_PushCom->Tick(m_pTransformCom->Get_WorldMatrix());
 }
 
 void CChr_Battle::Free()
@@ -403,6 +418,7 @@ void CChr_Battle::Free()
 
 	Safe_Release(m_pFSMCom);
 	Safe_Release(m_pColliderCom);
+	Safe_Release(m_pCollider_PushCom);
 	Safe_Release(m_pNavigationCom);
 	Safe_Release(m_pAbility);
 	Safe_Release(m_pTargetObject);

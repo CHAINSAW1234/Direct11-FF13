@@ -6,7 +6,8 @@ BEGIN(Client)
 class CChr_Battle_Light_State_Idle final : public CFSM_State
 {
 	enum STATE { IDLE, HURT, MOVE, ATTACK_READY, TURN, STATE_END };					// TURN 나중에 구현
-	enum MOVEMENT { STRAIGHT, BACKWARD, NEXT, TO_START, MOVEMENT_END} ;
+	enum MOVEMENT { BACKWARD, LEFT, RIGHT, STRAIGHT, MOVEMENT_END};
+
 private:
 	CChr_Battle_Light_State_Idle(class CChr_Battle_Light* pChr_Battle_Light);
 	virtual ~CChr_Battle_Light_State_Idle() = default;
@@ -25,12 +26,12 @@ private:
 	void Move(_float fTimeDelta);
 	void Turn(_float fTimeDelta);
 
-
 	void Change_State(STATE eState);
 	void Change_MovementAnimation();
-	void Update_Movement();
-	_int Check_Movement_Next(FXMVECTOR vTargetPos, FXMVECTOR vLineDir, FXMVECTOR vCurPos);
-
+	void Update_Hurt();
+	_float4 Cal_Line();			// 시작점에서 타겟으로의 직선의 방정식을 구한다
+	_float4 Cal_Dir_Start_To_Target();
+	_float4 Cal_Current_Direction();	// 이동 방향을 계산해서 준다
 private:
 	class CChr_Battle_Light* m_pChr_Battle_Light = { nullptr };
 
@@ -40,21 +41,17 @@ private:
 
 	_float		m_fDegree = { 0.f };
 	_float		m_fDist = { 5.f };
-	_int		m_iNextDir = { 0 };
 
 	_float		m_fTimeDelta = 0.f;
-	_float		m_fTurnCheckTimeDelta = { 0.f };		// 방향 체크용 시간 계산 변수
-	_float		m_fMoveTimeDelta = { 0.f };			// 이동 시간이 너무 길면 안됨 
+//	_float		m_fTurnCheckTimeDelta = { 0.f };		// 방향 체크용 시간 계산 변수
+//	_float		m_fMoveTimeDelta = { 0.f };			// 이동 시간이 너무 길면 안됨 
 
-	_bool		m_isPatternEnable = { true };		// 이동 패턴 실행 여부 -> 공격, 피격시 초기화	-> 피격시에는 앞, 뒤 이동 고정 인듯
-												// false인 경우 Startposition위치에서 있도록 최소한의 Move
-
-	/*
-	_float			m_fDegree = { 0.f };
-	_float			m_fTimeDelta = { 0.f };
-	_float			m_fStateTime = { 0.f };
-	_float			m_fPrevTimeDelta = { 0.f };
-	*/
+	_int		m_iPatternCount = { 0 };			// 랜덤 요소가 포함된 이동의 최대 횟수를 계산, 4번 이상일 경우 startpoint로 이동하게 처리
+	
+	_float		m_fStateTime = { 0.f };
+	_float		m_fPrevTimeDelta = { 0.f };
+	
+	_bool		m_isMoveTurn = { false };
 
 
 public:
@@ -64,3 +61,4 @@ public:
 };
 
 END
+

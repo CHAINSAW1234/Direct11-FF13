@@ -31,6 +31,7 @@ public:
 	/*============================GET============================*/
 	CTransform* Get_Transform() { return m_pTransformCom; }
 	CCollider* Get_Collider() { return m_pColliderCom; }
+	CCollider* Get_Collider_Push() { return m_pCollider_PushCom; }
 	CNavigation* Get_Navigation() { return m_pNavigationCom; }
 	//CChr_Battle* Get_TargetObject() { return m_pTargetObject;  }
 	_float4 Get_StartPosition() { return m_vStartPosition; }
@@ -77,6 +78,7 @@ public:
 	void   Check_Interact_Monster();	// 몸통의 충돌 체크 -> 상대 객체 -> 플레이어 캐릭터 밀어냄
 	void   Check_Interact_Weapon();		// 무기의 충돌 체크 -> 상대 객체 -> 플레이어 캐릭터 피격 판정 주기
 
+	void	Update_Collider();
 protected:
 	HRESULT Create_UI_Hp();
 	virtual void Update_Chain(_float fTimeDelta);
@@ -88,6 +90,7 @@ protected:
 	CFSM*			m_pFSMCom = { nullptr };
 	CCollider*		m_pColliderCom = { nullptr };
 	CCollider*		m_pCollider_WeaponCom = { nullptr };
+	CCollider*		m_pCollider_PushCom = { nullptr };		// 밀기 전용 구 충돌체
 	CChr_Battle*	m_pTargetObject = { nullptr };
 	CNavigation*	m_pNavigationCom = { nullptr };
 

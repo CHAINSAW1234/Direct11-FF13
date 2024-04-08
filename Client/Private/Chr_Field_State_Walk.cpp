@@ -25,9 +25,9 @@ void CChr_Field_State_Walk::OnStateEnter()
 	else {
 		// 각도가 0보다 크면 왼쪽이다
 		if(m_fDegree >= 0)
-			m_pChr_Field->Change_Animation(CChr_Field::WALK_START_WITH_TURN_LEFT, false);
-		else {
 			m_pChr_Field->Change_Animation(CChr_Field::WALK_START_WITH_TURN_RIGHT, false);
+		else {
+			m_pChr_Field->Change_Animation(CChr_Field::WALK_START_WITH_TURN_LEFT, false);
 		}
 		m_eState = TURN;
 	}
@@ -65,7 +65,7 @@ void CChr_Field_State_Walk::OnStateExit()
 
 void CChr_Field_State_Walk::Move(_float fTimeDelta)
 {
-	if (abs(m_fDegree) > 5.f) {
+	if (abs(m_fDegree) > 2.5f) {
 		m_pChr_Field->Get_Transform()->Turn(XMVectorSet(0.f, 1.f, 0.f, 0.f), fTimeDelta * m_fDegree / abs(m_fDegree));
 	}
 
@@ -74,10 +74,11 @@ void CChr_Field_State_Walk::Move(_float fTimeDelta)
 
 void CChr_Field_State_Walk::Turn(_float fTimeDelta)
 {
+	((CModel*)m_pChr_Field->Get_Component(g_strModelTag))->Play_Animation(fTimeDelta); // 도는 속도 2배로 하기 위한 특수 처리
 	// 1.	
-	if ((m_pChr_Field->Get_CurrentTrackPosition() >= 5.f) && (abs(m_fDegree) > 5.f)) {
+	if ((m_pChr_Field->Get_CurrentTrackPosition() >= 5.f) && (abs(m_fDegree) > 2.5f)) {
 		m_pChr_Field->Get_Transform()->Turn(XMVectorSet(0.f, 1.f, 0.f, 0.f), fTimeDelta * m_fDegree / abs(m_fDegree));
-		m_pChr_Field->Get_Transform()->Go_Straight(fTimeDelta/2, m_pChr_Field->Get_Navigation());
+		m_pChr_Field->Get_Transform()->Go_Straight(fTimeDelta, m_pChr_Field->Get_Navigation());
 	}
 
 	if (m_pChr_Field->Get_CurrentTrackPosition() >= 21.f)

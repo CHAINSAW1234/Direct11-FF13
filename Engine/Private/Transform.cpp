@@ -229,7 +229,7 @@ void CTransform::Move_To_Target(_fvector vTargetPos, _float fTimeDelta, _float f
 
 void CTransform::Move_To_Direction(_fvector vDirection, _float fTimeDelta, CNavigation* pNavigation)
 {
-	_vector		vMovement = vDirection * fTimeDelta;
+	_vector		vMovement = vDirection * m_fSpeedPerSec * fTimeDelta;
 	XMStoreFloat4(&m_vLastMovement, vMovement);
 
 	if (nullptr == pNavigation)

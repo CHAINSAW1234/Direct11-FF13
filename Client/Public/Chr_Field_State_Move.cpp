@@ -60,7 +60,7 @@ void CChr_Field_State_Move::OnStateExit()
 
 void CChr_Field_State_Move::Start(_float fTimeDelta)
 {
-	if (abs(m_fDegree) > 5)
+	if (abs(m_fDegree) > 5.f)
 		m_pChr_Field->Get_Transform()->Turn(XMVectorSet(0.f, 1.f, 0.f, 0.f), fTimeDelta * m_fDegree / abs(m_fDegree));
 
 
@@ -73,7 +73,7 @@ void CChr_Field_State_Move::Start(_float fTimeDelta)
 
 void CChr_Field_State_Move::Move(_float fTimeDelta)
 {
-	if (abs(m_fDegree) > 5)
+	if (abs(m_fDegree) > 5.f)
 		m_pChr_Field->Get_Transform()->Turn(XMVectorSet(0.f, 1.f, 0.f, 0.f), fTimeDelta * m_fDegree / abs(m_fDegree));
 
 	m_pChr_Field->Get_Transform()->Go_Straight(fTimeDelta * 3, m_pChr_Field->Get_Navigation());
@@ -92,6 +92,8 @@ void CChr_Field_State_Move::Move(_float fTimeDelta)
 
 void CChr_Field_State_Move::Drift(_float fTimeDelta)
 {
+	((CModel*)m_pChr_Field->Get_Component(g_strModelTag))->Play_Animation(fTimeDelta/3); // 도는 속도 2배로 하기 위한 특수 처리
+
 	if (m_pChr_Field->Get_CurrentTrackPosition() < 7.f)
 		m_pChr_Field->Get_Transform()->Go_Straight(fTimeDelta * 2, m_pChr_Field->Get_Navigation());
 

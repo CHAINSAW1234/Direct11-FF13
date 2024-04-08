@@ -139,6 +139,13 @@ HRESULT CLeopard::Add_Components()
         TEXT("Com_Collider_Weapon"), (CComponent**)&m_pCollider_WeaponCom, &ColliderBone_Desc)))
         return E_FAIL;
 
+    CBounding_Sphere::BOUNDING_SPHERE_DESC ColliderSphereDesc = {};
+    ColliderSphereDesc.fRadius = 1.f;
+    ColliderSphereDesc.vCenter = _float3(0.f, 0.f, 0.f);
+    if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_Collider_Sphere"),
+        TEXT("Com_Collider_Push"), (CComponent**)&m_pCollider_PushCom, &ColliderSphereDesc)))
+        return E_FAIL;
+
     if (FAILED(__super::Add_Components()))
         return E_FAIL;
 

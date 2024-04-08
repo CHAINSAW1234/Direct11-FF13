@@ -58,6 +58,8 @@ void CChr_Battle_Sazh::Tick(_float fTimeDelta)
 	if (m_pGameInstance->Get_KeyState(KEY_DOWN, DIK_6))
 		Change_State(HIT);
 
+
+
 }
 
 HRESULT CChr_Battle_Sazh::Late_Tick(_float fTimeDelta)
@@ -131,6 +133,13 @@ HRESULT CChr_Battle_Sazh::Add_Components()
 
 	if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_Collider_OBB"),
 		TEXT("Com_Collider"), (CComponent**)&m_pColliderCom, &ColliderOBBDesc)))
+		return E_FAIL;
+
+	CBounding_Sphere::BOUNDING_SPHERE_DESC ColliderSphereDesc = {};
+	ColliderSphereDesc.fRadius = .5f;
+	ColliderSphereDesc.vCenter = _float3(0.f, 0.f, 0.f);
+	if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_Collider_Sphere"),
+		TEXT("Com_Collider_Push"), (CComponent**)&m_pCollider_PushCom, &ColliderSphereDesc)))
 		return E_FAIL;
 
 	return S_OK;

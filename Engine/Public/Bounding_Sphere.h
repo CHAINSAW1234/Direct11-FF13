@@ -26,7 +26,7 @@ public:
 	virtual void Tick(_fmatrix WorldMatrix) override;
 	virtual _bool Intersect(CCollider::TYPE eType, CBounding* pBoundingDesc) override;
 	virtual _bool IntersectRay(_fvector Origin, _fvector Direction, _Out_ float& Dist) override;
-
+	virtual _float IntersectDist(CCollider::TYPE eType, CBounding* pBoundingDesc) override;
 #ifdef _DEBUG
 public:
 	virtual HRESULT Render(PrimitiveBatch<VertexPositionColor>* pBatch) override;

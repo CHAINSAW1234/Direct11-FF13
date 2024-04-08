@@ -74,7 +74,7 @@ HRESULT CWarload::Render()
 
 void CWarload::Start()
 {
-    m_pTargetObject = dynamic_cast<CChr_Battle*>(m_pGameInstance->Get_GameObject(g_Level, g_strChrLayerTag, 0));
+    m_pTargetObject = dynamic_cast<CChr_Battle*>(m_pGameInstance->Get_GameObject(g_Level, g_strChrLayerTag, 1));
     m_pNavigationCom->Set_Index(m_pTransformCom->Get_State_Vector(CTransform::STATE_POSITION));
     //Safe_AddRef(m_pTargetObject);
     if (g_Level == LEVEL_BATTLE) {
@@ -153,6 +153,14 @@ HRESULT CWarload::Add_Components()
     if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_Collider_Bone_OBB"),
         TEXT("Com_Collider_Weapon"), (CComponent**)&m_pCollider_WeaponCom, &ColliderBone_Desc)))
         return E_FAIL;
+
+    CBounding_Sphere::BOUNDING_SPHERE_DESC ColliderSphereDesc = {};
+    ColliderSphereDesc.fRadius = .8f;
+    ColliderSphereDesc.vCenter = _float3(0.f, 0.f, 0.f);
+    if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_Collider_Sphere"),
+        TEXT("Com_Collider_Push"), (CComponent**)&m_pCollider_PushCom, &ColliderSphereDesc)))
+        return E_FAIL;
+
 
     if (FAILED(__super::Add_Components()))
         return E_FAIL;
