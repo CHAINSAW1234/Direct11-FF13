@@ -35,7 +35,7 @@ private:
 	_float			m_fTimeDelta = { 0.f };
 	_float			m_fStateTime = { 0.f };
 	_float			m_fPrevTimeDelta = { 0.f };
-
+	_bool			m_isMoveTurn = { false };
 public:
 	static	CSolider_State_Idle* Create(class CSolider* pSolider);
 	virtual void Free() override;

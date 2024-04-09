@@ -106,9 +106,8 @@ HRESULT CLevel_Field_Boss::Create_MapObject(const wstring strModelTag, _float4x4
 
 HRESULT CLevel_Field_Boss::Ready_Layer_Camera(const wstring& strLayerTag)
 {
-	CCamera_Field::CAMERA_FIELD_DESC		CameraDesc{};
+	CCamera::CAMERA_DESC		CameraDesc{};
 
-	CameraDesc.fMouseSensor = 0.1f;
 	CameraDesc.fFovy = XMConvertToRadians(60.0f);
 	CameraDesc.fAspect = (_float)g_iWinSizeX / g_iWinSizeY;
 	CameraDesc.fNear = 0.1f;

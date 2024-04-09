@@ -179,26 +179,88 @@ void CChr_Battle_Light::Set_Command(deque<pair<CRole::SKILL, _int>>* pCommand)
     m_pFSMCom->Change_State(PREPARE);
 }
 
+void CChr_Battle_Light::Update_Target()
+{
+    if (nullptr == m_pTargetObject) {
+        return;
+    }
+
+    if (m_pTargetObject->Get_Dead()) {
+        size_t iNumCnt = m_pGameInstance->Get_LayerCnt(g_Level, g_strMonsterLayerTag);
+        if (iNumCnt == 0 || iNumCnt  == 1)
+            return;
+        while (1) {
+            CGameObject* pGameObject = m_pGameInstance->Get_GameObject(g_Level, g_strMonsterLayerTag, rand() % iNumCnt);
+            if (pGameObject->Get_Dead() == false) {
+                Set_Target(pGameObject);
+                ((CMonster*)m_pTargetObject)->Set_isTarget(true);
+                return;
+            }
+        }
+    }
+
+   
+}
+
 void CChr_Battle_Light::Set_Hit(_int iDamage)
 {
     if (m_eState == DEAD)
         return;
 
     Min_Hp(iDamage);
-    Create_Damage(iDamage);
+    Create_UI_Number(CUI_Number::DAMAGE, iDamage);
 
     if (m_eState == ATTACK) {
         Lost_Command();
     }
-
+    Change_State(HIT);
     if (m_iHp <= 0) {
         Change_State(DEAD);
     }
-    Change_State(HIT);
+
 }
 
 void CChr_Battle_Light::Use_Item()
 {
+    switch (m_eItem) {
+    case CInventory::POTION:
+    {
+        size_t iNumCnt = m_pGameInstance->Get_LayerCnt(g_Level, g_strChrLayerTag);
+        for (size_t i = 0; i < iNumCnt; ++i) {
+            CChr_Battle* pChr_Battle = (CChr_Battle*)m_pGameInstance->Get_GameObject(g_Level, g_strChrLayerTag, i);
+            pChr_Battle->Add_Hp(150);
+            if (pChr_Battle->Get_Hp() != 0)
+                pChr_Battle->Create_UI_Number(CUI_Number::HEAL, 150);
+        }
+
+    }
+    break;
+    case CInventory::PHOENIX_DOWN:
+    {
+        CChr_Battle* pChr_Battle = dynamic_cast<CChr_Battle*>(m_pTargetObject);
+        if (nullptr != pChr_Battle) {
+            if (pChr_Battle->Get_Hp() == 0) {
+                pChr_Battle->Revive();
+                pChr_Battle->Create_UI_Number(CUI_Number::HEAL, (int)(pChr_Battle->Get_MaxHp() * 0.7f));
+            }
+        }
+
+    }
+    break;
+    case CInventory::SPECIAL_ITEM:
+    {
+        size_t iNumCnt = m_pGameInstance->Get_LayerCnt(g_Level, g_strChrLayerTag);
+        for (size_t i = 0; i < iNumCnt; ++i) {
+            CChr_Battle* pChr_Battle = (CChr_Battle*)m_pGameInstance->Get_GameObject(g_Level, g_strChrLayerTag, i);
+            _int iHp = pChr_Battle->Get_Hp();
+            _int iMaxHp = pChr_Battle->Get_MaxHp();
+            pChr_Battle->Add_Hp(iMaxHp - iHp);
+            if (pChr_Battle->Get_Hp() != 0)
+                pChr_Battle->Create_UI_Number(CUI_Number::HEAL, iMaxHp - iHp);
+        }
+    }
+    break;
+    }
     m_eItem = CInventory::ITEM_END;
 }
 

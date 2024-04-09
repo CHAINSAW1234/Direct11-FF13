@@ -40,11 +40,7 @@ private:
 	_bool		m_isHurt = { false };
 
 	_float		m_fDegree = { 0.f };
-	_float		m_fDist = { 5.f };
-
 	_float		m_fTimeDelta = 0.f;
-//	_float		m_fTurnCheckTimeDelta = { 0.f };		// 방향 체크용 시간 계산 변수
-//	_float		m_fMoveTimeDelta = { 0.f };			// 이동 시간이 너무 길면 안됨 
 
 	_int		m_iPatternCount = { 0 };			// 랜덤 요소가 포함된 이동의 최대 횟수를 계산, 4번 이상일 경우 startpoint로 이동하게 처리
 	

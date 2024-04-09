@@ -39,7 +39,7 @@ HRESULT CChr_Battle_Sazh::Initialize(void* pArg)
 {
 	GAMEOBJECT_DESC		GameObjectDesc{};
 
-	GameObjectDesc.fSpeedPerSec = 10.f;
+	GameObjectDesc.fSpeedPerSec = 3.f;
 	GameObjectDesc.fRotationPerSec = XMConvertToRadians(360.f);
 
 	if (FAILED(__super::Initialize(&GameObjectDesc)))
@@ -55,11 +55,6 @@ void CChr_Battle_Sazh::Tick(_float fTimeDelta)
 {
 	__super::Tick(fTimeDelta);
 	Update_Command();
-	if (m_pGameInstance->Get_KeyState(KEY_DOWN, DIK_6))
-		Change_State(HIT);
-
-
-
 }
 
 HRESULT CChr_Battle_Sazh::Late_Tick(_float fTimeDelta)
@@ -68,7 +63,7 @@ HRESULT CChr_Battle_Sazh::Late_Tick(_float fTimeDelta)
 		return E_FAIL;
 
 	// юс╫ц
-	m_pGameInstance->Add_RenderGroup(CRenderer::RENDER_UI, this);
+	m_pGameInstance->Add_RenderGroup(CRenderer::RENDER_NONBLEND, this);
 	return S_OK;
 }
 
@@ -86,7 +81,9 @@ HRESULT CChr_Battle_Sazh::Render()
 
 void CChr_Battle_Sazh::Start()
 {
-	m_isAttackable = vector<int>(m_pGameInstance->Get_LayerCnt(g_Level, g_strMonsterLayerTag), true);
+	m_iMaxHp = m_iHp = 320;
+	m_iDamage = 10;
+
 	Set_Target(m_pGameInstance->Get_GameObject(g_Level, g_strMonsterLayerTag, 0));
 	m_pTransformCom->Look_At_ForLandObject(((CTransform*)m_pTargetObject->Get_Component(g_strTransformTag))->Get_State_Vector(CTransform::STATE_POSITION));
 	m_pNavigationCom->Set_Index(m_pTransformCom->Get_State_Vector(CTransform::STATE_POSITION));
@@ -115,6 +112,19 @@ void CChr_Battle_Sazh::Change_Role(CAbility::ROLE eRole)
 void CChr_Battle_Sazh::Set_State_Battle_Finish()
 {
 	Change_State(FINISH);
+}
+
+void CChr_Battle_Sazh::Set_Hit(_int iDamage)
+{
+	if (m_eState == DEAD)
+		return;
+
+	Min_Hp(iDamage);
+	Create_UI_Number(CUI_Number::DAMAGE, iDamage);
+	Change_State(HIT);
+	if (m_iHp <= 0) {
+		Change_State(DEAD);
+	}
 }
 
 HRESULT CChr_Battle_Sazh::Add_Components()
@@ -199,7 +209,6 @@ HRESULT CChr_Battle_Sazh::Add_PartObjects()
 		return E_FAIL;
 
 	m_PartObjects.push_back(pWeaponObject);
-
 
 	return S_OK;
 }

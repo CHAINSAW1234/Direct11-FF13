@@ -253,17 +253,23 @@ void CMonster::Set_Hit(_int iDamage)
 {
 }
 
-void CMonster::Create_Damage(_int iDamage)
+void CMonster::Create_UI_Number(CUI_Number::TYPE eType, _int iNum)
 {
     CUI_Number::UI_NUMBER_DESC UI_Number_desc = {};
-    UI_Number_desc.eType = CUI_Number::DAMAGE;
-    if(m_isBreak)
-        UI_Number_desc.eType = CUI_Number::CRITICAL;
-    UI_Number_desc.iNumber = iDamage;
+    UI_Number_desc.eType = eType;
+    UI_Number_desc.iNumber = iNum;
     UI_Number_desc.vPosition = m_pTransformCom->Get_State_Float4(CTransform::STATE_POSITION);
 
     if (FAILED(m_pGameInstance->Add_Clone(g_Level, TEXT("Layer_UI"), TEXT("Prototype_GameObject_UI_Number"), &UI_Number_desc)))
         return;
+}
+
+void CMonster::Create_Damage(_int iDamage)
+{
+    if (m_isBreak)
+        Create_UI_Number(CUI_Number::CRITICAL, iDamage);
+    else
+        Create_UI_Number(CUI_Number::DAMAGE, iDamage);
 }
 
 void CMonster::Check_Interact_Chr()

@@ -68,6 +68,7 @@ public:
 	virtual void Change_Role(CAbility::ROLE eRole) override;
 
 	/*============================기타============================*/
+	virtual void Update_Target();									// 타겟 사망시 변경
 	virtual void Set_Hit(_int iDamage);
 	void   Check_Interact_Weapon();			// 무기의 충돌 체크 -> 상대 객체 -> 몬스터 피격 판정 주기 -> 타겟 객체만
 	void   Check_Interact_Weapon_Multi();	// 무기의 충돌 체크 -> 상대 객체 -> 몬스터 피격 판정 주기 -> 주변 모든 객체

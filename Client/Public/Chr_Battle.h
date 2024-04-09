@@ -3,6 +3,7 @@
 #include "GameObject.h"
 #include "Ability.h"
 #include "Observer_Handler.h"
+#include "UI_Number.h"
 
 BEGIN(Engine)
 class CFSM;
@@ -33,7 +34,7 @@ public:
 	wstring		Get_Name() { return m_strChrName; }
 	_int		Get_Hp() { return m_iHp; }
 	_int		Get_MaxHp() { return m_iMaxHp; }
-	_float		Get_ATB() { return m_fATB; }
+ 	_float		Get_ATB() { return m_fATB; }
 	_float		Get_MaxATB() { return m_fMaxATB; }
 	_int		Get_Attack() { return m_iDamage; }
 	CAbility*	Get_Ability() { return m_pAbility; }
@@ -63,12 +64,14 @@ public:
 	virtual void Set_State_Battle_Finish();
 
 	virtual void Set_Hit(_int iDamage);								// 피격 상태로 변경
-	void Create_Damage(_int iDamage);
+	void Create_UI_Number(CUI_Number::TYPE eType, _int iNum);
 	/*============================기타============================*/
 	void Add_Hp(_int iHp);
 	void Min_Hp(_int iHp);
+	void Revive();
 	void Update_ATB(_float fTimeDelta);
-	void Update_Target();
+	virtual void Update_Target();									// 타겟 사망시 변경
+	void Change_Target();									// 공격시 일정 확률로 변경 -> AI전용
 	virtual void Change_Role(CAbility::ROLE eRole);
 	virtual void Use_Command();
 	virtual CRole::SKILL Get_Current_Command();

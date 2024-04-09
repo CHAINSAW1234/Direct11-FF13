@@ -7,14 +7,7 @@ BEGIN(Client)
 
 class CCamera_Field final : public CCamera
 {
-	const _float fDirection[3] = { 1,2,3 };	// 최소, 기본, 최대 거리 지정 
 	const _float fInertiaTime = 0.5;
-
-public:
-	typedef struct Camera_Field_Desc : public CCamera::CAMERA_DESC
-	{
-		_float		fMouseSensor = { 0.0f };
-	}CAMERA_FIELD_DESC;
 
 private:
 	CCamera_Field(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);
@@ -33,8 +26,9 @@ public:
 
 private:
 	CGameObject*	m_pTargetObject = { nullptr };
-	_float			m_fMouseSensor = { 0.0f };
-	_float			m_fDist = { 3.f };
+	_float			m_fMouseSensor = { 0.1f };
+	_float			m_fDist = { 2.f };
+	_float			m_fYOffset = { 1.5f };
 
 	_long			m_MouseMoveX = { 0 };
 	_long			m_MouseMoveY = { 0 };

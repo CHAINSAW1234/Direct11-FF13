@@ -23,6 +23,7 @@ private:
 private:
 	class CChr_Battle_Sazh* m_pChr_Battle_Sazh = { nullptr };
 	_bool					m_isCommandFinish = { false };
+
 public:
 	static	CChr_Battle_Sazh_State_Skill* Create(class CChr_Battle_Sazh* pChr_Battle_Light);
 	virtual void Free() override;

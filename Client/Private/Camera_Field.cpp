@@ -23,9 +23,6 @@ HRESULT CCamera_Field::Initialize(void* pArg)
 	if (nullptr == pArg)
 		return E_FAIL;
 
-	CAMERA_FIELD_DESC* pCameraFree = (CAMERA_FIELD_DESC*)pArg;
-	m_fMouseSensor = pCameraFree->fMouseSensor;
-
 	if (FAILED(__super::Initialize(pArg)))
 		return E_FAIL;
 
@@ -37,25 +34,6 @@ void CCamera_Field::Tick(_float fTimeDelta)
 {
 	// 테스트를 위해서 LBUtton안으로 전체 넣기
 	Update_With_Mouse(fTimeDelta);
-
-
-	//if (m_pGameInstance->Get_KeyState(KEY_PRESS, DIK_A))
-	//	m_pTransformCom->Go_Left(fTimeDelta);
-
-	//if (m_pGameInstance->Get_KeyState(KEY_PRESS, DIK_D))
-	//	m_pTransformCom->Go_Right(fTimeDelta);
-
-	//if (m_pGameInstance->Get_KeyState(KEY_PRESS, DIK_W))
-	//	m_pTransformCom->Go_Straight(fTimeDelta);
-
-	//if (m_pGameInstance->Get_KeyState(KEY_PRESS, DIK_S))
-	//	m_pTransformCom->Go_Backward(fTimeDelta);
-
-	//if (m_pGameInstance->Get_KeyState(KEY_PRESS, DIK_T))
-	//	m_pTransformCom->Go_Up(fTimeDelta);
-
-	//if (m_pGameInstance->Get_KeyState(KEY_PRESS, DIK_G))
-	//	m_pTransformCom->Go_Down(fTimeDelta);
 
 	if (m_pGameInstance->Get_DIMouseState(DIMKS_LBUTTON)) {
 		_long	MouseMove = { 0 };
@@ -98,7 +76,7 @@ void CCamera_Field::Update_With_Mouse(_float fTimeDelta)
 	//Set_CursorPos();
 
 	_vector vTargetPosition = dynamic_cast<CTransform*>(m_pTargetObject->Get_Component(g_strTransformTag))->Get_State_Vector(CTransform::STATE_POSITION);
-	vTargetPosition.m128_f32[1] += 1; // temp
+	vTargetPosition.m128_f32[1] += m_fYOffset; // temp
 	_long MouseMove = { 0 };
 
 	if (MouseMove = m_pGameInstance->Get_DIMouseMove(DIMMS_X))
@@ -127,12 +105,9 @@ void CCamera_Field::Update_With_Mouse(_float fTimeDelta)
 		}
 	}
 
-
 	// y축 각도 제한 걸기
 	// y축 거리 차이가 fDist / sqrt(2)인 경우에만 작동
-	m_pTransformCom->Turn_With_Look_At(m_pTransformCom->Get_State_Vector(CTransform::STATE_RIGHT), vTargetPosition, m_fDist, fTimeDelta * sin(XMConvertToRadians(m_fMouseMoveYAxis)) * m_MouseMoveY * m_fMouseSensor, 60);
-
-
+	m_pTransformCom->Turn_With_Look_At(m_pTransformCom->Get_State_Vector(CTransform::STATE_RIGHT), vTargetPosition, m_fDist, fTimeDelta * sin(XMConvertToRadians(m_fMouseMoveYAxis)) * m_MouseMoveY * m_fMouseSensor, XMConvertToDegrees(asin(m_fYOffset / m_fDist)));
 
 }
 

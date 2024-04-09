@@ -15,7 +15,6 @@ void CChr_Field_State_Walk::OnStateEnter()
 	// 1. Chr_Field의 Look벡터구하고, y값 없애서 정규화
 	// 2. 키 입력 값으로 방향 결정, 그 방향과 Look백터로 각도 구하기
 	m_fDegree = Cal_Degree_From_Directions_Between_Min180_To_180(m_pChr_Field->Get_Look(), m_vTargetDirection);
-	
 
 	// 1. -30 ~ 30도는 단순 회전으로 처리
 	if (abs(m_fDegree) < 45) {
@@ -65,7 +64,7 @@ void CChr_Field_State_Walk::OnStateExit()
 
 void CChr_Field_State_Walk::Move(_float fTimeDelta)
 {
-	if (abs(m_fDegree) > 2.5f) {
+	if (abs(m_fDegree) > 5.f) {
 		m_pChr_Field->Get_Transform()->Turn(XMVectorSet(0.f, 1.f, 0.f, 0.f), fTimeDelta * m_fDegree / abs(m_fDegree));
 	}
 
@@ -76,7 +75,7 @@ void CChr_Field_State_Walk::Turn(_float fTimeDelta)
 {
 	((CModel*)m_pChr_Field->Get_Component(g_strModelTag))->Play_Animation(fTimeDelta); // 도는 속도 2배로 하기 위한 특수 처리
 	// 1.	
-	if ((m_pChr_Field->Get_CurrentTrackPosition() >= 5.f) && (abs(m_fDegree) > 2.5f)) {
+	if ((m_pChr_Field->Get_CurrentTrackPosition() >= 5.f) && (abs(m_fDegree) > 5.f)) {
 		m_pChr_Field->Get_Transform()->Turn(XMVectorSet(0.f, 1.f, 0.f, 0.f), fTimeDelta * m_fDegree / abs(m_fDegree));
 		m_pChr_Field->Get_Transform()->Go_Straight(fTimeDelta, m_pChr_Field->Get_Navigation());
 	}

@@ -391,6 +391,33 @@
     <Filter Include="01.Levels\Boss_Battle">
       <UniqueIdentifier>{c1de3147-ed90-458c-99b5-39157b4ce6f3}</UniqueIdentifier>
     </Filter>
+    <Filter Include="02.GameObjects\Chr\Chr_Battle\Vanila\State">
+      <UniqueIdentifier>{ea366692-4ec1-4df8-9345-ceca7379c2a2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\Chr\Chr_Battle\Vanila\State\Chr_Battle_Vanila_State_Hit">
+      <UniqueIdentifier>{4d19da5d-eced-4b97-aca2-11aed82623be}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\Chr\Chr_Battle\Vanila\State\Chr_Battle_Vanila_State_Optima">
+      <UniqueIdentifier>{9a82730a-2792-4b3c-b328-087e0b1cd678}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\Chr\Chr_Battle\Vanila\State\Chr_Battle_Vanila_State_Finish">
+      <UniqueIdentifier>{30fa4191-15b8-4564-8f93-643b4ae73ef4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\Chr\Chr_Battle\Vanila\State\Chr_Battle_Vanila_State_Dead">
+      <UniqueIdentifier>{d43290d5-ea34-4d71-b6cb-9d6a39d05e41}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\Chr\Chr_Battle\Vanila\State\Chr_Battle_Vanila_State_Heal">
+      <UniqueIdentifier>{f97d0967-54f8-4f37-938a-59e37f34948b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\Chr\Chr_Battle\Vanila\State\Chr_Battle_Vanila_State_Skill">
+      <UniqueIdentifier>{7e860605-e37b-4ab9-af88-cfa9b0329014}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\Chr\Chr_Battle\Vanila\State\Chr_Battle_Vanila_State_Idle">
+      <UniqueIdentifier>{979e2cbc-7705-4b7f-a733-66e130e1d80f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\Camera\Camera_Battle">
+      <UniqueIdentifier>{ef6611eb-93bc-46f9-b37e-65cea77293bf}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\public\MainApp.h">
@@ -771,6 +798,30 @@
     <ClInclude Include="..\Public\Level_Boss_Battle.h">
       <Filter>01.Levels\Boss_Battle</Filter>
     </ClInclude>
+    <ClInclude Include="..\Public\Chr_Battle_Vanila_State_Idle.h">
+      <Filter>02.GameObjects\Chr\Chr_Battle\Vanila\State\Chr_Battle_Vanila_State_Idle</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\Chr_Battle_Vanila_State_Skill.h">
+      <Filter>02.GameObjects\Chr\Chr_Battle\Vanila\State\Chr_Battle_Vanila_State_Skill</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\Chr_Battle_Vanila_State_Dead.h">
+      <Filter>02.GameObjects\Chr\Chr_Battle\Vanila\State\Chr_Battle_Vanila_State_Dead</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\Chr_Battle_Vanila_State_Finish.h">
+      <Filter>02.GameObjects\Chr\Chr_Battle\Vanila\State\Chr_Battle_Vanila_State_Finish</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\Chr_Battle_Vanila_State_Heal.h">
+      <Filter>02.GameObjects\Chr\Chr_Battle\Vanila\State\Chr_Battle_Vanila_State_Heal</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\Chr_Battle_Vanila_State_Optima.h">
+      <Filter>02.GameObjects\Chr\Chr_Battle\Vanila\State\Chr_Battle_Vanila_State_Optima</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\Chr_Battle_Vanila_State_Hit.h">
+      <Filter>02.GameObjects\Chr\Chr_Battle\Vanila\State\Chr_Battle_Vanila_State_Hit</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\Camera_Battle.h">
+      <Filter>02.GameObjects\Camera\Camera_Battle</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\private\MainApp.cpp">
@@ -865,9 +916,6 @@
     </ClCompile>
     <ClCompile Include="..\Private\Chr_Field_State_Idle.cpp">
       <Filter>02.GameObjects\Chr\Chr_Field\State\Chr_Field_State_Idle</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Public\Chr_Field_State_Move.cpp">
-      <Filter>02.GameObjects\Chr\Chr_Field\State\Chr_Field_State_Move</Filter>
     </ClCompile>
     <ClCompile Include="..\Private\Chr_Field_State_Walk.cpp">
       <Filter>02.GameObjects\Chr\Chr_Field\State\Chr_Field_State_Walk</Filter>
@@ -1132,6 +1180,33 @@
     </ClCompile>
     <ClCompile Include="..\Private\Level_Boss_Battle.cpp">
       <Filter>01.Levels\Boss_Battle</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Chr_Battle_Vanila_State_Idle.cpp">
+      <Filter>02.GameObjects\Chr\Chr_Battle\Vanila\State\Chr_Battle_Vanila_State_Idle</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Chr_Field_State_Move.cpp">
+      <Filter>02.GameObjects\Chr\Chr_Field\State\Chr_Field_State_Move</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Chr_Battle_Vanila_State_Skill.cpp">
+      <Filter>02.GameObjects\Chr\Chr_Battle\Vanila\State\Chr_Battle_Vanila_State_Skill</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Chr_Battle_Vanila_State_Dead.cpp">
+      <Filter>02.GameObjects\Chr\Chr_Battle\Vanila\State\Chr_Battle_Vanila_State_Dead</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Chr_Battle_Vanila_State_Finish.cpp">
+      <Filter>02.GameObjects\Chr\Chr_Battle\Vanila\State\Chr_Battle_Vanila_State_Finish</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Chr_Battle_Vanila_State_Heal.cpp">
+      <Filter>02.GameObjects\Chr\Chr_Battle\Vanila\State\Chr_Battle_Vanila_State_Heal</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Chr_Battle_Vanila_State_Optima.cpp">
+      <Filter>02.GameObjects\Chr\Chr_Battle\Vanila\State\Chr_Battle_Vanila_State_Optima</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Chr_Battle_Vanila_State_Hit.cpp">
+      <Filter>02.GameObjects\Chr\Chr_Battle\Vanila\State\Chr_Battle_Vanila_State_Hit</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Camera_Battle.cpp">
+      <Filter>02.GameObjects\Camera\Camera_Battle</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

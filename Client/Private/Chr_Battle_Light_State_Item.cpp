@@ -9,6 +9,8 @@ CChr_Battle_Light_State_Item::CChr_Battle_Light_State_Item(CChr_Battle_Light* pC
 
 void CChr_Battle_Light_State_Item::OnStateEnter()
 {
+	if(!XMVector3Equal(m_pChr_Battle_Light->Get_Transform()->Get_State_Vector(CTransform::STATE_POSITION), XMLoadFloat4(&m_pChr_Battle_Light->Get_Target_Position())))
+		m_pChr_Battle_Light->Get_Transform()->Look_At_ForLandObject(XMLoadFloat4(&m_pChr_Battle_Light->Get_Target_Position()));
 	m_pChr_Battle_Light->Change_Animation(CChr_Battle_Light::ITEM_SELF, false);
 }
 

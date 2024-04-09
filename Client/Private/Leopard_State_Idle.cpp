@@ -45,13 +45,24 @@ void CLeopard_State_Idle::Idle(_float fTimeDelta)
 
 	if (m_fTimeDelta >= m_fStateTime) {
 		if (abs(m_fDegree) < 45.f) {
-			if (rand() % 2) {
+			_float fDist = m_pLeopard->Cal_Dist_Target();
+			if (fDist <= 3.f) {
+				Change_State(MOVE_BACK);
+				m_pLeopard->Change_Animation(CLeopard::MOVE_BACK_START, false);
+			}
+			else if (fDist >= 10.f) {
 				Change_State(MOVE);
 				m_pLeopard->Change_Animation(CLeopard::MOVE_STRAIGHT_START, false);
 			}
 			else {
-				Change_State(MOVE_BACK);
-				m_pLeopard->Change_Animation(CLeopard::MOVE_BACK_START, false);
+				if (rand() % 2) {
+					Change_State(MOVE);
+					m_pLeopard->Change_Animation(CLeopard::MOVE_STRAIGHT_START, false);
+				}
+				else {
+					Change_State(MOVE_BACK);
+					m_pLeopard->Change_Animation(CLeopard::MOVE_BACK_START, false);
+				}
 			}
 		}
 		else {
@@ -88,12 +99,14 @@ void CLeopard_State_Idle::Move(_float fTimeDelta)
 			m_pLeopard->Change_Animation(CLeopard::MOVE_STRAIGHT_STOP_LEFT, false);
 			Change_State(IDLE);
 		}
-
 		else if (round(m_pLeopard->Get_CurrentTrackPosition()) == 27.f) {
 			m_pLeopard->Change_Animation(CLeopard::MOVE_STRAIGHT_STOP_RIGHT, false);
 			Change_State(IDLE);
 		}
 	}
+
+	if (2.f >= m_pLeopard->Cal_Dist_Target())
+		m_fTimeDelta = m_fStateTime;
 
 	if (m_pLeopard->Is_Animation_Finished()) {
 		m_pLeopard->Change_Animation(CLeopard::MOVE_STRAIGHT_IDLE, true);
@@ -115,6 +128,9 @@ void CLeopard_State_Idle::Move_Back(_float fTimeDelta)
 			Change_State(IDLE);
 		}
 	}
+
+	if (10.f <= m_pLeopard->Cal_Dist_Target())
+		m_fTimeDelta = m_fStateTime;
 
 	if (m_pLeopard->Is_Animation_Finished()) {
 		m_pLeopard->Change_Animation(CLeopard::MOVE_BACK_IDLE, true);

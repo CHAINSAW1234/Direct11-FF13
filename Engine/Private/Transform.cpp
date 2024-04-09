@@ -79,7 +79,7 @@ void CTransform::Go_Straight(_float fTimeDelta, CNavigation* pNavigation)
 		else {
 			// 슬라이딩 백터 처리
 			_vector vSliding = XMLoadFloat4(&pNavigation->Sliding(vPosition + vMovement, vMovement));
-			Move_To_Direction(vSliding, 1.f, pNavigation);
+			Move_To_Direction(vSliding, fTimeDelta, pNavigation);
 		}
 	}
 }
@@ -103,7 +103,7 @@ void CTransform::Go_Backward(_float fTimeDelta, CNavigation* pNavigation)
 		else {
 			// 슬라이딩 백터 처리
 			_vector vSliding = XMLoadFloat4(&pNavigation->Sliding(vPosition + vMovement, vMovement));
-			Move_To_Direction(vSliding, 1.f, pNavigation);
+			Move_To_Direction(vSliding, fTimeDelta, pNavigation);
 		}
 	}
 }
@@ -125,7 +125,7 @@ void CTransform::Go_Left(_float fTimeDelta, CNavigation* pNavigation)
 		else {
 			// 슬라이딩 백터 처리
 			_vector vSliding = XMLoadFloat4(&pNavigation->Sliding(vPosition + vMovement, vMovement));
-			Move_To_Direction(vSliding, 1.f, pNavigation);
+			Move_To_Direction(vSliding, fTimeDelta, pNavigation);
 		}
 	}
 }
@@ -147,7 +147,7 @@ void CTransform::Go_Right(_float fTimeDelta, CNavigation* pNavigation)
 		else {
 			// 슬라이딩 백터 처리
 			_vector vSliding = XMLoadFloat4(&pNavigation->Sliding(vPosition + vMovement, vMovement));
-			Move_To_Direction(vSliding, 1.f, pNavigation);
+			Move_To_Direction(vSliding, fTimeDelta, pNavigation);
 		}
 	}
 }
@@ -229,7 +229,8 @@ void CTransform::Move_To_Target(_fvector vTargetPos, _float fTimeDelta, _float f
 
 void CTransform::Move_To_Direction(_fvector vDirection, _float fTimeDelta, CNavigation* pNavigation)
 {
-	_vector		vMovement = vDirection * m_fSpeedPerSec * fTimeDelta;
+	
+	_vector		vMovement = XMVector3Normalize(vDirection) * m_fSpeedPerSec * fTimeDelta;
 	XMStoreFloat4(&m_vLastMovement, vMovement);
 
 	if (nullptr == pNavigation)

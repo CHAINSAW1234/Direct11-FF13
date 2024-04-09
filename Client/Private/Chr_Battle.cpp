@@ -8,7 +8,6 @@
 #include "Body.h"
 #include "Ability.h"
 #include "Weapon_Anim.h"
-#include "UI_Number.h"
 #include "Monster.h"
 
 CChr_Battle::CChr_Battle(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
@@ -171,6 +170,9 @@ CCollider* CChr_Battle::Get_Collider_Weapon()
 
 void CChr_Battle::Add_Hp(_int iHp)
 {
+	if (m_iHp == 0) {
+		return;
+	}
 	m_iHp += iHp;
 	m_iHp = min(m_iHp, m_iMaxHp);
 	NotifyObserver();
@@ -180,6 +182,13 @@ void CChr_Battle::Min_Hp(_int iHp)
 {
 	m_iHp -= iHp;
 	m_iHp = max(m_iHp, 0);
+	NotifyObserver();
+}
+
+void CChr_Battle::Revive()
+{
+	m_iHp += m_iMaxHp * 0.7;
+	m_iHp = min(m_iHp, m_iMaxHp);
 	NotifyObserver();
 }
 
@@ -217,11 +226,11 @@ void CChr_Battle::Set_Hit(_int iDamage)
 {
 }
 
-void CChr_Battle::Create_Damage(_int iDamage)
+void CChr_Battle::Create_UI_Number(CUI_Number::TYPE eType, _int iNum)
 {
 	CUI_Number::UI_NUMBER_DESC UI_Number_desc = {};
-	UI_Number_desc.eType = CUI_Number::HIT;
-	UI_Number_desc.iNumber = iDamage;
+	UI_Number_desc.eType = eType;
+	UI_Number_desc.iNumber = iNum;
 	UI_Number_desc.vPosition = m_pTransformCom->Get_State_Float4(CTransform::STATE_POSITION);
 
 	if (FAILED(m_pGameInstance->Add_Clone(g_Level, TEXT("Layer_UI"), TEXT("Prototype_GameObject_UI_Number"), &UI_Number_desc)))
@@ -242,12 +251,27 @@ void CChr_Battle::Update_Target()
 	}
 
 	if (m_pTargetObject->Get_Dead()) {
-		Safe_Release(m_pTargetObject);
-		m_pTargetObject = m_pGameInstance->Get_GameObject(g_Level, g_strMonsterLayerTag, 0);
+		size_t iNumCnt = m_pGameInstance->Get_LayerCnt(g_Level, g_strMonsterLayerTag);
+		if (iNumCnt == 0 || iNumCnt == 1)
+			return;
+		while (1) {
+			CGameObject* pGameObject = m_pGameInstance->Get_GameObject(g_Level, g_strMonsterLayerTag, rand() % iNumCnt);
+			if (pGameObject->Get_Dead() == false) {
+				Set_Target(pGameObject);
+				return;
+			}
+		}
+	}
+}
 
-		if (nullptr != m_pTargetObject) {
-			Safe_AddRef(m_pTargetObject);
-			((CMonster*)m_pTargetObject)->Set_isTarget(true);
+void CChr_Battle::Change_Target()
+{
+	size_t iNumCnt = m_pGameInstance->Get_LayerCnt(g_Level, g_strChrLayerTag);
+	while (1) {
+		CGameObject* pGameObject = m_pGameInstance->Get_GameObject(g_Level, g_strMonsterLayerTag, rand() % iNumCnt);
+		if (pGameObject->Get_Dead() == false) {
+			Set_Target(pGameObject);
+			return;
 		}
 	}
 

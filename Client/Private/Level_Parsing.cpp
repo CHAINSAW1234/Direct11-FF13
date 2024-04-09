@@ -86,14 +86,12 @@ HRESULT CLevel_Parsing::Ready_Models()
 	
 	_matrix		TransformMatrix = XMMatrixIdentity();
 
-	/* Prototype_Component_Model_Fiona */
-
 	//TransformMatrix = XMMatrixRotationY(XMConvertToRadians(180.0f));
 	//TransformMatrix.r[3].m128_f32[1] = -5.f;
 
-	path = "../Bin/Resources/Models/MapObject/MapNavi/Map_Boss_Battle_Navi.fbx";
+	path = "../Bin/Resources/Models/Chr/Vanila/Weapon/Vanila_Weapon.fbx";
 	CModel* pModel = { nullptr };
-	pModel = CModel::Create(m_pDevice, m_pContext, CModel::TYPE_NONANIM, path, TransformMatrix);
+	pModel = CModel::Create(m_pDevice, m_pContext, CModel::TYPE_ANIM, path, TransformMatrix);
 	if (nullptr == pModel)
 		return E_FAIL;
 	m_Models.push_back(pModel);
@@ -140,7 +138,7 @@ HRESULT CLevel_Parsing::Parse_Models()
 
 #pragma endregion
 
-	path = "../Bin/Resources/Models/MapObject/MapNavi/Map_Boss_Battle_Navi.bin";
+	path = "../Bin/Resources/Models/Chr/Vanila/Weapon/Vanila_Weapon.bin";
 	if (FAILED(m_Models[0]->Save_Model(path)))
 		return E_FAIL;
 

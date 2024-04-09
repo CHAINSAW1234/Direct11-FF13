@@ -23,7 +23,8 @@ void CChr_Battle_Sazh_State_Dead::OnStateUpdate(_float fTimeDelta)
 		}
 	}
 
-	if (m_pChr_Battle_Sazh->Get_Hp() > 0) {
+	if (m_pChr_Battle_Sazh->Get_CurrentAnimationIndex() == CChr_Battle_Sazh::DEAD_IDLE &&
+		m_pChr_Battle_Sazh->Get_Hp() > 0) {
 		m_pChr_Battle_Sazh->Change_Animation(CChr_Battle_Sazh::DEAD_END, false);
 	}
 

@@ -4,6 +4,7 @@
 #include "GameInstance.h"
 
 #include "Camera_Field.h"
+#include "Camera_Battle.h" 
 #include "MapObject.h"
 #include "Trigger.h"
 #include "Inventory.h"
@@ -22,6 +23,7 @@
 #include "Chr_Field.h"
 #include "Chr_Battle_Light.h"
 #include "Chr_Battle_Sazh.h"
+#include "Chr_Battle_Vanila.h"
 #include "Body.h"
 #include "Weapon_Anim.h"
 
@@ -206,6 +208,11 @@ HRESULT CLoader::Loading_Prototype()
 		CCamera_Field::Create(m_pDevice, m_pContext))))
 		return E_FAIL;
 
+	/* For.Prototype_GameObject_Camera_Battle */
+	if (FAILED(m_pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_Camera_Battle"),
+		CCamera_Battle::Create(m_pDevice, m_pContext))))
+		return E_FAIL;
+
 	/* For.Prototype_GameObject_Part_Body */
 	if (FAILED(m_pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_Part_Body"),
 		CBody::Create(m_pDevice, m_pContext))))
@@ -229,6 +236,11 @@ HRESULT CLoader::Loading_Prototype()
 	/* For.Prototype_GameObject_Chr_Battle_Sazh */
 	if (FAILED(m_pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_Chr_Battle_Sazh"),
 		CChr_Battle_Sazh::Create(m_pDevice, m_pContext))))
+		return E_FAIL;
+
+	/* For.Prototype_GameObject_Chr_Battle_Vanila */
+	if (FAILED(m_pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_Chr_Battle_Vanila"),
+		CChr_Battle_Vanila::Create(m_pDevice, m_pContext))))
 		return E_FAIL;
 
 	/* For.Prototype_GameObject_Leopard */
@@ -682,6 +694,14 @@ HRESULT CLoader::Loading_For_Battle()
 		CModel::Create(m_pDevice, m_pContext, "../Bin/Resources/Models/Chr/Sazh/Weapon/Sazh_Weapon" + tag))))
 		return E_FAIL;
 
+	if (FAILED(m_pGameInstance->Add_Prototype(g_Level, TEXT("Prototype_Component_Model_Vanila_Battle"),
+		CModel::Create(m_pDevice, m_pContext, "../Bin/Resources/Models/Chr/Vanila/Body/Vanila_Battle" + tag))))
+		return E_FAIL;
+
+	if (FAILED(m_pGameInstance->Add_Prototype(g_Level, TEXT("Prototype_Component_Model_Vanila_Weapon"),
+		CModel::Create(m_pDevice, m_pContext, "../Bin/Resources/Models/Chr/Vanila/Weapon/Vanila_Weapon" + tag))))
+		return E_FAIL;
+
 #pragma endregion
 
 #pragma region Monster 
@@ -840,6 +860,14 @@ HRESULT CLoader::Loading_For_Boss_Battle()
 
 	if (FAILED(m_pGameInstance->Add_Prototype(g_Level, TEXT("Prototype_Component_Model_Sazh_Weapon"),
 		CModel::Create(m_pDevice, m_pContext, "../Bin/Resources/Models/Chr/Sazh/Weapon/Sazh_Weapon" + tag))))
+		return E_FAIL;
+
+	if (FAILED(m_pGameInstance->Add_Prototype(g_Level, TEXT("Prototype_Component_Model_Vanila_Battle"),
+		CModel::Create(m_pDevice, m_pContext, "../Bin/Resources/Models/Chr/Vanila/Body/Vanila_Battle" + tag))))
+		return E_FAIL;
+
+	if (FAILED(m_pGameInstance->Add_Prototype(g_Level, TEXT("Prototype_Component_Model_Vanila_Weapon"),
+		CModel::Create(m_pDevice, m_pContext, "../Bin/Resources/Models/Chr/Vanila/Weapon/Vanila_Weapon" + tag))))
 		return E_FAIL;
 
 #pragma endregion

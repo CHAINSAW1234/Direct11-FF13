@@ -176,8 +176,6 @@ void CChr_Battle_Light_State_Idle::Move(_float fTimeDelta)
 	}
 
 
-
-
 	switch (m_eMovement)
 	{
 	case BACKWARD:

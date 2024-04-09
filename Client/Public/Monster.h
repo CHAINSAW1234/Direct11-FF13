@@ -2,6 +2,8 @@
 #include "Client_Defines.h"
 #include "GameObject.h"
 #include "Observer_Handler.h"
+#include "UI_Number.h"
+
 BEGIN(Engine)
 class CModel;
 class CShader;
@@ -73,6 +75,7 @@ public:
 	_float Cal_Dist_Target();
 
 	virtual void Set_Hit(_int iDamage);
+	void Create_UI_Number(CUI_Number::TYPE eType, _int iNum);
 	void   Create_Damage(_int iDamage);
 	void   Check_Interact_Chr();		// 몸통의 충돌 체크 -> 상대 객체 -> 플레이어 캐릭터 밀어냄
 	void   Check_Interact_Monster();	// 몸통의 충돌 체크 -> 상대 객체 -> 플레이어 캐릭터 밀어냄

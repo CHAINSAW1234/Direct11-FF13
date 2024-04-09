@@ -9,7 +9,7 @@ CChr_Battle_Sazh_State_Optima::CChr_Battle_Sazh_State_Optima(CChr_Battle_Sazh* p
 
 void CChr_Battle_Sazh_State_Optima::OnStateEnter()
 {
-    m_pChr_Battle_Sazh->Change_Animation(CChr_Battle_Sazh::OPTIMACHANGE_FIRST, false);
+    m_pChr_Battle_Sazh->Change_Animation(CChr_Battle_Sazh::OPTIMACHANGE, false);
 }
 
 void CChr_Battle_Sazh_State_Optima::OnStateUpdate(_float fTimeDelta)

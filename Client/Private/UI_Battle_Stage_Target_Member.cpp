@@ -100,6 +100,13 @@ void CUI_Battle_Stage_Target_Member::Update_KeyInput()
 	}
 
 	if (m_pGameInstance->Get_KeyState(KEY_DOWN, DIK_RETURN)) {
+		if (m_iCursor == 0) {
+			m_pPlayer_Battle->Set_Leader_Target(m_pPlayer_Battle->Get_Leader());
+		}
+		else {
+			m_pPlayer_Battle->Set_Leader_Target(m_pPlayer_Battle->Get_Members()[m_iCursor-1]);
+		}
+
 		m_pPlayer_Battle->Change_Stage(CPlayer_Battle::STAGE_WAIT);
 
 	}

@@ -1,6 +1,7 @@
 #include "stdafx.h"
 #include "Warload_State_Skill.h"
 #include "Warload.h"
+#include "UI_Number.h"
 
 CWarload_State_Skill::CWarload_State_Skill(CWarload* pWarload)
 {
@@ -67,7 +68,7 @@ void CWarload_State_Skill::Heal(_float fTimeDelta)
 		else if (m_pWarload->Get_CurrentAnimationIndex() == CWarload::SKILL_HEAL_IDLE) {
 			++m_iCount;
 			m_pWarload->Add_Hp(310);
-			// Èú ÇÏ±â 
+			m_pWarload->Create_UI_Number(CUI_Number::HEAL, 310);
 			m_pWarload->Change_Animation(CWarload::SKILL_HEAL_END, false);
 			Change_State(CHARGE);
 		}

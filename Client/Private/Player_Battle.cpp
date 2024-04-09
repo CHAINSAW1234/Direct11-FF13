@@ -183,9 +183,9 @@ HRESULT CPlayer_Battle::Change_Optima(_int iOptimaIndex)
 
 	COptima::Optima* pOptima = m_pOptima->Get_Current_Optima();
 
-	m_pLeader->Change_Role(*pOptima[0]);		// ¸®´õÀÇ Role º¯°æ
-	m_Memebers[0]->Change_Role(*pOptima[1]);	// ¸â¹ö 0 : »ñÁî
-	//m_Memebers[1]->Change_Role(*pOptima[2]);		// ¸â¹ö 1 : ¹Ù´Ò¶ó
+	m_pLeader->Change_Role((*pOptima)[0]);		// ¸®´õÀÇ Role º¯°æ
+	m_Memebers[0]->Change_Role((*pOptima)[1]);	// ¸â¹ö 0 : »ñÁî
+	m_Memebers[1]->Change_Role((*pOptima)[2]);		// ¸â¹ö 1 : ¹Ù´Ò¶ó
 
 	return S_OK;
 }

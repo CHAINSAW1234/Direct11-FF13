@@ -243,7 +243,7 @@ const CComponent * CGameInstance::Get_Component(_uint iLevelIndex, const wstring
 size_t CGameInstance::Get_LayerCnt(_uint iLevelIndex, const wstring& strLayerTag)
 {
 	if (nullptr == m_pObject_Manager)
-		return E_FAIL;
+		return 0;
 
 	return m_pObject_Manager->Get_LayerCnt(iLevelIndex, strLayerTag);
 }

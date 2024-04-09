@@ -107,6 +107,17 @@ void CSolider_State_Idle::Idle(_float fTimeDelta)
 
 void CSolider_State_Idle::Move(_float fTimeDelta)
 {
+	m_fDegree = m_pSolider->Cal_Degree_Target();
+
+	if (abs(m_fDegree) >= 30)
+		m_isMoveTurn = true;
+
+	if (m_isMoveTurn) {
+		if (m_fDegree <= 5)
+			m_isMoveTurn = false;
+		m_pSolider->Get_Transform()->Turn(XMVectorSet(0.f, 1.f, 0.f, 0.f), fTimeDelta * m_fDegree / abs(m_fDegree));
+	}
+
 	m_pSolider->Get_Transform()->Go_Straight(fTimeDelta, m_pSolider->Get_Navigation());
 
 	if (m_fTimeDelta >= m_fStateTime) {
@@ -121,6 +132,9 @@ void CSolider_State_Idle::Move(_float fTimeDelta)
 		}
 	}
 
+	if (3.f >= m_pSolider->Cal_Dist_Target())
+		m_fTimeDelta = m_fStateTime;
+
 	if (m_pSolider->Is_Animation_Finished()) {
 		m_pSolider->Change_Animation(CSolider::MOVE_STRAIGHT_IDLE, true);
 	}
@@ -129,6 +143,17 @@ void CSolider_State_Idle::Move(_float fTimeDelta)
 
 void CSolider_State_Idle::Move_Left(_float fTimeDelta)
 {
+	m_fDegree = m_pSolider->Cal_Degree_Target();
+
+	if (abs(m_fDegree) >= 30)
+		m_isMoveTurn = true;
+
+	if (m_isMoveTurn) {
+		if (m_fDegree <= 5)
+			m_isMoveTurn = false;
+		m_pSolider->Get_Transform()->Turn(XMVectorSet(0.f, 1.f, 0.f, 0.f), fTimeDelta * m_fDegree / abs(m_fDegree));
+	}
+
 	m_pSolider->Get_Transform()->Go_Left(fTimeDelta, m_pSolider->Get_Navigation());
 
 	if (m_fTimeDelta >= m_fStateTime) {
@@ -150,6 +175,17 @@ void CSolider_State_Idle::Move_Left(_float fTimeDelta)
 
 void CSolider_State_Idle::Move_Right(_float fTimeDelta)
 {
+	m_fDegree = m_pSolider->Cal_Degree_Target();
+
+	if (abs(m_fDegree) >= 30)
+		m_isMoveTurn = true;
+
+	if (m_isMoveTurn) {
+		if (m_fDegree <= 5)
+			m_isMoveTurn = false;
+		m_pSolider->Get_Transform()->Turn(XMVectorSet(0.f, 1.f, 0.f, 0.f), fTimeDelta * m_fDegree / abs(m_fDegree));
+	}
+
 	m_pSolider->Get_Transform()->Go_Right(fTimeDelta, m_pSolider->Get_Navigation());
 
 	if (m_fTimeDelta >= m_fStateTime) {
@@ -171,6 +207,17 @@ void CSolider_State_Idle::Move_Right(_float fTimeDelta)
 
 void CSolider_State_Idle::Move_Back(_float fTimeDelta)
 {
+	m_fDegree = m_pSolider->Cal_Degree_Target();
+
+	if (abs(m_fDegree) >= 30)
+		m_isMoveTurn = true;
+
+	if (m_isMoveTurn) {
+		if (m_fDegree <= 5)
+			m_isMoveTurn = false;
+		m_pSolider->Get_Transform()->Turn(XMVectorSet(0.f, 1.f, 0.f, 0.f), fTimeDelta * m_fDegree / abs(m_fDegree));
+	}
+
 	m_pSolider->Get_Transform()->Go_Backward(fTimeDelta, m_pSolider->Get_Navigation());
 
 	if (m_fTimeDelta >= m_fStateTime) {
@@ -184,6 +231,9 @@ void CSolider_State_Idle::Move_Back(_float fTimeDelta)
 			Change_State(IDLE);
 		}
 	}
+
+	if (10.f <= m_pSolider->Cal_Dist_Target())
+		m_fTimeDelta = m_fStateTime;
 
 	if (m_pSolider->Is_Animation_Finished()) {
 		m_pSolider->Change_Animation(CSolider::MOVE_BACK_IDLE, true);

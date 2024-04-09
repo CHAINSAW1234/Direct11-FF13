@@ -2,7 +2,7 @@
 #include "Level_Battle.h"
 #include "Level_Loading.h"
 
-#include "Camera_Field.h"
+#include "Camera.h"
 #include "MapObject.h"
 
 #include "UI.h"
@@ -148,9 +148,8 @@ HRESULT CLevel_Battle::Create_MapObject(const wstring strModelTag, _float4x4 Wor
 
 HRESULT CLevel_Battle::Ready_Layer_Camera(const wstring& strLayerTag)
 {
-    CCamera_Field::CAMERA_FIELD_DESC		CameraDesc{};
+    CCamera::CAMERA_DESC		CameraDesc{};
 
-    CameraDesc.fMouseSensor = 0.1f;
     CameraDesc.fFovy = XMConvertToRadians(60.0f);
     CameraDesc.fAspect = (_float)g_iWinSizeX / g_iWinSizeY;
     CameraDesc.fNear = 0.1f;
@@ -160,12 +159,9 @@ HRESULT CLevel_Battle::Ready_Layer_Camera(const wstring& strLayerTag)
     CameraDesc.fSpeedPerSec = 10.f;
     CameraDesc.fRotationPerSec = XMConvertToRadians(90.0f);
 
-    if (FAILED(m_pGameInstance->Add_Clone(g_Level, strLayerTag, TEXT("Prototype_GameObject_Camera_Field"), &CameraDesc)))
+    if (FAILED(m_pGameInstance->Add_Clone(g_Level, strLayerTag, TEXT("Prototype_GameObject_Camera_Battle"), &CameraDesc)))
         return E_FAIL;
 
-    dynamic_cast<CCamera_Field*>(m_pGameInstance->Get_GameObject(g_Level, strLayerTag, 0))->Set_Target(
-        m_pGameInstance->Get_GameObject(g_Level, g_strChrLayerTag, 0)
-    );
     return S_OK;
 }
 
@@ -182,6 +178,9 @@ HRESULT CLevel_Battle::Ready_Layer_Chr(const wstring& strLayerTag)
         	return E_FAIL;
 
     if (FAILED(m_pGameInstance->Add_Clone(g_Level, strLayerTag, TEXT("Prototype_GameObject_Chr_Battle_Sazh"))))
+        return E_FAIL;
+
+    if (FAILED(m_pGameInstance->Add_Clone(g_Level, strLayerTag, TEXT("Prototype_GameObject_Chr_Battle_Vanila"))))
         return E_FAIL;
 
     return S_OK;
@@ -222,7 +221,7 @@ HRESULT CLevel_Battle::Ready_Layer_Sky(const wstring& strLayerTag)
 
 void CLevel_Battle::Set_Object_Position()
 {
-    for (_int i = 1; i < 3; ++i) {
+    for (_int i = 1; i < 4; ++i) {
         CChr_Battle* pChr_Battle = (CChr_Battle*)m_pGameInstance->Get_GameObject(g_Level, g_strChrLayerTag, i-1);
         pChr_Battle->Set_StartPosition(_float4({(i/2) * _float(pow(-1, (i%2))) * -3.f, 0.f, ((i / 2) + 1) * -3.f, 1.f}));
     }

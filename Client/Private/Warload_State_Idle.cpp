@@ -53,14 +53,26 @@ void CWarload_State_Idle::Idle(_float fTimeDelta)
 
 	if (m_fTimeDelta >= m_fStateTime) {
 		if (abs(m_fDegree) < 30.f) {
-			if (rand() % 2) {
-				Change_State(MOVE);
+			_float fDist = m_pWarload->Cal_Dist_Target();
+			if (fDist <= 3.f) {
+				Change_State(MOVE_BACK);
 				m_pWarload->Change_Animation(CWarload::MOVE_STRAIGHT_IDLE, true);
 			}
-			else {
-				Change_State(MOVE_BACK);
+			else if (fDist >= 10.f) {
+				Change_State(MOVE);
 				m_pWarload->Change_Animation(CWarload::MOVE_BACK_IDLE, true);
 			}
+			else {
+				if (rand() % 2) {
+					Change_State(MOVE);
+					m_pWarload->Change_Animation(CWarload::MOVE_STRAIGHT_IDLE, true);
+				}
+				else {
+					Change_State(MOVE_BACK);
+					m_pWarload->Change_Animation(CWarload::MOVE_BACK_IDLE, true);
+				}
+			}
+			
 		}
 		else {
 			Change_State(TURN);
@@ -94,6 +106,10 @@ void CWarload_State_Idle::Move(_float fTimeDelta)
 			Change_State(IDLE);
 		}
 	}
+
+	if (3.f >= m_pWarload->Cal_Dist_Target())
+		m_fTimeDelta = m_fStateTime;
+
 }
 
 void CWarload_State_Idle::Move_Back(_float fTimeDelta)
@@ -111,6 +127,9 @@ void CWarload_State_Idle::Move_Back(_float fTimeDelta)
 			Change_State(IDLE);
 		}
 	}
+
+	if (10.f >= m_pWarload->Cal_Dist_Target())
+		m_fTimeDelta = m_fStateTime;
 }
 
 void CWarload_State_Idle::Move_Back_Jump(_float fTimeDelta)

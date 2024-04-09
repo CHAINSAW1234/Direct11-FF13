@@ -41,7 +41,6 @@ void CChr_Battle_Sazh_State_Skill::Skill()
 				m_pChr_Battle_Sazh->Set_TrackPosition(20.f);
 			}
 		}
-	
 	}
 	else {
 		if (m_pChr_Battle_Sazh->Is_Animation_Finished()) {
