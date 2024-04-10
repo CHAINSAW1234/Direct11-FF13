@@ -16,6 +16,8 @@ void CSolider_State_Field::OnStateEnter()
 
 void CSolider_State_Field::OnStateUpdate(_float fTimeDelta)
 {
+	m_pSolider->Get_Navigation()->Set_Y(m_pSolider->Get_Transform(), -0.2f);
+
 	m_fTimeDelta += fTimeDelta;
 	switch (m_eState) {
 	case IDLE:

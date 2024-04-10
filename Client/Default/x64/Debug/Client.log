@@ -1,6 +1,2 @@
-﻿  Camera_Battle.cpp
-C:\Users\stgo5015\Documents\GitHub\Direct11_FF13\Client\Private\Camera_Battle.cpp(78,16): warning C4267: '+=': 'size_t'에서 'Engine::_int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
-C:\Users\stgo5015\Documents\GitHub\Direct11_FF13\Client\Private\Camera_Battle.cpp(87,16): warning C4267: '+=': 'size_t'에서 'Engine::_int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
-C:\Users\stgo5015\Documents\GitHub\Direct11_FF13\Client\Private\Camera_Battle.cpp(95,18): warning C4244: '인수': 'Engine::_int'에서 'float'(으)로 변환하면서 데이터가 손실될 수 있습니다.
-C:\Users\stgo5015\Documents\GitHub\Direct11_FF13\Client\Private\Camera_Battle.cpp(187,233): warning C4244: '인수': 'float'에서 'Engine::_int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+﻿  Level_Boss_Battle.cpp
   Client.vcxproj -> C:\Users\stgo5015\Documents\GitHub\Direct11_FF13\Client\Bin\Client.exe

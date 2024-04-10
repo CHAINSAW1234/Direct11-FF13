@@ -43,6 +43,7 @@ void CPicking::Update(class CPipeLine* pPipeLine)
 
 	vMousePos = XMVector3TransformCoord(vMousePos, ProjMatrixInv);
 
+
 	_vector vRayPos, vRayDir;
 
 	vRayDir = vMousePos - XMVectorZero();

@@ -3,9 +3,8 @@
 #include "FSM_State.h"
 
 BEGIN(Client)
-class CUI_Pnal;
+class CUI_Optima_Change;
 class CPlayer_Battle;
-
 class CUI_Battle_Stage_Wait_Optima final : public CFSM_State
 {
 private:
@@ -23,7 +22,11 @@ public:
 	virtual void Start() override;
 
 private:
+	HRESULT Add_UI();
+
+private:
 	CPlayer_Battle* m_pPlayer_Battle = { nullptr };
+	CUI_Optima_Change* m_pUI_Optima_Change = { nullptr };
 	// UI 하나 필요함
 
 public:

@@ -106,7 +106,7 @@ void CChr_Battle_Light_State_Attack::Up(_float fTimeDelta)
 	}
 
 	if (Get_Dist_Y() > 1) {
-		m_pChr_Battle_Light->Get_Transform()->Go_Up(fTimeDelta * 3);
+		m_pChr_Battle_Light->Get_Transform()->Go_Up(fTimeDelta * 8);
 	}
 	else {
 		m_eState = ATTACK;
@@ -119,7 +119,7 @@ void CChr_Battle_Light_State_Attack::Down(_float fTimeDelta)
 	_float fCurrentPositionY = m_pChr_Battle_Light->Get_Transform()->Get_State_Float4(CTransform::STATE_POSITION).y;
 
 	if (fCurrentPositionY >= 0.1) {
-		m_pChr_Battle_Light->Get_Transform()->Go_Down(fTimeDelta * 3);
+		m_pChr_Battle_Light->Get_Transform()->Go_Down(fTimeDelta * 8);
 	}
 	else {
 		CRole::SKILL eSkill = m_pChr_Battle_Light->Get_Current_Command();

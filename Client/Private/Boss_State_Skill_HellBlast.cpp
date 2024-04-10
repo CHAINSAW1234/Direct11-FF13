@@ -1,6 +1,7 @@
 #include "stdafx.h"
 #include "Boss_State_Skill_HellBlast.h"
 #include "Boss.h"
+#include "UI_Skill.h"
 
 CBoss_State_Skill_HellBlast::CBoss_State_Skill_HellBlast(CBoss* pBoss)
 {
@@ -11,6 +12,7 @@ void CBoss_State_Skill_HellBlast::OnStateEnter()
 {
     m_eState = MOVE;
     m_pBoss->Change_Animation(CBoss::MOVE_STRAIGHT_START, false);
+    m_pUI_Skill = m_pBoss->Create_UI_Skill(TEXT("Çï ºí·¡½ºÆ®"));
 }
 
 void CBoss_State_Skill_HellBlast::OnStateUpdate(_float fTimeDelta)
@@ -28,6 +30,9 @@ void CBoss_State_Skill_HellBlast::OnStateUpdate(_float fTimeDelta)
 
 void CBoss_State_Skill_HellBlast::OnStateExit()
 {
+    if (nullptr != m_pUI_Skill)
+        m_pUI_Skill->Set_Dead(true);
+    m_pUI_Skill = nullptr;
 }
 
 void CBoss_State_Skill_HellBlast::Move(_float fTimeDelta)

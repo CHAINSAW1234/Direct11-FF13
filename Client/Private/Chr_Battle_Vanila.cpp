@@ -38,7 +38,7 @@ HRESULT CChr_Battle_Vanila::Initialize(void* pArg)
 {
 	GAMEOBJECT_DESC		GameObjectDesc{};
 
-	GameObjectDesc.fSpeedPerSec = 3.f;
+	GameObjectDesc.fSpeedPerSec = 2.f;
 	GameObjectDesc.fRotationPerSec = XMConvertToRadians(360.f);
 
 	if (FAILED(__super::Initialize(&GameObjectDesc)))
@@ -93,7 +93,7 @@ void CChr_Battle_Vanila::Set_Hit(_int iDamage)
 		return;
 
 	Min_Hp(iDamage);
-	Create_UI_Number(CUI_Number::DAMAGE, iDamage);
+	Create_UI_Number(CUI_Number::HIT, iDamage);
 	Change_State(HIT);
 	if (m_iHp <= 0) {
 		Change_State(DEAD);

@@ -18,7 +18,8 @@
 #include "UI_Chr.h"
 #include "UI_Chain.h"
 #include "UI_Monster_Hp.h"
-
+#include "UI_Skill.h"
+#include "UI_Optima_Change.h"
 
 #include "Chr_Field.h"
 #include "Chr_Battle_Light.h"
@@ -44,8 +45,6 @@
 #include "Forklift.h"
 #include "Terrain.h"
 #include "Sky.h"
-//#include "Effect.h"
-
 
 #pragma region MapTool
 
@@ -327,7 +326,17 @@ HRESULT CLoader::Loading_Prototype()
 	if (FAILED(m_pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_UI_Monster_Hp"),
 		CUI_Monster_Hp::Create(m_pDevice, m_pContext))))
 		return E_FAIL;
+
+	/* For.Prototype_GameObject_UI_Skill */
+	if (FAILED(m_pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_UI_Skill"),
+		CUI_Skill::Create(m_pDevice, m_pContext))))
+		return E_FAIL;
 	
+	/* For.Prototype_GameObject_UI_Skill */
+	if (FAILED(m_pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_UI_Optima_Change"),
+		CUI_Optima_Change::Create(m_pDevice, m_pContext))))
+		return E_FAIL;
+
 	/* For.Prototype_GameObject_MapTool */
 	if (FAILED(m_pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_MapTool"),
 		CMapTool::Create(m_pDevice, m_pContext))))

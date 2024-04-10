@@ -45,8 +45,8 @@ HRESULT CMainApp::Initialize()
 	//eLevel = LEVEL_MAPTOOL;
 	//eLevel = LEVEL_PARSING;
 	//eLevel = LEVEL_FIELD;
-	eLevel = LEVEL_BATTLE;
-	//eLevel = LEVEL_BOSS_BATTLE;
+	//eLevel = LEVEL_BATTLE;
+	eLevel = LEVEL_BOSS_BATTLE;
 
 	if (FAILED(Open_Level(eLevel)))
 		return E_FAIL;

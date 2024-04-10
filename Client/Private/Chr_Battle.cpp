@@ -9,6 +9,7 @@
 #include "Ability.h"
 #include "Weapon_Anim.h"
 #include "Monster.h"
+#include "UI_Skill.h"
 
 CChr_Battle::CChr_Battle(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
 	: CGameObject{ pDevice, pContext }
@@ -235,6 +236,18 @@ void CChr_Battle::Create_UI_Number(CUI_Number::TYPE eType, _int iNum)
 
 	if (FAILED(m_pGameInstance->Add_Clone(g_Level, TEXT("Layer_UI"), TEXT("Prototype_GameObject_UI_Number"), &UI_Number_desc)))
 		return;
+}
+
+CUI_Skill* CChr_Battle::Create_UI_Skill(CRole::SKILL eSkill)
+{
+	CUI_Skill::UI_SKILL_DESC UI_Skill_desc = {};
+	UI_Skill_desc.strSkillName = CRole::Get_SkillName(eSkill);
+	UI_Skill_desc.vColor = { 0.f, .1f, .1f, 0.5f };
+	UI_Skill_desc.pTargetObject = this;
+
+	CUI_Skill* pUI_Skill = (CUI_Skill*)m_pGameInstance->Add_Clone_With_Object(g_Level, TEXT("Layer_UI"), TEXT("Prototype_GameObject_UI_Skill"), &UI_Skill_desc);
+
+	return pUI_Skill;
 }
 
 void CChr_Battle::Update_ATB(_float fTimeDelta)

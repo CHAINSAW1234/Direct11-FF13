@@ -25,6 +25,8 @@ namespace Client
 #define Random_Float(size) (static_cast<_float>(std::rand() / (RAND_MAX / (_float)size) - (_float)size/2));
 #define EaseOutCublic(fTimeDelta)  (1 - pow(1-fTimeDelta, 3));
 
+#define EaseOutInCirc(fTimeDelta) ( fTimeDelta < 0.5 ? ( 1.f - sqrt(1.f - pow( fTimeDelta, 2)))/2.f :  ( 1.f - sqrt(1.f - pow( fTimeDelta - 1, 2.f)))/2.f);
+
 extern HWND				g_hWnd;
 extern HINSTANCE		g_hInst;
 extern Client::LEVEL	g_Level;

@@ -418,6 +418,12 @@
     <Filter Include="02.GameObjects\Camera\Camera_Battle">
       <UniqueIdentifier>{ef6611eb-93bc-46f9-b37e-65cea77293bf}</UniqueIdentifier>
     </Filter>
+    <Filter Include="03.UI\Battle\UI_Skill">
+      <UniqueIdentifier>{ee1ca0c6-f9e1-4784-b0d4-a53efaa16033}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="03.UI\Battle\UI_Optima_Change">
+      <UniqueIdentifier>{41ccad3b-ec64-45d1-9f44-4e1598e11aad}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\public\MainApp.h">
@@ -822,6 +828,12 @@
     <ClInclude Include="..\Public\Camera_Battle.h">
       <Filter>02.GameObjects\Camera\Camera_Battle</Filter>
     </ClInclude>
+    <ClInclude Include="..\Public\UI_Skill.h">
+      <Filter>03.UI\Battle\UI_Skill</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\UI_Optima_Change.h">
+      <Filter>03.UI\Battle\UI_Optima_Change</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\private\MainApp.cpp">
@@ -1207,6 +1219,12 @@
     </ClCompile>
     <ClCompile Include="..\Private\Camera_Battle.cpp">
       <Filter>02.GameObjects\Camera\Camera_Battle</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\UI_Skill.cpp">
+      <Filter>03.UI\Battle\UI_Skill</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\UI_Optima_Change.cpp">
+      <Filter>03.UI\Battle\UI_Optima_Change</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

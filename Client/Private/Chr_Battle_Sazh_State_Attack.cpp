@@ -1,6 +1,7 @@
 #include "stdafx.h"
 #include "Chr_Battle_Sazh_State_Attack.h"
 #include "Chr_Battle_Sazh.h"
+#include "UI_Skill.h"
 
 CChr_Battle_Sazh_State_Attack::CChr_Battle_Sazh_State_Attack(CChr_Battle_Sazh* pChr_Battle_Sazh)
 {
@@ -12,6 +13,9 @@ void CChr_Battle_Sazh_State_Attack::OnStateEnter()
 	m_isCommandFinish = false;
 	m_pChr_Battle_Sazh->Get_Transform()->Look_At_ForLandObject(XMLoadFloat4(&m_pChr_Battle_Sazh->Get_Target_Position()));
 	m_pChr_Battle_Sazh->Change_Animation(CChr_Battle_Sazh::ATTACK_NOR1, false);
+
+	CRole::SKILL eSkill = m_pChr_Battle_Sazh->Get_Current_Command();
+	m_pUI_Skill = m_pChr_Battle_Sazh->Create_UI_Skill(eSkill);
 }
 
 void CChr_Battle_Sazh_State_Attack::OnStateUpdate(_float fTimeDelta)
@@ -21,6 +25,9 @@ void CChr_Battle_Sazh_State_Attack::OnStateUpdate(_float fTimeDelta)
 
 void CChr_Battle_Sazh_State_Attack::OnStateExit()
 {
+	if (nullptr != m_pUI_Skill)
+		m_pUI_Skill->Set_Dead(true);
+	m_pUI_Skill = nullptr;
 }
 
 void CChr_Battle_Sazh_State_Attack::Attack()

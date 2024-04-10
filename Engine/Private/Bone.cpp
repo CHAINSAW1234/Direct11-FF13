@@ -29,7 +29,7 @@ void CBone::Invalidate_CombinedTransformationMatrix(const vector<CBone*>& Bones,
 	}
 	else {
 		// 부모의 m_CombinedTransformationMatrix를 가져와서 자신의 m_TransformationMatrix와 m_CombinedTransformationMatrix를 곱해서 자신의 m_CombinedTransformationMatrix를 구함 
-		XMStoreFloat4x4(&m_CombinedTransformationMatrix,
+			XMStoreFloat4x4(&m_CombinedTransformationMatrix,
 			XMLoadFloat4x4(&m_TransformationMatrix) * XMLoadFloat4x4(&Bones[m_iParentBoneIndex]->m_CombinedTransformationMatrix));
 	}
 }

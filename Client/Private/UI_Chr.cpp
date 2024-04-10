@@ -67,18 +67,18 @@ HRESULT CUI_Chr::Render()
 
 	/* 이 함수 내부에서 호출되는 Apply함수 호출 이전에 쉐이더 전역에 던져야할 모든 데이터를 다 던져야한다. */
 
-	if (FAILED(m_pShaderCom->Begin(6)))
+	if (FAILED(m_pShaderCom->Begin(7)))
 		return E_FAIL;
 
 	if (FAILED(m_pVIBufferCom->Render()))
 		return E_FAIL;
 
 	if (m_fRatio < 0.6666) {
-		if (FAILED(m_pShaderCom->Begin(8)))
+		if (FAILED(m_pShaderCom->Begin(9)))
 			return E_FAIL;
 	}
 	else {
-		if (FAILED(m_pShaderCom->Begin(7)))
+		if (FAILED(m_pShaderCom->Begin(8)))
 			return E_FAIL;
 	}
 

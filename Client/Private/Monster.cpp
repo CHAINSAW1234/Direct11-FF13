@@ -7,6 +7,7 @@
 #include "Shader.h"
 #include "Chr_Battle.h"
 #include "UI_Number.h"
+#include "UI_Skill.h"
 
 CMonster::CMonster(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
     :CGameObject { pDevice, pContext }
@@ -262,6 +263,18 @@ void CMonster::Create_UI_Number(CUI_Number::TYPE eType, _int iNum)
 
     if (FAILED(m_pGameInstance->Add_Clone(g_Level, TEXT("Layer_UI"), TEXT("Prototype_GameObject_UI_Number"), &UI_Number_desc)))
         return;
+}
+
+CUI_Skill* CMonster::Create_UI_Skill(wstring strSkillName)
+{
+    CUI_Skill::UI_SKILL_DESC UI_Skill_desc = {};
+    UI_Skill_desc.strSkillName = strSkillName;
+    UI_Skill_desc.vColor = { 1.f,0.f,0.f,0.5f };
+    UI_Skill_desc.pTargetObject = this;
+
+    CUI_Skill* pUI_Skill = (CUI_Skill*)m_pGameInstance->Add_Clone_With_Object(g_Level, TEXT("Layer_UI"), TEXT("Prototype_GameObject_UI_Skill"), &UI_Skill_desc);
+
+    return pUI_Skill;
 }
 
 void CMonster::Create_Damage(_int iDamage)

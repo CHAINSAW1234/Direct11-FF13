@@ -42,13 +42,13 @@ HRESULT CVIBuffer::Render()
 	/* 인덱스버퍼의 값을 이용하여 정점 버퍼의 정점들을 그려낸다. */
 	m_pContext->DrawIndexed(m_iNumIndices, 0, 0);
 
-	return S_OK;
+		return S_OK;
 }
 
 HRESULT CVIBuffer::Bind_Buffers()
 {
 	ID3D11Buffer*		pVertexBuffers[] = {
-		m_pVB, 
+			m_pVB, 
 	
 	};
 

@@ -65,6 +65,7 @@ public:
 
 	virtual void Set_Hit(_int iDamage);								// 피격 상태로 변경
 	void Create_UI_Number(CUI_Number::TYPE eType, _int iNum);
+	class CUI_Skill* Create_UI_Skill(CRole::SKILL eSkill);
 	/*============================기타============================*/
 	void Add_Hp(_int iHp);
 	void Min_Hp(_int iHp);

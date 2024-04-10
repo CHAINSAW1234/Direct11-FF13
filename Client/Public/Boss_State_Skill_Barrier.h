@@ -22,8 +22,9 @@ private:
 	void Skill();
 
 private:
-	class CBoss* m_pBoss = { nullptr };
-	_bool m_isSkill = { false };
+	class CBoss*		m_pBoss = { nullptr };
+	class CUI_Skill*	m_pUI_Skill = { nullptr };
+	_bool				m_isSkill = { false };
 
 public:
 	static	CBoss_State_Skill_Barrier* Create(class CBoss* pBoss);

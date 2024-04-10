@@ -74,7 +74,7 @@ void CBoss::Start()
     vPosition.y += 5.f;
     m_pTransformCom->Set_State(CTransform::STATE_POSITION, vPosition);
     if (g_Level == LEVEL_BOSS_BATTLE) {
-        vPosition.z += 2.f;
+        vPosition.z += 5.f;
         m_pTransformCom->Set_State(CTransform::STATE_POSITION, vPosition);
         Change_State(STATE_IDLE);
 

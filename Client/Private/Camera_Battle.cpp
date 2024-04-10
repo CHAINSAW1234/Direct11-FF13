@@ -34,7 +34,7 @@ void CCamera_Battle::Tick(_float fTimeDelta)
 {
 
     Update_TargetPosition(fTimeDelta);
-    //Update_Dist(fTimeDelta);
+    Update_Dist(fTimeDelta);
     Update_With_Mouse(fTimeDelta);
 
     if (m_pGameInstance->Get_DIMouseState(DIMKS_LBUTTON)) {
@@ -100,7 +100,7 @@ void CCamera_Battle::Update_TargetPosition(_float fTimeDelta)
     _vector vCurPos = XMLoadFloat4(&m_vCurrentPosition);
 
     if (XMVector3Length(vCurPos - vPosition).m128_f32[0] >= 1.f) {
-        vCurPos += XMVector3Normalize(vPosition - vCurPos) * fTimeDelta * 3.f;
+        vCurPos += XMVector3Normalize(vPosition - vCurPos) * fTimeDelta;
         vCurPos.m128_f32[3] = 1.f;
         XMStoreFloat4(&m_vCurrentPosition, vCurPos);
     }
@@ -134,18 +134,19 @@ void CCamera_Battle::Update_Dist(_float fTimeDelta)
         fabsMaxProjectPos.y = max(fabsMaxProjectPos.y, abs(vPosition.m128_f32[1]));
     }
 
-    if (fabsMaxProjectPos.x <= 0.5f) {
-        m_fAspect /= 1.01f;
-    }
-    else if (fabsMaxProjectPos.x >= 1.0f) {
-        m_fAspect *= 1.01f;
-    }
 
-    if (fabsMaxProjectPos.y <= 0.8) {
-        m_fFovy /= 1.01f;
+    if (fabsMaxProjectPos.x >= 0.8f) {
+        m_fDist *= 1.001f;
     }
-    else if (fabsMaxProjectPos.y >= 1.0f) {
-        m_fFovy *= 1.01f;
+    else if (fabsMaxProjectPos.x <= 0.3f) {
+        m_fDist /= 1.001f;
+    }
+    
+    if (fabsMaxProjectPos.y >= 1.0f) {
+        m_fDist *= 1.001f;
+    }
+    else if (fabsMaxProjectPos.y <= 0.5f) {
+        m_fDist /= 1.001f;
     }
 
 }
@@ -159,11 +160,11 @@ void CCamera_Battle::Update_With_Mouse(_float fTimeDelta)
     if (MouseMove = m_pGameInstance->Get_DIMouseMove(DIMMS_X))
     {
         m_fMouseMoveXAxis = 90.f;
-        m_MouseMoveX = std::clamp(MouseMove, (_long)-50, (_long)50);
+        m_MouseMoveX = std::clamp(MouseMove, (_long)-10, (_long)10);
 
     }
     else {
-        m_fMouseMoveXAxis *= 0.9f;
+        m_fMouseMoveXAxis *= 0.99f;
         if (m_fMouseMoveXAxis < 3) {
             m_fMouseMoveXAxis = 0;
         }
@@ -173,10 +174,10 @@ void CCamera_Battle::Update_With_Mouse(_float fTimeDelta)
     if (MouseMove = m_pGameInstance->Get_DIMouseMove(DIMMS_Y))
     {
         m_fMouseMoveYAxis = 90.f;
-        m_MouseMoveY = clamp(MouseMove, (_long)-50, (_long)50);
+        m_MouseMoveY = clamp(MouseMove, (_long)-10, (_long)10);
     }
     else {
-        m_fMouseMoveYAxis *= 0.9f;
+        m_fMouseMoveYAxis *= 0.99f;
         if (m_fMouseMoveYAxis < 3) {
             m_fMouseMoveYAxis = 0;
         }
@@ -184,7 +185,7 @@ void CCamera_Battle::Update_With_Mouse(_float fTimeDelta)
 
     // y축 각도 제한 걸기
     // y축 거리 차이가 fDist / sqrt(2)인 경우에만 작동
-    m_pTransformCom->Turn_With_Look_At(m_pTransformCom->Get_State_Vector(CTransform::STATE_RIGHT), vTargetPosition, m_fDist, fTimeDelta * sin(XMConvertToRadians(m_fMouseMoveYAxis)) * m_MouseMoveY * m_fMouseSensor, XMConvertToDegrees(asin(m_fYOffset / m_fDist)));
+    m_pTransformCom->Turn_With_Look_At(m_pTransformCom->Get_State_Vector(CTransform::STATE_RIGHT), vTargetPosition, m_fDist, fTimeDelta * sin(XMConvertToRadians(m_fMouseMoveYAxis)) * m_MouseMoveY * m_fMouseSensor, XMConvertToDegrees(asin((m_fYOffset-0.01f) / m_fDist)));
 
 }
 

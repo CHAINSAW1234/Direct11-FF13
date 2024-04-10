@@ -2,6 +2,7 @@
 #include "Warload_State_Skill.h"
 #include "Warload.h"
 #include "UI_Number.h"
+#include "UI_Skill.h"
 
 CWarload_State_Skill::CWarload_State_Skill(CWarload* pWarload)
 {
@@ -13,6 +14,8 @@ void CWarload_State_Skill::OnStateEnter()
 	Change_State(CHARGE);
 	m_iCount = 0;
 	m_pWarload->Change_Animation(CWarload::SKILL_START, false);
+
+	m_pUI_Skill = m_pWarload->Create_UI_Skill(TEXT("마도 디바이스 발동"));
 }
 
 void CWarload_State_Skill::OnStateUpdate(_float fTimeDelta)
@@ -33,6 +36,9 @@ void CWarload_State_Skill::OnStateUpdate(_float fTimeDelta)
 
 void CWarload_State_Skill::OnStateExit()
 {
+	if (nullptr != m_pUI_Skill)
+		m_pUI_Skill->Set_Dead(true);
+	m_pUI_Skill = nullptr;
 }
 
 void CWarload_State_Skill::Change_State(STATE eState)

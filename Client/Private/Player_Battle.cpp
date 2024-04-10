@@ -11,6 +11,7 @@
 #include "UI_Battle_Stage_Command.h"
 #include "UI_Battle_Stage_Item.h"
 #include "UI_Battle_Stage_Optima.h"
+#include "UI_Battle_Stage_Wait_Optima.h"
 #include "UI_Battle_Stage_Wait.h"
 #include "UI_Battle_Stage_Finish.h"
 
@@ -42,7 +43,6 @@ void CPlayer_Battle::Change_Stage(UISTAGE eStage)
 		while (!m_PrevStage.empty())
 			m_PrevStage.pop();
 	}
-
 
 	NotifyObserver();
 }
@@ -311,6 +311,7 @@ HRESULT CPlayer_Battle::Add_Component_FSM()
 	m_pFSMCom->Add_State(STAGE_TARGET_MEMBER, CUI_Battle_Stage_Target_Member::Create(this));
 	m_pFSMCom->Add_State(STAGE_OPTIMA, CUI_Battle_Stage_Optima::Create(this));
 	m_pFSMCom->Add_State(STAGE_WAIT, CUI_Battle_Stage_Wait::Create(this));
+	m_pFSMCom->Add_State(STAGE_WAIT_OPTIMA, CUI_Battle_Stage_Wait_Optima::Create(this));
 	m_pFSMCom->Add_State(STAGE_FINISH, CUI_Battle_Stage_Finish::Create(this));
 
 	Change_Stage(STAGE_SELECT);

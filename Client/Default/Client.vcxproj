@@ -275,9 +275,11 @@
     <ClInclude Include="..\Public\UI_Chr.h" />
     <ClInclude Include="..\Public\UI_Number.h" />
     <ClInclude Include="..\Public\UI_Monster_Hp.h" />
+    <ClInclude Include="..\Public\UI_Optima_Change.h" />
     <ClInclude Include="..\Public\UI_Pnal.h" />
     <ClInclude Include="..\Public\UI_Pnal_Attack.h" />
     <ClInclude Include="..\Public\UI_Pnal_Item.h" />
+    <ClInclude Include="..\Public\UI_Skill.h" />
     <ClInclude Include="..\Public\Warload.h" />
     <ClInclude Include="..\Public\Warload_State_Attack.h" />
     <ClInclude Include="..\Public\Warload_State_Field.h" />
@@ -410,9 +412,11 @@
     <ClCompile Include="..\Private\UI_Chr.cpp" />
     <ClCompile Include="..\Private\UI_Number.cpp" />
     <ClCompile Include="..\Private\UI_Monster_Hp.cpp" />
+    <ClCompile Include="..\Private\UI_Optima_Change.cpp" />
     <ClCompile Include="..\Private\UI_Pnal.cpp" />
     <ClCompile Include="..\Private\UI_Pnal_Attack.cpp" />
     <ClCompile Include="..\Private\UI_Pnal_Item.cpp" />
+    <ClCompile Include="..\Private\UI_Skill.cpp" />
     <ClCompile Include="..\Private\Warload.cpp" />
     <ClCompile Include="..\Private\Warload_State_Attack.cpp" />
     <ClCompile Include="..\Private\Warload_State_Field.cpp" />

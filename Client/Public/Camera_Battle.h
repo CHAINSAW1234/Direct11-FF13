@@ -29,7 +29,7 @@ private:
 	_float4			m_vTargetPosition = { 0.f,0.f,0.f,1.f };
 	_float4			m_vCurrentPosition = { 0.f,0.f,0.f,1.f };
 
-	_float			m_fDist = { 10.f };
+	_float			m_fDist = { 5.f };
 
 	_float			m_fYOffset = { 3.f };
 

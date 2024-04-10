@@ -25,6 +25,7 @@ private:
 
 private:
 	class CWarload* m_pWarload = { nullptr };
+	class CUI_Skill* m_pUI_Skill = { nullptr };
 	STATE			m_eState = { STATE_END };
 	_float			m_fTimeDelta = { 0.f };
 	_int			m_iCount = { 0 };

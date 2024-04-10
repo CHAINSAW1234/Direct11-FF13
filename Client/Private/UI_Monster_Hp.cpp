@@ -66,13 +66,13 @@ HRESULT CUI_Monster_Hp::Render()
     if (FAILED(m_pVIBufferCom->Bind_Buffers()))
         return E_FAIL;
 
-    if (FAILED(m_pShaderCom->Begin(6)))
+    if (FAILED(m_pShaderCom->Begin(7)))
         return E_FAIL;
 
     if (FAILED(m_pVIBufferCom->Render()))
         return E_FAIL;
 
-    if (FAILED(m_pShaderCom->Begin(7)))
+    if (FAILED(m_pShaderCom->Begin(8)))
         return E_FAIL;
 
     if (FAILED(m_pVIBufferCom->Render()))

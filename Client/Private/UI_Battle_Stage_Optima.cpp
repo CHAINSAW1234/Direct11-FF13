@@ -98,7 +98,7 @@ void CUI_Battle_Stage_Optima::Update_KeyInput()
 	if (m_pGameInstance->Get_KeyState(KEY_DOWN, DIK_RETURN)) {
 		if (m_iCursor != m_pPlayer_Battle->Get_Current_Optima_Num()) {
 			m_pPlayer_Battle->Change_Optima(m_iCursor);
-			m_pPlayer_Battle->Change_Stage(CPlayer_Battle::STAGE_SELECT);
+			m_pPlayer_Battle->Change_Stage(CPlayer_Battle::STAGE_WAIT_OPTIMA);
 		}
 
 	}

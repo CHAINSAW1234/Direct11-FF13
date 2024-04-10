@@ -20,8 +20,9 @@ public:
 private:
 	void Heal();
 private:
-	class CChr_Battle_Vanila* m_pChr_Battle_Vanila = { nullptr };
-	_bool					m_isCommandFinish = { false };
+	class CChr_Battle_Vanila*	m_pChr_Battle_Vanila = { nullptr };
+	class CUI_Skill*			m_pUI_Skill = { nullptr };
+	_bool						m_isCommandFinish = { false };
 public:
 	static	CChr_Battle_Vanila_State_Heal* Create(class CChr_Battle_Vanila* pChr_Battle_Vanila);
 	virtual void Free() override;

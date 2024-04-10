@@ -154,7 +154,7 @@ HRESULT CLevel_Battle::Ready_Layer_Camera(const wstring& strLayerTag)
     CameraDesc.fAspect = (_float)g_iWinSizeX / g_iWinSizeY;
     CameraDesc.fNear = 0.1f;
     CameraDesc.fFar = 1000.0f;
-    CameraDesc.vEye = _float4(0.f, 10.f, -7.f, 1.f);
+    CameraDesc.vEye = _float4(0.f, 2.f, -6.f, 1.f);
     CameraDesc.vAt = _float4(0.f, 0.f, 0.f, 1.f);
     CameraDesc.fSpeedPerSec = 10.f;
     CameraDesc.fRotationPerSec = XMConvertToRadians(90.0f);

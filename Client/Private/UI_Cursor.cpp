@@ -101,6 +101,7 @@ void CUI_Cursor::Start()
 void CUI_Cursor::OnNotify()
 {
 	if (m_pPlayerInfo->Get_Stage() == CPlayer_Battle::STAGE_WAIT ||
+		m_pPlayerInfo->Get_Stage() == CPlayer_Battle::STAGE_WAIT_OPTIMA ||
 		m_pPlayerInfo->Get_Stage() == CPlayer_Battle::STAGE_FINISH)
 		m_isRender = false;
 	else

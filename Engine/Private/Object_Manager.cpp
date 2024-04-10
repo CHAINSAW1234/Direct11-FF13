@@ -93,7 +93,14 @@ CGameObject* CObject_Manager::Add_Clone_With_Object(_uint iLevelIndex, const wst
 	/* 레이어가 없었다면 만들어서 객체를 추가하고 만든 레이어를 다시 맵에 추가해준다. */
 	if (nullptr == pLayer)
 	{
+
 		pLayer = CLayer::Create();
+
+
+
+
+
+
 		if (nullptr == pLayer)
 			return nullptr;
 		pLayer->Add_GameObject(pGameObject);

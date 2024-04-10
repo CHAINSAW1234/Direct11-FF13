@@ -1,6 +1,7 @@
 #include "stdafx.h"
 #include "Boss_State_Skill_Barrier.h"
 #include "Boss.h"
+#include "UI_Skill.h"
 
 CBoss_State_Skill_Barrier::CBoss_State_Skill_Barrier(CBoss* pBoss)
 {
@@ -11,6 +12,7 @@ void CBoss_State_Skill_Barrier::OnStateEnter()
 {
     m_pBoss->Change_Animation(CBoss::SKILL_BARRIER, false);
     m_isSkill = false;
+    m_pUI_Skill = m_pBoss->Create_UI_Skill(TEXT("º£¸®¾î"));
 }
 
 void CBoss_State_Skill_Barrier::OnStateUpdate(_float fTimeDelta)
@@ -21,6 +23,9 @@ void CBoss_State_Skill_Barrier::OnStateUpdate(_float fTimeDelta)
 
 void CBoss_State_Skill_Barrier::OnStateExit()
 {
+    if (nullptr != m_pUI_Skill)
+        m_pUI_Skill->Set_Dead(true);
+    m_pUI_Skill = nullptr;
 }
 
 void CBoss_State_Skill_Barrier::Skill()

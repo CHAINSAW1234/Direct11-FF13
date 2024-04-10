@@ -41,7 +41,7 @@ HRESULT CChr_Battle_Light::Initialize(void* pArg)
 {
     GAMEOBJECT_DESC		GameObjectDesc{};
 
-    GameObjectDesc.fSpeedPerSec = 4.f;
+    GameObjectDesc.fSpeedPerSec = 2.f;
     GameObjectDesc.fRotationPerSec = XMConvertToRadians(360.f);
 
     if (FAILED(__super::Initialize(&GameObjectDesc)))
@@ -208,7 +208,7 @@ void CChr_Battle_Light::Set_Hit(_int iDamage)
         return;
 
     Min_Hp(iDamage);
-    Create_UI_Number(CUI_Number::DAMAGE, iDamage);
+    Create_UI_Number(CUI_Number::HIT, iDamage);
 
     if (m_eState == ATTACK) {
         Lost_Command();

@@ -24,8 +24,9 @@ private:
 	void Skill(_float fTimeDelta);
 
 private:
-	class CBoss* m_pBoss = { nullptr };
-	STATE m_eState = { STATE_END };
+	class CBoss*		m_pBoss = { nullptr };
+	class CUI_Skill*	m_pUI_Skill = { nullptr };
+	STATE				m_eState = { STATE_END };
 
 public:
 	static	CBoss_State_Skill_HellBlast* Create(class CBoss* pBoss);

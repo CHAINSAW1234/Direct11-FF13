@@ -168,6 +168,15 @@ PS_OUT PS_Disappear(PS_IN In)
     return Out;
 }
 
+PS_OUT PS_White(PS_IN In)     // 흰색 사각형 렌더링 
+{
+    PS_OUT Out = (PS_OUT) 0;
+    Out.vColor = float4(1.f, 1.f, 1.f, .5f);
+
+    return Out;
+}
+
+
 PS_OUT PS_Black_5(PS_IN In)     // 알파값 0.5를 먹여서 렌더링 한다
 {
     PS_OUT Out = (PS_OUT) 0;
@@ -265,8 +274,17 @@ technique11 DefaultTechnique
         PixelShader = compile ps_5_0 PS_Disappear();
     }
 
+    pass White // 흰색 사각형을 알파값 0.5로 렌더링  //6
+    {
+        SetRasterizerState(RS_Default);
+        SetDepthStencilState(DSS_UI, 0);
+        SetBlendState(BS_AlphaBlend, float4(0.f, 0.f, 0.f, 0.f), 0xffffffff);
 
-    pass Black_5 // 검은 색 사각형을 알파값 0.5로 렌더링  //6
+        VertexShader = compile vs_5_0 VS_MAIN();
+        PixelShader = compile ps_5_0 PS_White();
+    }
+
+    pass Black_5 // 검은색 사각형을 알파값 0.5로 렌더링  //7
     {
         SetRasterizerState(RS_Default);
         SetDepthStencilState(DSS_UI, 0);
@@ -276,17 +294,17 @@ technique11 DefaultTechnique
         PixelShader = compile ps_5_0 PS_Black_5();
     }
 
-    pass Color_And_Ratio // 전달한 색으로 특정 비율까지만 렌더링        //7
+    pass Color_And_Ratio // 전달한 색으로 특정 비율까지만 렌더링        //8
     {
         SetRasterizerState(RS_Default);
         SetDepthStencilState(DSS_UI, 0);
-        SetBlendState(BS_Default, float4(0.f, 0.f, 0.f, 0.f), 0xffffffff);
+        SetBlendState(BS_AlphaBlend, float4(0.f, 0.f, 0.f, 0.f), 0xffffffff);
 
         VertexShader = compile vs_5_0 VS_MAIN();
         PixelShader = compile ps_5_0 PS_Color_And_Ratio();
     }
 
-    pass Color_And_Ratio_And_Mask // 전달한 색으로 특정 비율까지만 마스크를 포함하여 //8
+    pass Color_And_Ratio_And_Mask // 전달한 색으로 특정 비율까지만 마스크를 포함하여 //9
     {
         SetRasterizerState(RS_Default);
         SetDepthStencilState(DSS_UI, 0);

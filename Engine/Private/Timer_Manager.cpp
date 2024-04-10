@@ -33,7 +33,7 @@ CTimer * CTimer_Manager::Find_Timer(const wstring & strTimerTag)
 {
 	auto	iter = m_Timers.find(strTimerTag);
 
- 	if (iter == m_Timers.end())
+	 	if (iter == m_Timers.end())
 		return nullptr;
 
 	return iter->second;
