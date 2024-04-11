@@ -121,8 +121,10 @@ void CPlayer_Battle::Use_Command()
 
 void CPlayer_Battle::Set_Command_Render(_bool isRender)
 {
-	for (auto& pPnal : m_Commands)
+	for (auto& pPnal : m_Commands) {
+		pPnal->Reset_Position();
 		pPnal->Set_Render(isRender);
+	}
 }
 
 _bool CPlayer_Battle::Check_Item()
@@ -331,7 +333,6 @@ void CPlayer_Battle::Create_UI()
 	
 	m_pUI_Chr.push_back(pUI_Chr);
 
-
 	for (auto& pChr : m_Memebers) {
 		UI_Chr_Desc.pChr_Battle = pChr;
 		UI_Chr_Desc.vStartPosition.x += 40.f;
@@ -351,6 +352,11 @@ void CPlayer_Battle::Create_UI()
 
 	Change_Chain_Target(m_Monsters[0]);
 	m_Monsters[0]->Set_isTarget(true);
+
+	CUI::UI_DESC pUI_Desc = {};
+	pUI_Desc.pObserver_Hander = this;
+
+	m_pGameInstance->Add_Clone(g_Level, TEXT("Layer_UI"), TEXT("Prototype_GameObject_UI_Optima"), &pUI_Desc);
 
 }
 

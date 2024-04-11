@@ -110,13 +110,8 @@ void CSolider_State_Idle::Move(_float fTimeDelta)
 	m_fDegree = m_pSolider->Cal_Degree_Target();
 
 	if (abs(m_fDegree) >= 30)
-		m_isMoveTurn = true;
+		m_pSolider->Get_Transform()->Look_At_ForLandObject(XMLoadFloat4(&m_pSolider->Get_TargetPosition()));
 
-	if (m_isMoveTurn) {
-		if (m_fDegree <= 5)
-			m_isMoveTurn = false;
-		m_pSolider->Get_Transform()->Turn(XMVectorSet(0.f, 1.f, 0.f, 0.f), fTimeDelta * m_fDegree / abs(m_fDegree));
-	}
 
 	m_pSolider->Get_Transform()->Go_Straight(fTimeDelta, m_pSolider->Get_Navigation());
 
@@ -146,13 +141,7 @@ void CSolider_State_Idle::Move_Left(_float fTimeDelta)
 	m_fDegree = m_pSolider->Cal_Degree_Target();
 
 	if (abs(m_fDegree) >= 30)
-		m_isMoveTurn = true;
-
-	if (m_isMoveTurn) {
-		if (m_fDegree <= 5)
-			m_isMoveTurn = false;
-		m_pSolider->Get_Transform()->Turn(XMVectorSet(0.f, 1.f, 0.f, 0.f), fTimeDelta * m_fDegree / abs(m_fDegree));
-	}
+		m_pSolider->Get_Transform()->Look_At_ForLandObject(XMLoadFloat4(&m_pSolider->Get_TargetPosition()));
 
 	m_pSolider->Get_Transform()->Go_Left(fTimeDelta, m_pSolider->Get_Navigation());
 
@@ -178,13 +167,7 @@ void CSolider_State_Idle::Move_Right(_float fTimeDelta)
 	m_fDegree = m_pSolider->Cal_Degree_Target();
 
 	if (abs(m_fDegree) >= 30)
-		m_isMoveTurn = true;
-
-	if (m_isMoveTurn) {
-		if (m_fDegree <= 5)
-			m_isMoveTurn = false;
-		m_pSolider->Get_Transform()->Turn(XMVectorSet(0.f, 1.f, 0.f, 0.f), fTimeDelta * m_fDegree / abs(m_fDegree));
-	}
+		m_pSolider->Get_Transform()->Look_At_ForLandObject(XMLoadFloat4(&m_pSolider->Get_TargetPosition()));
 
 	m_pSolider->Get_Transform()->Go_Right(fTimeDelta, m_pSolider->Get_Navigation());
 
@@ -210,13 +193,7 @@ void CSolider_State_Idle::Move_Back(_float fTimeDelta)
 	m_fDegree = m_pSolider->Cal_Degree_Target();
 
 	if (abs(m_fDegree) >= 30)
-		m_isMoveTurn = true;
-
-	if (m_isMoveTurn) {
-		if (m_fDegree <= 5)
-			m_isMoveTurn = false;
-		m_pSolider->Get_Transform()->Turn(XMVectorSet(0.f, 1.f, 0.f, 0.f), fTimeDelta * m_fDegree / abs(m_fDegree));
-	}
+		m_pSolider->Get_Transform()->Look_At_ForLandObject(XMLoadFloat4(&m_pSolider->Get_TargetPosition()));
 
 	m_pSolider->Get_Transform()->Go_Backward(fTimeDelta, m_pSolider->Get_Navigation());
 

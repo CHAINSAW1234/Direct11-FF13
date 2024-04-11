@@ -4,6 +4,7 @@
 
 BEGIN(Client)
 class CUI_Pnal;
+class CUI_Optima_Info;
 class CPlayer_Battle;
 
 class CUI_Battle_Stage_Optima final : public CFSM_State
@@ -24,14 +25,15 @@ public:
 
 private:
 	HRESULT Add_Pnals();
+	HRESULT Add_Optima_Infos();
 	void	Update_Cursor();
 	void	Update_KeyInput();
-	void	Update_Pnals();	// 패널의 개수를 몬스터의 개수와 맞추기, 패털의 이름등을 갱신 함
-
+	void	Update_Optima_Infos();
 
 private:
 	CPlayer_Battle* m_pPlayer_Battle = { nullptr };
 	vector<CUI_Pnal*>	m_Pnals;
+	vector<CUI_Optima_Info*> m_Optima_Infos;
 	_int				m_iCursor = { 0 };
 
 public:

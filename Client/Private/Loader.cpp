@@ -19,6 +19,8 @@
 #include "UI_Chain.h"
 #include "UI_Monster_Hp.h"
 #include "UI_Skill.h"
+#include "UI_Optima.h"
+#include "UI_Optima_Info.h"
 #include "UI_Optima_Change.h"
 
 #include "Chr_Field.h"
@@ -332,9 +334,19 @@ HRESULT CLoader::Loading_Prototype()
 		CUI_Skill::Create(m_pDevice, m_pContext))))
 		return E_FAIL;
 	
-	/* For.Prototype_GameObject_UI_Skill */
+	/* For.Prototype_GameObject_UI_Optima */
+	if (FAILED(m_pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_UI_Optima"),
+		CUI_Optima::Create(m_pDevice, m_pContext))))
+		return E_FAIL;
+
+	/* For.Prototype_GameObject_UI_Optima_Change */
 	if (FAILED(m_pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_UI_Optima_Change"),
 		CUI_Optima_Change::Create(m_pDevice, m_pContext))))
+		return E_FAIL;
+
+	/* For.Prototype_GameObject_UI_Optima_Info */
+	if (FAILED(m_pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_UI_Optima_Info"),
+		CUI_Optima_Info::Create(m_pDevice, m_pContext))))
 		return E_FAIL;
 
 	/* For.Prototype_GameObject_MapTool */
@@ -666,6 +678,21 @@ HRESULT CLoader::Loading_For_Battle()
 		CTexture::Create(m_pDevice, m_pContext, TEXT("../Bin/Resources/UI/Pnal/Chain_Border.png")))))
 		return E_FAIL;
 
+	/* For.Prototype_Component_Texture_UI_Optima */
+	if (FAILED(m_pGameInstance->Add_Prototype(g_Level, TEXT("Prototype_Component_Texture_UI_Optima"),
+		CTexture::Create(m_pDevice, m_pContext, TEXT("../Bin/Resources/UI/Tab.png")))))
+		return E_FAIL;
+
+	/* For.Prototype_Component_Texture_UI_Optima_Info */
+	if (FAILED(m_pGameInstance->Add_Prototype(g_Level, TEXT("Prototype_Component_Texture_UI_Optima_Info"),
+		CTexture::Create(m_pDevice, m_pContext, TEXT("../Bin/Resources/UI/Optima/Optima_Info.png")))))
+		return E_FAIL;
+
+	/* For.Prototype_Component_Texture_UI_Optima_Info_Face */
+	if (FAILED(m_pGameInstance->Add_Prototype(g_Level, TEXT("Prototype_Component_Texture_UI_Optima_Info_Face"),
+		CTexture::Create(m_pDevice, m_pContext, TEXT("../Bin/Resources/UI/Optima/Optima_Face%d.png"), 3))))
+		return E_FAIL;
+
 	/* For.Prototype_Component_Texture_UI_Grad */
 	if (FAILED(m_pGameInstance->Add_Prototype(g_Level, TEXT("Prototype_Component_Texture_UI_Grad"),
 		CTexture::Create(m_pDevice, m_pContext, TEXT("../Bin/Resources/UI/Grad.dds")))))
@@ -832,6 +859,21 @@ HRESULT CLoader::Loading_For_Boss_Battle()
 	/* For.Prototype_Component_Texture_UI_Chain_Inner */
 	if (FAILED(m_pGameInstance->Add_Prototype(g_Level, TEXT("Prototype_Component_Texture_UI_Chain_Border"),
 		CTexture::Create(m_pDevice, m_pContext, TEXT("../Bin/Resources/UI/Pnal/Chain_Border.png")))))
+		return E_FAIL;
+
+	/* For.Prototype_Component_Texture_UI_Optima */
+	if (FAILED(m_pGameInstance->Add_Prototype(g_Level, TEXT("Prototype_Component_Texture_UI_Optima"),
+		CTexture::Create(m_pDevice, m_pContext, TEXT("../Bin/Resources/UI/Tab.png")))))
+		return E_FAIL;
+
+	/* For.Prototype_Component_Texture_UI_Optima_Info */
+	if (FAILED(m_pGameInstance->Add_Prototype(g_Level, TEXT("Prototype_Component_Texture_UI_Optima_Info"),
+		CTexture::Create(m_pDevice, m_pContext, TEXT("../Bin/Resources/UI/Optima/Optima_Info.png")))))
+		return E_FAIL;
+
+	/* For.Prototype_Component_Texture_UI_Optima_Info_Face */
+	if (FAILED(m_pGameInstance->Add_Prototype(g_Level, TEXT("Prototype_Component_Texture_UI_Optima_Info_Face"),
+		CTexture::Create(m_pDevice, m_pContext, TEXT("../Bin/Resources/UI/Optima/Optima_Face%d.png"), 3))))
 		return E_FAIL;
 
 	/* For.Prototype_Component_Texture_UI_Grad */

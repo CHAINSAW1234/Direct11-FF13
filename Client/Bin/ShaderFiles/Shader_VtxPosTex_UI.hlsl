@@ -209,13 +209,38 @@ PS_OUT PS_Color_And_Ratio_And_Mask(PS_IN In)     // 특정 비율까지만 색을 마스크�
     return Out;
 }
 
+PS_OUT PS_Gradation(PS_IN In)     // 특정 비율까지만 색을 마스크를 먹여서 렌더링 한다
+{
+    PS_OUT Out = (PS_OUT) 0;
+    
+    Out.vColor = g_Color;
+    Out.vColor.w = 1 - In.vTexcoord.x;
+
+    return Out;
+}
+
+PS_OUT PS_Texture_Gradation(PS_IN In)     // 특정 비율까지만 색을 마스크를 먹여서 렌더링 한다
+{
+    PS_OUT Out = (PS_OUT) 0;
+    
+    vector vTextureColor = g_Texture.Sample(LinearSampler, In.vTexcoord);
+    if (0.3f >= vTextureColor.a)
+        discard;
+    
+    Out.vColor = vTextureColor;
+    Out.vColor.w = 1 - In.vTexcoord.x;
+
+    return Out;
+}
+
+
 technique11 DefaultTechnique
 {
     pass Default                                            //0
     {
         SetRasterizerState(RS_Default);
         SetDepthStencilState(DSS_UI, 0);
-        SetBlendState(BS_Default, float4(0.f, 0.f, 0.f, 0.f), 0xffffffff);
+        SetBlendState(BS_AlphaBlend, float4(0.f, 0.f, 0.f, 0.f), 0xffffffff);
 
         VertexShader = compile vs_5_0 VS_MAIN();
         GeometryShader = /*compile gs_5_0 GS_MAIN()*/NULL;
@@ -312,6 +337,26 @@ technique11 DefaultTechnique
 
         VertexShader = compile vs_5_0 VS_MAIN();
         PixelShader = compile ps_5_0 PS_Color_And_Ratio_And_Mask();
+    }
+
+    pass Gradation // 전달한 색으로 그라데이션 적용 //10
+    {
+        SetRasterizerState(RS_Default);
+        SetDepthStencilState(DSS_UI, 0);
+        SetBlendState(BS_AlphaBlend, float4(0.f, 0.f, 0.f, 0.f), 0xffffffff);
+
+        VertexShader = compile vs_5_0 VS_MAIN();
+        PixelShader = compile ps_5_0 PS_Gradation();
+    }
+
+    pass Gradation_Texture // 텍스처에 그라데이션 적용 //11
+    {
+        SetRasterizerState(RS_Default);
+        SetDepthStencilState(DSS_UI, 0);
+        SetBlendState(BS_AlphaBlend, float4(0.f, 0.f, 0.f, 0.f), 0xffffffff);
+
+        VertexShader = compile vs_5_0 VS_MAIN();
+        PixelShader = compile ps_5_0 PS_Texture_Gradation();
     }
 
 

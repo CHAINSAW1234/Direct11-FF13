@@ -11,6 +11,7 @@ public:
 
 private:
 	const static wstring strRoleName[ROLE_END];
+	const static wstring strRoleFullName[ROLE_END];
 	const static _float4 vRoleColor[ROLE_END];
 private:
 	CAbility();
@@ -18,6 +19,7 @@ private:
 
 public:
 	static wstring Get_RoleName(ROLE eRole) { return strRoleName[eRole]; }
+	static wstring Get_RoleFullName(ROLE eRole) { return strRoleFullName[eRole]; }
 	static _float4 Get_RoleColor(ROLE eRole) { return vRoleColor[eRole]; }
 
 	size_t	Get_RoleCount() { return m_Role.size(); }

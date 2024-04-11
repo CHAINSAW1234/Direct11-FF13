@@ -228,7 +228,7 @@ HRESULT CBoss::Add_Components()
         return E_FAIL;
 
     CBounding_Sphere::BOUNDING_SPHERE_DESC ColliderSphereDesc = {};
-    ColliderSphereDesc.fRadius = 1.f;
+    ColliderSphereDesc.fRadius = 3.f;
     ColliderSphereDesc.vCenter = _float3(0.f, 0.f, 0.f);
     if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_Collider_Sphere"),
         TEXT("Com_Collider_Push"), (CComponent**)&m_pCollider_PushCom, &ColliderSphereDesc)))

@@ -41,7 +41,6 @@ public:
 	CInventory*				Get_Inventory() { return m_pInventory; }
 	CAbility*				Get_Ability() { return m_pAbility; }
 	_float3					Get_CursorPosition() { return m_vCursorPosition; }
-
 	_bool					Get_Command_empty() { return m_Commands.empty(); }
 	size_t					Get_Command_size() { return m_Commands.size(); }
 
@@ -69,6 +68,7 @@ public:
 	/*=========================OPTIMA ฐüทร=========================*/
 	HRESULT				Create_Optima();
 	COptima::Optima*	Get_Current_Optima();
+	COptima::Optima*	Get_Optima(_int iOptimaIndex) { return m_pOptima->Get_Optima(iOptimaIndex); }
 	size_t				Get_Optima_Size() { return m_pOptima->Get_Optima_Size(); }
 	_int				Get_Current_Optima_Num() { return m_pOptima->Get_Current_Optima_Num(); }
 	wstring				Get_Current_Optima_Name() { return m_pOptima->Get_Current_Optima_Name(); }

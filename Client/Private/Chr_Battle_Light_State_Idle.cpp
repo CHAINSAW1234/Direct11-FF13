@@ -146,13 +146,7 @@ void CChr_Battle_Light_State_Idle::Move(_float fTimeDelta)
 	m_fDegree = m_pChr_Battle_Light->Cal_Degree_Target();
 
 	if (abs(m_fDegree) >= 30)
-		m_isMoveTurn = true;
-
-	if (m_isMoveTurn) {
-		if (m_fDegree <= 5)
-			m_isMoveTurn = false;
-		m_pChr_Battle_Light->Get_Transform()->Turn(XMVectorSet(0.f, 1.f, 0.f, 0.f), fTimeDelta * m_fDegree / abs(m_fDegree));
-	}
+		m_pChr_Battle_Light->Get_Transform()->Look_At_ForLandObject(XMLoadFloat4(&m_pChr_Battle_Light->Get_Target_Position()));
 
 
 	if (m_fTimeDelta >= m_fStateTime) {

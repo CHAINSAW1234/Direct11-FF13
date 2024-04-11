@@ -275,7 +275,9 @@
     <ClInclude Include="..\Public\UI_Chr.h" />
     <ClInclude Include="..\Public\UI_Number.h" />
     <ClInclude Include="..\Public\UI_Monster_Hp.h" />
+    <ClInclude Include="..\Public\UI_Optima.h" />
     <ClInclude Include="..\Public\UI_Optima_Change.h" />
+    <ClInclude Include="..\Public\UI_Optima_Info.h" />
     <ClInclude Include="..\Public\UI_Pnal.h" />
     <ClInclude Include="..\Public\UI_Pnal_Attack.h" />
     <ClInclude Include="..\Public\UI_Pnal_Item.h" />
@@ -412,7 +414,9 @@
     <ClCompile Include="..\Private\UI_Chr.cpp" />
     <ClCompile Include="..\Private\UI_Number.cpp" />
     <ClCompile Include="..\Private\UI_Monster_Hp.cpp" />
+    <ClCompile Include="..\Private\UI_Optima.cpp" />
     <ClCompile Include="..\Private\UI_Optima_Change.cpp" />
+    <ClCompile Include="..\Private\UI_Optima_Info.cpp" />
     <ClCompile Include="..\Private\UI_Pnal.cpp" />
     <ClCompile Include="..\Private\UI_Pnal_Attack.cpp" />
     <ClCompile Include="..\Private\UI_Pnal_Item.cpp" />

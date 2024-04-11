@@ -56,7 +56,7 @@ void CChr_Battle::Tick(_float fTimeDelta)
 	Update_Target();
 	Update_Collider();
 	Check_Interact_Chr(fTimeDelta);
-	Check_Interact_Monster(fTimeDelta);
+	//Check_Interact_Monster(fTimeDelta);
 
 	for (auto& pPartObject : m_PartObjects)
 		pPartObject->Tick(fTimeDelta);

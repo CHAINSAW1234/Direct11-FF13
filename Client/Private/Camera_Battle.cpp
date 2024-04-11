@@ -164,7 +164,7 @@ void CCamera_Battle::Update_With_Mouse(_float fTimeDelta)
 
     }
     else {
-        m_fMouseMoveXAxis *= 0.99f;
+        m_fMouseMoveXAxis *= 0.97f;
         if (m_fMouseMoveXAxis < 3) {
             m_fMouseMoveXAxis = 0;
         }
@@ -177,7 +177,7 @@ void CCamera_Battle::Update_With_Mouse(_float fTimeDelta)
         m_MouseMoveY = clamp(MouseMove, (_long)-10, (_long)10);
     }
     else {
-        m_fMouseMoveYAxis *= 0.99f;
+        m_fMouseMoveYAxis *= 0.9f;
         if (m_fMouseMoveYAxis < 3) {
             m_fMouseMoveYAxis = 0;
         }

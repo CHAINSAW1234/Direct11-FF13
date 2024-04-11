@@ -48,8 +48,7 @@ HRESULT CVIBuffer::Render()
 HRESULT CVIBuffer::Bind_Buffers()
 {
 	ID3D11Buffer*		pVertexBuffers[] = {
-			m_pVB, 
-	
+		m_pVB, 
 	};
 
 	_uint				iVertexStrides[] = {
@@ -68,8 +67,6 @@ HRESULT CVIBuffer::Bind_Buffers()
 
 	/* 그릴때 어떤 형태로 정점들을 이어 그릴건지. */
 	m_pContext->IASetPrimitiveTopology(m_ePrimitiveTopology);
-
-
 
 	return S_OK;
 }

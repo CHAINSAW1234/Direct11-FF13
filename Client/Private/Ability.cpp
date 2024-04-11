@@ -2,6 +2,7 @@
 #include "Ability.h"
 
 const wstring CAbility::strRoleName[ROLE_END] = { TEXT("ATK"), TEXT("BLA"), TEXT("HLR") };
+const wstring CAbility::strRoleFullName[ROLE_END] = { TEXT("ATTACKER"), TEXT("BLASTER"), TEXT("HEALER") };
 const _float4 CAbility::vRoleColor[ROLE_END] = { {1.f,0.f,0.f,1.f}, {0.f,0.f,1.f,1.f}, { 0.f,1.f,0.f,1.f } };
 CAbility::CAbility()
 	: CBase{}
