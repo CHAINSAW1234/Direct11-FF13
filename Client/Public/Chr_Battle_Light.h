@@ -72,7 +72,7 @@ public:
 	virtual void Set_Hit(_int iDamage);
 	void   Check_Interact_Weapon();			// 무기의 충돌 체크 -> 상대 객체 -> 몬스터 피격 판정 주기 -> 타겟 객체만
 	void   Check_Interact_Weapon_Multi();	// 무기의 충돌 체크 -> 상대 객체 -> 몬스터 피격 판정 주기 -> 주변 모든 객체
-
+	virtual void	Create_Sphere(_int iDamage, _int iWeaponNum = 0) override;
 private:
 	virtual HRESULT Add_Components() override;
 	virtual HRESULT Add_Component_FSM() override;
@@ -88,7 +88,10 @@ private:
 
 	deque<pair<CRole::SKILL, _int>>*	m_pCommands = { nullptr };
 	CInventory::ITEM		m_eItem = { CInventory::ITEM_END };
-	class CImGUI_Manager*	m_pImGUI_Manager = { nullptr };
+
+#ifdef _DEBUG
+	class CImGUI_Manager* m_pImGUI_Manager = { nullptr };
+#endif
 
 public:
 	static CChr_Battle_Light* Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);

@@ -48,6 +48,7 @@ public:
 	_float  Get_CurrentChain() { return m_fCurChain; }
 	_float  Get_Stagger() { return m_fStagger; }
 	_bool	Get_isTarget() { return m_isTarget; }
+	_float3 Get_ColliderSize() { return m_vColliderSize; }
 
 	/*============================SET============================*/
 	void Set_Target(CChr_Battle* pTargetObject);
@@ -68,13 +69,14 @@ public:
 	void Update_Attack_Time(_float fTimeDelta);
 	virtual void Add_Chain(_float fChain);
 	void Reset_Attakable();
+	void Change_Target();
 
 	_float Cal_Degree_Start();
 	_float Cal_Dist_Start();
 	_float Cal_Degree_Target();
 	_float Cal_Dist_Target();
 
-	virtual void Set_Hit(_int iDamage);
+	virtual void Set_Hit(_int iDamage, _float fChain);
 	void Create_UI_Number(CUI_Number::TYPE eType, _int iNum);
 	class CUI_Skill* Create_UI_Skill(wstring strSkillName);
 	void   Create_Damage(_int iDamage);
@@ -83,10 +85,10 @@ public:
 	void   Check_Interact_Weapon();		// 무기의 충돌 체크 -> 상대 객체 -> 플레이어 캐릭터 피격 판정 주기
 
 	void	Update_Collider();
+
 protected:
 	HRESULT Create_UI_Hp();
 	virtual void Update_Chain(_float fTimeDelta);
-
 
 protected:
 	CModel*			m_pModelCom = { nullptr };
@@ -98,7 +100,7 @@ protected:
 	CChr_Battle*	m_pTargetObject = { nullptr };
 	CNavigation*	m_pNavigationCom = { nullptr };
 
-	_float		m_fColliderSizeZ = { 0 };
+	_float3		m_vColliderSize = { 0.f,0.f,0.f };
 
 	wstring		m_strMonsterName = {};
 	_int		m_iMaxHp = { 1 };
@@ -118,6 +120,7 @@ protected:
 	_float		m_fChain = { 100.f };
 	_float		m_fCurChain = { 100.f };					// 실시간으로 감소하는 Chain 값 : 이 값이 100이 되면 m_fChain을 100으로 초기화
 	_float		m_fStagger = { 100.f };						// Chain이 이 값보다 높아지면 Break상태로 변환
+	_float		m_fChainResist = { 0.f };
 	_float4		m_vStartPosition = { 0.f,0.f,0.f,1.f };		// 흠
 
 protected:

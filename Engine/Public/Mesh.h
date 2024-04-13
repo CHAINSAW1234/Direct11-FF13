@@ -21,7 +21,9 @@ public:
 	const _char* Get_Name() { return m_szName; }
 
 public:
+#ifdef _ASSIMP
 	virtual HRESULT Initialize_Prototype(CModel::TYPE eModelType, const aiMesh* pAIMesh, const vector<CBone*>& Bones, _fmatrix TransformMatrix);
+#endif
 	virtual HRESULT Initialize(void* pArg) override;
 	virtual _bool	Compute_Picking(const CTransform* pTransform, _Out_  _float4* vOutPos = nullptr);
 
@@ -50,16 +52,23 @@ private:
 
 	_uint*					m_pIndices = { nullptr };		// Picking을 위해 Indices 저장
 private:
+#ifdef _ASSIMP
 	HRESULT Ready_Vertices_For_NonAnimModel(const aiMesh* pAIMesh, _fmatrix TransformMatrix);
 	HRESULT Ready_Vertices_For_AnimModel(const aiMesh* pAIMesh, const vector<CBone*>& Bones);
+#endif
+
 
 	HRESULT Save_Mesh_For_NonAnimModel(ofstream& OFS);
 	HRESULT Save_Mesh_For_AnimModel(ofstream& OFS);
+
+
 	HRESULT Load_Mesh_For_NonAnimModel(ifstream& IFS);
 	HRESULT Load_Mesh_For_AnimModel(istream& IFS);
 
 public:
+#ifdef _ASSIMP
 	static CMesh* Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext, CModel::TYPE eModelType, const aiMesh* pAIMesh, const vector<class CBone*>& Bones, _fmatrix TransformMatrix);
+#endif
 	static CMesh* Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext, CModel::TYPE eModelType, ifstream& IFS);
 	virtual CMesh* Clone(void* pArg);
 	virtual void Free() override;

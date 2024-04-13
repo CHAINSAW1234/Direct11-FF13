@@ -91,6 +91,7 @@ _float CCollider::IntersectDist(CCollider* pTargetCollider)
 	return m_pBounding->IntersectDist(pTargetCollider->m_eType, pTargetCollider->m_pBounding);
 }
 
+#ifdef _DEBUG
 HRESULT CCollider::Render()
 {
 	m_pEffect->SetWorld(XMMatrixIdentity());
@@ -109,6 +110,7 @@ HRESULT CCollider::Render()
 
 	return S_OK;
 }
+#endif
 
 CCollider* CCollider::Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext, TYPE eType)
 {

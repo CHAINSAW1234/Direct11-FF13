@@ -12,6 +12,7 @@ void CChr_Battle_Light_State_Attack::OnStateEnter()
 	CRole::SKILL eSkill = m_pChr_Battle_Light->Get_Current_Command();
 	m_fDegree = m_pChr_Battle_Light->Cal_Degree_Target();
 	m_isCommandFinish = false;
+	m_isCommandUse = false;
 
 	if (eSkill == CRole::ATTACK || eSkill == CRole::AREA_BLAST) {	// 공격이면 달려가야함
 		m_eState = RUN;
@@ -146,7 +147,7 @@ void CChr_Battle_Light_State_Attack::Attack(_float fTimeDelta)
 	// 1. 공중과 지상 구분
 	// 2. 다음 공격과의 연계 체크
 	// 3. 공격 종료시 다음 애니메이션 체크
-
+	
 	if(m_pChr_Battle_Light->Get_Current_Command() == CRole::AREA_BLAST)
 		m_pChr_Battle_Light->Check_Interact_Weapon_Multi();
 	else
@@ -159,6 +160,7 @@ void CChr_Battle_Light_State_Attack::Attack(_float fTimeDelta)
 			if (m_pChr_Battle_Light->Get_CurrentTrackPosition() >= 23) {
 				m_pChr_Battle_Light->Use_Command();
 				CRole::SKILL eSkill = m_pChr_Battle_Light->Get_Current_Command();
+
 
 				switch (eSkill) {
 				case CRole::ATTACK: 
@@ -271,26 +273,36 @@ void CChr_Battle_Light_State_Attack::Attack(_float fTimeDelta)
 
 void CChr_Battle_Light_State_Attack::Skill(_float fTimeDelta)
 {
+	m_pChr_Battle_Light->Get_Transform()->Look_At_ForLandObject(XMLoadFloat4(&m_pChr_Battle_Light->Get_Target_Position()));
+
 	if (m_pChr_Battle_Light->Get_Transform()->Get_State_Float4(CTransform::STATE_POSITION).y > 1) {
 		if (!m_isCommandFinish) {
-			if (m_pChr_Battle_Light->Is_Animation_Finished()) {
+			if (!m_isCommandUse && m_pChr_Battle_Light->Get_CurrentTrackPosition() >= 16) {
+				m_isCommandUse = true;
 				m_pChr_Battle_Light->Use_Command();
+				m_pChr_Battle_Light->Create_Sphere(m_pChr_Battle_Light->Get_Attack_Magic());
+			}
+
+			if (m_pChr_Battle_Light->Is_Animation_Finished()) {
 				CRole::SKILL eSkill = m_pChr_Battle_Light->Get_Current_Command();
 
 				switch (eSkill) {
 				case CRole::ATTACK:
 					m_eState = ATTACK;
 					m_pChr_Battle_Light->Change_Animation(CChr_Battle_Light::ATTACK_AIR, false);
+					m_isCommandUse = false;
 					break;
 				case CRole::AREA_BLAST:
 					m_eState = DOWN;
 					m_pChr_Battle_Light->Change_Animation(CChr_Battle_Light::JUMP_FALL, true);
+					m_isCommandUse = false;
 					break;
 				case CRole::SKILL_END:
 					m_isCommandFinish = true;
 					break;
 				default:
 					m_pChr_Battle_Light->Set_TrackPosition(0.f);
+					m_isCommandUse = false;
 					break;
 				}
 			}
@@ -304,8 +316,13 @@ void CChr_Battle_Light_State_Attack::Skill(_float fTimeDelta)
 	}
 	else {
 		if (!m_isCommandFinish) {
-			if (m_pChr_Battle_Light->Get_CurrentTrackPosition() >= 30) {
+			if (!m_isCommandUse && m_pChr_Battle_Light->Get_CurrentTrackPosition() >= 14) {
+				m_isCommandUse = true;
 				m_pChr_Battle_Light->Use_Command();
+				m_pChr_Battle_Light->Create_Sphere(m_pChr_Battle_Light->Get_Attack_Magic());
+			}
+
+			if (m_pChr_Battle_Light->Get_CurrentTrackPosition() >= 30) {
 				CRole::SKILL eSkill = m_pChr_Battle_Light->Get_Current_Command();
 
 				switch (eSkill) {
@@ -318,10 +335,12 @@ void CChr_Battle_Light_State_Attack::Skill(_float fTimeDelta)
 					if (m_pChr_Battle_Light->Get_CurrentAnimationIndex() == CChr_Battle_Light::SKILL) {
 						m_pChr_Battle_Light->Change_Animation(CChr_Battle_Light::SKILL_2, false);
 						m_pChr_Battle_Light->Set_TrackPosition(15.f);
+						m_isCommandUse = false;
 					}
 					else {
 						m_pChr_Battle_Light->Change_Animation(CChr_Battle_Light::SKILL, false);
 						m_pChr_Battle_Light->Set_TrackPosition(15.f);
+						m_isCommandUse = false;
 					}
 					break;
 				}
@@ -347,7 +366,6 @@ void CChr_Battle_Light_State_Attack::Skill(_float fTimeDelta)
 
 void CChr_Battle_Light_State_Attack::Finish(_float fTimeDelta)
 {
-
 	if (m_pChr_Battle_Light->Is_Animation_Finished()) {
 		switch (m_pChr_Battle_Light->Get_CurrentAnimationIndex()) {
 		case CChr_Battle_Light::JUMP_LAND:
@@ -361,7 +379,7 @@ void CChr_Battle_Light_State_Attack::Finish(_float fTimeDelta)
 	if (m_pChr_Battle_Light->Get_CurrentAnimationIndex() == CChr_Battle_Light::ATTACK_END) {
 		m_pChr_Battle_Light->Update_ATB(fTimeDelta);
 		if (m_pChr_Battle_Light->Get_CurrentTrackPosition() <= 25.f) {
-			m_pChr_Battle_Light->Get_Transform()->Go_Backward(fTimeDelta * 1.5, m_pChr_Battle_Light->Get_Navigation());
+			m_pChr_Battle_Light->Get_Transform()->Go_Backward(fTimeDelta * 2.f, m_pChr_Battle_Light->Get_Navigation());
 		}
 	}
 }

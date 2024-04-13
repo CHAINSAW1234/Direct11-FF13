@@ -1,14 +1,15 @@
 #include "stdafx.h"
 #include "..\Public\Particle_Blue.h"
+#include "GameInstance.h"
 
 
 CParticle_Blue::CParticle_Blue(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
-	: CGameObject{ pDevice, pContext }
+	: CPartObject{ pDevice, pContext }
 {
 }
 
 CParticle_Blue::CParticle_Blue(const CParticle_Blue& rhs)
-	: CGameObject{ rhs }
+	: CPartObject{ rhs }
 {
 }
 
@@ -19,6 +20,12 @@ HRESULT CParticle_Blue::Initialize_Prototype()
 
 HRESULT CParticle_Blue::Initialize(void* pArg)
 {
+	PARTOBJECT_DESC* pPartObjectDesc = (PARTOBJECT_DESC*)pArg;
+
+	pPartObjectDesc->fSpeedPerSec = 10.f;
+	pPartObjectDesc->fRotationPerSec = XMConvertToRadians(90.0f);
+
+
 	if (FAILED(__super::Initialize(pArg)))
 		return E_FAIL;
 
@@ -30,7 +37,10 @@ HRESULT CParticle_Blue::Initialize(void* pArg)
 
 void CParticle_Blue::Tick(_float fTimeDelta)
 {
-	m_pVIBufferCom->Update(fTimeDelta);
+	m_pVIBufferCom->Spread(fTimeDelta);
+
+	XMStoreFloat4x4(&m_WorldMatrix, m_pTransformCom->Get_WorldMatrix() * XMLoadFloat4x4(m_pParentMatrix));
+
 }
 
 HRESULT CParticle_Blue::Late_Tick(_float fTimeDelta)
@@ -38,7 +48,7 @@ HRESULT CParticle_Blue::Late_Tick(_float fTimeDelta)
 	if (FAILED(__super::Late_Tick(fTimeDelta)))
 		return E_FAIL;
 
-	m_pGameInstance->Add_RenderGroup(CRenderer::RENDER_NONBLEND, this);
+	m_pGameInstance->Add_RenderGroup(CRenderer::RENDER_NONLIGHT, this);
 	return S_OK;
 }
 
@@ -84,7 +94,7 @@ HRESULT CParticle_Blue::Bind_ShaderResources()
 	if (nullptr == m_pShaderCom)
 		return E_FAIL;
 
-	if (FAILED(m_pTransformCom->Bind_ShaderResource(m_pShaderCom, "g_WorldMatrix")))
+	if (FAILED(m_pShaderCom->Bind_Matrix("g_WorldMatrix", &m_WorldMatrix)))
 		return E_FAIL;
 
 	if (FAILED(m_pShaderCom->Bind_Matrix("g_ViewMatrix", &m_pGameInstance->Get_Transform_Float4x4(CPipeLine::D3DTS_VIEW))))

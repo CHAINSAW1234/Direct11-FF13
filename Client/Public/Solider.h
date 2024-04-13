@@ -39,7 +39,7 @@ public:
 
 	void Set_IsJumpNext(_bool isJumpNext) { m_isJumpNext = isJumpNext; }
 
-	virtual void Set_Hit(_int iDamage) override;
+	virtual void Set_Hit(_int iDamage, _float fChain) override;
 	virtual void Set_State_Battle_Start() override;
 	HRESULT Change_State(STATE eState);
 	void	Change_Animation(ANIMATION_SOLIDER iAnimationIndex, _bool isLoop);

@@ -9,6 +9,9 @@
     <ContentFile>
       <FullPath>C:\Users\stgo5015\Documents\GitHub\Direct11_FF13\Engine\Bin\Shader_Cell.cso</FullPath>
     </ContentFile>
+    <ContentFile>
+      <FullPath>C:\Users\stgo5015\Documents\GitHub\Direct11_FF13\Engine\Bin\Shader_Deferred.cso</FullPath>
+    </ContentFile>
   </ContentFiles>
   <SatelliteDlls />
   <NonRecipeFileRefs />

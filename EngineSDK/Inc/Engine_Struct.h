@@ -86,11 +86,17 @@ namespace Engine
 
 	}VTXMATRIX;
 
-	typedef struct ENGINE_DLL VTXInstnace
+	typedef struct ENGINE_DLL VTXInstance_Rect
 	{
 		static const unsigned int	iNumElements = { 7 };
 		static const D3D11_INPUT_ELEMENT_DESC	Elements[7];
-	}VTXINSTANCE;
+	}VTXINSTANCE_RECT;
+
+	typedef struct ENGINE_DLL VTXInstance_Point
+	{
+		static const unsigned int	iNumElements = { 6 };
+		static const D3D11_INPUT_ELEMENT_DESC	Elements[6];
+	}VTXINSTANCE_POINT;
 
 	typedef struct ENGINE_DLL VTXMesh
 	{
@@ -119,9 +125,9 @@ namespace Engine
 
 	}VTXANIMMESH;
 
-	typedef struct Frame
+	typedef struct ENGINE_DLL Frame
 	{
-		_uint					iMaxFrame;			// 최대 프레임 수
+		_uint					iMaxFrame = 0;			// 최대 프레임 수
 		_float					fFrameSpeed = 0.2f;	// 프레임 속도	
 		_uint					iCurFrame = 0;		// 현재 프레임
 		_float					fTime = 0.f;		// 현재 누적 시간

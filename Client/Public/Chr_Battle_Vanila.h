@@ -36,12 +36,15 @@ public:
 	virtual void Start() override;
 
 public:
-	HRESULT Change_State(STATE eState);
-	void	Change_Animation(ANIMATION_CHR_BATTLE_VANILA iAnimationIndex, _bool isLoop);
-	void	Change_Animation_Weapon(ANIMATION_CHR_BATTLE_VANILA_WEAPON iAnimationIndex, _bool isLoop);
-	virtual void Change_Role(CAbility::ROLE eRole) override;
-	virtual void Set_State_Battle_Finish() override;
-	virtual void Set_Hit(_int iDamage);								// 피격 상태로 변경
+	HRESULT			Change_State(STATE eState);
+	void			Change_Animation(ANIMATION_CHR_BATTLE_VANILA iAnimationIndex, _bool isLoop);
+	void			Change_Animation_Weapon(ANIMATION_CHR_BATTLE_VANILA_WEAPON iAnimationIndex, _bool isLoop);
+	virtual void	Change_Role(CAbility::ROLE eRole) override;
+	virtual void	Set_State_Battle_Finish() override;
+	virtual void	Set_Target(CGameObject* pTargetObject) override;
+	virtual void	Set_Hit(_int iDamage);								// 피격 상태로 변경
+	virtual void	Create_Sphere(_int iDamage, _int iWeaponNum = 0) override;
+	void			Create_Sphere_Heal();
 
 private:
 	virtual HRESULT Add_Components() override;
@@ -51,12 +54,14 @@ private:
 
 	void Update_HealTarget();
 
-	void	Show_ImGUI();
 
 private:
 	STATE		m_eState = { STATE_END };
 	vector<CChr_Battle*>	m_Memebers;						// 힐 하기 위함 
+
+#ifdef DEBUG
 	class CImGUI_Manager* m_pImGUI_Manager = { nullptr };
+#endif
 
 public:
 	static CChr_Battle_Vanila* Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);

@@ -25,7 +25,9 @@ HRESULT CWarload::Initialize_Prototype()
 {
     m_iMaxHp = m_iHp = 4050;
     m_fStagger = 130.f;
+    m_fChainResist = 80.f;
     m_iDamage = 70;
+    m_vColliderSize = _float3(1.2f, 2.1f, .8f);
     m_strMonsterName = TEXT("PSICOM 강공전술사");
 
     return S_OK;
@@ -86,15 +88,12 @@ void CWarload::Start()
     /*m_pTransformCom->Set_State(CTransform::STATE_POSITION, XMVectorSet(_float(rand() % 10 - 5), 0.f, _float(rand() % 10 - 5), 1.f));*/
 }
 
-void CWarload::Set_Hit(_int iDamage)
+void CWarload::Set_Hit(_int iDamage, _float fChain)
 {
-    Min_Hp(iDamage);
-    Create_Damage(iDamage);
-
-    if (m_iHp <= 0)
-        m_isDead = true;
+    __super::Set_Hit(iDamage, fChain);
 
     if (!m_isUseSkill && m_iHp <= m_iMaxHp / 2) {
+        m_isUseSkill = true;
         Change_State(STATE_SKILL);
         return;
     }
@@ -102,8 +101,6 @@ void CWarload::Set_Hit(_int iDamage)
     if (m_eState != STATE_SKILL && m_isBreak) {
         Change_State(STATE_HIT);
     }
-
-
 }
 
 void CWarload::Set_State_Battle_Start()
@@ -135,8 +132,7 @@ HRESULT CWarload::Add_Components()
 
     /* 로컬상의 정보를 셋팅한다. */
     ColliderOBBDesc.vRotation = _float3(0.f, 0.f, 0.f);
-    ColliderOBBDesc.vSize = _float3(1.2f, 2.1f, .8f);
-    m_fColliderSizeZ = .4f;
+    ColliderOBBDesc.vSize = m_vColliderSize;
     ColliderOBBDesc.vCenter = _float3(0.f, ColliderOBBDesc.vSize.y * 0.5f, 0.f);
 
     if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_Collider_OBB"),

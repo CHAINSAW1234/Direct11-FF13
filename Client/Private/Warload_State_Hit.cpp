@@ -9,6 +9,7 @@ CWarload_State_Hit::CWarload_State_Hit(CWarload* pWarload)
 
 void CWarload_State_Hit::OnStateEnter()
 {
+	m_pWarload->Change_Animation(CWarload::HIT, false);
 }
 
 void CWarload_State_Hit::OnStateUpdate(_float fTimeDelta)

@@ -4,6 +4,7 @@ CBone::CBone()
 {
 }
 
+#ifdef _ASSIMP
 HRESULT CBone::Initialize(const aiNode* pAINode, _int iParentIndex)
 {
 	m_iParentBoneIndex = iParentIndex;
@@ -19,6 +20,7 @@ HRESULT CBone::Initialize(const aiNode* pAINode, _int iParentIndex)
 
 	return S_OK;
 }
+#endif
 
 void CBone::Invalidate_CombinedTransformationMatrix(const vector<CBone*>& Bones, _fmatrix TransformationMatrix)
 {
@@ -56,6 +58,7 @@ HRESULT CBone::Load_Bone(ifstream& IFS)
 	return S_OK;
 }
 
+#ifdef _ASSIMP
 CBone* CBone::Create(const aiNode* pAINode, _int iParentIndex)
 {
 	CBone*		pInstance = new CBone();
@@ -69,6 +72,7 @@ CBone* CBone::Create(const aiNode* pAINode, _int iParentIndex)
 
 	return pInstance;
 }
+#endif
 
 CBone* CBone::Create(ifstream& IFS)
 {

@@ -133,7 +133,7 @@ void CUI_Optima_Change::Move1(_float fTimeDelta)
     }
 
     _float4 vCurPos = {};   
-    _float fEaseTime = 1 - pow(1 - m_fTimeDelta, 5);
+    _float fEaseTime = (_float)(1 - pow(1 - m_fTimeDelta, 5));
 
     /*
     return x < 0.5
@@ -168,7 +168,7 @@ void CUI_Optima_Change::Move2(_float fTimeDelta)
     }
 
     _float4 vCurPos = {};
-    _float fEaseTime = pow(m_fTimeDelta, 5);
+    _float fEaseTime = (_float)pow(m_fTimeDelta, 5);
 
     /*
     return x < 0.5

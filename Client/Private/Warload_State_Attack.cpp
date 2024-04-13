@@ -30,6 +30,7 @@ void CWarload_State_Attack::OnStateExit()
 {
 	m_pWarload->Set_IsJumpNext(true);
 	m_pWarload->Reset_AttackTime();
+	m_pWarload->Change_Target();
 }
 
 void CWarload_State_Attack::Run(_float fTimeDelta)

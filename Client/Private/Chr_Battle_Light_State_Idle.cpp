@@ -194,8 +194,8 @@ void CChr_Battle_Light_State_Idle::Move(_float fTimeDelta)
 
 void CChr_Battle_Light_State_Idle::Turn(_float fTimeDelta)
 {
-	_float t1 = EaseOutCublic(m_fPrevTimeDelta);
-	_float t2 = EaseOutCublic(m_fTimeDelta);
+	_float t1 = (_float)EaseOutCublic(m_fPrevTimeDelta);
+	_float t2 = (_float)EaseOutCublic(m_fTimeDelta);
 
 	m_pChr_Battle_Light->Get_Transform()->Turn(XMVectorSet(0.f, 1.f, 0.f, 0.f), (t2 - t1) * m_fDegree / 360);
 

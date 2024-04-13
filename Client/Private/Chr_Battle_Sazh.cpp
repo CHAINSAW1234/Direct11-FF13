@@ -12,10 +12,12 @@
 #include "Model.h"
 #include "Shader.h"
 
+#include "Bone.h"
 #include "Body.h"
 #include "Weapon_Anim.h"
 #include "Ability.h"
-
+#include "Sphere.h"
+#include "Bullet.h"
 #include "ImGUI_Manager.h"
 
 
@@ -31,7 +33,11 @@ CChr_Battle_Sazh::CChr_Battle_Sazh(const CChr_Battle_Sazh& rhs)
 
 HRESULT CChr_Battle_Sazh::Initialize_Prototype()
 {
+	m_iMaxHp = m_iHp = 320;
+	m_iAttack_Physic = 23;
+	m_iAttack_Magic = 24;
 	m_strChrName = TEXT("삿즈");
+	m_vColliderSize = _float3(.6f, 1.8f, .6f);
 	return S_OK;
 }
 
@@ -45,16 +51,17 @@ HRESULT CChr_Battle_Sazh::Initialize(void* pArg)
 	if (FAILED(__super::Initialize(&GameObjectDesc)))
 		return E_FAIL;
 
-
+#ifdef DEBUG
 	m_pImGUI_Manager = CImGUI_Manager::Get_Instance(m_pDevice, m_pContext);
 	Safe_AddRef(m_pImGUI_Manager);
+#endif
+
 	return S_OK;
 }
 
 void CChr_Battle_Sazh::Tick(_float fTimeDelta)
 {
 	__super::Tick(fTimeDelta);
-	Update_Command();
 }
 
 HRESULT CChr_Battle_Sazh::Late_Tick(_float fTimeDelta)
@@ -72,18 +79,17 @@ HRESULT CChr_Battle_Sazh::Render()
 	if (FAILED(__super::Render()))
 		return E_FAIL;
 
+#ifdef DEBUG
 	//m_pImGUI_Manager->Tick(0);
 	//Show_ImGUI();
 	//m_pImGUI_Manager->Render();
+#endif
 
 	return S_OK;
 }
 
 void CChr_Battle_Sazh::Start()
 {
-	m_iMaxHp = m_iHp = 320;
-	m_iDamage = 10;
-
 	Set_Target(m_pGameInstance->Get_GameObject(g_Level, g_strMonsterLayerTag, 0));
 	m_pTransformCom->Look_At_ForLandObject(((CTransform*)m_pTargetObject->Get_Component(g_strTransformTag))->Get_State_Vector(CTransform::STATE_POSITION));
 	m_pNavigationCom->Set_Index(m_pTransformCom->Get_State_Vector(CTransform::STATE_POSITION));
@@ -119,12 +125,58 @@ void CChr_Battle_Sazh::Set_Hit(_int iDamage)
 	if (m_eState == DEAD)
 		return;
 
-	Min_Hp(iDamage);
-	Create_UI_Number(CUI_Number::HIT, iDamage);
+	__super::Set_Hit(iDamage);
+
 	Change_State(HIT);
 	if (m_iHp <= 0) {
 		Change_State(DEAD);
 	}
+}
+
+void CChr_Battle_Sazh::Create_Sphere(_int iDamage, _int iWeaponNum)
+{
+	_float4 vPos;
+	if (iWeaponNum == 0) {
+		vPos = ((CBody*)m_PartObjects[iWeaponNum])->Get_BonePosition("R_weapon");	// 무의미
+	}
+	else {
+		vPos = ((CWeapon_Anim*)m_PartObjects[iWeaponNum])->Get_BonePosition("muzzle_p");
+	}
+
+	CSphere::Sphere_Desc Sphere_Desc = {};
+	Sphere_Desc.pTargetObject = m_pTargetObject;
+	Sphere_Desc.vStartPosition = vPos;
+	Sphere_Desc.isTargetMonster = true;
+	Sphere_Desc.iDamage = iDamage;
+	Sphere_Desc.fChain = 10.f;
+
+	if (FAILED(m_pGameInstance->Add_Clone(g_Level, TEXT("Layer_Bullet"), TEXT("Prototype_GameObject_Sphere"), &Sphere_Desc))) {
+		int i = 0;
+		return;
+	}
+
+	return;
+}
+
+void CChr_Battle_Sazh::Create_Bullet()
+{
+	_float4 vPos = ((CWeapon_Anim*)m_PartObjects[1])->Get_BonePosition("muzzle_p");
+
+	CBullet::BULLET_DESC Bullet_Desc = {};
+	Bullet_Desc.pTargetObject = m_pTargetObject;
+	Bullet_Desc.isTargetMonster = true;
+	Bullet_Desc.vStartPosition = vPos;
+	Bullet_Desc.iDamage = m_iAttack_Physic/2;
+	Bullet_Desc.fChain = 5.f;//m_fChain;
+
+	m_pGameInstance->Add_Clone(g_Level, TEXT("Layer_Bullet"), TEXT("Prototype_GameObject_Bullet"), &Bullet_Desc);
+
+	vPos = ((CWeapon_Anim*)m_PartObjects[2])->Get_BonePosition("muzzle_p");
+	Bullet_Desc.vStartPosition = vPos;
+
+	m_pGameInstance->Add_Clone(g_Level, TEXT("Layer_Bullet"), TEXT("Prototype_GameObject_Bullet"), &Bullet_Desc);
+
+	return;
 }
 
 HRESULT CChr_Battle_Sazh::Add_Components()
@@ -137,8 +189,8 @@ HRESULT CChr_Battle_Sazh::Add_Components()
 
 	/* 로컬상의 정보를 셋팅한다. */
 	ColliderOBBDesc.vRotation = _float3(0.f, 0.f, 0.f);
-	ColliderOBBDesc.vSize = _float3(.6f, 1.8f, .6f);
-	m_fColliderSizeZ = 0.3f;
+	ColliderOBBDesc.vSize = m_vColliderSize;
+
 	ColliderOBBDesc.vCenter = _float3(0.f, ColliderOBBDesc.vSize.y * 0.5f, 0.f);
 
 	if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_Collider_OBB"),

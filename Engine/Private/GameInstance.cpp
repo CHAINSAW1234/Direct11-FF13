@@ -3,6 +3,7 @@
 #include "Graphic_Device.h"
 #include "Input_Device.h"
 #include "Object_Manager.h"
+#include "Target_Manager.h"
 #include "Level_Manager.h"
 #include "Timer_Manager.h"
 #include "Renderer.h"
@@ -32,12 +33,16 @@ HRESULT CGameInstance::Initialize_Engine(HINSTANCE hInstance, _uint iNumLevels, 
 	if (nullptr == m_pPipeLine)
 		return E_FAIL;
 
-	/*m_pFont_Manager = CFont_Manager::Create(*ppGraphic_Device);
+	m_pFont_Manager = CFont_Manager::Create();
 	if (nullptr == m_pFont_Manager)
 		return E_FAIL;
-*/
+
 	m_pTimer_Manager = CTimer_Manager::Create();
 	if (nullptr == m_pTimer_Manager)
+		return E_FAIL;
+
+	m_pTarget_Manager = CTarget_Manager::Create(*ppDevice, *ppContext);
+	if (nullptr == m_pTarget_Manager)
 		return E_FAIL;
 
 	m_pPicking = CPicking::Create(*ppDevice, *ppContext, EngineDesc.hWnd, EngineDesc.iWinSizeX, EngineDesc.iWinSizeY);
@@ -66,10 +71,6 @@ HRESULT CGameInstance::Initialize_Engine(HINSTANCE hInstance, _uint iNumLevels, 
 	
 	m_pLight_Manager = CLight_Manager::Create();
 	if (nullptr == m_pLight_Manager)
-		return E_FAIL;
-
-	m_pFont_Manager = CFont_Manager::Create();
-	if (nullptr == m_pFont_Manager)
 		return E_FAIL;
 
 	return S_OK;
@@ -177,6 +178,17 @@ HRESULT CGameInstance::Add_RenderGroup(CRenderer::RENDERGROUP eRenderGroup, CGam
 
 	return m_pRenderer->Add_RenderGroup(eRenderGroup, pRenderObject);	
 }
+
+#ifdef _DEBUG
+HRESULT CGameInstance::Add_DebugComponents(CComponent* pRenderComponent)
+{
+
+	if (nullptr == m_pRenderer)
+		return E_FAIL;
+
+	return m_pRenderer->Add_DebugComponents(pRenderComponent);
+}
+#endif
 
 HRESULT CGameInstance::Open_Level(_uint iNewLevelID, CLevel * pNewLevel)
 {
@@ -357,6 +369,11 @@ HRESULT CGameInstance::Add_Light(const LIGHT_DESC& LightDesc)
 	return m_pLight_Manager->Add_Light(LightDesc);
 }
 
+HRESULT CGameInstance::Render_Lights(CShader* pShader, CVIBuffer_Rect* pVIBuffer)
+{
+	return m_pLight_Manager->Render(pShader, pVIBuffer);
+}
+
 HRESULT CGameInstance::Add_Font(ID3D11Device* pDevice, ID3D11DeviceContext* pContext, const wstring& strFontTag, const wstring& strFontFilePath)
 {
 	return m_pFont_Manager->Add_Font(pDevice, pContext, strFontTag, strFontFilePath);
@@ -367,6 +384,42 @@ HRESULT CGameInstance::Render_Font(const wstring& strFontTag, const wstring& str
 	return m_pFont_Manager->Render(strFontTag, strText, vPosition, vColor, fRadian);
 }
 
+HRESULT CGameInstance::Add_RenderTarget(const wstring& strRenderTargetTag, _uint iSizeX, _uint iSizeY, DXGI_FORMAT ePixelFormat, const _float4& vClearColor)
+{
+	return m_pTarget_Manager->Add_RenderTarget(strRenderTargetTag, iSizeX, iSizeY, ePixelFormat, vClearColor);
+}
+
+HRESULT CGameInstance::Add_MRT(const wstring& strMRTTag, const wstring& strRenderTargetTag)
+{
+	return m_pTarget_Manager->Add_MRT(strMRTTag, strRenderTargetTag);
+}
+
+HRESULT CGameInstance::Begin_MRT(const wstring& strMRTTag)
+{
+	return m_pTarget_Manager->Begin_MRT(strMRTTag);
+}
+
+HRESULT CGameInstance::End_MRT()
+{
+	return m_pTarget_Manager->End_MRT();
+}
+
+HRESULT CGameInstance::Bind_RTShaderResource(CShader* pShader, const wstring& strRenderTargetTag, const _char* pConstantName)
+{
+
+	return m_pTarget_Manager->Bind_ShaderResource(pShader, strRenderTargetTag, pConstantName);
+}
+
+#ifdef _DEBUG
+HRESULT CGameInstance::Ready_RTVDebug(const wstring& strRenderTargetTag, _float fX, _float fY, _float fSizeX, _float fSizeY)
+{
+	return m_pTarget_Manager->Ready_Debug(strRenderTargetTag, fX, fY, fSizeX, fSizeY);
+}
+HRESULT CGameInstance::Draw_RTVDebug(const wstring& strMRTTag, CShader* pShader, CVIBuffer_Rect* pVIBuffer)
+{
+	return m_pTarget_Manager->Render_Debug(strMRTTag, pShader, pVIBuffer);
+}
+#endif
 
 void CGameInstance::Release_Engine()
 {
@@ -377,6 +430,7 @@ void CGameInstance::Release_Engine()
 
 void CGameInstance::Free()
 {
+	Safe_Release(m_pTarget_Manager);
 	Safe_Release(m_pPipeLine);
 	Safe_Release(m_pTimer_Manager);
 	Safe_Release(m_pPicking);

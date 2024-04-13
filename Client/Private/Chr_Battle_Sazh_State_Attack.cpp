@@ -32,9 +32,12 @@ void CChr_Battle_Sazh_State_Attack::OnStateExit()
 
 void CChr_Battle_Sazh_State_Attack::Attack()
 {
+	m_pChr_Battle_Sazh->Get_Transform()->Look_At_ForLandObject(XMLoadFloat4(&m_pChr_Battle_Sazh->Get_Target_Position()));
+
 	if (!m_isCommandFinish) {
 		if (m_pChr_Battle_Sazh->Get_CurrentTrackPosition() >= 25) {
 			m_pChr_Battle_Sazh->Use_Command();
+			m_pChr_Battle_Sazh->Create_Bullet();
 			CRole::SKILL eSkill = m_pChr_Battle_Sazh->Get_Current_Command();
 
 			if (eSkill == CRole::FLAMEBLOW) {
@@ -43,8 +46,7 @@ void CChr_Battle_Sazh_State_Attack::Attack()
 			else {
 				m_isCommandFinish = true;
 			}
-		}
-		
+		}	
 	}
 	else {
 		if (m_pChr_Battle_Sazh->Is_Animation_Finished()) {

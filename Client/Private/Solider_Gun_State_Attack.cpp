@@ -20,6 +20,7 @@ void CSolider_Gun_State_Attack::OnStateUpdate(_float fTimeDelta)
 void CSolider_Gun_State_Attack::OnStateExit()
 {
     m_pSolider_Gun->Reset_AttackTime();
+    m_pSolider_Gun->Change_Target();
 }
 
 void CSolider_Gun_State_Attack::Attack(_float fTimeDelta)
@@ -27,8 +28,11 @@ void CSolider_Gun_State_Attack::Attack(_float fTimeDelta)
     if (m_pSolider_Gun->Is_Animation_Finished()) {
         if (m_pSolider_Gun->Get_CurrentAnimationIndex() == CSolider::ATTACK1)
             m_pSolider_Gun->Change_State(CSolider::STATE_IDLE);
-        else if (m_pSolider_Gun->Get_CurrentAnimationIndex() == CSolider::ATTACK2)
+        else if (m_pSolider_Gun->Get_CurrentAnimationIndex() == CSolider::ATTACK2) {
+            m_pSolider_Gun->Create_Bullet();
+
             m_pSolider_Gun->Change_Animation(CSolider::ATTACK1, false);
+        }
         else
             m_pSolider_Gun->Change_Animation(CSolider::ATTACK2, false);
     }

@@ -17,7 +17,11 @@ private:
 public:
 	_uint Get_iBoneIndex() { return m_iBoneIndex; }
 public:
+
+#ifdef _ASSIMP
 	HRESULT Initialize(const aiNodeAnim* pAIChannel, const vector<CBone*>& Bones);
+
+#endif
 	void Invalidate_TransformationMatrix(const vector<CBone*>& Bones, _float fTrackPosition, _float fTickPerSecond, _uint* pCurrentKeyFrameIndex);
 	void Invalidate_TransformationMatrix_Linear_Interpolation(const vector<CBone*>& Bones, _float fTrackPosition, _uint* pCurrentKeyFrameIndex, _float fTimeDelta, CChannel* pNextChannel, _uint pNextKeyFrameIndex);
 	void Update_KeyFrame(_float fTrackPosition, _uint* pCurrentKeyFrameIndex);
@@ -35,7 +39,11 @@ private:
 	vector<KEYFRAME>	m_KeyFrames;						// 각각의 키프레임의 데이터를 벡터 컨테이너에 저장
 
 public:
+
+#ifdef _ASSIMP
 	static CChannel* Create(const aiNodeAnim* pAIChannel, const vector<CBone*>& Bones);
+#endif
+
 	static CChannel* Create(ifstream& IFS);
 	virtual void Free() override;
 };

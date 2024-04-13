@@ -1,3 +1,4 @@
+#include "stdafx.h"
 #include "UI_Battle_Stage_Finish.h"
 #include "Player_Battle.h"
 

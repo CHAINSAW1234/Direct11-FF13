@@ -9,6 +9,7 @@ CChr_Battle_Light_State_Dead::CChr_Battle_Light_State_Dead(CChr_Battle_Light* pC
 
 void CChr_Battle_Light_State_Dead::OnStateEnter()
 {
+	m_pChr_Battle_Light->Change_Animation(CChr_Battle_Light::DEAD_START, false);
 }
 
 void CChr_Battle_Light_State_Dead::OnStateUpdate(_float fTimeDelta)

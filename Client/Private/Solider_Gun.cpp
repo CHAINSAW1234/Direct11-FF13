@@ -10,6 +10,7 @@
 
 #include "Weapon_Anim.h"
 #include "Chr_Battle.h"
+#include "Bullet.h"
 
 CSolider_Gun::CSolider_Gun(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
     :CSolider{ pDevice, pContext }
@@ -25,7 +26,9 @@ HRESULT CSolider_Gun::Initialize_Prototype()
 {
     m_iMaxHp = m_iHp = 324;
     m_fStagger = 200.f;
+    m_fChainResist = 50.f;
     m_iDamage = 45;
+    m_vColliderSize = _float3(.8f, 1.6f, 1.f);
     m_strMonsterName = TEXT("PSICOM 특무엽병");
 
     return S_OK;
@@ -44,6 +47,25 @@ void CSolider_Gun::Start()
         Change_State(STATE_FIELD);
 }
 
+void CSolider_Gun::Create_Bullet()
+{
+    _float4 vPos = m_pWeapon->Get_BonePosition("gatling");                                                                                                                                                                                       
+
+    CBullet::BULLET_DESC Bullet_Desc = {};
+    Bullet_Desc.pTargetObject = m_pTargetObject;
+    Bullet_Desc.isTargetMonster = false;
+    Bullet_Desc.vStartPosition = vPos;
+    Bullet_Desc.iDamage = m_iDamage/3;
+    Bullet_Desc.fChain = 5.f;
+
+    m_pGameInstance->Add_Clone(g_Level, TEXT("Layer_Bullet"), TEXT("Prototype_GameObject_Bullet"), &Bullet_Desc);
+    m_pGameInstance->Add_Clone(g_Level, TEXT("Layer_Bullet"), TEXT("Prototype_GameObject_Bullet"), &Bullet_Desc);
+    m_pGameInstance->Add_Clone(g_Level, TEXT("Layer_Bullet"), TEXT("Prototype_GameObject_Bullet"), &Bullet_Desc);
+
+
+    return;
+}
+
 HRESULT CSolider_Gun::Add_Components()
 {
     /* For.Com_Model */
@@ -56,8 +78,7 @@ HRESULT CSolider_Gun::Add_Components()
 
     /* 로컬상의 정보를 셋팅한다. */
     ColliderOBBDesc.vRotation = _float3(0.f, 0.f, 0.f);
-    ColliderOBBDesc.vSize = _float3(.8f, 1.6f, 1.f);
-    m_fColliderSizeZ = .5f;
+    ColliderOBBDesc.vSize = m_vColliderSize;
     ColliderOBBDesc.vCenter = _float3(0.f, ColliderOBBDesc.vSize.y * 0.5f, 0.f);
 
     if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_Collider_OBB"),

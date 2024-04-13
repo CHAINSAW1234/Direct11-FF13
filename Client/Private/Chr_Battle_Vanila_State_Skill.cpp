@@ -11,6 +11,7 @@ CChr_Battle_Vanila_State_Skill::CChr_Battle_Vanila_State_Skill(CChr_Battle_Vanil
 void CChr_Battle_Vanila_State_Skill::OnStateEnter()
 {
 	m_isCommandFinish = false;
+	m_isCommandUse = false;
 	m_pChr_Battle_Vanila->Get_Transform()->Look_At_ForLandObject(XMLoadFloat4(&m_pChr_Battle_Vanila->Get_Target_Position()));
 	m_pChr_Battle_Vanila->Change_Animation(CChr_Battle_Vanila::ANIM_SKILL, false);
 
@@ -33,9 +34,17 @@ void CChr_Battle_Vanila_State_Skill::OnStateExit()
 
 void CChr_Battle_Vanila_State_Skill::Skill()
 {
+	m_pChr_Battle_Vanila->Get_Transform()->Look_At_ForLandObject(XMLoadFloat4(&m_pChr_Battle_Vanila->Get_Target_Position()));
+
 	if (!m_isCommandFinish) {
-		if (m_pChr_Battle_Vanila->Get_CurrentTrackPosition() >= 40) {
+
+		if (!m_isCommandUse && m_pChr_Battle_Vanila->Get_CurrentTrackPosition() >= 35) {
+			m_isCommandUse = true;
 			m_pChr_Battle_Vanila->Use_Command();
+			m_pChr_Battle_Vanila->Create_Sphere(m_pChr_Battle_Vanila->Get_Attack_Magic());
+		}
+
+		if (m_pChr_Battle_Vanila->Get_CurrentTrackPosition() >= 40) {
 			CRole::SKILL eSkill = m_pChr_Battle_Vanila->Get_Current_Command();
 
 			if (eSkill == CRole::SKILL_END) {
@@ -46,6 +55,7 @@ void CChr_Battle_Vanila_State_Skill::Skill()
 					m_pChr_Battle_Vanila->Change_Animation(CChr_Battle_Vanila::ANIM_SKILL2, false);
 				else
 					m_pChr_Battle_Vanila->Change_Animation(CChr_Battle_Vanila::ANIM_SKILL, false);
+				m_isCommandUse = false;
 				m_pChr_Battle_Vanila->Set_TrackPosition(20.f);
 			}
 		}
@@ -67,5 +77,4 @@ CChr_Battle_Vanila_State_Skill* CChr_Battle_Vanila_State_Skill::Create(CChr_Batt
 void CChr_Battle_Vanila_State_Skill::Free()
 {
 	__super::Free();
-	Safe_Release(m_pUI_Skill);
 }

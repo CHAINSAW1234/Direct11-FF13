@@ -5,6 +5,7 @@ CChannel::CChannel()
 {
 }
 
+#ifdef _ASSIMP
 HRESULT CChannel::Initialize(const aiNodeAnim* pAIChannel, const vector<CBone*>& Bones)
 {
 	strcpy_s(m_szName, pAIChannel->mNodeName.data);
@@ -56,6 +57,7 @@ HRESULT CChannel::Initialize(const aiNodeAnim* pAIChannel, const vector<CBone*>&
 
 	return S_OK;
 }
+#endif
 
 void CChannel::Invalidate_TransformationMatrix(const vector<CBone*>& Bones, _float fTrackPosition, _float fTickPerSecond, _uint* pCurrentKeyFrameIndex)
 {
@@ -169,6 +171,7 @@ HRESULT CChannel::Load_Channel(ifstream& IFS)
 	return S_OK;
 }
 
+#ifdef _ASSIMP
 CChannel* CChannel::Create(const aiNodeAnim* pAIChannel, const vector<CBone*>& Bones)
 {
 	CChannel* pInstance = new CChannel();
@@ -182,6 +185,7 @@ CChannel* CChannel::Create(const aiNodeAnim* pAIChannel, const vector<CBone*>& B
 
 	return pInstance;
 }
+#endif
 
 CChannel* CChannel::Create(ifstream& IFS)
 {

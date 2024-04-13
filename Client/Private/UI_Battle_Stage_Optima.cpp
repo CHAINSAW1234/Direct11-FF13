@@ -43,8 +43,6 @@ void CUI_Battle_Stage_Optima::OnStateExit()
 	for (auto& pOptima_Info : m_Optima_Infos) {
 		pOptima_Info->Set_Render(false);
 	}
-
-	m_pPlayer_Battle->Set_Command_Render(true);
 }
 
 void CUI_Battle_Stage_Optima::Start()

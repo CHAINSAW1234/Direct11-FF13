@@ -13,6 +13,8 @@ public:
 	virtual HRESULT Initialize_Prototype() override;
 	virtual void Start() override;
 
+	void Create_Bullet(); 
+
 private:
 	virtual HRESULT Add_Components() override;
 	virtual HRESULT Add_Component_FSM() override;

@@ -1,5 +1,6 @@
 #include "stdafx.h"
 #include "Body.h"
+#include "Bone.h"
 
 CBody::CBody(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
     : CPartObject{ pDevice, pContext }
@@ -75,6 +76,32 @@ HRESULT CBody::Render()
 
 
 	return S_OK;
+}
+
+_float4 CBody::Get_BonePosition(const char* pBoneName)
+{
+	const _float4x4* pMatrix = m_pModelCom->Get_BonePtr(pBoneName)->Get_CombinedTransformationMatrix();
+
+	_vector vScale;
+	_vector vRoation;
+	_vector vTranspose;
+
+
+	XMMatrixDecompose(&vScale, &vRoation, &vTranspose, XMLoadFloat4x4(&m_WorldMatrix));
+
+	XMMatrixRotationQuaternion(vRoation);
+
+	/*
+		_float4x4			m_WorldMatrix;					// 자신의 월드 행렬
+	const _float4x4*	m_pParentMatrix = { nullptr };	// 이 파츠를 보유하고 있는 GameObject == Parent의 월드 행렬을 포인터로 보유
+	*/
+	_matrix vMatrix = XMMatrixRotationQuaternion(vRoation) * XMLoadFloat4x4(pMatrix);
+	_float4x4 fMatrix;
+	XMStoreFloat4x4(&fMatrix, vMatrix);
+
+	_float4 vPos = { fMatrix._41 + vTranspose.m128_f32[0] ,	fMatrix._42 + vTranspose.m128_f32[1],	fMatrix._43 + vTranspose.m128_f32[2],	1.f };
+
+	return vPos;
 }
 
 HRESULT CBody::Add_Components(const wstring& strModelTag)

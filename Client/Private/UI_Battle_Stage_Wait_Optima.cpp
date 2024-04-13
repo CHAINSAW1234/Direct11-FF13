@@ -24,6 +24,7 @@ void CUI_Battle_Stage_Wait_Optima::OnStateUpdate(_float fTimeDelta)
 void CUI_Battle_Stage_Wait_Optima::OnStateExit()
 {
 	m_pUI_Optima_Change->Set_Render(false);
+	m_pPlayer_Battle->Set_Command_Render(true);
 }
 
 void CUI_Battle_Stage_Wait_Optima::Start()

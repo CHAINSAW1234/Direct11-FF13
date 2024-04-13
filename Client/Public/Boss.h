@@ -31,7 +31,7 @@ public:
 public:
 	void Set_Barrier(_bool isBarrier) { m_isBarrier = isBarrier; }
 
-	virtual void Set_Hit(_int iDamage) override;
+	virtual void Set_Hit(_int iDamage, _float fChain) override;
 	HRESULT Change_State(STATE eState);
 	void	Change_Animation(ANIMATION_SOLIDER iAnimationIndex, _bool isLoop);
 

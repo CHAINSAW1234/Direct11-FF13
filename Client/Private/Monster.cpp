@@ -20,7 +20,9 @@ CMonster::CMonster(const CMonster& rhs)
     , m_iMaxHp{ rhs.m_iMaxHp }
     , m_iHp{ rhs.m_iMaxHp }
     , m_fStagger{ rhs.m_fStagger }
+    , m_fChainResist{ rhs.m_fChainResist }
     , m_iDamage{rhs.m_iDamage}
+    , m_vColliderSize{rhs. m_vColliderSize }
 {
 }
 
@@ -161,15 +163,24 @@ _bool CMonster::Is_Animation_Finished()
 
 void CMonster::Add_Hp(_int iHp)
 {
-    m_iHp += iHp;
+    m_iHp += iHp + Random_Float(10) + 5.f;
     m_iHp = min(m_iHp, m_iMaxHp);
+    Create_UI_Number(CUI_Number::HEAL, iHp);
+
     NotifyObserver();
 }
 
-void CMonster::Min_Hp(_int iHp)
+void CMonster::Min_Hp(_int iDamage)
 {
-    m_iHp -= iHp;
+    _float fCalDamage;
+
+    fCalDamage =  iDamage + Random_Float(5);
+    fCalDamage *= m_fChain/100.f;
+
+    m_iHp -= (_int)fCalDamage;
     m_iHp = max(m_iHp, 0);
+
+    Create_Damage((_int)fCalDamage);
     NotifyObserver();
 }
 
@@ -180,7 +191,13 @@ void CMonster::Update_Attack_Time(_float fTimeDelta)
 
 void CMonster::Add_Chain(_float fChain)
 {
-    m_fChain += fChain;
+    _float fCalChain = fChain + Random_Float(2) + 1.f;
+
+    if (!m_isBreak) {
+        fCalChain *= (100 - m_fChainResist) / 100.f;
+    }
+
+    m_fChain += fCalChain;
     m_fCurChain = m_fChain;
     m_fMagnification = 1 / (m_fStagger - 100) * 0.1f;
     if (!m_isBreak && m_fChain >= m_fStagger) {
@@ -194,6 +211,20 @@ void CMonster::Reset_Attakable()
 {
     for (auto& i : m_isAttackable)
         i = true;
+}
+
+void CMonster::Change_Target()
+{
+    if (!(rand() % 4) || m_pTargetObject->Get_Hp() == 0) {
+        size_t iNumCnt = m_pGameInstance->Get_LayerCnt(g_Level, g_strChrLayerTag);
+        while (1) {
+            CGameObject* pGameObject = m_pGameInstance->Get_GameObject(g_Level, g_strChrLayerTag, rand() % iNumCnt);
+            if (((CChr_Battle*)pGameObject)->Get_Hp() != 0) {
+                Set_Target((CChr_Battle*)pGameObject);
+                return;
+            }
+        }
+    }
 }
 
 _float CMonster::Cal_Degree_Start()
@@ -245,13 +276,18 @@ _float CMonster::Cal_Dist_Target()
     _vector vLook = m_pTransformCom->Get_State_Vector(CTransform::STATE_LOOK);
 
     if (m_pTargetObject->Get_Collider()->IntersectRay(vPos, vLook, fDist))
-        return fDist - m_fColliderSizeZ;
+        return fDist - m_vColliderSize.z * 0.5f;
 
     return INFINITY;
 }
 
-void CMonster::Set_Hit(_int iDamage)
+void CMonster::Set_Hit(_int iDamage, _float fChain)
 {
+    Add_Chain(fChain);
+    Min_Hp(iDamage);
+
+    if (m_iHp <= 0)
+        m_isDead = true;
 }
 
 void CMonster::Create_UI_Number(CUI_Number::TYPE eType, _int iNum)
@@ -390,7 +426,7 @@ void CMonster::Update_Chain(_float fTimeDelta)
         }
     }
     else {
-        m_fMagnification += fTimeDelta / 10;
+        m_fMagnification += fTimeDelta /2;
         m_fCurChain -= fTimeDelta * m_fMagnification;
         if (m_fCurChain <= 100.f) {
             m_fChain = 100.f;

@@ -25,7 +25,9 @@ HRESULT CSolider::Initialize_Prototype()
 {
 	m_iMaxHp = m_iHp = 1296;
 	m_fStagger = 200.f;
+	m_fChainResist = 50.f;
 	m_iDamage = 64;
+	m_vColliderSize = _float3(.8f, 1.6f, 1.f);
 	m_strMonsterName = TEXT("PSICOM 특무병");
 
 	return S_OK;
@@ -88,13 +90,9 @@ void CSolider::Start()
 
 }
 
-void CSolider::Set_Hit(_int iDamage)
+void CSolider::Set_Hit(_int iDamage, _float fChain)
 {
-	Min_Hp(iDamage);
-	Create_Damage(iDamage);
-
-	if (m_iHp <= 0)
-		m_isDead = true;
+	__super::Set_Hit(iDamage, fChain);
 
 	Change_State(STATE_HIT);
 }
@@ -128,8 +126,7 @@ HRESULT CSolider::Add_Components()
 
 	/* 로컬상의 정보를 셋팅한다. */
 	ColliderOBBDesc.vRotation = _float3(0.f, 0.f, 0.f);
-	ColliderOBBDesc.vSize = _float3(.8f, 1.6f, 1.f);
-	m_fColliderSizeZ = .5f;
+	ColliderOBBDesc.vSize = m_vColliderSize;
 	ColliderOBBDesc.vCenter = _float3(0.f, ColliderOBBDesc.vSize.y * 0.5f, 0.f);
 
 	if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_Collider_OBB"),

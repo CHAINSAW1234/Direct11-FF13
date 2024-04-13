@@ -76,8 +76,8 @@ void CBoss_State_Idle::Move_Back_Jump(_float fTimeDelta)
 
 void CBoss_State_Idle::Turn(_float fTimeDelta)
 {
-	_float t1 = EaseOutCublic(m_fPrevTimeDelta / 1.5f);
-	_float t2 = EaseOutCublic(m_fTimeDelta / 1.5f);
+	_float t1 = (_float)EaseOutCublic(m_fPrevTimeDelta / 1.5f);
+	_float t2 = (_float)EaseOutCublic(m_fTimeDelta / 1.5f);
 
 	m_pBoss->Get_Transform()->Turn(XMVectorSet(0.f, 1.f, 0.f, 0.f), (t2 - t1) * m_fDegree / 360);
 

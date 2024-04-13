@@ -10,6 +10,10 @@
 #define DIRECTINPUT_VERSION 0x0800
 #include <dinput.h>
 
+#ifdef _DEBUG
+#define _ASSIMP
+#endif
+
 namespace Engine
 {
 	enum KeyState { KEY_FREE = 0, KEY_DOWN, KEY_PRESS, KEY_UP, KEY_END };
@@ -28,9 +32,18 @@ namespace Engine
 #include "DirectXTK/SpriteBatch.h"
 #include "DirectXTK/SpriteFont.h"
 
+#ifdef _ASSIMP
 #include "assimp/scene.h"
 #include "assimp/Importer.hpp"
 #include "assimp/postprocess.h"
+#endif
+
+#ifndef _ASSIMP
+#define aiTextureType_DIFFUSE 1
+#define AI_TEXTURE_TYPE_MAX 21
+#endif 
+
+
 
 using namespace DirectX;
 

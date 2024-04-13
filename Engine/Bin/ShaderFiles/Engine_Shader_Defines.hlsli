@@ -41,6 +41,12 @@ RasterizerState RS_Sky
     FrontCounterClockwise = false;
 };
 
+DepthStencilState DSS_NO_TEST_WRITE
+{
+    DepthEnable = false;
+    DepthWriteMask = zero;
+};
+
 DepthStencilState DSS_Default
 {
     DepthEnable = true;

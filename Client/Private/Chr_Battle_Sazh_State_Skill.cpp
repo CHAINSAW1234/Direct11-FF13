@@ -11,12 +11,12 @@ CChr_Battle_Sazh_State_Skill::CChr_Battle_Sazh_State_Skill(CChr_Battle_Sazh* pCh
 void CChr_Battle_Sazh_State_Skill::OnStateEnter()
 {
 	m_isCommandFinish = false;
+	m_isCommandUse = false;
 	m_pChr_Battle_Sazh->Get_Transform()->Look_At_ForLandObject(XMLoadFloat4(&m_pChr_Battle_Sazh->Get_Target_Position()));
 	m_pChr_Battle_Sazh->Change_Animation(CChr_Battle_Sazh::SKILL_NOR1, false);
 
 	CRole::SKILL eSkill = m_pChr_Battle_Sazh->Get_Current_Command();
 	m_pUI_Skill = m_pChr_Battle_Sazh->Create_UI_Skill(eSkill);
-
 }
 
 void CChr_Battle_Sazh_State_Skill::OnStateUpdate(_float fTimeDelta)
@@ -33,9 +33,17 @@ void CChr_Battle_Sazh_State_Skill::OnStateExit()
 
 void CChr_Battle_Sazh_State_Skill::Skill()
 {
+	m_pChr_Battle_Sazh->Get_Transform()->Look_At_ForLandObject(XMLoadFloat4(&m_pChr_Battle_Sazh->Get_Target_Position()));
+
 	if (!m_isCommandFinish) {
-		if (m_pChr_Battle_Sazh->Get_CurrentTrackPosition() >= 40) {
+
+		if (!m_isCommandUse && m_pChr_Battle_Sazh->Get_CurrentTrackPosition() >= 26) {
+			m_isCommandUse = true;
 			m_pChr_Battle_Sazh->Use_Command();
+			m_pChr_Battle_Sazh->Create_Sphere(m_pChr_Battle_Sazh->Get_Attack_Magic());
+		}
+
+		if (m_pChr_Battle_Sazh->Get_CurrentTrackPosition() >= 40) {
 			CRole::SKILL eSkill = m_pChr_Battle_Sazh->Get_Current_Command();
 
 			if (eSkill == CRole::SKILL_END) {
@@ -46,6 +54,7 @@ void CChr_Battle_Sazh_State_Skill::Skill()
 					m_pChr_Battle_Sazh->Change_Animation(CChr_Battle_Sazh::SKILL_NOR2, false);
 				else
 					m_pChr_Battle_Sazh->Change_Animation(CChr_Battle_Sazh::SKILL_NOR1, false);
+				m_isCommandUse = false;
 				m_pChr_Battle_Sazh->Set_TrackPosition(20.f);
 			}
 		}
@@ -67,6 +76,4 @@ CChr_Battle_Sazh_State_Skill* CChr_Battle_Sazh_State_Skill::Create(CChr_Battle_S
 void CChr_Battle_Sazh_State_Skill::Free()
 {
 	__super::Free();
-	Safe_Release(m_pUI_Skill);
-
 }

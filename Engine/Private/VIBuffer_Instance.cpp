@@ -15,14 +15,19 @@ CVIBuffer_Instance::CVIBuffer_Instance(const CVIBuffer_Instance& rhs)
 	, m_pInstanceVertices{ rhs.m_pInstanceVertices }
 	, m_InstanceBufferDesc{ rhs.m_InstanceBufferDesc }
 	, m_InstanceSubResourceData{ rhs.m_InstanceSubResourceData }
-	, m_pLifeTimes{ rhs.m_pLifeTimes }
+	, m_pSpeeds{ rhs.m_pSpeeds }
+	, m_InstanceDesc{ rhs.m_InstanceDesc }
 {
+	m_pLifeTimes = new _float2[m_iNumInstance];
+	memcpy(m_pLifeTimes, rhs.m_pLifeTimes, sizeof(_float2) * m_iNumInstance);
+
 	Safe_AddRef(m_pVBInstance);
 }
 
-HRESULT CVIBuffer_Instance::Initialize_Prototype()
+HRESULT CVIBuffer_Instance::Initialize_Prototype(const CVIBuffer_Instance::INSTANCE_DESC& InstanceDesc)
 {
 	m_RandomNumber = mt19937_64(m_RandomDevice());
+	m_InstanceDesc = InstanceDesc;
 
 	return S_OK;
 }
@@ -80,36 +85,75 @@ _bool CVIBuffer_Instance::Compute_Picking(const CTransform* pTransform, _float4*
 	return false;
 }
 
-void CVIBuffer_Instance::Update(_float fTimeDelta)
+void CVIBuffer_Instance::Drop(_float fTimeDelta)
 {
 	D3D11_MAPPED_SUBRESOURCE		SubResource{};
 
 	m_pContext->Map(m_pVBInstance, 0, D3D11_MAP_WRITE_NO_OVERWRITE, 0, &SubResource);
 
+	VTXMATRIX* pVertices = ((VTXMATRIX*)SubResource.pData);
+
 	for (size_t i = 0; i < m_iNumInstance; i++)
 	{
-		m_pLifeTimes[i].x += fTimeDelta;
+		pVertices[i].vPosition.y -= m_pSpeeds[i] * fTimeDelta;
 
-		if (m_pLifeTimes[i].x > m_pLifeTimes[i].y)
-		{
-			((VTXMATRIX*)SubResource.pData)[i].isLived = false;
-		}
+		Compute_LifeTime(pVertices, i, fTimeDelta);
 	}
 
 	m_pContext->Unmap(m_pVBInstance, 0);
 }
 
+void CVIBuffer_Instance::Spread(_float fTimeDelta)
+{
+	D3D11_MAPPED_SUBRESOURCE		SubResource{};
 
+	m_pContext->Map(m_pVBInstance, 0, D3D11_MAP_WRITE_NO_OVERWRITE, 0, &SubResource);
+
+	VTXMATRIX* pVertices = ((VTXMATRIX*)SubResource.pData);
+
+
+
+	for (size_t i = 0; i < m_iNumInstance; i++)
+	{
+		_vector		vDir = XMVectorSetW(XMLoadFloat4(&pVertices[i].vPosition) - XMLoadFloat3(&m_InstanceDesc.vPivot), 0.f);
+
+		XMStoreFloat4(&pVertices[i].vPosition,
+			XMLoadFloat4(&pVertices[i].vPosition) + XMVector3Normalize(vDir) * m_pSpeeds[i] * fTimeDelta);
+
+		Compute_LifeTime(pVertices, i, fTimeDelta);
+	}
+
+	m_pContext->Unmap(m_pVBInstance, 0);
+}
+
+void CVIBuffer_Instance::Compute_LifeTime(VTXMATRIX* pVertices, _uint iInstanceIndex, _float fTimeDelta)
+{
+	m_pLifeTimes[iInstanceIndex].x += fTimeDelta;
+
+	if (m_pLifeTimes[iInstanceIndex].x > m_pLifeTimes[iInstanceIndex].y)
+	{
+
+		if (false == m_InstanceDesc.isLoop)
+			pVertices[iInstanceIndex].isLived = false;
+
+		else
+		{
+			m_pLifeTimes[iInstanceIndex].x = 0.f;
+			pVertices[iInstanceIndex].vPosition = Compute_RandPosition();
+		}
+	}
+}
 
 void CVIBuffer_Instance::Free()
 {
 	__super::Free();
 
-
 	if (false == m_isCloned)
 	{
-		Safe_Delete_Array(m_pLifeTimes);
+		Safe_Delete_Array(m_pSpeeds);
 	}
+
+	Safe_Delete_Array(m_pLifeTimes);
 
 	Safe_Release(m_pVBInstance);
 }

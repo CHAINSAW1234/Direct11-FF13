@@ -19,6 +19,7 @@ CAnimation::CAnimation(const CAnimation& rhs)
 	strcpy_s(m_szName, rhs.m_szName);
 }
 
+#ifdef _ASSIMP
 HRESULT CAnimation::Initialize(const aiAnimation * pAIAnimation, const vector<CBone*>& Bones)
 {
 	strcpy_s(m_szName, pAIAnimation->mName.data);
@@ -42,6 +43,7 @@ HRESULT CAnimation::Initialize(const aiAnimation * pAIAnimation, const vector<CB
 
 	return S_OK;
 }
+#endif
 
 void CAnimation::Invalidate_TransformationMatrix(_float fTimeDelta, const vector<CBone*>& Bones, _bool isLoop)
 {
@@ -140,6 +142,7 @@ HRESULT CAnimation::Load_Animation(ifstream& IFS)
 	return S_OK;
 }
 
+#ifdef _ASSIMP
 CAnimation * CAnimation::Create(const aiAnimation * pAIAnimation, const vector<CBone*>& Bones)
 {
 	CAnimation*		pInstance = new CAnimation();
@@ -153,6 +156,7 @@ CAnimation * CAnimation::Create(const aiAnimation * pAIAnimation, const vector<C
 
 	return pInstance;
 }
+#endif
 
 CAnimation* CAnimation::Create(ifstream& IFS)
 {

@@ -21,6 +21,9 @@ CChr_Battle::CChr_Battle(const CChr_Battle& rhs)
 	, m_strChrName{ rhs.m_strChrName }
 	, m_iMaxHp{ rhs.m_iMaxHp }
 	, m_iHp{ rhs.m_iMaxHp}
+	, m_iAttack_Physic{ rhs.m_iAttack_Physic}
+	, m_iAttack_Magic{ rhs.m_iAttack_Magic }
+	, m_vColliderSize{ rhs.m_vColliderSize}
 {
 }
 
@@ -174,22 +177,32 @@ void CChr_Battle::Add_Hp(_int iHp)
 	if (m_iHp == 0) {
 		return;
 	}
-	m_iHp += iHp;
+
+	_float iCalHp = (_float)iHp;
+	iCalHp += Random_Float(10) + 5.f;
+
+	m_iHp += (_int)iCalHp;
 	m_iHp = min(m_iHp, m_iMaxHp);
+	Create_UI_Number(CUI_Number::HEAL, (_int)iCalHp);
 	NotifyObserver();
 }
 
-void CChr_Battle::Min_Hp(_int iHp)
+void CChr_Battle::Min_Hp(_int iDamage)
 {
-	m_iHp -= iHp;
+	_float fCalDamage;
+	fCalDamage = iDamage + Random_Float(5);
+
+	m_iHp -= (_int)fCalDamage;
 	m_iHp = max(m_iHp, 0);
+	Create_UI_Number(CUI_Number::HIT, (_int)fCalDamage);
 	NotifyObserver();
 }
 
 void CChr_Battle::Revive()
 {
-	m_iHp += m_iMaxHp * 0.7;
+	m_iHp += _int((_float)m_iMaxHp * 0.7f);
 	m_iHp = min(m_iHp, m_iMaxHp);
+	Create_UI_Number(CUI_Number::HEAL, m_iHp);
 	NotifyObserver();
 }
 
@@ -225,6 +238,7 @@ void CChr_Battle::Set_State_Battle_Finish()
 
 void CChr_Battle::Set_Hit(_int iDamage)
 {
+	Min_Hp(iDamage);
 }
 
 void CChr_Battle::Create_UI_Number(CUI_Number::TYPE eType, _int iNum)
@@ -248,6 +262,10 @@ CUI_Skill* CChr_Battle::Create_UI_Skill(CRole::SKILL eSkill)
 	CUI_Skill* pUI_Skill = (CUI_Skill*)m_pGameInstance->Add_Clone_With_Object(g_Level, TEXT("Layer_UI"), TEXT("Prototype_GameObject_UI_Skill"), &UI_Skill_desc);
 
 	return pUI_Skill;
+}
+
+void CChr_Battle::Create_Sphere(_int iDamage, _int iWeaponNum)
+{
 }
 
 void CChr_Battle::Update_ATB(_float fTimeDelta)
@@ -293,6 +311,10 @@ void CChr_Battle::Change_Target()
 void CChr_Battle::Change_Role(CAbility::ROLE eRole)
 {
 	m_pAbility->Set_CurrentRole(eRole);
+
+	while(!m_Commands.empty())
+		m_Commands.pop();
+
 }
 
 
@@ -382,8 +404,8 @@ _float CChr_Battle::Cal_Dist_Target()
 	vPos.m128_f32[1] = pMonster->Get_Transform()->Get_State_Float4(CTransform::STATE_POSITION).y;
 	_vector vLook = m_pTransformCom->Get_State_Vector(CTransform::STATE_LOOK);
 	
-	if(pMonster->Get_Collider()->IntersectRay(vPos, vLook, fDist))
-		return fDist - m_fColliderSizeZ;
+	if (pMonster->Get_Collider()->IntersectRay(vPos, vLook, fDist))
+		return fDist - m_vColliderSize.z * 0.5f;
 	
 	return INFINITY;
 }

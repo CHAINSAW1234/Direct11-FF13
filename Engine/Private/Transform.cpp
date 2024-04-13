@@ -296,11 +296,11 @@ void CTransform::Turn_With_Look_At(_fvector vAxis, _fvector vTargetPosition, _fl
 	//vLook = Get_State_Vector(STATE_LOOK);
 	_vector vNewPos = vTargetPosition - vLook * fDest;
 	if (vNewPos.m128_f32[1] <= 0) {
-		vNewPos.m128_f32[1] = 0.02;
+		vNewPos.m128_f32[1] = 0.02f;
 	}
 
-	if (vNewPos.m128_f32[1] >= vTargetPosition.m128_f32[1]*2) {
-		vNewPos.m128_f32[1] = vTargetPosition.m128_f32[1] * 2 - 0.02;
+	if (vNewPos.m128_f32[1] >= vTargetPosition.m128_f32[1]*2.f) {
+		vNewPos.m128_f32[1] = vTargetPosition.m128_f32[1] * 2.f - 0.02f;
 	}
 
 	Set_State(STATE_POSITION, vNewPos);

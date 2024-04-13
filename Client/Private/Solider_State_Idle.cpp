@@ -231,8 +231,8 @@ void CSolider_State_Idle::Move_Back_Jump(_float fTimeDelta)
 
 void CSolider_State_Idle::Turn(_float fTimeDelta)
 {
-	_float t1 = EaseOutCublic(m_fPrevTimeDelta / 2.f);
-	_float t2 = EaseOutCublic(m_fTimeDelta / 2.f);
+	_float t1 = (_float)EaseOutCublic(m_fPrevTimeDelta / 2.f);
+	_float t2 = (_float)EaseOutCublic(m_fTimeDelta / 2.f);
 
 	m_pSolider->Get_Transform()->Turn(XMVectorSet(0.f, 1.f, 0.f, 0.f), (t2 - t1) * m_fDegree / 360);
 

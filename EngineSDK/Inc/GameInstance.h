@@ -30,6 +30,11 @@ public: /* For.Input_Device */
 public: /* For.Renderer */
 	HRESULT Add_RenderGroup(CRenderer::RENDERGROUP eRenderGroup, class CGameObject* pRenderObject);
 
+#ifdef _DEBUG
+public:
+	HRESULT Add_DebugComponents(class CComponent* pRenderComponent);
+#endif
+
 public: /* For.Level_Manager */
 	HRESULT Open_Level(_uint iNewLevelID, class CLevel* pNewLevel);
 
@@ -67,10 +72,26 @@ public: /* For.PipeLine */
 public: /* For.Light_Manager */
 	const LIGHT_DESC* Get_LightDesc(_uint iIndex);
 	HRESULT Add_Light(const LIGHT_DESC& LightDesc);
+	HRESULT Render_Lights(class CShader* pShader, class CVIBuffer_Rect* pVIBuffer);
 
 public: /* For.Font_Manager */
 	HRESULT Add_Font(ID3D11Device* pDevice, ID3D11DeviceContext* pContext, const wstring& strFontTag, const wstring& strFontFilePath);
 	HRESULT Render_Font(const wstring& strFontTag, const wstring& strText, const _float2& vPosition, _fvector vColor, _float fRadian);
+
+
+public: /* For.Target_Manager */
+	HRESULT Add_RenderTarget(const wstring& strRenderTargetTag, _uint iSizeX, _uint iSizeY, DXGI_FORMAT ePixelFormat, const _float4& vClearColor);
+	HRESULT Add_MRT(const wstring& strMRTTag, const wstring& strRenderTargetTag);
+	HRESULT Begin_MRT(const wstring& strMRTTag);
+	HRESULT End_MRT();
+	HRESULT Bind_RTShaderResource(class CShader* pShader, const wstring& strRenderTargetTag, const _char* pConstantName);
+
+
+#ifdef _DEBUG
+	HRESULT Ready_RTVDebug(const wstring& strRenderTargetTag, _float fX, _float fY, _float fSizeX, _float fSizeY);
+	HRESULT Draw_RTVDebug(const wstring& strMRTTag, class CShader* pShader, class CVIBuffer_Rect* pVIBuffer);
+
+#endif
 
 private:
 	class CGraphic_Device*			m_pGraphic_Device = { nullptr };
@@ -84,6 +105,7 @@ private:
 	class CFont_Manager*			m_pFont_Manager = { nullptr };
 	class CPipeLine*				m_pPipeLine = { nullptr };
 	class CLight_Manager*			m_pLight_Manager = { nullptr };
+	class CTarget_Manager*			m_pTarget_Manager = { nullptr };
 
 public:		
 	static void Release_Engine();

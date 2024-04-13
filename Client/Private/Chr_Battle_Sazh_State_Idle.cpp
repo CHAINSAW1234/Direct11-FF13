@@ -26,7 +26,9 @@ void CChr_Battle_Sazh_State_Idle::OnStateUpdate(_float fTimeDelta)
 {
 	m_fTimeDelta += fTimeDelta;
 	m_pChr_Battle_Sazh->Update_ATB(fTimeDelta);
+	m_pChr_Battle_Sazh->Update_Command();
 	Update_Hurt();
+	
 
 	switch (m_eState) {
 	case IDLE:
@@ -68,6 +70,7 @@ void CChr_Battle_Sazh_State_Idle::Idle(_float fTimeDelta)
 				m_pChr_Battle_Sazh->Change_State(CChr_Battle_Sazh::SKILL);
 				break;
 			}
+			return ;
 		}
 
 		if (m_fTimeDelta >= m_fStateTime) {
@@ -113,6 +116,25 @@ void CChr_Battle_Sazh_State_Idle::Idle(_float fTimeDelta)
 void CChr_Battle_Sazh_State_Idle::Hurt()
 {
 	m_fDegree = m_pChr_Battle_Sazh->Cal_Degree_Target();
+
+	if (m_pChr_Battle_Sazh->Get_CommandCount() != 0 &&
+		m_pChr_Battle_Sazh->Get_ATB() >= m_pChr_Battle_Sazh->Get_CommandCount()) {
+		CRole::SKILL eSkill = m_pChr_Battle_Sazh->Get_Current_Command();
+
+		switch (eSkill) {
+		case CRole::FLAMEBLOW:
+			m_pChr_Battle_Sazh->Change_State(CChr_Battle_Sazh::ATTACK);
+			break;
+		case CRole::SKILL_END:
+			break;
+		default:
+			m_pChr_Battle_Sazh->Change_State(CChr_Battle_Sazh::SKILL);
+			break;
+		}
+		return;
+	}
+
+
 	if (abs(m_fDegree) > 45.f) {
 		Change_State(TURN);
 		if (m_fDegree >= 0)
@@ -180,8 +202,8 @@ void CChr_Battle_Sazh_State_Idle::Move(_float fTimeDelta)
 
 void CChr_Battle_Sazh_State_Idle::Turn(_float fTimeDelta)
 {
-	_float t1 = EaseOutCublic(m_fPrevTimeDelta);
-	_float t2 = EaseOutCublic(m_fTimeDelta);
+	_float t1 = (_float)EaseOutCublic(m_fPrevTimeDelta);
+	_float t2 = (_float)EaseOutCublic(m_fTimeDelta);
 
 	m_pChr_Battle_Sazh->Get_Transform()->Turn(XMVectorSet(0.f, 1.f, 0.f, 0.f), (t2 - t1) * m_fDegree / 360);
 

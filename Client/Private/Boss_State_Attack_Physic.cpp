@@ -33,6 +33,7 @@ void CBoss_State_Attack_Physic::OnStateExit()
 {
 
     m_pBoss->Reset_AttackTime();
+    m_pBoss->Change_Target();
 }
 
 void CBoss_State_Attack_Physic::Move(_float fTimeDelta)

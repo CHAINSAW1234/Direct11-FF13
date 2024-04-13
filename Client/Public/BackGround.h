@@ -6,6 +6,7 @@
 BEGIN(Engine)
 class CShader;
 class CTexture;
+class CTransform;
 class CVIBuffer_Rect;
 END
 
@@ -28,7 +29,9 @@ public:
 private:
 	CShader*				m_pShaderCom = { nullptr };
 	CTexture*				m_pTextureCom = { nullptr };
+	CTexture* m_pTextureTitleCom = { nullptr };
 	CVIBuffer_Rect*			m_pVIBufferCom = { nullptr };
+	CTransform*				m_pTransformTitleCom = { nullptr };
 
 private:
 	_float					m_fX, m_fY, m_fSizeX, m_fSizeY;
@@ -37,8 +40,6 @@ private:
 private:
 	HRESULT Add_Components();
 	HRESULT Bind_ShaderResources();
-
-
 
 public:
 	static CBackGround* Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);

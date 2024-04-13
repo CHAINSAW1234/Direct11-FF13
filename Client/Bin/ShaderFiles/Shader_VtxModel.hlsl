@@ -84,6 +84,25 @@ PS_OUT PS_MAIN(PS_IN In)
     return Out;
 }
 
+PS_OUT PS_NoTexture(PS_IN In)
+{
+    PS_OUT Out = (PS_OUT) 0;
+
+    vector vMtrlDiffuse = { 1.f, 0.f, 0.f, 1.f };
+
+    vector vShade = saturate(dot(normalize(g_vLightDir) * -1.f, In.vNormal)) + (g_vLightAmbient * g_vMtrlAmbient);
+
+    vector vReflect = reflect(normalize(g_vLightDir), In.vNormal);
+    vector vLook = normalize(In.vWorldPos - g_vCamPosition);
+
+    float fSpecular = pow(saturate(dot(normalize(vReflect) * -1.f, vLook)), 30.f);
+
+    Out.vColor = (vMtrlDiffuse * g_vLightDiffuse) * saturate(vShade) +
+		(g_vLightSpecular * g_vMtrlSpecular) * fSpecular;
+	
+    return Out;
+}
+
 technique11 DefaultTechnique
 {
     pass Default
@@ -110,5 +129,18 @@ technique11 DefaultTechnique
         HullShader = /*compile hs_5_0 HS_MAIN()*/NULL;
         DomainShader = /*compile ds_5_0 DS_MAIN()*/NULL;
         PixelShader = compile ps_5_0 PS_MAIN();
+    }
+
+    pass NoTexture
+    {
+        SetRasterizerState(RS_Default);
+        SetDepthStencilState(DSS_Default, 0);
+        SetBlendState(BS_Default, float4(0.f, 0.f, 0.f, 0.f), 0xffffffff);
+
+        VertexShader = compile vs_5_0 VS_MAIN();
+        GeometryShader = /*compile gs_5_0 GS_MAIN()*/NULL;
+        HullShader = /*compile hs_5_0 HS_MAIN()*/NULL;
+        DomainShader = /*compile ds_5_0 DS_MAIN()*/NULL;
+        PixelShader = compile ps_5_0 PS_NoTexture();
     }
 }

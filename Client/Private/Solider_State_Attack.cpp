@@ -31,6 +31,7 @@ void CSolider_State_Attack::OnStateExit()
 {
     m_pSolider->Set_IsJumpNext(true);
     m_pSolider->Reset_AttackTime();
+    m_pSolider->Change_Target();
 }
 
 void CSolider_State_Attack::Run(_float fTimeDelta)

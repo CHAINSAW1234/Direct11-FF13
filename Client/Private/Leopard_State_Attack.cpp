@@ -29,6 +29,7 @@ void CLeopard_State_Attack::OnStateUpdate(_float fTimeDelta)
 void CLeopard_State_Attack::OnStateExit()
 {
 	m_pLeopard->Reset_AttackTime();
+	m_pLeopard->Change_Target();
 }
 
 void CLeopard_State_Attack::Run(_float fTimeDelta)

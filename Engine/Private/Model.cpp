@@ -49,6 +49,7 @@ CBone* CModel::Get_BonePtr(const _char* pBoneName) const
 	return *iter;
 }
 
+#ifdef _ASSIMP
 HRESULT CModel::Initialize_Prototype(TYPE eType, const string& strModelFilePath, _fmatrix TransformMatrix)
 {
 	m_eModelType = eType;
@@ -81,6 +82,7 @@ HRESULT CModel::Initialize_Prototype(TYPE eType, const string& strModelFilePath,
 		return E_FAIL;
 	return S_OK;
 }
+#endif
 
 HRESULT CModel::Initialize(void* pArg)
 {
@@ -97,7 +99,7 @@ HRESULT CModel::Bind_BoneMatrices(CShader* pShader, const _char* pConstantName, 
 }
 
 // ÁÖÀÇ!!!!
-HRESULT CModel::Bind_ShaderResource(CShader* pShader, const _char* pConstantName, _uint iMeshIndex, aiTextureType eTextureType)
+HRESULT CModel::Bind_ShaderResource(CShader* pShader, const _char* pConstantName, _uint iMeshIndex, _uint eTextureType)
 {
 	if (iMeshIndex >= m_iNumMeshes)
 		return E_FAIL;
@@ -163,6 +165,7 @@ _bool CModel::Compute_Picking(const CTransform* pTransform, _Out_ _float4* vOutP
 	return false;
 }
 
+#ifdef _ASSIMP
 HRESULT CModel::Save_Model(string filepath)
 {
 	ofstream OFS{filepath, ios::out | ios::binary};
@@ -212,6 +215,7 @@ HRESULT CModel::Save_Model(string filepath)
 	OFS.close();
 	return S_OK;
 }
+#endif
 
 HRESULT CModel::Play_Animation_Linear_Interpolation(_float fTimeDelta)
 {
@@ -298,6 +302,7 @@ HRESULT CModel::Load_Model(string filepath)
 	return S_OK;
 }
 
+#ifdef _ASSIMP
 HRESULT CModel::Ready_Meshes()
 {
 	m_iNumMeshes = m_pAIScene->mNumMeshes;
@@ -401,7 +406,9 @@ HRESULT CModel::Ready_Animations()
 
 	return S_OK;
 }
+#endif
 
+#ifdef _ASSIMP
 CModel* CModel::Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext, TYPE eType, const string& strModelFilePath, _fmatrix TransformMatrix)
 {
 	CModel* pInstance = new CModel(pDevice, pContext);
@@ -415,6 +422,7 @@ CModel* CModel::Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext, TYP
 
 	return pInstance;
 }
+#endif
 
 CModel* CModel::Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext, const string& strModelFilePath)
 {
@@ -467,5 +475,8 @@ void CModel::Free()
 		Safe_Release(pMesh);
 	m_Meshes.clear();
 
+#ifdef _ASSIMP
 	m_Importer.FreeScene();
+#endif
+
 }

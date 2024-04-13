@@ -32,7 +32,7 @@ SOFTWARE.
 */
 
 #pragma endregion
-
+#include "stdafx.h"
 #include "ImGuiFileDialog.h"
 
 #ifdef __cplusplus

@@ -87,7 +87,7 @@ void CNavigation::Set_Index(_fvector vPosition)
 		_int		iNeighborIndex = { -1 };
 
 		if (true == m_Cells[i]->isIn(vPosition, XMLoadFloat4x4(&m_WorldMatrix), &iNeighborIndex)) {
-			m_iCurrentIndex = i;
+			m_iCurrentIndex = (_int)i;
 			return;
 		}
 	}

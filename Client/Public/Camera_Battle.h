@@ -31,7 +31,7 @@ private:
 
 	_float			m_fDist = { 5.f };
 
-	_float			m_fYOffset = { 3.f };
+	_float			m_fYOffset = { 2.f };
 
 	_long			m_MouseMoveX = { 0 };
 	_long			m_MouseMoveY = { 0 };

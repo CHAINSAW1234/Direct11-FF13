@@ -118,7 +118,7 @@ HRESULT CLevel_Field::Ready_Layer_Camera(const wstring& strLayerTag)
 	CameraDesc.fAspect = (_float)g_iWinSizeX / g_iWinSizeY;
 	CameraDesc.fNear = 0.1f;
 	CameraDesc.fFar = 1000.0f;
-	CameraDesc.vEye = _float4(0.f, 10.f, -7.f, 1.f);
+	CameraDesc.vEye = _float4(0.f, .5f, -1.f, 1.f);
 	CameraDesc.vAt = _float4(0.f, 0.f, 0.f, 1.f);
 	CameraDesc.fSpeedPerSec = 10.f;
 	CameraDesc.fRotationPerSec = XMConvertToRadians(90.0f);
@@ -364,7 +364,7 @@ HRESULT CLevel_Field::Save_Troup()
   	_float4 vPlayerPosition = ((CTransform*)m_pGameInstance->Get_Component(LEVEL_FIELD, g_strChrLayerTag, g_strTransformTag, 0))->Get_State_Float4(CTransform::STATE_POSITION);
 	OFS.write(reinterpret_cast<const char*>(&vPlayerPosition), sizeof(_float4));
 
-	_int iNumTroup = m_Troups.size();
+	_int iNumTroup = (_int)m_Troups.size();
 	OFS.write(reinterpret_cast<const char*>(&iNumTroup), sizeof(_int));
 	for (auto& iter = m_Troups.begin(); iter != m_Troups.end(); ++iter)
 		(*iter)->Save_Troup(OFS);

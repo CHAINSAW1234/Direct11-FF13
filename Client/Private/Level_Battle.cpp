@@ -226,7 +226,7 @@ void CLevel_Battle::Set_Object_Position()
         pChr_Battle->Set_StartPosition(_float4({(i/2) * _float(pow(-1, (i%2))) * -3.f, 0.f, ((i / 2) + 1) * -3.f, 1.f}));
     }
 
-    _int iMonsterCnt = m_pGameInstance->Get_LayerCnt(g_Level, g_strMonsterLayerTag);
+    _int iMonsterCnt = (_int)m_pGameInstance->Get_LayerCnt(g_Level, g_strMonsterLayerTag);
     for (_int i = 0; i < iMonsterCnt; ++i) {
         CMonster* pMonster = (CMonster*)m_pGameInstance->Get_GameObject(g_Level, g_strMonsterLayerTag, i);
         pMonster->Set_StartPosition(vMonsterStartPosition[iMonsterCnt-1][i]);

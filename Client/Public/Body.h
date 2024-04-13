@@ -35,6 +35,8 @@ public:
 	_bool		Is_Animation_Finished() { return m_pModelCom->isFinished(); }
 	void		Change_Animation(_uint iAnimationIndex, _bool isLoop) { m_pModelCom->Set_Animation(iAnimationIndex, isLoop); }
 	void		Set_TrackPosition(_float fTrackPosition) { m_pModelCom->Set_TrackPosition(fTrackPosition); }
+	_float4		Get_BonePosition(const char* pBoneName);	// 해당 파츠 오브젝트의 지정한 뼈의 위치를 구해서 월드등을 모두 곱해서 전달
+
 private:
 	CModel* m_pModelCom = { nullptr };
 	CShader* m_pShaderCom = { nullptr };

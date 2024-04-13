@@ -22,7 +22,7 @@ public:
 	virtual _float IntersectDist(CCollider* pTargetCollider);
 #ifdef _DEBUG
 public:
-	HRESULT Render();
+	HRESULT Render() override;
 
 #endif
 

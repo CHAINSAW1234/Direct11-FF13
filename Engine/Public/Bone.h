@@ -34,7 +34,10 @@ public:
 		return &m_CombinedTransformationMatrix;
 	}
 
+#ifdef _ASSIMP
 	HRESULT Initialize(const aiNode* pAINode, _int iParentIndex);
+#endif
+
 	void Invalidate_CombinedTransformationMatrix(const vector<CBone*>& Bones, _fmatrix TransformationMatrix);
 
 	_bool Compare_Name(const _char* pBoneName) {
@@ -59,7 +62,11 @@ private:
 	_int				m_iParentBoneIndex = { -1 };	// * model
 
 public:
+
+#ifdef _ASSIMP
 	static CBone* Create(const aiNode* pAINode, _int  iParentIndex);
+#endif
+
 	static CBone* Create(ifstream& IFS);
 	CBone* Clone();
 	virtual void Free() override;

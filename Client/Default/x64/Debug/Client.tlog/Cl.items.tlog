@@ -10,6 +10,7 @@ C:\Users\stgo5015\Documents\GitHub\Direct11_FF13\Client\Private\Boss_State_Hit.c
 C:\Users\stgo5015\Documents\GitHub\Direct11_FF13\Client\Private\Boss_State_Idle.cpp;C:\Users\stgo5015\Documents\GitHub\Direct11_FF13\Client\Default\x64\Debug\Boss_State_Idle.obj
 C:\Users\stgo5015\Documents\GitHub\Direct11_FF13\Client\Private\Boss_State_Skill_Barrier.cpp;C:\Users\stgo5015\Documents\GitHub\Direct11_FF13\Client\Default\x64\Debug\Boss_State_Skill_Barrier.obj
 C:\Users\stgo5015\Documents\GitHub\Direct11_FF13\Client\Private\Boss_State_Skill_HellBlast.cpp;C:\Users\stgo5015\Documents\GitHub\Direct11_FF13\Client\Default\x64\Debug\Boss_State_Skill_HellBlast.obj
+C:\Users\stgo5015\Documents\GitHub\Direct11_FF13\Client\Private\Bullet.cpp;C:\Users\stgo5015\Documents\GitHub\Direct11_FF13\Client\Default\x64\Debug\Bullet.obj
 C:\Users\stgo5015\Documents\GitHub\Direct11_FF13\Client\Private\Camera_Battle.cpp;C:\Users\stgo5015\Documents\GitHub\Direct11_FF13\Client\Default\x64\Debug\Camera_Battle.obj
 C:\Users\stgo5015\Documents\GitHub\Direct11_FF13\Client\Private\Camera_Free.cpp;C:\Users\stgo5015\Documents\GitHub\Direct11_FF13\Client\Default\x64\Debug\Camera_Free.obj
 C:\Users\stgo5015\Documents\GitHub\Direct11_FF13\Client\Private\Camera_Field.cpp;C:\Users\stgo5015\Documents\GitHub\Direct11_FF13\Client\Default\x64\Debug\Camera_Field.obj
@@ -84,6 +85,8 @@ C:\Users\stgo5015\Documents\GitHub\Direct11_FF13\Client\Private\Solider_State_Fi
 C:\Users\stgo5015\Documents\GitHub\Direct11_FF13\Client\Private\Solider_State_Hit.cpp;C:\Users\stgo5015\Documents\GitHub\Direct11_FF13\Client\Default\x64\Debug\Solider_State_Hit.obj
 C:\Users\stgo5015\Documents\GitHub\Direct11_FF13\Client\Private\Solider_State_Idle.cpp;C:\Users\stgo5015\Documents\GitHub\Direct11_FF13\Client\Default\x64\Debug\Solider_State_Idle.obj
 C:\Users\stgo5015\Documents\GitHub\Direct11_FF13\Client\Private\Solider_State_Start.cpp;C:\Users\stgo5015\Documents\GitHub\Direct11_FF13\Client\Default\x64\Debug\Solider_State_Start.obj
+C:\Users\stgo5015\Documents\GitHub\Direct11_FF13\Client\Private\Sphere.cpp;C:\Users\stgo5015\Documents\GitHub\Direct11_FF13\Client\Default\x64\Debug\Sphere.obj
+C:\Users\stgo5015\Documents\GitHub\Direct11_FF13\Client\Private\Sphere_Heal.cpp;C:\Users\stgo5015\Documents\GitHub\Direct11_FF13\Client\Default\x64\Debug\Sphere_Heal.obj
 C:\Users\stgo5015\Documents\GitHub\Direct11_FF13\Client\Private\Terrain.cpp;C:\Users\stgo5015\Documents\GitHub\Direct11_FF13\Client\Default\x64\Debug\Terrain.obj
 C:\Users\stgo5015\Documents\GitHub\Direct11_FF13\Client\Private\Trigger.cpp;C:\Users\stgo5015\Documents\GitHub\Direct11_FF13\Client\Default\x64\Debug\Trigger.obj
 C:\Users\stgo5015\Documents\GitHub\Direct11_FF13\Client\Private\Troup.cpp;C:\Users\stgo5015\Documents\GitHub\Direct11_FF13\Client\Default\x64\Debug\Troup.obj

@@ -75,7 +75,7 @@ void CCamera_Battle::Update_TargetPosition(_float fTimeDelta)
     _int iCntSum = 0;
 
     size_t iChrCnt = m_pGameInstance->Get_LayerCnt(g_Level, g_strChrLayerTag);
-    iCntSum += iChrCnt;
+    iCntSum += (_int)iChrCnt;
     for (size_t i = 0; i < iChrCnt; ++i) {
         CTransform* pTransform = (CTransform*)m_pGameInstance->Get_Component(g_Level, g_strChrLayerTag, g_strTransformTag, (_int)i);
         if (nullptr == pTransform)
@@ -84,7 +84,7 @@ void CCamera_Battle::Update_TargetPosition(_float fTimeDelta)
     }
 
     size_t iMonsterCnt = m_pGameInstance->Get_LayerCnt(g_Level, g_strMonsterLayerTag);
-    iCntSum += iMonsterCnt;
+    iCntSum += (_int)iMonsterCnt;
     for (size_t i = 0; i < iMonsterCnt; ++i) {
         CTransform* pTransform = (CTransform*)m_pGameInstance->Get_Component(g_Level, g_strMonsterLayerTag, g_strTransformTag, (_int)i);
         if (nullptr == pTransform)
@@ -92,7 +92,7 @@ void CCamera_Battle::Update_TargetPosition(_float fTimeDelta)
         vPosition += pTransform->Get_State_Vector(CTransform::STATE_POSITION);
     }
 
-    vPosition /= iCntSum;
+    vPosition /= (_float)iCntSum;
     vPosition.m128_f32[3] = 1.f;
     vPosition.m128_f32[1] = 0.f;
     XMStoreFloat4(&m_vTargetPosition, vPosition);
@@ -135,17 +135,17 @@ void CCamera_Battle::Update_Dist(_float fTimeDelta)
     }
 
 
-    if (fabsMaxProjectPos.x >= 0.8f) {
+    if (fabsMaxProjectPos.x >= 1.2f) {
         m_fDist *= 1.001f;
     }
-    else if (fabsMaxProjectPos.x <= 0.3f) {
+    else if (fabsMaxProjectPos.x <= 0.6f) {
         m_fDist /= 1.001f;
     }
     
-    if (fabsMaxProjectPos.y >= 1.0f) {
+    if (fabsMaxProjectPos.y >= 1.2f) {
         m_fDist *= 1.001f;
     }
-    else if (fabsMaxProjectPos.y <= 0.5f) {
+    else if (fabsMaxProjectPos.y <= 0.8f) {
         m_fDist /= 1.001f;
     }
 
@@ -185,7 +185,7 @@ void CCamera_Battle::Update_With_Mouse(_float fTimeDelta)
 
     // y축 각도 제한 걸기
     // y축 거리 차이가 fDist / sqrt(2)인 경우에만 작동
-    m_pTransformCom->Turn_With_Look_At(m_pTransformCom->Get_State_Vector(CTransform::STATE_RIGHT), vTargetPosition, m_fDist, fTimeDelta * sin(XMConvertToRadians(m_fMouseMoveYAxis)) * m_MouseMoveY * m_fMouseSensor, XMConvertToDegrees(asin((m_fYOffset-0.01f) / m_fDist)));
+    m_pTransformCom->Turn_With_Look_At(m_pTransformCom->Get_State_Vector(CTransform::STATE_RIGHT), vTargetPosition, m_fDist, fTimeDelta * sin(XMConvertToRadians(m_fMouseMoveYAxis)) * m_MouseMoveY * m_fMouseSensor, round(XMConvertToDegrees(asin((m_fYOffset-0.01f) / m_fDist))));
 
 }
 

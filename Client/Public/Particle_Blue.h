@@ -1,7 +1,7 @@
 #pragma once
 
 #include "Client_Defines.h"
-#include "GameObject.h"
+#include "PartObject.h"
 
 BEGIN(Engine)
 class CVIBuffer_Instance_Rect;
@@ -11,7 +11,7 @@ END
 
 BEGIN(Client)
 
-class CParticle_Blue final : public CGameObject
+class CParticle_Blue final : public CPartObject
 {
 private:
 	CParticle_Blue(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);

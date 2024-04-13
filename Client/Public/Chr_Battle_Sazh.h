@@ -28,29 +28,32 @@ private:
 public:
 	virtual HRESULT Initialize_Prototype() override;
 	virtual HRESULT Initialize(void* pArg) override;
-	virtual void Tick(_float fTimeDelta) override;
+	virtual void	Tick(_float fTimeDelta) override;
 	virtual HRESULT Late_Tick(_float fTimeDelta) override;
 	virtual HRESULT Render() override;
-	virtual void Start() override;
+	virtual void	Start() override;
 
 public:
-	HRESULT Change_State(STATE eState);
-	void	Change_Animation(ANIMATION_CHR_BATTLE_SAZH iAnimationIndex, _bool isLoop);
-	virtual void Change_Role(CAbility::ROLE eRole) override;
-	virtual void Set_State_Battle_Finish() override;
-	virtual void Set_Hit(_int iDamage);								// 피격 상태로 변경
+	HRESULT			Change_State(STATE eState);
+	void			Change_Animation(ANIMATION_CHR_BATTLE_SAZH iAnimationIndex, _bool isLoop);
+	virtual void	Change_Role(CAbility::ROLE eRole) override;
+	virtual void	Set_State_Battle_Finish() override;
+	virtual void	Set_Hit(_int iDamage);								// 피격 상태로 변경
+	virtual void	Create_Sphere(_int iDamage, _int iWeaponNum = 0) override;
+	void			Create_Bullet();
 private:
 	virtual HRESULT Add_Components() override;
 	virtual HRESULT Add_Component_FSM() override;
 	virtual HRESULT Add_PartObjects() override;
 	virtual HRESULT Add_Ability() override;
-
 	void	Show_ImGUI();
 
 private:
 	STATE		m_eState = { STATE_END };
 
+#ifdef DEBUG
 	class CImGUI_Manager* m_pImGUI_Manager = { nullptr };
+#endif
 
 public:
 	static CChr_Battle_Sazh* Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);

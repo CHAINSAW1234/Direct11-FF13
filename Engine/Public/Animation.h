@@ -11,7 +11,11 @@ private:
 	virtual ~CAnimation() = default;
 
 public:
+
+#ifdef _ASSIMP
 	HRESULT Initialize(const aiAnimation* pAIAnimation, const vector<class CBone*>& Bones);
+#endif
+
 	void Invalidate_TransformationMatrix(_float fTimeDelta, const vector<class CBone*>& Bones, _bool isLoop);
 	void Invalidate_TransformationMatrix_Linear_Interpolation(_float fTimeDelta, const vector<class CBone*>& Bones, CAnimation* pNextAnimation);
 	
@@ -41,7 +45,11 @@ private:
 																	// CChanel-> CAnimation			// 받는 타이밍에 가장 큰거?
 	_bool								m_isFinished = { false };
 public:
+
+#ifdef _ASSIMP
 	static CAnimation* Create(const aiAnimation* pAIAnimation, const vector<class CBone*>& Bones);
+#endif
+
 	static CAnimation* Create(ifstream& IFS);
 	CAnimation* Clone();
 	virtual void Free() override;

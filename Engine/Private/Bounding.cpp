@@ -18,11 +18,12 @@ _float CBounding::IntersectDist(CCollider::TYPE eType, CBounding* pBoundingDesc)
 	return 0.f;
 }
 
+#ifdef _DEBUG
 HRESULT CBounding::Render(PrimitiveBatch<VertexPositionColor>* pBatch)
 {
-
 	return S_OK;
 }
+#endif
 
 void CBounding::Free()
 {

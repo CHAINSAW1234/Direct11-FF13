@@ -15,6 +15,7 @@
 #include "Body.h"
 #include "Weapon_Anim.h"
 #include "Ability.h"
+#include "Sphere_Heal.h"
 
 #include "ImGUI_Manager.h"
 
@@ -31,6 +32,10 @@ CChr_Battle_Vanila::CChr_Battle_Vanila(const CChr_Battle_Vanila& rhs)
 HRESULT CChr_Battle_Vanila::Initialize_Prototype()
 {
 	m_strChrName = TEXT("바닐라");
+	m_iMaxHp = m_iHp = 350;
+	m_iAttack_Physic = 25;
+	m_iAttack_Magic = 26;
+	m_vColliderSize = _float3(.6f, 1.8f, .6f);
 	return S_OK;
 }
 
@@ -53,7 +58,6 @@ HRESULT CChr_Battle_Vanila::Initialize(void* pArg)
 void CChr_Battle_Vanila::Tick(_float fTimeDelta)
 {
 	__super::Tick(fTimeDelta);
-	Update_Command();
 	Update_HealTarget();
 }
 
@@ -77,8 +81,6 @@ HRESULT CChr_Battle_Vanila::Render()
 
 void CChr_Battle_Vanila::Start()
 {
-	m_iMaxHp = m_iHp = 350;
-	m_iDamage = 10;
 	Set_Target(m_pGameInstance->Get_GameObject(g_Level, g_strMonsterLayerTag, 0));
 	m_pTransformCom->Look_At_ForLandObject(((CTransform*)m_pTargetObject->Get_Component(g_strTransformTag))->Get_State_Vector(CTransform::STATE_POSITION));
 	m_pNavigationCom->Set_Index(m_pTransformCom->Get_State_Vector(CTransform::STATE_POSITION));
@@ -92,12 +94,50 @@ void CChr_Battle_Vanila::Set_Hit(_int iDamage)
 	if (m_eState == DEAD)
 		return;
 
-	Min_Hp(iDamage);
-	Create_UI_Number(CUI_Number::HIT, iDamage);
+	__super::Set_Hit(iDamage);
+
 	Change_State(HIT);
 	if (m_iHp <= 0) {
 		Change_State(DEAD);
 	}
+}
+
+void CChr_Battle_Vanila::Create_Sphere(_int iDamage, _int iWeaponNum)
+{
+	_float4 vPos = ((CBody*)m_PartObjects[iWeaponNum])->Get_BonePosition("L_weapon");
+
+	CSphere::Sphere_Desc Sphere_Desc = {};
+	Sphere_Desc.pTargetObject = m_pTargetObject;
+	Sphere_Desc.vStartPosition = vPos;
+	Sphere_Desc.isTargetMonster = true;
+	Sphere_Desc.iDamage = iDamage;
+	Sphere_Desc.fChain = 10.f;
+
+	if (FAILED(m_pGameInstance->Add_Clone(g_Level, TEXT("Layer_Bullet"), TEXT("Prototype_GameObject_Sphere"), &Sphere_Desc))) {
+		int i = 0;
+		return;
+	}
+
+	return;
+}
+
+void CChr_Battle_Vanila::Create_Sphere_Heal()
+{
+	_float4 vPos = ((CBody*)m_PartObjects[0])->Get_BonePosition("L_weapon");
+
+	CSphere::Sphere_Desc Sphere_Desc = {};
+	Sphere_Desc.pTargetObject = m_pTargetObject;
+	Sphere_Desc.vStartPosition = vPos;
+	Sphere_Desc.isTargetMonster = false;
+	Sphere_Desc.iDamage = m_iAttack_Magic * 3;
+	Sphere_Desc.fChain = 0.f;
+
+	if (FAILED(m_pGameInstance->Add_Clone(g_Level, TEXT("Layer_Bullet"), TEXT("Prototype_GameObject_Sphere_Heal"), &Sphere_Desc))) {
+		int i = 0;
+		return;
+	}
+
+	return;
 }
 
 HRESULT CChr_Battle_Vanila::Change_State(STATE eState)
@@ -129,6 +169,14 @@ void CChr_Battle_Vanila::Set_State_Battle_Finish()
 	Change_State(FINISH);
 }
 
+void CChr_Battle_Vanila::Set_Target(CGameObject* pTargetObject)
+{
+	if (m_pAbility->Get_CurrentRole() == CAbility::HEALER)
+		return;
+
+	__super::Set_Target(pTargetObject);
+}
+
 HRESULT CChr_Battle_Vanila::Add_Components()
 {
 	if (FAILED(__super::Add_Components()))
@@ -139,8 +187,7 @@ HRESULT CChr_Battle_Vanila::Add_Components()
 
 	/* 로컬상의 정보를 셋팅한다. */
 	ColliderOBBDesc.vRotation = _float3(0.f, 0.f, 0.f);
-	ColliderOBBDesc.vSize = _float3(.6f, 1.8f, .6f);
-	m_fColliderSizeZ = 0.3f;
+	ColliderOBBDesc.vSize = m_vColliderSize;
 	ColliderOBBDesc.vCenter = _float3(0.f, ColliderOBBDesc.vSize.y * 0.5f, 0.f);
 
 	if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_Collider_OBB"),
@@ -242,13 +289,9 @@ void CChr_Battle_Vanila::Update_HealTarget()
 		}
 	}
 
-	Set_Target(m_pGameInstance->Get_GameObject(g_Level, g_strChrLayerTag, iIndex));
-
+	Set_Target(m_pGameInstance->Get_GameObject(g_Level, g_strChrLayerTag, (_uint)iIndex));
 }
 
-void CChr_Battle_Vanila::Show_ImGUI()
-{
-}
 
 CChr_Battle_Vanila* CChr_Battle_Vanila::Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
 {

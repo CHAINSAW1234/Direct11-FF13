@@ -102,15 +102,15 @@ HRESULT CPlayer_Study::Late_Tick(_float fTimeDelta)
 
 	m_pGameInstance->Add_RenderGroup(CRenderer::RENDER_NONBLEND, this);
 
+#ifdef _DEBUG
+	m_pGameInstance->Add_DebugComponents(m_pColliderCom);
+#endif
+
 	return S_OK;
 }
 
 HRESULT CPlayer_Study::Render()
 {
-
-#ifdef _DEBUG
-	m_pColliderCom->Render();
-#endif
 
 	return S_OK;
 }
@@ -181,6 +181,20 @@ HRESULT CPlayer_Study::Add_PartObjects()
 		return E_FAIL;
 
 	m_PartObjects.emplace(TEXT("Part_Weapon"), pWeaponObject);
+
+	/* For.Part_Effect */
+	CPartObject* pEffectObject = { nullptr };
+	CPartObject::PARTOBJECT_DESC EffectDesc{};
+
+	EffectDesc.pParentMatrix = m_pTransformCom->Get_WorldFloat4x4_Ptr();
+
+	pEffectObject = dynamic_cast<CPartObject*>(m_pGameInstance->Clone_GameObject(TEXT("Prototype_GameObject_Particle_Blue"), &EffectDesc));
+	if (nullptr == pEffectObject)
+		return E_FAIL;
+
+	m_PartObjects.emplace(TEXT("Part_Effect"), pEffectObject);
+
+	return S_OK;
 
 
 	return S_OK;

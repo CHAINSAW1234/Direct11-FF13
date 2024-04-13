@@ -91,7 +91,7 @@ HRESULT CLevel_Loading::Render()
 
 HRESULT CLevel_Loading::Ready_Layer_BackGround()
 {
-	return E_NOTIMPL;
+	return S_OK;
 }
 
 HRESULT CLevel_Loading::Ready_Layer_UI()

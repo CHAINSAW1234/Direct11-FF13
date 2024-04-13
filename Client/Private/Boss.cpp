@@ -26,7 +26,9 @@ HRESULT CBoss::Initialize_Prototype()
 {
     m_iMaxHp = m_iHp = 16200;
     m_fStagger = 200.f;
+    m_fChainResist = 50.f;
     m_iDamage = 58;
+    m_vColliderSize = _float3(6.f, 6.f, 6.f);
     m_strMonsterName = TEXT("전투폭격기 카를라");
 
     return S_OK;
@@ -89,10 +91,9 @@ void CBoss::Start()
 
 }
 
-void CBoss::Set_Hit(_int iDamage)
+void CBoss::Set_Hit(_int iDamage, _float fChain)
 {
-    Min_Hp(iDamage);
-    Create_Damage(iDamage);
+    __super::Set_Hit(iDamage, fChain);
 
     if (m_ePhase == PHASE1 && m_iHp <= m_iMaxHp * 0.7) {
         m_ePhase = PHASE2;
@@ -101,8 +102,6 @@ void CBoss::Set_Hit(_int iDamage)
 
     }
 
-    if (m_iHp <= 0)
-        m_isDead = true;
     if(m_isBreak)
         Change_State(STATE_HIT);
 }
@@ -208,8 +207,7 @@ HRESULT CBoss::Add_Components()
 
     /* 로컬상의 정보를 셋팅한다. */
     ColliderOBBDesc.vRotation = _float3(0.f, 0.f, 0.f);
-    ColliderOBBDesc.vSize = _float3(6.f, 6.f, 6.f);
-    m_fColliderSizeZ = 3.f;
+    ColliderOBBDesc.vSize = m_vColliderSize;
     ColliderOBBDesc.vCenter = _float3(0.f, 0.f, 0.f);
 
     if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_Collider_OBB"),

@@ -29,6 +29,9 @@
 #include "Chr_Battle_Vanila.h"
 #include "Body.h"
 #include "Weapon_Anim.h"
+#include "Sphere.h"
+#include "Sphere_Heal.h"
+#include "Bullet.h"
 
 #include "Leopard.h"
 #include "Warload.h"
@@ -200,6 +203,11 @@ HRESULT CLoader::Loading_Prototype()
 #pragma endregion
 
 	/* For.Prototype_GameObject_Sky */
+	if (FAILED(m_pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_BackGround"),
+		CBackGround::Create(m_pDevice, m_pContext))))
+		return E_FAIL;
+
+	/* For.Prototype_GameObject_Sky */
 	if (FAILED(m_pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_Sky"),
 		CSky::Create(m_pDevice, m_pContext))))
 		return E_FAIL;
@@ -267,6 +275,21 @@ HRESULT CLoader::Loading_Prototype()
 	/* For.Prototype_GameObject_Boss */
 	if (FAILED(m_pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_Boss"),
 		CBoss::Create(m_pDevice, m_pContext))))
+		return E_FAIL;
+
+	/* For.Prototype_GameObject_Sphere */
+	if (FAILED(m_pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_Sphere"),
+		CSphere::Create(m_pDevice, m_pContext))))
+		return E_FAIL;
+
+	/* For.Prototype_GameObject_Sphere */
+	if (FAILED(m_pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_Sphere_Heal"),
+		CSphere_Heal::Create(m_pDevice, m_pContext))))
+		return E_FAIL;
+
+	/* For.Prototype_GameObject_Sphere */
+	if (FAILED(m_pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_Bullet"),
+		CBullet::Create(m_pDevice, m_pContext))))
 		return E_FAIL;
 
 	/* For.Prototype_GameObject_Inventory */
@@ -366,8 +389,13 @@ HRESULT CLoader::Loading_For_Logo()
 {
 	m_strLoadingText = TEXT("텍스쳐를(을) 로딩 중 입니다.");
 	/* For.Prototype_Component_Texture_Logo */
-	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_LOGO, TEXT("Prototype_Component_Texture_Logo"),
-		CTexture::Create(m_pDevice, m_pContext, TEXT("../Bin/Resources/Textures/Default%d.jpg"), 2))))
+	if (FAILED(m_pGameInstance->Add_Prototype(g_Level, TEXT("Prototype_Component_Texture_Logo"),
+		CTexture::Create(m_pDevice, m_pContext, TEXT("../Bin/Resources/UI/Logo.png")))))
+		return E_FAIL;
+
+	/* For.Prototype_Component_Texture_Logo */
+	if (FAILED(m_pGameInstance->Add_Prototype(g_Level, TEXT("Prototype_Component_Texture_Title"),
+		CTexture::Create(m_pDevice, m_pContext, TEXT("../Bin/Resources/UI/Title.png")))))
 		return E_FAIL;
 
 	m_strLoadingText = TEXT("모델를(을) 로딩 중 입니다.");
@@ -444,21 +472,21 @@ HRESULT CLoader::Loading_For_GamePlay()
 	/* Prototype_Component_Model_Fiona */
 	TransformMatrix = XMMatrixRotationY(XMConvertToRadians(180.0f));
 
-	// 상단 fbx, 하단, bin
-	if (FAILED(m_pGameInstance->Add_Prototype(g_Level, TEXT("Prototype_Component_Model_Fiona"),
-		CModel::Create(m_pDevice, m_pContext, CModel::TYPE_ANIM, "../Bin/Resources/Models/Fiona/Fiona.fbx", TransformMatrix))))
-		return E_FAIL;
-
-	//if (FAILED(m_pGameInstance->Add_Prototype(eLevel, TEXT("Prototype_Component_Model_Fiona"),
-	//	CModel::Create(m_pDevice, m_pContext, "../Bin/Resources/Models/Fiona/Fiona.bin"))))
+	//// 상단 fbx, 하단, bin
+	//if (FAILED(m_pGameInstance->Add_Prototype(g_Level, TEXT("Prototype_Component_Model_Fiona"),
+	//	CModel::Create(m_pDevice, m_pContext, CModel::TYPE_ANIM, "../Bin/Resources/Models/Fiona/Fiona.fbx", TransformMatrix))))
 	//	return E_FAIL;
 
-	/* Prototype_Component_Model_ForkLift */
-	TransformMatrix = XMMatrixScaling(0.01f, 0.01f, 0.01f) * XMMatrixRotationY(XMConvertToRadians(180.0f));
+	////if (FAILED(m_pGameInstance->Add_Prototype(eLevel, TEXT("Prototype_Component_Model_Fiona"),
+	////	CModel::Create(m_pDevice, m_pContext, "../Bin/Resources/Models/Fiona/Fiona.bin"))))
+	////	return E_FAIL;
 
-	if (FAILED(m_pGameInstance->Add_Prototype(g_Level, TEXT("Prototype_Component_Model_ForkLift"),
-		CModel::Create(m_pDevice, m_pContext, CModel::TYPE_NONANIM, "../Bin/Resources/Models/ForkLift/ForkLift.fbx", TransformMatrix))))
-		return E_FAIL;
+	///* Prototype_Component_Model_ForkLift */
+	//TransformMatrix = XMMatrixScaling(0.01f, 0.01f, 0.01f) * XMMatrixRotationY(XMConvertToRadians(180.0f));
+
+	//if (FAILED(m_pGameInstance->Add_Prototype(g_Level, TEXT("Prototype_Component_Model_ForkLift"),
+	//	CModel::Create(m_pDevice, m_pContext, CModel::TYPE_NONANIM, "../Bin/Resources/Models/ForkLift/ForkLift.fbx", TransformMatrix))))
+	//	return E_FAIL;
 
 	///* Prototype_Component_VIBuffer_Cube */
 	//if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_GAMEPLAY, TEXT("Prototype_Component_VIBuffer_Cube"),
@@ -771,6 +799,15 @@ HRESULT CLoader::Loading_For_Battle()
 
 #pragma endregion
 
+
+	if (FAILED(m_pGameInstance->Add_Prototype(g_Level, TEXT("Prototype_Component_Model_Sphere"),
+		CModel::Create(m_pDevice, m_pContext, "../Bin/Resources/Models/Sphere/Sphere" + tag))))
+		return E_FAIL;
+
+	if (FAILED(m_pGameInstance->Add_Prototype(g_Level, TEXT("Prototype_Component_Model_Bullet"),
+		CModel::Create(m_pDevice, m_pContext, "../Bin/Resources/Models/Bullet/Bullet" + tag))))
+		return E_FAIL;
+
 	m_strLoadingText = TEXT("셰이더를(을) 로딩 중 입니다.");
 
 	m_strLoadingText = TEXT("객체의 원형를(을) 로딩 중 입니다.");
@@ -925,6 +962,14 @@ HRESULT CLoader::Loading_For_Boss_Battle()
 
 	if (FAILED(m_pGameInstance->Add_Prototype(g_Level, TEXT("Prototype_Component_Model_Boss"),
 		CModel::Create(m_pDevice, m_pContext, "../Bin/Resources/Models/Monster/Boss/Boss" + tag))))
+		return E_FAIL;
+
+	if (FAILED(m_pGameInstance->Add_Prototype(g_Level, TEXT("Prototype_Component_Model_Sphere"),
+		CModel::Create(m_pDevice, m_pContext, "../Bin/Resources/Models/Sphere/Sphere" + tag))))
+		return E_FAIL;
+
+	if (FAILED(m_pGameInstance->Add_Prototype(g_Level, TEXT("Prototype_Component_Model_Bullet"),
+		CModel::Create(m_pDevice, m_pContext, "../Bin/Resources/Models/Bullet/Bullet" + tag))))
 		return E_FAIL;
 
 	m_strLoadingText = TEXT("셰이더를(을) 로딩 중 입니다.");

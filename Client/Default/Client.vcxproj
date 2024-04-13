@@ -181,6 +181,7 @@
     <ClInclude Include="..\Public\Boss_State_Idle.h" />
     <ClInclude Include="..\Public\Boss_State_Skill_Barrier.h" />
     <ClInclude Include="..\Public\Boss_State_Skill_HellBlast.h" />
+    <ClInclude Include="..\Public\Bullet.h" />
     <ClInclude Include="..\Public\Camera_Battle.h" />
     <ClInclude Include="..\Public\Camera_Free.h" />
     <ClInclude Include="..\Public\Camera_Field.h" />
@@ -256,6 +257,8 @@
     <ClInclude Include="..\Public\Solider_State_Hit.h" />
     <ClInclude Include="..\Public\Solider_State_Idle.h" />
     <ClInclude Include="..\Public\Solider_State_Start.h" />
+    <ClInclude Include="..\Public\Sphere.h" />
+    <ClInclude Include="..\Public\Sphere_Heal.h" />
     <ClInclude Include="..\Public\Terrain.h" />
     <ClInclude Include="..\Public\Trigger.h" />
     <ClInclude Include="..\Public\Troup.h" />
@@ -321,6 +324,7 @@
     <ClCompile Include="..\Private\Boss_State_Idle.cpp" />
     <ClCompile Include="..\Private\Boss_State_Skill_Barrier.cpp" />
     <ClCompile Include="..\Private\Boss_State_Skill_HellBlast.cpp" />
+    <ClCompile Include="..\Private\Bullet.cpp" />
     <ClCompile Include="..\Private\Camera_Battle.cpp" />
     <ClCompile Include="..\Private\Camera_Free.cpp" />
     <ClCompile Include="..\Private\Camera_Field.cpp" />
@@ -395,6 +399,8 @@
     <ClCompile Include="..\Private\Solider_State_Hit.cpp" />
     <ClCompile Include="..\Private\Solider_State_Idle.cpp" />
     <ClCompile Include="..\Private\Solider_State_Start.cpp" />
+    <ClCompile Include="..\Private\Sphere.cpp" />
+    <ClCompile Include="..\Private\Sphere_Heal.cpp" />
     <ClCompile Include="..\Private\Terrain.cpp" />
     <ClCompile Include="..\Private\Trigger.cpp" />
     <ClCompile Include="..\Private\Troup.cpp" />
@@ -496,7 +502,7 @@
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Effect</ShaderType>
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Pixel</ShaderType>
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Pixel</ShaderType>
-      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Pixel</ShaderType>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Effect</ShaderType>
     </FxCompile>
     <FxCompile Include="..\Bin\ShaderFiles\Shader_VtxInstance.hlsl">
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Effect</ShaderType>
@@ -505,7 +511,7 @@
       <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">5.0</ShaderModel>
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Domain</ShaderType>
       <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">5.0</ShaderModel>
-      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Domain</ShaderType>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Effect</ShaderType>
       <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Release|x64'">5.0</ShaderModel>
     </FxCompile>
     <FxCompile Include="..\Bin\ShaderFiles\Shader_VtxModel.hlsl">
@@ -555,7 +561,7 @@
       <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">5.0</ShaderModel>
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Domain</ShaderType>
       <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">5.0</ShaderModel>
-      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Domain</ShaderType>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Effect</ShaderType>
       <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Release|x64'">5.0</ShaderModel>
     </FxCompile>
   </ItemGroup>

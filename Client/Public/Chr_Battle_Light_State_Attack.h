@@ -32,11 +32,12 @@ private:
 	
 private:
 	class CChr_Battle_Light* m_pChr_Battle_Light = { nullptr };
-	STATE m_eState = { STATE_END };
-	LAND m_eLand = { LAND_END };
+	STATE	m_eState = { STATE_END };
+	LAND	m_eLand = { LAND_END };
 
-	_float m_fDegree = { 0.f };
-	_bool  m_isCommandFinish = { false };
+	_float	m_fDegree = { 0.f };
+	_bool	m_isCommandFinish = { false };
+	_bool	m_isCommandUse = { false };
 
 public:
 	static	CChr_Battle_Light_State_Attack* Create(class CChr_Battle_Light* pChr_Battle_Light);

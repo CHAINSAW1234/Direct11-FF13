@@ -18,6 +18,7 @@
 #include "Weapon_Anim.h"
 #include "Ability.h"
 #include "Monster.h"
+#include "Sphere.h"
 
 #include "ImGUI_Manager.h"
 
@@ -34,6 +35,10 @@ CChr_Battle_Light::CChr_Battle_Light(const CChr_Battle_Light& rhs)
 HRESULT CChr_Battle_Light::Initialize_Prototype()
 {   
     m_strChrName = TEXT("라이트닝");
+    m_iMaxHp = m_iHp = 300;
+    m_iAttack_Physic = 79;
+    m_iAttack_Magic = 26;
+    m_vColliderSize = _float3(.6f, 1.6f, .6f);
     return S_OK;
 }
 
@@ -47,8 +52,10 @@ HRESULT CChr_Battle_Light::Initialize(void* pArg)
     if (FAILED(__super::Initialize(&GameObjectDesc)))
         return E_FAIL;
 
+#ifdef _DEBUG
     m_pImGUI_Manager = CImGUI_Manager::Get_Instance(m_pDevice, m_pContext);
     Safe_AddRef(m_pImGUI_Manager);
+#endif
     return S_OK;
 }
 
@@ -92,17 +99,17 @@ HRESULT CChr_Battle_Light::Render()
     if(FAILED(__super::Render()))
         return E_FAIL;
 
+#ifdef _DEBUG
     m_pImGUI_Manager->Tick(0);
     Show_ImGUI();
     m_pImGUI_Manager->Render();
+#endif
 
     return S_OK;
 }
 
 void CChr_Battle_Light::Start()
 {
-    m_iMaxHp = m_iHp = 300;
-    m_iDamage = 500;
     m_isAttackable = vector<int>(m_pGameInstance->Get_LayerCnt(g_Level, g_strMonsterLayerTag), true);
     Set_Target(m_pGameInstance->Get_GameObject(g_Level, g_strMonsterLayerTag, 0));
     m_pTransformCom->Look_At_ForLandObject(((CTransform*)m_pTargetObject->Get_Component(g_strTransformTag))->Get_State_Vector(CTransform::STATE_POSITION));
@@ -176,7 +183,8 @@ void CChr_Battle_Light::Set_Command(deque<pair<CRole::SKILL, _int>>* pCommand)
     Safe_Delete(m_pCommands);
 
     m_pCommands = pCommand;
-    m_pFSMCom->Change_State(PREPARE);
+    if(m_eState == IDLE)
+        m_pFSMCom->Change_State(PREPARE);
 }
 
 void CChr_Battle_Light::Update_Target()
@@ -198,8 +206,6 @@ void CChr_Battle_Light::Update_Target()
             }
         }
     }
-
-   
 }
 
 void CChr_Battle_Light::Set_Hit(_int iDamage)
@@ -207,12 +213,12 @@ void CChr_Battle_Light::Set_Hit(_int iDamage)
     if (m_eState == DEAD)
         return;
 
-    Min_Hp(iDamage);
-    Create_UI_Number(CUI_Number::HIT, iDamage);
+    __super::Set_Hit(iDamage);
 
     if (m_eState == ATTACK) {
         Lost_Command();
     }
+
     Change_State(HIT);
     if (m_iHp <= 0) {
         Change_State(DEAD);
@@ -227,10 +233,8 @@ void CChr_Battle_Light::Use_Item()
     {
         size_t iNumCnt = m_pGameInstance->Get_LayerCnt(g_Level, g_strChrLayerTag);
         for (size_t i = 0; i < iNumCnt; ++i) {
-            CChr_Battle* pChr_Battle = (CChr_Battle*)m_pGameInstance->Get_GameObject(g_Level, g_strChrLayerTag, i);
+            CChr_Battle* pChr_Battle = (CChr_Battle*)m_pGameInstance->Get_GameObject(g_Level, g_strChrLayerTag, (_uint)i);
             pChr_Battle->Add_Hp(150);
-            if (pChr_Battle->Get_Hp() != 0)
-                pChr_Battle->Create_UI_Number(CUI_Number::HEAL, 150);
         }
 
     }
@@ -241,7 +245,6 @@ void CChr_Battle_Light::Use_Item()
         if (nullptr != pChr_Battle) {
             if (pChr_Battle->Get_Hp() == 0) {
                 pChr_Battle->Revive();
-                pChr_Battle->Create_UI_Number(CUI_Number::HEAL, (int)(pChr_Battle->Get_MaxHp() * 0.7f));
             }
         }
 
@@ -251,12 +254,11 @@ void CChr_Battle_Light::Use_Item()
     {
         size_t iNumCnt = m_pGameInstance->Get_LayerCnt(g_Level, g_strChrLayerTag);
         for (size_t i = 0; i < iNumCnt; ++i) {
-            CChr_Battle* pChr_Battle = (CChr_Battle*)m_pGameInstance->Get_GameObject(g_Level, g_strChrLayerTag, i);
+            CChr_Battle* pChr_Battle = (CChr_Battle*)m_pGameInstance->Get_GameObject(g_Level, g_strChrLayerTag, (_uint)i);
             _int iHp = pChr_Battle->Get_Hp();
             _int iMaxHp = pChr_Battle->Get_MaxHp();
-            pChr_Battle->Add_Hp(iMaxHp - iHp);
-            if (pChr_Battle->Get_Hp() != 0)
-                pChr_Battle->Create_UI_Number(CUI_Number::HEAL, iMaxHp - iHp);
+            if(iHp < iMaxHp)
+                pChr_Battle->Add_Hp(iMaxHp - iHp);
         }
     }
     break;
@@ -281,7 +283,7 @@ void CChr_Battle_Light::Check_Interact_Weapon()
     
     if (Get_Collider_Weapon()->Intersect(pMonster->Get_Collider())) {
         Set_AttackAble(0);
-        pMonster->Set_Hit(m_iDamage);
+        pMonster->Set_Hit(m_iAttack_Physic, 0.5f);
     }
 }
 
@@ -299,9 +301,38 @@ void CChr_Battle_Light::Check_Interact_Weapon_Multi()
 
         if (Get_Collider_Weapon()->Intersect(pMonster->Get_Collider())) {
             Set_AttackAble(i);
-            pMonster->Set_Hit(m_iDamage);
+            pMonster->Set_Hit((_int)(m_iAttack_Physic * 1.3f), 0.5f);
         }
     }
+}
+
+void CChr_Battle_Light::Create_Sphere(_int iDamage, _int iWeaponNum)
+{
+    CAbility::ROLE eRole = m_pAbility->Get_CurrentRole();
+    
+    _float4 vPos = ((CBody*)m_PartObjects[iWeaponNum])->Get_BonePosition("L_weapon");	// 무의미
+  
+    CSphere::Sphere_Desc Sphere_Desc = {};
+    Sphere_Desc.pTargetObject = m_pTargetObject;
+    Sphere_Desc.vStartPosition = vPos;
+    Sphere_Desc.isTargetMonster = true;
+
+    if (eRole == CAbility::ATTACKER) {
+        Sphere_Desc.iDamage = iDamage * 2;
+        Sphere_Desc.fChain = 0.5f;
+    }
+    else {
+        Sphere_Desc.iDamage = iDamage;
+        Sphere_Desc.fChain = 10.f;
+    }
+
+
+    if (FAILED(m_pGameInstance->Add_Clone(g_Level, TEXT("Layer_Bullet"), TEXT("Prototype_GameObject_Sphere"), &Sphere_Desc))) {
+        int i = 0;
+        return;
+    }
+
+    return;
 }
 
 HRESULT CChr_Battle_Light::Add_Components()
@@ -314,8 +345,7 @@ HRESULT CChr_Battle_Light::Add_Components()
 
     /* 로컬상의 정보를 셋팅한다. */
     ColliderOBBDesc.vRotation = _float3(0.f, 0.f, 0.f);
-    ColliderOBBDesc.vSize = _float3(.6f, 1.6f, .6f);
-    m_fColliderSizeZ = 0.3f;
+    ColliderOBBDesc.vSize = m_vColliderSize;
     ColliderOBBDesc.vCenter = _float3(0.f, ColliderOBBDesc.vSize.y * 0.5f, 0.f);
 
     if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_Collider_OBB"),

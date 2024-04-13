@@ -10,10 +10,11 @@ public:
 	typedef struct
 	{
 		_float3		vPivot;
+		_float3		vCenter;
 		_float3		vRange;
 		_float3		vMinScale, vMaxScale;
 		_float2		vLifeTime;
-
+		_bool		isLoop;
 		_float2		vSpeed;
 		_uint		iNumInstance;
 	}INSTANCE_DESC;
@@ -24,16 +25,17 @@ protected:
 	virtual ~CVIBuffer_Instance() = default;
 
 public:
-	virtual HRESULT Initialize_Prototype();
+	virtual HRESULT Initialize_Prototype(const CVIBuffer_Instance::INSTANCE_DESC& InstanceDesc);
 	virtual HRESULT Initialize(void* pArg);
 	virtual HRESULT Bind_Buffers();
 	virtual HRESULT Render();
 
-	virtual _bool	Compute_Picking(const CTransform* pTransform, _Out_  _float4* vOutPos = nullptr);
 public:
-	void Update(_float fTimeDelta);
-
-
+	virtual _bool	Compute_Picking(const CTransform* pTransform, _Out_  _float4* vOutPos = nullptr);
+	virtual _float4 Compute_RandPosition() = 0;
+	virtual void Drop(_float fTimeDelta);
+	virtual void Spread(_float fTimeDelta);
+	void Compute_LifeTime(VTXMATRIX* pVertices, _uint iInstanceIndex, _float fTimeDelta);
 
 protected:
 	ID3D11Buffer* m_pVBInstance = { nullptr };
@@ -41,7 +43,7 @@ protected:
 	_uint					m_iNumInstance = { 0 };
 	_uint					m_iIndexCountPerInstance = { 0 };
 	VTXMATRIX* m_pInstanceVertices = { nullptr };
-
+	INSTANCE_DESC			m_InstanceDesc{};
 
 protected:
 	D3D11_BUFFER_DESC		m_InstanceBufferDesc{};
@@ -51,8 +53,7 @@ protected:
 	random_device				m_RandomDevice;
 	mt19937_64					m_RandomNumber;
 	_float2* m_pLifeTimes = { nullptr };
-
-
+	_float* m_pSpeeds = { nullptr };
 
 public:
 	virtual CComponent* Clone(void* pArg) = 0;

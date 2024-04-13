@@ -77,7 +77,7 @@ HRESULT CChr_Field::Late_Tick(_float fTimeDelta)
 	m_pModelCom->Play_Animation(fTimeDelta);
 
 	// юс╫ц
-	m_pGameInstance->Add_RenderGroup(CRenderer::RENDER_UI, this);
+	m_pGameInstance->Add_RenderGroup(CRenderer::RENDER_NONBLEND, this);
 	return S_OK;
 }
 

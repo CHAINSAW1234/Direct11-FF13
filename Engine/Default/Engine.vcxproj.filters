@@ -88,9 +88,6 @@
     <Filter Include="01.Utility\02.Components\Model\Bone">
       <UniqueIdentifier>{3ff149ad-a6cc-405c-b8a3-c29c70bb209e}</UniqueIdentifier>
     </Filter>
-    <Filter Include="01.Utility\90.Picking">
-      <UniqueIdentifier>{ed51a42f-d96e-4cd6-805a-868138dd7e67}</UniqueIdentifier>
-    </Filter>
     <Filter Include="01.Utility\02.Components\Model\Animation">
       <UniqueIdentifier>{70989221-1f3b-4c14-ac03-188829c9521c}</UniqueIdentifier>
     </Filter>
@@ -142,12 +139,6 @@
     <Filter Include="98.ShaderFiles">
       <UniqueIdentifier>{e46ef061-99a0-4ddb-b51f-51d408898caa}</UniqueIdentifier>
     </Filter>
-    <Filter Include="01.Utility\08.Observer">
-      <UniqueIdentifier>{0d237c6e-d231-4fa4-945c-40b7d0c69fb8}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="01.Utility\08.Observer\Handler">
-      <UniqueIdentifier>{bf2ee945-08e9-47f6-beaa-c573e2bbbda0}</UniqueIdentifier>
-    </Filter>
     <Filter Include="01.Utility\07.Fonts">
       <UniqueIdentifier>{756656b7-918c-4a97-bf0b-19dd194333e8}</UniqueIdentifier>
     </Filter>
@@ -165,6 +156,24 @@
     </Filter>
     <Filter Include="01.Utility\02.Components\Collider\Collider_Bone">
       <UniqueIdentifier>{c423c699-3678-4822-9587-829eab62e0ee}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="01.Utility\02.Components\VIBuffer\Instance\Point">
+      <UniqueIdentifier>{6e003937-ddb8-4adc-bc10-48c5c7dc049d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="01.Utility\09.Observer">
+      <UniqueIdentifier>{0d237c6e-d231-4fa4-945c-40b7d0c69fb8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="01.Utility\09.Observer\Handler">
+      <UniqueIdentifier>{bf2ee945-08e9-47f6-beaa-c573e2bbbda0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="01.Utility\10.Picking">
+      <UniqueIdentifier>{ed51a42f-d96e-4cd6-805a-868138dd7e67}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="01.Utility\08.RenderTargets">
+      <UniqueIdentifier>{5f478052-7360-4da7-898f-e2841ebba680}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="01.Utility\08.RenderTargets\Manager">
+      <UniqueIdentifier>{0e5b0696-cb80-4d93-b3c3-bdc9561923b1}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -250,7 +259,7 @@
       <Filter>01.Utility\02.Components\Model\Bone</Filter>
     </ClCompile>
     <ClCompile Include="..\Private\Picking.cpp">
-      <Filter>01.Utility\90.Picking</Filter>
+      <Filter>01.Utility\10.Picking</Filter>
     </ClCompile>
     <ClCompile Include="..\Private\Channel.cpp">
       <Filter>01.Utility\02.Components\Model\Animation\Channel</Filter>
@@ -271,10 +280,10 @@
       <Filter>01.Utility\06.Lights\Manager</Filter>
     </ClCompile>
     <ClCompile Include="..\Private\Observer.cpp">
-      <Filter>01.Utility\08.Observer</Filter>
+      <Filter>01.Utility\09.Observer</Filter>
     </ClCompile>
     <ClCompile Include="..\Private\Observer_Handler.cpp">
-      <Filter>01.Utility\08.Observer\Handler</Filter>
+      <Filter>01.Utility\09.Observer\Handler</Filter>
     </ClCompile>
     <ClCompile Include="..\Private\PartObject.cpp">
       <Filter>01.Utility\01.GameObjects\PartObject</Filter>
@@ -323,6 +332,15 @@
     </ClCompile>
     <ClCompile Include="..\Private\Collider_Bone.cpp">
       <Filter>01.Utility\02.Components\Collider\Collider_Bone</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\VIBuffer_instance_Point.cpp">
+      <Filter>01.Utility\02.Components\VIBuffer\Instance\Point</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\RenderTarget.cpp">
+      <Filter>01.Utility\08.RenderTargets</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Target_Manager.cpp">
+      <Filter>01.Utility\08.RenderTargets\Manager</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -420,7 +438,7 @@
       <Filter>01.Utility\02.Components\Model\Bone</Filter>
     </ClInclude>
     <ClInclude Include="..\Public\Picking.h">
-      <Filter>01.Utility\90.Picking</Filter>
+      <Filter>01.Utility\10.Picking</Filter>
     </ClInclude>
     <ClInclude Include="..\Public\Channel.h">
       <Filter>01.Utility\02.Components\Model\Animation\Channel</Filter>
@@ -441,10 +459,10 @@
       <Filter>01.Utility\06.Lights\Manager</Filter>
     </ClInclude>
     <ClInclude Include="..\Public\Observer.h">
-      <Filter>01.Utility\08.Observer</Filter>
+      <Filter>01.Utility\09.Observer</Filter>
     </ClInclude>
     <ClInclude Include="..\Public\Observer_Handler.h">
-      <Filter>01.Utility\08.Observer\Handler</Filter>
+      <Filter>01.Utility\09.Observer\Handler</Filter>
     </ClInclude>
     <ClInclude Include="..\Public\PartObject.h">
       <Filter>01.Utility\01.GameObjects\PartObject</Filter>
@@ -494,9 +512,21 @@
     <ClInclude Include="..\Public\Collider_Bone.h">
       <Filter>01.Utility\02.Components\Collider\Collider_Bone</Filter>
     </ClInclude>
+    <ClInclude Include="..\Public\VIBuffer_instance_Point.h">
+      <Filter>01.Utility\02.Components\VIBuffer\Instance\Point</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\RenderTarget.h">
+      <Filter>01.Utility\08.RenderTargets</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\Target_Manager.h">
+      <Filter>01.Utility\08.RenderTargets\Manager</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="..\Bin\ShaderFiles\Shader_Cell.hlsl">
+      <Filter>98.ShaderFiles</Filter>
+    </FxCompile>
+    <FxCompile Include="..\Bin\ShaderFiles\Shader_Deferred.hlsl">
       <Filter>98.ShaderFiles</Filter>
     </FxCompile>
   </ItemGroup>

@@ -22,6 +22,7 @@ void CBoss_State_Attack_Magic::OnStateUpdate(_float fTimeDelta)
 void CBoss_State_Attack_Magic::OnStateExit()
 {
     m_pBoss->Reset_AttackTime();
+    m_pBoss->Change_Target();
 }
 
 

@@ -33,9 +33,12 @@ void CChr_Battle_Vanila_State_Heal::OnStateExit()
 
 void CChr_Battle_Vanila_State_Heal::Heal()
 {
+	m_pChr_Battle_Vanila->Get_Transform()->Look_At_ForLandObject(XMLoadFloat4(&m_pChr_Battle_Vanila->Get_Target_Position()));
+
 	if (!m_isCommandFinish) {
 		if (m_pChr_Battle_Vanila->Get_CurrentTrackPosition() >= 20) {
 			m_pChr_Battle_Vanila->Use_Command();
+			m_pChr_Battle_Vanila->Create_Sphere_Heal();
 			m_isCommandFinish = true;
 		}
 	}

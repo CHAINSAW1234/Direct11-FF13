@@ -32,10 +32,10 @@ HRESULT CUI_Number::Initialize(void* pArg)
 	m_iNumber = pUI_Number_Desc->iNumber;
 
 	_float4 vPosition = pUI_Number_Desc->vPosition;
-	vPosition.x += Random_Float(5);
+	vPosition.x += Random_Float(2);
 	vPosition.y += 1.f;
 	vPosition.y += Random_Float(2);
-	vPosition.z += Random_Float(5);
+	vPosition.z += Random_Float(2);
 	m_pTransformCom->Set_State(CTransform::STATE_POSITION, vPosition);
  
 	m_eState = LERP;

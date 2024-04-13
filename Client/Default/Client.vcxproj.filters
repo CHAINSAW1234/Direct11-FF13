@@ -430,6 +430,21 @@
     <Filter Include="03.UI\Battle\UI_Optima_Info">
       <UniqueIdentifier>{0a7f5ec8-ff43-4f20-8f8a-5675a72b6abd}</UniqueIdentifier>
     </Filter>
+    <Filter Include="02.GameObjects\Projectile">
+      <UniqueIdentifier>{8f737e5d-2608-427c-aac8-7cff5baca557}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\Projectile\Sphere">
+      <UniqueIdentifier>{eb1667ab-f99b-464b-84db-086552c159e5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\Projectile\Bullet">
+      <UniqueIdentifier>{af1ba334-0a9a-44bc-b737-bd18141d944c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\Projectile\Sphere\Sphere_Heal">
+      <UniqueIdentifier>{a4233e2c-daf0-47b4-9271-c76cd5a2640b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\BackGround\Loading">
+      <UniqueIdentifier>{a90ba1ca-e6b7-440f-aa17-77feb747a2a9}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\public\MainApp.h">
@@ -846,6 +861,15 @@
     <ClInclude Include="..\Public\UI_Optima_Info.h">
       <Filter>03.UI\Battle\UI_Optima_Info</Filter>
     </ClInclude>
+    <ClInclude Include="..\Public\Sphere.h">
+      <Filter>02.GameObjects\Projectile\Sphere</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\Bullet.h">
+      <Filter>02.GameObjects\Projectile\Bullet</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\Sphere_Heal.h">
+      <Filter>02.GameObjects\Projectile\Sphere\Sphere_Heal</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\private\MainApp.cpp">
@@ -1243,6 +1267,15 @@
     </ClCompile>
     <ClCompile Include="..\Private\UI_Optima_Info.cpp">
       <Filter>03.UI\Battle\UI_Optima_Info</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Sphere.cpp">
+      <Filter>02.GameObjects\Projectile\Sphere</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Bullet.cpp">
+      <Filter>02.GameObjects\Projectile\Bullet</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Sphere_Heal.cpp">
+      <Filter>02.GameObjects\Projectile\Sphere\Sphere_Heal</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

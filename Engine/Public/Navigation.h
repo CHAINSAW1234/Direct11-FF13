@@ -27,7 +27,7 @@ public:
 
 #ifdef _DEBUG
 public:
-	virtual HRESULT Render();
+	virtual HRESULT Render() override;
 #endif
 
 private:

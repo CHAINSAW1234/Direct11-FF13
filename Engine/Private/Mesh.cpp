@@ -13,6 +13,7 @@ CMesh::CMesh(const CMesh& rhs)
 {
 }
 
+#ifdef _ASSIMP
 HRESULT CMesh::Initialize_Prototype(CModel::TYPE eModelType, const aiMesh* pAIMesh, const vector<CBone*>& Bones, _fmatrix TransformMatrix)
 {
 	strcpy_s(m_szName, pAIMesh->mName.data);
@@ -71,6 +72,7 @@ HRESULT CMesh::Initialize_Prototype(CModel::TYPE eModelType, const aiMesh* pAIMe
 
 	return S_OK;
 }
+#endif
 
 HRESULT CMesh::Initialize(void* pArg)
 {
@@ -121,6 +123,8 @@ HRESULT CMesh::Stock_Matrices(const vector<CBone*>& Bones, _Out_ _float4x4* pMes
 	return S_OK;
 }
 
+
+#ifdef _ASSIMP
 HRESULT CMesh::Save_Mesh(CModel::TYPE eModelType, ofstream& OFS)
 {
 	//1. m_szName의 길이 저장
@@ -184,6 +188,7 @@ HRESULT CMesh::Save_Mesh(CModel::TYPE eModelType, ofstream& OFS)
 
 	return S_OK;
 }
+#endif
 
 HRESULT CMesh::Load_Mesh(CModel::TYPE eModelType, ifstream& IFS)
 {
@@ -249,6 +254,7 @@ HRESULT CMesh::Load_Mesh(CModel::TYPE eModelType, ifstream& IFS)
 	return S_OK;
 }
 
+#ifdef _ASSIMP
 HRESULT CMesh::Ready_Vertices_For_NonAnimModel(const aiMesh* pAIMesh, _fmatrix TransformMatrix)
 {
 	m_iVertexStride = sizeof(VTXMESH);
@@ -402,6 +408,7 @@ HRESULT CMesh::Ready_Vertices_For_AnimModel(const aiMesh* pAIMesh, const vector<
 
 	return S_OK;
 }
+#endif
 
 HRESULT CMesh::Save_Mesh_For_NonAnimModel(ofstream& OFS)
 {
@@ -585,6 +592,7 @@ HRESULT CMesh::Load_Mesh_For_AnimModel(istream& IFS)
 	return S_OK;
 }
 
+#ifdef _ASSIMP
 CMesh* CMesh::Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext, CModel::TYPE eModelType, const aiMesh* pAIMesh, const vector<class CBone*>& Bones, _fmatrix TransformMatrix)
 {
 	CMesh* pInstance = new CMesh(pDevice, pContext);
@@ -598,6 +606,7 @@ CMesh* CMesh::Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext, CMode
 
 	return pInstance;
 }
+#endif
 
 CMesh* CMesh::Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext, CModel::TYPE eModelType, ifstream& IFS)
 {

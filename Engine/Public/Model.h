@@ -67,29 +67,34 @@ public:
 	}
 
 public:
+#ifdef _ASSIMP
 	virtual HRESULT Initialize_Prototype(TYPE eType, const string& strModelFilePath, _fmatrix TransformMatrix);
+#endif
 	virtual HRESULT Initialize(void* pArg) override;
 
 public:
 	HRESULT Bind_BoneMatrices(class CShader* pShader, const _char* pConstantName, _uint iMeshIndex);
-	HRESULT Bind_ShaderResource(class CShader* pShader, const _char* pConstantName, _uint iMeshIndex, aiTextureType eTextureType);
+	HRESULT Bind_ShaderResource(class CShader* pShader, const _char* pConstantName, _uint iMeshIndex, _uint eTextureType);
 	HRESULT Play_Animation(_float fTimeDelta);
 	HRESULT Render(_uint iMeshIndex);
 
 public:
 	_bool	Compute_Picking(const class CTransform* pTransform, _Out_ _float4* vOutPos = nullptr);
 
+#ifdef _ASSIMP
 	HRESULT	Save_Model(string filepath);
-	
+#endif
+
 private:
 	HRESULT Play_Animation_Linear_Interpolation(_float fTimeDelta);
 	HRESULT	Load_Model(string filepath);
 
 private:
 	TYPE						m_eModelType = { TYPE_END };	// 애니메이션 모델과 논애니메이션 모델 구분 필요함
+#ifdef _ASSIMP
 	const aiScene*				m_pAIScene = { nullptr };
 	Assimp::Importer			m_Importer;
-
+#endif
 	// 이하 변수들은 aiScene의 정보를 멤버 변수로 가져와서 저장하는 변수들임
 	// 따라서 Initialize이후 m_pAIScene 사용 안함 
 private:
@@ -121,13 +126,17 @@ private:
 	_float						m_fTime_Iinear_Interpolation = { 0.f};
 	
 private:
+#ifdef _ASSIMP
 	HRESULT Ready_Meshes();
 	HRESULT Ready_Materials(const _char* pModelFilePath);
 	HRESULT Ready_Bones(aiNode* pAINode, _int iParentIndex = -1);
 	HRESULT Ready_Animations();
+#endif
 
 public:
+#ifdef _ASSIMP
 	static CModel* Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext, TYPE eType, const string& strModelFilePath, _fmatrix TransformMatrix);
+#endif
 	static CModel* Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext, const string& strModelFilePath);
 	virtual CComponent* Clone(void* pArg) override;
 	virtual void Free() override;

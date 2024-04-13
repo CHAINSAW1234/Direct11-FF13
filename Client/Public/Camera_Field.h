@@ -27,7 +27,7 @@ public:
 private:
 	CGameObject*	m_pTargetObject = { nullptr };
 	_float			m_fMouseSensor = { 0.1f };
-	_float			m_fDist = { 2.f };
+	_float			m_fDist = { 3.f };
 	_float			m_fYOffset = { 1.5f };
 
 	_long			m_MouseMoveX = { 0 };
