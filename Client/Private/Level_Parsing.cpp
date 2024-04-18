@@ -95,7 +95,7 @@ HRESULT CLevel_Parsing::Ready_Models()
 	//TransformMatrix = XMMatrixRotationY(XMConvertToRadians(180.0f));
 	//TransformMatrix.r[3].m128_f32[1] = -5.f;
 
-	path = "../Bin/Resources/Models/Bullet/Bullet.fbx";
+	path = "../Bin/Resources/Models/Effect/Default/Sphere.fbx";
 
 	CModel* pModel = { nullptr };
 	pModel = CModel::Create(m_pDevice, m_pContext, CModel::TYPE_NONANIM, path, TransformMatrix);
@@ -146,12 +146,11 @@ HRESULT CLevel_Parsing::Parse_Models()
 
 #pragma endregion
 
-	path = "../Bin/Resources/Models/Bullet/Bullet.bin";
+	path = "../Bin/Resources/Models/Effect/Default/Sphere.bin";
 	if (FAILED(m_Models[0]->Save_Model(path)))
 		return E_FAIL;
 
-
-	MSG_BOX(TEXT("PARSING END"));
+	MessageBox(nullptr, TEXT("PARSING END"), L"Finish", MB_OK);
 	return S_OK;
 }
 

@@ -7,7 +7,7 @@ BEGIN(Engine)
 class ENGINE_DLL CVIBuffer_Instance abstract : public CVIBuffer
 {
 public:
-	typedef struct
+	typedef struct Instance_Desc
 	{
 		_float3		vPivot;
 		_float3		vCenter;

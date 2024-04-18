@@ -43,12 +43,12 @@ HRESULT CMainApp::Initialize()
 
 
 	//eLevel = LEVEL_MAPTOOL;
+	eLevel = LEVEL_EFFECTTOOL;
 	//eLevel = LEVEL_PARSING;
-	eLevel = LEVEL_LOGO;
+	//eLevel = LEVEL_LOGO;
 	//eLevel = LEVEL_FIELD;
 	//eLevel = LEVEL_BATTLE;
-	//eLevel = LEVEL_BOSS_BATTLE;
-
+	
 	if (FAILED(Open_Level(eLevel)))
 		return E_FAIL;
 	
@@ -80,7 +80,7 @@ HRESULT CMainApp::Render()
 	}
 #endif
 
-	m_pGameInstance->Begin_Draw(_float4(1.f, 1.f, 1.f, 1.f));
+	m_pGameInstance->Begin_Draw(_float4(0.f, 0.f, 1.f, 1.f));
 
 	m_pGameInstance->Draw();
 
@@ -203,6 +203,11 @@ HRESULT CMainApp::Ready_Prototype_Component_For_Static()
 	/* For.Prototype_Component_Shader_VtxModel */
 	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Shader_VtxModel"),
 		CShader::Create(m_pDevice, m_pContext, TEXT("../Bin/ShaderFiles/Shader_VtxModel.hlsl"), VTXMESH::Elements, VTXMESH::iNumElements))))
+		return E_FAIL;
+
+	/* For.Prototype_Component_Shader_VtxModel */
+	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Shader_VtxModel_Effect"),
+		CShader::Create(m_pDevice, m_pContext, TEXT("../Bin/ShaderFiles/Shader_VtxModel_Effect.hlsl"), VTXMESH::Elements, VTXMESH::iNumElements))))
 		return E_FAIL;
 
 	/* For.Prototype_Component_Shader_VtxAnimModel */

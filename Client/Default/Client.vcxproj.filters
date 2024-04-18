@@ -445,6 +445,42 @@
     <Filter Include="02.GameObjects\BackGround\Loading">
       <UniqueIdentifier>{a90ba1ca-e6b7-440f-aa17-77feb747a2a9}</UniqueIdentifier>
     </Filter>
+    <Filter Include="02.GameObjects\Effect">
+      <UniqueIdentifier>{0a5c554e-6de6-4988-baa9-92a81fc53164}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="05.Tool\EffectTool">
+      <UniqueIdentifier>{4dd3c9dc-7846-4830-acf8-36addf08c7e6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="01.Levels\EffectTool">
+      <UniqueIdentifier>{f03e2de9-9d2b-4f51-b6df-ce065233728c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\Effect\Template">
+      <UniqueIdentifier>{3381e417-d14b-48a9-8a0b-8b99850ed138}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\Effect\Template\Effect_3D">
+      <UniqueIdentifier>{31d98748-4410-4d94-b870-90598ec9b731}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\Effect\Template\Interface">
+      <UniqueIdentifier>{c00e285a-88bd-401b-8f99-452cf42736d2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\Effect\Template\Effect_2D_Bone">
+      <UniqueIdentifier>{184c729c-63ce-4f32-b671-d480731075aa}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\Effect\Template\Effect_2D">
+      <UniqueIdentifier>{99a63a99-b163-43ed-aac6-d35cc2019d30}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\Effect\Object">
+      <UniqueIdentifier>{d5f979f3-30c5-4bb1-b8af-5f37f07c74a2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\Effect\Object\2D">
+      <UniqueIdentifier>{fd812ce8-5be8-44d8-a26c-f9c3a0517868}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\Effect\Object\2D\Dust_Color">
+      <UniqueIdentifier>{a4d8ea65-3a8a-4944-85a3-2cda460f3c86}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\Effect\Template\Effect_Instance">
+      <UniqueIdentifier>{e20d55b8-eef6-4846-ada8-93aa9be3476b}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\public\MainApp.h">
@@ -870,6 +906,31 @@
     <ClInclude Include="..\Public\Sphere_Heal.h">
       <Filter>02.GameObjects\Projectile\Sphere\Sphere_Heal</Filter>
     </ClInclude>
+    <ClInclude Include="..\Public\Effect.h">
+      <Filter>02.GameObjects\Effect</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\Effect_2D.h">
+      <Filter>02.GameObjects\Effect\Template\Effect_2D</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\Effect_Interface.h">
+      <Filter>02.GameObjects\Effect\Template\Interface</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\Effectt_2D_Bone.h">
+      <Filter>02.GameObjects\Effect\Template\Effect_2D_Bone</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\Effect_3D.h">
+      <Filter>02.GameObjects\Effect\Template\Effect_3D</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\EffectTool.h">
+      <Filter>05.Tool\EffectTool</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\Level_EffectTool.h">
+      <Filter>01.Levels\EffectTool</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\Dust_Color.h" />
+    <ClInclude Include="..\Public\Effect_Instance.h">
+      <Filter>02.GameObjects\Effect\Template\Effect_Instance</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\private\MainApp.cpp">
@@ -1277,6 +1338,31 @@
     <ClCompile Include="..\Private\Sphere_Heal.cpp">
       <Filter>02.GameObjects\Projectile\Sphere\Sphere_Heal</Filter>
     </ClCompile>
+    <ClCompile Include="..\Private\Effect.cpp">
+      <Filter>02.GameObjects\Effect</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Effect_2D.cpp">
+      <Filter>02.GameObjects\Effect\Template\Effect_2D</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Effect_Interface.cpp">
+      <Filter>02.GameObjects\Effect\Template\Interface</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Effectt_2D_Bone.cpp">
+      <Filter>02.GameObjects\Effect\Template\Effect_2D_Bone</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Effect_3D.cpp">
+      <Filter>02.GameObjects\Effect\Template\Effect_3D</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\EffectTool.cpp">
+      <Filter>05.Tool\EffectTool</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Level_EffectTool.cpp">
+      <Filter>01.Levels\EffectTool</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Dust_Color.cpp" />
+    <ClCompile Include="..\Private\Effect_Instance.cpp">
+      <Filter>02.GameObjects\Effect\Template\Effect_Instance</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Image Include="Client.ico">
@@ -1322,6 +1408,9 @@
       <Filter>97.ShaderFiles</Filter>
     </FxCompile>
     <FxCompile Include="..\Bin\ShaderFiles\Shader_VtxInstance.hlsl">
+      <Filter>97.ShaderFiles</Filter>
+    </FxCompile>
+    <FxCompile Include="..\Bin\ShaderFiles\Shader_VtxModel_Effect.hlsl">
       <Filter>97.ShaderFiles</Filter>
     </FxCompile>
   </ItemGroup>

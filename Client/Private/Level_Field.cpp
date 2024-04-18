@@ -31,10 +31,10 @@ HRESULT CLevel_Field::Initialize()
 	if (FAILED(Ready_Layer_Chr(g_strChrLayerTag)))
 		return E_FAIL;
 
-	if (FAILED(Ready_Layer_Monster(g_strMonsterLayerTag)))
+	if (FAILED(Ready_Layer_Camera(g_strCameraLayerTag)))
 		return E_FAIL;
 
-	if (FAILED(Ready_Layer_Camera(g_strCameraLayerTag)))
+	if (FAILED(Ready_Layer_Monster(g_strMonsterLayerTag)))
 		return E_FAIL;
 
 	return S_OK;
@@ -92,6 +92,7 @@ HRESULT CLevel_Field::Read_Map()
 			return E_FAIL;
 		}
 	}
+
 	IFS.close();
 	return S_OK;
 }
@@ -129,6 +130,7 @@ HRESULT CLevel_Field::Ready_Layer_Camera(const wstring& strLayerTag)
 	dynamic_cast<CCamera_Field*>(m_pGameInstance->Get_GameObject(g_Level, strLayerTag, 0))->Set_Target(
 		m_pGameInstance->Get_GameObject(g_Level, g_strChrLayerTag, 0)
 	);
+
 	return S_OK;
 }
 
@@ -353,6 +355,14 @@ HRESULT CLevel_Field::Load_Troup()
 		m_Troups.push_back(pTroup);
 	}
 
+	_float4x4 CamMatrix;
+	IFS.read(reinterpret_cast<char*>(&CamMatrix), sizeof(_float4x4));
+	((CTransform*)m_pGameInstance->Get_Component(g_Level, g_strCameraLayerTag, g_strTransformTag, 0))
+		->Set_WorldMatrix(CamMatrix);
+
+
+	IFS.close();
+
 	return S_OK;
 }
 
@@ -368,6 +378,13 @@ HRESULT CLevel_Field::Save_Troup()
 	OFS.write(reinterpret_cast<const char*>(&iNumTroup), sizeof(_int));
 	for (auto& iter = m_Troups.begin(); iter != m_Troups.end(); ++iter)
 		(*iter)->Save_Troup(OFS);
+
+
+	_matrix CamWorldMatrix = m_pGameInstance->Get_Transform_Matrix_Inverse(CPipeLine::D3DTS_VIEW);
+
+
+	OFS.write(reinterpret_cast<const char*>(&CamWorldMatrix), sizeof(_float4x4));
+
 
 	OFS.close();
 	return S_OK;

@@ -64,6 +64,12 @@ HRESULT CCamera_Field::Render()
 	return S_OK;
 }
 
+void CCamera_Field::Start()
+{
+	
+}
+
+
 void CCamera_Field::Set_Target(CGameObject* pGameObject)
 {
 	Safe_Release(m_pTargetObject);

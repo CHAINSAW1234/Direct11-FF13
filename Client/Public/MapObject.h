@@ -44,6 +44,7 @@ private:
 	CModel*			m_pModelCom = { nullptr };
 	CShader*		m_pShaderCom = { nullptr };
 	CNavigation*	m_pNavigationCom = { nullptr };
+
 private:
 	HRESULT Add_Components();
 	HRESULT Bind_ShaderResources();

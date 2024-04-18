@@ -178,6 +178,19 @@ void CTransform::Go_Down(_float fTimeDelta)
 	Set_State(STATE_POSITION, vPosition);
 }
 
+void CTransform::Set_Look(_fvector vTargetLook)
+{
+	_vector		vUp = Get_State_Vector(STATE_UP);
+	_vector		vLook = XMVector3Normalize(vTargetLook);
+	_vector		vRight = XMVector3Cross(XMVectorSet(0.f, 1.f, 0.f, 0.f), vLook);
+	vLook = XMVector3Cross(vRight, vUp);
+
+	_float3		vScaled = Get_Scaled();
+
+	Set_State(STATE_RIGHT, XMVector3Normalize(vRight) * vScaled.x);
+	Set_State(STATE_LOOK, XMVector3Normalize(vLook) * vScaled.z);
+}
+
 void CTransform::Look_At(_fvector vAt)
 {
 	_vector		vLook = vAt - Get_State_Vector(STATE_POSITION);

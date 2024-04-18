@@ -3,8 +3,6 @@
 /* 전역변수 : 쉐이더 외부에 있는 데이터를 쉐이더 안으로 받아온다. */
 matrix g_WorldMatrix, g_ViewMatrix, g_ProjMatrix;
 
-matrix g_BoneMatrices[512];
-
 vector g_vLightDir = vector(1.f, -1.f, 1.f, 0.f);
 vector g_vLightDiffuse = vector(1.f, 1.f, 1.f, 1.f);
 vector g_vLightAmbient = vector(1.f, 1.f, 1.f, 1.f);

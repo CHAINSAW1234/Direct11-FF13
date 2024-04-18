@@ -185,7 +185,7 @@ void CCamera_Battle::Update_With_Mouse(_float fTimeDelta)
 
     // y축 각도 제한 걸기
     // y축 거리 차이가 fDist / sqrt(2)인 경우에만 작동
-    m_pTransformCom->Turn_With_Look_At(m_pTransformCom->Get_State_Vector(CTransform::STATE_RIGHT), vTargetPosition, m_fDist, fTimeDelta * sin(XMConvertToRadians(m_fMouseMoveYAxis)) * m_MouseMoveY * m_fMouseSensor, round(XMConvertToDegrees(asin((m_fYOffset-0.01f) / m_fDist))));
+    m_pTransformCom->Turn_With_Look_At(m_pTransformCom->Get_State_Vector(CTransform::STATE_RIGHT), vTargetPosition, m_fDist, fTimeDelta * sin(XMConvertToRadians(m_fMouseMoveYAxis)) * m_MouseMoveY * m_fMouseSensor, (_int)round(XMConvertToDegrees(asin((m_fYOffset-0.01f) / m_fDist))));
 
 }
 

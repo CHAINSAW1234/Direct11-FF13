@@ -11,6 +11,7 @@
 #include "Level_Field_Boss.h"
 #include "Level_Boss_Battle.h"
 #include "Level_MapTool.h"
+#include "Level_EffectTool.h"
 #include "Level_Parsing.h"
 
 CLevel_Loading::CLevel_Loading(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
@@ -65,6 +66,9 @@ void CLevel_Loading::Tick(_float fTimeDelta)
 			break;
 		case LEVEL_MAPTOOL:
 			pLevel = CLevel_MapTool::Create(m_pDevice, m_pContext);
+			break;
+		case LEVEL_EFFECTTOOL:
+			pLevel = CLevel_EffectTool::Create(m_pDevice, m_pContext);
 			break;
 		case LEVEL_PARSING:
 			pLevel = CLevel_Parsing::Create(m_pDevice, m_pContext);

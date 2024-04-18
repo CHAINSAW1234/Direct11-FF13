@@ -44,18 +44,20 @@ public:
 	virtual void Start() override;
 
 private:
-	CModel*		m_pModelCom = { nullptr };
-	CShader*	m_pShaderCom = { nullptr };
-	CCollider*	m_pColliderCom = { nullptr };
-	CFSM*		m_pFSMCom = { nullptr };
-	CNavigation* m_pNavigationCom = { nullptr };
+	CModel*			m_pModelCom = { nullptr };
+	CShader*		m_pShaderCom = { nullptr };
+	CCollider*		m_pColliderCom = { nullptr };
+	CFSM*			m_pFSMCom = { nullptr };
+	CNavigation*	m_pNavigationCom = { nullptr };
 
-	CWeapon_Anim* m_pWeapon = { nullptr };
+	CWeapon_Anim*	m_pWeapon = { nullptr };
 
-	STATE		m_eState = { STATE_END };
-	_bool		m_isControl = { true };				// 조작 가능 여부 -> 아이템 조작, 전투시 false 처리
+	STATE			m_eState = { STATE_END };
+	_bool			m_isControl = { true };				// 조작 가능 여부 -> 아이템 조작, 전투시 false 처리
 
+#ifdef _DEBUG
 	class CImGUI_Manager* m_pImGUI_Manager = { nullptr };
+#endif
 
 public: 
 	CTransform* Get_Transform() { return m_pTransformCom; }
@@ -84,7 +86,10 @@ private:
 
 	void	Update_FSMState(_float fTimeDelta);
 
+#ifdef _DEBUG
 	void	Show_ImGUI();
+#endif
+
 public:
 	static CChr_Field* Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);
 	virtual CGameObject* Clone(void* pArg) override;

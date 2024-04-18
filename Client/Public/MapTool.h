@@ -8,7 +8,6 @@ class CTexture;
 END
 
 BEGIN(Client)
-class CPrevMapObject;
 class CMapObject;
 
 class CMapTool final : public CGameObject

@@ -435,6 +435,14 @@ void CPlayer_Battle::Check_Finish()
 		for (auto& Member : m_Memebers) {
 			Member->Set_State_Battle_Finish();
 		}
+
+		for (auto& Command : m_Commands) {
+			Command->Set_Render(false);
+		}
+
+		if(nullptr != m_pCommand_Item)
+			m_pCommand_Item->Set_Render(false);
+
 	}
 
 }

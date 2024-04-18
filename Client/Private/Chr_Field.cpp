@@ -16,6 +16,8 @@
 
 #include "ImGUI_Manager.h"
 
+#include "Effect_2D.h"
+
 CChr_Field::CChr_Field(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
 	: CGameObject{ pDevice, pContext }
 {
@@ -49,8 +51,10 @@ HRESULT CChr_Field::Initialize(void* pArg)
 	if (FAILED(Add_Weapon()))
 		return E_FAIL;
 
+#ifdef _DEBUG
 	m_pImGUI_Manager = CImGUI_Manager::Get_Instance(m_pDevice, m_pContext);
 	Safe_AddRef(m_pImGUI_Manager);
+#endif
 
 	return S_OK;
 }
@@ -64,6 +68,20 @@ void CChr_Field::Tick(_float fTimeDelta)
 	m_pColliderCom->Tick(m_pTransformCom->Get_WorldMatrix());
 
 	m_pWeapon->Tick(fTimeDelta);
+
+	// for test
+
+
+	if (m_pGameInstance->Get_DIMouseState(DIMKS_RBUTTON)) {
+
+		CEffect_2D::EFFECT_2D_DESC pDesc = {};
+		pDesc.eEffect = Interface_2D::DUST_COLOR;
+		pDesc.vColor = { 0.f,1.f,1.f,.5f };
+		pDesc.vPosition = m_pTransformCom->Get_State_Float4(CTransform::STATE_POSITION);
+		pDesc.vPosition.y += 1.f;
+		m_pGameInstance->Add_Clone(g_Level, TEXT("Layer_Effect"), TEXT("Prototype_GameObject_Effect_2D"), &pDesc);
+	}
+
 }
 
 HRESULT CChr_Field::Late_Tick(_float fTimeDelta)
@@ -105,10 +123,11 @@ HRESULT CChr_Field::Render()
 #ifdef _DEBUG
 	if (nullptr != m_pColliderCom)
 		m_pColliderCom->Render();
-#endif 
 	m_pImGUI_Manager->Tick(0);
 	Show_ImGUI();
 	m_pImGUI_Manager->Render();
+#endif 
+
 
 	return S_OK;
 }
@@ -118,6 +137,12 @@ void CChr_Field::Start()
 	m_pModelCom->Set_Animation(IDLE_NOR, false);
 	Change_Animation_Weapon(CChr_Field::WEAPON_CLOSE_IDLE);
 	m_pNavigationCom->Set_Index(m_pTransformCom->Get_State_Vector(CTransform::STATE_POSITION));
+
+	_float4 vLook = ((CTransform*)m_pGameInstance->Get_Component(g_Level, g_strCameraLayerTag, g_strTransformTag, 0))->Get_State_Float4(CTransform::STATE_LOOK);
+	vLook.y = 0.f;
+
+	m_pTransformCom->Set_Look(XMVector3Normalize(XMLoadFloat4(&vLook)));
+
 }
 
 HRESULT CChr_Field::Change_State(STATE eState)
@@ -358,6 +383,7 @@ void CChr_Field::Update_FSMState(_float fTimeDelta)
 	}
 }
 
+#ifdef _DEBUG
 void CChr_Field::Show_ImGUI()
 {
 	_float4x4 worldmatrix = m_pTransformCom->Get_WorldFloat4x4();
@@ -402,6 +428,7 @@ void CChr_Field::Show_ImGUI()
 
 	ImGui::End();
 }
+#endif
 
 CChr_Field* CChr_Field::Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
 {

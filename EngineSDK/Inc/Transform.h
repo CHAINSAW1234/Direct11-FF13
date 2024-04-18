@@ -120,6 +120,7 @@ public:
 	void Go_Right(_float fTimeDelta, class CNavigation* pNavigation = nullptr);
 	void Go_Up(_float fTimeDelta);
 	void Go_Down(_float fTimeDelta);
+	void Set_Look(_fvector vTargetLook);
 	void Look_At(_fvector vTargetPosition);			// LookAt_Target
 	void Look_At_ForLandObject(_fvector vTargetPosition);
 	void Move_To_Target(_fvector vTargetPos, _float fTimeDelta, _float fMinDistance = 0.f, class CNavigation* pNavigation = nullptr);

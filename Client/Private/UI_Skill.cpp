@@ -159,10 +159,10 @@ void CUI_Skill::Update_Position()
     vPos.y *= g_iWinSizeY / 2;
     vPos.z = 0.f;
 
-    vPos.x = clamp(vPos.x, -(_float)g_iWinSizeX / 3.f, (_float)g_iWinSizeX / 3.f);
-    vPos.y = clamp(vPos.y, -(_float)g_iWinSizeY / 3.f, (_float)g_iWinSizeY / 3.f);
-    vPos.y += 10;
-
+    //vPos.x = clamp(vPos.x, -(_float)g_iWinSizeX / 3.f, (_float)g_iWinSizeX / 3.f);
+    //vPos.y = clamp(vPos.y, -(_float)g_iWinSizeY / 3.f, (_float)g_iWinSizeY / 3.f);
+    //vPos.y += 10;
+    
     m_pTransformCom->Set_State(CTransform::STATE_POSITION, vPos);
     m_pTransformBorderCom->Set_State(CTransform::STATE_POSITION, vPos);
     m_vFontPosition = { vPos.x + (g_iWinSizeX) * 0.5f ,-vPos.y + (g_iWinSizeY - m_fSizeY) * 0.5f + 2.f };

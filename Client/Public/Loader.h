@@ -43,6 +43,7 @@ private:
 	HRESULT Loading_For_Logo();
 	HRESULT Loading_For_GamePlay();
 	HRESULT Loading_For_MapTool();
+	HRESULT Loading_For_EffectTool();
 	HRESULT Loading_For_Field();
 	HRESULT Loading_For_Battle();
 	HRESULT Loading_For_Field_Boss();

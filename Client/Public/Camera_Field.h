@@ -20,7 +20,7 @@ public:
 	virtual void Tick(_float fTimeDelta) override;
 	virtual HRESULT Late_Tick(_float fTimeDelta) override;
 	virtual HRESULT Render() override;
-
+	virtual void Start() override;
 public:
 	void Set_Target(CGameObject* pGameObject); 
 

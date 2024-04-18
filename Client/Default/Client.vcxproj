@@ -218,6 +218,14 @@
     <ClInclude Include="..\Public\Chr_Field_State_Walk.h" />
     <ClInclude Include="..\Public\Chr_Battle_Vanila_State_Idle.h" />
     <ClInclude Include="..\Public\Client_Defines.h" />
+    <ClInclude Include="..\Public\Dust_Color.h" />
+    <ClInclude Include="..\Public\Effect.h" />
+    <ClInclude Include="..\Public\EffectTool.h" />
+    <ClInclude Include="..\Public\Effectt_2D_Bone.h" />
+    <ClInclude Include="..\Public\Effect_2D.h" />
+    <ClInclude Include="..\Public\Effect_3D.h" />
+    <ClInclude Include="..\Public\Effect_Instance.h" />
+    <ClInclude Include="..\Public\Effect_Interface.h" />
     <ClInclude Include="..\Public\Forklift.h" />
     <ClInclude Include="..\Public\Grid.h" />
     <ClInclude Include="..\Public\ImGUI_Manager.h" />
@@ -230,6 +238,7 @@
     <ClInclude Include="..\Public\Leopard_State_Start.h" />
     <ClInclude Include="..\Public\Level_Battle.h" />
     <ClInclude Include="..\Public\Level_Boss_Battle.h" />
+    <ClInclude Include="..\Public\Level_EffectTool.h" />
     <ClInclude Include="..\Public\Level_Field.h" />
     <ClInclude Include="..\Public\Level_Field_Boss.h" />
     <ClInclude Include="..\Public\Level_GamePlay.h" />
@@ -328,6 +337,9 @@
     <ClCompile Include="..\Private\Camera_Battle.cpp" />
     <ClCompile Include="..\Private\Camera_Free.cpp" />
     <ClCompile Include="..\Private\Camera_Field.cpp" />
+    <ClCompile Include="..\Private\Dust_Color.cpp" />
+    <ClCompile Include="..\Private\EffectTool.cpp" />
+    <ClCompile Include="..\Private\Effect_3D.cpp" />
     <ClCompile Include="..\Private\Chr_Battle.cpp" />
     <ClCompile Include="..\Private\Chr_Battle_Light.cpp" />
     <ClCompile Include="..\Private\Chr_Battle_Light_State_Attack.cpp" />
@@ -360,6 +372,11 @@
     <ClCompile Include="..\Private\Chr_Field_State_Move.cpp" />
     <ClCompile Include="..\Private\Chr_Field_State_Walk.cpp" />
     <ClCompile Include="..\Private\Chr_Battle_Vanila_State_Idle.cpp" />
+    <ClCompile Include="..\Private\Effect.cpp" />
+    <ClCompile Include="..\Private\Effectt_2D_Bone.cpp" />
+    <ClCompile Include="..\Private\Effect_2D.cpp" />
+    <ClCompile Include="..\Private\Effect_Instance.cpp" />
+    <ClCompile Include="..\Private\Effect_Interface.cpp" />
     <ClCompile Include="..\Private\Forklift.cpp" />
     <ClCompile Include="..\Private\Grid.cpp" />
     <ClCompile Include="..\Private\ImGUI_Manager.cpp" />
@@ -372,6 +389,7 @@
     <ClCompile Include="..\Private\Leopard_State_Start.cpp" />
     <ClCompile Include="..\Private\Level_Battle.cpp" />
     <ClCompile Include="..\Private\Level_Boss_Battle.cpp" />
+    <ClCompile Include="..\Private\Level_EffectTool.cpp" />
     <ClCompile Include="..\Private\Level_Field.cpp" />
     <ClCompile Include="..\Private\Level_Field_Boss.cpp" />
     <ClCompile Include="..\Private\Level_GamePlay.cpp" />
@@ -523,6 +541,12 @@
       <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">5.0</ShaderModel>
       <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">5.0</ShaderModel>
       <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Release|x64'">5.0</ShaderModel>
+    </FxCompile>
+    <FxCompile Include="..\Bin\ShaderFiles\Shader_VtxModel_Effect.hlsl">
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Effect</ShaderType>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Pixel</ShaderType>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Pixel</ShaderType>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Effect</ShaderType>
     </FxCompile>
     <FxCompile Include="..\Bin\ShaderFiles\Shader_VtxNorTex.hlsl">
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Effect</ShaderType>

@@ -91,7 +91,7 @@ HRESULT CBackGround::Render()
 
 	m_pTextureTitleCom->Bind_ShaderResource(m_pShaderCom, "g_Texture", 0);
 
-	if (FAILED(m_pShaderCom->Begin(1)))
+	if (FAILED(m_pShaderCom->Begin(2)))
 		return E_FAIL;
 
 	if (FAILED(m_pVIBufferCom->Render()))

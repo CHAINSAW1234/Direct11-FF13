@@ -39,6 +39,9 @@
 #include "Solider_Gun.h"
 #include "Boss.h"
 
+#include "Effect_2D.h"
+#include "Effect_3D.h"
+#include "Effect_Instance.h"
 
 #include "Particle_Blue.h"
 #include "Camera_Free.h"
@@ -51,8 +54,9 @@
 #include "Terrain.h"
 #include "Sky.h"
 
-#pragma region MapTool
+#pragma region Tool
 
+#include "EffectTool.h"
 #include "MapTool.h"
 #include "Grid.h"
 
@@ -138,6 +142,10 @@ HRESULT CLoader::Start()
 	case LEVEL_MAPTOOL:
 		g_Level = LEVEL_MAPTOOL;
 		hr = Loading_For_MapTool();
+		break;
+	case LEVEL_EFFECTTOOL:
+		g_Level = LEVEL_EFFECTTOOL;
+		hr = Loading_For_EffectTool();
 		break;
 	case LEVEL_PARSING:
 		hr = S_OK;
@@ -292,6 +300,21 @@ HRESULT CLoader::Loading_Prototype()
 		CBullet::Create(m_pDevice, m_pContext))))
 		return E_FAIL;
 
+	/* For.Prototype_GameObject_Effect_2D */
+	if (FAILED(m_pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_Effect_2D"),
+		CEffect_2D::Create(m_pDevice, m_pContext))))
+		return E_FAIL;
+
+	/* For.Prototype_GameObject_Effect_3D */
+	if (FAILED(m_pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_Effect_3D"),
+		CEffect_3D::Create(m_pDevice, m_pContext))))
+		return E_FAIL;
+
+	/* For.Prototype_GameObject_Effect_Instance */
+	if (FAILED(m_pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_Effect_Instance"),
+		CEffect_Instance::Create(m_pDevice, m_pContext))))
+		return E_FAIL;
+
 	/* For.Prototype_GameObject_Inventory */
 	if (FAILED(m_pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_Inventory"),
 		CInventory::Create(m_pDevice, m_pContext))))
@@ -370,6 +393,11 @@ HRESULT CLoader::Loading_Prototype()
 	/* For.Prototype_GameObject_UI_Optima_Info */
 	if (FAILED(m_pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_UI_Optima_Info"),
 		CUI_Optima_Info::Create(m_pDevice, m_pContext))))
+		return E_FAIL;
+
+	/* For.Prototype_GameObject_EffectTool */
+	if (FAILED(m_pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_EffectTool"),
+		CEffectTool::Create(m_pDevice, m_pContext))))
 		return E_FAIL;
 
 	/* For.Prototype_GameObject_MapTool */
@@ -601,10 +629,103 @@ HRESULT CLoader::Loading_For_MapTool()
 	return S_OK;
 }
 
+HRESULT CLoader::Loading_For_EffectTool()
+{
+	m_strLoadingText = TEXT("텍스쳐를(을) 로딩 중 입니다.");
+
+	if (FAILED(m_pGameInstance->Add_Prototype(g_Level, TEXT("Prototype_Component_Texture_Effect"),
+		CTexture::Create(m_pDevice, m_pContext, TEXT("../Bin/Resources/Textures/Effect/EffectTexture_%d.dds"), 39))))
+		return E_FAIL;
+
+	if (FAILED(m_pGameInstance->Add_Prototype(g_Level, TEXT("Prototype_Component_Texture_Mask"),
+		CTexture::Create(m_pDevice, m_pContext, TEXT("../Bin/Resources/Textures/Mask/Mask_%d.png"), 101))))
+		return E_FAIL;
+
+	if (FAILED(m_pGameInstance->Add_Prototype(g_Level, TEXT("Prototype_Component_VIBuffer_Line"),
+		CVIBuffer_Line::Create(m_pDevice, m_pContext))))
+		return E_FAIL;
+
+	m_strLoadingText = TEXT("모델를(을) 로딩 중 입니다.");
+#pragma region Effect
+	string tag = ".bin";
+	if (FAILED(m_pGameInstance->Add_Prototype(g_Level, TEXT("Prototype_Component_Model_Cone"),
+		CModel::Create(m_pDevice, m_pContext, "../Bin/Resources/Models/Effect/Default/Cone" + tag))))
+		return E_FAIL;
+	if (FAILED(m_pGameInstance->Add_Prototype(g_Level, TEXT("Prototype_Component_Model_Cube"),
+		CModel::Create(m_pDevice, m_pContext, "../Bin/Resources/Models/Effect/Default/Cube" + tag))))
+		return E_FAIL;
+	if (FAILED(m_pGameInstance->Add_Prototype(g_Level, TEXT("Prototype_Component_Model_Cylinder"),
+		CModel::Create(m_pDevice, m_pContext, "../Bin/Resources/Models/Effect/Default/Cylinder" + tag))))
+		return E_FAIL;
+	if (FAILED(m_pGameInstance->Add_Prototype(g_Level, TEXT("Prototype_Component_Model_Donut"),
+		CModel::Create(m_pDevice, m_pContext, "../Bin/Resources/Models/Effect/Default/Donut" + tag))))
+		return E_FAIL;
+	if (FAILED(m_pGameInstance->Add_Prototype(g_Level, TEXT("Prototype_Component_Model_Sphere"),
+		CModel::Create(m_pDevice, m_pContext, "../Bin/Resources/Models/Effect/Default/Sphere" + tag))))
+		return E_FAIL;
+
+	if (FAILED(m_pGameInstance->Add_Prototype(g_Level, TEXT("Prototype_Component_Model_Around_0"),
+		CModel::Create(m_pDevice, m_pContext, "../Bin/Resources/Models/Effect/Extract/Around_0" + tag))))
+		return E_FAIL;
+	if (FAILED(m_pGameInstance->Add_Prototype(g_Level, TEXT("Prototype_Component_Model_Around_1"),
+		CModel::Create(m_pDevice, m_pContext, "../Bin/Resources/Models/Effect/Extract/Around_1" + tag))))
+		return E_FAIL;
+	if (FAILED(m_pGameInstance->Add_Prototype(g_Level, TEXT("Prototype_Component_Model_Empty_Cyclinder"),
+		CModel::Create(m_pDevice, m_pContext, "../Bin/Resources/Models/Effect/Extract/Around_1" + tag))))
+		return E_FAIL;
+	if (FAILED(m_pGameInstance->Add_Prototype(g_Level, TEXT("Prototype_Component_Model_Effect_0"),
+		CModel::Create(m_pDevice, m_pContext, "../Bin/Resources/Models/Effect/Extract/Effect_0" + tag))))
+		return E_FAIL;
+	if (FAILED(m_pGameInstance->Add_Prototype(g_Level, TEXT("Prototype_Component_Model_Effect_1"),
+		CModel::Create(m_pDevice, m_pContext, "../Bin/Resources/Models/Effect/Extract/Effect_1" + tag))))
+		return E_FAIL;
+	if (FAILED(m_pGameInstance->Add_Prototype(g_Level, TEXT("Prototype_Component_Model_Hit"),
+		CModel::Create(m_pDevice, m_pContext, "../Bin/Resources/Models/Effect/Extract/Hit" + tag))))
+		return E_FAIL;
+	if (FAILED(m_pGameInstance->Add_Prototype(g_Level, TEXT("Prototype_Component_Model_Optima_1"),
+		CModel::Create(m_pDevice, m_pContext, "../Bin/Resources/Models/Effect/Extract/Optima_1" + tag))))
+		return E_FAIL;
+	if (FAILED(m_pGameInstance->Add_Prototype(g_Level, TEXT("Prototype_Component_Model_Optima_2"),
+		CModel::Create(m_pDevice, m_pContext, "../Bin/Resources/Models/Effect/Extract/Optima_2" + tag))))
+		return E_FAIL;
+	if (FAILED(m_pGameInstance->Add_Prototype(g_Level, TEXT("Prototype_Component_Model_Optima_Cylinder"),
+		CModel::Create(m_pDevice, m_pContext, "../Bin/Resources/Models/Effect/Extract/Optima_Cylinder" + tag))))
+		return E_FAIL;
+	if (FAILED(m_pGameInstance->Add_Prototype(g_Level, TEXT("Prototype_Component_Model_Optima_Cylinder1"),
+		CModel::Create(m_pDevice, m_pContext, "../Bin/Resources/Models/Effect/Extract/Optima_Cylinder1" + tag))))
+		return E_FAIL;
+	if (FAILED(m_pGameInstance->Add_Prototype(g_Level, TEXT("Prototype_Component_Model_Optima_Cylinder2"),
+		CModel::Create(m_pDevice, m_pContext, "../Bin/Resources/Models/Effect/Extract/Optima_Cylinder2" + tag))))
+		return E_FAIL;
+#pragma endregion 
+
+	m_strLoadingText = TEXT("셰이더를(을) 로딩 중 입니다.");
+
+	m_strLoadingText = TEXT("객체를(을) 로딩 중 입니다.");
+
+	m_strLoadingText = TEXT("EFFECT TOOL LEVEL의 로딩이 완료되었습니다.");
+
+	m_isFinished = true;
+	return S_OK;
+}
+
 HRESULT CLoader::Loading_For_Field()
 {
 
 	m_strLoadingText = TEXT("텍스쳐를(을) 로딩 중 입니다.");
+
+#pragma region Effect
+
+	/* Prototype_Component_Texture_Dust_Color */
+	if (FAILED(m_pGameInstance->Add_Prototype(g_Level, TEXT("Prototype_Component_Texture_Dust_Color"),
+		CTexture::Create(m_pDevice, m_pContext, TEXT("../Bin/Resources/Textures/Effect/Dust_Color/Dust_Color%d.png"), 26))))
+		return E_FAIL;
+
+
+
+
+#pragma endregion
+
 
 	m_strLoadingText = TEXT("모델를(을) 로딩 중 입니다.");
 
