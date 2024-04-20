@@ -218,7 +218,6 @@
     <ClInclude Include="..\Public\Chr_Field_State_Walk.h" />
     <ClInclude Include="..\Public\Chr_Battle_Vanila_State_Idle.h" />
     <ClInclude Include="..\Public\Client_Defines.h" />
-    <ClInclude Include="..\Public\Dust_Color.h" />
     <ClInclude Include="..\Public\Effect.h" />
     <ClInclude Include="..\Public\EffectTool.h" />
     <ClInclude Include="..\Public\Effectt_2D_Bone.h" />
@@ -337,7 +336,6 @@
     <ClCompile Include="..\Private\Camera_Battle.cpp" />
     <ClCompile Include="..\Private\Camera_Free.cpp" />
     <ClCompile Include="..\Private\Camera_Field.cpp" />
-    <ClCompile Include="..\Private\Dust_Color.cpp" />
     <ClCompile Include="..\Private\EffectTool.cpp" />
     <ClCompile Include="..\Private\Effect_3D.cpp" />
     <ClCompile Include="..\Private\Chr_Battle.cpp" />
@@ -522,7 +520,17 @@
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Pixel</ShaderType>
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Effect</ShaderType>
     </FxCompile>
-    <FxCompile Include="..\Bin\ShaderFiles\Shader_VtxInstance.hlsl">
+    <FxCompile Include="..\Bin\ShaderFiles\Shader_VtxInstance_Point.hlsl">
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Effect</ShaderType>
+      <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">5.0</ShaderModel>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Compute</ShaderType>
+      <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">4.0</ShaderModel>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Compute</ShaderType>
+      <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">4.0</ShaderModel>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Effect</ShaderType>
+      <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Release|x64'">5.0</ShaderModel>
+    </FxCompile>
+    <FxCompile Include="..\Bin\ShaderFiles\Shader_VtxInstance_Rect.hlsl">
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Effect</ShaderType>
       <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">5.0</ShaderModel>
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Domain</ShaderType>

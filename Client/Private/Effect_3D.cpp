@@ -18,6 +18,8 @@ HRESULT CEffect_3D::Initialize_Prototype()
 
 HRESULT CEffect_3D::Initialize(void* pArg)
 {
+	m_eType = EFFECT_3D;
+
 	if (nullptr == pArg)
 		return E_FAIL;
 
@@ -99,6 +101,50 @@ void CEffect_3D::Start()
 {
 }
 
+HRESULT CEffect_3D::Save_Effect(ofstream& OFS)
+{
+	__super::Save_Effect(OFS);
+
+	size_t strModelTagSize = m_strModelTag.size();
+	OFS.write(reinterpret_cast<const char*>(&strModelTagSize), sizeof(size_t));
+	OFS.write(reinterpret_cast<const char*>(m_strModelTag.c_str()), sizeof(_tchar) * strModelTagSize);
+
+	return S_OK;
+}
+
+HRESULT CEffect_3D::Initialize_Load(ifstream& IFS)
+{
+	if (FAILED(Load_Effect(IFS)))
+		return E_FAIL;
+
+	GAMEOBJECT_DESC		GameObjectDesc{};
+
+	GameObjectDesc.fSpeedPerSec = 10.f;
+	GameObjectDesc.fRotationPerSec = XMConvertToRadians(360.f);
+
+	if (FAILED(CGameObject::Initialize(&GameObjectDesc)))
+		return E_FAIL;
+
+	if (FAILED(Add_Components()))
+		return E_FAIL;
+
+	return S_OK;
+}
+
+HRESULT CEffect_3D::Load_Effect(ifstream& IFS)
+{
+	__super::Load_Effect(IFS);
+
+	size_t strModelTagSize = 0;
+	IFS.read(reinterpret_cast<char*>(&strModelTagSize), sizeof(size_t));
+	vector<_tchar> vecBuffer(strModelTagSize);
+
+	IFS.read(reinterpret_cast<char*>(vecBuffer.data()), sizeof(_tchar) * strModelTagSize);
+	m_strModelTag = wstring(vecBuffer.begin(), vecBuffer.end());
+
+	return S_OK;
+}
+
 HRESULT CEffect_3D::Add_Components()
 {
 	/* For.Com_Shader */
@@ -131,8 +177,6 @@ HRESULT CEffect_3D::Add_Components()
 
 HRESULT CEffect_3D::Bind_ShaderResources()
 {
-	_float4 vColor = { m_vColor.x * m_fColorMagnification, m_vColor.y * m_fColorMagnification, m_vColor.z * m_fColorMagnification, m_vColor.w };
-	
 	if (nullptr == m_pShaderCom)
 		return E_FAIL;
 
@@ -158,7 +202,9 @@ HRESULT CEffect_3D::Bind_ShaderResources()
 		if (FAILED(m_pDissolveTextureCom->Bind_ShaderResource(m_pShaderCom, "g_DissolveTexture", m_iDissolveTextureIndex)))
 			return E_FAIL;
 	}
-	if (FAILED(m_pShaderCom->Bind_RawValue("g_vColor", &vColor, sizeof(_float4))))
+	if (FAILED(m_pShaderCom->Bind_RawValue("g_fColorMagnification", &m_fColorMagnification, sizeof(_float))))
+		return E_FAIL;
+	if (FAILED(m_pShaderCom->Bind_RawValue("g_vColor", &m_vColor, sizeof(_float4))))
 		return E_FAIL;
 	if (FAILED(m_pShaderCom->Bind_RawValue("g_vMaskStartValue", &m_vMaskValue[0], sizeof(_float4))))
 		return E_FAIL;
@@ -185,6 +231,21 @@ CEffect_3D* CEffect_3D::Create(ID3D11Device* pDevice, ID3D11DeviceContext* pCont
 	}
 
 	return pInstance;
+}
+
+CEffect_3D* CEffect_3D::Clone(ID3D11Device* pDevice, ID3D11DeviceContext* pContext, ifstream& IFS)
+{
+	CEffect_3D* pInstance = new CEffect_3D(pDevice, pContext);
+
+	if (FAILED(pInstance->Initialize_Load(IFS))) {
+
+		MSG_BOX(TEXT("Failed To Load : CEffect_3D"));
+
+		Safe_Release(pInstance);
+		return nullptr;
+	}
+
+	return pInstance;;
 }
 
 CGameObject* CEffect_3D::Clone(void* pArg)

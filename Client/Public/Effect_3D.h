@@ -20,6 +20,10 @@ public:
 	virtual HRESULT Late_Tick(_float fTimeDelta) override;
 	virtual HRESULT Render() override;
 	virtual void Start() override;
+	virtual HRESULT Save_Effect(ofstream& OFS) override;
+
+	HRESULT Initialize_Load(ifstream& IFS);
+	virtual HRESULT Load_Effect(ifstream& IFS) override;
 
 protected:
 	virtual HRESULT Add_Components() override;
@@ -27,6 +31,7 @@ protected:
 
 public:
 	static CEffect_3D* Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);
+	static CEffect_3D* Clone(ID3D11Device* pDevice, ID3D11DeviceContext* pContext, ifstream& IFS);		// 파일에서 읽기를 통한 생성
 	virtual CGameObject* Clone(void* pArg) override;
 	virtual void Free() override;
 };

@@ -641,6 +641,11 @@ HRESULT CLoader::Loading_For_EffectTool()
 		CTexture::Create(m_pDevice, m_pContext, TEXT("../Bin/Resources/Textures/Mask/Mask_%d.png"), 101))))
 		return E_FAIL;
 
+
+	if (FAILED(m_pGameInstance->Add_Prototype(g_Level, TEXT("Prototype_Component_Texture_Particle"),
+		CTexture::Create(m_pDevice, m_pContext, TEXT("../Bin/Resources/Textures/Effect/Particle/Particle (%d).png"), 113))))
+		return E_FAIL;
+
 	if (FAILED(m_pGameInstance->Add_Prototype(g_Level, TEXT("Prototype_Component_VIBuffer_Line"),
 		CVIBuffer_Line::Create(m_pDevice, m_pContext))))
 		return E_FAIL;

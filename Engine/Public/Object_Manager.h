@@ -23,6 +23,7 @@ public:
 	HRESULT Initialize(_uint iNumLevels);
 	HRESULT Add_Prototype(const wstring& strPrototypeTag, class CGameObject* pPrototype);
 	HRESULT Add_Clone(_uint iLevelIndex, const wstring& strLayerTag, const wstring& strPrototypeTag, void* pArg);
+	HRESULT Add_Clone(_uint iLevelIndex, const wstring& strLayerTag, class CGameObject* pGameObject);
 	class CGameObject* Add_Clone_With_Object(_uint iLevelIndex, const wstring& strLayerTag, const wstring& strPrototypeTag, void* pArg);	// Add Clone 하는 함수
 	class CGameObject* Clone_GameObject(const wstring& strPrototypeTag, void* pArg);														// Add_Clone 하지 않는 함수
 	size_t	Get_LayerCnt(_uint iLevelIndex, const wstring& strLayerTag);

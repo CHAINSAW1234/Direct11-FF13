@@ -19,6 +19,7 @@ public:
 	HRESULT Begin_MRT(const wstring& strMRTTag);
 	HRESULT End_MRT();
 	HRESULT Bind_ShaderResource(class CShader* pShader, const wstring& strRenderTargetTag, const _char* pConstantName);
+	HRESULT Copy_Resource(const wstring& strRenderTargetTag, ID3D11Texture2D** ppTextureHub);
 
 #ifdef _DEBUG
 public:
@@ -27,13 +28,13 @@ public:
 #endif
 
 private:
-	ID3D11Device* m_pDevice = { nullptr };
-	ID3D11DeviceContext* m_pContext = { nullptr };
-	map<const wstring, class CRenderTarget*>				m_RenderTargets;
-	map<const wstring, list<class CRenderTarget*>>			m_MRTs;
+	ID3D11Device*										m_pDevice = { nullptr };
+	ID3D11DeviceContext*								m_pContext = { nullptr };
+	map<const wstring, class CRenderTarget*>			m_RenderTargets;
+	map<const wstring, list<class CRenderTarget*>>		m_MRTs;
 
-	ID3D11RenderTargetView* m_pBackBufferRTV = { nullptr };
-	ID3D11DepthStencilView* m_pDSV = { nullptr };
+	ID3D11RenderTargetView*								m_pBackBufferRTV = { nullptr };
+	ID3D11DepthStencilView*								m_pDSV = { nullptr };
 
 private:
 	class CRenderTarget* Find_RenderTarget(const wstring& strRenderTargetTag);

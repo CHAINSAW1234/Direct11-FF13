@@ -319,7 +319,6 @@ void CTransform::Turn_With_Look_At(_fvector vAxis, _fvector vTargetPosition, _fl
 	Set_State(STATE_POSITION, vNewPos);
 }
 
-
 CTransform * CTransform::Create(ID3D11Device * pDevice, ID3D11DeviceContext * pContext)
 {
 	CTransform*		pInstance = new CTransform(pDevice, pContext);

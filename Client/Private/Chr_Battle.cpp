@@ -73,18 +73,18 @@ HRESULT CChr_Battle::Late_Tick(_float fTimeDelta)
 	for (auto& Parts : m_PartObjects)
 		Parts->Late_Tick(fTimeDelta);
 
+#ifdef _DEBUG
+	if (nullptr != m_pColliderCom)
+		m_pGameInstance->Add_DebugComponents(m_pColliderCom);
+	if (nullptr != m_pCollider_PushCom)
+		m_pGameInstance->Add_DebugComponents(m_pCollider_PushCom);
+#endif 
+
 	return S_OK;
 }
 
 HRESULT CChr_Battle::Render()
 {
-
-#ifdef _DEBUG
-	if (nullptr != m_pColliderCom)
-		m_pColliderCom->Render();
-	if (nullptr != m_pCollider_PushCom)
-		m_pCollider_PushCom->Render();
-#endif 
 
 	return S_OK;
 }

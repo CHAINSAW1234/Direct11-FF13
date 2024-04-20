@@ -6,6 +6,7 @@ matrix g_WorldMatrix, g_ViewMatrix, g_ProjMatrix;
 float2 g_TextureMovement;
 float g_DissolveTime;
 float4 g_vColor;
+float g_fColorMagnification;
 
 float4 g_vMaskStartValue;
 float4 g_vMaskEndValue;
@@ -80,9 +81,13 @@ PS_OUT PS_MASK(PS_IN In)
 {
     PS_OUT Out = (PS_OUT) 0;
 
-    vector vDiffuseColor = g_DiffuseTexture.Sample(LinearSampler, In.vTexcoord) * g_vColor;
+    float4 vColor = g_vColor * g_fColorMagnification;
+    vColor.w = g_vColor.a;
+    
+    vector vDiffuseColor = g_DiffuseTexture.Sample(LinearSampler, In.vTexcoord) * vColor;
     if (vDiffuseColor.a < 0.3)
         discard;
+    
     vector vMaskColor = g_MaskTexture.Sample(LinearSampler, In.vTexcoord);
     
     if (g_vMaskStartValue.x <= vMaskColor.r && vMaskColor.r <= g_vMaskEndValue.x &&
@@ -100,7 +105,10 @@ PS_OUT PS_DISSOLVE(PS_IN In)
 {
     PS_OUT Out = (PS_OUT) 0;
 
-    vector vDiffuseColor = g_DiffuseTexture.Sample(LinearSampler, In.vTexcoord) * g_vColor;
+    float4 vColor = g_vColor * g_fColorMagnification;
+    vColor.w = g_vColor.a;
+    
+    vector vDiffuseColor = g_DiffuseTexture.Sample(LinearSampler, In.vTexcoord) * vColor;
     if (vDiffuseColor.a < 0.3)
         discard;
     
@@ -117,8 +125,11 @@ PS_OUT PS_DISSOLVE(PS_IN In)
 PS_OUT PS_MASK_DISSOLVE(PS_IN In)
 {
     PS_OUT Out = (PS_OUT) 0;
-
-    vector vDiffuseColor = g_DiffuseTexture.Sample(LinearSampler, In.vTexcoord) * g_vColor;
+    
+    float4 vColor = g_vColor * g_fColorMagnification;
+    vColor.w = g_vColor.a;
+    
+    vector vDiffuseColor = g_DiffuseTexture.Sample(LinearSampler, In.vTexcoord) * vColor;
     if (vDiffuseColor.a < 0.3)
         discard;
     

@@ -56,6 +56,13 @@ HRESULT CRenderTarget::Bind_ShaderResource(CShader* pShader, const _char* pConst
 	return pShader->Bind_Texture(pConstantName, m_pSRV);
 }
 
+HRESULT CRenderTarget::Copy_Resource(ID3D11Texture2D** ppTextureHub)
+{
+	m_pContext->CopyResource(*ppTextureHub, m_pTexture2D);
+
+	return S_OK;
+}
+
 #ifdef _DEBUG
 
 HRESULT CRenderTarget::Ready_Debug(_float fX, _float fY, _float fSizeX, _float fSizeY)

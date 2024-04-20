@@ -75,6 +75,30 @@ HRESULT CObject_Manager::Add_Clone(_uint iLevelIndex, const wstring & strLayerTa
 	return S_OK;
 }
 
+HRESULT CObject_Manager::Add_Clone(_uint iLevelIndex, const wstring& strLayerTag, CGameObject* pGameObject)
+{
+	if (pGameObject == nullptr)
+		return E_FAIL;
+
+	CLayer* pLayer = Find_Layer(iLevelIndex, strLayerTag);
+
+	/* 레이어가 없었다면 만들어서 객체를 추가하고 만든 레이어를 다시 맵에 추가해준다. */
+	if (nullptr == pLayer)
+	{
+		pLayer = CLayer::Create();
+		if (nullptr == pLayer)
+			return E_FAIL;
+		pLayer->Add_GameObject(pGameObject);
+
+		m_pLayers[iLevelIndex].emplace(strLayerTag, pLayer);
+	}
+	/* 추가하려고하는 레이어가 이미 있었다.*/
+	else
+		pLayer->Add_GameObject(pGameObject);
+
+	return S_OK;
+}
+
 CGameObject* CObject_Manager::Add_Clone_With_Object(_uint iLevelIndex, const wstring& strLayerTag, const wstring& strPrototypeTag, void* pArg)
 {
 	/* 복제해야할 원형객체를 검색한다. */

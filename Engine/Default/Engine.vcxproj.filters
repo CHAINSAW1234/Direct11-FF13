@@ -160,20 +160,26 @@
     <Filter Include="01.Utility\02.Components\VIBuffer\Instance\Point">
       <UniqueIdentifier>{6e003937-ddb8-4adc-bc10-48c5c7dc049d}</UniqueIdentifier>
     </Filter>
-    <Filter Include="01.Utility\09.Observer">
-      <UniqueIdentifier>{0d237c6e-d231-4fa4-945c-40b7d0c69fb8}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="01.Utility\09.Observer\Handler">
-      <UniqueIdentifier>{bf2ee945-08e9-47f6-beaa-c573e2bbbda0}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="01.Utility\10.Picking">
-      <UniqueIdentifier>{ed51a42f-d96e-4cd6-805a-868138dd7e67}</UniqueIdentifier>
-    </Filter>
     <Filter Include="01.Utility\08.RenderTargets">
       <UniqueIdentifier>{5f478052-7360-4da7-898f-e2841ebba680}</UniqueIdentifier>
     </Filter>
     <Filter Include="01.Utility\08.RenderTargets\Manager">
       <UniqueIdentifier>{0e5b0696-cb80-4d93-b3c3-bdc9561923b1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="01.Utility\10.Frustum">
+      <UniqueIdentifier>{5c695f41-c39b-4723-8f9f-e91b48ad579f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="01.Utility\09.Extractor">
+      <UniqueIdentifier>{fdfafaf8-1711-41c9-a85c-aacd0f33a97a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="01.Utility\11.Observer">
+      <UniqueIdentifier>{0d237c6e-d231-4fa4-945c-40b7d0c69fb8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="01.Utility\11.Observer\Handler">
+      <UniqueIdentifier>{bf2ee945-08e9-47f6-beaa-c573e2bbbda0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="01.Utility\12.Picking">
+      <UniqueIdentifier>{ed51a42f-d96e-4cd6-805a-868138dd7e67}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -259,7 +265,7 @@
       <Filter>01.Utility\02.Components\Model\Bone</Filter>
     </ClCompile>
     <ClCompile Include="..\Private\Picking.cpp">
-      <Filter>01.Utility\10.Picking</Filter>
+      <Filter>01.Utility\12.Picking</Filter>
     </ClCompile>
     <ClCompile Include="..\Private\Channel.cpp">
       <Filter>01.Utility\02.Components\Model\Animation\Channel</Filter>
@@ -280,10 +286,10 @@
       <Filter>01.Utility\06.Lights\Manager</Filter>
     </ClCompile>
     <ClCompile Include="..\Private\Observer.cpp">
-      <Filter>01.Utility\09.Observer</Filter>
+      <Filter>01.Utility\11.Observer</Filter>
     </ClCompile>
     <ClCompile Include="..\Private\Observer_Handler.cpp">
-      <Filter>01.Utility\09.Observer\Handler</Filter>
+      <Filter>01.Utility\11.Observer\Handler</Filter>
     </ClCompile>
     <ClCompile Include="..\Private\PartObject.cpp">
       <Filter>01.Utility\01.GameObjects\PartObject</Filter>
@@ -341,6 +347,12 @@
     </ClCompile>
     <ClCompile Include="..\Private\Target_Manager.cpp">
       <Filter>01.Utility\08.RenderTargets\Manager</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Extractor.cpp">
+      <Filter>01.Utility\09.Extractor</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Frustum.cpp">
+      <Filter>01.Utility\10.Frustum</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -438,7 +450,7 @@
       <Filter>01.Utility\02.Components\Model\Bone</Filter>
     </ClInclude>
     <ClInclude Include="..\Public\Picking.h">
-      <Filter>01.Utility\10.Picking</Filter>
+      <Filter>01.Utility\12.Picking</Filter>
     </ClInclude>
     <ClInclude Include="..\Public\Channel.h">
       <Filter>01.Utility\02.Components\Model\Animation\Channel</Filter>
@@ -459,10 +471,10 @@
       <Filter>01.Utility\06.Lights\Manager</Filter>
     </ClInclude>
     <ClInclude Include="..\Public\Observer.h">
-      <Filter>01.Utility\09.Observer</Filter>
+      <Filter>01.Utility\11.Observer</Filter>
     </ClInclude>
     <ClInclude Include="..\Public\Observer_Handler.h">
-      <Filter>01.Utility\09.Observer\Handler</Filter>
+      <Filter>01.Utility\11.Observer\Handler</Filter>
     </ClInclude>
     <ClInclude Include="..\Public\PartObject.h">
       <Filter>01.Utility\01.GameObjects\PartObject</Filter>
@@ -520,6 +532,12 @@
     </ClInclude>
     <ClInclude Include="..\Public\Target_Manager.h">
       <Filter>01.Utility\08.RenderTargets\Manager</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\Extractor.h">
+      <Filter>01.Utility\09.Extractor</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\Frustum.h">
+      <Filter>01.Utility\10.Frustum</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

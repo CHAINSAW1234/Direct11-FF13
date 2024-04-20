@@ -1,6 +1,7 @@
 #pragma once
 #include "Client_Defines.h"
 #include "GameObject.h"
+#include "VIBuffer_Instance.h"
 
 BEGIN(Engine)
 class CModel;
@@ -94,14 +95,34 @@ public:
 class Interface_Instance abstract
 {
 public:
+	enum TYPE { RECT, POINT, TYPE_END };
+	enum PIVOT_LOOK { PIVOT_UP, PIVOT_UP_REVERSE, PIVOT_RIGHT, PIVOT_RIGHT_REVERSE, PIVOT_LOOK_END };
 	typedef struct Interface_Instance_Desc
 	{
+		CVIBuffer_Instance::INSTANCE_DESC eInstance_Desc;
+		TYPE eInstanceType;
 		wstring strBufferTag = {};
 	} INTERFACE_INSTANCE_DESC;
 
+public:
+	TYPE Get_Type() { return m_eInstanceType; }
+	PIVOT_LOOK Get_Pivot_Look() { return m_ePivotLook; }
+	_bool Get_Spread() { return m_isSpread; }
+	_bool Get_Sin() { return m_isSin; }
+
+	void Set_Type(TYPE eInstanceType) { m_eInstanceType = eInstanceType; }
+	void Set_Pivot_Look(PIVOT_LOOK ePivotLook) { m_ePivotLook = ePivotLook; }
+	void Set_Spread(_bool isSpread) { m_isSpread = isSpread; }
+	void Set_Sin(_bool issin) { m_isSin = issin; }
+
 protected:
-	CVIBuffer_Instance_Rect* m_pVIBufferCom = { nullptr };
+	CVIBuffer_Instance::INSTANCE_DESC m_eInstance_Desc = {};
+	CVIBuffer_Instance* m_pVIBufferCom = { nullptr };
 	wstring m_strBufferTag;
+	TYPE m_eInstanceType = { TYPE_END };
+	PIVOT_LOOK m_ePivotLook = { PIVOT_LOOK_END };
+	_bool m_isSpread = { true };
+	_bool m_isSin = { false };					// 안씀 내일까지 sin 해보고 안되면 버림
 
 public:
 	virtual void Free();

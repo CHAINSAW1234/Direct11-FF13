@@ -71,7 +71,81 @@ void CEffect::Start()
 
 void CEffect::Set_Turn(_float4 vTurnDir)
 {
-	XMStoreFloat4(&m_vTurnDir, XMVectorSetW(XMVector3Normalize(XMLoadFloat4(&vTurnDir)), 0.f));
+	XMStoreFloat4(&m_vTurnDir, XMLoadFloat4(&vTurnDir));
+}
+
+HRESULT CEffect::Save_Effect(ofstream& OFS)
+{
+	// 0. EFfect Type
+	OFS.write(reinterpret_cast<const char*>(&m_eType), sizeof(TYPE));
+
+	//1. EffectName
+	size_t istrEffectNameSize = m_strEffectName.size();
+	OFS.write(reinterpret_cast<const char*>(&istrEffectNameSize), sizeof(size_t));
+	OFS.write(reinterpret_cast<const char*>(m_strEffectName.c_str()), sizeof(_char) * istrEffectNameSize);
+
+	// 2. EffectTime
+	OFS.write(reinterpret_cast<const char*>(&m_fEffectTimeDelta), sizeof(_float));
+
+	// 3. Color
+	OFS.write(reinterpret_cast<const char*>(&m_fColorMagnification), sizeof(_float));
+	OFS.write(reinterpret_cast<const char*>(&m_vColor), sizeof(_float4));
+
+	// 4. Texture
+	OFS.write(reinterpret_cast<const char*>(&m_iDiffuseTextureIndex), sizeof(_float));
+	OFS.write(reinterpret_cast<const char*>(&m_iMaskTextureIndex), sizeof(_float));
+	OFS.write(reinterpret_cast<const char*>(&m_iDissolveTextureIndex), sizeof(_float));
+
+	// 5. MaskValue
+	OFS.write(reinterpret_cast<const char*>(&m_vMaskValue[0]), sizeof(_float4));
+	OFS.write(reinterpret_cast<const char*>(&m_vMaskValue[1]), sizeof(_float4));
+
+	// 6. Turn
+	OFS.write(reinterpret_cast<const char*>(&m_fTurnSpeed), sizeof(_float));
+	OFS.write(reinterpret_cast<const char*>(&m_vTurnDir), sizeof(_float4));
+
+	// 7. Lerp
+	OFS.write(reinterpret_cast<const char*>(&m_vLerpScaleStart), sizeof(_float3));
+	OFS.write(reinterpret_cast<const char*>(&m_vLerpScaleEnd), sizeof(_float3));
+
+	return S_OK;
+}
+
+HRESULT CEffect::Load_Effect(ifstream& IFS)
+{
+	//1. EffectName
+	size_t strEffectNameSize = 0;
+	IFS.read(reinterpret_cast<char*>(&strEffectNameSize), sizeof(size_t));
+	vector<_char> vecBuffer(strEffectNameSize);
+
+	IFS.read(reinterpret_cast<char*>(vecBuffer.data()), sizeof(_char) * strEffectNameSize);
+	m_strEffectName = string(vecBuffer.begin(), vecBuffer.end());
+
+	// 2. EffectTime
+	IFS.read(reinterpret_cast<char*>(&m_fEffectTimeDelta), sizeof(_float));
+
+	// 3. Color
+	IFS.read(reinterpret_cast<char*>(&m_fColorMagnification), sizeof(_float));
+	IFS.read(reinterpret_cast<char*>(&m_vColor), sizeof(_float4));
+
+	// 4. Texture
+	IFS.read(reinterpret_cast<char*>(&m_iDiffuseTextureIndex), sizeof(_float));
+	IFS.read(reinterpret_cast<char*>(&m_iMaskTextureIndex), sizeof(_float));
+	IFS.read(reinterpret_cast<char*>(&m_iDissolveTextureIndex), sizeof(_float));
+
+	// 5. MaskValue
+	IFS.read(reinterpret_cast<char*>(&m_vMaskValue[0]), sizeof(_float4));
+	IFS.read(reinterpret_cast<char*>(&m_vMaskValue[1]), sizeof(_float4));
+
+	// 6. Turn
+	IFS.read(reinterpret_cast<char*>(&m_fTurnSpeed), sizeof(_float));
+	IFS.read(reinterpret_cast<char*>(&m_vTurnDir), sizeof(_float4));
+
+	// 7. Lerp
+	IFS.read(reinterpret_cast<char*>(&m_vLerpScaleStart), sizeof(_float3));
+	IFS.read(reinterpret_cast<char*>(&m_vLerpScaleEnd), sizeof(_float3));
+
+	return S_OK;
 }
 
 void CEffect::Reset_Effect()
@@ -81,6 +155,13 @@ void CEffect::Reset_Effect()
 	m_fDissolveTimeDelta = { 0.f };
 	m_pTransformCom->Set_Scaled(1.f, 1.f, 1.f);
 
+}
+
+void CEffect::Reset_Position()
+{
+	_float4 vPosition = m_pTransformCom->Get_State_Float4(CTransform::STATE_POSITION);
+	m_pTransformCom->Set_WorldMatrix(XMMatrixIdentity());
+	m_pTransformCom->Set_State(CTransform::STATE_POSITION, vPosition);
 }
 
 void CEffect::Update_Texture_Movement(_float fTimeDelta)
@@ -95,15 +176,16 @@ void CEffect::Update_Texture_Movement(_float fTimeDelta)
 
 void CEffect::Turn(_float fTimeDelta)
 {
-	if (XMVector3Equal(XMLoadFloat4(&m_vTurnDir), XMVectorSet(0.f, 0.f, 0.f, 0.f)))
+	_vector vTurnDir = XMVectorSetW(XMVector3Normalize(XMLoadFloat4(&m_vTurnDir)), 0.f);
+	if (XMVector3Equal(vTurnDir, XMVectorSet(0.f, 0.f, 0.f, 0.f)))
 		return;
 
-	m_pTransformCom->Turn(XMLoadFloat4(&m_vTurnDir), fTimeDelta * m_fTurnSpeed);
+	m_pTransformCom->Turn(vTurnDir, fTimeDelta * m_fTurnSpeed);
 }
 
 void CEffect::Lerp()
 {
-	_vector vScale = XMVectorLerp(XMVectorSet(1.f, 1.f, 1.f, 0.f), XMLoadFloat3(&m_vLerpScale), m_fTimeDelta / m_fEffectTimeDelta);
+	_vector vScale = XMVectorLerp(XMLoadFloat3(&m_vLerpScaleStart), XMLoadFloat3(&m_vLerpScaleEnd), m_fTimeDelta / m_fEffectTimeDelta);
 	m_pTransformCom->Set_Scaled(vScale.m128_f32[0], vScale.m128_f32[1], vScale.m128_f32[2] );
 }
 

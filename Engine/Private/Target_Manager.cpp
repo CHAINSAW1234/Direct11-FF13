@@ -76,6 +76,7 @@ HRESULT CTarget_Manager::Begin_MRT(const wstring& strMRTTag)
 
 HRESULT CTarget_Manager::End_MRT()
 {
+
 	m_pContext->OMSetRenderTargets(1, &m_pBackBufferRTV, m_pDSV);
 
 	Safe_Release(m_pBackBufferRTV);
@@ -92,6 +93,16 @@ HRESULT CTarget_Manager::Bind_ShaderResource(CShader* pShader, const wstring& st
 
 	return pRenderTarget->Bind_ShaderResource(pShader, pConstantName);
 }
+
+HRESULT CTarget_Manager::Copy_Resource(const wstring& strRenderTargetTag, ID3D11Texture2D** ppTextureHub)
+{
+	CRenderTarget* pRenderTarget = Find_RenderTarget(strRenderTargetTag);
+	if (nullptr == pRenderTarget)
+		return E_FAIL;
+
+	return pRenderTarget->Copy_Resource(ppTextureHub);
+}
+
 
 #ifdef _DEBUG
 

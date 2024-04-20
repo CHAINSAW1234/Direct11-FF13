@@ -44,6 +44,7 @@ HRESULT CEffectTool::Initialize(void* pArg)
     m_pCamera = dynamic_cast<CCamera_Free*>(m_pGameInstance->Get_GameObject(m_eLevel, TEXT("Layer_Camera"), 0));
     Safe_AddRef(m_pCamera);
 
+    Update_Saved_Effect();
 
     return S_OK;
 }
@@ -58,7 +59,7 @@ void CEffectTool::Tick(_float fTimeDelta)
 
     WindowList_Window();
     Effect_Window();
-
+    Save_Window();
 }
 
 HRESULT CEffectTool::Late_Tick(_float fTimeDelta)
@@ -98,18 +99,15 @@ void CEffectTool::WindowList_Window()
     if (ImGui::TreeNode("Window List")) {
         ImGui::Checkbox("Demo Window", &show_demo_window);      // Edit bools storing our window open/close state
         ImGui::Checkbox("Effect Window", &show_Effect_window);      // Edit bools storing our window open/close state
+        ImGui::Checkbox("Save Window", &show_Save_window);      // Edit bools storing our window open/close state
 
+        
         ImGui::TreePop();
     }
     if (ImGui::TreeNode("Opotion List")) {
 
         ImGui::TreePop();
     }
-    static float f = 0.f;
-    //ImGui::SliderFloat("float", &f, 0.0f, 1.0f);            // Edit 1 float using a slider from 0.0f to 1.0f
-    //ImGui::ColorEdit3("clear color", (float*)&clear_color); // Edit 3 floats representing a color
-    //if (ImGui::Button("Button"))                            // Buttons return true when clicked (most widgets return true when edited/activated)
-    //    counter++;
 
     ImGui::SameLine();
     ImGui::End();
@@ -143,9 +141,17 @@ void CEffectTool::Effect_Window()
                         }
                     }
 
-
                     ImGui::EndListBox();
                 }
+                ImGui::SameLine();
+                if (ImGui::Button("Add")) {
+                    if (m_iCurrent_Effect_Index < m_Effects.size()) {
+                        m_CandidateEffects.push_back(m_Effects[m_iCurrent_Effect_Index]);
+                        m_iCurrent_Effect_Index = INFINITE;
+                    }
+
+                }
+
                 ImGui::SameLine();
                 if (ImGui::Button("Delete")) {
                     if (m_iCurrent_Effect_Index < m_Effects.size()) {
@@ -155,9 +161,7 @@ void CEffectTool::Effect_Window()
                         m_iCurrent_Effect_Index = INFINITE;
                         m_pTargetObject = nullptr;
                     }
-
                 }
-
 
                 ImGui::EndTabItem();
             }
@@ -189,16 +193,20 @@ void CEffectTool::Effect_Window()
                 static char buf[32];
                 ImGui::InputText("Effect Name", buf, IM_ARRAYSIZE(buf));
 
+                static _int eType = 0;
                 static _float vPivot[3] = { 0.f,0.f,0.f };
                 static _float vCenter[3] = { 0.f,0.f,0.f };
-                static _float vRange[3] = { 0.f,0.f,0.f };
-                static _float vMinScale[3] = { 0.f,0.f,0.f };
-                static _float vMaxScale[3] = { 0.f,0.f,0.f };
-                static _float vLifeTime[2] = { 0.f,0.f };
-                static _float vSpeed[2] = { 0.f,0.f };
+                static _float vRange[3] = { 1.f,1.f,1.f };
+                static _float vMinScale[3] = { 1.f,1.f,1.f };
+                static _float vMaxScale[3] = { 1.f,1.f,1.f };
+                static _float vLifeTime[2] = { 0.f,1.f };
+                static _float vSpeed[2] = { 0.f,1.f };
                 static _int isLoop = { true };
                 static _int iNumInstance = { 100 };
 
+                ImGui::Text("TYPE"); ImGui::SameLine();
+                ImGui::RadioButton("Rect", &eType, 0); ImGui::SameLine();
+                ImGui::RadioButton("Point", &eType, 1); 
                 ImGui::InputFloat3("Pivot", vPivot);
                 ImGui::InputFloat3("Center", vCenter);
                 ImGui::InputFloat3("Range", vRange);
@@ -206,7 +214,7 @@ void CEffectTool::Effect_Window()
                 ImGui::InputFloat3("MaxScale", vMaxScale);
                 ImGui::InputFloat2("LifeTime", vLifeTime);
                 ImGui::InputFloat2("Speed", vSpeed);
-                ImGui::Text("IsLoop");
+                ImGui::Text("IsLoop"); ImGui::SameLine();
                 ImGui::RadioButton("Loop_False", &isLoop, 0);   ImGui::SameLine();
                 ImGui::RadioButton("Loop_True", &isLoop, 1); 
                 ImGui::InputInt("NumInstance", &iNumInstance);
@@ -223,7 +231,7 @@ void CEffectTool::Effect_Window()
                     pDesc.isLoop = isLoop;
                     pDesc.iNumInstance = (_uint)iNumInstance;
 
-                    m_pTargetObject = Create_Effect_Instance(pDesc, buf);
+                    m_pTargetObject = Create_Effect_Instance(pDesc, eType, buf);
                 }
 
                 ImGui::EndTabItem();
@@ -232,6 +240,27 @@ void CEffectTool::Effect_Window()
         }
 
         ImGui::SeparatorText("Target Effect");
+        CEffect_Instance* pTargetInstance = dynamic_cast<CEffect_Instance*>(m_pTargetObject);
+        if (nullptr != pTargetInstance) {
+            if (ImGui::TreeNode("Effect Instance")) {
+                _int iSpread = pTargetInstance->Get_Spread();
+                ImGui::RadioButton("Spread", &iSpread, 1); ImGui::SameLine();
+                ImGui::RadioButton("Gather", &iSpread, 0);
+                pTargetInstance->Set_Spread(iSpread);
+
+                _int iPivotLook = pTargetInstance->Get_Pivot_Look();
+                ImGui::Text("Pivot Look");
+                ImGui::RadioButton("Up", &iPivotLook, 0); ImGui::SameLine();
+                ImGui::RadioButton("Up_Reverse", &iPivotLook, 1);
+                ImGui::RadioButton("Right", &iPivotLook, 2); ImGui::SameLine();
+                ImGui::RadioButton("Right_Reverse", &iPivotLook, 3); ImGui::SameLine();
+                ImGui::RadioButton("None", &iPivotLook, 4);
+                pTargetInstance->Set_Pivot_Look((Interface_Instance::PIVOT_LOOK)iPivotLook);
+
+                ImGui::TreePop();
+            }
+        }
+
         if (nullptr != m_pTargetObject) {
 
             if (ImGui::TreeNode("Select Texture"))
@@ -287,25 +316,31 @@ void CEffectTool::Effect_Window()
                 ImGui::InputFloat("Color Magnification", &fColorMagnification);
                 m_pTargetObject->Set_Color_Magnification(fColorMagnification);
 
+                static  ImGuiColorEditFlags iFlag = ImGuiColorEditFlags_Uint8 | ImGuiColorEditFlags_DisplayRGB | ImGuiColorEditFlags_InputRGB;
+                iFlag |= ImGuiColorEditFlags_AlphaBar;
+
                 _float vColor[4] = { m_pTargetObject->Get_Color().x,m_pTargetObject->Get_Color().y ,
                 m_pTargetObject->Get_Color().z, m_pTargetObject->Get_Color().w };
-                ImGui::InputFloat4("Color", vColor);
+                ImGui::ColorPicker4("Color", vColor, iFlag);
+                ImGui::InputFloat4("vColor", vColor);
                 m_pTargetObject->Set_Color(_float4(vColor[0], vColor[1], vColor[2], vColor[3]));
 
                 ImGui::TreePop();
             }
 
-            ImGui::SeparatorText("Mask Value");
-            _float vMaskValueStart[4] = { m_pTargetObject->Get_MaskValue()[0].x, m_pTargetObject->Get_MaskValue()[0].y, m_pTargetObject->Get_MaskValue()[0].z , m_pTargetObject->Get_MaskValue()[0].w };
-            _float vMaskValueEnd[4] = { m_pTargetObject->Get_MaskValue()[1].x, m_pTargetObject->Get_MaskValue()[1].y, m_pTargetObject->Get_MaskValue()[1].z, m_pTargetObject->Get_MaskValue()[1].w };
-            ImGui::InputFloat4("Mask_Start", vMaskValueStart);
-            ImGui::InputFloat4("Mask_End", vMaskValueEnd);
+            if (ImGui::TreeNode("Mask Value")) {
+                _float vMaskValueStart[4] = { m_pTargetObject->Get_MaskValue()[0].x, m_pTargetObject->Get_MaskValue()[0].y, m_pTargetObject->Get_MaskValue()[0].z , m_pTargetObject->Get_MaskValue()[0].w };
+                _float vMaskValueEnd[4] = { m_pTargetObject->Get_MaskValue()[1].x, m_pTargetObject->Get_MaskValue()[1].y, m_pTargetObject->Get_MaskValue()[1].z, m_pTargetObject->Get_MaskValue()[1].w };
+                ImGui::InputFloat4("Mask_Start", vMaskValueStart);
+                ImGui::InputFloat4("Mask_End", vMaskValueEnd);
 
-            _float4 vMaskValue[2] = {
-                { vMaskValueStart[0], vMaskValueStart[1], vMaskValueStart[2], vMaskValueStart[3]},
-                { vMaskValueEnd[0], vMaskValueEnd[1], vMaskValueEnd[2], vMaskValueEnd[3] } };
+                _float4 vMaskValue[2] = {
+                    { vMaskValueStart[0], vMaskValueStart[1], vMaskValueStart[2], vMaskValueStart[3]},
+                    { vMaskValueEnd[0], vMaskValueEnd[1], vMaskValueEnd[2], vMaskValueEnd[3] } };
 
-            m_pTargetObject->Set_MaskValue(vMaskValue);
+                m_pTargetObject->Set_MaskValue(vMaskValue);
+                ImGui::TreePop();
+            }
 
             if (ImGui::TreeNode("Movement")) {
                 _float fTextureMovement[2] = { m_pTargetObject->Get_TextureTimeDelta().x, m_pTargetObject->Get_TextureTimeDelta().y };
@@ -324,10 +359,13 @@ void CEffectTool::Effect_Window()
             }
 
             if (ImGui::TreeNode("Lerp")) {
-                _float fLerpScale[3] = { m_pTargetObject->Get_LerpScale().x, m_pTargetObject->Get_LerpScale().y, m_pTargetObject->Get_LerpScale().z };
-                ImGui::InputFloat3("Lerp", fLerpScale);
-                m_pTargetObject->Set_LerpScale({ fLerpScale[0], fLerpScale[1], fLerpScale[2] });
+                _float fLerpScaleStart[3] = { m_pTargetObject->Get_LerpScaleStart().x, m_pTargetObject->Get_LerpScaleStart().y, m_pTargetObject->Get_LerpScaleStart().z };
+                _float fLerpScaleEnd[3] = { m_pTargetObject->Get_LerpScaleEnd().x, m_pTargetObject->Get_LerpScaleEnd().y, m_pTargetObject->Get_LerpScaleEnd().z };
 
+                ImGui::InputFloat3("LerpStart", fLerpScaleStart);
+                ImGui::InputFloat3("LerpEnd", fLerpScaleEnd);
+                m_pTargetObject->Set_LerpScaleStart({ fLerpScaleStart[0], fLerpScaleStart[1], fLerpScaleStart[2] });
+                m_pTargetObject->Set_LerpScaleEnd({ fLerpScaleEnd[0], fLerpScaleEnd[1], fLerpScaleEnd[2] });
                 ImGui::TreePop();
             }
 
@@ -338,12 +376,138 @@ void CEffectTool::Effect_Window()
             if (ImGui::Button("Reset Time")) {
                 m_pTargetObject->Reset_Effect();
             }
+            ImGui::SameLine();
+            if (ImGui::Button("Reset Position")) {
+                m_pTargetObject->Reset_Position();
+            }
+            ImGui::SameLine();
+            if (ImGui::Button("Add to Candidate")) {
+                m_CandidateEffects.push_back(m_pTargetObject);
+            }
 
             Show_Picking_ImGUI();
         }
 
         ImGui::End();
     }
+}
+
+void CEffectTool::Save_Window()
+{
+    static int iCurrent_Saved_Effect_Index = INFINITE;
+    string filepath;
+    string filepathName;
+    
+    if (show_Save_window) {
+        ImGuiWindowFlags window_flags = 0;
+        window_flags |= ImGuiWindowFlags_NoMove;
+
+        ImGui::Begin("Save Effect Window", NULL, window_flags);                          // Create a window called "Hello, world!" and append into it.
+
+        ImGui::SeparatorText("Candidate  Effects");
+        if (ImGui::BeginListBox("Candidate \nEffect"))
+        {
+            bool is_selected;
+
+            for (_uint i = 0; i < m_CandidateEffects.size(); ++i)
+            {
+                is_selected = (m_iCandidate_Effect_Index == i);
+                if (ImGui::Selectable(m_CandidateEffects[i]->Get_Effect_Name().c_str(), is_selected)) {
+                    m_iCandidate_Effect_Index = i;
+                    m_pTargetObject = m_CandidateEffects[m_iCandidate_Effect_Index];
+                }
+            }
+
+            ImGui::EndListBox();
+        }
+
+        if (ImGui::Button("Delete")) {
+            if (m_iCandidate_Effect_Index < m_CandidateEffects.size()) {
+                m_CandidateEffects.erase(m_CandidateEffects.begin() + m_iCandidate_Effect_Index);
+                m_iCandidate_Effect_Index = INFINITE;
+                m_pTargetObject = nullptr;
+            }
+        }
+
+        // 저장된 파일 리스트 보이기
+
+        static _int iCurrent_Final_Effect_Index = INFINITE;
+        ImGui::SeparatorText("Saved Effects");
+
+        if (ImGui::BeginListBox("Final \nEffect"))
+        {
+            bool is_selected;
+
+            for (_uint i = 0; i < m_FinalEffects.size(); ++i)
+            {
+                const bool is_selected = (iCurrent_Final_Effect_Index == i);
+                char name[26];
+                sprintf_s(name, m_FinalEffects[i].c_str());
+                if (ImGui::Selectable(name, is_selected)) {
+                    iCurrent_Final_Effect_Index = (_int)i;
+                }
+            }
+            ImGui::EndListBox();
+        }
+
+        if (ImGui::Button("Reset")) {
+            iCurrent_Final_Effect_Index = INFINITE;
+        }
+
+        if (ImGui::Button("Save Effect")) {
+            IGFD::FileDialogConfig config;
+            config.path = "../Bin/Resources/Effect/";
+            config.countSelectionMax = 1;
+            config.flags = ImGuiFileDialogFlags_Modal;
+            ImGuiFileDialog::Instance()->OpenDialog("Choose Directory And FileName", "Choose File", ".*", config);
+        }
+
+        ImGui::SameLine();
+        if (ImGui::Button("Load Effect")) {
+            if (iCurrent_Final_Effect_Index <= m_FinalEffects.size()) {
+                Load_Effect(m_FinalEffects[iCurrent_Final_Effect_Index]);
+            }
+
+        }
+
+        ImGui::SameLine();
+        if (ImGui::Button("Delete Effect")) {
+            ImGui::OpenPopup("Delete?");
+
+        }
+        // About Popup
+        ImVec2 center = ImGui::GetMainViewport()->GetCenter();
+        ImGui::SetNextWindowPos(center, ImGuiCond_Appearing, ImVec2(0.5f, 0.5f));
+        if (ImGui::BeginPopupModal("Delete?", NULL, ImGuiWindowFlags_AlwaysAutoResize))
+        {
+            ImGui::Text("Are you sure to Delete?");
+            if (ImGui::Button("OK", ImVec2(60, 0))) {
+                if (!FAILED(Delete_Effect(m_FinalEffects[iCurrent_Final_Effect_Index]))) {
+                    Update_Saved_Effect();
+                }
+
+                ImGui::CloseCurrentPopup();
+            }
+            ImGui::SetItemDefaultFocus();
+            ImGui::SameLine();
+            if (ImGui::Button("Cancel", ImVec2(60, 0))) { ImGui::CloseCurrentPopup(); }
+            ImGui::EndPopup();
+        }
+
+        ImGui::End();
+    }
+
+    if (ImGuiFileDialog::Instance()->Display("Choose Directory And FileName")) {
+        m_pImGUI_Manager->EditFilePath(filepath, filepathName);
+
+        if (filepath != "" || filepathName != "") {
+            Save_Effect(filepath, filepathName);
+        }
+        Update_Saved_Effect();
+    }
+
+
+
 }
 
 HRESULT CEffectTool::Add_Components()
@@ -356,6 +520,90 @@ void CEffectTool::Update_KeyInput()
     if (m_pGameInstance->Get_KeyState(KEY_DOWN, DIK_ESCAPE)) {
         m_pTargetObject = nullptr;
     }
+}
+
+HRESULT CEffectTool::Update_Saved_Effect()
+{
+    m_FinalEffects.clear();
+
+    WIN32_FIND_DATAA data;
+    string		szFilePath = "../Bin/Resources/Effect/*";
+    HANDLE hFind = FindFirstFileA(szFilePath.c_str(), &data);
+
+    if (hFind == INVALID_HANDLE_VALUE)
+        return E_FAIL;
+
+    while (FindNextFileA(hFind, &data)) {
+        if ((data.dwFileAttributes & FILE_ATTRIBUTE_ARCHIVE &&
+            !(data.dwFileAttributes & FILE_ATTRIBUTE_SYSTEM)))
+        {
+            m_FinalEffects.push_back(data.cFileName);
+        }
+    }
+
+    return S_OK;
+}
+
+HRESULT CEffectTool::Save_Effect(string filepath, string filepathName)
+{
+    ofstream OFS{ filepath + "\\" + filepathName, ios::out | ios::binary };
+
+    size_t iEffectNum = m_CandidateEffects.size();
+    OFS.write(reinterpret_cast<const char*>(&iEffectNum), sizeof(size_t));
+
+    for (auto& pEffect : m_CandidateEffects)
+    {
+        pEffect->Save_Effect(OFS);
+    }
+    OFS.close();
+    return S_OK;
+}
+
+HRESULT CEffectTool::Delete_Effect(string strEffectTag)
+{
+    wstring wstrMapTag = L"";
+    wstrMapTag.assign(strEffectTag.begin(), strEffectTag.end());
+    wstring filePath = L"../Bin/Resources/Effect/" + wstrMapTag;
+    if (DeleteFile(filePath.c_str()))
+        return S_OK;
+    return E_FAIL;
+}
+
+HRESULT CEffectTool::Load_Effect(string strEffectTag)
+{
+    ifstream IFS{ "../Bin/Resources/Effect/" + strEffectTag, ios::in | ios::binary };
+
+    size_t iEffectNum = 0;
+    IFS.read(reinterpret_cast<char*>(&iEffectNum), sizeof(size_t));
+
+    for (size_t i = 0; i < iEffectNum; ++i) {
+        CEffect::TYPE eType = CEffect::EFFECT_END;
+        IFS.read(reinterpret_cast<char*>(&eType), sizeof(CEffect::TYPE));
+
+        if (eType == CEffect::EFFECT_END)
+            return E_FAIL;
+
+        CEffect* pEffect = { nullptr };
+
+        switch (eType) {
+        case CEffect::EFFECT_3D:
+            pEffect = CEffect_3D::Clone(m_pDevice, m_pContext, IFS);
+            break;
+        case CEffect::EFFECT_INSTANCE:
+            pEffect = CEffect_Instance::Clone(m_pDevice, m_pContext, IFS);
+            break;
+        }
+
+        if (nullptr == pEffect)
+            return E_FAIL;
+
+        m_pGameInstance->Add_Clone(g_Level, TEXT("Layer_Effect"), pEffect);
+        m_Effects.push_back(pEffect);
+        Safe_AddRef(pEffect);
+
+    }
+
+    return S_OK;
 }
 
 CEffect_3D* CEffectTool::Create_Effect_3D(_int iMeshIndex, const _char* EffectName)
@@ -433,20 +681,34 @@ CEffect_3D* CEffectTool::Create_Effect_3D(_int iMeshIndex, const _char* EffectNa
     return pInstance;
 }
 
-CEffect_Instance* CEffectTool::Create_Effect_Instance(CVIBuffer_Instance::INSTANCE_DESC InstanceDesc, const _char* EffectName)
+CEffect_Instance* CEffectTool::Create_Effect_Instance(CVIBuffer_Instance::INSTANCE_DESC InstanceDesc, _int eType, const _char* EffectName)
 {
     string str = string(EffectName);
     if (str.empty())
         return nullptr;
+    wstring strName;
+    strName.assign(str.begin(), str.end());
+    wstring strPrototypeTag = L"Prototype_Component_VIBuffer_Instance_" + strName;
     //Prototype_Component_VIBuffer_Instance_Rect
-    if (FAILED(m_pGameInstance->Add_Prototype(g_Level, TEXT("Prototype_Component_VIBuffer_Instance_" + *EffectName),
-        CVIBuffer_Instance_Rect::Create(m_pDevice, m_pContext, InstanceDesc))))
-        return nullptr;
+    if (eType == 0) {
+        if (FAILED(m_pGameInstance->Add_Prototype(g_Level, strPrototypeTag,
+            CVIBuffer_Instance_Rect::Create(m_pDevice, m_pContext, InstanceDesc))))
+            return nullptr;
+    }
+    else {
+        if (FAILED(m_pGameInstance->Add_Prototype(g_Level, strPrototypeTag,
+            CVIBuffer_Instance_Point::Create(m_pDevice, m_pContext, InstanceDesc))))
+            return nullptr;
+    }
+
 
     CEffect_Instance::EFFECT_INSTANCE_DESC pDesc = {};
+    pDesc.eInstanceType = Interface_Instance::TYPE(eType);
     pDesc.strEffectName = str;
+    pDesc.strBufferTag = strPrototypeTag;
     pDesc.vPosition = { 0.f,0.f,0.f,1.f };
     pDesc.vColor = { 1.f,1.f,1.f,1.f };
+    pDesc.eInstance_Desc = InstanceDesc;
 
     CEffect_Instance* pInstance = (CEffect_Instance*)m_pGameInstance->Add_Clone_With_Object(g_Level, TEXT("Layer_Effect"), TEXT("Prototype_GameObject_Effect_Instance"), &pDesc);
 
@@ -470,6 +732,11 @@ CEffectTool* CEffectTool::Create(ID3D11Device* pDevice, ID3D11DeviceContext* pCo
     }
 
     return pInstance;
+}
+
+CEffectTool* CEffectTool::Clone(ID3D11Device* pDevice, ID3D11DeviceContext* pContext, ifstream& IFS)
+{
+    return nullptr;
 }
 
 CGameObject* CEffectTool::Clone(void* pArg)

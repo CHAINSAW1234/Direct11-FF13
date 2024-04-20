@@ -29,7 +29,7 @@ HRESULT CRenderer::Initialize()
 		return E_FAIL;
 
 	/* For.Target_Depth */
-	if (FAILED(m_pGameInstance->Add_RenderTarget(TEXT("Target_Depth"), ViewportDesc.Width, ViewportDesc.Height, DXGI_FORMAT_R16G16B16A16_UNORM, _float4(0.f, 0.f, 0.f, 1.f))))
+	if (FAILED(m_pGameInstance->Add_RenderTarget(TEXT("Target_Depth"), ViewportDesc.Width, ViewportDesc.Height, DXGI_FORMAT_R32G32B32A32_FLOAT, _float4(0.f, 1.f, 0.f, 1.f))))
 		return E_FAIL;
 
 	/* For.Target_Shade */
@@ -72,19 +72,22 @@ HRESULT CRenderer::Initialize()
 
 	XMStoreFloat4x4(&m_ViewMatrix, XMMatrixIdentity());
 	XMStoreFloat4x4(&m_ProjMatrix, XMMatrixOrthographicLH(ViewportDesc.Width, ViewportDesc.Height, 0.f, 1.f));
-//
-//
-//#ifdef _DEBUG
-//	if (FAILED(m_pGameInstance->Ready_RTVDebug(TEXT("Target_Diffuse"), 150.0f, 150.0f, 300.f, 300.f)))
-//		return E_FAIL;
-//	if (FAILED(m_pGameInstance->Ready_RTVDebug(TEXT("Target_Normal"), 150.0f, 450.0f, 300.f, 300.f)))
-//		return E_FAIL;
-//	if (FAILED(m_pGameInstance->Ready_RTVDebug(TEXT("Target_Shade"), 450.0f, 150.0f, 300.f, 300.f)))
-//		return E_FAIL;
-//	if (FAILED(m_pGameInstance->Ready_RTVDebug(TEXT("Target_Specular"), 450.0f, 450.0f, 300.f, 300.f)))
-//		return E_FAIL;
-//
-//#endif
+
+
+#ifdef _DEBUG
+	if (FAILED(m_pGameInstance->Ready_RTVDebug(TEXT("Target_Diffuse"), 100.0f, 100.0f, 200.f, 200.f)))
+		return E_FAIL;
+	if (FAILED(m_pGameInstance->Ready_RTVDebug(TEXT("Target_Normal"), 100.0f, 300.0f, 200.f, 200.f)))
+		return E_FAIL;
+	if (FAILED(m_pGameInstance->Ready_RTVDebug(TEXT("Target_Depth"), 100.0f, 500.0f, 200.f, 200.f)))
+		return E_FAIL;
+	if (FAILED(m_pGameInstance->Ready_RTVDebug(TEXT("Target_Shade"), 300.0f, 100.0f, 200.f, 200.f)))
+		return E_FAIL;
+	if (FAILED(m_pGameInstance->Ready_RTVDebug(TEXT("Target_Specular"), 300.0f, 300.0f, 200.f, 200.f)))
+		return E_FAIL;
+
+#endif
+
 
 	return S_OK;
 }
@@ -109,10 +112,10 @@ HRESULT CRenderer::Render()
 #pragma region 빛 연산
 	if (FAILED(Render_NonBlend()))
 		return E_FAIL;
-	//if (FAILED(Render_Lights()))
-	//	return E_FAIL;
-	//if (FAILED(Render_Result()))
-	//	return E_FAIL;
+	if (FAILED(Render_Lights()))
+		return E_FAIL;
+	if (FAILED(Render_Result()))
+		return E_FAIL;
 #pragma endregion
 
 	if (FAILED(Render_NonLight()))
@@ -125,8 +128,8 @@ HRESULT CRenderer::Render()
 		return E_FAIL;
 
 #ifdef _DEBUG
-	if (FAILED(Render_Debug()))
-		return E_FAIL;
+	//if (FAILED(Render_Debug()))
+	//	return E_FAIL;
 #endif
 
 	return S_OK;
@@ -162,8 +165,8 @@ HRESULT CRenderer::Render_NonBlend()
 	/* 이 그룹에 있는 객체들을 다 빛연산이 필요하다. => 빛연산을 후처리로 할꺼다. */
 	/* 후처리를 위해서는 빛연산을 위한 데이터가 필요하다. => 빛 : 빛매니져, ☆노멀,재질☆ : 이새끼를 받아오고 싶어서!!!!! 렌더타겟에 ㅈ2ㅓ장해서 받아올라고!! */
 	/* Diffuse를 0번째에 셋, Normal를 1번째에 셋 */
-	//if (FAILED(m_pGameInstance->Begin_MRT(TEXT("MRT_GameObjects"))))
-	//	return E_FAIL;
+	if (FAILED(m_pGameInstance->Begin_MRT(TEXT("MRT_GameObjects"))))
+		return E_FAIL;
 
 	for (auto& pRenderObject : m_RenderObjects[RENDER_NONBLEND])
 	{
@@ -173,8 +176,8 @@ HRESULT CRenderer::Render_NonBlend()
 	}
 	m_RenderObjects[RENDER_NONBLEND].clear();
 
-	//if (FAILED(m_pGameInstance->End_MRT()))
-	//	return E_FAIL;
+	if (FAILED(m_pGameInstance->End_MRT()))
+		return E_FAIL;
 
 	return S_OK;
 }
@@ -195,10 +198,10 @@ HRESULT CRenderer::Render_NonLight()
 
 HRESULT CRenderer::Render_Blend()
 {
-	//m_RenderObjects[RENDER_BLEND].sort([](CGameObject* pSour, CGameObject* pDest)->_bool
-	//{
-	//	return ((CBlendObject*)pSour)->Get_ViewZ() > ((CBlendObject*)pDest)->Get_ViewZ();
-	//});
+	m_RenderObjects[RENDER_BLEND].sort([](CGameObject* pSour, CGameObject* pDest)->_bool
+	{
+		return pSour->Get_ViewZ() > pDest->Get_ViewZ();
+	});
 
 	for (auto& pRenderObject : m_RenderObjects[RENDER_BLEND])
 	{
@@ -246,7 +249,17 @@ HRESULT CRenderer::Render_Lights()
 	if (FAILED(m_pShader->Bind_Matrix("g_ProjMatrix", &m_ProjMatrix)))
 		return E_FAIL;
 
+	if (FAILED(m_pShader->Bind_Matrix("g_ProjMatrixInv", &m_pGameInstance->Get_Transform_Float4x4_Inverse(CPipeLine::D3DTS_PROJ))))
+		return E_FAIL;
+	if (FAILED(m_pShader->Bind_Matrix("g_ViewMatrixInv", &m_pGameInstance->Get_Transform_Float4x4_Inverse(CPipeLine::D3DTS_VIEW))))
+		return E_FAIL;
+
+	if (FAILED(m_pShader->Bind_RawValue("g_vCamPosition", &m_pGameInstance->Get_CamPosition_Float4(), sizeof(_float4))))
+		return E_FAIL;
+
 	if (FAILED(m_pGameInstance->Bind_RTShaderResource(m_pShader, TEXT("Target_Normal"), "g_NormalTexture")))
+		return E_FAIL;
+	if (FAILED(m_pGameInstance->Bind_RTShaderResource(m_pShader, TEXT("Target_Depth"), "g_DepthTexture")))
 		return E_FAIL;
 
 	if (FAILED(m_pVIBuffer->Bind_Buffers()))
@@ -265,6 +278,7 @@ HRESULT CRenderer::Render_Lights()
 	return S_OK;
 }
 
+
 HRESULT CRenderer::Render_Result()
 {
 	/* 백버퍼에다가 디퍼드 방식으로 연산된 최종 결과물을 찍어준다. */
@@ -278,6 +292,8 @@ HRESULT CRenderer::Render_Result()
 	if (FAILED(m_pGameInstance->Bind_RTShaderResource(m_pShader, TEXT("Target_Diffuse"), "g_DiffuseTexture")))
 		return E_FAIL;
 	if (FAILED(m_pGameInstance->Bind_RTShaderResource(m_pShader, TEXT("Target_Shade"), "g_ShadeTexture")))
+		return E_FAIL;
+	if (FAILED(m_pGameInstance->Bind_RTShaderResource(m_pShader, TEXT("Target_Specular"), "g_SpecularTexture")))
 		return E_FAIL;
 
 	m_pShader->Begin(3);

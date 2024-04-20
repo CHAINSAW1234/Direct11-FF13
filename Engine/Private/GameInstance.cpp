@@ -10,6 +10,8 @@
 #include "Picking.h"
 #include "Light_Manager.h"
 #include "Font_Manager.h"
+#include "Extractor.h"
+#include "Frustum.h"
 
 IMPLEMENT_SINGLETON(CGameInstance)
 
@@ -73,6 +75,14 @@ HRESULT CGameInstance::Initialize_Engine(HINSTANCE hInstance, _uint iNumLevels, 
 	if (nullptr == m_pLight_Manager)
 		return E_FAIL;
 
+	m_pFrustum = CFrustum::Create();
+	if (nullptr == m_pFrustum)
+		return E_FAIL;
+
+	m_pExtractor = CExtractor::Create(*ppDevice, *ppContext);
+	if (nullptr == m_pExtractor)
+		return E_FAIL;
+
 	return S_OK;
 }
 
@@ -89,8 +99,9 @@ void CGameInstance::Tick_Engine(_float fTimeDelta)
 	m_pLevel_Manager->Tick(fTimeDelta);
 
 	m_pObject_Manager->Tick(fTimeDelta);
-	m_pPipeLine->Tick();
 
+	m_pPipeLine->Tick();
+	m_pFrustum->Tick();
 	m_pPicking->Update(m_pPipeLine);
 
 	m_pObject_Manager->Late_Tick(fTimeDelta);
@@ -214,6 +225,11 @@ HRESULT CGameInstance::Add_Clone(_uint iLevelIndex, const wstring & strLayerTag,
 	return m_pObject_Manager->Add_Clone(iLevelIndex, strLayerTag, strPrototypeTag, pArg);
 }
 
+HRESULT CGameInstance::Add_Clone(_uint iLevelIndex, const wstring& strLayerTag, CGameObject* pGameObject)
+{
+	return m_pObject_Manager->Add_Clone(iLevelIndex, strLayerTag, pGameObject);
+}
+
 void CGameInstance::Start()
 {
 	m_pObject_Manager->Start();
@@ -262,8 +278,10 @@ size_t CGameInstance::Get_LayerCnt(_uint iLevelIndex, const wstring& strLayerTag
 
 HRESULT CGameInstance::Add_Prototype(_uint iLevelIndex, const wstring & strPrototypeTag, CComponent * pPrototype)
 {
-	if (nullptr == m_pComponent_Manager)
+	if (nullptr == m_pComponent_Manager) {
+		Safe_Release(pPrototype);
 		return E_FAIL;
+	}
 
 	return m_pComponent_Manager->Add_Prototype(iLevelIndex, strPrototypeTag, pPrototype);
 }
@@ -371,11 +389,17 @@ HRESULT CGameInstance::Add_Light(const LIGHT_DESC& LightDesc)
 
 HRESULT CGameInstance::Render_Lights(CShader* pShader, CVIBuffer_Rect* pVIBuffer)
 {
+	if (nullptr == m_pLight_Manager)
+		return E_FAIL;
+
 	return m_pLight_Manager->Render(pShader, pVIBuffer);
 }
 
 HRESULT CGameInstance::Add_Font(ID3D11Device* pDevice, ID3D11DeviceContext* pContext, const wstring& strFontTag, const wstring& strFontFilePath)
 {
+	if (nullptr == m_pFont_Manager)
+		return E_FAIL;
+
 	return m_pFont_Manager->Add_Font(pDevice, pContext, strFontTag, strFontFilePath);
 }
 
@@ -386,16 +410,25 @@ HRESULT CGameInstance::Render_Font(const wstring& strFontTag, const wstring& str
 
 HRESULT CGameInstance::Add_RenderTarget(const wstring& strRenderTargetTag, _uint iSizeX, _uint iSizeY, DXGI_FORMAT ePixelFormat, const _float4& vClearColor)
 {
+	if (nullptr == m_pTarget_Manager)
+		return E_FAIL;
+
 	return m_pTarget_Manager->Add_RenderTarget(strRenderTargetTag, iSizeX, iSizeY, ePixelFormat, vClearColor);
 }
 
 HRESULT CGameInstance::Add_MRT(const wstring& strMRTTag, const wstring& strRenderTargetTag)
 {
+	if (nullptr == m_pTarget_Manager)
+		return E_FAIL;
+
 	return m_pTarget_Manager->Add_MRT(strMRTTag, strRenderTargetTag);
 }
 
 HRESULT CGameInstance::Begin_MRT(const wstring& strMRTTag)
 {
+	if (nullptr == m_pTarget_Manager)
+		return E_FAIL;
+
 	return m_pTarget_Manager->Begin_MRT(strMRTTag);
 }
 
@@ -406,17 +439,46 @@ HRESULT CGameInstance::End_MRT()
 
 HRESULT CGameInstance::Bind_RTShaderResource(CShader* pShader, const wstring& strRenderTargetTag, const _char* pConstantName)
 {
+	if (nullptr == m_pTarget_Manager)
+		return E_FAIL;
 
 	return m_pTarget_Manager->Bind_ShaderResource(pShader, strRenderTargetTag, pConstantName);
+}
+
+HRESULT CGameInstance::Copy_Resource(const wstring& strRenderTargetTag, ID3D11Texture2D** ppTextureHub)
+{
+	if (nullptr == m_pTarget_Manager)
+		return E_FAIL;
+
+	return m_pTarget_Manager->Copy_Resource(strRenderTargetTag, ppTextureHub);
+}
+
+_bool CGameInstance::isInFrustum_WorldSpace(_fvector vWorldPos, _float fRange)
+{
+	return m_pFrustum->isIn_WorldSpace(vWorldPos, fRange);
+}
+
+_vector CGameInstance::Compute_WorldPos(const _float2& vViewportPos, const wstring& strZRenderTargetTag, _uint iOffset)
+{
+	if (nullptr == m_pExtractor)
+		return XMVectorZero();
+
+	return m_pExtractor->Compute_WorldPos(vViewportPos, strZRenderTargetTag, iOffset);
 }
 
 #ifdef _DEBUG
 HRESULT CGameInstance::Ready_RTVDebug(const wstring& strRenderTargetTag, _float fX, _float fY, _float fSizeX, _float fSizeY)
 {
+	if (nullptr == m_pTarget_Manager)
+		return E_FAIL;
+
 	return m_pTarget_Manager->Ready_Debug(strRenderTargetTag, fX, fY, fSizeX, fSizeY);
 }
 HRESULT CGameInstance::Draw_RTVDebug(const wstring& strMRTTag, CShader* pShader, CVIBuffer_Rect* pVIBuffer)
 {
+	if (nullptr == m_pTarget_Manager)
+		return E_FAIL;
+
 	return m_pTarget_Manager->Render_Debug(strMRTTag, pShader, pVIBuffer);
 }
 #endif
@@ -442,4 +504,6 @@ void CGameInstance::Free()
 	Safe_Release(m_pGraphic_Device);
 	Safe_Release(m_pLight_Manager);
 	Safe_Release(m_pFont_Manager);
+	Safe_Release(m_pFrustum);
+	Safe_Release(m_pExtractor);
 }

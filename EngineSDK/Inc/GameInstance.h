@@ -42,6 +42,7 @@ public: /* For.Object_Manager */
 	void Start();
 	HRESULT Add_Prototype(const wstring& strPrototypeTag, class CGameObject* pPrototype);
 	HRESULT Add_Clone(_uint iLevelIndex, const wstring& strLayerTag, const wstring& strPrototypeTag, void* pArg = nullptr);
+	HRESULT Add_Clone(_uint iLevelIndex, const wstring& strLayerTag, class CGameObject* pGameObject);
 	class CGameObject* Add_Clone_With_Object(_uint iLevelIndex, const wstring& strLayerTag, const wstring& strPrototypeTag, void* pArg = nullptr);
 	class CGameObject* Clone_GameObject(const wstring& strPrototypeTag, void* pArg = nullptr);
 	class CGameObject* Get_GameObject(_uint iLevelIndex, const wstring& strLayerTag, _uint iIndex = 0);
@@ -85,6 +86,13 @@ public: /* For.Target_Manager */
 	HRESULT Begin_MRT(const wstring& strMRTTag);
 	HRESULT End_MRT();
 	HRESULT Bind_RTShaderResource(class CShader* pShader, const wstring& strRenderTargetTag, const _char* pConstantName);
+	HRESULT Copy_Resource(const wstring& strRenderTargetTag, ID3D11Texture2D** ppTextureHub);
+
+public: /* For.Frustum */
+	_bool isInFrustum_WorldSpace(_fvector vWorldPos, _float fRange = 0.f);
+
+public: /* For.Extractor */
+	_vector Compute_WorldPos(const _float2& vViewportPos, const wstring& strZRenderTargetTag, _uint iOffset = 0);
 
 
 #ifdef _DEBUG
@@ -106,6 +114,9 @@ private:
 	class CPipeLine*				m_pPipeLine = { nullptr };
 	class CLight_Manager*			m_pLight_Manager = { nullptr };
 	class CTarget_Manager*			m_pTarget_Manager = { nullptr };
+	class CFrustum*					m_pFrustum = { nullptr };
+	class CExtractor*				m_pExtractor = { nullptr };
+
 
 public:		
 	static void Release_Engine();

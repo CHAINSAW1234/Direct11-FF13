@@ -190,7 +190,9 @@ start .\UpdateLib.bat</Command>
     <ClCompile Include="..\Private\Component_Manager.cpp" />
     <ClCompile Include="..\Private\CustomFont.cpp" />
     <ClCompile Include="..\Private\DebugDraw.cpp" />
+    <ClCompile Include="..\Private\Extractor.cpp" />
     <ClCompile Include="..\Private\Font_Manager.cpp" />
+    <ClCompile Include="..\Private\Frustum.cpp" />
     <ClCompile Include="..\Private\FSM.cpp" />
     <ClCompile Include="..\Private\FSM_State.cpp" />
     <ClCompile Include="..\Private\GameInstance.cpp" />
@@ -252,7 +254,9 @@ start .\UpdateLib.bat</Command>
     <ClInclude Include="..\Public\Engine_Macro.h" />
     <ClInclude Include="..\Public\Engine_Struct.h" />
     <ClInclude Include="..\Public\Engine_Typedef.h" />
+    <ClInclude Include="..\Public\Extractor.h" />
     <ClInclude Include="..\Public\Font_Manager.h" />
+    <ClInclude Include="..\Public\Frustum.h" />
     <ClInclude Include="..\Public\FSM.h" />
     <ClInclude Include="..\Public\FSM_State.h" />
     <ClInclude Include="..\Public\GameInstance.h" />

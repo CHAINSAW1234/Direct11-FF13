@@ -33,9 +33,21 @@ public:
 public:
 	virtual _bool	Compute_Picking(const CTransform* pTransform, _Out_  _float4* vOutPos = nullptr);
 	virtual _float4 Compute_RandPosition() = 0;
+	void Begin();
+	void End();
 	virtual void Drop(_float fTimeDelta);
 	virtual void Spread(_float fTimeDelta);
-	void Compute_LifeTime(VTXMATRIX* pVertices, _uint iInstanceIndex, _float fTimeDelta);
+	virtual void Gather(_float fTimeDelta);
+	virtual void Set_Direction_To_Pivot_Up();
+	virtual void Set_Direction_To_Pivot_Up_Reverse();
+	virtual void Set_Direction_To_Pivot_Right();
+	virtual void Set_Direction_To_Pivot_Right_Reverse();
+	virtual void Set_Direction_To_Pivot_None();
+	virtual void Sin();				//sin 파 태우기 
+	virtual void Set_Up_Camera(_fmatrix CamMatrix);
+
+
+	void Compute_LifeTime(_float fTimeDelta);
 
 protected:
 	ID3D11Buffer* m_pVBInstance = { nullptr };
@@ -52,9 +64,9 @@ protected:
 protected:
 	random_device				m_RandomDevice;
 	mt19937_64					m_RandomNumber;
-	_float2* m_pLifeTimes = { nullptr };
-	_float* m_pSpeeds = { nullptr };
-
+	_float2*					m_pLifeTimes = { nullptr };
+	_float*						m_pSpeeds = { nullptr };
+	VTXMATRIX*					m_pVertices = { nullptr };
 public:
 	virtual CComponent* Clone(void* pArg) = 0;
 	virtual void Free() override;

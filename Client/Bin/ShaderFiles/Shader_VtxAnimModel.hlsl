@@ -5,16 +5,9 @@ matrix g_WorldMatrix, g_ViewMatrix, g_ProjMatrix;
 
 matrix g_BoneMatrices[512];
 
-vector g_vLightDir = vector(1.f, -1.f, 1.f, 0.f);
-vector g_vLightDiffuse = vector(1.f, 1.f, 1.f, 1.f);
-vector g_vLightAmbient = vector(1.f, 1.f, 1.f, 1.f);
-vector g_vLightSpecular = vector(1.f, 1.f, 1.f, 1.f);
-
 texture2D g_DiffuseTexture;
-vector g_vMtrlAmbient = vector(0.4f, 0.4f, 0.4f, 1.f);
-vector g_vMtrlSpecular = vector(1.f, 1.f, 1.f, 1.f);
+texture2D g_NormalTexture;
 
-vector g_vCamPosition;
 
 struct VS_IN
 {
@@ -30,9 +23,13 @@ struct VS_IN
 struct VS_OUT
 {
     float4 vPosition : SV_POSITION;
-    float4 vNormal   : NORMAL;
+    float3 vNormal : NORMAL;
     float2 vTexcoord : TEXCOORD0;
     float4 vWorldPos : TEXCOORD1;
+    float4 vProjPos : TEXCOORD2;
+
+    float3 vTangent : TANGENT;
+    float3 vBinormal : BINORMAL;
 };
 
 /* Á¤Á¡ ½¦ÀÌ´õ */
@@ -49,6 +46,7 @@ VS_OUT VS_MAIN(VS_IN In)
     
     vector vPosition = mul(vector(In.vPosition, 1.f), BoneMatrix);
     vector vNormal = mul(vector(In.vNormal, 0.f), BoneMatrix);
+    vector vTangent = mul(vector(In.vTangent, 0.f), BoneMatrix);
     
     matrix matWV, matWVP;
 
@@ -57,22 +55,31 @@ VS_OUT VS_MAIN(VS_IN In)
 
     Out.vPosition = mul(vPosition, matWVP);
     Out.vNormal = normalize(mul(vNormal, g_WorldMatrix));
+    Out.vTangent = normalize(mul(vTangent, g_WorldMatrix)).xyz;
+    Out.vBinormal = normalize(cross(Out.vNormal, Out.vTangent));
     Out.vTexcoord = In.vTexcoord;
     Out.vWorldPos = mul(vPosition, g_WorldMatrix);
+    Out.vProjPos = Out.vPosition;
     return Out;
 }
 
 struct PS_IN
 {
     float4 vPosition : SV_POSITION;
-    float4 vNormal   : NORMAL;
+    float3 vNormal : NORMAL;
     float2 vTexcoord : TEXCOORD0;
     float4 vWorldPos : TEXCOORD1;
+    float4 vProjPos : TEXCOORD2;
+
+    float3 vTangent : TANGENT;
+    float3 vBinormal : BINORMAL;
 };
 
 struct PS_OUT
 {
-    float4 vColor : SV_TARGET0;
+    float4 vDiffuse : SV_TARGET0;
+    float4 vNormal : SV_TARGET1;
+    float4 vDepth : SV_TARGET2;
 };
 
 PS_OUT PS_MAIN(PS_IN In)
@@ -83,15 +90,32 @@ PS_OUT PS_MAIN(PS_IN In)
 	if (0.3f >= vMtrlDiffuse.a)
 		discard;
 
-	vector	vShade = saturate(dot(normalize(g_vLightDir) * -1.f, In.vNormal)) + (g_vLightAmbient * g_vMtrlAmbient);
+    vector vNormalDesc = g_NormalTexture.Sample(LinearSampler, In.vTexcoord);
 
-	vector	vReflect = reflect(normalize(g_vLightDir), In.vNormal);
-	vector	vLook = normalize(In.vWorldPos - g_vCamPosition);
+    float3 vNormal = vNormalDesc.xyz * 2.f - 1.f;
 
-	float	fSpecular = pow(saturate(dot(normalize(vReflect) * -1.f, vLook)), 30.f);
+    float3x3 WorldMatrix = float3x3(In.vTangent, In.vBinormal, In.vNormal);
 
-	Out.vColor = (vMtrlDiffuse * g_vLightDiffuse) * saturate(vShade) +
-		(g_vLightSpecular * g_vMtrlSpecular) * fSpecular;	
+    float3 vWorldNormal = mul(vNormal, WorldMatrix);
+
+    Out.vDiffuse = vMtrlDiffuse;
+    Out.vNormal = vector(vWorldNormal * 0.5f + 0.5f, 0.f);
+    Out.vDepth = vector(In.vProjPos.z / In.vProjPos.w, In.vProjPos.w / 1000.0f, 0.0f, 0.0f);
+	
+    return Out;
+}
+
+PS_OUT PS_No_Normal(PS_IN In)
+{
+    PS_OUT Out = (PS_OUT) 0;
+
+    vector vMtrlDiffuse = g_DiffuseTexture.Sample(LinearSampler, In.vTexcoord);
+    if (0.3f >= vMtrlDiffuse.a)
+        discard;
+
+    Out.vDiffuse = vMtrlDiffuse;
+    Out.vNormal = float4(In.vNormal, 0.f);
+    Out.vDepth = vector(In.vProjPos.z / In.vProjPos.w, In.vProjPos.w / 1000.0f, 0.0f, 0.0f);
 	
     return Out;
 }
@@ -109,5 +133,18 @@ technique11 DefaultTechnique
         HullShader = /*compile hs_5_0 HS_MAIN()*/NULL;
         DomainShader = /*compile ds_5_0 DS_MAIN()*/NULL;
         PixelShader = compile ps_5_0 PS_MAIN();
+    }
+
+    pass No_Normal
+    {
+        SetRasterizerState(RS_Default);
+        SetDepthStencilState(DSS_Default, 0);
+        SetBlendState(BS_Default, float4(0.f, 0.f, 0.f, 0.f), 0xffffffff);
+
+        VertexShader = compile vs_5_0 VS_MAIN();
+        GeometryShader = /*compile gs_5_0 GS_MAIN()*/NULL;
+        HullShader = /*compile hs_5_0 HS_MAIN()*/NULL;
+        DomainShader = /*compile ds_5_0 DS_MAIN()*/NULL;
+        PixelShader = compile ps_5_0 PS_No_Normal();
     }
 }

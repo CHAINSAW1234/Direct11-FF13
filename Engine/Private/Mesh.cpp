@@ -288,6 +288,7 @@ HRESULT CMesh::Ready_Vertices_For_NonAnimModel(const aiMesh* pAIMesh, _fmatrix T
 
 		if (nullptr != pAIMesh->mTangents) {
 			memcpy(&pVertices[i].vTangent, &pAIMesh->mTangents[i], sizeof(_float3));
+			XMStoreFloat3(&pVertices[i].vTangent, XMVector3TransformNormal(XMLoadFloat3(&pVertices[i].vTangent), TransformMatrix));
 		}
 
 	}

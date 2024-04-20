@@ -220,9 +220,14 @@ HRESULT CMainApp::Ready_Prototype_Component_For_Static()
 		CShader::Create(m_pDevice, m_pContext, TEXT("../Bin/ShaderFiles/Shader_VtxPos.hlsl"), VTXPOS::Elements, VTXPOS::iNumElements))))
 		return E_FAIL;
 
-	/* For.Prototype_Component_Shader_VtxInstance */
+	/* For.Prototype_Component_Shader_VtxInstance_Rect */
 	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Shader_VtxInstance_Rect"),
-		CShader::Create(m_pDevice, m_pContext, TEXT("../Bin/ShaderFiles/Shader_VtxInstance.hlsl"), VTXINSTANCE_RECT::Elements, VTXINSTANCE_RECT::iNumElements))))
+		CShader::Create(m_pDevice, m_pContext, TEXT("../Bin/ShaderFiles/Shader_VtxInstance_Rect.hlsl"), VTXINSTANCE_RECT::Elements, VTXINSTANCE_RECT::iNumElements))))
+		return E_FAIL;
+
+	/* For.Prototype_Component_Shader_VtxInstance_Point */
+	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Shader_VtxInstance_Point"),
+		CShader::Create(m_pDevice, m_pContext, TEXT("../Bin/ShaderFiles/Shader_VtxInstance_Point.hlsl"), VTXINSTANCE_POINT::Elements, VTXINSTANCE_POINT::iNumElements))))
 		return E_FAIL;
 
 
@@ -239,8 +244,8 @@ HRESULT CMainApp::Ready_Gara_Light()
 	LightDesc.vDirection = _float4(1.f, -1.f, 1.f, 0.f);
 
 	LightDesc.vDiffuse = _float4(1.f, 1.f, 1.f, 1.f);
-	LightDesc.vAmbient = _float4(1.f, 1.f, 1.f, 1.f);
-	LightDesc.vSpecular = _float4(1.f, 1.f, 1.f, 1.f);
+	LightDesc.vAmbient = _float4(.4f, .4f, .4f, 1.f);
+	LightDesc.vSpecular = _float4(0.2f, 0.2f, 0.2f, 0.2f);
 
 	if (FAILED(m_pGameInstance->Add_Light(LightDesc)))
 		return E_FAIL;

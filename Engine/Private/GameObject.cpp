@@ -82,6 +82,7 @@ HRESULT CGameObject::Render()
 }
 
 
+
 HRESULT CGameObject::Add_Component(_uint iLevelIndex, const wstring & strPrototypeTag, const wstring & strComponentTag, CComponent** ppOut, void * pArg)
 {
 	CComponent*		pComponent = m_pGameInstance->Clone_Component(iLevelIndex, strPrototypeTag, pArg);
@@ -103,14 +104,14 @@ HRESULT CGameObject::Add_Component(_uint iLevelIndex, const wstring & strPrototy
 
 HRESULT CGameObject::Compute_ViewZ()
 {
-	//_float4		vPosition = m_pTransformCom->Get_State_Float4(CTransform::STATE_POSITION);
+	_float4		vPosition = m_pTransformCom->Get_State_Float4(CTransform::STATE_POSITION);
 
-	//_matrix  ViewMatrix = m_pGameInstance->Get_Transform_Matrix(CPipeLine::D3DTS_VIEW);
+	_matrix  ViewMatrix = m_pGameInstance->Get_Transform_Matrix(CPipeLine::D3DTS_VIEW);
 
-	//
-	//XMStoreFloat4(&vPosition, XMVector3TransformCoord(XMLoadFloat4(&vPosition), ViewMatrix));
-	//
-	//m_fViewZ = vPosition.z;
+	
+	XMStoreFloat4(&vPosition, XMVector3TransformCoord(XMLoadFloat4(&vPosition), ViewMatrix));
+	
+	m_fViewZ = vPosition.z;
 
 	return S_OK;
 }

@@ -19,8 +19,10 @@ protected:
 public:
 	class CComponent*	Get_Component(const wstring& strComTag);
 	_bool Get_Dead() { return m_isDead; }
+	_float Get_ViewZ() { Compute_ViewZ(); return  m_fViewZ; }
 	void Set_Dead(_bool isDead) { m_isDead = isDead; }
 	void Set_RotationPerSec(_float fRotationPerSec) { m_pTransformCom->Set_RotationPerSec(fRotationPerSec); }
+
 public:
 	virtual HRESULT Initialize_Prototype();
 	virtual HRESULT Initialize(void* pArg);
@@ -38,6 +40,8 @@ protected:
 
 	_uint						m_eLevel = { INT_MAX };
 	_bool						m_isDead = { false };
+
+	_float						m_fViewZ = { 0.0f };
 
 protected:
 	map<const wstring, class CComponent*>		m_Components;
