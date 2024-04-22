@@ -71,6 +71,7 @@ HRESULT CBoss::Render()
 
 void CBoss::Start()
 {
+
     m_pTargetObject = dynamic_cast<CChr_Battle*>(m_pGameInstance->Get_GameObject(g_Level, g_strChrLayerTag, 0));
     _float4 vPosition = m_pTransformCom->Get_State_Float4(CTransform::STATE_POSITION);
     vPosition.y += 5.f;
@@ -84,6 +85,10 @@ void CBoss::Start()
     else
         Change_State(STATE_FIELD);
 
+    if (g_Level == LEVEL_EFFECTTOOL) {
+        Change_State(STATE_FIELD);
+        return;
+    }
 
     m_pNavigationCom->Set_Index(m_pTransformCom->Get_State_Vector(CTransform::STATE_POSITION));
 

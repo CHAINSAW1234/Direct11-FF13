@@ -33,11 +33,14 @@ public:
 public:
 	virtual _bool	Compute_Picking(const CTransform* pTransform, _Out_  _float4* vOutPos = nullptr);
 	virtual _float4 Compute_RandPosition() = 0;
+	virtual void	Reset_Instance();
 	void Begin();
 	void End();
 	virtual void Drop(_float fTimeDelta);
 	virtual void Spread(_float fTimeDelta);
 	virtual void Gather(_float fTimeDelta);
+	virtual void Move_Dir(_fvector vDir, _float fTimeDelta);
+
 	virtual void Set_Direction_To_Pivot_Up();
 	virtual void Set_Direction_To_Pivot_Up_Reverse();
 	virtual void Set_Direction_To_Pivot_Right();
@@ -50,11 +53,11 @@ public:
 	void Compute_LifeTime(_float fTimeDelta);
 
 protected:
-	ID3D11Buffer* m_pVBInstance = { nullptr };
+	ID3D11Buffer*			m_pVBInstance = { nullptr };
 	_uint					m_iInstanceStride = { 0 };
 	_uint					m_iNumInstance = { 0 };
 	_uint					m_iIndexCountPerInstance = { 0 };
-	VTXMATRIX* m_pInstanceVertices = { nullptr };
+	VTXMATRIX*				m_pInstanceVertices = { nullptr };
 	INSTANCE_DESC			m_InstanceDesc{};
 
 protected:

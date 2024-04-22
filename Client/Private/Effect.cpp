@@ -26,8 +26,7 @@ HRESULT CEffect::Initialize(void* pArg)
 	m_strEffectName = pDesc->strEffectName;
 
 	GAMEOBJECT_DESC		GameObjectDesc{};
-
-	GameObjectDesc.fSpeedPerSec = 10.f;
+	GameObjectDesc.fSpeedPerSec = 1.f;
 	GameObjectDesc.fRotationPerSec = XMConvertToRadians(360.f);
 
 	if (FAILED(__super::Initialize(&GameObjectDesc)))
@@ -49,6 +48,7 @@ void CEffect::Tick(_float fTimeDelta)
 
 	Update_Texture_Movement(fTimeDelta);
 	Turn(fTimeDelta);
+	Move(fTimeDelta);
 	Lerp();
 }
 
@@ -67,6 +67,11 @@ HRESULT CEffect::Render()
 
 void CEffect::Start()
 {
+}
+
+void CEffect::Set_Move(_float4 vMoveDir)
+{
+	XMStoreFloat4(&m_vMoveDir, XMLoadFloat4(&vMoveDir));
 }
 
 void CEffect::Set_Turn(_float4 vTurnDir)
@@ -96,15 +101,21 @@ HRESULT CEffect::Save_Effect(ofstream& OFS)
 	OFS.write(reinterpret_cast<const char*>(&m_iMaskTextureIndex), sizeof(_float));
 	OFS.write(reinterpret_cast<const char*>(&m_iDissolveTextureIndex), sizeof(_float));
 
+	OFS.write(reinterpret_cast<const char*>(&m_fTextureMovementTimeDelta), sizeof(_float2));
+
 	// 5. MaskValue
 	OFS.write(reinterpret_cast<const char*>(&m_vMaskValue[0]), sizeof(_float4));
 	OFS.write(reinterpret_cast<const char*>(&m_vMaskValue[1]), sizeof(_float4));
 
-	// 6. Turn
+	// 6. Move
+	OFS.write(reinterpret_cast<const char*>(&m_fMoveSpeed), sizeof(_float));
+	OFS.write(reinterpret_cast<const char*>(&m_vMoveDir), sizeof(_float4));
+
+	// 7. Turn
 	OFS.write(reinterpret_cast<const char*>(&m_fTurnSpeed), sizeof(_float));
 	OFS.write(reinterpret_cast<const char*>(&m_vTurnDir), sizeof(_float4));
 
-	// 7. Lerp
+	// 8. Lerp
 	OFS.write(reinterpret_cast<const char*>(&m_vLerpScaleStart), sizeof(_float3));
 	OFS.write(reinterpret_cast<const char*>(&m_vLerpScaleEnd), sizeof(_float3));
 
@@ -133,15 +144,21 @@ HRESULT CEffect::Load_Effect(ifstream& IFS)
 	IFS.read(reinterpret_cast<char*>(&m_iMaskTextureIndex), sizeof(_float));
 	IFS.read(reinterpret_cast<char*>(&m_iDissolveTextureIndex), sizeof(_float));
 
+	IFS.read(reinterpret_cast<char*>(&m_fTextureMovementTimeDelta), sizeof(_float2));
+
 	// 5. MaskValue
 	IFS.read(reinterpret_cast<char*>(&m_vMaskValue[0]), sizeof(_float4));
 	IFS.read(reinterpret_cast<char*>(&m_vMaskValue[1]), sizeof(_float4));
 
-	// 6. Turn
+	//// 6. Move
+	IFS.read(reinterpret_cast<char*>(&m_fMoveSpeed), sizeof(_float));
+	IFS.read(reinterpret_cast<char*>(&m_vMoveDir), sizeof(_float4));
+
+	// 7. Turn
 	IFS.read(reinterpret_cast<char*>(&m_fTurnSpeed), sizeof(_float));
 	IFS.read(reinterpret_cast<char*>(&m_vTurnDir), sizeof(_float4));
 
-	// 7. Lerp
+	// 8. Lerp
 	IFS.read(reinterpret_cast<char*>(&m_vLerpScaleStart), sizeof(_float3));
 	IFS.read(reinterpret_cast<char*>(&m_vLerpScaleEnd), sizeof(_float3));
 
@@ -159,9 +176,9 @@ void CEffect::Reset_Effect()
 
 void CEffect::Reset_Position()
 {
-	_float4 vPosition = m_pTransformCom->Get_State_Float4(CTransform::STATE_POSITION);
+	//_float4 vPosition = m_pTransformCom->Get_State_Float4(CTransform::STATE_POSITION);
 	m_pTransformCom->Set_WorldMatrix(XMMatrixIdentity());
-	m_pTransformCom->Set_State(CTransform::STATE_POSITION, vPosition);
+	//m_pTransformCom->Set_State(CTransform::STATE_POSITION, vPosition);
 }
 
 void CEffect::Update_Texture_Movement(_float fTimeDelta)
@@ -181,6 +198,16 @@ void CEffect::Turn(_float fTimeDelta)
 		return;
 
 	m_pTransformCom->Turn(vTurnDir, fTimeDelta * m_fTurnSpeed);
+}
+
+void CEffect::Move(_float fTimeDelta)
+{
+	_vector vMoveDir = XMVectorSetW(XMVector3Normalize(XMLoadFloat4(&m_vMoveDir)), 0.f);
+	if (XMVector3Equal(vMoveDir, XMVectorSet(0.f, 0.f, 0.f, 0.f)))
+		return;
+
+	m_pTransformCom->Move_To_Direction(vMoveDir, fTimeDelta * m_fMoveSpeed);
+
 }
 
 void CEffect::Lerp()

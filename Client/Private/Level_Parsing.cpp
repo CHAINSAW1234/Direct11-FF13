@@ -53,70 +53,19 @@ HRESULT CLevel_Parsing::Ready_Models()
 
 	string tag = ".fbx";
 	string path = "";
-	//string tag = ".bin";
 
-
-#pragma region Map_Object
-	/*
-	path = "../Bin/Resources/Models/MapObject/MapObject/Map_Field" + tag;
-	CModel* pModel = { nullptr };
-	pModel = CModel::Create(m_pDevice, m_pContext, CModel::TYPE_NONANIM, path, XMMatrixIdentity());
-	if (nullptr == pModel)
-		return E_FAIL;
-	m_Models.push_back(pModel);
-
-	path = "../Bin/Resources/Models/MapObject/MapObject/Map_Battle" + tag;
-	pModel = { nullptr };
-	pModel = CModel::Create(m_pDevice, m_pContext, CModel::TYPE_NONANIM, path, XMMatrixIdentity());
-	if (nullptr == pModel)
-		return E_FAIL;
-	m_Models.push_back(pModel);
-
-	path = "../Bin/Resources/Models/MapObject/MapObject/Map_BossBattle_1" + tag;
-	pModel = { nullptr };
-	pModel = CModel::Create(m_pDevice, m_pContext, CModel::TYPE_NONANIM, path, XMMatrixIdentity());
-	if (nullptr == pModel)
-		return E_FAIL;
-	m_Models.push_back(pModel);
-
-	path = "../Bin/Resources/Models/MapObject/MapObject/Map_BossBattle_2" + tag;
-	pModel = { nullptr };
-	pModel = CModel::Create(m_pDevice, m_pContext, CModel::TYPE_NONANIM, path, XMMatrixIdentity());
-	if (nullptr == pModel)
-		return E_FAIL;
-	m_Models.push_back(pModel);
-	*/
-#pragma endregion
-
-	// 2. Animmodel;
-	
 	_matrix		TransformMatrix = XMMatrixIdentity();
 
 	//TransformMatrix = XMMatrixRotationY(XMConvertToRadians(180.0f));
 	//TransformMatrix.r[3].m128_f32[1] = -5.f;
 
-	path = "../Bin/Resources/Models/Effect/Default/Sphere.fbx";
+	path = "../Bin/Resources/Models/Effect/Default/Wind.fbx";
 
 	CModel* pModel = { nullptr };
 	pModel = CModel::Create(m_pDevice, m_pContext, CModel::TYPE_NONANIM, path, TransformMatrix);
 	if (nullptr == pModel)
 		return E_FAIL;
 	m_Models.push_back(pModel);
-
-
-	//_matrix		TransformMatrix = XMMatrixIdentity();
-
-	///* Prototype_Component_Model_Fiona */
-	//TransformMatrix = XMMatrixRotationY(XMConvertToRadians(180.0f));
-
-	//string path = "../Bin/Resources/Models/Fiona/Fiona.fbx";
-
-	//CModel* pModel = { nullptr };
-	//pModel = CModel::Create(m_pDevice, m_pContext, CModel::TYPE_ANIM, path, TransformMatrix);
-
-	//if (nullptr == pModel)
-	//	return E_FAIL;
-	//m_Models.push_back(pModel);
 
 	return S_OK;
 }
@@ -126,27 +75,7 @@ HRESULT CLevel_Parsing::Parse_Models()
 {
 	string path = "";
 
-#pragma region Map_Object
-
-	/*path = "../Bin/Resources/Models/MapObject/MapObject/Map_Field.bin";
-	if (FAILED(m_Models[0]->Save_Model(path)))
-		return E_FAIL;
-
-	path = "../Bin/Resources/Models/MapObject/MapObject/Map_Battle.bin";
-	if (FAILED(m_Models[1]->Save_Model(path)))
-		return E_FAIL;
-
-	path = "../Bin/Resources/Models/MapObject/MapObject/Map_BossBattle_1.bin";
-	if (FAILED(m_Models[2]->Save_Model(path)))
-		return E_FAIL;
-
-	path = "../Bin/Resources/Models/MapObject/MapObject/Map_BossBattle_2.bin";
-	if (FAILED(m_Models[3]->Save_Model(path)))
-		return E_FAIL;*/
-
-#pragma endregion
-
-	path = "../Bin/Resources/Models/Effect/Default/Sphere.bin";
+	path = "../Bin/Resources/Models/Effect/Default/Wind.bin";
 	if (FAILED(m_Models[0]->Save_Model(path)))
 		return E_FAIL;
 

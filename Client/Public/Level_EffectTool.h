@@ -16,8 +16,12 @@ public:
 	virtual HRESULT Render() override;
 
 private:
+	HRESULT Read_Map();
+	HRESULT Create_MapObject(const wstring strModelTag, _float4x4 WorldMatrix);
 	HRESULT Ready_Layer_Camera(const wstring& strLayerTag);
 	HRESULT Ready_Layer_BackGround(const wstring& strLayerTag);
+	HRESULT Ready_Layer_Monster(const wstring& strLayerTag);
+
 	HRESULT Ready_Layer_IMGUI(const wstring& strLayerTag);
 	//private:
 	//	void	LoadData(const wstring& strLayerTag);

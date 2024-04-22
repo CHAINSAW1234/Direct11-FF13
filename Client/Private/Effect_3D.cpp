@@ -114,6 +114,7 @@ HRESULT CEffect_3D::Save_Effect(ofstream& OFS)
 
 HRESULT CEffect_3D::Initialize_Load(ifstream& IFS)
 {
+	m_eType = EFFECT_3D;
 	if (FAILED(Load_Effect(IFS)))
 		return E_FAIL;
 
@@ -158,12 +159,12 @@ HRESULT CEffect_3D::Add_Components()
 		return E_FAIL;
 	
 	/* For.Com_DiffuseTexture */
-	if (FAILED(__super::Add_Component(g_Level, TEXT("Prototype_Component_Texture_Mask"),
+	if (FAILED(__super::Add_Component(g_Level, TEXT("Prototype_Component_Texture_Diffuse"),
 		TEXT("Com_DiffuseTexture"), (CComponent**)&m_pDiffuseTextureCom)))
 		return E_FAIL;
 
 	/* For.Com_MaskTexture */
-	if (FAILED(__super::Add_Component(g_Level, TEXT("Prototype_Component_Texture_Mask"),
+	if (FAILED(__super::Add_Component(g_Level, TEXT("Prototype_Component_Texture_Diffuse"),
 		TEXT("Com_MaskTexture"), (CComponent**)&m_pMaskTextureCom)))
 		return E_FAIL;
 

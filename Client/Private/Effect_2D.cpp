@@ -58,7 +58,7 @@ HRESULT CEffect_2D::Render()
 	if (FAILED(Bind_ShaderResources()))
 		return E_FAIL;
 
-	if (FAILED(m_pShaderCom->Begin(3)))		//default
+	if (FAILED(m_pShaderCom->Begin(4)))		//default
 		return E_FAIL;
 
 	if (FAILED(m_pVIBufferCom->Render()))
@@ -95,6 +95,11 @@ HRESULT CEffect_2D::Add_Components()
 		TEXT("Com_Texture"), (CComponent**)&m_pTextureCom)))
 		return E_FAIL;
 
+	/* For.Com_VIBuffer */
+	if (FAILED(__super::Add_Component(g_Level, TEXT("Prototype_Component_Texture_Fire"),
+		TEXT("Com_Texture_Diffuse"), (CComponent**)&m_pDiffuseTextureCom)))
+		return E_FAIL;
+
 	return S_OK;
 }
 
@@ -112,8 +117,8 @@ HRESULT CEffect_2D::Bind_ShaderResources()
 	if (FAILED(m_pShaderCom->Bind_RawValue("g_Color", &m_vColor, sizeof(_float4))))
 		return E_FAIL;
 
-	m_pTextureCom->Bind_ShaderResource(m_pShaderCom, "g_Texture", m_tFrame.iCurFrame);
-
+	m_pTextureCom->Bind_ShaderResource(m_pShaderCom, "g_MaskTexture", m_tFrame.iCurFrame);
+	m_pDiffuseTextureCom->Bind_ShaderResource(m_pShaderCom, "g_Texture", 0);
 	if (FAILED(m_pVIBufferCom->Bind_Buffers()))
 		return E_FAIL;
 

@@ -86,6 +86,21 @@ _bool CVIBuffer_Instance::Compute_Picking(const CTransform* pTransform, _float4*
 	return false;
 }
 
+void CVIBuffer_Instance::Reset_Instance()
+{
+	Begin();
+	for (size_t i = 0; i < m_iNumInstance; i++)
+	{
+		m_pVertices[i].isLived = true;
+
+		m_pLifeTimes[i].x = 0.f;
+		m_pVertices[i].vPosition = Compute_RandPosition();
+		
+		
+	}
+	End();
+}
+
 void CVIBuffer_Instance::Begin()
 {
 	D3D11_MAPPED_SUBRESOURCE		SubResource{};
@@ -133,6 +148,18 @@ void CVIBuffer_Instance::Gather(_float fTimeDelta)
 
 		XMStoreFloat4(&m_pVertices[i].vPosition,
 			XMLoadFloat4(&m_pVertices[i].vPosition) - XMVector3Normalize(vDir) * m_pSpeeds[i] * fTimeDelta);
+	}
+}
+
+void CVIBuffer_Instance::Move_Dir(_fvector vDir, _float fTimeDelta)
+{
+	if (XMVector3Equal(vDir, XMVectorSet(0.f, 0.f, 0.f, 0.f)))
+		return;
+
+	for (size_t i = 0; i < m_iNumInstance; i++)
+	{ 
+		XMStoreFloat4(&m_pVertices[i].vPosition,
+			XMLoadFloat4(&m_pVertices[i].vPosition) + XMVector3Normalize(vDir) * m_pSpeeds[i] * fTimeDelta);
 	}
 }
 

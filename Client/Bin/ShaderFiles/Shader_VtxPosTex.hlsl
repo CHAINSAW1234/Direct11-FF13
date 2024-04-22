@@ -4,6 +4,7 @@
 matrix g_WorldMatrix, g_ViewMatrix, g_ProjMatrix;
 
 texture2D	g_Texture;
+texture2D g_MaskTexture;
 float4 g_Color;
 
 struct VS_IN
@@ -71,13 +72,20 @@ PS_OUT PS_COLOR(PS_IN In)
     return Out;
 }
 
-PS_OUT PS_TEST(PS_IN In)
+PS_OUT PS_MASK(PS_IN In)
 {
     PS_OUT Out = (PS_OUT) 0;
 
-    Out.vColor = float4(1.f, 1.f, 1.f, 1.f);
+    Out.vColor = g_Texture.Sample(LinearSampler, In.vTexcoord);
+    
+    if (Out.vColor.a < 0.3)
+        discard;
+		
+    if (g_MaskTexture.Sample(LinearSampler, In.vTexcoord).a < 0.3)
+        discard;
+    
    
-    return Out;
+        return Out;
 }
 
 
@@ -111,7 +119,7 @@ technique11 DefaultTechnique
     }
 
 
-    pass Color
+    pass Color  // 2
     {
         SetRasterizerState(RS_Default);
         SetDepthStencilState(DSS_Default, 0);
@@ -135,6 +143,19 @@ technique11 DefaultTechnique
         HullShader = /*compile hs_5_0 HS_MAIN()*/NULL;
         DomainShader = /*compile ds_5_0 DS_MAIN()*/NULL;
         PixelShader = compile ps_5_0 PS_COLOR();
+    }
+
+    pass Mask       //4
+    {
+        SetRasterizerState(RS_Default);
+        SetDepthStencilState(DSS_Default, 0);
+        SetBlendState(BS_AlphaBlend, float4(0.f, 0.f, 0.f, 0.f), 0xffffffff);
+
+        VertexShader = compile vs_5_0 VS_MAIN();
+        GeometryShader = /*compile gs_5_0 GS_MAIN()*/NULL;
+        HullShader = /*compile hs_5_0 HS_MAIN()*/NULL;
+        DomainShader = /*compile ds_5_0 DS_MAIN()*/NULL;
+        PixelShader = compile ps_5_0 PS_MASK();
     }
 
 }

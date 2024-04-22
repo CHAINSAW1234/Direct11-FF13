@@ -95,15 +95,15 @@ void CImGUI_Manager::EditTransform(_float4x4& matrix)
 	ImGuizmo::BeginFrame();
 	static ImGuizmo::OPERATION mCurrentGizmoOperation(ImGuizmo::TRANSLATE);
 	static ImGuizmo::MODE mCurrentGizmoMode(ImGuizmo::WORLD);
-	//if (ImGui::IsKeyPressed(90))
-	if (CGameInstance::Get_Instance()->Get_KeyState(KEY_DOWN, DIK_Q))
-		mCurrentGizmoOperation = ImGuizmo::TRANSLATE;
-	//if (ImGui::IsKeyPressed(69))
-	if (CGameInstance::Get_Instance()->Get_KeyState(KEY_DOWN, DIK_E))
-		mCurrentGizmoOperation = ImGuizmo::ROTATE;
-	//if (ImGui::IsKeyPressed(82)) // r Key
-	if (CGameInstance::Get_Instance()->Get_KeyState(KEY_DOWN, DIK_R))
-		mCurrentGizmoOperation = ImGuizmo::SCALE;
+	////if (ImGui::IsKeyPressed(90))
+	//if (CGameInstance::Get_Instance()->Get_KeyState(KEY_DOWN, DIK_Q))
+	//	mCurrentGizmoOperation = ImGuizmo::TRANSLATE;
+	////if (ImGui::IsKeyPressed(69))
+	//if (CGameInstance::Get_Instance()->Get_KeyState(KEY_DOWN, DIK_E))
+	//	mCurrentGizmoOperation = ImGuizmo::ROTATE;
+	////if (ImGui::IsKeyPressed(82)) // r Key
+	//if (CGameInstance::Get_Instance()->Get_KeyState(KEY_DOWN, DIK_R))
+	//	mCurrentGizmoOperation = ImGuizmo::SCALE;
 	if (ImGui::RadioButton("Translate", mCurrentGizmoOperation == ImGuizmo::TRANSLATE))
 		mCurrentGizmoOperation = ImGuizmo::TRANSLATE;
 	ImGui::SameLine();

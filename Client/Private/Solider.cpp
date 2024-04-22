@@ -78,6 +78,12 @@ HRESULT CSolider::Render()
 
 void CSolider::Start()
 {
+	if (g_Level == LEVEL_EFFECTTOOL) {
+		Change_State(STATE_START);
+		return;
+	}
+
+
 	m_pTargetObject = dynamic_cast<CChr_Battle*>(m_pGameInstance->Get_GameObject(g_Level, g_strChrLayerTag, 0));
 	m_pNavigationCom->Set_Index(m_pTransformCom->Get_State_Vector(CTransform::STATE_POSITION));
 	//Safe_AddRef(m_pTargetObject);
@@ -85,7 +91,7 @@ void CSolider::Start()
 		Change_State(STATE_IDLE);
 		Change_Animation(BATTLE_IDLE, true);
 	}
-	else
+	else 
 		Change_State(STATE_FIELD);
 
 }

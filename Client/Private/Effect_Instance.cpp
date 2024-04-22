@@ -43,10 +43,18 @@ void CEffect_Instance::Tick(_float fTimeDelta)
 
 	m_pVIBufferCom->Compute_LifeTime(fTimeDelta);
 
-	if (m_isSpread)
+	switch (m_eMovement) {
+	case SPREAD:
 		m_pVIBufferCom->Spread(fTimeDelta);
-	else 
+		break;
+	case GATHER:
 		m_pVIBufferCom->Gather(fTimeDelta);
+		break;
+	case DIRECTION:
+		m_pVIBufferCom->Move_Dir(XMVectorSetW(XMVector3Normalize(XMLoadFloat4(&m_vDirection)), 0.f), fTimeDelta);
+		break;
+	}
+
 
 	m_pVIBufferCom->End();
 
@@ -128,7 +136,9 @@ HRESULT CEffect_Instance::Save_Effect(ofstream& OFS)
 	OFS.write(reinterpret_cast<const char*>(&m_eInstanceType), sizeof(Interface_Instance::TYPE));
 	OFS.write(reinterpret_cast<const char*>(&m_ePivotLook), sizeof(PIVOT_LOOK));
 
-	OFS.write(reinterpret_cast<const char*>(&m_isSpread), sizeof(_bool));
+	OFS.write(reinterpret_cast<const char*>(&m_eMovement), sizeof(Interface_Instance::MOVEMENT));
+	OFS.write(reinterpret_cast<const char*>(&m_vDirection), sizeof(_float4));
+
 	OFS.write(reinterpret_cast<const char*>(&m_isSin), sizeof(_bool));
 
 	return S_OK;
@@ -136,6 +146,7 @@ HRESULT CEffect_Instance::Save_Effect(ofstream& OFS)
 
 HRESULT CEffect_Instance::Initialize_Load(ifstream& IFS)
 {
+	m_eType = EFFECT_INSTANCE;
 	if (FAILED(Load_Effect(IFS)))
 		return E_FAIL;
 
@@ -169,10 +180,19 @@ HRESULT CEffect_Instance::Load_Effect(ifstream& IFS)
 	IFS.read(reinterpret_cast<char*>(&m_eInstanceType), sizeof(Interface_Instance::TYPE));
 	IFS.read(reinterpret_cast<char*>(&m_ePivotLook), sizeof(PIVOT_LOOK));
 
-	IFS.read(reinterpret_cast<char*>(&m_isSpread), sizeof(_bool));
+	IFS.read(reinterpret_cast<char*>(&m_eMovement), sizeof(Interface_Instance::MOVEMENT));
+	IFS.read(reinterpret_cast<char*>(&m_vDirection), sizeof(_float4));
+
 	IFS.read(reinterpret_cast<char*>(&m_isSin), sizeof(_bool));
 
 	return S_OK;
+}
+
+void CEffect_Instance::Reset_Effect()
+{
+	__super::Reset_Effect();
+	
+	m_pVIBufferCom->Reset_Instance();
 }
 
 HRESULT CEffect_Instance::Add_Components()

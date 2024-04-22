@@ -220,7 +220,7 @@
     <ClInclude Include="..\Public\Client_Defines.h" />
     <ClInclude Include="..\Public\Effect.h" />
     <ClInclude Include="..\Public\EffectTool.h" />
-    <ClInclude Include="..\Public\Effectt_2D_Bone.h" />
+    <ClInclude Include="..\Public\Effect_2D_Bone.h" />
     <ClInclude Include="..\Public\Effect_2D.h" />
     <ClInclude Include="..\Public\Effect_3D.h" />
     <ClInclude Include="..\Public\Effect_Instance.h" />
@@ -371,7 +371,7 @@
     <ClCompile Include="..\Private\Chr_Field_State_Walk.cpp" />
     <ClCompile Include="..\Private\Chr_Battle_Vanila_State_Idle.cpp" />
     <ClCompile Include="..\Private\Effect.cpp" />
-    <ClCompile Include="..\Private\Effectt_2D_Bone.cpp" />
+    <ClCompile Include="..\Private\Effect_2D_Bone.cpp" />
     <ClCompile Include="..\Private\Effect_2D.cpp" />
     <ClCompile Include="..\Private\Effect_Instance.cpp" />
     <ClCompile Include="..\Private\Effect_Interface.cpp" />

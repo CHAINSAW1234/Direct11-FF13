@@ -67,6 +67,8 @@ HRESULT CMonster::Late_Tick(_float fTimeDelta)
 
 #ifdef _DEBUG
     m_pGameInstance->Add_DebugComponents(m_pColliderCom);
+    m_pGameInstance->Add_DebugComponents(m_pCollider_WeaponCom);
+    m_pGameInstance->Add_DebugComponents(m_pCollider_PushCom);
 #endif
 
     return S_OK;
@@ -96,15 +98,6 @@ HRESULT CMonster::Render()
 
         m_pModelCom->Render(i);
     }
-
-#ifdef _DEBUG
-    if (nullptr != m_pColliderCom)
-        m_pColliderCom->Render();
-    if (nullptr != m_pCollider_WeaponCom)
-        m_pCollider_WeaponCom->Render();
-    if (nullptr != m_pCollider_PushCom)
-        m_pCollider_PushCom->Render();
-#endif 
 
     return S_OK;
 }
@@ -450,6 +443,10 @@ HRESULT CMonster::Add_Components()
         TEXT("Com_Shader"), (CComponent**)&m_pShaderCom)))
         return E_FAIL;
 
+    if (FAILED(Add_Component_FSM()))
+        return E_FAIL;
+
+
     wstring strNaviTag;
     switch (m_eLevel) {
     case LEVEL_FIELD:
@@ -462,14 +459,15 @@ HRESULT CMonster::Add_Components()
     case LEVEL_BOSS_BATTLE:
         strNaviTag = TEXT("Prototype_Component_Navigation_Boss_Battle");
         break;
+    case LEVEL_EFFECTTOOL:
+        return S_OK;
+        break;
     }
 
     if (FAILED(__super::Add_Component(LEVEL_STATIC, strNaviTag,
         TEXT("Com_Navigation"), (CComponent**)&m_pNavigationCom)))
         return E_FAIL;
 
-    if (FAILED(Add_Component_FSM()))
-        return E_FAIL;
 
     return S_OK;
 }

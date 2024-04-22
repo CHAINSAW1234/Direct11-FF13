@@ -47,7 +47,7 @@ HRESULT CBody::Late_Tick(_float fTimeDelta)
 
 	XMStoreFloat4x4(&m_WorldMatrix, m_pTransformCom->Get_WorldMatrix() * XMLoadFloat4x4(m_pParentMatrix));
 
-	m_pGameInstance->Add_RenderGroup(CRenderer::RENDER_BLEND, this);
+	m_pGameInstance->Add_RenderGroup(CRenderer::RENDER_NONBLEND, this);
 
 	return S_OK;
 }
@@ -75,6 +75,9 @@ HRESULT CBody::Render()
 			if (FAILED(m_pShaderCom->Begin(0)))
 				return E_FAIL;
 		}
+
+		if (FAILED(m_pShaderCom->Begin(0)))
+			return E_FAIL;
 
 		m_pModelCom->Render(i);
 	}

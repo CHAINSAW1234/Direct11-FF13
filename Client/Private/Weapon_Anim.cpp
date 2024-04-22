@@ -97,11 +97,6 @@ HRESULT CWeapon_Anim::Render()
 		m_pModelCom->Render(i);
 	}
 
-#ifdef _DEBUG
-	if (nullptr != m_pColliderCom)
-		m_pColliderCom->Render();
-#endif 
-
 	return S_OK;
 }
 
@@ -123,6 +118,11 @@ HRESULT CWeapon_Anim::Add_Components(const wstring& strModelTag, CBounding_OBB::
 			return E_FAIL;
 
 	return S_OK;
+}
+
+CBone* CWeapon_Anim::Get_BonePtr(const char* pBoneName)
+{
+	return m_pModelCom->Get_BonePtr(pBoneName);
 }
 
 _float4 CWeapon_Anim::Get_BonePosition(const char* pBoneName)

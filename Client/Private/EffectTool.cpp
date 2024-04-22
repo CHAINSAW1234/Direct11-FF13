@@ -143,6 +143,7 @@ void CEffectTool::Effect_Window()
 
                     ImGui::EndListBox();
                 }
+
                 ImGui::SameLine();
                 if (ImGui::Button("Add")) {
                     if (m_iCurrent_Effect_Index < m_Effects.size()) {
@@ -163,6 +164,13 @@ void CEffectTool::Effect_Window()
                     }
                 }
 
+                if (ImGui::Button("Reset All")) {
+                    for (auto& pEffect : m_Effects) {
+                        pEffect->Reset_Effect();
+                        pEffect->Reset_Position();
+                    }
+                }
+
                 ImGui::EndTabItem();
             }
 
@@ -173,10 +181,10 @@ void CEffectTool::Effect_Window()
                 static char buf[32];
                 ImGui::InputText("Name", buf, IM_ARRAYSIZE(buf));
 
-                const char* items[] = { "Cone", "Cube", "Cylinder", "Donut", "Sphere",
-                    "around_0", "around_1", "Empty_Cylinder", "Effect_1", "Effect_2",
-                    "Hit", "Optima_1", "Optima_2", "Optima_Cylinder", "Optima_Cylinder1", "Optima_Cylinder2"
-                };
+                const char* items[] = { "Capsule", "Circle", "Circle2", "Crack",
+                    "Cylinder", "Cylinder1", "Cylinder2", "Electricity", "Electricity2", "Shock",
+                    "Slash", "Sphere", "Thunder0", "Thunder1", "Thunder2", "Thunder3", "Thunder4", "Thunder5",
+                    "Tornado", "Trail", "Wind", "Effect_1", "Effect_2", "Optima1", "Optima2" };
                 static int iMeshIndex = 0;
                 ImGui::Combo("Select Mesh", &iMeshIndex, items, IM_ARRAYSIZE(items));
 
@@ -243,10 +251,17 @@ void CEffectTool::Effect_Window()
         CEffect_Instance* pTargetInstance = dynamic_cast<CEffect_Instance*>(m_pTargetObject);
         if (nullptr != pTargetInstance) {
             if (ImGui::TreeNode("Effect Instance")) {
-                _int iSpread = pTargetInstance->Get_Spread();
-                ImGui::RadioButton("Spread", &iSpread, 1); ImGui::SameLine();
-                ImGui::RadioButton("Gather", &iSpread, 0);
-                pTargetInstance->Set_Spread(iSpread);
+                _int iMovement = pTargetInstance->Get_Movement();
+                ImGui::RadioButton("Spread", &iMovement, 0); ImGui::SameLine();
+                ImGui::RadioButton("Gather", &iMovement, 1); ImGui::SameLine();
+                ImGui::RadioButton("Direction", &iMovement, 2);
+                pTargetInstance->Set_Movement((Interface_Instance::MOVEMENT)iMovement);
+
+                _float fDirection[3] = { pTargetInstance->Get_Direction().x, pTargetInstance->Get_Direction().y, pTargetInstance->Get_Direction().z } ;
+                ImGui::InputFloat3("Movement Direction", fDirection);
+
+                pTargetInstance->Set_Direction(_float4({ fDirection[0], fDirection[1], fDirection[2], 0}));
+
 
                 _int iPivotLook = pTargetInstance->Get_Pivot_Look();
                 ImGui::Text("Pivot Look");
@@ -263,112 +278,128 @@ void CEffectTool::Effect_Window()
 
         if (nullptr != m_pTargetObject) {
 
-            if (ImGui::TreeNode("Select Texture"))
+
+            if (ImGui::BeginTabBar("Target Effect", tab_bar_flags))
             {
-                _int iDiffuseTextureIndex = m_pTargetObject->Get_DiffuseTexture();
-                ImGui::Text("DiffuseTexture");
-                ImGui::InputInt("DiffuseTexture", &iDiffuseTextureIndex);
-                if (ImGui::Button("Reset_Diffuse")) {
-                    iDiffuseTextureIndex = 999;
-                }
-                if (iDiffuseTextureIndex != 999) {
-                    if (iDiffuseTextureIndex <= 0)
-                        iDiffuseTextureIndex = 0;
-                    if (iDiffuseTextureIndex >= 101)
-                        iDiffuseTextureIndex = 101;
-                }
-                m_pTargetObject->Set_DiffuseTexture(iDiffuseTextureIndex);
+                if (ImGui::BeginTabItem("Texture"))
+                {
+                    _int iDiffuseTextureIndex = m_pTargetObject->Get_DiffuseTexture();
+                    ImGui::Text("DiffuseTexture");
+                    ImGui::InputInt("DiffuseTexture", &iDiffuseTextureIndex);
+                    if (ImGui::Button("Reset_Diffuse")) {
+                        iDiffuseTextureIndex = 999;
+                    }
+                    if (iDiffuseTextureIndex != 999) {
+                        if (iDiffuseTextureIndex <= 0)
+                            iDiffuseTextureIndex = 0;
+                        if (iDiffuseTextureIndex >= 172)
+                            iDiffuseTextureIndex = 172;
+                    }
+                    m_pTargetObject->Set_DiffuseTexture(iDiffuseTextureIndex);
 
-                _int iMaskTextureIndex = m_pTargetObject->Get_MaskTexture();
-                ImGui::Text("MaskTexture");
-                ImGui::InputInt("MaskTexture", &iMaskTextureIndex);
-                if (ImGui::Button("Reset_Material")) {
-                    iMaskTextureIndex = 999;
-                }
-                if (iMaskTextureIndex != 999) {
-                    if (iMaskTextureIndex <= 0)
-                        iMaskTextureIndex = 0;
-                    if (iMaskTextureIndex >= 101)
-                        iMaskTextureIndex = 101;
-                }
-                m_pTargetObject->Set_MaskTexture(iMaskTextureIndex);
+                    _int iMaskTextureIndex = m_pTargetObject->Get_MaskTexture();
+                    ImGui::Text("MaskTexture");
+                    ImGui::InputInt("MaskTexture", &iMaskTextureIndex);
+                    if (ImGui::Button("Reset_Material")) {
+                        iMaskTextureIndex = 999;
+                    }
+                    if (iMaskTextureIndex != 999) {
+                        if (iMaskTextureIndex <= 0)
+                            iMaskTextureIndex = 0;
+                        if (iMaskTextureIndex >= 172)
+                            iMaskTextureIndex = 172;
+                    }
+                    m_pTargetObject->Set_MaskTexture(iMaskTextureIndex);
 
-                _int iDissolveTextureIndex = m_pTargetObject->Get_DissolveTexture();
-                ImGui::Text("DissolveTexture");
-                ImGui::InputInt("DissolveTexture", &iDissolveTextureIndex);
-                if (ImGui::Button("Reset_Dissolve")) {
-                    iDissolveTextureIndex = 999;
-                }
-                if (iDissolveTextureIndex != 999) {
-                    if (iDissolveTextureIndex <= 0)
-                        iDissolveTextureIndex = 0;
-                    if (iDissolveTextureIndex >= 101)
-                        iDissolveTextureIndex = 101;
-                }
-                m_pTargetObject->Set_DissolveTexture(iDissolveTextureIndex);
+                    _int iDissolveTextureIndex = m_pTargetObject->Get_DissolveTexture();
+                    ImGui::Text("DissolveTexture");
+                    ImGui::InputInt("DissolveTexture", &iDissolveTextureIndex);
+                    if (ImGui::Button("Reset_Dissolve")) {
+                        iDissolveTextureIndex = 999;
+                    }
+                    if (iDissolveTextureIndex != 999) {
+                        if (iDissolveTextureIndex <= 0)
+                            iDissolveTextureIndex = 0;
+                        if (iDissolveTextureIndex >= 172)
+                            iDissolveTextureIndex = 172;
+                    }
+                    m_pTargetObject->Set_DissolveTexture(iDissolveTextureIndex);
 
-                ImGui::TreePop();
+                    ImGui::EndTabItem();
+                }
+
+                if (ImGui::BeginTabItem("Color"))
+                {
+                    _float fColorMagnification = m_pTargetObject->Get_Color_Magnification();
+                    ImGui::InputFloat("Color Magnification", &fColorMagnification);
+                    m_pTargetObject->Set_Color_Magnification(fColorMagnification);
+
+                    static  ImGuiColorEditFlags iFlag = ImGuiColorEditFlags_Uint8 | ImGuiColorEditFlags_DisplayRGB | ImGuiColorEditFlags_InputRGB;
+                    iFlag |= ImGuiColorEditFlags_AlphaBar;
+
+                    _float vColor[4] = { m_pTargetObject->Get_Color().x,m_pTargetObject->Get_Color().y ,
+                    m_pTargetObject->Get_Color().z, m_pTargetObject->Get_Color().w };
+                    ImGui::ColorPicker4("Color", vColor, iFlag);
+                    ImGui::InputFloat4("vColor", vColor);
+                    m_pTargetObject->Set_Color(_float4(vColor[0], vColor[1], vColor[2], vColor[3]));
+
+                    ImGui::EndTabItem();
+                }
+
+                if (ImGui::BeginTabItem("Mask")) {
+                    _float vMaskValueStart[4] = { m_pTargetObject->Get_MaskValue()[0].x, m_pTargetObject->Get_MaskValue()[0].y, m_pTargetObject->Get_MaskValue()[0].z , m_pTargetObject->Get_MaskValue()[0].w };
+                    _float vMaskValueEnd[4] = { m_pTargetObject->Get_MaskValue()[1].x, m_pTargetObject->Get_MaskValue()[1].y, m_pTargetObject->Get_MaskValue()[1].z, m_pTargetObject->Get_MaskValue()[1].w };
+                    ImGui::InputFloat4("Mask_Start", vMaskValueStart);
+                    ImGui::InputFloat4("Mask_End", vMaskValueEnd);
+
+                    _float4 vMaskValue[2] = {
+                        { vMaskValueStart[0], vMaskValueStart[1], vMaskValueStart[2], vMaskValueStart[3]},
+                        { vMaskValueEnd[0], vMaskValueEnd[1], vMaskValueEnd[2], vMaskValueEnd[3] } };
+
+                    m_pTargetObject->Set_MaskValue(vMaskValue);
+                    ImGui::EndTabItem();
+                }
+
+                if (ImGui::BeginTabItem("Movement")) {
+                    _float fTextureMovement[2] = { m_pTargetObject->Get_TextureTimeDelta().x, m_pTargetObject->Get_TextureTimeDelta().y };
+                    ImGui::InputFloat2("Texture Movement", fTextureMovement);
+                    m_pTargetObject->Set_TextureMovement({ fTextureMovement[0],fTextureMovement[1] });
+
+                    _float fMove[3] = { m_pTargetObject->Get_Move().x, m_pTargetObject->Get_Move().y, m_pTargetObject->Get_Move().z };
+                    ImGui::InputFloat3("Move", fMove);
+                    m_pTargetObject->Set_Move({ fMove[0],fMove[1], fMove[2], 0.f });
+
+                    _float fMoveSpeed = m_pTargetObject->Get_MoveSpeed();
+                    ImGui::InputFloat("MoveSpeed", &fMoveSpeed);
+                    m_pTargetObject->Set_MoveSpeed(fMoveSpeed);
+
+                    _float fTurn[3] = { m_pTargetObject->Get_Turn().x, m_pTargetObject->Get_Turn().y, m_pTargetObject->Get_Turn().z };
+                    ImGui::InputFloat3("Turn", fTurn);
+                    m_pTargetObject->Set_Turn({ fTurn[0],fTurn[1], fTurn[2], 0.f });
+
+                    _float fTurnSpeed = m_pTargetObject->Get_TurnSpeed();
+                    ImGui::InputFloat("TurnSpeed", &fTurnSpeed);
+                    m_pTargetObject->Set_TurnSpeed(fTurnSpeed);
+
+                    ImGui::EndTabItem();
+                }
+
+                if (ImGui::BeginTabItem("Lerp")) {
+                    _float fLerpScaleStart[3] = { m_pTargetObject->Get_LerpScaleStart().x, m_pTargetObject->Get_LerpScaleStart().y, m_pTargetObject->Get_LerpScaleStart().z };
+                    _float fLerpScaleEnd[3] = { m_pTargetObject->Get_LerpScaleEnd().x, m_pTargetObject->Get_LerpScaleEnd().y, m_pTargetObject->Get_LerpScaleEnd().z };
+
+                    ImGui::InputFloat3("LerpStart", fLerpScaleStart);
+                    ImGui::InputFloat3("LerpEnd", fLerpScaleEnd);
+                    m_pTargetObject->Set_LerpScaleStart({ fLerpScaleStart[0], fLerpScaleStart[1], fLerpScaleStart[2] });
+                    m_pTargetObject->Set_LerpScaleEnd({ fLerpScaleEnd[0], fLerpScaleEnd[1], fLerpScaleEnd[2] });
+
+                    ImGui::EndTabItem();
+                }
+
+                ImGui::EndTabBar();
             }
 
-            if (ImGui::TreeNode("Color"))
-            {
-                _float fColorMagnification = m_pTargetObject->Get_Color_Magnification();
-                ImGui::InputFloat("Color Magnification", &fColorMagnification);
-                m_pTargetObject->Set_Color_Magnification(fColorMagnification);
-
-                static  ImGuiColorEditFlags iFlag = ImGuiColorEditFlags_Uint8 | ImGuiColorEditFlags_DisplayRGB | ImGuiColorEditFlags_InputRGB;
-                iFlag |= ImGuiColorEditFlags_AlphaBar;
-
-                _float vColor[4] = { m_pTargetObject->Get_Color().x,m_pTargetObject->Get_Color().y ,
-                m_pTargetObject->Get_Color().z, m_pTargetObject->Get_Color().w };
-                ImGui::ColorPicker4("Color", vColor, iFlag);
-                ImGui::InputFloat4("vColor", vColor);
-                m_pTargetObject->Set_Color(_float4(vColor[0], vColor[1], vColor[2], vColor[3]));
-
-                ImGui::TreePop();
-            }
-
-            if (ImGui::TreeNode("Mask Value")) {
-                _float vMaskValueStart[4] = { m_pTargetObject->Get_MaskValue()[0].x, m_pTargetObject->Get_MaskValue()[0].y, m_pTargetObject->Get_MaskValue()[0].z , m_pTargetObject->Get_MaskValue()[0].w };
-                _float vMaskValueEnd[4] = { m_pTargetObject->Get_MaskValue()[1].x, m_pTargetObject->Get_MaskValue()[1].y, m_pTargetObject->Get_MaskValue()[1].z, m_pTargetObject->Get_MaskValue()[1].w };
-                ImGui::InputFloat4("Mask_Start", vMaskValueStart);
-                ImGui::InputFloat4("Mask_End", vMaskValueEnd);
-
-                _float4 vMaskValue[2] = {
-                    { vMaskValueStart[0], vMaskValueStart[1], vMaskValueStart[2], vMaskValueStart[3]},
-                    { vMaskValueEnd[0], vMaskValueEnd[1], vMaskValueEnd[2], vMaskValueEnd[3] } };
-
-                m_pTargetObject->Set_MaskValue(vMaskValue);
-                ImGui::TreePop();
-            }
-
-            if (ImGui::TreeNode("Movement")) {
-                _float fTextureMovement[2] = { m_pTargetObject->Get_TextureTimeDelta().x, m_pTargetObject->Get_TextureTimeDelta().y };
-                ImGui::InputFloat2("Texture Movement", fTextureMovement);
-                m_pTargetObject->Set_TextureMovement({ fTextureMovement[0],fTextureMovement[1] });
-
-                _float fTurn[3] = { m_pTargetObject->Get_Turn().x, m_pTargetObject->Get_Turn().y, m_pTargetObject->Get_Turn().z };
-                ImGui::InputFloat3("Turn", fTurn);
-                m_pTargetObject->Set_Turn({ fTurn[0],fTurn[1], fTurn[2], 0.f });
-
-                _float fTurnSpeed = m_pTargetObject->Get_TurnSpeed();
-                ImGui::InputFloat("TurnSpeed", &fTurnSpeed);
-                m_pTargetObject->Set_TurnSpeed(fTurnSpeed);
-
-                ImGui::TreePop();
-            }
-
-            if (ImGui::TreeNode("Lerp")) {
-                _float fLerpScaleStart[3] = { m_pTargetObject->Get_LerpScaleStart().x, m_pTargetObject->Get_LerpScaleStart().y, m_pTargetObject->Get_LerpScaleStart().z };
-                _float fLerpScaleEnd[3] = { m_pTargetObject->Get_LerpScaleEnd().x, m_pTargetObject->Get_LerpScaleEnd().y, m_pTargetObject->Get_LerpScaleEnd().z };
-
-                ImGui::InputFloat3("LerpStart", fLerpScaleStart);
-                ImGui::InputFloat3("LerpEnd", fLerpScaleEnd);
-                m_pTargetObject->Set_LerpScaleStart({ fLerpScaleStart[0], fLerpScaleStart[1], fLerpScaleStart[2] });
-                m_pTargetObject->Set_LerpScaleEnd({ fLerpScaleEnd[0], fLerpScaleEnd[1], fLerpScaleEnd[2] });
-                ImGui::TreePop();
-            }
-
+            ImGui::SeparatorText("Effect Time");
             _float fEffectTime = m_pTargetObject->Get_EffectTime();
             ImGui::InputFloat("Effect Time", &fEffectTime);
             m_pTargetObject->Set_EffectTime(fEffectTime);
@@ -379,10 +410,6 @@ void CEffectTool::Effect_Window()
             ImGui::SameLine();
             if (ImGui::Button("Reset Position")) {
                 m_pTargetObject->Reset_Position();
-            }
-            ImGui::SameLine();
-            if (ImGui::Button("Add to Candidate")) {
-                m_CandidateEffects.push_back(m_pTargetObject);
             }
 
             Show_Picking_ImGUI();
@@ -420,7 +447,13 @@ void CEffectTool::Save_Window()
 
             ImGui::EndListBox();
         }
-
+        if (ImGui::Button("Reset")) {
+            for (auto& pEffect : m_CandidateEffects) {
+                pEffect->Reset_Effect();
+                pEffect->Reset_Position();
+            }
+        }
+        ImGui::SameLine();
         if (ImGui::Button("Delete")) {
             if (m_iCandidate_Effect_Index < m_CandidateEffects.size()) {
                 m_CandidateEffects.erase(m_CandidateEffects.begin() + m_iCandidate_Effect_Index);
@@ -436,7 +469,6 @@ void CEffectTool::Save_Window()
 
         if (ImGui::BeginListBox("Final \nEffect"))
         {
-            bool is_selected;
 
             for (_uint i = 0; i < m_FinalEffects.size(); ++i)
             {
@@ -448,10 +480,6 @@ void CEffectTool::Save_Window()
                 }
             }
             ImGui::EndListBox();
-        }
-
-        if (ImGui::Button("Reset")) {
-            iCurrent_Final_Effect_Index = INFINITE;
         }
 
         if (ImGui::Button("Save Effect")) {
@@ -620,52 +648,79 @@ CEffect_3D* CEffectTool::Create_Effect_3D(_int iMeshIndex, const _char* EffectNa
     wstring strModelTag;
     switch (iMeshIndex) {
     case 0:
-        strModelTag = TEXT("Prototype_Component_Model_Cone");
+        strModelTag = TEXT("Prototype_Component_Model_Capsule");
         break;
     case 1:
-        strModelTag = TEXT("Prototype_Component_Model_Cube");
+        strModelTag = TEXT("Prototype_Component_Model_Circle");
         break;
     case 2:
-        strModelTag = TEXT("Prototype_Component_Model_Cylinder");
+        strModelTag = TEXT("Prototype_Component_Model_Circle2");
         break;
     case 3:
-        strModelTag = TEXT("Prototype_Component_Model_Donut");
+        strModelTag = TEXT("Prototype_Component_Model_Crack");
         break;
     case 4:
-        strModelTag = TEXT("Prototype_Component_Model_Sphere");
+        strModelTag = TEXT("Prototype_Component_Model_Cylinder");
         break;
     case 5:
-        strModelTag = TEXT("Prototype_Component_Model_Around_0");
+        strModelTag = TEXT("Prototype_Component_Model_Cylinder1");
         break;
     case 6:
-        strModelTag = TEXT("Prototype_Component_Model_Around_1");
+        strModelTag = TEXT("Prototype_Component_Model_Cylinder2");
         break;
     case 7:
-        strModelTag = TEXT("Prototype_Component_Model_Empty_Cyclinder");
+        strModelTag = TEXT("Prototype_Component_Model_Electricity");
         break;
     case 8:
-        strModelTag = TEXT("Prototype_Component_Model_Effect_0");
+        strModelTag = TEXT("Prototype_Component_Model_Electricity2");
         break;
     case 9:
-        strModelTag = TEXT("Prototype_Component_Model_Effect_1");
+        strModelTag = TEXT("Prototype_Component_Model_Shock");
         break;
     case 10:
-        strModelTag = TEXT("Prototype_Component_Model_Hit");
+        strModelTag = TEXT("Prototype_Component_Model_Slash");
         break;
     case 11:
-        strModelTag = TEXT("Prototype_Component_Model_Optima_1");
+        strModelTag = TEXT("Prototype_Component_Model_Sphere");
         break;
     case 12:
-        strModelTag = TEXT("Prototype_Component_Model_Optima_2");
+        strModelTag = TEXT("Prototype_Component_Model_Thunder0");
         break;
     case 13:
-        strModelTag = TEXT("Prototype_Component_Model_Optima_Cylinder");
+        strModelTag = TEXT("Prototype_Component_Model_Thunder1");
         break;
     case 14:
-        strModelTag = TEXT("Prototype_Component_Model_Optima_Cylinder1");
+        strModelTag = TEXT("Prototype_Component_Model_Thunder2");
         break;
     case 15:
-        strModelTag = TEXT("Prototype_Component_Model_Optima_Cylinder2");
+        strModelTag = TEXT("Prototype_Component_Model_Thunder3");
+        break;
+    case 16:
+        strModelTag = TEXT("Prototype_Component_Model_Thunder4");
+        break;
+    case 17:
+        strModelTag = TEXT("Prototype_Component_Model_Thunder5");
+        break;
+    case 18:
+        strModelTag = TEXT("Prototype_Component_Model_Tornado");
+        break;
+    case 19:
+        strModelTag = TEXT("Prototype_Component_Model_Trail");
+        break;
+    case 20:
+        strModelTag = TEXT("Prototype_Component_Model_Wind");
+        break;
+    case 21:
+        strModelTag = TEXT("Prototype_Component_Model_Effect_1");
+        break;
+    case 22:
+        strModelTag = TEXT("Prototype_Component_Model_Effect_2");
+        break;
+    case 23:
+        strModelTag = TEXT("Prototype_Component_Model_Optima1");
+        break;
+    case 24:
+        strModelTag = TEXT("Prototype_Component_Model_Optima2");
         break;
     }
     pDesc.strModelTag = strModelTag;

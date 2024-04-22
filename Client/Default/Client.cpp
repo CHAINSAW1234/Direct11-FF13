@@ -30,7 +30,7 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
     _CrtSetDbgFlag(_CRTDBG_ALLOC_MEM_DF | _CRTDBG_LEAK_CHECK_DF);
 #endif
 
-    //_CrtSetBreakAlloc(2102246);
+   // _CrtSetBreakAlloc(717935);
 
     UNREFERENCED_PARAMETER(hPrevInstance);
     UNREFERENCED_PARAMETER(lpCmdLine);
@@ -100,10 +100,10 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
 
 	Safe_Release(pGameInstance);
 	Safe_Release(pMainApp);   
-//
-//#ifdef _DEBUG_ 
-//    _CrtDumpMemoryLeaks();
-//#endif
+
+#ifdef _DEBUG_ 
+    _CrtDumpMemoryLeaks();
+#endif
 
     return (int) msg.wParam;
 }

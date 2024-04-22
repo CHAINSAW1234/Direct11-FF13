@@ -442,9 +442,6 @@
     <Filter Include="02.GameObjects\Projectile\Sphere\Sphere_Heal">
       <UniqueIdentifier>{a4233e2c-daf0-47b4-9271-c76cd5a2640b}</UniqueIdentifier>
     </Filter>
-    <Filter Include="02.GameObjects\BackGround\Loading">
-      <UniqueIdentifier>{a90ba1ca-e6b7-440f-aa17-77feb747a2a9}</UniqueIdentifier>
-    </Filter>
     <Filter Include="02.GameObjects\Effect">
       <UniqueIdentifier>{0a5c554e-6de6-4988-baa9-92a81fc53164}</UniqueIdentifier>
     </Filter>
@@ -906,7 +903,7 @@
     <ClInclude Include="..\Public\Effect_Interface.h">
       <Filter>02.GameObjects\Effect\Template\Interface</Filter>
     </ClInclude>
-    <ClInclude Include="..\Public\Effectt_2D_Bone.h">
+    <ClInclude Include="..\Public\Effect_2D_Bone.h">
       <Filter>02.GameObjects\Effect\Template\Effect_2D_Bone</Filter>
     </ClInclude>
     <ClInclude Include="..\Public\Effect_3D.h">
@@ -1337,7 +1334,7 @@
     <ClCompile Include="..\Private\Effect_Interface.cpp">
       <Filter>02.GameObjects\Effect\Template\Interface</Filter>
     </ClCompile>
-    <ClCompile Include="..\Private\Effectt_2D_Bone.cpp">
+    <ClCompile Include="..\Private\Effect_2D_Bone.cpp">
       <Filter>02.GameObjects\Effect\Template\Effect_2D_Bone</Filter>
     </ClCompile>
     <ClCompile Include="..\Private\Effect_3D.cpp">

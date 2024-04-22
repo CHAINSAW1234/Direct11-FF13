@@ -61,8 +61,11 @@ PS_OUT PS_MAIN(PS_IN In)
 {
     PS_OUT Out = (PS_OUT) 0;
 
-    Out.vColor = g_DiffuseTexture.Sample(LinearSampler, In.vTexcoord) * g_vColor;
-    if (0.3f >= Out.vColor.a)
+    float4 vColor = g_vColor * g_fColorMagnification;
+    vColor.w = g_vColor.a;
+    
+    Out.vColor = g_DiffuseTexture.Sample(LinearSampler, In.vTexcoord) * vColor;
+    if (Out.vColor.a < 0.1)
         discard;
     
     return Out;
@@ -85,7 +88,7 @@ PS_OUT PS_MASK(PS_IN In)
     vColor.w = g_vColor.a;
     
     vector vDiffuseColor = g_DiffuseTexture.Sample(LinearSampler, In.vTexcoord) * vColor;
-    if (vDiffuseColor.a < 0.3)
+    if (vDiffuseColor.a < 0.1)
         discard;
     
     vector vMaskColor = g_MaskTexture.Sample(LinearSampler, In.vTexcoord);
@@ -109,7 +112,7 @@ PS_OUT PS_DISSOLVE(PS_IN In)
     vColor.w = g_vColor.a;
     
     vector vDiffuseColor = g_DiffuseTexture.Sample(LinearSampler, In.vTexcoord) * vColor;
-    if (vDiffuseColor.a < 0.3)
+    if (vDiffuseColor.a < 0.1)
         discard;
     
     vector vDissolveColor = g_DissolveTexture.Sample(LinearSampler, In.vTexcoord);
@@ -130,7 +133,7 @@ PS_OUT PS_MASK_DISSOLVE(PS_IN In)
     vColor.w = g_vColor.a;
     
     vector vDiffuseColor = g_DiffuseTexture.Sample(LinearSampler, In.vTexcoord) * vColor;
-    if (vDiffuseColor.a < 0.3)
+    if (vDiffuseColor.a < 0.1)
         discard;
     
     vector vMaskColor = g_MaskTexture.Sample(LinearSampler, In.vTexcoord);

@@ -18,6 +18,8 @@
 #include "Ability.h"
 #include "Sphere.h"
 #include "Bullet.h"
+#include "Effect_2D_Bone.h"
+
 #include "ImGUI_Manager.h"
 
 
@@ -175,6 +177,19 @@ void CChr_Battle_Sazh::Create_Bullet()
 	Bullet_Desc.vStartPosition = vPos;
 
 	m_pGameInstance->Add_Clone(g_Level, TEXT("Layer_Bullet"), TEXT("Prototype_GameObject_Bullet"), &Bullet_Desc);
+
+	CEffect_2D_Bone::EFFECT_2D_BONE_DESC  Effect_Desc = {};
+	Effect_Desc.strEffectName = "Gun_Fire";
+	Effect_Desc.vColor = _float4(1.f, 0.f, 0.f, 1.f);
+	Effect_Desc.eEffect = Interface_2D::GUN_FIRE;
+	Effect_Desc.pParentMatrix = ((CWeapon_Anim*)m_PartObjects[1])->Get_WorldMatrix_Ptr();
+	Effect_Desc.pSocket = ((CWeapon_Anim*)m_PartObjects[1])->Get_BonePtr("muzzle_p");
+	m_pGameInstance->Add_Clone(g_Level, TEXT("Layer_Effect"), TEXT("Prototype_GameObject_Effect_2D_Bone"), &Effect_Desc);
+
+	Effect_Desc.pParentMatrix = ((CWeapon_Anim*)m_PartObjects[2])->Get_WorldMatrix_Ptr();
+	Effect_Desc.pSocket = ((CWeapon_Anim*)m_PartObjects[2])->Get_BonePtr("muzzle_p");
+	m_pGameInstance->Add_Clone(g_Level, TEXT("Layer_Effect"), TEXT("Prototype_GameObject_Effect_2D_Bone"), &Effect_Desc);
+
 
 	return;
 }

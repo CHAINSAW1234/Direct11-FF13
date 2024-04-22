@@ -41,6 +41,9 @@ public:
 	_float		Get_CurrentTrackPosition() { return m_pModelCom->Get_CurrentTrackPosition(); }
 	_bool		Is_Animation_Finished() { return m_pModelCom->isFinished(); }
 	CCollider*	Get_Collider() { return m_pColliderCom; }
+	CBone*		Get_BonePtr(const char* pBoneName);
+
+	const _float4x4* Get_WorldMatrix_Ptr() { return &m_WorldMatrix; }
 
 	void		Change_Animation(_uint iAnimationIndex, _bool isLoop) { m_pModelCom->Set_Animation(iAnimationIndex, isLoop); }
 	void		Set_TrackPosition(_float fTrackPosition) { m_pModelCom->Set_TrackPosition(fTrackPosition); }

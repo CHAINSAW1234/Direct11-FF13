@@ -28,6 +28,7 @@ public:
 
 public:
 	/*========================Get=============================*/
+	string Get_Effect_Name() { return m_strEffectName; }
 	TYPE Get_EffectType() { return m_eType; }
 	_uint Get_DiffuseTexture() { return m_iDiffuseTextureIndex; }
 	_uint Get_MaskTexture() { return m_iMaskTextureIndex; }
@@ -36,18 +37,23 @@ public:
 	_float4 Get_Color() { return m_vColor; }
 	_float Get_EffectTime() { return m_fEffectTimeDelta; }
 	_float2 Get_TextureTimeDelta() { return m_fTextureMovementTimeDelta; }
+	_float4 Get_Move() { return m_vMoveDir; }
+	_float Get_MoveSpeed() { return m_fMoveSpeed; }
 	_float4 Get_Turn() { return m_vTurnDir; }
 	_float Get_TurnSpeed() { return m_fTurnSpeed; }
 	_float4* Get_MaskValue() { return m_vMaskValue; }
 	_float3 Get_LerpScaleStart() { return m_vLerpScaleStart; }
 	_float3 Get_LerpScaleEnd() { return m_vLerpScaleEnd; }
-	string Get_Effect_Name() { return m_strEffectName; }
+
 
 	/*========================Set=============================*/
 	void Set_Color_Magnification(_float fColorMagnification) { m_fColorMagnification = fColorMagnification; }
 	void Set_Color(_float4 vColor) { m_vColor = vColor; }
 	void Set_EffectTime(_float fEffectTime) { m_fEffectTimeDelta = fEffectTime; }
 	void Set_TextureMovement(_float2 fMovementTimeDelta) { m_fTextureMovementTimeDelta = fMovementTimeDelta; }
+	void Set_Move(_float4 vMoveDir);
+	void Set_MoveSpeed(_float fMoveSpeed) { m_fMoveSpeed = fMoveSpeed; }
+
 	void Set_Turn(_float4 vTurnDir);
 	void Set_TurnSpeed(_float fTurnSpeed) { m_fTurnSpeed = fTurnSpeed; }
 	void Set_DiffuseTexture(_uint iIndex) { m_iDiffuseTextureIndex = iIndex; }
@@ -63,7 +69,7 @@ public:
 	virtual HRESULT Load_Effect(ifstream& IFS);
 
 public:
-	void Reset_Effect();
+	virtual void Reset_Effect();
 	void Reset_Position();
 
 
@@ -71,6 +77,7 @@ protected:
 	virtual HRESULT Add_Components() { return S_OK;  }
 	void Update_Texture_Movement(_float fTimeDelta);
 	void Turn(_float fTimeDelta);
+	void Move(_float fTimeDelta);
 	void Lerp();
 
 protected:
@@ -100,6 +107,9 @@ protected:
 
 	_float4			m_vTurnDir = { 0.f,0.f,0.f,0.f };
 	_float			m_fTurnSpeed = { 1.f };
+
+	_float4			m_vMoveDir = { 0.f,0.f,0.f,0.f };
+	_float			m_fMoveSpeed = { 1.f };
 
 	_float3			m_vLerpScaleStart = { 1.f,1.f,1.f };
 	_float3			m_vLerpScaleEnd = { 1.f,1.f,1.f };									// Lerf가 들어갈때 변화될 스케일 값 

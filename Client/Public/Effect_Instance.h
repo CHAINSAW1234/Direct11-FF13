@@ -25,6 +25,8 @@ public:
 	HRESULT Initialize_Load(ifstream& IFS);
 	virtual HRESULT Load_Effect(ifstream& IFS) override;
 
+	virtual void Reset_Effect() override;
+
 protected:
 	virtual HRESULT Add_Components() override;
 	HRESULT Bind_ShaderResources();
