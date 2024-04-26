@@ -92,8 +92,6 @@ HRESULT CGraphic_Device::Present()
 	if (nullptr == m_pSwapChain)
 		return E_FAIL;
 
-	
-	
 	/* 전면 버퍼와 후면 버퍼를 교체하여 후면 버퍼를 전면으로 보여주는 역할을 한다. */
 	/* 후면 버퍼를 직접 화면에 보여줄게. */	
 	return m_pSwapChain->Present(0, 0);	

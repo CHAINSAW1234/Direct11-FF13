@@ -39,6 +39,7 @@ void CUI_Battle_Stage_Target::OnStateUpdate(_float fTimeDelta)
 
 	if (m_pGameInstance->Get_KeyState(KEY_DOWN, DIK_BACKSPACE)) {
 		m_pPlayer_Battle->Back_Stage();
+		m_pGameInstance->PlaySoundW(TEXT("System_Cancel.wav"), CSound_Manager::UI1, SOUND_DEFAULT);
 
 	}
 
@@ -48,6 +49,7 @@ void CUI_Battle_Stage_Target::OnStateUpdate(_float fTimeDelta)
 		m_pPlayer_Battle->Set_Member_Target(pTargetObject);
 		m_pPlayer_Battle->Change_Stage(CPlayer_Battle::STAGE_WAIT);
 		m_pPlayer_Battle->Set_Chain_Move();
+		m_pGameInstance->PlaySoundW(TEXT("System_Enter.wav"), CSound_Manager::UI1, SOUND_DEFAULT);
 	}
 }
 
@@ -99,6 +101,7 @@ void CUI_Battle_Stage_Target::Update_Cursor()
 			++m_iCursor;
 			m_pPlayer_Battle->Get_Monsters()[m_iCursor]->Set_isTarget(true);
 			m_pPlayer_Battle->Change_Chain_Target(m_pPlayer_Battle->Get_Monsters()[m_iCursor]);
+			m_pGameInstance->PlaySoundW(TEXT("System_Cursor.wav"), CSound_Manager::UI2, SOUND_DEFAULT);
 		}
 
 	}
@@ -108,6 +111,7 @@ void CUI_Battle_Stage_Target::Update_Cursor()
 			--m_iCursor;
 			m_pPlayer_Battle->Get_Monsters()[m_iCursor]->Set_isTarget(true);
 			m_pPlayer_Battle->Change_Chain_Target(m_pPlayer_Battle->Get_Monsters()[m_iCursor]);
+			m_pGameInstance->PlaySoundW(TEXT("System_Cursor.wav"), CSound_Manager::UI2, SOUND_DEFAULT);
 		}
 
 	}

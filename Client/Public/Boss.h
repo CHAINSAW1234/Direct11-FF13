@@ -29,6 +29,7 @@ public:
 	virtual void Start() override;
 
 public:
+	CModel* Get_Body() { return m_pModelCom; }
 	void Set_Barrier(_bool isBarrier) { m_isBarrier = isBarrier; }
 
 	virtual void Set_Hit(_int iDamage, _float fChain) override;
@@ -40,7 +41,6 @@ public:
 
 private:
 	void Change_Phase();
-	virtual void Add_Chain(_float fChain) override;
 	virtual void Update_Chain(_float fTimeDelta) override;
 
 private:

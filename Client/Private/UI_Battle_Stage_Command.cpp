@@ -98,21 +98,25 @@ void CUI_Battle_Stage_Command::Update_Cursor()
 	if (m_pGameInstance->Get_KeyState(KEY_DOWN, DIK_DOWN)) {
 		if (m_iCursor + 2 < m_iPnalCount) {
 			m_iCursor += 2;
+			m_pGameInstance->PlaySoundW(TEXT("System_Cursor.wav"), CSound_Manager::UI2, SOUND_DEFAULT);
 		}
 	}
 	if (m_pGameInstance->Get_KeyState(KEY_DOWN, DIK_UP)) {
 		if (m_iCursor - 2 >= 0) {
 			m_iCursor -= 2;
+			m_pGameInstance->PlaySoundW(TEXT("System_Cursor.wav"), CSound_Manager::UI2, SOUND_DEFAULT);
 		}
 	}
 	if (m_pGameInstance->Get_KeyState(KEY_DOWN, DIK_RIGHT)) {
 		if (!(m_iCursor % 2) && m_iCursor < m_iPnalCount) {
 			++m_iCursor;
+			m_pGameInstance->PlaySoundW(TEXT("System_Cursor.wav"), CSound_Manager::UI2, SOUND_DEFAULT);
 		}
 	}
 	if (m_pGameInstance->Get_KeyState(KEY_DOWN, DIK_LEFT)) {
 		if ((m_iCursor % 2) && m_iPnalCount) {
 			--m_iCursor;
+			m_pGameInstance->PlaySoundW(TEXT("System_Cursor.wav"), CSound_Manager::UI2, SOUND_DEFAULT);
 		}
 	}
 	
@@ -130,22 +134,35 @@ void CUI_Battle_Stage_Command::Update_KeyInput()
 		m_pPlayer_Battle->Check_Command_Insert(pRole->Get_Skill_Cost(eSkill));
 		Create_Pnal_Attack();
 
-		if (m_pPlayer_Battle->Check_Command_Full())
+
+		if (m_pPlayer_Battle->Check_Command_Full()) {
 			m_pPlayer_Battle->Change_Stage(CPlayer_Battle::STAGE_TARGET);
+			m_pGameInstance->PlaySoundW(TEXT("System_Enter.wav"), CSound_Manager::UI1, SOUND_DEFAULT);
+		}
+		else {
+			m_pGameInstance->PlaySoundW(TEXT("System_Command.wav"), CSound_Manager::UI1, SOUND_DEFAULT);
+		}
+
 	}
 
 	if (m_pGameInstance->Get_KeyState(KEY_DOWN, DIK_BACKSPACE)) {
-		if (m_pPlayer_Battle->Get_Command_empty())
+		if (m_pPlayer_Battle->Get_Command_empty()) {
 			m_pPlayer_Battle->Back_Stage();
+			m_pGameInstance->PlaySoundW(TEXT("System_Cancel.wav"), CSound_Manager::UI1, SOUND_DEFAULT);
+		}
+
 		else {
 			m_pPlayer_Battle->Cancel_Command();
-
+			m_pGameInstance->PlaySoundW(TEXT("System_Command_Cancel.wav"), CSound_Manager::UI1, SOUND_DEFAULT);
 		}
 	}
 
 	if (m_pGameInstance->Get_KeyState(KEY_DOWN, DIK_E)) {
-		if (!m_pPlayer_Battle->Get_Command_empty())
+		if (!m_pPlayer_Battle->Get_Command_empty()) {
 			m_pPlayer_Battle->Change_Stage(CPlayer_Battle::STAGE_TARGET);
+			m_pGameInstance->PlaySoundW(TEXT("System_Enter.wav"), CSound_Manager::UI1, SOUND_DEFAULT);
+		}
+
 	}
 
 }

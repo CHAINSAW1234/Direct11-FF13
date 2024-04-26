@@ -3,6 +3,7 @@
 #include "Warload.h"
 #include "UI_Number.h"
 #include "UI_Skill.h"
+#include "Effect.h"
 
 CWarload_State_Skill::CWarload_State_Skill(CWarload* pWarload)
 {
@@ -16,6 +17,7 @@ void CWarload_State_Skill::OnStateEnter()
 	m_pWarload->Change_Animation(CWarload::SKILL_START, false);
 
 	m_pUI_Skill = m_pWarload->Create_UI_Skill(TEXT("마도 디바이스 발동"));
+	CEffect::Read_File_NoLoop("../Bin/Resources/Effect/Hit_Air_Effect.dat", m_pGameInstance, m_pWarload->Get_Device(), m_pWarload->Get_Context(), m_pWarload->Get_Transform()->Get_State_Float4(CTransform::STATE_POSITION));
 }
 
 void CWarload_State_Skill::OnStateUpdate(_float fTimeDelta)
@@ -74,6 +76,12 @@ void CWarload_State_Skill::Heal(_float fTimeDelta)
 		else if (m_pWarload->Get_CurrentAnimationIndex() == CWarload::SKILL_HEAL_IDLE) {
 			++m_iCount;
 			m_pWarload->Add_Hp(310);
+
+			_float4 vPos = m_pWarload->Get_Transform()->Get_State_Float4(CTransform::STATE_POSITION);
+			vPos.y += m_pWarload->Get_ColliderSize().y * 0.5;
+			if (FAILED(CEffect::Read_File_NoLoop("../Bin/Resources/Effect/Heal_Camera_Look_Instance.dat", m_pGameInstance, m_pWarload->Get_Device(), m_pWarload->Get_Context(), vPos)))
+				return;
+
 			m_pWarload->Change_Animation(CWarload::SKILL_HEAL_END, false);
 			Change_State(CHARGE);
 		}

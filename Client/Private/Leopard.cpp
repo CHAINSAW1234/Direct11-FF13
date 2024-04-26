@@ -28,7 +28,7 @@ HRESULT CLeopard::Initialize_Prototype()
     m_iDamage = 15;
     m_vColliderSize = _float3(1.f, .9f, 2.f);
     m_strMonsterName = TEXT("게파드 열조");
-
+    m_strWeaponBoneName = "L_fing";
     return S_OK;
 }
 
@@ -87,6 +87,7 @@ void CLeopard::Set_Hit(_int iDamage, _float fChain)
     __super::Set_Hit(iDamage, fChain);
     
     Change_State(STATE_HIT);
+    Set_TrackPosition(0.f);
 }
 
 void CLeopard::Set_State_Battle_Start()
@@ -129,7 +130,7 @@ HRESULT CLeopard::Add_Components()
     ColliderOBBDesc.vCenter = _float3(0.f, 0.f, 0.f);
 
     CCollider_Bone::COLLIDER_BONE_DESC  ColliderBone_Desc = {};
-    ColliderBone_Desc.pSocket = m_pModelCom->Get_BonePtr("L_fing");
+    ColliderBone_Desc.pSocket = m_pModelCom->Get_BonePtr(m_strWeaponBoneName.c_str());
     ColliderBone_Desc.pBounding_Desc = &ColliderOBBDesc;
 
     if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_Collider_Bone_OBB"),

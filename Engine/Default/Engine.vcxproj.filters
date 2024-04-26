@@ -181,6 +181,9 @@
     <Filter Include="01.Utility\12.Picking">
       <UniqueIdentifier>{ed51a42f-d96e-4cd6-805a-868138dd7e67}</UniqueIdentifier>
     </Filter>
+    <Filter Include="01.Utility\13.Sound">
+      <UniqueIdentifier>{3b4ba61e-d433-450c-8fa6-44da38e7ab6a}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\Private\Base.cpp">
@@ -353,6 +356,9 @@
     </ClCompile>
     <ClCompile Include="..\Private\Frustum.cpp">
       <Filter>01.Utility\10.Frustum</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Sound_Manager.cpp">
+      <Filter>01.Utility\13.Sound</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -538,6 +544,9 @@
     </ClInclude>
     <ClInclude Include="..\Public\Frustum.h">
       <Filter>01.Utility\10.Frustum</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\Sound_Manager.h">
+      <Filter>01.Utility\13.Sound</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

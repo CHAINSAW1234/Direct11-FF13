@@ -4,7 +4,7 @@
 #include "Renderer.h"
 #include "Component_Manager.h"
 #include "PipeLine.h"
-
+#include "Sound_Manager.h"
 BEGIN(Engine)
 
 class ENGINE_DLL CGameInstance final : public CBase
@@ -94,6 +94,21 @@ public: /* For.Frustum */
 public: /* For.Extractor */
 	_vector Compute_WorldPos(const _float2& vViewportPos, const wstring& strZRenderTargetTag, _uint iOffset = 0);
 
+public:	/* For. Sound_Manager */
+	_uint	VolumeUp(CSound_Manager::CHANNELID eID, _float _vol);
+	_uint	VolumeDown(CSound_Manager::CHANNELID eID, _float _vol);
+	_uint	BGMVolumeUp(_float _vol);
+	_uint	BGMVolumeDown(_float _vol);
+	_uint	Pause(CSound_Manager::CHANNELID eID);
+	void	PlaySoundW(TCHAR* pSoundKey, CSound_Manager::CHANNELID eID, _float _vol);		// 호출 마다 다시 재생
+	void	PlaySoundOnce(TCHAR* pSoundKey, CSound_Manager::CHANNELID eID, _float _vol);	// 여러 번 호출해도 한 번 재생
+	int		PlaySoundLoop(TCHAR* pSoundKey, CSound_Manager::CHANNELID eID, _float _vol);	// 루프 횟수 반환
+	void	SetChannelOneOff(_bool bOneOff, CSound_Manager::CHANNELID eID);
+	void	PlaySoundOneOff(TCHAR* pSoundKey, CSound_Manager::CHANNELID eID, _float _vol);
+	void	SetLoopCount(CSound_Manager::CHANNELID eID, _uint iCount);
+	void	PlayBGM(TCHAR* pSoundKey);
+	void	StopSound(CSound_Manager::CHANNELID eID);
+	void	StopAll();
 
 #ifdef _DEBUG
 	HRESULT Ready_RTVDebug(const wstring& strRenderTargetTag, _float fX, _float fY, _float fSizeX, _float fSizeY);
@@ -116,6 +131,7 @@ private:
 	class CTarget_Manager*			m_pTarget_Manager = { nullptr };
 	class CFrustum*					m_pFrustum = { nullptr };
 	class CExtractor*				m_pExtractor = { nullptr };
+	class CSound_Manager*			m_pSound_Manager = { nullptr };
 
 
 public:		

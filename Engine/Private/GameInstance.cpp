@@ -83,6 +83,10 @@ HRESULT CGameInstance::Initialize_Engine(HINSTANCE hInstance, _uint iNumLevels, 
 	if (nullptr == m_pExtractor)
 		return E_FAIL;
 
+	m_pSound_Manager = CSound_Manager::Create();
+	if (nullptr == m_pSound_Manager)
+		return E_FAIL;
+
 	return S_OK;
 }
 
@@ -466,6 +470,76 @@ _vector CGameInstance::Compute_WorldPos(const _float2& vViewportPos, const wstri
 	return m_pExtractor->Compute_WorldPos(vViewportPos, strZRenderTargetTag, iOffset);
 }
 
+_uint CGameInstance::VolumeUp(CSound_Manager::CHANNELID eID, _float _vol)
+{
+	return m_pSound_Manager->VolumeUp(eID, _vol);
+}
+
+_uint CGameInstance::VolumeDown(CSound_Manager::CHANNELID eID, _float _vol)
+{
+	return m_pSound_Manager->VolumeDown(eID, _vol);
+}
+
+_uint CGameInstance::BGMVolumeUp(_float _vol)
+{
+	return m_pSound_Manager->BGMVolumeUp(_vol);
+}
+
+_uint CGameInstance::BGMVolumeDown(_float _vol)
+{
+	return m_pSound_Manager->BGMVolumeDown(_vol);
+}
+
+_uint CGameInstance::Pause(CSound_Manager::CHANNELID eID)
+{
+	return m_pSound_Manager->Pause(eID);
+}
+
+void CGameInstance::PlaySoundW(TCHAR* pSoundKey, CSound_Manager::CHANNELID eID, _float _vol)
+{
+	m_pSound_Manager->PlaySound(pSoundKey, eID, _vol);
+}
+
+void CGameInstance::PlaySoundOnce(TCHAR* pSoundKey, CSound_Manager::CHANNELID eID, _float _vol)
+{
+	m_pSound_Manager->PlaySoundOnce(pSoundKey, eID, _vol);
+}
+
+int CGameInstance::PlaySoundLoop(TCHAR* pSoundKey, CSound_Manager::CHANNELID eID, _float _vol)
+{
+	return m_pSound_Manager->PlaySoundLoop(pSoundKey, eID, _vol);
+}
+
+void CGameInstance::SetChannelOneOff(_bool bOneOff, CSound_Manager::CHANNELID eID)
+{
+	m_pSound_Manager->SetChannelOneOff(bOneOff, eID);
+}
+
+void CGameInstance::PlaySoundOneOff(TCHAR* pSoundKey, CSound_Manager::CHANNELID eID, _float _vol)
+{
+	m_pSound_Manager->PlaySoundOneOff(pSoundKey, eID, _vol);
+}
+
+void CGameInstance::SetLoopCount(CSound_Manager::CHANNELID eID, _uint iCount)
+{
+	return m_pSound_Manager->SetLoopCount(eID, iCount);
+}
+
+void CGameInstance::PlayBGM(TCHAR* pSoundKey)
+{
+	m_pSound_Manager->PlayBGM(pSoundKey);
+}
+
+void CGameInstance::StopSound(CSound_Manager::CHANNELID eID)
+{
+	m_pSound_Manager->StopSound(eID);
+}
+
+void CGameInstance::StopAll()
+{
+	m_pSound_Manager->StopAll();
+}
+
 #ifdef _DEBUG
 HRESULT CGameInstance::Ready_RTVDebug(const wstring& strRenderTargetTag, _float fX, _float fY, _float fSizeX, _float fSizeY)
 {
@@ -506,4 +580,5 @@ void CGameInstance::Free()
 	Safe_Release(m_pFont_Manager);
 	Safe_Release(m_pFrustum);
 	Safe_Release(m_pExtractor);
+	Safe_Release(m_pSound_Manager);
 }

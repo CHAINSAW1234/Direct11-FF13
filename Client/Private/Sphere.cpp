@@ -4,6 +4,8 @@
 #include "Model.h"
 #include "Shader.h"
 
+#include "Effect.h"
+#include "Effect_Camera_Look.h"
 #include "Monster.h"
 #include "Chr_Battle.h"
 
@@ -39,7 +41,7 @@ HRESULT CSphere::Initialize(void* pArg)
 	m_isTargetMonster = pSphere_Desc->isTargetMonster;
 	m_iDamage = pSphere_Desc->iDamage;
 	m_fChain = pSphere_Desc->fChain;
-
+	m_eSkill = pSphere_Desc->eSkill;
 	m_pTargetObject = pSphere_Desc->pTargetObject;
 	Safe_AddRef(m_pTargetObject);
 
@@ -48,7 +50,34 @@ HRESULT CSphere::Initialize(void* pArg)
 	if (FAILED(Add_Components()))
 		return E_FAIL;
 
+	string strEffectFilePath;
+
+	switch (m_eSkill) {
+	case CRole::RUIN:	
+	case CRole::AERO:
+		strEffectFilePath = "../Bin/Resources/Effect/Aero_Projectile.dat";
+		break;
+	case CRole::WATER:
+		strEffectFilePath = "../Bin/Resources/Effect/Water_Projectile.dat";
+		break;
+	case CRole::FIRE:
+		strEffectFilePath = "../Bin/Resources/Effect/Fire_Projectile.dat";
+		break;
+	case CRole::CURE:
+		strEffectFilePath = "../Bin/Resources/Effect/Heal_Projectile.dat";
+		break;
+	}
+
+
+	if(FAILED(CEffect::Read_File_Loop(strEffectFilePath, m_pGameInstance, m_pDevice, m_pContext, &m_Effects)))
+		return E_FAIL;
+
 	m_pColliderCom->Tick(m_pTransformCom->Get_WorldMatrix());
+
+	for (auto& pEffect : m_Effects) {
+		pEffect->Set_Position(m_pTransformCom->Get_State_Float4(CTransform::STATE_POSITION));
+		pEffect->Tick(0);
+	}
 
 	return S_OK;
 }
@@ -56,12 +85,18 @@ HRESULT CSphere::Initialize(void* pArg)
 void CSphere::Tick(_float fTimeDelta)
 {
 	Move(fTimeDelta);
-	m_pColliderCom->Tick(m_pTransformCom->Get_WorldMatrix());
-	Check_Collision();
+	for (auto& pEffect : m_Effects)
+		pEffect->Set_Position(m_pTransformCom->Get_State_Float4(CTransform::STATE_POSITION));
 
 	if (m_pTargetObject->Get_Dead()) {
 		Set_Dead(true);
+		for (auto& pEffect : m_Effects)
+			pEffect->Set_Dead(true);
+		return;
 	}
+
+	m_pColliderCom->Tick(m_pTransformCom->Get_WorldMatrix());
+	Check_Collision();
 }
 
 HRESULT CSphere::Late_Tick(_float fTimeDelta)
@@ -80,22 +115,6 @@ HRESULT CSphere::Late_Tick(_float fTimeDelta)
 
 HRESULT CSphere::Render()
 {
-	if (FAILED(Bind_ShaderResources()))
-		return E_FAIL;
-
-	_uint iNumMeshes = m_pModelCom->Get_NumMeshes();
-
-	for (_uint i = 0; i < iNumMeshes; ++i) {
-		//m_pModelCom->Bind_ShaderResource(m_pShaderCom, "g_DiffuseTexture", i, aiTextureType_DIFFUSE);
-
-		if (FAILED(m_pShaderCom->Begin(2)))
-			return E_FAIL;
-
-		m_pModelCom->Render(i);
-	}
-
-
-
 	return S_OK;
 }
 
@@ -105,16 +124,6 @@ void CSphere::Start()
 
 HRESULT CSphere::Add_Components()
 {
-	/* For.Com_Shader */
-	if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_Shader_VtxModel"),
-		TEXT("Com_Shader"), (CComponent**)&m_pShaderCom)))
-		return E_FAIL;
-
-	/* For.Com_Model */
-	if (FAILED(__super::Add_Component(m_eLevel, TEXT("Prototype_Component_Model_Sphere"),
-		TEXT("Com_Model"), (CComponent**)&m_pModelCom)))
-		return E_FAIL;
-
 	CBounding_Sphere::BOUNDING_SPHERE_DESC ColliderSphereDesc = {};
 	ColliderSphereDesc.fRadius = .1f;
 	ColliderSphereDesc.vCenter = _float3(0.f, 0.f, 0.f);
@@ -128,17 +137,6 @@ HRESULT CSphere::Add_Components()
 
 HRESULT CSphere::Bind_ShaderResources()
 {
-	if (nullptr == m_pShaderCom)
-		return E_FAIL;
-
-	if (FAILED(m_pTransformCom->Bind_ShaderResource(m_pShaderCom, "g_WorldMatrix")))
-		return E_FAIL;
-
-	if (FAILED(m_pShaderCom->Bind_Matrix("g_ViewMatrix", &m_pGameInstance->Get_Transform_Float4x4(CPipeLine::D3DTS_VIEW))))
-		return E_FAIL;
-	if (FAILED(m_pShaderCom->Bind_Matrix("g_ProjMatrix", &m_pGameInstance->Get_Transform_Float4x4(CPipeLine::D3DTS_PROJ))))
-		return E_FAIL;
-
 	return S_OK;
 }
 
@@ -174,6 +172,32 @@ void CSphere::Check_Collision()
 		}
 
 		Set_Dead(true);
+		for (auto& pEffect : m_Effects)
+			pEffect->Set_Dead(true);
+
+		string strEffectFilePath;
+
+		switch (m_eSkill) {
+		case CRole::RUIN:
+			strEffectFilePath = "../Bin/Resources/Effect/Ruin_Hit_Camera_Look_Instance.dat";
+			break;
+		case CRole::AERO:
+			strEffectFilePath = "../Bin/Resources/Effect/Aero_Hit_Camera_Look_Instance.dat";
+			break;
+		case CRole::WATER:
+			strEffectFilePath = "../Bin/Resources/Effect/Water_Hit_Camera_Look_Instance.dat";
+			break;
+		case CRole::FIRE:
+			strEffectFilePath = "../Bin/Resources/Effect/Fire_Hit_Camera_Look_Instance.dat";
+			break;
+		case CRole::CURE:
+			strEffectFilePath = "../Bin/Resources/Effect/Heal_Camera_Look_Instance.dat";
+			break;
+		}
+
+		if (FAILED(CEffect::Read_File_NoLoop(strEffectFilePath, m_pGameInstance, m_pDevice, m_pContext, m_pTransformCom->Get_State_Float4(CTransform::STATE_POSITION))))
+			return ;
+
 	}
 }
 
@@ -208,8 +232,11 @@ CGameObject* CSphere::Clone(void* pArg)
 void CSphere::Free()
 {
 	__super::Free();
-	Safe_Release(m_pModelCom);
 	Safe_Release(m_pColliderCom);
-	Safe_Release(m_pShaderCom);
 	Safe_Release(m_pTargetObject);
+
+	for (auto& pEffect : m_Effects)
+		Safe_Release(pEffect);
+	m_Effects.clear();
+
 }

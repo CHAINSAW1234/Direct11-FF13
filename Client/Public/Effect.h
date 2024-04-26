@@ -13,6 +13,7 @@ public:
 		_float  fEffectTimeDelta = { 10.f };
 		string	strEffectName;
 	} EFFECT_DESC;
+
 protected:
 	CEffect(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);
 	CEffect(const CEffect& rhs);
@@ -28,6 +29,7 @@ public:
 
 public:
 	/*========================Get=============================*/
+	CTransform* Get_Transform() { return m_pTransformCom; }
 	string Get_Effect_Name() { return m_strEffectName; }
 	TYPE Get_EffectType() { return m_eType; }
 	_uint Get_DiffuseTexture() { return m_iDiffuseTextureIndex; }
@@ -45,8 +47,11 @@ public:
 	_float3 Get_LerpScaleStart() { return m_vLerpScaleStart; }
 	_float3 Get_LerpScaleEnd() { return m_vLerpScaleEnd; }
 
-
 	/*========================Set=============================*/
+	void Set_Position(_float4 vPosition);
+	void Set_Position(_fvector vPosition);
+
+	void Set_isLoop(_bool isLoop) { m_isLoop = isLoop; }
 	void Set_Color_Magnification(_float fColorMagnification) { m_fColorMagnification = fColorMagnification; }
 	void Set_Color(_float4 vColor) { m_vColor = vColor; }
 	void Set_EffectTime(_float fEffectTime) { m_fEffectTimeDelta = fEffectTime; }
@@ -81,7 +86,8 @@ protected:
 	void Lerp();
 
 protected:
-	TYPE m_eType = { EFFECT_END };
+	TYPE			m_eType = { EFFECT_END };
+	_bool			m_isLoop = { true };
 	CShader*		m_pShaderCom = { nullptr };
 	string			m_strEffectName = {};
 	_float			m_fColorMagnification = { 1.f };
@@ -115,6 +121,8 @@ protected:
 	_float3			m_vLerpScaleEnd = { 1.f,1.f,1.f };									// Lerf가 들어갈때 변화될 스케일 값 
 
 public:
+	static HRESULT Read_File_Loop(const string FilePath, class CGameInstance* pGameInstance, ID3D11Device* pDevice, ID3D11DeviceContext* pContext, vector<CEffect*>* _Effects = nullptr);
+	static HRESULT Read_File_NoLoop(const string FilePath, class CGameInstance* pGameInstance, ID3D11Device* pDevice, ID3D11DeviceContext* pContext, _float4 vPosition = _float4(0.f,0.f,0.f,1.f), vector<CEffect*>* _Effects = nullptr);
 	virtual void Free() override;
 };
 

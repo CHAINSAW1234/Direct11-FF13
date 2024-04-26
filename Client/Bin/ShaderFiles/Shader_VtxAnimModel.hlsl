@@ -5,9 +5,12 @@ matrix g_WorldMatrix, g_ViewMatrix, g_ProjMatrix;
 
 matrix g_BoneMatrices[512];
 
+float g_DissolveTime;
+float4 g_vColor;
+
 texture2D g_DiffuseTexture;
 texture2D g_NormalTexture;
-
+texture2D g_DissolveTexture;
 
 struct VS_IN
 {
@@ -120,9 +123,62 @@ PS_OUT PS_No_Normal(PS_IN In)
     return Out;
 }
 
+PS_OUT PS_DISSOLVE(PS_IN In)
+{
+    PS_OUT Out = (PS_OUT) 0;
+
+    vector vDiffuseColor = g_DiffuseTexture.Sample(LinearSampler, In.vTexcoord);
+    vector vDissolveColor = g_DissolveTexture.Sample(LinearSampler, In.vTexcoord);
+    if (0.3f >= vDiffuseColor.a)
+        discard;
+    vDiffuseColor.xyz *= 0.1f;
+    
+    if (vDissolveColor.r < g_DissolveTime)
+        discard;
+    
+    vector vNormalDesc = g_NormalTexture.Sample(LinearSampler, In.vTexcoord);
+
+    float3 vNormal = vNormalDesc.xyz * 2.f - 1.f;
+
+    float3x3 WorldMatrix = float3x3(In.vTangent, In.vBinormal, In.vNormal);
+
+    float3 vWorldNormal = mul(vNormal, WorldMatrix);
+
+    Out.vDiffuse = vDiffuseColor;
+    Out.vNormal = vector(vWorldNormal * 0.5f + 0.5f, 0.f);
+    Out.vDepth = vector(In.vProjPos.z / In.vProjPos.w, In.vProjPos.w / 1000.0f, 0.0f, 0.0f);
+	
+    return Out;
+}
+
+PS_OUT PS_COLOR(PS_IN In)
+{
+    PS_OUT Out = (PS_OUT) 0;
+
+    vector vDiffuseColor = g_DiffuseTexture.Sample(LinearSampler, In.vTexcoord);
+    if (0.3f >= vDiffuseColor.a)
+        discard;
+    vDiffuseColor += g_vColor * abs(sin(g_DissolveTime * 5));
+    vDiffuseColor.w = 1.f;
+
+    vector vNormalDesc = g_NormalTexture.Sample(LinearSampler, In.vTexcoord);
+
+    float3 vNormal = vNormalDesc.xyz * 2.f - 1.f;
+
+    float3x3 WorldMatrix = float3x3(In.vTangent, In.vBinormal, In.vNormal);
+
+    float3 vWorldNormal = mul(vNormal, WorldMatrix);
+
+    Out.vDiffuse = vDiffuseColor;
+    Out.vNormal = vector(vWorldNormal * 0.5f + 0.5f, 0.f);
+    Out.vDepth = vector(In.vProjPos.z / In.vProjPos.w, In.vProjPos.w / 1000.0f, 0.0f, 0.0f);
+	
+    return Out;
+}
+
 technique11 DefaultTechnique
 {
-    pass Default
+    pass Default        // 0
     {
         SetRasterizerState(RS_Default);
         SetDepthStencilState(DSS_Default, 0);
@@ -135,7 +191,7 @@ technique11 DefaultTechnique
         PixelShader = compile ps_5_0 PS_MAIN();
     }
 
-    pass No_Normal
+    pass No_Normal      // 1
     {
         SetRasterizerState(RS_Default);
         SetDepthStencilState(DSS_Default, 0);
@@ -147,4 +203,31 @@ technique11 DefaultTechnique
         DomainShader = /*compile ds_5_0 DS_MAIN()*/NULL;
         PixelShader = compile ps_5_0 PS_No_Normal();
     }
+
+    pass Dissolve       // 2
+    {
+        SetRasterizerState(RS_Default);
+        SetDepthStencilState(DSS_Default, 0);
+        SetBlendState(BS_Default, float4(0.f, 0.f, 0.f, 0.f), 0xffffffff);
+
+        VertexShader = compile vs_5_0 VS_MAIN();
+        GeometryShader = /*compile gs_5_0 GS_MAIN()*/NULL;
+        HullShader = /*compile hs_5_0 HS_MAIN()*/NULL;
+        DomainShader = /*compile ds_5_0 DS_MAIN()*/NULL;
+        PixelShader = compile ps_5_0 PS_DISSOLVE();
+    }
+
+    pass Color // 3
+    {
+        SetRasterizerState(RS_Default);
+        SetDepthStencilState(DSS_Default, 0);
+        SetBlendState(BS_Default, float4(0.f, 0.f, 0.f, 0.f), 0xffffffff);
+
+        VertexShader = compile vs_5_0 VS_MAIN();
+        GeometryShader = /*compile gs_5_0 GS_MAIN()*/NULL;
+        HullShader = /*compile hs_5_0 HS_MAIN()*/NULL;
+        DomainShader = /*compile ds_5_0 DS_MAIN()*/NULL;
+        PixelShader = compile ps_5_0 PS_COLOR();
+    }
+
 }

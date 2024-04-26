@@ -6,8 +6,6 @@ matrix g_WorldMatrix, g_ViewMatrix, g_ProjMatrix;
 
 textureCUBE g_Texture;
 
-
-
 struct VS_IN
 {
     float3 vPosition : POSITION;

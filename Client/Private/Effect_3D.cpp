@@ -29,6 +29,7 @@ HRESULT CEffect_3D::Initialize(void* pArg)
 	if (FAILED(__super::Initialize(pArg)))
 		return E_FAIL;
 
+
 	return S_OK;
 }
 
@@ -154,22 +155,22 @@ HRESULT CEffect_3D::Add_Components()
 		return E_FAIL;
 
 	/* For.Com_Model */
-	if (FAILED(__super::Add_Component(g_Level, m_strModelTag,
+	if (FAILED(__super::Add_Component(LEVEL_STATIC, m_strModelTag,
 		TEXT("Com_Model"), (CComponent**)&m_pModelCom)))
 		return E_FAIL;
 	
 	/* For.Com_DiffuseTexture */
-	if (FAILED(__super::Add_Component(g_Level, TEXT("Prototype_Component_Texture_Diffuse"),
+	if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_Texture_Diffuse"),
 		TEXT("Com_DiffuseTexture"), (CComponent**)&m_pDiffuseTextureCom)))
 		return E_FAIL;
 
 	/* For.Com_MaskTexture */
-	if (FAILED(__super::Add_Component(g_Level, TEXT("Prototype_Component_Texture_Diffuse"),
+	if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_Texture_Diffuse"),
 		TEXT("Com_MaskTexture"), (CComponent**)&m_pMaskTextureCom)))
 		return E_FAIL;
 
 	/* For.Com_DissolveTexture */
-	if (FAILED(__super::Add_Component(g_Level, TEXT("Prototype_Component_Texture_Mask"),
+	if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_Texture_Mask"),
 		TEXT("Com_DissolveTexture"), (CComponent**)&m_pDissolveTextureCom)))
 		return E_FAIL;
 

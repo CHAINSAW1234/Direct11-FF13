@@ -32,6 +32,7 @@ void CUI_Battle_Stage_Select::OnStateUpdate(_float fTimeDelta)
 	
 	if (m_pGameInstance->Get_KeyState(KEY_DOWN, DIK_RETURN)) {
 		Change_Stage();
+		m_pGameInstance->PlaySoundW(TEXT("System_Enter.wav"), CSound_Manager::UI1, SOUND_DEFAULT);
 	}
 }
 
@@ -75,11 +76,13 @@ void CUI_Battle_Stage_Select::Update_Cursor()
 	if (m_pGameInstance->Get_KeyState(KEY_DOWN, DIK_DOWN)) {
 		if (m_iCursor + 1 < m_Pnals.size()) {
 			++m_iCursor;
+			m_pGameInstance->PlaySoundW(TEXT("System_Cursor.wav"), CSound_Manager::UI2, SOUND_DEFAULT);
 		}
 	}
 	if (m_pGameInstance->Get_KeyState(KEY_DOWN, DIK_UP)) {
 		if (m_iCursor > 0) {
 			--m_iCursor;
+			m_pGameInstance->PlaySoundW(TEXT("System_Cursor.wav"), CSound_Manager::UI2, SOUND_DEFAULT);
 		}
 	}
 

@@ -151,6 +151,7 @@ void CChr_Battle_Sazh::Create_Sphere(_int iDamage, _int iWeaponNum)
 	Sphere_Desc.isTargetMonster = true;
 	Sphere_Desc.iDamage = iDamage;
 	Sphere_Desc.fChain = 10.f;
+	Sphere_Desc.eSkill = m_Commands.front();
 
 	if (FAILED(m_pGameInstance->Add_Clone(g_Level, TEXT("Layer_Bullet"), TEXT("Prototype_GameObject_Sphere"), &Sphere_Desc))) {
 		int i = 0;

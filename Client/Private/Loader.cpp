@@ -33,16 +33,19 @@
 #include "Sphere_Heal.h"
 #include "Bullet.h"
 
+#include "Corpse.h"
 #include "Leopard.h"
 #include "Warload.h"
 #include "Solider.h"
 #include "Solider_Gun.h"
 #include "Boss.h"
 
+#include "Electricity.h"
 #include "Effect_2D.h"
 #include "Effect_2D_Bone.h"
 #include "Effect_3D.h"
 #include "Effect_Instance.h"
+#include "Effect_Camera_Look.h"
 
 #include "Particle_Blue.h"
 #include "Camera_Free.h"
@@ -90,16 +93,9 @@ _uint APIENTRY LoadingMain(void* pArg)
 
 HRESULT CLoader::Initialize(LEVEL eNextLevelID)
 {
-	static int isStart = true;
-
 	m_eNextLevelID = eNextLevelID;
 
 	InitializeCriticalSection(&m_Critical_Section);
-
-	if (isStart) {
-		Loading_Prototype();
-		isStart = false;
-	}
 
 	m_hThread = (HANDLE)_beginthreadex(nullptr, 0, LoadingMain, this, 0, nullptr);
 	if (0 == m_hThread)
@@ -111,6 +107,20 @@ HRESULT CLoader::Initialize(LEVEL eNextLevelID)
 HRESULT CLoader::Start()
 {
 	EnterCriticalSection(&m_Critical_Section);
+
+	static int isStart_Logo = true;
+
+	if (isStart_Logo) {
+		Loading_Prototype();
+		Loading_For_Static_Component();
+		isStart_Logo = false;
+	}
+
+	static int isStart = true;
+	if (isStart && m_eNextLevelID != LEVEL_LOGO && m_eNextLevelID != LEVEL_PARSING) {
+		Loading_For_Static_Component_Effect();
+		isStart = false;
+	}
 
 	HRESULT		hr = { 0 };
 
@@ -286,6 +296,11 @@ HRESULT CLoader::Loading_Prototype()
 		CBoss::Create(m_pDevice, m_pContext))))
 		return E_FAIL;
 
+	/* For.Prototype_GameObject_Corpse */
+	if (FAILED(m_pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_Corpse"),
+		CCorpse::Create(m_pDevice, m_pContext))))
+		return E_FAIL;
+
 	/* For.Prototype_GameObject_Sphere */
 	if (FAILED(m_pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_Sphere"),
 		CSphere::Create(m_pDevice, m_pContext))))
@@ -299,6 +314,11 @@ HRESULT CLoader::Loading_Prototype()
 	/* For.Prototype_GameObject_Sphere */
 	if (FAILED(m_pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_Bullet"),
 		CBullet::Create(m_pDevice, m_pContext))))
+		return E_FAIL;
+
+	/* For.Prototype_GameObject_Effect_2D */
+	if (FAILED(m_pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_Electricity"),
+		CElectricity::Create(m_pDevice, m_pContext))))
 		return E_FAIL;
 
 	/* For.Prototype_GameObject_Effect_2D */
@@ -319,6 +339,11 @@ HRESULT CLoader::Loading_Prototype()
 	/* For.Prototype_GameObject_Effect_Instance */
 	if (FAILED(m_pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_Effect_Instance"),
 		CEffect_Instance::Create(m_pDevice, m_pContext))))
+		return E_FAIL;
+
+	/* For.Prototype_GameObject_Effect_Camera_Look */
+	if (FAILED(m_pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_Effect_Camera_Look"),
+		CEffect_Camera_Look::Create(m_pDevice, m_pContext))))
 		return E_FAIL;
 
 	/* For.Prototype_GameObject_Inventory */
@@ -415,6 +440,233 @@ HRESULT CLoader::Loading_Prototype()
  	if (FAILED(m_pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_Grid"),
 		CGrid::Create(m_pDevice, m_pContext))))
 		return E_FAIL;
+
+	return S_OK;
+}
+
+HRESULT CLoader::Loading_For_Static_Component()
+{
+
+	/* For.Prototype_Component_VIBuffer_Rect */
+	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_VIBuffer_Rect"),
+		CVIBuffer_Rect::Create(m_pDevice, m_pContext))))
+		return E_FAIL;
+
+	/* For.Prototype_Component_VIBuffer_Cube */
+	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_VIBuffer_Cube"),
+		CVIBuffer_Cube::Create(m_pDevice, m_pContext))))
+		return E_FAIL;
+
+	/* For.Prototype_Component_FSM */
+	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_FSM"),
+		CFSM::Create(m_pDevice, m_pContext))))
+		return E_FAIL;
+
+#pragma region Collider
+
+	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Collider_AABB"),
+		CCollider::Create(m_pDevice, m_pContext, CCollider::TYPE_AABB))))
+		return E_FAIL;
+
+	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Collider_OBB"),
+		CCollider::Create(m_pDevice, m_pContext, CCollider::TYPE_OBB))))
+		return E_FAIL;
+
+	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Collider_Sphere"),
+		CCollider::Create(m_pDevice, m_pContext, CCollider::TYPE_SPHERE))))
+		return E_FAIL;
+
+	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Collider_Bone_AABB"),
+		CCollider_Bone::Create(m_pDevice, m_pContext, CCollider::TYPE_AABB))))
+		return E_FAIL;
+
+	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Collider_Bone_OBB"),
+		CCollider_Bone::Create(m_pDevice, m_pContext, CCollider::TYPE_OBB))))
+		return E_FAIL;
+
+	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Collider_Bone_Sphere"),
+		CCollider_Bone::Create(m_pDevice, m_pContext, CCollider::TYPE_SPHERE))))
+		return E_FAIL;
+
+
+#pragma endregion
+
+#pragma region Navigation
+
+	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Navigation_Field"),
+		CNavigation::Create_From_Model(m_pDevice, m_pContext, "../Bin/Resources/Models/MapObject/MapNavi/Map_Field_Navi_Origin.bin"))))
+		return E_FAIL;
+
+	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Navigation_Battle"),
+		CNavigation::Create_From_Model(m_pDevice, m_pContext, "../Bin/Resources/Models/MapObject/MapNavi/Map_Battle_Navi.bin"))))
+		return E_FAIL;
+
+	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Navigation_Boss_Battle"),
+		CNavigation::Create_From_Model(m_pDevice, m_pContext, "../Bin/Resources/Models/MapObject/MapNavi/Map_Boss_Battle_Navi.bin"))))
+		return E_FAIL;
+
+#pragma endregion
+
+#pragma region Shader
+	/* For.Prototype_Component_Shader_VtxNorTex */
+	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Shader_VtxNorTex"),
+		CShader::Create(m_pDevice, m_pContext, TEXT("../Bin/ShaderFiles/Shader_VtxNorTex.hlsl"), VTXNORTEX::Elements, VTXNORTEX::iNumElements))))
+		return E_FAIL;
+
+	/* For.Prototype_Component_Shader_VtxPosTex */
+	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Shader_VtxPosTex"),
+		CShader::Create(m_pDevice, m_pContext, TEXT("../Bin/ShaderFiles/Shader_VtxPosTex.hlsl"), VTXPOSTEX::Elements, VTXPOSTEX::iNumElements))))
+		return E_FAIL;
+
+	/* For.Prototype_Component_Shader_VtxPosTex_UI */
+	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Shader_VtxPosTex_UI"),
+		CShader::Create(m_pDevice, m_pContext, TEXT("../Bin/ShaderFiles/Shader_VtxPosTex_UI.hlsl"), VTXPOSTEX::Elements, VTXPOSTEX::iNumElements))))
+		return E_FAIL;
+
+	/* For.Prototype_Component_Shader_VtxCube */
+	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Shader_VtxCube"),
+		CShader::Create(m_pDevice, m_pContext, TEXT("../Bin/ShaderFiles/Shader_VtxCube.hlsl"), VTXCUBE::Elements, VTXCUBE::iNumElements))))
+		return E_FAIL;
+
+	/* For.Prototype_Component_Shader_VtxModel */
+	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Shader_VtxModel"),
+		CShader::Create(m_pDevice, m_pContext, TEXT("../Bin/ShaderFiles/Shader_VtxModel.hlsl"), VTXMESH::Elements, VTXMESH::iNumElements))))
+		return E_FAIL;
+
+	/* For.Prototype_Component_Shader_VtxModel */
+	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Shader_VtxModel_Effect"),
+		CShader::Create(m_pDevice, m_pContext, TEXT("../Bin/ShaderFiles/Shader_VtxModel_Effect.hlsl"), VTXMESH::Elements, VTXMESH::iNumElements))))
+		return E_FAIL;
+
+	/* For.Prototype_Component_Shader_VtxAnimModel */
+	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Shader_VtxAnimModel"),
+		CShader::Create(m_pDevice, m_pContext, TEXT("../Bin/ShaderFiles/Shader_VtxAnimModel.hlsl"), VTXANIMMESH::Elements, VTXANIMMESH::iNumElements))))
+		return E_FAIL;
+
+	/* For.Prototype_Component_Shader_VtxPosTex */
+	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Shader_VtxPos"),
+		CShader::Create(m_pDevice, m_pContext, TEXT("../Bin/ShaderFiles/Shader_VtxPos.hlsl"), VTXPOS::Elements, VTXPOS::iNumElements))))
+		return E_FAIL;
+
+	/* For.Prototype_Component_Shader_VtxInstance_Rect */
+	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Shader_VtxInstance_Rect"),
+		CShader::Create(m_pDevice, m_pContext, TEXT("../Bin/ShaderFiles/Shader_VtxInstance_Rect.hlsl"), VTXINSTANCE_RECT::Elements, VTXINSTANCE_RECT::iNumElements))))
+		return E_FAIL;
+
+	/* For.Prototype_Component_Shader_VtxInstance_Point */
+	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Shader_VtxInstance_Point"),
+		CShader::Create(m_pDevice, m_pContext, TEXT("../Bin/ShaderFiles/Shader_VtxInstance_Point.hlsl"), VTXINSTANCE_POINT::Elements, VTXINSTANCE_POINT::iNumElements))))
+		return E_FAIL;
+
+
+#pragma endregion
+
+
+	return S_OK;
+}
+
+HRESULT CLoader::Loading_For_Static_Component_Effect()
+{
+#pragma region Texture
+	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_Diffuse"),
+		CTexture::Create(m_pDevice, m_pContext, TEXT("../Bin/Resources/Textures/Effect/Diffuse/Diffuse (%d).png"), 173))))
+		return E_FAIL;
+
+	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_Mask"),
+		CTexture::Create(m_pDevice, m_pContext, TEXT("../Bin/Resources/Textures/Mask/Mask_%d.png"), 141))))
+		return E_FAIL;
+
+	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_Particle"),
+		CTexture::Create(m_pDevice, m_pContext, TEXT("../Bin/Resources/Textures/Effect/Particle/Particle (%d).png"), 113))))
+		return E_FAIL;
+
+	/* Prototype_Component_Texture_Sky */
+	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_Sky"),
+		CTexture::Create(m_pDevice, m_pContext, TEXT("../Bin/Resources/Textures/SkyBox/Sky_%d.dds"), 4))))
+		return E_FAIL;
+#pragma endregion
+
+#pragma region Effect
+	string tag = ".bin";
+	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Model_Capsule"),
+		CModel::Create(m_pDevice, m_pContext, "../Bin/Resources/Models/Effect/Default/Capsule" + tag))))
+		return E_FAIL;
+	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Model_Circle"),
+		CModel::Create(m_pDevice, m_pContext, "../Bin/Resources/Models/Effect/Default/Circle" + tag))))
+		return E_FAIL;
+	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Model_Circle2"),
+		CModel::Create(m_pDevice, m_pContext, "../Bin/Resources/Models/Effect/Default/Circle2" + tag))))
+		return E_FAIL;
+	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Model_Crack"),
+		CModel::Create(m_pDevice, m_pContext, "../Bin/Resources/Models/Effect/Default/Crack" + tag))))
+		return E_FAIL;
+	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Model_Cylinder"),
+		CModel::Create(m_pDevice, m_pContext, "../Bin/Resources/Models/Effect/Default/Cylinder" + tag))))
+		return E_FAIL;
+	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Model_Cylinder1"),
+		CModel::Create(m_pDevice, m_pContext, "../Bin/Resources/Models/Effect/Default/Cylinder1" + tag))))
+		return E_FAIL;
+	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Model_Cylinder2"),
+		CModel::Create(m_pDevice, m_pContext, "../Bin/Resources/Models/Effect/Default/Cylinder2" + tag))))
+		return E_FAIL;
+	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Model_Electricity"),
+		CModel::Create(m_pDevice, m_pContext, "../Bin/Resources/Models/Effect/Default/Electricity" + tag))))
+		return E_FAIL;
+	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Model_Electricity2"),
+		CModel::Create(m_pDevice, m_pContext, "../Bin/Resources/Models/Effect/Default/Electricity2" + tag))))
+		return E_FAIL;
+	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Model_Shock"),
+		CModel::Create(m_pDevice, m_pContext, "../Bin/Resources/Models/Effect/Default/Shock" + tag))))
+		return E_FAIL;
+	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Model_Slash"),
+		CModel::Create(m_pDevice, m_pContext, "../Bin/Resources/Models/Effect/Default/Slash" + tag))))
+		return E_FAIL;
+	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Model_Sphere"),
+		CModel::Create(m_pDevice, m_pContext, "../Bin/Resources/Models/Effect/Default/Sphere" + tag))))
+		return E_FAIL;
+	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Model_Thunder0"),
+		CModel::Create(m_pDevice, m_pContext, "../Bin/Resources/Models/Effect/Default/Thunder0" + tag))))
+		return E_FAIL;
+	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Model_Thunder1"),
+		CModel::Create(m_pDevice, m_pContext, "../Bin/Resources/Models/Effect/Default/Thunder1" + tag))))
+		return E_FAIL;
+	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Model_Thunder2"),
+		CModel::Create(m_pDevice, m_pContext, "../Bin/Resources/Models/Effect/Default/Thunder2" + tag))))
+		return E_FAIL;
+	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Model_Thunder3"),
+		CModel::Create(m_pDevice, m_pContext, "../Bin/Resources/Models/Effect/Default/Thunder3" + tag))))
+		return E_FAIL;
+	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Model_Thunder4"),
+		CModel::Create(m_pDevice, m_pContext, "../Bin/Resources/Models/Effect/Default/Thunder4" + tag))))
+		return E_FAIL;
+	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Model_Thunder5"),
+		CModel::Create(m_pDevice, m_pContext, "../Bin/Resources/Models/Effect/Default/Thunder5" + tag))))
+		return E_FAIL;
+	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Model_Tornado"),
+		CModel::Create(m_pDevice, m_pContext, "../Bin/Resources/Models/Effect/Default/Tornado" + tag))))
+		return E_FAIL;
+	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Model_Trail"),
+		CModel::Create(m_pDevice, m_pContext, "../Bin/Resources/Models/Effect/Default/Trail" + tag))))
+		return E_FAIL;
+	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Model_Wind"),
+		CModel::Create(m_pDevice, m_pContext, "../Bin/Resources/Models/Effect/Default/Wind" + tag))))
+		return E_FAIL;
+
+	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Model_Effect_1"),
+		CModel::Create(m_pDevice, m_pContext, "../Bin/Resources/Models/Effect/Extract/Effect_1" + tag))))
+		return E_FAIL;
+	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Model_Effect_2"),
+		CModel::Create(m_pDevice, m_pContext, "../Bin/Resources/Models/Effect/Extract/Effect_2" + tag))))
+		return E_FAIL;
+	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Model_Optima1"),
+		CModel::Create(m_pDevice, m_pContext, "../Bin/Resources/Models/Effect/Extract/Optima_1" + tag))))
+		return E_FAIL;
+	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Model_Optima2"),
+		CModel::Create(m_pDevice, m_pContext, "../Bin/Resources/Models/Effect/Extract/Optima_2" + tag))))
+		return E_FAIL;
+
+
+#pragma endregion 
 
 	return S_OK;
 }
@@ -639,106 +891,13 @@ HRESULT CLoader::Loading_For_EffectTool()
 {
 	m_strLoadingText = TEXT("텍스쳐를(을) 로딩 중 입니다.");
 
-	if (FAILED(m_pGameInstance->Add_Prototype(g_Level, TEXT("Prototype_Component_Texture_Diffuse"),
-		CTexture::Create(m_pDevice, m_pContext, TEXT("../Bin/Resources/Textures/Effect/Diffuse/Diffuse (%d).png"), 173))))
-		return E_FAIL;
-
-
-	if (FAILED(m_pGameInstance->Add_Prototype(g_Level, TEXT("Prototype_Component_Texture_Mask"),
-		CTexture::Create(m_pDevice, m_pContext, TEXT("../Bin/Resources/Textures/Mask/Mask_%d.png"), 141))))
-		return E_FAIL;
-
-	if (FAILED(m_pGameInstance->Add_Prototype(g_Level, TEXT("Prototype_Component_Texture_Particle"),
-		CTexture::Create(m_pDevice, m_pContext, TEXT("../Bin/Resources/Textures/Effect/Particle/Particle (%d).png"), 113))))
-		return E_FAIL;
-
 	if (FAILED(m_pGameInstance->Add_Prototype(g_Level, TEXT("Prototype_Component_VIBuffer_Line"),
 		CVIBuffer_Line::Create(m_pDevice, m_pContext))))
 		return E_FAIL;
 
 	m_strLoadingText = TEXT("모델를(을) 로딩 중 입니다.");
-#pragma region Effect
+
 	string tag = ".bin";
-	if (FAILED(m_pGameInstance->Add_Prototype(g_Level, TEXT("Prototype_Component_Model_Capsule"),
-		CModel::Create(m_pDevice, m_pContext, "../Bin/Resources/Models/Effect/Default/Capsule" + tag))))
-		return E_FAIL;
-	if (FAILED(m_pGameInstance->Add_Prototype(g_Level, TEXT("Prototype_Component_Model_Circle"),
-		CModel::Create(m_pDevice, m_pContext, "../Bin/Resources/Models/Effect/Default/Circle" + tag))))
-		return E_FAIL;
-	if (FAILED(m_pGameInstance->Add_Prototype(g_Level, TEXT("Prototype_Component_Model_Circle2"),
-		CModel::Create(m_pDevice, m_pContext, "../Bin/Resources/Models/Effect/Default/Circle2" + tag))))
-		return E_FAIL;
-	if (FAILED(m_pGameInstance->Add_Prototype(g_Level, TEXT("Prototype_Component_Model_Crack"),
-		CModel::Create(m_pDevice, m_pContext, "../Bin/Resources/Models/Effect/Default/Crack" + tag))))
-		return E_FAIL;
-	if (FAILED(m_pGameInstance->Add_Prototype(g_Level, TEXT("Prototype_Component_Model_Cylinder"),
-		CModel::Create(m_pDevice, m_pContext, "../Bin/Resources/Models/Effect/Default/Cylinder" + tag))))
-		return E_FAIL;
-	if (FAILED(m_pGameInstance->Add_Prototype(g_Level, TEXT("Prototype_Component_Model_Cylinder1"),
-		CModel::Create(m_pDevice, m_pContext, "../Bin/Resources/Models/Effect/Default/Cylinder1" + tag))))
-		return E_FAIL;
-	if (FAILED(m_pGameInstance->Add_Prototype(g_Level, TEXT("Prototype_Component_Model_Cylinder2"),
-		CModel::Create(m_pDevice, m_pContext, "../Bin/Resources/Models/Effect/Default/Cylinder2" + tag))))
-		return E_FAIL;
-	if (FAILED(m_pGameInstance->Add_Prototype(g_Level, TEXT("Prototype_Component_Model_Electricity"),
-		CModel::Create(m_pDevice, m_pContext, "../Bin/Resources/Models/Effect/Default/Electricity" + tag))))
-		return E_FAIL;
-	if (FAILED(m_pGameInstance->Add_Prototype(g_Level, TEXT("Prototype_Component_Model_Electricity2"),
-		CModel::Create(m_pDevice, m_pContext, "../Bin/Resources/Models/Effect/Default/Electricity2" + tag))))
-		return E_FAIL;
-	if (FAILED(m_pGameInstance->Add_Prototype(g_Level, TEXT("Prototype_Component_Model_Shock"),
-		CModel::Create(m_pDevice, m_pContext, "../Bin/Resources/Models/Effect/Default/Shock" + tag))))
-		return E_FAIL;
-	if (FAILED(m_pGameInstance->Add_Prototype(g_Level, TEXT("Prototype_Component_Model_Slash"),
-		CModel::Create(m_pDevice, m_pContext, "../Bin/Resources/Models/Effect/Default/Slash" + tag))))
-		return E_FAIL;
-	if (FAILED(m_pGameInstance->Add_Prototype(g_Level, TEXT("Prototype_Component_Model_Sphere"),
-		CModel::Create(m_pDevice, m_pContext, "../Bin/Resources/Models/Effect/Default/Sphere" + tag))))
-		return E_FAIL;
-	if (FAILED(m_pGameInstance->Add_Prototype(g_Level, TEXT("Prototype_Component_Model_Thunder0"),
-		CModel::Create(m_pDevice, m_pContext, "../Bin/Resources/Models/Effect/Default/Thunder0" + tag))))
-		return E_FAIL;
-	if (FAILED(m_pGameInstance->Add_Prototype(g_Level, TEXT("Prototype_Component_Model_Thunder1"),
-		CModel::Create(m_pDevice, m_pContext, "../Bin/Resources/Models/Effect/Default/Thunder1" + tag))))
-		return E_FAIL;
-	if (FAILED(m_pGameInstance->Add_Prototype(g_Level, TEXT("Prototype_Component_Model_Thunder2"),
-		CModel::Create(m_pDevice, m_pContext, "../Bin/Resources/Models/Effect/Default/Thunder2" + tag))))
-		return E_FAIL;
-	if (FAILED(m_pGameInstance->Add_Prototype(g_Level, TEXT("Prototype_Component_Model_Thunder3"),
-		CModel::Create(m_pDevice, m_pContext, "../Bin/Resources/Models/Effect/Default/Thunder3" + tag))))
-		return E_FAIL;
-	if (FAILED(m_pGameInstance->Add_Prototype(g_Level, TEXT("Prototype_Component_Model_Thunder4"),
-		CModel::Create(m_pDevice, m_pContext, "../Bin/Resources/Models/Effect/Default/Thunder4" + tag))))
-		return E_FAIL;
-	if (FAILED(m_pGameInstance->Add_Prototype(g_Level, TEXT("Prototype_Component_Model_Thunder5"),
-		CModel::Create(m_pDevice, m_pContext, "../Bin/Resources/Models/Effect/Default/Thunder5" + tag))))
-		return E_FAIL;
-	if (FAILED(m_pGameInstance->Add_Prototype(g_Level, TEXT("Prototype_Component_Model_Tornado"),
-		CModel::Create(m_pDevice, m_pContext, "../Bin/Resources/Models/Effect/Default/Tornado" + tag))))
-		return E_FAIL;
-	if (FAILED(m_pGameInstance->Add_Prototype(g_Level, TEXT("Prototype_Component_Model_Trail"),
-		CModel::Create(m_pDevice, m_pContext, "../Bin/Resources/Models/Effect/Default/Trail" + tag))))
-		return E_FAIL;
-	if (FAILED(m_pGameInstance->Add_Prototype(g_Level, TEXT("Prototype_Component_Model_Wind"),
-		CModel::Create(m_pDevice, m_pContext, "../Bin/Resources/Models/Effect/Default/Wind" + tag))))
-		return E_FAIL;
-
-
-	if (FAILED(m_pGameInstance->Add_Prototype(g_Level, TEXT("Prototype_Component_Model_Effect_1"),
-		CModel::Create(m_pDevice, m_pContext, "../Bin/Resources/Models/Effect/Extract/Effect_1" + tag))))
-		return E_FAIL;
-	if (FAILED(m_pGameInstance->Add_Prototype(g_Level, TEXT("Prototype_Component_Model_Effect_2"),
-		CModel::Create(m_pDevice, m_pContext, "../Bin/Resources/Models/Effect/Extract/Effect_2" + tag))))
-		return E_FAIL;
-	if (FAILED(m_pGameInstance->Add_Prototype(g_Level, TEXT("Prototype_Component_Model_Optima1"),
-		CModel::Create(m_pDevice, m_pContext, "../Bin/Resources/Models/Effect/Extract/Optima_1" + tag))))
-		return E_FAIL;
-	if (FAILED(m_pGameInstance->Add_Prototype(g_Level, TEXT("Prototype_Component_Model_Optima2"),
-		CModel::Create(m_pDevice, m_pContext, "../Bin/Resources/Models/Effect/Extract/Optima_2" + tag))))
-		return E_FAIL;
-
-
-#pragma endregion 
 
 	if (FAILED(m_pGameInstance->Add_Prototype(g_Level, TEXT("Prototype_Component_Model_Map_Battle"),
 		CModel::Create(m_pDevice, m_pContext, "../Bin/Resources/Models/MapObject/MapObject/Map_Battle" + tag))))
@@ -910,17 +1069,45 @@ HRESULT CLoader::Loading_For_Battle()
 
 #pragma endregion
 
+#pragma region Effect
+
+	/* Prototype_Component_Texture_Dust_Color */
+	if (FAILED(m_pGameInstance->Add_Prototype(g_Level, TEXT("Prototype_Component_Texture_Dust_Color"),
+		CTexture::Create(m_pDevice, m_pContext, TEXT("../Bin/Resources/Textures/Effect/Dust_Color/Dust_Color%d.png"), 26))))
+		return E_FAIL;
+
+	/* Prototype_Component_Texture_Dust_Color */
+	if (FAILED(m_pGameInstance->Add_Prototype(g_Level, TEXT("Prototype_Component_Texture_Fire"),
+		CTexture::Create(m_pDevice, m_pContext, TEXT("../Bin/Resources/Textures/Effect/fIRE.dds")))))
+		return E_FAIL;
+
 	/* For.Prototype_Component_Texture_Gun_Fire */
 	if (FAILED(m_pGameInstance->Add_Prototype(g_Level, TEXT("Prototype_Component_Texture_Gun_Fire"),
 		CTexture::Create(m_pDevice, m_pContext, TEXT("../Bin/Resources/Textures/Effect/Gun_Fire/Gun_Fire_%d.png"), 2))))
 		return E_FAIL;
 
+	/* For.Prototype_Component_Texture_Hit_1 */
+	if (FAILED(m_pGameInstance->Add_Prototype(g_Level, TEXT("Prototype_Component_Texture_Hit_1"),
+		CTexture::Create(m_pDevice, m_pContext, TEXT("../Bin/Resources/Textures/Effect/Hit/Hit_1/Hit_1 (%d).png"), 6))))
+		return E_FAIL;
 
-	m_strLoadingText = TEXT("모델를(을) 로딩 중 입니다.");
+	/* For.Prototype_Component_Texture_Hit_2 */
+	if (FAILED(m_pGameInstance->Add_Prototype(g_Level, TEXT("Prototype_Component_Texture_Hit_2"),
+		CTexture::Create(m_pDevice, m_pContext, TEXT("../Bin/Resources/Textures/Effect/Hit/Hit_2/Hit_2 (%d).png"), 5))))
+		return E_FAIL;
+
+#pragma endregion
+
+	/* For.Prototype_Component_Texture_Corpse */
+	if (FAILED(m_pGameInstance->Add_Prototype(g_Level, TEXT("Prototype_Component_Texture_Corpse"),
+		CTexture::Create(m_pDevice, m_pContext, TEXT("../Bin/Resources/Textures/Corpse_Mask.dds")))))
+		return E_FAIL;
 
 	if (FAILED(m_pGameInstance->Add_Prototype(g_Level, TEXT("Prototype_Component_VIBuffer_Line"),
 		CVIBuffer_Line::Create(m_pDevice, m_pContext))))
 		return E_FAIL;
+
+	m_strLoadingText = TEXT("모델를(을) 로딩 중 입니다.");
 
 	string tag = ".bin";
 
@@ -986,11 +1173,6 @@ HRESULT CLoader::Loading_For_Battle()
 		return E_FAIL;
 
 #pragma endregion
-
-
-	if (FAILED(m_pGameInstance->Add_Prototype(g_Level, TEXT("Prototype_Component_Model_Sphere"),
-		CModel::Create(m_pDevice, m_pContext, "../Bin/Resources/Models/Sphere/Sphere" + tag))))
-		return E_FAIL;
 
 	if (FAILED(m_pGameInstance->Add_Prototype(g_Level, TEXT("Prototype_Component_Model_Bullet"),
 		CModel::Create(m_pDevice, m_pContext, "../Bin/Resources/Models/Bullet/Bullet" + tag))))
@@ -1108,7 +1290,42 @@ HRESULT CLoader::Loading_For_Boss_Battle()
 
 #pragma endregion
 
+#pragma region Effect
+
+	/* Prototype_Component_Texture_Dust_Color */
+	if (FAILED(m_pGameInstance->Add_Prototype(g_Level, TEXT("Prototype_Component_Texture_Dust_Color"),
+		CTexture::Create(m_pDevice, m_pContext, TEXT("../Bin/Resources/Textures/Effect/Dust_Color/Dust_Color%d.png"), 26))))
+		return E_FAIL;
+
+	/* Prototype_Component_Texture_Dust_Color */
+	if (FAILED(m_pGameInstance->Add_Prototype(g_Level, TEXT("Prototype_Component_Texture_Fire"),
+		CTexture::Create(m_pDevice, m_pContext, TEXT("../Bin/Resources/Textures/Effect/fIRE.dds")))))
+		return E_FAIL;
+
+	/* For.Prototype_Component_Texture_Gun_Fire */
+	if (FAILED(m_pGameInstance->Add_Prototype(g_Level, TEXT("Prototype_Component_Texture_Gun_Fire"),
+		CTexture::Create(m_pDevice, m_pContext, TEXT("../Bin/Resources/Textures/Effect/Gun_Fire/Gun_Fire_%d.png"), 2))))
+		return E_FAIL;
+
+	/* For.Prototype_Component_Texture_Hit_1 */
+	if (FAILED(m_pGameInstance->Add_Prototype(g_Level, TEXT("Prototype_Component_Texture_Hit_1"),
+		CTexture::Create(m_pDevice, m_pContext, TEXT("../Bin/Resources/Textures/Effect/Hit/Hit_1/Hit_1 (%d).png"), 6))))
+		return E_FAIL;
+
+	/* For.Prototype_Component_Texture_Hit_2 */
+	if (FAILED(m_pGameInstance->Add_Prototype(g_Level, TEXT("Prototype_Component_Texture_Hit_2"),
+		CTexture::Create(m_pDevice, m_pContext, TEXT("../Bin/Resources/Textures/Effect/Hit/Hit_2/Hit_2 (%d).png"), 5))))
+		return E_FAIL;
+
+#pragma endregion
+
 	m_strLoadingText = TEXT("모델를(을) 로딩 중 입니다.");
+
+	/* For.Prototype_Component_Texture_Corpse */
+	if (FAILED(m_pGameInstance->Add_Prototype(g_Level, TEXT("Prototype_Component_Texture_Corpse"),
+		CTexture::Create(m_pDevice, m_pContext, TEXT("../Bin/Resources/Textures/Corpse_Mask.dds")))))
+		return E_FAIL;
+
 
 	if (FAILED(m_pGameInstance->Add_Prototype(g_Level, TEXT("Prototype_Component_VIBuffer_Line"),
 		CVIBuffer_Line::Create(m_pDevice, m_pContext))))
@@ -1118,6 +1335,10 @@ HRESULT CLoader::Loading_For_Boss_Battle()
 
 	if (FAILED(m_pGameInstance->Add_Prototype(g_Level, TEXT("Prototype_Component_Model_Map_BossBattle_1"),
 		CModel::Create(m_pDevice, m_pContext, "../Bin/Resources/Models/MapObject/MapObject/Map_BossBattle_1" + tag))))
+		return E_FAIL;
+
+	if (FAILED(m_pGameInstance->Add_Prototype(g_Level, TEXT("Prototype_Component_Model_Bullet"),
+		CModel::Create(m_pDevice, m_pContext, "../Bin/Resources/Models/Bullet/Bullet" + tag))))
 		return E_FAIL;
 
 #pragma region Chr
@@ -1152,13 +1373,24 @@ HRESULT CLoader::Loading_For_Boss_Battle()
 		CModel::Create(m_pDevice, m_pContext, "../Bin/Resources/Models/Monster/Boss/Boss" + tag))))
 		return E_FAIL;
 
-	if (FAILED(m_pGameInstance->Add_Prototype(g_Level, TEXT("Prototype_Component_Model_Sphere"),
-		CModel::Create(m_pDevice, m_pContext, "../Bin/Resources/Models/Sphere/Sphere" + tag))))
+#pragma region Electricity
+	if (FAILED(m_pGameInstance->Add_Prototype(g_Level, TEXT("Prototype_Component_Model_Boss_Electricity_0"),
+		CModel::Create(m_pDevice, m_pContext, "../Bin/Resources/Models/Effect/Electricity/Boss_Electricity_0" + tag))))
 		return E_FAIL;
 
-	if (FAILED(m_pGameInstance->Add_Prototype(g_Level, TEXT("Prototype_Component_Model_Bullet"),
-		CModel::Create(m_pDevice, m_pContext, "../Bin/Resources/Models/Bullet/Bullet" + tag))))
+	if (FAILED(m_pGameInstance->Add_Prototype(g_Level, TEXT("Prototype_Component_Model_Boss_Electricity_1"),
+		CModel::Create(m_pDevice, m_pContext, "../Bin/Resources/Models/Effect/Electricity/Boss_Electricity_1" + tag))))
 		return E_FAIL;
+
+	if (FAILED(m_pGameInstance->Add_Prototype(g_Level, TEXT("Prototype_Component_Model_Boss_Electricity_2"),
+		CModel::Create(m_pDevice, m_pContext, "../Bin/Resources/Models/Effect/Electricity/Boss_Electricity_2" + tag))))
+		return E_FAIL;
+
+	if (FAILED(m_pGameInstance->Add_Prototype(g_Level, TEXT("Prototype_Component_Model_Boss_Electricity_3"),
+		CModel::Create(m_pDevice, m_pContext, "../Bin/Resources/Models/Effect/Electricity/Boss_Electricity_3" + tag))))
+		return E_FAIL;
+
+#pragma endregion
 
 	m_strLoadingText = TEXT("셰이더를(을) 로딩 중 입니다.");
 

@@ -57,8 +57,9 @@ HRESULT CChr_Battle_Vanila::Initialize(void* pArg)
 
 void CChr_Battle_Vanila::Tick(_float fTimeDelta)
 {
-	__super::Tick(fTimeDelta);
 	Update_HealTarget();
+	__super::Tick(fTimeDelta);
+
 }
 
 HRESULT CChr_Battle_Vanila::Late_Tick(_float fTimeDelta)
@@ -112,6 +113,7 @@ void CChr_Battle_Vanila::Create_Sphere(_int iDamage, _int iWeaponNum)
 	Sphere_Desc.isTargetMonster = true;
 	Sphere_Desc.iDamage = iDamage;
 	Sphere_Desc.fChain = 10.f;
+	Sphere_Desc.eSkill = m_Commands.front();
 
 	if (FAILED(m_pGameInstance->Add_Clone(g_Level, TEXT("Layer_Bullet"), TEXT("Prototype_GameObject_Sphere"), &Sphere_Desc))) {
 		int i = 0;
@@ -131,6 +133,7 @@ void CChr_Battle_Vanila::Create_Sphere_Heal()
 	Sphere_Desc.isTargetMonster = false;
 	Sphere_Desc.iDamage = m_iAttack_Magic * 3;
 	Sphere_Desc.fChain = 0.f;
+	Sphere_Desc.eSkill = CRole::CURE;
 
 	if (FAILED(m_pGameInstance->Add_Clone(g_Level, TEXT("Layer_Bullet"), TEXT("Prototype_GameObject_Sphere_Heal"), &Sphere_Desc))) {
 		int i = 0;
@@ -289,7 +292,7 @@ void CChr_Battle_Vanila::Update_HealTarget()
 		}
 	}
 
-	Set_Target(m_pGameInstance->Get_GameObject(g_Level, g_strChrLayerTag, (_uint)iIndex));
+	CChr_Battle::Set_Target(m_pGameInstance->Get_GameObject(g_Level, g_strChrLayerTag, (_uint)iIndex));
 }
 
 

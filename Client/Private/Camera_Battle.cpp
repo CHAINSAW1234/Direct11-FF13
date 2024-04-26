@@ -117,6 +117,9 @@ void CCamera_Battle::Update_Dist(_float fTimeDelta)
     size_t iChrCnt = m_pGameInstance->Get_LayerCnt(g_Level, g_strChrLayerTag);
     for (size_t i = 0; i < iChrCnt; ++i) {
         CTransform* pTransform = (CTransform*)m_pGameInstance->Get_Component(g_Level, g_strChrLayerTag, g_strTransformTag, (_int)i);
+        if (nullptr == pTransform)
+            return;
+
         _vector vPosition = pTransform->Get_State_Vector(CTransform::STATE_POSITION);
         vPosition = XMVector3TransformCoord(vPosition, ViewMatrix);
         vPosition = XMVector3TransformCoord(vPosition, ProjectMatrix);
@@ -135,7 +138,7 @@ void CCamera_Battle::Update_Dist(_float fTimeDelta)
     }
 
 
-    if (fabsMaxProjectPos.x >= 1.2f) {
+    if (fabsMaxProjectPos.x >= 1.5f) {
         m_fDist *= 1.001f;
     }
     else if (fabsMaxProjectPos.x <= 0.6f) {

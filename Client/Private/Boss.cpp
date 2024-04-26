@@ -30,6 +30,7 @@ HRESULT CBoss::Initialize_Prototype()
     m_iDamage = 58;
     m_vColliderSize = _float3(6.f, 6.f, 6.f);
     m_strMonsterName = TEXT("전투폭격기 카를라");
+    m_strWeaponBoneName = "socket";
 
     return S_OK;
 }
@@ -50,6 +51,10 @@ HRESULT CBoss::Initialize(void* pArg)
 void CBoss::Tick(_float fTimeDelta)
 {
     __super::Tick(fTimeDelta);
+
+    if (m_pGameInstance->Get_DIMouseState(DIMKS_RBUTTON)) {
+        Change_State(STATE_ATTACK_MAGIC);
+    }
 }
 
 HRESULT CBoss::Late_Tick(_float fTimeDelta)
@@ -71,7 +76,6 @@ HRESULT CBoss::Render()
 
 void CBoss::Start()
 {
-
     m_pTargetObject = dynamic_cast<CChr_Battle*>(m_pGameInstance->Get_GameObject(g_Level, g_strChrLayerTag, 0));
     _float4 vPosition = m_pTransformCom->Get_State_Float4(CTransform::STATE_POSITION);
     vPosition.y += 5.f;
@@ -107,8 +111,11 @@ void CBoss::Set_Hit(_int iDamage, _float fChain)
 
     }
 
-    if(m_isBreak)
+    if (m_isBreak && m_eState != STATE_ATTACK_PHYSIC && m_eState != STATE_SKILL_HELLBLAST && m_eState != STATE_SKILL_BARRIER) {
         Change_State(STATE_HIT);
+        Set_TrackPosition(0.f);
+    }
+
 }
 
 HRESULT CBoss::Change_State(STATE eState)
@@ -158,19 +165,6 @@ void CBoss::Clear_Pattern()
 
 void CBoss::Change_Phase()
 {
-}
-
-void CBoss::Add_Chain(_float fChain)
-{
-    m_fChain += fChain;
-    m_fCurChain = m_fChain;
-    m_fMagnification = 1 / (m_fStagger - 100) * 0.1f;
-    if (!m_isBreak && m_fChain >= m_fStagger) {
-        m_fChain = m_fStagger + 100.f;
-        m_isBreak = true;
-        m_fBreakTimeDelta = 0.f;
-        m_isBarrier = false;
-    }
 }
 
 void CBoss::Update_Chain(_float fTimeDelta)
@@ -223,7 +217,7 @@ HRESULT CBoss::Add_Components()
     ColliderOBBDesc.vCenter = _float3(0.f, 0.f, 0.f);
 
     CCollider_Bone::COLLIDER_BONE_DESC  ColliderBone_Desc = {};
-    ColliderBone_Desc.pSocket = m_pModelCom->Get_BonePtr("socket");
+    ColliderBone_Desc.pSocket = m_pModelCom->Get_BonePtr(m_strWeaponBoneName.c_str());
     ColliderBone_Desc.pBounding_Desc = &ColliderOBBDesc;
 
     if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_Collider_Bone_OBB"),

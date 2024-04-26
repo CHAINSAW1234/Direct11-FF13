@@ -37,6 +37,18 @@ HRESULT CLevel_Field::Initialize()
 	if (FAILED(Ready_Layer_Monster(g_strMonsterLayerTag)))
 		return E_FAIL;
 
+	m_pGameInstance->StopSound(CSound_Manager::BGM);
+
+	static int iStart = true;
+	if (iStart) {
+		iStart = false;
+		m_pGameInstance->PlaySoundLoop(TEXT("BGM_Field1.wav"), CSound_Manager::BGM_FIELD, SOUND_DEFAULT);
+	}
+	else {
+		m_pGameInstance->Pause(CSound_Manager::BGM_FIELD);
+	}
+
+
 	return S_OK;
 }
 
@@ -50,6 +62,9 @@ void CLevel_Field::Tick(_float fTimeDelta)
 			Safe_Release(*iter);
 			iter = m_Troups.erase(iter);
 			Save_Troup();
+
+			m_pGameInstance->Pause(CSound_Manager::BGM_FIELD);
+			m_pGameInstance->PlayBGM(TEXT("BGM_Battle.wav"));
 			return;
 		}
 		else
@@ -411,4 +426,7 @@ void CLevel_Field::Free()
 	for (auto& pTroup : m_Troups)
 		Safe_Release(pTroup);
 	m_Troups.clear();
+
+
+
 }

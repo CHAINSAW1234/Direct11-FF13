@@ -40,6 +40,8 @@ private:
 
 private:
 	HRESULT Loading_Prototype();
+	HRESULT Loading_For_Static_Component();
+	HRESULT Loading_For_Static_Component_Effect();
 	HRESULT Loading_For_Logo();
 	HRESULT Loading_For_GamePlay();
 	HRESULT Loading_For_MapTool();

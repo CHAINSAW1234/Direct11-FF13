@@ -1,6 +1,9 @@
 #include "stdafx.h"
 #include "Effect.h"
 
+#include "Effect_3D.h"
+#include "Effect_Instance.h"
+
 CEffect::CEffect(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
 	: CGameObject{ pDevice, pContext }
 {
@@ -35,6 +38,7 @@ HRESULT CEffect::Initialize(void* pArg)
 	if (FAILED(Add_Components()))
 		return E_FAIL;
 
+
 	return S_OK;
 }
 
@@ -43,7 +47,11 @@ void CEffect::Tick(_float fTimeDelta)
 	m_fTimeDelta += fTimeDelta;
 	if (m_fTimeDelta >= m_fEffectTimeDelta) {
 		m_fTimeDelta = m_fEffectTimeDelta;
-		Reset_Effect();
+
+		if (m_isLoop)
+			Reset_Effect();
+		else
+			Set_Dead(true);
 	}
 
 	Update_Texture_Movement(fTimeDelta);
@@ -67,6 +75,16 @@ HRESULT CEffect::Render()
 
 void CEffect::Start()
 {
+}
+
+void CEffect::Set_Position(_float4 vPosition)
+{
+	m_pTransformCom->Set_State(CTransform::STATE_POSITION, vPosition);
+}
+
+void CEffect::Set_Position(_fvector vPosition)
+{
+	m_pTransformCom->Set_State(CTransform::STATE_POSITION, vPosition);
 }
 
 void CEffect::Set_Move(_float4 vMoveDir)
@@ -214,6 +232,89 @@ void CEffect::Lerp()
 {
 	_vector vScale = XMVectorLerp(XMLoadFloat3(&m_vLerpScaleStart), XMLoadFloat3(&m_vLerpScaleEnd), m_fTimeDelta / m_fEffectTimeDelta);
 	m_pTransformCom->Set_Scaled(vScale.m128_f32[0], vScale.m128_f32[1], vScale.m128_f32[2] );
+}
+
+HRESULT CEffect::Read_File_Loop(const string FilePath, CGameInstance* pGameInstance, ID3D11Device* pDevice, ID3D11DeviceContext* pContext, vector<CEffect*>* _Effects)
+{
+	// "../Bin/Resources/Effect/" + strEffectTag
+	ifstream IFS{ FilePath, ios::in | ios::binary };
+
+	size_t iEffectNum = 0;
+	IFS.read(reinterpret_cast<char*>(&iEffectNum), sizeof(size_t));
+
+	for (size_t i = 0; i < iEffectNum; ++i) {
+		CEffect::TYPE eType = CEffect::EFFECT_END;
+		IFS.read(reinterpret_cast<char*>(&eType), sizeof(CEffect::TYPE));
+
+		if (eType == CEffect::EFFECT_END)
+			return E_FAIL;
+
+		CEffect* pEffect = { nullptr };
+
+		switch (eType) {
+		case CEffect::EFFECT_3D:
+			pEffect = CEffect_3D::Clone(pDevice, pContext, IFS);
+			break;
+		case CEffect::EFFECT_INSTANCE:
+			pEffect = CEffect_Instance::Clone(pDevice, pContext, IFS);
+			break;
+		}
+
+		if (nullptr == pEffect)
+			return E_FAIL;
+
+		if (nullptr != _Effects) {
+			_Effects->push_back(pEffect);
+			Safe_AddRef(pEffect);
+		}
+
+		pEffect->Set_isLoop(true);
+		pGameInstance->Add_Clone(g_Level, TEXT("Layer_Effect"), pEffect);
+	}
+
+	return S_OK;
+}
+
+HRESULT CEffect::Read_File_NoLoop(const string FilePath, CGameInstance* pGameInstance, ID3D11Device* pDevice, ID3D11DeviceContext* pContext, _float4 vPosition, vector<CEffect*>* _Effects)
+{
+	// "../Bin/Resources/Effect/" + strEffectTag
+	ifstream IFS{ FilePath, ios::in | ios::binary };
+
+	size_t iEffectNum = 0;
+	IFS.read(reinterpret_cast<char*>(&iEffectNum), sizeof(size_t));
+
+	for (size_t i = 0; i < iEffectNum; ++i) {
+		CEffect::TYPE eType = CEffect::EFFECT_END;
+		IFS.read(reinterpret_cast<char*>(&eType), sizeof(CEffect::TYPE));
+
+		if (eType == CEffect::EFFECT_END)
+			return E_FAIL;
+
+		CEffect* pEffect = { nullptr };
+
+		switch (eType) {
+		case CEffect::EFFECT_3D:
+			pEffect = CEffect_3D::Clone(pDevice, pContext, IFS);
+			break;
+		case CEffect::EFFECT_INSTANCE:
+			pEffect = CEffect_Instance::Clone(pDevice, pContext, IFS);
+			break;
+		}
+
+		if (nullptr == pEffect)
+			return E_FAIL;
+
+		if (nullptr != _Effects) {
+			_Effects->push_back(pEffect);
+			Safe_AddRef(pEffect);
+		}
+
+		pEffect->Set_Position(vPosition);
+		pEffect->Set_isLoop(false);
+		pGameInstance->Add_Clone(g_Level, TEXT("Layer_Effect"), pEffect);
+	}
+
+	return S_OK;
 }
 
 void CEffect::Free()

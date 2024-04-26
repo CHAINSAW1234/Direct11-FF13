@@ -10,6 +10,7 @@
 
 #include "Weapon_Anim.h"
 #include "Chr_Battle.h"
+#include "Corpse.h"
 
 CSolider::CSolider(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
 	: CMonster{ pDevice, pContext }
@@ -96,11 +97,31 @@ void CSolider::Start()
 
 }
 
+_float4 CSolider::Get_BonePos(const string strBoneName)
+{
+	_float4 vPos;
+	XMStoreFloat4(&vPos, XMLoadFloat4x4(m_pWeapon->Get_WorldMatrix_Ptr()).r[3]);
+	return vPos;
+}
+
 void CSolider::Set_Hit(_int iDamage, _float fChain)
 {
 	__super::Set_Hit(iDamage, fChain);
 
+	if (m_iHp <= 0) {
+		Set_Dead(true);
+
+		CCorpse::CORPSE_DESC pDesc = {};
+		pDesc.pModelCom = (CModel*)m_pWeapon->Get_Component(TEXT("Com_Model"));
+
+		pDesc.WorldMatrix = *m_pWeapon->Get_WorldMatrix_Ptr();
+
+		if (FAILED(m_pGameInstance->Add_Clone(g_Level, TEXT("Layer_Effect"), TEXT("Prototype_GameObject_Corpse"), &pDesc)))
+			return;
+	}
+
 	Change_State(STATE_HIT);
+	Set_TrackPosition(0.f);
 }
 
 void CSolider::Set_State_Battle_Start()

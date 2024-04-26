@@ -173,9 +173,9 @@ void CVIBuffer_Instance::Set_Direction_To_Pivot_Up()
 		vLook = vLook * XMVectorGetX(XMVector3Dot(vLook, vDir));
 		vDir = XMVector3Normalize(vDir - vLook);
 
-		XMStoreFloat4(&m_pVertices[i].vUp, vDir);
+		XMStoreFloat4(&m_pVertices[i].vUp, vDir * XMVector3Length(XMLoadFloat4(&m_pVertices[i].vUp)));
 		_vector vRight = XMVector3Cross(XMLoadFloat4(&m_pVertices[i].vUp), XMLoadFloat4(&m_pVertices[i].vLook));
-		XMStoreFloat4(&m_pVertices[i].vRight, XMVectorSetW(XMVector3Normalize(vRight), 0.f));
+		XMStoreFloat4(&m_pVertices[i].vRight, XMVectorSetW(XMVector3Normalize(vRight) * XMVector3Length(XMLoadFloat4(&m_pVertices[i].vRight)), 0.f));
 	}
 }
 
@@ -189,9 +189,9 @@ void CVIBuffer_Instance::Set_Direction_To_Pivot_Up_Reverse()
 		vLook = vLook * XMVectorGetX(XMVector3Dot(vLook, vDir));
 		vDir = XMVector3Normalize(vDir - vLook);
 
-		XMStoreFloat4(&m_pVertices[i].vUp, -vDir);
+		XMStoreFloat4(&m_pVertices[i].vUp, -vDir * XMVector3Length(XMLoadFloat4(&m_pVertices[i].vUp)));
 		_vector vRight = XMVector3Cross(XMLoadFloat4(&m_pVertices[i].vUp), XMLoadFloat4(&m_pVertices[i].vLook));
-		XMStoreFloat4(&m_pVertices[i].vRight, XMVectorSetW(XMVector3Normalize(vRight), 0.f));
+		XMStoreFloat4(&m_pVertices[i].vRight, XMVectorSetW(XMVector3Normalize(vRight) * XMVector3Length(XMLoadFloat4(&m_pVertices[i].vRight)), 0.f));
 	}
 }
 
@@ -205,9 +205,9 @@ void CVIBuffer_Instance::Set_Direction_To_Pivot_Right()
 		vLook = vLook * XMVectorGetX(XMVector3Dot(vLook, vDir));
 		vDir = XMVector3Normalize(vDir - vLook);
 
-		XMStoreFloat4(&m_pVertices[i].vRight, vDir);
+		XMStoreFloat4(&m_pVertices[i].vRight, vDir * XMVector3Length(XMLoadFloat4(&m_pVertices[i].vRight)));
 		_vector vUp = XMVector3Cross(XMLoadFloat4(&m_pVertices[i].vLook), XMLoadFloat4(&m_pVertices[i].vRight));
-		XMStoreFloat4(&m_pVertices[i].vUp, XMVectorSetW(XMVector3Normalize(vUp), 0.f));
+		XMStoreFloat4(&m_pVertices[i].vUp, XMVectorSetW(XMVector3Normalize(vUp) * XMVector3Length(XMLoadFloat4(&m_pVertices[i].vUp)), 0.f));
 	}
 }
 
@@ -221,9 +221,9 @@ void CVIBuffer_Instance::Set_Direction_To_Pivot_Right_Reverse()
 		vLook = vLook * XMVectorGetX(XMVector3Dot(vLook, vDir));
 		vDir = XMVector3Normalize(vDir - vLook);
 
-		XMStoreFloat4(&m_pVertices[i].vRight, -vDir);
+		XMStoreFloat4(&m_pVertices[i].vRight, -vDir * XMVector3Length(XMLoadFloat4(&m_pVertices[i].vRight)));
 		_vector vUp = XMVector3Cross(XMLoadFloat4(&m_pVertices[i].vLook), XMLoadFloat4(&m_pVertices[i].vRight));
-		XMStoreFloat4(&m_pVertices[i].vUp, XMVectorSetW(XMVector3Normalize(vUp), 0.f));
+		XMStoreFloat4(&m_pVertices[i].vUp, XMVectorSetW(XMVector3Normalize(vUp) * XMVector3Length(XMLoadFloat4(&m_pVertices[i].vUp)), 0.f));
 	}
 }
 
@@ -231,9 +231,11 @@ void CVIBuffer_Instance::Set_Direction_To_Pivot_None()
 {
 	for (size_t i = 0; i < m_iNumInstance; i++)
 	{
-		m_pVertices[i].vRight = { 1.f,0.f,0.f,0.f };
-		m_pVertices[i].vUp = { 0.f,1.f,0.f,0.f };
-		m_pVertices[i].vLook = { 0.f,0.f,1.f,0.f };
+		XMStoreFloat4(&m_pVertices[i].vRight, XMVectorSet(1.f, 0.f, 0.f, 0.f) * XMVector3Length(XMLoadFloat4(&m_pVertices[i].vRight)));
+
+		XMStoreFloat4(&m_pVertices[i].vUp, XMVectorSet(0.f, 1.f, 0.f, 0.f) * XMVector3Length(XMLoadFloat4(&m_pVertices[i].vUp)));
+
+		XMStoreFloat4(&m_pVertices[i].vLook, XMVectorSet(0.f, 0.f, 1.f, 0.f) * XMVector3Length(XMLoadFloat4(&m_pVertices[i].vLook)));
 	}
 }
 
@@ -247,15 +249,17 @@ void CVIBuffer_Instance::Sin()
 
 void CVIBuffer_Instance::Set_Up_Camera(_fmatrix CamMatrix)
 {
+
 	_vector vRight = CamMatrix.r[0];
 	_vector vUp = CamMatrix.r[1];
 	_vector vLook = CamMatrix.r[2];
 
+
 	for (size_t i = 0; i < m_iNumInstance; i++)
 	{
-		XMStoreFloat4(&m_pVertices[i].vRight, vRight);
-		XMStoreFloat4(&m_pVertices[i].vUp, vUp);
-		XMStoreFloat4(&m_pVertices[i].vLook, vLook);
+		XMStoreFloat4(&m_pVertices[i].vRight, vRight * XMVector3Length(XMLoadFloat4(&m_pVertices[i].vRight)));
+		XMStoreFloat4(&m_pVertices[i].vUp, vUp * XMVector3Length(XMLoadFloat4(&m_pVertices[i].vUp)));
+		XMStoreFloat4(&m_pVertices[i].vLook, vLook * XMVector3Length(XMLoadFloat4(&m_pVertices[i].vLook)));
 	}
 }
 
@@ -285,9 +289,11 @@ void CVIBuffer_Instance::Free()
 	if (false == m_isCloned)
 	{
 		Safe_Delete_Array(m_pSpeeds);
+		Safe_Delete_Array(m_pInstanceVertices);
 	}
 
 	Safe_Delete_Array(m_pLifeTimes);
 
 	Safe_Release(m_pVBInstance);
+
 }

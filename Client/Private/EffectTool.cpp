@@ -272,6 +272,12 @@ void CEffectTool::Effect_Window()
                 ImGui::RadioButton("None", &iPivotLook, 4);
                 pTargetInstance->Set_Pivot_Look((Interface_Instance::PIVOT_LOOK)iPivotLook);
 
+                _int iCamLook = pTargetInstance->Get_CamLook();
+                ImGui::Text("Cam Look");
+                ImGui::RadioButton("Look", &iCamLook, 1); ImGui::SameLine();
+                ImGui::RadioButton("No Look", &iCamLook, 0);
+                pTargetInstance->Se_CamLook(iCamLook);
+
                 ImGui::TreePop();
             }
         }
@@ -473,7 +479,7 @@ void CEffectTool::Save_Window()
             for (_uint i = 0; i < m_FinalEffects.size(); ++i)
             {
                 const bool is_selected = (iCurrent_Final_Effect_Index == i);
-                char name[26];
+                char name[60];
                 sprintf_s(name, m_FinalEffects[i].c_str());
                 if (ImGui::Selectable(name, is_selected)) {
                     iCurrent_Final_Effect_Index = (_int)i;
@@ -642,7 +648,6 @@ CEffect_3D* CEffectTool::Create_Effect_3D(_int iMeshIndex, const _char* EffectNa
 
     CEffect_3D::EFFECT_3D_DESC pDesc = {};
     pDesc.strEffectName = str;
-    pDesc.vPosition = { 0.f,0.f,0.f,1.f };
     pDesc.vColor = { 1.f,1.f,1.f,1.f };
     
     wstring strModelTag;
@@ -761,7 +766,6 @@ CEffect_Instance* CEffectTool::Create_Effect_Instance(CVIBuffer_Instance::INSTAN
     pDesc.eInstanceType = Interface_Instance::TYPE(eType);
     pDesc.strEffectName = str;
     pDesc.strBufferTag = strPrototypeTag;
-    pDesc.vPosition = { 0.f,0.f,0.f,1.f };
     pDesc.vColor = { 1.f,1.f,1.f,1.f };
     pDesc.eInstance_Desc = InstanceDesc;
 

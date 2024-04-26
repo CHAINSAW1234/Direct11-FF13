@@ -60,7 +60,7 @@ protected:
 class Interface_2D abstract
 {
 public:
-	enum EFFECT { DUST_COLOR, GUN_FIRE, EFFECT_END };
+	enum EFFECT { DUST_COLOR, GUN_FIRE, HIT_1, HIT_2, EFFECT_END };
 	typedef struct Interface_2D_Desc
 	{
 		EFFECT eEffect = { EFFECT_END };
@@ -120,13 +120,15 @@ public:
 	MOVEMENT Get_Movement() { return m_eMovement; }
 	_float4 Get_Direction() { return m_vDirection; }
 	_bool Get_Sin() { return m_isSin; }
+	_bool Get_CamLook() { return m_isCamLook; }
 
 	void Set_Type(TYPE eInstanceType) { m_eInstanceType = eInstanceType; }
 	void Set_Pivot_Look(PIVOT_LOOK ePivotLook) { m_ePivotLook = ePivotLook; }
 	void Set_Movement(MOVEMENT eMovement) { m_eMovement = eMovement; }
 	void Set_Direction(_float4 vDirection) { m_vDirection = vDirection; }
 	void Set_Sin(_bool issin) { m_isSin = issin; }
-	
+	void Se_CamLook(_bool isCamLook) { m_isCamLook = isCamLook; }
+
 protected:
 	CVIBuffer_Instance::INSTANCE_DESC m_eInstance_Desc = {};
 	CVIBuffer_Instance* m_pVIBufferCom = { nullptr };
@@ -136,6 +138,7 @@ protected:
 	MOVEMENT m_eMovement = { DIRECTION };
 	_float4 m_vDirection = { 0.f,0.f,0.f,0.f };
 	_bool m_isSin = { false };					// 안씀 내일까지 sin 해보고 안되면 버림
+	_bool m_isCamLook = { true };
 
 public:
 	virtual void Free();

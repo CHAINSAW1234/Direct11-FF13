@@ -10,6 +10,7 @@
 #include "Weapon_Anim.h"
 #include "Monster.h"
 #include "UI_Skill.h"
+#include "Effect.h"
 
 CChr_Battle::CChr_Battle(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
 	: CGameObject{ pDevice, pContext }
@@ -54,9 +55,10 @@ HRESULT CChr_Battle::Initialize(void* pArg)
 
 void CChr_Battle::Tick(_float fTimeDelta)
 {
+	Update_Target();
+
 	m_pFSMCom->Update(fTimeDelta);
 
-	Update_Target();
 	Update_Collider();
 	Check_Interact_Chr(fTimeDelta);
 	//Check_Interact_Monster(fTimeDelta);
@@ -315,6 +317,20 @@ void CChr_Battle::Change_Role(CAbility::ROLE eRole)
 	while(!m_Commands.empty())
 		m_Commands.pop();
 
+	string strEffectFilePath;
+	switch (eRole) {
+	case CAbility::ATTACKER:
+		strEffectFilePath = "../Bin/Resources/Effect/Optima_Attacker.dat";
+		break;
+	case CAbility::BLASTER:
+		strEffectFilePath = "../Bin/Resources/Effect/Optima_Blaster.dat";
+		break;
+	case CAbility::HEALER:
+		strEffectFilePath = "../Bin/Resources/Effect/Optima_Healer.dat";
+		break;
+	}
+
+	CEffect::Read_File_NoLoop(strEffectFilePath, m_pGameInstance, m_pDevice, m_pContext, m_pTransformCom->Get_State_Float4(CTransform::STATE_POSITION));
 }
 
 

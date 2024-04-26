@@ -17,6 +17,8 @@ protected:
 	virtual ~CGameObject() = default;
 
 public:
+	ID3D11Device* Get_Device() { return m_pDevice; }
+	ID3D11DeviceContext* Get_Context() { return m_pContext; }
 	class CComponent*	Get_Component(const wstring& strComTag);
 	_bool Get_Dead() { return m_isDead; }
 	_float Get_ViewZ() { Compute_ViewZ(); return  m_fViewZ; }

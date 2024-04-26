@@ -22,6 +22,7 @@ protected:
 
 public:
 	_float3 Get_TargetPosition() { return m_vTargetPosition; }
+	_float4 Get_Color() { return m_vColor; }
 	void Set_TargetPosition(_bool isAnimated, _float3 vTargetPosition);
 	void Reset_Position();
 	void Set_Color(_float4 vColor) { m_vColor = vColor; }

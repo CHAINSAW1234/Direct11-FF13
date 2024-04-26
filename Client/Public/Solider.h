@@ -36,6 +36,7 @@ public:
 
 public:
 	_bool Get_IsJumpNext() { return m_isJumpNext; }
+	virtual _float4 Get_BonePos(const string strBoneName) override;
 
 	void Set_IsJumpNext(_bool isJumpNext) { m_isJumpNext = isJumpNext; }
 

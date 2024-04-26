@@ -57,6 +57,8 @@ HRESULT CLevel_Battle::Initialize()
 
     m_pPlayer->Start();
     Set_Object_Position();
+
+
     return S_OK;
 }
 
@@ -66,6 +68,11 @@ void CLevel_Battle::Tick(_float fTimeDelta)
     m_pPlayer->Tick(fTimeDelta);
 
     if (0 == m_pGameInstance->Get_LayerCnt(g_Level, g_strMonsterLayerTag)) {
+        if (m_fTimeDelta == 0) {
+            m_pGameInstance->StopSound(CSound_Manager::BGM);
+            m_pGameInstance->PlayBGM(TEXT("BGM_Battle_End.wav"));
+        }
+
         m_fTimeDelta += fTimeDelta;
         if(m_fTimeDelta >= 2.0f)
           m_pGameInstance->Open_Level(LEVEL_LOADING, CLevel_Loading::Create(m_pDevice, m_pContext, LEVEL_FIELD));
@@ -254,4 +261,5 @@ void CLevel_Battle::Free()
     __super::Free();
     
     Safe_Release(m_pPlayer);
+
 }

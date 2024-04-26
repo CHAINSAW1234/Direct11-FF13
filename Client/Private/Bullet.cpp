@@ -5,6 +5,7 @@
 #include "Shader.h"
 #include "Monster.h"
 #include "Chr_Battle.h"
+#include "Effect.h"
 
 CBullet::CBullet(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
     : CGameObject{ pDevice, pContext }
@@ -48,8 +49,9 @@ HRESULT CBullet::Initialize(void* pArg)
 	m_vPosOffset.y = Random_Float(0.5);
 	m_vPosOffset.z = Random_Float(0.5);
 
+	//m_pTransformCom->Set_Look();
 	m_pTransformCom->Set_State(CTransform::STATE_POSITION, pBullet_Desc->vStartPosition);
-	m_pTransformCom->Set_Scaled(0.2f, 0.2f, 4.f);
+	m_pTransformCom->Set_Scaled(1.f, 1.f, 10.f);
 	m_pColliderCom->Tick(m_pTransformCom->Get_WorldMatrix());
 
 	return S_OK;
@@ -58,12 +60,14 @@ HRESULT CBullet::Initialize(void* pArg)
 void CBullet::Tick(_float fTimeDelta)
 {
 	Move(fTimeDelta);
-	m_pColliderCom->Tick(m_pTransformCom->Get_WorldMatrix());
-	Check_Collision();
 
 	if (m_pTargetObject->Get_Dead()) {
 		Set_Dead(true);
+		return;
 	}
+
+	m_pColliderCom->Tick(m_pTransformCom->Get_WorldMatrix());
+	Check_Collision();
 }
 
 HRESULT CBullet::Late_Tick(_float fTimeDelta)
@@ -87,9 +91,9 @@ HRESULT CBullet::Render()
 	_uint iNumMeshes = m_pModelCom->Get_NumMeshes();
 
 	for (_uint i = 0; i < iNumMeshes; ++i) {
-		//m_pModelCom->Bind_ShaderResource(m_pShaderCom, "g_DiffuseTexture", i, aiTextureType_DIFFUSE);
+		m_pModelCom->Bind_ShaderResource(m_pShaderCom, "g_DiffuseTexture", i, aiTextureType_DIFFUSE);
 
-		if (FAILED(m_pShaderCom->Begin(2)))
+		if (FAILED(m_pShaderCom->Begin(4)))
 			return E_FAIL;
 
 		m_pModelCom->Render(i);
@@ -111,12 +115,12 @@ HRESULT CBullet::Add_Components()
 		return E_FAIL;
 
 	/* For.Com_Model */
-	if (FAILED(__super::Add_Component(m_eLevel, TEXT("Prototype_Component_Model_Bullet"),
+	if (FAILED(__super::Add_Component(g_Level, TEXT("Prototype_Component_Model_Bullet"),
 		TEXT("Com_Model"), (CComponent**)&m_pModelCom)))
 		return E_FAIL;
 
 	CBounding_OBB::BOUNDING_OBB_DESC ColliderOBBDesc = {};
-	ColliderOBBDesc.vSize = { 0.1f,0.1f,0.3f };
+	ColliderOBBDesc.vSize = { 0.1f,0.1f,0.15f };
 	ColliderOBBDesc.vRotation = {};
 	ColliderOBBDesc.vCenter = {0.f,0.f,0.f};
 
@@ -174,9 +178,16 @@ void CBullet::Check_Collision()
 
 		if (m_isTargetMonster) {
 			((CMonster*)m_pTargetObject)->Set_Hit(m_iDamage, m_fChain);
+
+			if (FAILED(CEffect::Read_File_NoLoop("../Bin/Resources/Effect/Fire_Hit_Camera_Look_Instance.dat", m_pGameInstance, m_pDevice, m_pContext, m_pTransformCom->Get_State_Float4(CTransform::STATE_POSITION))))
+				return;
+
 		}
 		else {
 			((CChr_Battle*)m_pTargetObject)->Set_Hit(m_iDamage);
+
+			if (FAILED(CEffect::Read_File_NoLoop("../Bin/Resources/Effect/Hit_Particle.dat", m_pGameInstance, m_pDevice, m_pContext, m_pTransformCom->Get_State_Float4(CTransform::STATE_POSITION))))
+				return;
 		}
 
 		Set_Dead(true);

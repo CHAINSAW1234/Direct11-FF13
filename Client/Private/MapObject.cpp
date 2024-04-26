@@ -120,8 +120,6 @@ HRESULT CMapObject::Add_Components()
         TEXT("Com_Navigation"), (CComponent**)&m_pNavigationCom)))
         return S_OK;
 
-
-
     return S_OK;
 }
 

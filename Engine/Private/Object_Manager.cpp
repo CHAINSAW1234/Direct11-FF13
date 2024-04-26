@@ -120,11 +120,6 @@ CGameObject* CObject_Manager::Add_Clone_With_Object(_uint iLevelIndex, const wst
 
 		pLayer = CLayer::Create();
 
-
-
-
-
-
 		if (nullptr == pLayer)
 			return nullptr;
 		pLayer->Add_GameObject(pGameObject);

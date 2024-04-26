@@ -32,7 +32,6 @@ private:
 
 private:
 	HRESULT Open_Level(LEVEL eLevelID);
-	HRESULT Ready_Prototype_Component_For_Static();
 
 	HRESULT Ready_Gara_Light();
 	HRESULT Ready_Gara();

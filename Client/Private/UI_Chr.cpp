@@ -206,6 +206,7 @@ HRESULT CUI_Chr::Render_Hp()
 
 	if (FAILED(m_pGameInstance->Render_Font(g_strFont10Tag, TEXT("HP"), { m_vFont_HpPosition.x - 1, m_vFont_HpPosition.y - 1 }, XMVectorSet(0.f, 0.f, 0.f, 1.f), 0.f)))
 		return E_FAIL;
+
 	if (FAILED(m_pGameInstance->Render_Font(g_strFont10Tag, TEXT("HP"), { m_vFont_HpPosition.x - 1, m_vFont_HpPosition.y - 1 }, XMVectorSet(0.f, 0.f, 0.f, 1.f), 0.f)))
 		return E_FAIL;
 	if (FAILED(m_pGameInstance->Render_Font(g_strFont10Tag, TEXT("HP"), { m_vFont_HpPosition.x + 1, m_vFont_HpPosition.y + 1 }, XMVectorSet(0.f, 0.f, 0.f, 1.f), 0.f)))

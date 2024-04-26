@@ -43,6 +43,7 @@ HRESULT CLevel_Boss_Battle::Initialize()
 
     m_pPlayer->Start();
     Set_Object_Position();
+
     return S_OK;
 }
 
@@ -209,4 +210,5 @@ void CLevel_Boss_Battle::Free()
     __super::Free();
 
     Safe_Release(m_pPlayer);
+    m_pGameInstance->StopSound(CSound_Manager::BGM);
 }

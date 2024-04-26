@@ -55,7 +55,6 @@ void CEffect_Instance::Tick(_float fTimeDelta)
 		break;
 	}
 
-
 	m_pVIBufferCom->End();
 
 }
@@ -66,7 +65,12 @@ HRESULT CEffect_Instance::Late_Tick(_float fTimeDelta)
 		return E_FAIL;
 
 	_matrix vCamMatrix = m_pGameInstance->Get_Transform_Matrix_Inverse(CPipeLine::D3DTS_VIEW);
+	_vector vLook = vCamMatrix.r[2];
 	vCamMatrix = XMMatrixMultiply(vCamMatrix, m_pTransformCom->Get_WorldMatrix_Inverse());
+
+	if (m_isCamLook) {
+		m_pTransformCom->Set_Look(vLook);
+	}
 
 	m_pVIBufferCom->Begin();
 
@@ -139,7 +143,7 @@ HRESULT CEffect_Instance::Save_Effect(ofstream& OFS)
 	OFS.write(reinterpret_cast<const char*>(&m_eMovement), sizeof(Interface_Instance::MOVEMENT));
 	OFS.write(reinterpret_cast<const char*>(&m_vDirection), sizeof(_float4));
 
-	OFS.write(reinterpret_cast<const char*>(&m_isSin), sizeof(_bool));
+	OFS.write(reinterpret_cast<const char*>(&m_isCamLook), sizeof(_bool));
 
 	return S_OK;
 }
@@ -183,7 +187,7 @@ HRESULT CEffect_Instance::Load_Effect(ifstream& IFS)
 	IFS.read(reinterpret_cast<char*>(&m_eMovement), sizeof(Interface_Instance::MOVEMENT));
 	IFS.read(reinterpret_cast<char*>(&m_vDirection), sizeof(_float4));
 
-	IFS.read(reinterpret_cast<char*>(&m_isSin), sizeof(_bool));
+	IFS.read(reinterpret_cast<char*>(&m_isCamLook), sizeof(_bool));
 
 	return S_OK;
 }
@@ -215,7 +219,7 @@ HRESULT CEffect_Instance::Add_Components()
 	}
 
 	/* For.Com_DiffuseTexture */
-	if (FAILED(__super::Add_Component(g_Level, TEXT("Prototype_Component_Texture_Particle"),
+	if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_Texture_Particle"),
 		TEXT("Com_Texture"), (CComponent**)&m_pDiffuseTextureCom)))
 		return E_FAIL;
 
@@ -225,7 +229,7 @@ HRESULT CEffect_Instance::Add_Components()
 	//	return E_FAIL;
 
 	/* For.Com_DissolveTexture */
-	if (FAILED(__super::Add_Component(g_Level, TEXT("Prototype_Component_Texture_Mask"),
+	if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_Texture_Mask"),
 		TEXT("Com_DissolveTexture"), (CComponent**)&m_pDissolveTextureCom)))
 		return E_FAIL;
 

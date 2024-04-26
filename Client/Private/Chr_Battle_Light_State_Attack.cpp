@@ -1,6 +1,7 @@
 #include "stdafx.h"
 #include "Chr_Battle_Light_State_Attack.h"
 #include "Chr_Battle_Light.h"
+#include "Effect.h"
 
 CChr_Battle_Light_State_Attack::CChr_Battle_Light_State_Attack(CChr_Battle_Light* pChr_Battle_Light)
 {
@@ -28,8 +29,8 @@ void CChr_Battle_Light_State_Attack::OnStateEnter()
 	else if (eSkill != CRole::SKILL_END) {	// 스킬이면 그자리에서 쓰도록 처리
 		m_eState = SKILL;
 		m_pChr_Battle_Light->Change_Animation(CChr_Battle_Light::SKILL, false);
+		CEffect::Read_File_NoLoop("../Bin/Resources/Effect/Effect_Skill.dat", m_pGameInstance, m_pChr_Battle_Light->Get_Device(), m_pChr_Battle_Light->Get_Context(), m_pChr_Battle_Light->Get_Transform()->Get_State_Float4(CTransform::STATE_POSITION));
 	}
-
 }
 
 void CChr_Battle_Light_State_Attack::OnStateUpdate(_float fTimeDelta)
@@ -82,6 +83,8 @@ void CChr_Battle_Light_State_Attack::Run(_float fTimeDelta)
 		if (m_pChr_Battle_Light->Get_Current_Command() == CRole::AREA_BLAST) {
 			m_eState = ATTACK;
 			m_pChr_Battle_Light->Change_Animation(CChr_Battle_Light::ATTACK_AREABLAST, false);
+			if ((CEffect::Read_File_NoLoop("../Bin/Resources/Effect/Area Blast.dat", m_pGameInstance, m_pChr_Battle_Light->Get_Device(), m_pChr_Battle_Light->Get_Context(), m_pChr_Battle_Light->Get_Transform()->Get_State_Float4(CTransform::STATE_POSITION))))
+				return;
 		}
 		else {
 			if (Get_Dist_Y() >= 2.f) {
@@ -194,6 +197,7 @@ void CChr_Battle_Light_State_Attack::Attack(_float fTimeDelta)
 					m_pChr_Battle_Light->Reset_Attakable();
 					m_eState = SKILL;
 					m_pChr_Battle_Light->Change_Animation(CChr_Battle_Light::SKILL_AIR, false);
+					CEffect::Read_File_NoLoop("../Bin/Resources/Effect/Effect_Skill.dat", m_pGameInstance, m_pChr_Battle_Light->Get_Device(), m_pChr_Battle_Light->Get_Context(), m_pChr_Battle_Light->Get_Transform()->Get_State_Float4(CTransform::STATE_POSITION));
 					break;
 				}
 			}
@@ -249,6 +253,7 @@ void CChr_Battle_Light_State_Attack::Attack(_float fTimeDelta)
 					m_pChr_Battle_Light->Reset_Attakable();
 					m_eState = SKILL;
 					m_pChr_Battle_Light->Change_Animation(CChr_Battle_Light::SKILL, false);
+					CEffect::Read_File_NoLoop("../Bin/Resources/Effect/Effect_Skill.dat", m_pGameInstance, m_pChr_Battle_Light->Get_Device(), m_pChr_Battle_Light->Get_Context(), m_pChr_Battle_Light->Get_Transform()->Get_State_Float4(CTransform::STATE_POSITION));
 					break;
 				}
 			}
@@ -263,6 +268,7 @@ void CChr_Battle_Light_State_Attack::Attack(_float fTimeDelta)
 				}
 				else {
 					m_pChr_Battle_Light->Change_Animation(CChr_Battle_Light::SKILL, false);
+					CEffect::Read_File_NoLoop("../Bin/Resources/Effect/Effect_Skill.dat", m_pGameInstance, m_pChr_Battle_Light->Get_Device(), m_pChr_Battle_Light->Get_Context(), m_pChr_Battle_Light->Get_Transform()->Get_State_Float4(CTransform::STATE_POSITION));
 					m_eState = SKILL;
 					m_isCommandFinish = false;
 				}
@@ -279,8 +285,8 @@ void CChr_Battle_Light_State_Attack::Skill(_float fTimeDelta)
 		if (!m_isCommandFinish) {
 			if (!m_isCommandUse && m_pChr_Battle_Light->Get_CurrentTrackPosition() >= 16) {
 				m_isCommandUse = true;
-				m_pChr_Battle_Light->Use_Command();
 				m_pChr_Battle_Light->Create_Sphere(m_pChr_Battle_Light->Get_Attack_Magic());
+				m_pChr_Battle_Light->Use_Command();
 			}
 
 			if (m_pChr_Battle_Light->Is_Animation_Finished()) {
@@ -302,6 +308,7 @@ void CChr_Battle_Light_State_Attack::Skill(_float fTimeDelta)
 					break;
 				default:
 					m_pChr_Battle_Light->Set_TrackPosition(0.f);
+					CEffect::Read_File_NoLoop("../Bin/Resources/Effect/Effect_Skill.dat", m_pGameInstance, m_pChr_Battle_Light->Get_Device(), m_pChr_Battle_Light->Get_Context(), m_pChr_Battle_Light->Get_Transform()->Get_State_Float4(CTransform::STATE_POSITION));
 					m_isCommandUse = false;
 					break;
 				}
@@ -318,8 +325,8 @@ void CChr_Battle_Light_State_Attack::Skill(_float fTimeDelta)
 		if (!m_isCommandFinish) {
 			if (!m_isCommandUse && m_pChr_Battle_Light->Get_CurrentTrackPosition() >= 14) {
 				m_isCommandUse = true;
-				m_pChr_Battle_Light->Use_Command();
 				m_pChr_Battle_Light->Create_Sphere(m_pChr_Battle_Light->Get_Attack_Magic());
+				m_pChr_Battle_Light->Use_Command();
 			}
 
 			if (m_pChr_Battle_Light->Get_CurrentTrackPosition() >= 30) {
@@ -335,11 +342,13 @@ void CChr_Battle_Light_State_Attack::Skill(_float fTimeDelta)
 					if (m_pChr_Battle_Light->Get_CurrentAnimationIndex() == CChr_Battle_Light::SKILL) {
 						m_pChr_Battle_Light->Change_Animation(CChr_Battle_Light::SKILL_2, false);
 						m_pChr_Battle_Light->Set_TrackPosition(15.f);
+						CEffect::Read_File_NoLoop("../Bin/Resources/Effect/Effect_Skill.dat", m_pGameInstance, m_pChr_Battle_Light->Get_Device(), m_pChr_Battle_Light->Get_Context(), m_pChr_Battle_Light->Get_Transform()->Get_State_Float4(CTransform::STATE_POSITION));
 						m_isCommandUse = false;
 					}
 					else {
 						m_pChr_Battle_Light->Change_Animation(CChr_Battle_Light::SKILL, false);
 						m_pChr_Battle_Light->Set_TrackPosition(15.f);
+						CEffect::Read_File_NoLoop("../Bin/Resources/Effect/Effect_Skill.dat", m_pGameInstance, m_pChr_Battle_Light->Get_Device(), m_pChr_Battle_Light->Get_Context(), m_pChr_Battle_Light->Get_Transform()->Get_State_Float4(CTransform::STATE_POSITION));
 						m_isCommandUse = false;
 					}
 					break;

@@ -14,6 +14,7 @@
 #include "Model.h"
 #include "Shader.h"
 
+#include "Effect_2D.h"
 #include "Body.h"
 #include "Weapon_Anim.h"
 #include "Ability.h"
@@ -61,12 +62,6 @@ HRESULT CChr_Battle_Light::Initialize(void* pArg)
 
 void CChr_Battle_Light::Tick(_float fTimeDelta)
 {
-    if (m_pGameInstance->Get_KeyState(KEY_DOWN, DIK_2))
-        Min_Hp(50);
-
-    if (m_pGameInstance->Get_KeyState(KEY_DOWN, DIK_3))
-        Add_Hp(50);
-
     if (m_pGameInstance->Get_KeyState(KEY_PRESS, DIK_W))
         m_pTransformCom->Go_Straight(fTimeDelta, m_pNavigationCom);
 
@@ -116,7 +111,6 @@ void CChr_Battle_Light::Start()
     m_pNavigationCom->Set_Index(m_pTransformCom->Get_State_Vector(CTransform::STATE_POSITION));
 
     Change_Animation_Weapon(WEAPON_OPEN_IDLE);
-    Change_Animation_Weapon(CChr_Battle_Light::WEAPON_OPEN_IDLE);
     
 }
 
@@ -137,8 +131,6 @@ void CChr_Battle_Light::Change_Animation_Weapon(ANIMATION_CHR_BATTLE_LIGHT_WEAPO
 {
     dynamic_cast<CWeapon_Anim*>(m_PartObjects[1])->Change_Animation(iAnimationIndex, false);
 }
-
-
 
 _int CChr_Battle_Light::Get_Command_Cost_Sum()
 {
@@ -235,6 +227,12 @@ void CChr_Battle_Light::Use_Item()
         for (size_t i = 0; i < iNumCnt; ++i) {
             CChr_Battle* pChr_Battle = (CChr_Battle*)m_pGameInstance->Get_GameObject(g_Level, g_strChrLayerTag, (_uint)i);
             pChr_Battle->Add_Hp(150);
+           
+            _float4 vPos = pChr_Battle->Get_Transform()->Get_State_Float4(CTransform::STATE_POSITION);
+            vPos.y += pChr_Battle->Get_ColliderSize().y * 0.5f;
+
+            if (FAILED(CEffect::Read_File_NoLoop("../Bin/Resources/Effect/Heal_Camera_Look_Instance.dat", m_pGameInstance, m_pDevice, m_pContext, vPos)))
+                return;
         }
 
     }
@@ -245,6 +243,12 @@ void CChr_Battle_Light::Use_Item()
         if (nullptr != pChr_Battle) {
             if (pChr_Battle->Get_Hp() == 0) {
                 pChr_Battle->Revive();
+
+                _float4 vPos = pChr_Battle->Get_Transform()->Get_State_Float4(CTransform::STATE_POSITION);
+                vPos.y += pChr_Battle->Get_ColliderSize().y * 0.5f;
+
+                if (FAILED(CEffect::Read_File_NoLoop("../Bin/Resources/Effect/Heal_Camera_Look_Instance.dat", m_pGameInstance, m_pDevice, m_pContext, vPos)))
+                    return;
             }
         }
 
@@ -257,8 +261,15 @@ void CChr_Battle_Light::Use_Item()
             CChr_Battle* pChr_Battle = (CChr_Battle*)m_pGameInstance->Get_GameObject(g_Level, g_strChrLayerTag, (_uint)i);
             _int iHp = pChr_Battle->Get_Hp();
             _int iMaxHp = pChr_Battle->Get_MaxHp();
-            if(iHp < iMaxHp)
+            if (iHp < iMaxHp) {
                 pChr_Battle->Add_Hp(iMaxHp - iHp);
+                _float4 vPos = pChr_Battle->Get_Transform()->Get_State_Float4(CTransform::STATE_POSITION);
+                vPos.y += pChr_Battle->Get_ColliderSize().y * 0.5f;
+
+                if (FAILED(CEffect::Read_File_NoLoop("../Bin/Resources/Effect/Heal_Camera_Look_Instance.dat", m_pGameInstance, m_pDevice, m_pContext, vPos)))
+                    return;
+            }
+
         }
     }
     break;
@@ -278,12 +289,32 @@ void CChr_Battle_Light::Check_Interact_Weapon()
     if (nullptr == pMonster)
         return;
 
-    if (!m_isAttackable[0])
+    if (!m_isAttackable[0] || pMonster->Get_Hp() <= 0)
         return;
     
     if (Get_Collider_Weapon()->Intersect(pMonster->Get_Collider())) {
         Set_AttackAble(0);
         pMonster->Set_Hit(m_iAttack_Physic, 0.5f);
+            
+        // 이펙트 생성
+        _float fDist = m_vColliderSize.y;
+        _vector vWeaponPos = XMLoadFloat4(&((CBody*)m_PartObjects[0])->Get_BonePosition("L_weapon"));	// 무의미
+        _vector vTargetPos = pMonster->Get_Transform()->Get_State_Vector(CTransform::STATE_POSITION);
+        vTargetPos.m128_f32[1] += pMonster->Get_ColliderSize().y * 0.5f;
+        _vector vDir = vTargetPos - vWeaponPos;
+        
+        _float4 vPos;
+        XMStoreFloat4(&vPos, vWeaponPos + XMVector3Normalize(vDir) * fDist);
+
+        CEffect_2D::EFFECT_2D_DESC pDesc = {};
+        pDesc.eEffect = Interface_2D::HIT_1;
+        pDesc.vPosition = vPos;
+
+        m_pGameInstance->Add_Clone(g_Level, TEXT("Layer_Effect"), TEXT("Prototype_GameObject_Effect_2D"), &pDesc);
+
+        if ((CEffect::Read_File_NoLoop("../Bin/Resources/Effect/Hit_Particle.dat", m_pGameInstance, m_pDevice, m_pContext, vPos)))
+            return;
+
     }
 }
 
@@ -302,6 +333,25 @@ void CChr_Battle_Light::Check_Interact_Weapon_Multi()
         if (Get_Collider_Weapon()->Intersect(pMonster->Get_Collider())) {
             Set_AttackAble(i);
             pMonster->Set_Hit((_int)(m_iAttack_Physic * 1.3f), 0.5f);
+
+
+            // 이펙트 생성
+            _float fDist = Get_Collider_Weapon()->IntersectDist(pMonster->Get_Collider());
+            _vector vWeaponPos = XMLoadFloat4x4(dynamic_cast<CWeapon_Anim*>(m_PartObjects[1])->Get_WorldMatrix_Ptr()).r[3];
+            _vector vTargetPos = pMonster->Get_Transform()->Get_State_Vector(CTransform::STATE_POSITION);
+            _vector vDir = vTargetPos - vWeaponPos;
+
+            _float4 vPos;
+            XMStoreFloat4(&vPos, vWeaponPos + XMVector3Normalize(vDir) * fDist);
+
+            CEffect_2D::EFFECT_2D_DESC pDesc = {};
+            pDesc.eEffect = Interface_2D::HIT_2;
+            pDesc.vPosition = vPos;
+
+            m_pGameInstance->Add_Clone(g_Level, TEXT("Layer_Effect"), TEXT("Prototype_GameObject_Effect_2D"), &pDesc);
+          
+            if ((CEffect::Read_File_NoLoop("../Bin/Resources/Effect/Hit_Particle.dat", m_pGameInstance, m_pDevice, m_pContext, vPos)))
+                return;
         }
     }
 }
@@ -312,19 +362,23 @@ void CChr_Battle_Light::Create_Sphere(_int iDamage, _int iWeaponNum)
     
     _float4 vPos = ((CBody*)m_PartObjects[iWeaponNum])->Get_BonePosition("L_weapon");	// 무의미
   
+    if (m_pCommands->front().first == CRole::THUNDER) {
+        CMonster* pMoster = (CMonster*)m_pTargetObject;
+
+        pMoster->Set_Hit(iDamage, 10);
+        _float4 vPos = Get_Target_Position();
+        vPos.y = 0.f;
+        CEffect::Read_File_NoLoop("../Bin/Resources/Effect/Lightning.dat", m_pGameInstance, m_pDevice, m_pContext, vPos);
+        return;
+    }
+
     CSphere::Sphere_Desc Sphere_Desc = {};
     Sphere_Desc.pTargetObject = m_pTargetObject;
     Sphere_Desc.vStartPosition = vPos;
     Sphere_Desc.isTargetMonster = true;
-
-    if (eRole == CAbility::ATTACKER) {
-        Sphere_Desc.iDamage = iDamage * 2;
-        Sphere_Desc.fChain = 0.5f;
-    }
-    else {
-        Sphere_Desc.iDamage = iDamage;
-        Sphere_Desc.fChain = 10.f;
-    }
+    Sphere_Desc.eSkill = m_pCommands->front().first;
+    Sphere_Desc.iDamage = iDamage * 2;
+    Sphere_Desc.fChain = 0.5f;
 
 
     if (FAILED(m_pGameInstance->Add_Clone(g_Level, TEXT("Layer_Bullet"), TEXT("Prototype_GameObject_Sphere"), &Sphere_Desc))) {
@@ -400,26 +454,9 @@ HRESULT CChr_Battle_Light::Add_Ability()
 
 void CChr_Battle_Light::Update_FSMState(_float fTimeDelta)
 {
-    /*if (m_pGameInstance->Get_DIMouseState(DIMKS_LBUTTON)) {
-        Change_State(ATTACK);
-    }*/
-
-    if (m_pGameInstance->Get_DIMouseState(DIMKS_RBUTTON)) {
-        Change_State(HIT);
-    }
-
-    //if (m_pGameInstance->Get_KeyState(KEY_DOWN, DIK_I)) {
-    //    Change_State(ITEM);
+    //if (m_pGameInstance->Get_DIMouseState(DIMKS_RBUTTON)) {
+    //    Change_State(HIT);
     //}
-
-    if (m_pGameInstance->Get_KeyState(KEY_DOWN, DIK_O)) {
-        Change_Animation(DEAD_START, false);
-        Change_State(DEAD);
-    }
-
-    if (m_pGameInstance->Get_KeyState(KEY_DOWN, DIK_U)) {
-        Change_State(FINISH);
-    }
 }
 
 void CChr_Battle_Light::Show_ImGUI()

@@ -218,13 +218,16 @@
     <ClInclude Include="..\Public\Chr_Field_State_Walk.h" />
     <ClInclude Include="..\Public\Chr_Battle_Vanila_State_Idle.h" />
     <ClInclude Include="..\Public\Client_Defines.h" />
+    <ClInclude Include="..\Public\Corpse.h" />
     <ClInclude Include="..\Public\Effect.h" />
     <ClInclude Include="..\Public\EffectTool.h" />
     <ClInclude Include="..\Public\Effect_2D_Bone.h" />
     <ClInclude Include="..\Public\Effect_2D.h" />
     <ClInclude Include="..\Public\Effect_3D.h" />
+    <ClInclude Include="..\Public\Effect_Camera_Look.h" />
     <ClInclude Include="..\Public\Effect_Instance.h" />
     <ClInclude Include="..\Public\Effect_Interface.h" />
+    <ClInclude Include="..\Public\Electricity.h" />
     <ClInclude Include="..\Public\Forklift.h" />
     <ClInclude Include="..\Public\Grid.h" />
     <ClInclude Include="..\Public\ImGUI_Manager.h" />
@@ -336,6 +339,7 @@
     <ClCompile Include="..\Private\Camera_Battle.cpp" />
     <ClCompile Include="..\Private\Camera_Free.cpp" />
     <ClCompile Include="..\Private\Camera_Field.cpp" />
+    <ClCompile Include="..\Private\Corpse.cpp" />
     <ClCompile Include="..\Private\EffectTool.cpp" />
     <ClCompile Include="..\Private\Effect_3D.cpp" />
     <ClCompile Include="..\Private\Chr_Battle.cpp" />
@@ -373,8 +377,10 @@
     <ClCompile Include="..\Private\Effect.cpp" />
     <ClCompile Include="..\Private\Effect_2D_Bone.cpp" />
     <ClCompile Include="..\Private\Effect_2D.cpp" />
+    <ClCompile Include="..\Private\Effect_Camera_Look.cpp" />
     <ClCompile Include="..\Private\Effect_Instance.cpp" />
     <ClCompile Include="..\Private\Effect_Interface.cpp" />
+    <ClCompile Include="..\Private\Electricity.cpp" />
     <ClCompile Include="..\Private\Forklift.cpp" />
     <ClCompile Include="..\Private\Grid.cpp" />
     <ClCompile Include="..\Private\ImGUI_Manager.cpp" />

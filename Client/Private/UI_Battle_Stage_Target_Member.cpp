@@ -79,12 +79,14 @@ void CUI_Battle_Stage_Target_Member::Update_Cursor()
 	if (m_pGameInstance->Get_KeyState(KEY_DOWN, DIK_DOWN)) {
 		if (m_iCursor + 1 < m_Pnals.size()) {
 			++m_iCursor;
+			m_pGameInstance->PlaySoundW(TEXT("System_Cursor.wav"), CSound_Manager::UI2, SOUND_DEFAULT);
 		}
 	}
 
 	if (m_pGameInstance->Get_KeyState(KEY_DOWN, DIK_UP)) {
 		if (m_iCursor > 0) {
 			--m_iCursor;
+			m_pGameInstance->PlaySoundW(TEXT("System_Cursor.wav"), CSound_Manager::UI2, SOUND_DEFAULT);
 		}
 	}
 
@@ -96,7 +98,7 @@ void CUI_Battle_Stage_Target_Member::Update_KeyInput()
 	if (m_pGameInstance->Get_KeyState(KEY_DOWN, DIK_BACKSPACE)) {
 		m_pPlayer_Battle->Cancel_Item();
 		m_pPlayer_Battle->Back_Stage();
-
+		m_pGameInstance->PlaySoundW(TEXT("System_Cancel.wav"), CSound_Manager::UI1, SOUND_DEFAULT);
 	}
 
 	if (m_pGameInstance->Get_KeyState(KEY_DOWN, DIK_RETURN)) {
@@ -108,7 +110,7 @@ void CUI_Battle_Stage_Target_Member::Update_KeyInput()
 		}
 
 		m_pPlayer_Battle->Change_Stage(CPlayer_Battle::STAGE_WAIT);
-
+		m_pGameInstance->PlaySoundW(TEXT("System_Enter.wav"), CSound_Manager::UI1, SOUND_DEFAULT);
 	}
 
 }

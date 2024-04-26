@@ -39,8 +39,9 @@ void Target_Bone::Free()
 
 const FRAME Interface_2D::EffectImageFrame[EFFECT_END] = {
 	{25, 0.01f, 0, 0, 0},
-	{2, 0.2f, 0, 0, 0}
-
+	{2, 0.2f, 0, 0, 0},
+	{6, 0.2f, 0, 0, 0},
+	{5, 0.2f, 0, 0, 0}
 };
 
 void Interface_2D::Update_Frame(_float fTimeDelta)

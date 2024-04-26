@@ -113,6 +113,7 @@ void CUI_Battle_Stage_Optima::Update_Cursor()
 	if (m_pGameInstance->Get_KeyState(KEY_DOWN, DIK_DOWN)) {
 		if (m_iCursor + 1 < m_Pnals.size()) {
 			++m_iCursor;
+			m_pGameInstance->PlaySoundW(TEXT("System_Cursor.wav"), CSound_Manager::UI2, SOUND_DEFAULT);
 			Update_Optima_Infos();
 		}
 	}
@@ -120,6 +121,7 @@ void CUI_Battle_Stage_Optima::Update_Cursor()
 	if (m_pGameInstance->Get_KeyState(KEY_DOWN, DIK_UP)) {
 		if (m_iCursor > 0) {
 			--m_iCursor;
+			m_pGameInstance->PlaySoundW(TEXT("System_Cursor.wav"), CSound_Manager::UI2, SOUND_DEFAULT);
 			Update_Optima_Infos();
 		}
 	}
@@ -130,17 +132,17 @@ void CUI_Battle_Stage_Optima::Update_Cursor()
 void CUI_Battle_Stage_Optima::Update_KeyInput()
 {
 
-	if (m_pGameInstance->Get_KeyState(KEY_DOWN, DIK_BACKSPACE)) {
+	if (m_pGameInstance->Get_KeyState(KEY_DOWN, DIK_BACKSPACE) ||
+		m_pGameInstance->Get_KeyState(KEY_DOWN, DIK_TAB)) {
 		m_pPlayer_Battle->Back_Stage();
-	}
-	if (m_pGameInstance->Get_KeyState(KEY_DOWN, DIK_TAB)) {
-		m_pPlayer_Battle->Back_Stage();
+		m_pGameInstance->PlaySoundW(TEXT("System_Cancel.wav"), CSound_Manager::UI1, SOUND_DEFAULT);
 	}
 
 	if (m_pGameInstance->Get_KeyState(KEY_DOWN, DIK_RETURN)) {
 		if (m_iCursor != m_pPlayer_Battle->Get_Current_Optima_Num()) {
 			m_pPlayer_Battle->Change_Optima(m_iCursor);
 			m_pPlayer_Battle->Change_Stage(CPlayer_Battle::STAGE_WAIT_OPTIMA);
+			m_pGameInstance->PlaySoundW(TEXT("System_Optima_Change.wav"), CSound_Manager::UI1, SOUND_DEFAULT);
 		}
 	}
 }

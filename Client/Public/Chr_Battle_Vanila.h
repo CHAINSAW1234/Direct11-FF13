@@ -57,7 +57,6 @@ private:
 
 private:
 	STATE		m_eState = { STATE_END };
-	vector<CChr_Battle*>	m_Memebers;						// 힐 하기 위함 
 
 #ifdef DEBUG
 	class CImGUI_Manager* m_pImGUI_Manager = { nullptr };

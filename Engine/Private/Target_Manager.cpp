@@ -53,6 +53,15 @@ HRESULT CTarget_Manager::Add_MRT(const wstring& strMRTTag, const wstring& strRen
 
 HRESULT CTarget_Manager::Begin_MRT(const wstring& strMRTTag)
 {
+	ID3D11ShaderResourceView* pSRV[D3D11_COMMONSHADER_INPUT_RESOURCE_SLOT_COUNT] = {
+	nullptr
+	};
+
+	m_pContext->PSSetShaderResources(0, D3D11_COMMONSHADER_INPUT_RESOURCE_SLOT_COUNT, pSRV);
+
+
+
+
 	list<CRenderTarget*>* pTargetList = Find_MRT(strMRTTag);
 	if (nullptr == pTargetList)
 		return E_FAIL;

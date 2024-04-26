@@ -58,7 +58,7 @@ HRESULT CEffect_2D::Render()
 	if (FAILED(Bind_ShaderResources()))
 		return E_FAIL;
 
-	if (FAILED(m_pShaderCom->Begin(4)))		//default
+	if (FAILED(m_pShaderCom->Begin(1)))		//default
 		return E_FAIL;
 
 	if (FAILED(m_pVIBufferCom->Render()))
@@ -87,6 +87,12 @@ HRESULT CEffect_2D::Add_Components()
 	switch (m_eEffect) {
 	case DUST_COLOR:
 		strTexture = TEXT("Prototype_Component_Texture_Dust_Color");
+		break;
+	case HIT_1:
+		strTexture = TEXT("Prototype_Component_Texture_Hit_1");
+		break;
+	case HIT_2:
+		strTexture = TEXT("Prototype_Component_Texture_Hit_2");
 		break;
 	}
 
@@ -117,8 +123,8 @@ HRESULT CEffect_2D::Bind_ShaderResources()
 	if (FAILED(m_pShaderCom->Bind_RawValue("g_Color", &m_vColor, sizeof(_float4))))
 		return E_FAIL;
 
-	m_pTextureCom->Bind_ShaderResource(m_pShaderCom, "g_MaskTexture", m_tFrame.iCurFrame);
-	m_pDiffuseTextureCom->Bind_ShaderResource(m_pShaderCom, "g_Texture", 0);
+	m_pTextureCom->Bind_ShaderResource(m_pShaderCom, "g_Texture", m_tFrame.iCurFrame);
+	//m_pDiffuseTextureCom->Bind_ShaderResource(m_pShaderCom, "g_Texture", 0);
 	if (FAILED(m_pVIBufferCom->Bind_Buffers()))
 		return E_FAIL;
 

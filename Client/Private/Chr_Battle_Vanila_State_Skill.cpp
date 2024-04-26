@@ -2,6 +2,7 @@
 #include "Chr_Battle_Vanila_State_Skill.h"
 #include "Chr_Battle_Vanila.h"
 #include "UI_Skill.h"
+#include "Effect.h"
 
 CChr_Battle_Vanila_State_Skill::CChr_Battle_Vanila_State_Skill(CChr_Battle_Vanila* pChr_Battle_Vanila)
 {
@@ -17,6 +18,8 @@ void CChr_Battle_Vanila_State_Skill::OnStateEnter()
 
 	CRole::SKILL eSkill = m_pChr_Battle_Vanila->Get_Current_Command();
 	m_pUI_Skill = m_pChr_Battle_Vanila->Create_UI_Skill(eSkill);
+
+	CEffect::Read_File_NoLoop("../Bin/Resources/Effect/Effect_Skill.dat", m_pGameInstance, m_pChr_Battle_Vanila->Get_Device(), m_pChr_Battle_Vanila->Get_Context(), m_pChr_Battle_Vanila->Get_Transform()->Get_State_Float4(CTransform::STATE_POSITION));
 }
 
 void CChr_Battle_Vanila_State_Skill::OnStateUpdate(_float fTimeDelta)
@@ -40,8 +43,8 @@ void CChr_Battle_Vanila_State_Skill::Skill()
 
 		if (!m_isCommandUse && m_pChr_Battle_Vanila->Get_CurrentTrackPosition() >= 35) {
 			m_isCommandUse = true;
-			m_pChr_Battle_Vanila->Use_Command();
 			m_pChr_Battle_Vanila->Create_Sphere(m_pChr_Battle_Vanila->Get_Attack_Magic());
+			m_pChr_Battle_Vanila->Use_Command();
 		}
 
 		if (m_pChr_Battle_Vanila->Get_CurrentTrackPosition() >= 40) {
@@ -51,10 +54,14 @@ void CChr_Battle_Vanila_State_Skill::Skill()
 				m_isCommandFinish = true;
 			}
 			else {
-				if (CChr_Battle_Vanila::ANIM_SKILL == m_pChr_Battle_Vanila->Get_CurrentAnimationIndex())
+				if (CChr_Battle_Vanila::ANIM_SKILL == m_pChr_Battle_Vanila->Get_CurrentAnimationIndex()) {
 					m_pChr_Battle_Vanila->Change_Animation(CChr_Battle_Vanila::ANIM_SKILL2, false);
-				else
+					CEffect::Read_File_NoLoop("../Bin/Resources/Effect/Effect_Skill.dat", m_pGameInstance, m_pChr_Battle_Vanila->Get_Device(), m_pChr_Battle_Vanila->Get_Context(), m_pChr_Battle_Vanila->Get_Transform()->Get_State_Float4(CTransform::STATE_POSITION));
+				}
+				else {
 					m_pChr_Battle_Vanila->Change_Animation(CChr_Battle_Vanila::ANIM_SKILL, false);
+					CEffect::Read_File_NoLoop("../Bin/Resources/Effect/Effect_Skill.dat", m_pGameInstance, m_pChr_Battle_Vanila->Get_Device(), m_pChr_Battle_Vanila->Get_Context(), m_pChr_Battle_Vanila->Get_Transform()->Get_State_Float4(CTransform::STATE_POSITION));
+				}
 				m_isCommandUse = false;
 				m_pChr_Battle_Vanila->Set_TrackPosition(20.f);
 			}

@@ -34,6 +34,8 @@ HRESULT CLevel_Field_Boss::Initialize()
 	if (FAILED(Ready_Layer_Camera(g_strCameraLayerTag)))
 		return E_FAIL;
 
+	m_pGameInstance->Pause(CSound_Manager::BGM_FIELD);
+
 	return S_OK;
 }
 
@@ -43,6 +45,8 @@ void CLevel_Field_Boss::Tick(_float fTimeDelta)
 
 	if (!m_isBattleStart && m_pTroup->Tick()) {
 		m_isBattleStart = true;
+		m_pGameInstance->Pause(CSound_Manager::BGM_FIELD);
+		m_pGameInstance->PlayBGM(TEXT("BGM_Boss_Battle.wav"));
 	}
 
 	if (m_isBattleStart) {
@@ -177,4 +181,6 @@ void CLevel_Field_Boss::Free()
 	__super::Free();
 
 	Safe_Release(m_pTroup);
+
+	m_pGameInstance->Pause(CSound_Manager::BGM_FIELD);
 }

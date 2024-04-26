@@ -460,14 +460,26 @@
     <Filter Include="02.GameObjects\Effect\Template\Interface">
       <UniqueIdentifier>{c00e285a-88bd-401b-8f99-452cf42736d2}</UniqueIdentifier>
     </Filter>
-    <Filter Include="02.GameObjects\Effect\Template\Effect_2D_Bone">
-      <UniqueIdentifier>{184c729c-63ce-4f32-b671-d480731075aa}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="02.GameObjects\Effect\Template\Effect_2D">
-      <UniqueIdentifier>{99a63a99-b163-43ed-aac6-d35cc2019d30}</UniqueIdentifier>
-    </Filter>
     <Filter Include="02.GameObjects\Effect\Template\Effect_Instance">
       <UniqueIdentifier>{e20d55b8-eef6-4846-ada8-93aa9be3476b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\Effect\Object">
+      <UniqueIdentifier>{b1511a9b-2d02-48a0-9e52-3a57afa70b9e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\Effect\Object\Effect_2D_Bone">
+      <UniqueIdentifier>{184c729c-63ce-4f32-b671-d480731075aa}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\Effect\Object\Effect_Camera_Look">
+      <UniqueIdentifier>{a3f393b4-93db-4bad-922a-99a9d12e09de}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\Effect\Object\Effect_2D">
+      <UniqueIdentifier>{99a63a99-b163-43ed-aac6-d35cc2019d30}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\Monster\Corpse">
+      <UniqueIdentifier>{1a4d0bb7-420e-4239-a264-d3870d9a2819}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\Effect\Object\Electricity">
+      <UniqueIdentifier>{d5b5b0fa-8304-48d6-bfd0-c4d98dba342e}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -898,13 +910,13 @@
       <Filter>02.GameObjects\Effect</Filter>
     </ClInclude>
     <ClInclude Include="..\Public\Effect_2D.h">
-      <Filter>02.GameObjects\Effect\Template\Effect_2D</Filter>
+      <Filter>02.GameObjects\Effect\Object\Effect_2D</Filter>
     </ClInclude>
     <ClInclude Include="..\Public\Effect_Interface.h">
       <Filter>02.GameObjects\Effect\Template\Interface</Filter>
     </ClInclude>
     <ClInclude Include="..\Public\Effect_2D_Bone.h">
-      <Filter>02.GameObjects\Effect\Template\Effect_2D_Bone</Filter>
+      <Filter>02.GameObjects\Effect\Object\Effect_2D_Bone</Filter>
     </ClInclude>
     <ClInclude Include="..\Public\Effect_3D.h">
       <Filter>02.GameObjects\Effect\Template\Effect_3D</Filter>
@@ -917,6 +929,15 @@
     </ClInclude>
     <ClInclude Include="..\Public\Effect_Instance.h">
       <Filter>02.GameObjects\Effect\Template\Effect_Instance</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\Effect_Camera_Look.h">
+      <Filter>02.GameObjects\Effect\Object\Effect_Camera_Look</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\Corpse.h">
+      <Filter>02.GameObjects\Monster\Corpse</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\Electricity.h">
+      <Filter>02.GameObjects\Effect\Object\Electricity</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -1329,13 +1350,13 @@
       <Filter>02.GameObjects\Effect</Filter>
     </ClCompile>
     <ClCompile Include="..\Private\Effect_2D.cpp">
-      <Filter>02.GameObjects\Effect\Template\Effect_2D</Filter>
+      <Filter>02.GameObjects\Effect\Object\Effect_2D</Filter>
     </ClCompile>
     <ClCompile Include="..\Private\Effect_Interface.cpp">
       <Filter>02.GameObjects\Effect\Template\Interface</Filter>
     </ClCompile>
     <ClCompile Include="..\Private\Effect_2D_Bone.cpp">
-      <Filter>02.GameObjects\Effect\Template\Effect_2D_Bone</Filter>
+      <Filter>02.GameObjects\Effect\Object\Effect_2D_Bone</Filter>
     </ClCompile>
     <ClCompile Include="..\Private\Effect_3D.cpp">
       <Filter>02.GameObjects\Effect\Template\Effect_3D</Filter>
@@ -1348,6 +1369,15 @@
     </ClCompile>
     <ClCompile Include="..\Private\Effect_Instance.cpp">
       <Filter>02.GameObjects\Effect\Template\Effect_Instance</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Effect_Camera_Look.cpp">
+      <Filter>02.GameObjects\Effect\Object\Effect_Camera_Look</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Corpse.cpp">
+      <Filter>02.GameObjects\Monster\Corpse</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Electricity.cpp">
+      <Filter>02.GameObjects\Effect\Object\Electricity</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

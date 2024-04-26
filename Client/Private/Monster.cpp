@@ -9,6 +9,11 @@
 #include "UI_Number.h"
 #include "UI_Skill.h"
 
+#include "Bone.h"
+#include "Effect_2D.h"
+#include "Corpse.h"
+
+
 CMonster::CMonster(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
     :CGameObject { pDevice, pContext }
 {
@@ -17,6 +22,7 @@ CMonster::CMonster(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
 CMonster::CMonster(const CMonster& rhs)
     : CGameObject { rhs }
     , m_strMonsterName{ rhs.m_strMonsterName }
+    , m_strWeaponBoneName{ rhs.m_strWeaponBoneName }
     , m_iMaxHp{ rhs.m_iMaxHp }
     , m_iHp{ rhs.m_iMaxHp }
     , m_fStagger{ rhs.m_fStagger }
@@ -93,8 +99,16 @@ HRESULT CMonster::Render()
             return E_FAIL;
 
         /* 이 함수 내부에서 호출되는 Apply함수 호출 이전에 쉐이더 전역에 던져야할 모든 데이ㅏ터를 다 던져야한다. */
-        if (FAILED(m_pShaderCom->Begin(0)))
-            return E_FAIL;
+
+        if (m_isBreak) {
+            if (FAILED(m_pShaderCom->Begin(3)))
+                return E_FAIL;
+        }
+        else {
+            if (FAILED(m_pShaderCom->Begin(0)))
+                return E_FAIL;
+        }
+
 
         m_pModelCom->Render(i);
     }
@@ -114,13 +128,39 @@ _float4 CMonster::Get_TargetPosition()
     return m_pTargetObject->Get_Transform()->Get_State_Float4(CTransform::STATE_POSITION);
 }
 
+_float4 CMonster::Get_BonePos(const string strBoneName)
+{
+    const _float4x4* pMatrix = m_pModelCom->Get_BonePtr(strBoneName.c_str())->Get_CombinedTransformationMatrix();
+
+    _vector vScale;
+    _vector vRoation;
+    _vector vTranspose;
+
+
+    XMMatrixDecompose(&vScale, &vRoation, &vTranspose, m_pTransformCom->Get_WorldMatrix());
+
+    XMMatrixRotationQuaternion(vRoation);
+
+    /*
+        _float4x4			m_WorldMatrix;					// 자신의 월드 행렬
+    const _float4x4*	m_pParentMatrix = { nullptr };	// 이 파츠를 보유하고 있는 GameObject == Parent의 월드 행렬을 포인터로 보유
+    */
+    _matrix vMatrix = XMMatrixRotationQuaternion(vRoation) * XMLoadFloat4x4(pMatrix);
+    _float4x4 fMatrix;
+    XMStoreFloat4x4(&fMatrix, vMatrix);
+
+    _float4 vPos = { fMatrix._41 + vTranspose.m128_f32[0] ,	fMatrix._42 + vTranspose.m128_f32[1],	fMatrix._43 + vTranspose.m128_f32[2],	1.f };
+
+    return vPos;
+}
+
 void CMonster::Set_Target(CChr_Battle* pTargetObject)
 {
-    if (nullptr != m_pTargetObject)
-        Safe_Release(m_pTargetObject);
+    //if (nullptr != m_pTargetObject)
+    //    Safe_Release(m_pTargetObject);
 
     m_pTargetObject = pTargetObject;
-    Safe_AddRef(m_pTargetObject);
+    //Safe_AddRef(m_pTargetObject);
 }
 
 void CMonster::Set_isTarget(_bool isTarget)
@@ -152,6 +192,11 @@ _float CMonster::Get_CurrentTrackPosition()
     if (nullptr == m_pModelCom)
         return INFINITY;
     return m_pModelCom->Get_CurrentTrackPosition();
+}
+
+void CMonster::Set_TrackPosition(_float fTrackPosition)
+{
+    m_pModelCom->Set_TrackPosition(fTrackPosition);
 }
 
 _bool CMonster::Is_Animation_Finished()
@@ -194,7 +239,7 @@ void CMonster::Add_Chain(_float fChain)
     _float fCalChain = fChain + Random_Float(2) + 1.f;
 
     if (!m_isBreak) {
-        fCalChain *= (100 - m_fChainResist) / 100.f;
+        fCalChain *= (100 - m_fChainResist) / 100.f * 0.5f;
     }
 
     m_fChain += fCalChain;
@@ -286,8 +331,16 @@ void CMonster::Set_Hit(_int iDamage, _float fChain)
     Add_Chain(fChain);
     Min_Hp(iDamage);
 
-    if (m_iHp <= 0)
-        m_isDead = true;
+    if (m_iHp <= 0) {
+        Set_Dead(true);
+
+        CCorpse::CORPSE_DESC pDesc = {};
+        pDesc.pModelCom = m_pModelCom;
+        pDesc.WorldMatrix = m_pTransformCom->Get_WorldFloat4x4();
+
+        if (FAILED(m_pGameInstance->Add_Clone(g_Level, TEXT("Layer_Effect"), TEXT("Prototype_GameObject_Corpse"), &pDesc)))
+            return;
+    }
 }
 
 void CMonster::Create_UI_Number(CUI_Number::TYPE eType, _int iNum)
@@ -390,6 +443,26 @@ void CMonster::Check_Interact_Weapon()
         if (m_pCollider_WeaponCom->Intersect(pChr_Battle->Get_Collider())) {
             Set_AttackAble(i);
             pChr_Battle->Set_Hit(m_iDamage);
+
+            // 이펙트 생성
+            _float fDist = m_vColliderSize.y;
+            _vector vWeaponPos = XMLoadFloat4(&Get_BonePos(m_strWeaponBoneName));
+            _vector vTargetPos = pChr_Battle->Get_Transform()->Get_State_Vector(CTransform::STATE_POSITION);
+            vTargetPos.m128_f32[1] += pChr_Battle->Get_ColliderSize().y * 0.5f;
+            _vector vDir = vTargetPos - vWeaponPos;
+
+            _float4 vPos;
+            XMStoreFloat4(&vPos, vWeaponPos + XMVector3Normalize(vDir) * fDist);
+
+            CEffect_2D::EFFECT_2D_DESC pDesc = {};
+            pDesc.eEffect = Interface_2D::HIT_2;
+            pDesc.vPosition = vPos;
+
+            m_pGameInstance->Add_Clone(g_Level, TEXT("Layer_Effect"), TEXT("Prototype_GameObject_Effect_2D"), &pDesc);
+
+
+            CEffect::Read_File_NoLoop("../Bin/Resources/Effect/Hit_Particle.dat", m_pGameInstance, m_pDevice, m_pContext, vPos);
+
         }
     }
 }
@@ -484,6 +557,7 @@ HRESULT CMonster::Add_Component_FSM()
 
 HRESULT CMonster::Bind_ShaderResources()
 {
+    _float4 vColor = { 1.f,.5f,0.f,1.f };
     if (nullptr == m_pShaderCom)
         return E_FAIL;
     if (FAILED(m_pTransformCom->Bind_ShaderResource(m_pShaderCom, "g_WorldMatrix")))
@@ -492,6 +566,13 @@ HRESULT CMonster::Bind_ShaderResources()
         return E_FAIL;
     if (FAILED(m_pShaderCom->Bind_Matrix("g_ProjMatrix", &m_pGameInstance->Get_Transform_Float4x4(CPipeLine::D3DTS_PROJ))))
         return E_FAIL;
+
+    if (FAILED(m_pShaderCom->Bind_RawValue("g_vColor", &vColor, sizeof(_float4))))
+        return E_FAIL;
+
+    if (FAILED(m_pShaderCom->Bind_RawValue("g_DissolveTime", &m_fBreakTimeDelta, sizeof(_float))))
+        return E_FAIL;
+
 
     return S_OK;
 }

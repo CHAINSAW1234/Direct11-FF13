@@ -65,11 +65,11 @@ protected:
 	D3D11_SUBRESOURCE_DATA	m_InstanceSubResourceData{};
 
 protected:
-	random_device				m_RandomDevice;
-	mt19937_64					m_RandomNumber;
-	_float2*					m_pLifeTimes = { nullptr };
-	_float*						m_pSpeeds = { nullptr };
-	VTXMATRIX*					m_pVertices = { nullptr };
+	random_device			m_RandomDevice;
+	mt19937_64				m_RandomNumber;
+	_float2*				m_pLifeTimes = { nullptr };
+	_float*					m_pSpeeds = { nullptr };
+	VTXMATRIX*				m_pVertices = { nullptr };
 public:
 	virtual CComponent* Clone(void* pArg) = 0;
 	virtual void Free() override;

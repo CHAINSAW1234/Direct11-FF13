@@ -114,6 +114,24 @@ void CChr_Battle_Vanila_State_Idle::Idle(_float fTimeDelta)
 void CChr_Battle_Vanila_State_Idle::Hurt()
 {
 	m_fDegree = m_pChr_Battle_Vanila->Cal_Degree_Target();
+
+	if (m_pChr_Battle_Vanila->Get_CommandCount() != 0 &&
+		m_pChr_Battle_Vanila->Get_ATB() >= m_pChr_Battle_Vanila->Get_CommandCount()) {
+		CRole::SKILL eSkill = m_pChr_Battle_Vanila->Get_Current_Command();
+
+		switch (eSkill) {
+		case CRole::CURE:
+			m_pChr_Battle_Vanila->Change_State(CChr_Battle_Vanila::HEAL);
+			break;
+		case CRole::SKILL_END:
+			break;
+		default:
+			m_pChr_Battle_Vanila->Change_State(CChr_Battle_Vanila::SKILL);
+			break;
+		}
+		return;
+	}
+
 	if (abs(m_fDegree) > 45.f) {
 		Change_State(TURN);
 		if (m_fDegree >= 0)
@@ -231,7 +249,6 @@ void CChr_Battle_Vanila_State_Idle::Change_MovementAnimation()
 	}
 			 break;
 	}
-
 }
 
 void CChr_Battle_Vanila_State_Idle::Update_Hurt()
@@ -273,7 +290,7 @@ _float4 CChr_Battle_Vanila_State_Idle::Cal_Dir_Start_To_Target()
 
 _float4 CChr_Battle_Vanila_State_Idle::Cal_Current_Direction()
 {
-	_float4 vDir;
+	_float4 vDir = { 0.f, 0.f, 0.f, 0.f };
 	switch (m_eMovement) {
 	case STRAIGHT:
 		XMStoreFloat4(&vDir, m_pChr_Battle_Vanila->Get_Transform()->Get_State_Vector(CTransform::STATE_LOOK));

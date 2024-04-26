@@ -2,6 +2,8 @@
 #include "Sphere_Heal.h"
 #include "Chr_Battle.h"
 #include "UI_Number.h"
+#include "Effect.h"
+#include "Effect_Camera_Look.h"
 
 CSphere_Heal::CSphere_Heal(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
 	: CSphere{ pDevice, pContext }
@@ -22,6 +24,32 @@ void CSphere_Heal::Check_Collision()
 	if (m_pColliderCom->Intersect(pColliderCom)) {
 		((CChr_Battle*)m_pTargetObject)->Add_Hp(m_iDamage);
 		Set_Dead(true);
+		for (auto& pEffect : m_Effects)
+			pEffect->Set_Dead(true);
+
+		string strEffectFilePath;
+
+		switch (m_eSkill) {
+		case CRole::RUIN:
+			strEffectFilePath = "../Bin/Resources/Effect/Ruin_Hit_Camera_Look_Instance.dat";
+			break;
+		case CRole::AERO:
+			strEffectFilePath = "../Bin/Resources/Effect/Aero_Hit_Camera_Look_Instance.dat";
+			break;
+		case CRole::WATER:
+			strEffectFilePath = "../Bin/Resources/Effect/Water_Hit_Camera_Look_Instance.dat";
+			break;
+		case CRole::FIRE:
+			strEffectFilePath = "../Bin/Resources/Effect/Fire_Hit_Camera_Look_Instance.dat";
+			break;
+		case CRole::CURE:
+			strEffectFilePath = "../Bin/Resources/Effect/Heal_Camera_Look_Instance.dat";
+			break;
+		}
+
+		if (FAILED(CEffect::Read_File_NoLoop(strEffectFilePath, m_pGameInstance, m_pDevice, m_pContext, m_pTransformCom->Get_State_Float4(CTransform::STATE_POSITION))))
+			return;
+
 	}
 }
 

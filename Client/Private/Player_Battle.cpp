@@ -364,6 +364,7 @@ void CPlayer_Battle::Update_FSMState()
 {
 	if (m_pGameInstance->Get_KeyState(KEY_DOWN, DIK_TAB)) {
 		Change_Stage(STAGE_OPTIMA);
+		m_pGameInstance->PlaySoundW(TEXT("System_Optima_Menu.wav"), CSound_Manager::UI4, SOUND_DEFAULT);
 	}
 }
 
@@ -388,7 +389,11 @@ void CPlayer_Battle::Update_Command()
 	for (auto& pUI_Pnal_Attack : m_Commands) {
 		iCost += pUI_Pnal_Attack->Get_Size();
 		if (m_pLeader->Get_ATB() >= iCost) {
-			pUI_Pnal_Attack->Set_Color({ 0.f,1.f,1.f,1.f });
+			if (XMVector4Equal(XMLoadFloat4(&pUI_Pnal_Attack->Get_Color()), XMVectorSet(1.f, 1.f, 1.f, 1.f))) {
+				pUI_Pnal_Attack->Set_Color({ 0.f,1.f,1.f,1.f });
+				m_pGameInstance->PlaySoundW(TEXT("System_ATB.wav"), CSound_Manager::UI3, SOUND_DEFAULT);
+			}
+
 		}
 		else {
 			pUI_Pnal_Attack->Set_Color({ 1.f,1.f,1.f,1.f });

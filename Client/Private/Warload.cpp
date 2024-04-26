@@ -29,6 +29,7 @@ HRESULT CWarload::Initialize_Prototype()
     m_iDamage = 70;
     m_vColliderSize = _float3(1.2f, 2.1f, .8f);
     m_strMonsterName = TEXT("PSICOM 강공전술사");
+    m_strWeaponBoneName = "lance";
 
     return S_OK;
 }
@@ -85,7 +86,6 @@ void CWarload::Start()
     }
     else
         Change_State(STATE_FIELD);
-    /*m_pTransformCom->Set_State(CTransform::STATE_POSITION, XMVectorSet(_float(rand() % 10 - 5), 0.f, _float(rand() % 10 - 5), 1.f));*/
 }
 
 void CWarload::Set_Hit(_int iDamage, _float fChain)
@@ -100,6 +100,7 @@ void CWarload::Set_Hit(_int iDamage, _float fChain)
 
     if (m_eState != STATE_SKILL && m_isBreak) {
         Change_State(STATE_HIT);
+        Set_TrackPosition(0.f);
     }
 }
 
@@ -143,7 +144,7 @@ HRESULT CWarload::Add_Components()
     ColliderOBBDesc.vCenter = _float3(0.f, 0.f, -1.f);
 
     CCollider_Bone::COLLIDER_BONE_DESC  ColliderBone_Desc = {};
-    ColliderBone_Desc.pSocket = m_pModelCom->Get_BonePtr("lance");
+    ColliderBone_Desc.pSocket = m_pModelCom->Get_BonePtr(m_strWeaponBoneName.c_str());
     ColliderBone_Desc.pBounding_Desc = &ColliderOBBDesc;
 
     if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_Collider_Bone_OBB"),

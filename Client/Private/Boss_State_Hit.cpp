@@ -9,6 +9,7 @@ CBoss_State_Hit::CBoss_State_Hit(CBoss* pBoss)
 
 void CBoss_State_Hit::OnStateEnter()
 {
+    m_pBoss->Change_Animation(CBoss::HIT, false);
 }
 
 void CBoss_State_Hit::OnStateUpdate(_float fTimeDelta)

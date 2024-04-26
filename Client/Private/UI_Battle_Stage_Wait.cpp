@@ -35,13 +35,19 @@ void CUI_Battle_Stage_Wait::OnStateExit()
 void CUI_Battle_Stage_Wait::Update_KeyInput()
 {
 	if (m_pGameInstance->Get_KeyState(KEY_DOWN, DIK_BACKSPACE)) {
-		if (m_pPlayer_Battle->Get_Command_size() > 1)
+		if (m_pPlayer_Battle->Get_Command_size() > 1) {
 			m_pPlayer_Battle->Cancel_Command();
+			m_pGameInstance->PlaySoundW(TEXT("System_Cancel.wav"), CSound_Manager::UI1, SOUND_DEFAULT);
+		}
+
 	}
 
 	if (m_pGameInstance->Get_KeyState(KEY_DOWN, DIK_E)) {
-		while (m_pPlayer_Battle->Get_Command_Cost() > m_pPlayer_Battle->Get_Leader()->Get_ATB())
+		while (m_pPlayer_Battle->Get_Command_Cost() > m_pPlayer_Battle->Get_Leader()->Get_ATB()) {
 			m_pPlayer_Battle->Cancel_Command();
+			m_pGameInstance->PlaySoundW(TEXT("System_Cancel.wav"), CSound_Manager::UI1, SOUND_DEFAULT);
+		}
+
 		//
 	}
 

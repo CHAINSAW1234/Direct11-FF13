@@ -49,7 +49,7 @@ public:
 	_float  Get_Stagger() { return m_fStagger; }
 	_bool	Get_isTarget() { return m_isTarget; }
 	_float3 Get_ColliderSize() { return m_vColliderSize; }
-
+	virtual _float4 Get_BonePos(const string strBoneName);
 	/*============================SET============================*/
 	void Set_Target(CChr_Battle* pTargetObject);
 	void Set_isTarget(_bool isTarget); 
@@ -61,6 +61,7 @@ public:
 	/*============================Model============================*/
 	_uint		Get_CurrentAnimationIndex();
 	_float		Get_CurrentTrackPosition();
+	void		Set_TrackPosition(_float fTrackPosition);
 	_bool		Is_Animation_Finished();
 
 	/*============================±‚≈∏============================*/
@@ -101,7 +102,7 @@ protected:
 	CNavigation*	m_pNavigationCom = { nullptr };
 
 	_float3		m_vColliderSize = { 0.f,0.f,0.f };
-
+	string		m_strWeaponBoneName = {};
 	wstring		m_strMonsterName = {};
 	_int		m_iMaxHp = { 1 };
 	_int		m_iHp = { 1 };

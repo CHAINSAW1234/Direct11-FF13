@@ -2,10 +2,10 @@
 #include "Effect.h"
 
 BEGIN(Client)
-class CEffect_3D final : public CEffect, public Interface_3D, public Target_Position
+class CEffect_3D final : public CEffect, public Interface_3D
 {
 public:
-	typedef struct Effect_3D_Desc : public CEffect::EFFECT_DESC, public Interface_3D::INTERFACE_3D_DESC, public Target_Position::TARGET_POSITION_DESC
+	typedef struct Effect_3D_Desc : public CEffect::EFFECT_DESC, public Interface_3D::INTERFACE_3D_DESC
 	{} EFFECT_3D_DESC;
 
 protected:

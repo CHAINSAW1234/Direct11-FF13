@@ -3,6 +3,8 @@
 #include "Chr_Battle_Sazh.h"
 #include "UI_Skill.h"
 
+#include "Effect.h"
+
 CChr_Battle_Sazh_State_Skill::CChr_Battle_Sazh_State_Skill(CChr_Battle_Sazh* pChr_Battle_Sazh)
 {
 	m_pChr_Battle_Sazh = pChr_Battle_Sazh;
@@ -17,6 +19,9 @@ void CChr_Battle_Sazh_State_Skill::OnStateEnter()
 
 	CRole::SKILL eSkill = m_pChr_Battle_Sazh->Get_Current_Command();
 	m_pUI_Skill = m_pChr_Battle_Sazh->Create_UI_Skill(eSkill);
+
+	CEffect::Read_File_NoLoop("../Bin/Resources/Effect/Effect_Skill.dat", m_pGameInstance, m_pChr_Battle_Sazh->Get_Device(), m_pChr_Battle_Sazh->Get_Context(), m_pChr_Battle_Sazh->Get_Transform()->Get_State_Float4(CTransform::STATE_POSITION));
+
 }
 
 void CChr_Battle_Sazh_State_Skill::OnStateUpdate(_float fTimeDelta)
@@ -39,8 +44,8 @@ void CChr_Battle_Sazh_State_Skill::Skill()
 
 		if (!m_isCommandUse && m_pChr_Battle_Sazh->Get_CurrentTrackPosition() >= 26) {
 			m_isCommandUse = true;
-			m_pChr_Battle_Sazh->Use_Command();
 			m_pChr_Battle_Sazh->Create_Sphere(m_pChr_Battle_Sazh->Get_Attack_Magic());
+			m_pChr_Battle_Sazh->Use_Command();
 		}
 
 		if (m_pChr_Battle_Sazh->Get_CurrentTrackPosition() >= 40) {
@@ -50,10 +55,14 @@ void CChr_Battle_Sazh_State_Skill::Skill()
 				m_isCommandFinish = true;
 			}
 			else {
-				if (CChr_Battle_Sazh::SKILL_NOR1 == m_pChr_Battle_Sazh->Get_CurrentAnimationIndex())
+				if (CChr_Battle_Sazh::SKILL_NOR1 == m_pChr_Battle_Sazh->Get_CurrentAnimationIndex()) {
 					m_pChr_Battle_Sazh->Change_Animation(CChr_Battle_Sazh::SKILL_NOR2, false);
-				else
+					CEffect::Read_File_NoLoop("../Bin/Resources/Effect/Effect_Skill.dat", m_pGameInstance, m_pChr_Battle_Sazh->Get_Device(), m_pChr_Battle_Sazh->Get_Context(), m_pChr_Battle_Sazh->Get_Transform()->Get_State_Float4(CTransform::STATE_POSITION));
+				}
+				else {
 					m_pChr_Battle_Sazh->Change_Animation(CChr_Battle_Sazh::SKILL_NOR1, false);
+					CEffect::Read_File_NoLoop("../Bin/Resources/Effect/Effect_Skill.dat", m_pGameInstance, m_pChr_Battle_Sazh->Get_Device(), m_pChr_Battle_Sazh->Get_Context(), m_pChr_Battle_Sazh->Get_Transform()->Get_State_Float4(CTransform::STATE_POSITION));
+				}
 				m_isCommandUse = false;
 				m_pChr_Battle_Sazh->Set_TrackPosition(20.f);
 			}
