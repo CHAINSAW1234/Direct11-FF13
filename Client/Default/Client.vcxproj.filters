@@ -481,6 +481,12 @@
     <Filter Include="02.GameObjects\Effect\Object\Electricity">
       <UniqueIdentifier>{d5b5b0fa-8304-48d6-bfd0-c4d98dba342e}</UniqueIdentifier>
     </Filter>
+    <Filter Include="02.GameObjects\Effect\Object\Electricity\Electricity_Left">
+      <UniqueIdentifier>{80dca7bf-5843-417d-b79b-a8ca16841b52}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\Projectile\HellBlast">
+      <UniqueIdentifier>{68de2e65-3463-45dd-b383-48580fa9d3ab}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\public\MainApp.h">
@@ -939,6 +945,12 @@
     <ClInclude Include="..\Public\Electricity.h">
       <Filter>02.GameObjects\Effect\Object\Electricity</Filter>
     </ClInclude>
+    <ClInclude Include="..\Public\Electricity_Left.h">
+      <Filter>02.GameObjects\Effect\Object\Electricity\Electricity_Left</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\HellBlast.h">
+      <Filter>02.GameObjects\Projectile\HellBlast</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\private\MainApp.cpp">
@@ -1378,6 +1390,12 @@
     </ClCompile>
     <ClCompile Include="..\Private\Electricity.cpp">
       <Filter>02.GameObjects\Effect\Object\Electricity</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Electricity_Left.cpp">
+      <Filter>02.GameObjects\Effect\Object\Electricity\Electricity_Left</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\HellBlast.cpp">
+      <Filter>02.GameObjects\Projectile\HellBlast</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

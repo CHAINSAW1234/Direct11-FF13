@@ -4,7 +4,7 @@
 #include "GameObject.h"
 
 BEGIN(Client)
-
+class CChr_Battle;
 class CElectricity final : public CGameObject
 {
 public:
@@ -12,9 +12,12 @@ public:
 	{
 		_float4 fStartPosition;
 		_float4 fTargetPosition;
-		_int TurnDist;
+		_int iTurnDist;
+		CChr_Battle* pTargetObject;
+		_int iDamage;
 
 	} ELECTRICITY_DESC;
+		
 private:
 	CElectricity(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);
 	CElectricity(const CElectricity& rhs);
@@ -34,20 +37,21 @@ private:
 	CShader*			m_pShaderCom = { nullptr };
 	CTexture*			m_pTextureCom = { nullptr };
 
+	CChr_Battle* m_pTargetObject = { nullptr };
+
 	_float				m_fTimeDelta = { 0.f };
 	_float				m_fDissolveTimeDelta = { 0.f };
 
+	_float4				m_fTargetPosition = { 0.f,0.f,0.f,1.f };
 	_float4				m_fDir = { 0.f,0.f,0.f,0.f };
 	_float				m_fDist = { 0.f };
-
+	_int				m_iDamage = { 0 };
 	_int				m_iCurPosition = { 0 };
 	vector<_float4>		m_fPositions;
 
-	
-
 private:
 	void Set_Memeber(_float4 fStartPosition, _float4 fTargetPosition);
-	
+	void Create_Electricity_Left();
 protected:
 	virtual HRESULT Add_Components();
 	HRESULT Bind_ShaderResources();

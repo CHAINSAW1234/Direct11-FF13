@@ -142,7 +142,7 @@ _float4 CWeapon_Anim::Get_BonePosition(const char* pBoneName)
 		_float4x4			m_WorldMatrix;					// 자신의 월드 행렬
 	const _float4x4*	m_pParentMatrix = { nullptr };	// 이 파츠를 보유하고 있는 GameObject == Parent의 월드 행렬을 포인터로 보유
 	*/
-	_matrix vMatrix = XMMatrixRotationQuaternion(vRoation) *  XMLoadFloat4x4(pMatrix);
+	_matrix vMatrix = XMLoadFloat4x4(pMatrix) * XMMatrixRotationQuaternion(vRoation);
 	_float4x4 fMatrix;
 	XMStoreFloat4x4(&fMatrix, vMatrix);
 

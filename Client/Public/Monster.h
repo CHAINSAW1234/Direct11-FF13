@@ -35,7 +35,7 @@ public:
 	CCollider* Get_Collider() { return m_pColliderCom; }
 	CCollider* Get_Collider_Push() { return m_pCollider_PushCom; }
 	CNavigation* Get_Navigation() { return m_pNavigationCom; }
-	//CChr_Battle* Get_TargetObject() { return m_pTargetObject;  }
+	CChr_Battle* Get_TargetObject() { return m_pTargetObject;  }
 	_float4 Get_StartPosition() { return m_vStartPosition; }
 	_float4 Get_TargetPosition();
 	wstring	Get_Name() { return m_strMonsterName; }

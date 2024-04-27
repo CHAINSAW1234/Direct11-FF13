@@ -1,5 +1,8 @@
 #include "stdafx.h"
 #include "Electricity.h"
+#include "Effect.h"
+#include "Chr_Battle.h"
+#include "Electricity_Left.h"
 
 CElectricity::CElectricity(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
 	: CGameObject{ pDevice, pContext }
@@ -37,11 +40,16 @@ HRESULT CElectricity::Initialize(void* pArg)
     if (FAILED(Add_Components()))
         return E_FAIL;
 
+    m_fTargetPosition = pDesc->fTargetPosition;
+    m_iDamage = pDesc->iDamage;
+    m_pTargetObject = pDesc->pTargetObject;
+    Safe_AddRef(m_pTargetObject);
+
     Set_Memeber(pDesc->fStartPosition, pDesc->fTargetPosition);
     m_pTransformCom->Set_Position(pDesc->fStartPosition);
     m_pTransformCom->Set_Scaled(1.f, 1.f, 1.f);
     m_pTransformCom->Look_At(XMLoadFloat4(&pDesc->fTargetPosition));
-    m_pTransformCom->Turn(m_pTransformCom->Get_State_Vector(CTransform::STATE_LOOK), pDesc->TurnDist / XMConvertToRadians(90.0f));
+    m_pTransformCom->Turn(m_pTransformCom->Get_State_Vector(CTransform::STATE_LOOK), pDesc->iTurnDist / XMConvertToRadians(90.0f));
     m_iNumModel = (_uint)m_pModelComs.size();
 
     return S_OK;
@@ -52,21 +60,34 @@ void CElectricity::Tick(_float fTimeDelta)
     // 30 프레임동안 보이게 처리 하는 방법
    // 틱 30회 이후 사망 
     if (m_iCurPosition < (_int)m_fDist) {
-        m_fTimeDelta += fTimeDelta * 30;
+        m_fTimeDelta += fTimeDelta * 80;
+        _int iPrevPositionIndex = m_iCurPosition;
         m_iCurPosition = (_int)floor(m_fTimeDelta);
+
         if (m_iCurPosition >= (_int)m_fDist) {
             m_iCurPosition = (_int)m_fDist;
+
+            m_pTargetObject->Set_Hit(m_iDamage);
+
+            Create_Electricity_Left();
+        }
+
+        if (m_iCurPosition != iPrevPositionIndex) {
+            vector<CEffect*> pEffects;
+            CEffect::Read_File_NoLoop("../Bin/Resources/Effect/Particle_Boss_Electricity.dat", m_pGameInstance, m_pDevice, m_pContext, m_fPositions[m_iCurPosition], &pEffects);
+            
+            for (auto& pEffect : pEffects) {
+                pEffect->Get_Transform()->Look_At(XMLoadFloat4(&m_fTargetPosition));
+            }
         }
     }
     else {
         m_fDissolveTimeDelta += fTimeDelta;
     }
 
-
     if (m_fDissolveTimeDelta >= 1.f) {
         Set_Dead(true);
     }
-
 }
 
 HRESULT CElectricity::Late_Tick(_float fTimeDelta)
@@ -105,7 +126,6 @@ HRESULT CElectricity::Render()
 
             m_pModelComs[i % m_iNumModel]->Render(j);
         }
-
     }
 
     return S_OK;
@@ -127,12 +147,35 @@ void CElectricity::Set_Memeber(_float4 fStartPosition, _float4 fTargetPosition)
         m_fPositions.push_back(fPosition);
         vPosition += XMLoadFloat4(&m_fDir);
     }
+}
+
+void CElectricity::Create_Electricity_Left()
+{
+    CElectricity_Left::ELECTRICITY_LEFT_DESC pDesc = {};
+    pDesc.vPosition = m_fTargetPosition;
+    pDesc.isCamLook = rand()%3;
+    
+    if (FAILED(m_pGameInstance->Add_Clone(g_Level, TEXT("Layer_Effect"), TEXT("Prototype_GameObject_Electricity_Left"), &pDesc)))
+        return;
+    if (FAILED(m_pGameInstance->Add_Clone(g_Level, TEXT("Layer_Effect"), TEXT("Prototype_GameObject_Electricity_Left"), &pDesc)))
+        return;
+    if (FAILED(m_pGameInstance->Add_Clone(g_Level, TEXT("Layer_Effect"), TEXT("Prototype_GameObject_Electricity_Left"), &pDesc)))
+        return;
+    if (FAILED(m_pGameInstance->Add_Clone(g_Level, TEXT("Layer_Effect"), TEXT("Prototype_GameObject_Electricity_Left"), &pDesc)))
+        return;
+    if (FAILED(m_pGameInstance->Add_Clone(g_Level, TEXT("Layer_Effect"), TEXT("Prototype_GameObject_Electricity_Left"), &pDesc)))
+        return;
+    if (FAILED(m_pGameInstance->Add_Clone(g_Level, TEXT("Layer_Effect"), TEXT("Prototype_GameObject_Electricity_Left"), &pDesc)))
+        return;
+
+    CEffect::Read_File_NoLoop("../Bin/Resources/Effect/Particle_Boss_Electricity_Left.dat", m_pGameInstance, m_pDevice, m_pContext, m_fTargetPosition);
+
 
 }
 
 HRESULT CElectricity::Add_Components()
 {
-    /* For.Com_Shader */
+    /* For.Com_Texture */
     if (FAILED(__super::Add_Component(g_Level, TEXT("Prototype_Component_Texture_Corpse"),
         TEXT("Com_Texture"), (CComponent**)&m_pTextureCom)))
         return E_FAIL;
@@ -154,7 +197,6 @@ HRESULT CElectricity::Add_Components()
             return E_FAIL;
 
         m_pModelComs.push_back(pModel);
-
     }
 
     return S_OK;
@@ -223,6 +265,8 @@ CGameObject* CElectricity::Clone(void* pArg)
 void CElectricity::Free()
 {
     __super::Free();
+
+    Safe_Release(m_pTargetObject);
 
     Safe_Release(m_pShaderCom);
     Safe_Release(m_pTextureCom);

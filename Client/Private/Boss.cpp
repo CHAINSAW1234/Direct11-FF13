@@ -10,6 +10,8 @@
 #include "Boss_State_Hit.h"
 #include "Boss_State_Field.h"
 
+#include "Effect.h"
+#include "Electricity.h"
 #include "Chr_Battle.h"
 
 CBoss::CBoss(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
@@ -54,6 +56,10 @@ void CBoss::Tick(_float fTimeDelta)
 
     if (m_pGameInstance->Get_DIMouseState(DIMKS_RBUTTON)) {
         Change_State(STATE_ATTACK_MAGIC);
+    }
+
+    if (m_pGameInstance->Get_KeyState(KEY_DOWN, DIK_P)) {
+        m_iHp -= 300;
     }
 }
 
@@ -161,6 +167,30 @@ void CBoss::Clear_Pattern()
         m_Patterns.pop();
     }
 
+}
+
+void CBoss::Create_Electricity()
+{
+    CElectricity::ELECTRICITY_DESC pDesc;
+    pDesc.fStartPosition = Get_BonePos("chin_a");
+    pDesc.fTargetPosition = Get_TargetPosition();
+    pDesc.pTargetObject = m_pTargetObject;
+    pDesc.iDamage = m_iDamage/2;
+    pDesc.iTurnDist = 0;
+    if (FAILED(m_pGameInstance->Add_Clone(g_Level, TEXT("Layer_Effect"), TEXT("Prototype_GameObject_Electricity"), &pDesc)))
+        return;
+
+    pDesc.fTargetPosition.x += Random_Float(1.f);
+    pDesc.fTargetPosition.z += Random_Float(1.f);
+    pDesc.iTurnDist = 60;
+    if (FAILED(m_pGameInstance->Add_Clone(g_Level, TEXT("Layer_Effect"), TEXT("Prototype_GameObject_Electricity"), &pDesc)))
+        return;
+
+    pDesc.fTargetPosition.x += Random_Float(1.f);
+    pDesc.fTargetPosition.z += Random_Float(1.f);
+    pDesc.iTurnDist = 120;
+    if (FAILED(m_pGameInstance->Add_Clone(g_Level, TEXT("Layer_Effect"), TEXT("Prototype_GameObject_Electricity"), &pDesc)))
+        return;
 }
 
 void CBoss::Change_Phase()

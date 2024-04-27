@@ -189,10 +189,28 @@ PS_OUT PS_Electricity_Dissolve(PS_IN In)
     
     Out.vColor = vDiffuseColor * vColor;
 
-
     return Out;
 }
 
+PS_OUT PS_Time(PS_IN In)
+{
+    PS_OUT Out = (PS_OUT) 0;
+
+    float4 vColor = g_vColor * g_fColorMagnification;
+    vColor.w = g_vColor.a;
+    
+    vector vDiffuseColor = g_DiffuseTexture.Sample(LinearSampler, In.vTexcoord);
+    if (vDiffuseColor.r < 0.2)
+        discard;
+    
+    if (In.vTexcoord.y > g_DissolveTime + 0.1 ||
+        In.vTexcoord.y < g_DissolveTime)
+        discard;
+    
+    Out.vColor = vDiffuseColor * vColor;
+
+    return Out;
+}
 
 technique11 DefaultTechnique
 {
@@ -285,4 +303,18 @@ technique11 DefaultTechnique
         DomainShader = /*compile ds_5_0 DS_MAIN()*/NULL;
         PixelShader = compile ps_5_0 PS_Electricity_Dissolve();
     }
+
+    Pass Time // 6 : 시간에 따라 일부만 보이도록 처리
+    {
+        SetRasterizerState(RS_CullNone);
+        SetDepthStencilState(DSS_Default, 0);
+        SetBlendState(BS_AlphaBlend, float4(0.f, 0.f, 0.f, 0.f), 0xffffffff);
+
+        VertexShader = compile vs_5_0 VS_MAIN();
+        GeometryShader = /*compile gs_5_0 GS_MAIN()*/NULL;
+        HullShader = /*compile hs_5_0 HS_MAIN()*/NULL;
+        DomainShader = /*compile ds_5_0 DS_MAIN()*/NULL;
+        PixelShader = compile ps_5_0 PS_Time();
+    }
+
 }

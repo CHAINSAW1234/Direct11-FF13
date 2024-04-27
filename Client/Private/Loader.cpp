@@ -32,6 +32,7 @@
 #include "Sphere.h"
 #include "Sphere_Heal.h"
 #include "Bullet.h"
+#include "HellBlast.h"
 
 #include "Corpse.h"
 #include "Leopard.h"
@@ -41,6 +42,7 @@
 #include "Boss.h"
 
 #include "Electricity.h"
+#include "Electricity_Left.h"
 #include "Effect_2D.h"
 #include "Effect_2D_Bone.h"
 #include "Effect_3D.h"
@@ -316,9 +318,19 @@ HRESULT CLoader::Loading_Prototype()
 		CBullet::Create(m_pDevice, m_pContext))))
 		return E_FAIL;
 
+	/* For.Prototype_GameObject_HellBlast */
+	if (FAILED(m_pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_HellBlast"),
+		CHellBlast::Create(m_pDevice, m_pContext))))
+		return E_FAIL;
+
 	/* For.Prototype_GameObject_Effect_2D */
 	if (FAILED(m_pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_Electricity"),
 		CElectricity::Create(m_pDevice, m_pContext))))
+		return E_FAIL;
+
+	/* For.Prototype_GameObject_Effect_2D */
+	if (FAILED(m_pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_Electricity_Left"),
+		CElectricity_Left::Create(m_pDevice, m_pContext))))
 		return E_FAIL;
 
 	/* For.Prototype_GameObject_Effect_2D */

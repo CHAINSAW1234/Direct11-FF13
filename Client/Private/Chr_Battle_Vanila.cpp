@@ -57,9 +57,7 @@ HRESULT CChr_Battle_Vanila::Initialize(void* pArg)
 
 void CChr_Battle_Vanila::Tick(_float fTimeDelta)
 {
-	Update_HealTarget();
-	__super::Tick(fTimeDelta);
-
+		__super::Tick(fTimeDelta);
 }
 
 HRESULT CChr_Battle_Vanila::Late_Tick(_float fTimeDelta)
@@ -100,6 +98,16 @@ void CChr_Battle_Vanila::Set_Hit(_int iDamage)
 	Change_State(HIT);
 	if (m_iHp <= 0) {
 		Change_State(DEAD);
+	}
+}
+
+void CChr_Battle_Vanila::Update_Target()
+{
+	if (m_pAbility->Get_CurrentRole() != CAbility::HEALER) {
+		__super::Update_Target();
+	}
+	else {
+		Update_HealTarget();
 	}
 }
 

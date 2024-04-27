@@ -39,6 +39,9 @@ public:
 	void Update_Pattern();
 	void Clear_Pattern();
 
+public:
+	void Create_Electricity();
+
 private:
 	void Change_Phase();
 	virtual void Update_Chain(_float fTimeDelta) override;

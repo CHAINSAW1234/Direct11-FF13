@@ -3,6 +3,9 @@
 #include "Boss.h"
 #include "UI_Skill.h"
 
+#include "HellBlast.h"
+#include "Effect.h"
+
 CBoss_State_Skill_HellBlast::CBoss_State_Skill_HellBlast(CBoss* pBoss)
 {
     m_pBoss = pBoss;
@@ -10,6 +13,8 @@ CBoss_State_Skill_HellBlast::CBoss_State_Skill_HellBlast(CBoss* pBoss)
 
 void CBoss_State_Skill_HellBlast::OnStateEnter()
 {
+    m_isSkill[0] = false;
+    m_isSkill[1] = false;
     m_eState = MOVE;
     m_pBoss->Change_Animation(CBoss::MOVE_STRAIGHT_START, false);
     m_pUI_Skill = m_pBoss->Create_UI_Skill(TEXT("Çï ºí·¡½ºÆ®"));
@@ -57,6 +62,28 @@ void CBoss_State_Skill_HellBlast::Skill(_float fTimeDelta)
     if (40.f <= m_pBoss->Get_CurrentTrackPosition() &&
         m_pBoss->Get_CurrentTrackPosition() <= 50.f)
         m_pBoss->Get_Transform()->Go_Up(fTimeDelta * 2);
+
+    if (50.f <= m_pBoss->Get_CurrentTrackPosition() &&
+        m_pBoss->Get_CurrentTrackPosition() <= 70.f)
+        m_pBoss->Get_Transform()->Turn(XMVectorSet(0.f,1.f,0.f,0.f), fTimeDelta);
+
+    if (!m_isSkill[0] && 78.f <= m_pBoss->Get_CurrentTrackPosition()) {
+        m_isSkill[0] = true;
+
+        CHellBlast::HELLBLAST_DESC pDesc = {};
+        pDesc.vPosition = m_pBoss->Get_BonePos("chin_b");
+
+        m_pHellBlast = (CHellBlast*)(m_pGameInstance->Add_Clone_With_Object(g_Level, TEXT("Layer_Effect"), TEXT("Prototype_GameObject_HellBlast"), &pDesc));
+        Safe_AddRef(m_pHellBlast);
+
+    }
+
+    if (!m_isSkill[1] && 120.f <= m_pBoss->Get_CurrentTrackPosition()) {
+        m_pHellBlast->Set_Move(true);
+        Safe_Release(m_pHellBlast);
+        m_pHellBlast = nullptr;
+        m_isSkill[1] = true;
+    }
 
     if (150.f <= m_pBoss->Get_CurrentTrackPosition() &&
         m_pBoss->Get_CurrentTrackPosition() <= 160.f)

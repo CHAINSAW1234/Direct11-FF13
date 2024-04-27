@@ -145,7 +145,7 @@ _float4 CMonster::Get_BonePos(const string strBoneName)
         _float4x4			m_WorldMatrix;					// 자신의 월드 행렬
     const _float4x4*	m_pParentMatrix = { nullptr };	// 이 파츠를 보유하고 있는 GameObject == Parent의 월드 행렬을 포인터로 보유
     */
-    _matrix vMatrix = XMMatrixRotationQuaternion(vRoation) * XMLoadFloat4x4(pMatrix);
+    _matrix vMatrix = XMLoadFloat4x4(pMatrix) * XMMatrixRotationQuaternion(vRoation) ;
     _float4x4 fMatrix;
     XMStoreFloat4x4(&fMatrix, vMatrix);
 
@@ -208,7 +208,7 @@ _bool CMonster::Is_Animation_Finished()
 
 void CMonster::Add_Hp(_int iHp)
 {
-    m_iHp += iHp + Random_Float(10) + 5.f;
+    m_iHp += iHp + 5.f + Random_Float(10.f);
     m_iHp = min(m_iHp, m_iMaxHp);
     Create_UI_Number(CUI_Number::HEAL, iHp);
 
@@ -219,7 +219,7 @@ void CMonster::Min_Hp(_int iDamage)
 {
     _float fCalDamage;
 
-    fCalDamage =  iDamage + Random_Float(5);
+    fCalDamage =  iDamage + Random_Float(5.f);
     fCalDamage *= m_fChain/100.f;
 
     m_iHp -= (_int)fCalDamage;
@@ -236,7 +236,7 @@ void CMonster::Update_Attack_Time(_float fTimeDelta)
 
 void CMonster::Add_Chain(_float fChain)
 {
-    _float fCalChain = fChain + Random_Float(2) + 1.f;
+    _float fCalChain = fChain + 1.f + Random_Float(2.f);
 
     if (!m_isBreak) {
         fCalChain *= (100 - m_fChainResist) / 100.f * 0.5f;

@@ -20,7 +20,6 @@ public:
 
 private:
 	void Attack(_float fTimeDelta);
-	void Create_Electricity();
 
 private:
 	class CBoss* m_pBoss = { nullptr };

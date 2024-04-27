@@ -181,7 +181,7 @@ void CChr_Battle::Add_Hp(_int iHp)
 	}
 
 	_float iCalHp = (_float)iHp;
-	iCalHp += Random_Float(10) + 5.f;
+	iCalHp += 5.f + Random_Float(10.f);
 
 	m_iHp += (_int)iCalHp;
 	m_iHp = min(m_iHp, m_iMaxHp);
@@ -284,22 +284,19 @@ void CChr_Battle::Update_Target()
 	}
 
 	if (m_pTargetObject->Get_Dead()) {
+
 		size_t iNumCnt = m_pGameInstance->Get_LayerCnt(g_Level, g_strMonsterLayerTag);
 		if (iNumCnt == 0 || iNumCnt == 1)
 			return;
-		while (1) {
-			CGameObject* pGameObject = m_pGameInstance->Get_GameObject(g_Level, g_strMonsterLayerTag, rand() % iNumCnt);
-			if (pGameObject->Get_Dead() == false) {
-				Set_Target(pGameObject);
-				return;
-			}
-		}
+
+		Change_Target();
+		
 	}
 }
 
 void CChr_Battle::Change_Target()
 {
-	size_t iNumCnt = m_pGameInstance->Get_LayerCnt(g_Level, g_strChrLayerTag);
+	size_t iNumCnt = m_pGameInstance->Get_LayerCnt(g_Level, g_strMonsterLayerTag);
 	while (1) {
 		CGameObject* pGameObject = m_pGameInstance->Get_GameObject(g_Level, g_strMonsterLayerTag, rand() % iNumCnt);
 		if (pGameObject->Get_Dead() == false) {
@@ -313,6 +310,8 @@ void CChr_Battle::Change_Target()
 void CChr_Battle::Change_Role(CAbility::ROLE eRole)
 {
 	m_pAbility->Set_CurrentRole(eRole);
+
+	Change_Target();
 
 	while(!m_Commands.empty())
 		m_Commands.pop();
