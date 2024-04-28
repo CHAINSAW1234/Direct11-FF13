@@ -20,6 +20,8 @@ void CChr_Battle_Vanila_State_Skill::OnStateEnter()
 	m_pUI_Skill = m_pChr_Battle_Vanila->Create_UI_Skill(eSkill);
 
 	CEffect::Read_File_NoLoop("../Bin/Resources/Effect/Effect_Skill.dat", m_pGameInstance, m_pChr_Battle_Vanila->Get_Device(), m_pChr_Battle_Vanila->Get_Context(), m_pChr_Battle_Vanila->Get_Transform()->Get_State_Float4(CTransform::STATE_POSITION));
+	PlaySound();
+
 }
 
 void CChr_Battle_Vanila_State_Skill::OnStateUpdate(_float fTimeDelta)
@@ -64,6 +66,7 @@ void CChr_Battle_Vanila_State_Skill::Skill()
 				}
 				m_isCommandUse = false;
 				m_pChr_Battle_Vanila->Set_TrackPosition(20.f);
+				PlaySound();
 			}
 		}
 	}
@@ -71,6 +74,17 @@ void CChr_Battle_Vanila_State_Skill::Skill()
 		if (m_pChr_Battle_Vanila->Is_Animation_Finished()) {
 			m_pChr_Battle_Vanila->Change_State(CChr_Battle_Vanila::IDLE);
 		}
+	}
+}
+
+void CChr_Battle_Vanila_State_Skill::PlaySound()
+{
+	_int iRand = rand() % 3;
+	if (!iRand) {
+		_int irand = rand() % 5;
+		wstring strSoundTag = L"Vanila_Shout_" + to_wstring(irand) + L".wav";
+		const TCHAR* pChar = strSoundTag.c_str();
+		m_pGameInstance->PlaySoundW(const_cast<TCHAR*>(strSoundTag.c_str()), CSound_Manager::CHR3, SOUND_DEFAULT);
 	}
 }
 

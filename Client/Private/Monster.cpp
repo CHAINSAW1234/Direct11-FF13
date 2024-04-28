@@ -492,7 +492,7 @@ void CMonster::Update_Chain(_float fTimeDelta)
 {
     if (m_isBreak) {
         m_fBreakTimeDelta += fTimeDelta;
-        if (m_fBreakTimeDelta >= 20.f) {
+        if (m_fBreakTimeDelta >= 30.f) {
             m_isBreak = false;
             m_fChain = 100.f;
             m_fCurChain = 100.f;

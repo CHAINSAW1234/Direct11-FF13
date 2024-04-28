@@ -71,7 +71,7 @@ public:
 	class CUI_Skill* Create_UI_Skill(CRole::SKILL eSkill);
 	virtual void Create_Sphere(_int iDamage, _int iWeaponNum = 0);
 	/*============================±‚≈∏============================*/
-	void Add_Hp(_int iHp);
+	virtual void Add_Hp(_int iHp);
 	void Min_Hp(_int iHp);
 	void Revive();
 	void Update_ATB(_float fTimeDelta);

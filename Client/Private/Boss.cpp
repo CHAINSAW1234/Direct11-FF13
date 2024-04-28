@@ -54,6 +54,12 @@ void CBoss::Tick(_float fTimeDelta)
 {
     __super::Tick(fTimeDelta);
 
+    for (auto& pBarrier : m_Barrier) {
+        _float3 vScaled = pBarrier->Get_Transform()->Get_Scaled();
+        pBarrier->Get_Transform()->Set_WorldMatrix(m_pTransformCom->Get_WorldFloat4x4());
+        pBarrier->Get_Transform()->Set_Scaled(vScaled.x, vScaled.y, vScaled.z);
+    }
+
     if (m_pGameInstance->Get_DIMouseState(DIMKS_RBUTTON)) {
         Change_State(STATE_ATTACK_MAGIC);
     }
@@ -106,14 +112,38 @@ void CBoss::Start()
 
 }
 
+void CBoss::Set_Barrier(_bool isBarrier)
+{
+    m_isBarrier = isBarrier;
+
+    if (m_isBarrier) {
+        CEffect::Read_File_Loop("../Bin/Resources/Effect/Boss_Shield.dat", m_pGameInstance, m_pDevice, m_pContext, &m_Barrier);
+    }
+    else {
+        for (auto& pBarrier : m_Barrier) {
+            pBarrier->Set_Dead(true);
+            Safe_Release(pBarrier);
+        }
+        m_Barrier.clear();
+    }
+
+}
+
 void CBoss::Set_Hit(_int iDamage, _float fChain)
 {
-    __super::Set_Hit(iDamage, fChain);
+    if (m_isBarrier) {
+        __super::Set_Hit(1, fChain);
+    }
+    else {
+        __super::Set_Hit(iDamage, fChain);
+    }
+
 
     if (m_ePhase == PHASE1 && m_iHp <= m_iMaxHp * 0.7) {
         m_ePhase = PHASE2;
         Clear_Pattern();
         Change_State(STATE_SKILL_BARRIER);
+        m_fBreakTimeDelta = 30.f;
 
     }
 
@@ -317,4 +347,10 @@ void CBoss::Free()
 
     while(!m_Patterns.empty())
         m_Patterns.pop();
+
+    for (auto& pBarrier : m_Barrier) {
+        pBarrier->Set_Dead(true);
+        Safe_Release(pBarrier);
+    }
+    m_Barrier.clear();
 }

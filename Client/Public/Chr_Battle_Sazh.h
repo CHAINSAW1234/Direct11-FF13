@@ -39,8 +39,9 @@ public:
 	virtual void	Change_Role(CAbility::ROLE eRole) override;
 	virtual void	Set_State_Battle_Finish() override;
 	virtual void	Set_Hit(_int iDamage);								// 피격 상태로 변경
+	virtual void	Add_Hp(_int iHp) override;
 	virtual void	Create_Sphere(_int iDamage, _int iWeaponNum = 0) override;
-	void			Create_Bullet();
+	void			Create_Bullet(_int iWeaponIndex);
 private:
 	virtual HRESULT Add_Components() override;
 	virtual HRESULT Add_Component_FSM() override;

@@ -27,6 +27,7 @@ private:
 private:
 	class CBoss* m_pBoss = { nullptr };
 	STATE m_eState = { STATE_END };
+	_bool m_isAttack = { false };
 public:
 	static	CBoss_State_Attack_Physic* Create(class CBoss* pBoss);
 	virtual void Free() override;

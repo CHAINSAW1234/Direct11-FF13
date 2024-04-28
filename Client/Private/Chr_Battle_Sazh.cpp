@@ -129,9 +129,27 @@ void CChr_Battle_Sazh::Set_Hit(_int iDamage)
 
 	__super::Set_Hit(iDamage);
 
-	Change_State(HIT);
 	if (m_iHp <= 0) {
 		Change_State(DEAD);
+		m_pGameInstance->PlaySoundW(TEXT("Sazh_Dead.wav"), CSound_Manager::CHR2, SOUND_DEFAULT);
+	}
+	else {
+		Change_State(HIT);
+		_int irand = rand() % 3;
+		wstring strSoundTag = L"Sazh_Damage_" + to_wstring(irand) + L".wav";
+		const TCHAR* pChar = strSoundTag.c_str();
+		m_pGameInstance->PlaySoundW(const_cast<TCHAR*>(strSoundTag.c_str()), CSound_Manager::CHR2, SOUND_DEFAULT);
+	}
+}
+
+void CChr_Battle_Sazh::Add_Hp(_int iHp)
+{
+	__super::Add_Hp(iHp);
+
+	_int iRand = rand() % 4;
+
+	if (!iRand) {
+		m_pGameInstance->PlaySoundW(TEXT("Sazh_Heal_0.wav"), CSound_Manager::CHR2, SOUND_DEFAULT);
 	}
 }
 
@@ -161,9 +179,12 @@ void CChr_Battle_Sazh::Create_Sphere(_int iDamage, _int iWeaponNum)
 	return;
 }
 
-void CChr_Battle_Sazh::Create_Bullet()
+void CChr_Battle_Sazh::Create_Bullet(_int iWeaponIndex)
 {
-	_float4 vPos = ((CWeapon_Anim*)m_PartObjects[1])->Get_BonePosition("muzzle_p");
+	if (iWeaponIndex == 0)
+		return;
+
+	_float4 vPos = ((CWeapon_Anim*)m_PartObjects[iWeaponIndex])->Get_BonePosition("muzzle_p");
 
 	CBullet::BULLET_DESC Bullet_Desc = {};
 	Bullet_Desc.pTargetObject = m_pTargetObject;
@@ -171,27 +192,21 @@ void CChr_Battle_Sazh::Create_Bullet()
 	Bullet_Desc.vStartPosition = vPos;
 	Bullet_Desc.iDamage = m_iAttack_Physic/2;
 	Bullet_Desc.fChain = 5.f;//m_fChain;
-
-	m_pGameInstance->Add_Clone(g_Level, TEXT("Layer_Bullet"), TEXT("Prototype_GameObject_Bullet"), &Bullet_Desc);
-
-	vPos = ((CWeapon_Anim*)m_PartObjects[2])->Get_BonePosition("muzzle_p");
-	Bullet_Desc.vStartPosition = vPos;
-
 	m_pGameInstance->Add_Clone(g_Level, TEXT("Layer_Bullet"), TEXT("Prototype_GameObject_Bullet"), &Bullet_Desc);
 
 	CEffect_2D_Bone::EFFECT_2D_BONE_DESC  Effect_Desc = {};
 	Effect_Desc.strEffectName = "Gun_Fire";
 	Effect_Desc.vColor = _float4(1.f, 0.f, 0.f, 1.f);
 	Effect_Desc.eEffect = Interface_2D::GUN_FIRE;
-	Effect_Desc.pParentMatrix = ((CWeapon_Anim*)m_PartObjects[1])->Get_WorldMatrix_Ptr();
-	Effect_Desc.pSocket = ((CWeapon_Anim*)m_PartObjects[1])->Get_BonePtr("muzzle_p");
+	Effect_Desc.pParentMatrix = ((CWeapon_Anim*)m_PartObjects[iWeaponIndex])->Get_WorldMatrix_Ptr();
+	Effect_Desc.pSocket = ((CWeapon_Anim*)m_PartObjects[iWeaponIndex])->Get_BonePtr("muzzle_p");
 	m_pGameInstance->Add_Clone(g_Level, TEXT("Layer_Effect"), TEXT("Prototype_GameObject_Effect_2D_Bone"), &Effect_Desc);
 
-	Effect_Desc.pParentMatrix = ((CWeapon_Anim*)m_PartObjects[2])->Get_WorldMatrix_Ptr();
-	Effect_Desc.pSocket = ((CWeapon_Anim*)m_PartObjects[2])->Get_BonePtr("muzzle_p");
-	m_pGameInstance->Add_Clone(g_Level, TEXT("Layer_Effect"), TEXT("Prototype_GameObject_Effect_2D_Bone"), &Effect_Desc);
-
-
+	_int irand = rand() % 2;
+	wstring strSoundTag = L"Gun_Shot_" + to_wstring(irand) + L".wav";
+	const TCHAR* pChar = strSoundTag.c_str();
+	m_pGameInstance->PlaySoundDuplicate(const_cast<TCHAR*>(strSoundTag.c_str()), CSound_Manager::EFFECT_DUPLICATE, SOUND_DEFAULT);
+	
 	return;
 }
 

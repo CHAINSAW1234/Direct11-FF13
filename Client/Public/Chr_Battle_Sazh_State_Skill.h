@@ -19,6 +19,7 @@ public:
 
 private:
 	void Skill();
+	void PlaySound();
 
 private:
 	class CChr_Battle_Sazh* m_pChr_Battle_Sazh = { nullptr };

@@ -2,7 +2,7 @@
 #include "Monster.h"
 
 BEGIN(Client)
-
+class CEffect;
 class CBoss final : public CMonster
 {
 public:
@@ -30,7 +30,7 @@ public:
 
 public:
 	CModel* Get_Body() { return m_pModelCom; }
-	void Set_Barrier(_bool isBarrier) { m_isBarrier = isBarrier; }
+	void Set_Barrier(_bool isBarrier);
 
 	virtual void Set_Hit(_int iDamage, _float fChain) override;
 	HRESULT Change_State(STATE eState);
@@ -51,6 +51,7 @@ private:
 	PHASE	m_ePhase = { PHASE_END };
 	queue<STATE> m_Patterns;
 	_bool  m_isBarrier = { false };
+	vector<CEffect*> m_Barrier;
 
 private:
 	virtual HRESULT Add_Components() override;

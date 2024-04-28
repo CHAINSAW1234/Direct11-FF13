@@ -19,7 +19,7 @@ public:
 
 private:
 	void Skill();
-
+	void PlaySound();
 private:
 	class CChr_Battle_Vanila*	m_pChr_Battle_Vanila = { nullptr };
 	class CUI_Skill*			m_pUI_Skill = { nullptr };

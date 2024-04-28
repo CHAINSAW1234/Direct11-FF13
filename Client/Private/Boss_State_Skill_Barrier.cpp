@@ -33,6 +33,7 @@ void CBoss_State_Skill_Barrier::Skill()
     if (!m_isSkill && m_pBoss->Get_CurrentTrackPosition() >= 50.f) {
         m_isSkill = true;
         m_pBoss->Set_Barrier(true);
+
     }
 
     if (m_pBoss->Is_Animation_Finished())

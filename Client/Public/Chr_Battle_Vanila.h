@@ -43,7 +43,7 @@ public:
 	virtual void	Set_State_Battle_Finish() override;
 	virtual void	Set_Target(CGameObject* pTargetObject) override;
 	virtual void	Set_Hit(_int iDamage);								// 피격 상태로 변경
-
+	virtual void	Add_Hp(_int iHp) override;
 	virtual void	Update_Target() override;									// 타겟 사망시 변경
 	virtual void	Create_Sphere(_int iDamage, _int iWeaponNum = 0) override;
 	void			Create_Sphere_Heal();

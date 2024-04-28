@@ -14,7 +14,7 @@ BEGIN(Engine)
 class CSound_Manager final : public CBase
 {
 public:
-	enum CHANNELID { BGM, BGM_FIELD, PLAYER, FOLLOWER, EFFECT1, EFFECT2, EFFECT3, UI1, UI2, UI3, UI4, SYSTEM_EFFECT, SYSTEM_EFFECT2, SYSTEM_EFFECT3, MAXCHANNEL };
+	enum CHANNELID { BGM, BGM_FIELD, CHR1, CHR2, CHR3, CHR_GENERAL, HIT1, HIT2, EFFECT_GENERAL, EFFECT_DUPLICATE, UI1, UI2, UI3, UI4, MAXCHANNEL };
 
 private:
 	CSound_Manager();
@@ -30,6 +30,7 @@ public:
 	_uint	BGMVolumeDown(_float _vol);
 	_uint	Pause(CHANNELID eID);
 	void	PlaySound(TCHAR* pSoundKey, CHANNELID eID, _float _vol);
+	void	PlaySoundDuplicate(TCHAR* pSoundKey, CHANNELID eID, _float _vol);
 	void	PlaySoundOnce(TCHAR* pSoundKey, CHANNELID eID, _float _vol);
 
 	void	SetChannelOneOff(_bool bOneOff, CHANNELID eID) { m_bChannelOneOff[eID] = bOneOff; }

@@ -27,6 +27,7 @@ private:
 	void Skill(_float fTimeDelta);
 	void Finish(_float fTimeDelta);
 
+	void PlaySound();
 
 	_float Get_Dist_Y();
 	

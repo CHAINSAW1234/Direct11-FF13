@@ -189,6 +189,21 @@ HRESULT CPlayer_Battle::Change_Optima(_int iOptimaIndex)
 	m_Memebers[0]->Change_Role((*pOptima)[1]);	// ¸â¹ö 0 : »ñÁî
 	m_Memebers[1]->Change_Role((*pOptima)[2]);		// ¸â¹ö 1 : ¹Ù´Ò¶ó
 
+	_int iRand = rand() % 3;
+	wstring strSoundTag;
+	switch (iRand) {
+	case 0:
+		strSoundTag = TEXT("Light_Optima.wav");
+		break;
+	case 1:
+		strSoundTag = TEXT("Sazh_Optima.wav");
+		break;
+	case 2:
+		strSoundTag = TEXT("Vanila_Optima.wav");
+		break;
+	}
+	m_pGameInstance->PlaySoundW(const_cast<TCHAR*>(strSoundTag.c_str()), CSound_Manager::CHR_GENERAL, SOUND_DEFAULT);
+
 	return S_OK;
 }
 

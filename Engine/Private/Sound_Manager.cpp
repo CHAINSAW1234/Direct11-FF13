@@ -90,28 +90,39 @@ void CSound_Manager::PlaySound(TCHAR* pSoundKey, CHANNELID eID, _float _vol)
 		return;
 
 	FMOD_BOOL bPlay = FALSE;
-	if (FMOD_Channel_IsPlaying(m_pChannelArr[eID], &bPlay))
-	{
-		FMOD_System_PlaySound(m_pSystem, iter->second, nullptr, FALSE, &m_pChannelArr[eID]);
-		if (_vol >= SOUND_MAX)
-			_vol = 1.f;
-		else if (_vol <= SOUND_MIN)
-			_vol = 0.f;
-		FMOD_Channel_SetVolume(m_pChannelArr[eID], _vol);
-	}
-	else
+	if (!FMOD_Channel_IsPlaying(m_pChannelArr[eID], &bPlay))
 	{
 		FMOD_Channel_Stop(m_pChannelArr[eID]);
-		FMOD_System_PlaySound(m_pSystem, iter->second, nullptr, FALSE, &m_pChannelArr[eID]);
-		if (_vol >= SOUND_MAX)
-			_vol = 1.f;
-		else if (_vol <= SOUND_MIN)
-			_vol = 0.f;
-		FMOD_Channel_SetVolume(m_pChannelArr[eID], _vol);
 	}
 
+	FMOD_System_PlaySound(m_pSystem, iter->second, nullptr, FALSE, &m_pChannelArr[eID]);
+	if (_vol >= SOUND_MAX)
+		_vol = 1.f;
+	else if (_vol <= SOUND_MIN)
+		_vol = 0.f;
+	FMOD_Channel_SetVolume(m_pChannelArr[eID], _vol);
 	FMOD_System_Update(m_pSystem);
+}
 
+void CSound_Manager::PlaySoundDuplicate(TCHAR* pSoundKey, CHANNELID eID, _float _vol)
+{
+	map<TCHAR*, FMOD_SOUND*>::iterator iter;
+
+	iter = find_if(m_mapSound.begin(), m_mapSound.end(), [&](auto& iter)
+		{
+			return !lstrcmp(pSoundKey, iter.first);
+		});
+
+	if (iter == m_mapSound.end())
+		return;
+
+	FMOD_System_PlaySound(m_pSystem, iter->second, nullptr, FALSE, &m_pChannelArr[eID]);
+	if (_vol >= SOUND_MAX)
+		_vol = 1.f;
+	else if (_vol <= SOUND_MIN)
+		_vol = 0.f;
+	FMOD_Channel_SetVolume(m_pChannelArr[eID], _vol);
+	FMOD_System_Update(m_pSystem);
 }
 
 void CSound_Manager::PlaySoundOnce(TCHAR* pSoundKey, CHANNELID eID, _float _vol)
@@ -258,6 +269,7 @@ void CSound_Manager::LoadSoundFile()
 	}
 
 	// 1. BGM
+#pragma region BGM
 	iResult = 0;
 	handle = _tfindfirst64(L"../Bin/Resources/Sound/BGM/*.*", &fd);
 	strcpy_s(szCurPath, "../Bin/Resources/Sound/BGM/");
@@ -281,8 +293,10 @@ void CSound_Manager::LoadSoundFile()
 		}
 		iResult = _tfindnext64(handle, &fd);
 	}
+#pragma endregion
 
 	// 2. System
+#pragma region System
 	iResult = 0;
 	handle = _tfindfirst64(L"../Bin/Resources/Sound/System/*.*", &fd);
 	strcpy_s(szCurPath, "../Bin/Resources/Sound/System/");
@@ -306,7 +320,96 @@ void CSound_Manager::LoadSoundFile()
 		}
 		iResult = _tfindnext64(handle, &fd);
 	}
+#pragma endregion
 
+	// 3. Chr_Light
+#pragma region Chr_Light
+	iResult = 0;
+	handle = _tfindfirst64(L"../Bin/Resources/Sound/Chr/Light/*.*", &fd);
+	strcpy_s(szCurPath, "../Bin/Resources/Sound/Chr/Light/");
+	while (iResult != -1)
+	{
+		WideCharToMultiByte(CP_UTF8, 0, fd.name, -1, szFilename, sizeof(szFilename), NULL, NULL);
+		strcpy_s(szFullPath, szCurPath);
+		strcat_s(szFullPath, szFilename);
+		FMOD_SOUND* pSound = nullptr;
+
+		FMOD_RESULT eRes = FMOD_System_CreateSound(m_pSystem, szFullPath, FMOD_DEFAULT, 0, &pSound);
+		if (eRes == FMOD_OK)
+		{
+			int iLength = strlen(szFilename) + 1;
+
+			TCHAR* pSoundKey = new TCHAR[iLength];
+			ZeroMemory(pSoundKey, sizeof(TCHAR) * iLength);
+			MultiByteToWideChar(CP_ACP, 0, szFilename, iLength, pSoundKey, iLength);
+
+			m_mapSound.emplace(pSoundKey, pSound);
+		}
+		iResult = _tfindnext64(handle, &fd);
+	}
+#pragma endregion
+
+	// 4. Chr_Sazh
+#pragma region Chr_Sazh
+	iResult = 0;
+	handle = _tfindfirst64(L"../Bin/Resources/Sound/Chr/Sazh/*.*", &fd);
+	strcpy_s(szCurPath, "../Bin/Resources/Sound/Chr/Sazh/");
+	while (iResult != -1)
+	{
+		WideCharToMultiByte(CP_UTF8, 0, fd.name, -1, szFilename, sizeof(szFilename), NULL, NULL);
+		strcpy_s(szFullPath, szCurPath);
+		strcat_s(szFullPath, szFilename);
+		FMOD_SOUND* pSound = nullptr;
+
+		FMOD_RESULT eRes = FMOD_System_CreateSound(m_pSystem, szFullPath, FMOD_DEFAULT, 0, &pSound);
+		if (eRes == FMOD_OK)
+		{
+			int iLength = strlen(szFilename) + 1;
+
+			TCHAR* pSoundKey = new TCHAR[iLength];
+			ZeroMemory(pSoundKey, sizeof(TCHAR) * iLength);
+			MultiByteToWideChar(CP_ACP, 0, szFilename, iLength, pSoundKey, iLength);
+
+			m_mapSound.emplace(pSoundKey, pSound);
+		}
+		iResult = _tfindnext64(handle, &fd);
+	}
+#pragma endregion
+
+	// 5. Chr_Vanila
+#pragma region Chr_Vanila
+	iResult = 0;
+	handle = _tfindfirst64(L"../Bin/Resources/Sound/Chr/Vanila/*.*", &fd);
+	strcpy_s(szCurPath, "../Bin/Resources/Sound/Chr/Vanila/");
+	while (iResult != -1)
+	{
+		WideCharToMultiByte(CP_UTF8, 0, fd.name, -1, szFilename, sizeof(szFilename), NULL, NULL);
+		strcpy_s(szFullPath, szCurPath);
+		strcat_s(szFullPath, szFilename);
+		FMOD_SOUND* pSound = nullptr;
+
+		FMOD_RESULT eRes = FMOD_System_CreateSound(m_pSystem, szFullPath, FMOD_DEFAULT, 0, &pSound);
+		if (eRes == FMOD_OK)
+		{
+			int iLength = strlen(szFilename) + 1;
+
+			TCHAR* pSoundKey = new TCHAR[iLength];
+			ZeroMemory(pSoundKey, sizeof(TCHAR) * iLength);
+			MultiByteToWideChar(CP_ACP, 0, szFilename, iLength, pSoundKey, iLength);
+
+			m_mapSound.emplace(pSoundKey, pSound);
+		}
+		iResult = _tfindnext64(handle, &fd);
+	}
+#pragma endregion
+
+#pragma region BGM
+
+#pragma endregion
+
+#pragma region BGM
+
+#pragma endregion
 
 	FMOD_System_Update(m_pSystem);
 	_findclose(handle);

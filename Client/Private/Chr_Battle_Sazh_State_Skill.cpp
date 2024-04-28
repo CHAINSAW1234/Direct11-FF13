@@ -21,6 +21,7 @@ void CChr_Battle_Sazh_State_Skill::OnStateEnter()
 	m_pUI_Skill = m_pChr_Battle_Sazh->Create_UI_Skill(eSkill);
 
 	CEffect::Read_File_NoLoop("../Bin/Resources/Effect/Effect_Skill.dat", m_pGameInstance, m_pChr_Battle_Sazh->Get_Device(), m_pChr_Battle_Sazh->Get_Context(), m_pChr_Battle_Sazh->Get_Transform()->Get_State_Float4(CTransform::STATE_POSITION));
+	PlaySound();
 
 }
 
@@ -65,6 +66,7 @@ void CChr_Battle_Sazh_State_Skill::Skill()
 				}
 				m_isCommandUse = false;
 				m_pChr_Battle_Sazh->Set_TrackPosition(20.f);
+				PlaySound();
 			}
 		}
 	}
@@ -72,6 +74,17 @@ void CChr_Battle_Sazh_State_Skill::Skill()
 		if (m_pChr_Battle_Sazh->Is_Animation_Finished()) {
 			m_pChr_Battle_Sazh->Change_State(CChr_Battle_Sazh::IDLE);
 		}
+	}
+}
+
+void CChr_Battle_Sazh_State_Skill::PlaySound()
+{
+	_int iRand = rand() % 3;
+	if (!iRand) {
+		_int irand = rand() % 5;
+		wstring strSoundTag = L"Sazh_Shout_" + to_wstring(irand) + L".wav";
+		const TCHAR* pChar = strSoundTag.c_str();
+		m_pGameInstance->PlaySoundW(const_cast<TCHAR*>(strSoundTag.c_str()), CSound_Manager::CHR2, SOUND_DEFAULT);
 	}
 }
 

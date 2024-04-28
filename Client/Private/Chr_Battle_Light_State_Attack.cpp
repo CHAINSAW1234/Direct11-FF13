@@ -85,6 +85,7 @@ void CChr_Battle_Light_State_Attack::Run(_float fTimeDelta)
 			m_pChr_Battle_Light->Change_Animation(CChr_Battle_Light::ATTACK_AREABLAST, false);
 			if ((CEffect::Read_File_NoLoop("../Bin/Resources/Effect/Area Blast.dat", m_pGameInstance, m_pChr_Battle_Light->Get_Device(), m_pChr_Battle_Light->Get_Context(), m_pChr_Battle_Light->Get_Transform()->Get_State_Float4(CTransform::STATE_POSITION))))
 				return;
+			m_pGameInstance->PlaySoundDuplicate(TEXT("Light_AreaBlast.wav"), CSound_Manager::EFFECT_DUPLICATE, SOUND_DEFAULT);
 		}
 		else {
 			if (Get_Dist_Y() >= 2.f) {
@@ -94,7 +95,7 @@ void CChr_Battle_Light_State_Attack::Run(_float fTimeDelta)
 			else {
 				m_eState = ATTACK;
 				m_pChr_Battle_Light->Change_Animation(CChr_Battle_Light::ATTACK_NOR1, false);
-
+				PlaySound();
 			}
 		}
 	}
@@ -135,6 +136,7 @@ void CChr_Battle_Light_State_Attack::Down(_float fTimeDelta)
 		else if (eSkill != CRole::SKILL_END) {	// 스킬이면 그자리에서 쓰도록 처리
 			m_eState = SKILL;
 			m_pChr_Battle_Light->Change_Animation(CChr_Battle_Light::SKILL, false);
+			PlaySound();
 		}
 		else {
 			m_pChr_Battle_Light->Change_Animation(CChr_Battle_Light::JUMP_LAND, false);
@@ -164,7 +166,6 @@ void CChr_Battle_Light_State_Attack::Attack(_float fTimeDelta)
 				m_pChr_Battle_Light->Use_Command();
 				CRole::SKILL eSkill = m_pChr_Battle_Light->Get_Current_Command();
 
-
 				switch (eSkill) {
 				case CRole::ATTACK: 
 				{
@@ -183,6 +184,7 @@ void CChr_Battle_Light_State_Attack::Attack(_float fTimeDelta)
 						nextAnimation = rand() % 3;
 
 					m_pChr_Battle_Light->Change_Animation(CChr_Battle_Light::ANIMATION_CHR_BATTLE_LIGHT(nextAnimation), false);
+					PlaySound();
 				}
 				break;
 				case CRole::AREA_BLAST:
@@ -198,6 +200,7 @@ void CChr_Battle_Light_State_Attack::Attack(_float fTimeDelta)
 					m_eState = SKILL;
 					m_pChr_Battle_Light->Change_Animation(CChr_Battle_Light::SKILL_AIR, false);
 					CEffect::Read_File_NoLoop("../Bin/Resources/Effect/Effect_Skill.dat", m_pGameInstance, m_pChr_Battle_Light->Get_Device(), m_pChr_Battle_Light->Get_Context(), m_pChr_Battle_Light->Get_Transform()->Get_State_Float4(CTransform::STATE_POSITION));
+					PlaySound();
 					break;
 				}
 			}
@@ -240,11 +243,13 @@ void CChr_Battle_Light_State_Attack::Attack(_float fTimeDelta)
 						nextAnimation = rand() % 4 + CChr_Battle_Light::ATTACK_NOR1;
 
 					m_pChr_Battle_Light->Change_Animation(CChr_Battle_Light::ANIMATION_CHR_BATTLE_LIGHT(nextAnimation), false);
+					PlaySound();
 				}
 					break;
 				case CRole::AREA_BLAST:
 					m_pChr_Battle_Light->Reset_Attakable();
 					m_pChr_Battle_Light->Change_Animation(CChr_Battle_Light::ATTACK_AREABLAST, false);
+					m_pGameInstance->PlaySoundDuplicate(TEXT("Light_AreaBlast.wav"), CSound_Manager::EFFECT_DUPLICATE, SOUND_DEFAULT);
 					break;
 				case CRole::SKILL_END:
 					m_isCommandFinish = true;
@@ -254,6 +259,7 @@ void CChr_Battle_Light_State_Attack::Attack(_float fTimeDelta)
 					m_eState = SKILL;
 					m_pChr_Battle_Light->Change_Animation(CChr_Battle_Light::SKILL, false);
 					CEffect::Read_File_NoLoop("../Bin/Resources/Effect/Effect_Skill.dat", m_pGameInstance, m_pChr_Battle_Light->Get_Device(), m_pChr_Battle_Light->Get_Context(), m_pChr_Battle_Light->Get_Transform()->Get_State_Float4(CTransform::STATE_POSITION));
+					PlaySound();
 					break;
 				}
 			}
@@ -271,6 +277,7 @@ void CChr_Battle_Light_State_Attack::Attack(_float fTimeDelta)
 					CEffect::Read_File_NoLoop("../Bin/Resources/Effect/Effect_Skill.dat", m_pGameInstance, m_pChr_Battle_Light->Get_Device(), m_pChr_Battle_Light->Get_Context(), m_pChr_Battle_Light->Get_Transform()->Get_State_Float4(CTransform::STATE_POSITION));
 					m_eState = SKILL;
 					m_isCommandFinish = false;
+					PlaySound();
 				}
 			}
 		}
@@ -296,6 +303,7 @@ void CChr_Battle_Light_State_Attack::Skill(_float fTimeDelta)
 				case CRole::ATTACK:
 					m_eState = ATTACK;
 					m_pChr_Battle_Light->Change_Animation(CChr_Battle_Light::ATTACK_AIR, false);
+					PlaySound();
 					m_isCommandUse = false;
 					break;
 				case CRole::AREA_BLAST:
@@ -310,6 +318,7 @@ void CChr_Battle_Light_State_Attack::Skill(_float fTimeDelta)
 					m_pChr_Battle_Light->Set_TrackPosition(0.f);
 					CEffect::Read_File_NoLoop("../Bin/Resources/Effect/Effect_Skill.dat", m_pGameInstance, m_pChr_Battle_Light->Get_Device(), m_pChr_Battle_Light->Get_Context(), m_pChr_Battle_Light->Get_Transform()->Get_State_Float4(CTransform::STATE_POSITION));
 					m_isCommandUse = false;
+					PlaySound();
 					break;
 				}
 			}
@@ -344,12 +353,14 @@ void CChr_Battle_Light_State_Attack::Skill(_float fTimeDelta)
 						m_pChr_Battle_Light->Set_TrackPosition(15.f);
 						CEffect::Read_File_NoLoop("../Bin/Resources/Effect/Effect_Skill.dat", m_pGameInstance, m_pChr_Battle_Light->Get_Device(), m_pChr_Battle_Light->Get_Context(), m_pChr_Battle_Light->Get_Transform()->Get_State_Float4(CTransform::STATE_POSITION));
 						m_isCommandUse = false;
+						PlaySound();
 					}
 					else {
 						m_pChr_Battle_Light->Change_Animation(CChr_Battle_Light::SKILL, false);
 						m_pChr_Battle_Light->Set_TrackPosition(15.f);
 						CEffect::Read_File_NoLoop("../Bin/Resources/Effect/Effect_Skill.dat", m_pGameInstance, m_pChr_Battle_Light->Get_Device(), m_pChr_Battle_Light->Get_Context(), m_pChr_Battle_Light->Get_Transform()->Get_State_Float4(CTransform::STATE_POSITION));
 						m_isCommandUse = false;
+						PlaySound();
 					}
 					break;
 				}
@@ -391,6 +402,19 @@ void CChr_Battle_Light_State_Attack::Finish(_float fTimeDelta)
 			m_pChr_Battle_Light->Get_Transform()->Go_Backward(fTimeDelta * 2.f, m_pChr_Battle_Light->Get_Navigation());
 		}
 	}
+}
+
+void CChr_Battle_Light_State_Attack::PlaySound()
+{
+	_int iRand = rand() % 3;
+	if (!iRand)
+		return;
+
+	_int irand = rand() % 6;
+	wstring strSoundTag = L"Light_Shout_" + to_wstring(irand) + L".wav";
+	const TCHAR* pChar = strSoundTag.c_str();
+	m_pGameInstance->PlaySoundW(const_cast<TCHAR*>(strSoundTag.c_str()), CSound_Manager::CHR1, SOUND_DEFAULT);
+
 }
 
 _float CChr_Battle_Light_State_Attack::Get_Dist_Y()

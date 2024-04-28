@@ -58,16 +58,17 @@ public:
 
 	/*============================ITEM============================*/
 	CInventory::ITEM Get_Item() { return m_eItem; }
-	void	Use_Item();
-	void	Set_Item(CInventory::ITEM eItem) { m_eItem = eItem; }
+	void Use_Item();
+	void Set_Item(CInventory::ITEM eItem) { m_eItem = eItem; }
 
-	void	Determine_Action_Based_On_Command();						// queue에 의거하여 행동을 결정
+	void Determine_Action_Based_On_Command();						// queue에 의거하여 행동을 결정
 	virtual void Set_State_Battle_Finish() override;
 
 	/*============================ABILITY============================*/
 	virtual void Change_Role(CAbility::ROLE eRole) override;
 
 	/*============================기타============================*/
+	virtual void Add_Hp(_int iHp) override;
 	virtual void Update_Target() override;									// 타겟 사망시 변경
 	virtual void Set_Hit(_int iDamage);
 	void   Check_Interact_Weapon();			// 무기의 충돌 체크 -> 상대 객체 -> 몬스터 피격 판정 주기 -> 타겟 객체만

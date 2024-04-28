@@ -12,6 +12,7 @@ void CChr_Field_State_Battle_Begin::OnStateEnter()
 	m_fTimeDelta = 0.f;
 	m_pChr_Field->Change_Animation(CChr_Field::BATTLE_BEGIN_IDLE, false);
 	m_pChr_Field->Change_Animation_Weapon(CChr_Field::WEAPON_OPEN);
+	m_pGameInstance->PlaySoundW(TEXT("Light_Battle_Begin.wav"), CSound_Manager::HIT1, SOUND_DEFAULT);
 }
 
 void CChr_Field_State_Battle_Begin::OnStateUpdate(_float fTimeDelta)

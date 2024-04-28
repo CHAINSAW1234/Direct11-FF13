@@ -101,6 +101,7 @@ public:	/* For. Sound_Manager */
 	_uint	BGMVolumeDown(_float _vol);
 	_uint	Pause(CSound_Manager::CHANNELID eID);
 	void	PlaySoundW(TCHAR* pSoundKey, CSound_Manager::CHANNELID eID, _float _vol);		// 호출 마다 다시 재생
+	void	PlaySoundDuplicate(TCHAR* pSoundKey, CSound_Manager::CHANNELID eID, _float _vol);	// 호출시 무조건 재생 -> 이전 소리와 겹침 
 	void	PlaySoundOnce(TCHAR* pSoundKey, CSound_Manager::CHANNELID eID, _float _vol);	// 여러 번 호출해도 한 번 재생
 	int		PlaySoundLoop(TCHAR* pSoundKey, CSound_Manager::CHANNELID eID, _float _vol);	// 루프 횟수 반환
 	void	SetChannelOneOff(_bool bOneOff, CSound_Manager::CHANNELID eID);

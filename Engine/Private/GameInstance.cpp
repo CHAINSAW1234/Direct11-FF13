@@ -500,6 +500,11 @@ void CGameInstance::PlaySoundW(TCHAR* pSoundKey, CSound_Manager::CHANNELID eID, 
 	m_pSound_Manager->PlaySound(pSoundKey, eID, _vol);
 }
 
+void CGameInstance::PlaySoundDuplicate(TCHAR* pSoundKey, CSound_Manager::CHANNELID eID, _float _vol)
+{
+	m_pSound_Manager->PlaySoundDuplicate(pSoundKey, eID, _vol);
+}
+
 void CGameInstance::PlaySoundOnce(TCHAR* pSoundKey, CSound_Manager::CHANNELID eID, _float _vol)
 {
 	m_pSound_Manager->PlaySoundOnce(pSoundKey, eID, _vol);

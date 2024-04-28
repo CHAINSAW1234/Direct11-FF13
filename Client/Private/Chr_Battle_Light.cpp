@@ -179,6 +179,20 @@ void CChr_Battle_Light::Set_Command(deque<pair<CRole::SKILL, _int>>* pCommand)
         m_pFSMCom->Change_State(PREPARE);
 }
 
+void CChr_Battle_Light::Add_Hp(_int iHp)
+{
+    __super::Add_Hp(iHp);
+
+    _int iRand = rand() % 4;
+
+    if (!iRand) {
+        _int irand = rand() % 2;
+        wstring strSoundTag = L"Light_Heal_" + to_wstring(irand) + L".wav";
+        const TCHAR* pChar = strSoundTag.c_str();
+        m_pGameInstance->PlaySoundW(const_cast<TCHAR*>(strSoundTag.c_str()), CSound_Manager::CHR1, SOUND_DEFAULT);
+    }
+}
+
 void CChr_Battle_Light::Update_Target()
 {
     if (nullptr == m_pTargetObject) {
@@ -207,13 +221,21 @@ void CChr_Battle_Light::Set_Hit(_int iDamage)
 
     __super::Set_Hit(iDamage);
 
+
     if (m_eState == ATTACK) {
         Lost_Command();
     }
 
-    Change_State(HIT);
     if (m_iHp <= 0) {
         Change_State(DEAD);
+        m_pGameInstance->PlaySoundW(TEXT("Light_Dead.wav"), CSound_Manager::CHR1, SOUND_DEFAULT);
+    }
+    else {
+        Change_State(HIT);
+        _int irand = rand() % 3;
+        wstring strSoundTag = L"Light_Damage_" + to_wstring(irand) + L".wav";
+        const TCHAR* pChar = strSoundTag.c_str();
+        m_pGameInstance->PlaySoundW(const_cast<TCHAR*>(strSoundTag.c_str()), CSound_Manager::CHR1, SOUND_DEFAULT);
     }
 
 }
@@ -314,6 +336,12 @@ void CChr_Battle_Light::Check_Interact_Weapon()
 
         if ((CEffect::Read_File_NoLoop("../Bin/Resources/Effect/Hit_Particle.dat", m_pGameInstance, m_pDevice, m_pContext, vPos)))
             return;
+        
+        // 사운드 재생
+        _int irand = rand() % 4;
+        wstring strSoundTag = L"Light_Attack_" + to_wstring(irand) + L".wav";
+        const TCHAR* pChar = strSoundTag.c_str();
+        m_pGameInstance->PlaySoundDuplicate(const_cast<TCHAR*>(strSoundTag.c_str()), CSound_Manager::EFFECT_DUPLICATE, SOUND_DEFAULT);
 
     }
 }
@@ -352,6 +380,12 @@ void CChr_Battle_Light::Check_Interact_Weapon_Multi()
           
             if ((CEffect::Read_File_NoLoop("../Bin/Resources/Effect/Hit_Particle.dat", m_pGameInstance, m_pDevice, m_pContext, vPos)))
                 return;
+
+            _int irand = rand() % 4;
+            wstring strSoundTag = L"Light_Attack_" + to_wstring(irand) + L".wav";
+            const TCHAR* pChar = strSoundTag.c_str();
+            m_pGameInstance->PlaySoundDuplicate(const_cast<TCHAR*>(strSoundTag.c_str()), CSound_Manager::EFFECT_DUPLICATE, SOUND_DEFAULT);
+
         }
     }
 }

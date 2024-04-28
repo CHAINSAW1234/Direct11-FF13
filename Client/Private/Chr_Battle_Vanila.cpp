@@ -95,9 +95,30 @@ void CChr_Battle_Vanila::Set_Hit(_int iDamage)
 
 	__super::Set_Hit(iDamage);
 
-	Change_State(HIT);
 	if (m_iHp <= 0) {
 		Change_State(DEAD);
+		m_pGameInstance->PlaySoundW(TEXT("Vanila_Dead.wav"), CSound_Manager::CHR3, SOUND_DEFAULT);
+	}
+	else {
+		Change_State(HIT);
+		_int irand = rand() % 3;
+		wstring strSoundTag = L"Vanila_Damage_" + to_wstring(irand) + L".wav";
+		const TCHAR* pChar = strSoundTag.c_str();
+		m_pGameInstance->PlaySoundW(const_cast<TCHAR*>(strSoundTag.c_str()), CSound_Manager::CHR3, SOUND_DEFAULT);
+	}
+}
+
+void CChr_Battle_Vanila::Add_Hp(_int iHp)
+{
+	__super::Add_Hp(iHp);
+
+	_int iRand = rand() % 4;
+
+	if (!iRand) {
+		_int irand = rand() % 2;
+		wstring strSoundTag = L"Vanila_Heal_" + to_wstring(irand) + L".wav";
+		const TCHAR* pChar = strSoundTag.c_str();
+		m_pGameInstance->PlaySoundW(const_cast<TCHAR*>(strSoundTag.c_str()), CSound_Manager::CHR3, SOUND_DEFAULT);
 	}
 }
 
