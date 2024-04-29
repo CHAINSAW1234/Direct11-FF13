@@ -63,7 +63,6 @@ HRESULT CWarload::Late_Tick(_float fTimeDelta)
     if (FAILED(__super::Late_Tick(fTimeDelta)))
         return E_FAIL;
 
-    m_pGameInstance->Add_RenderGroup(CRenderer::RENDER_NONBLEND, this);
     return S_OK;
 }
 
@@ -119,6 +118,11 @@ HRESULT CWarload::Change_State(STATE eState)
 void CWarload::Change_Animation(ANIMATION_WARLOAD iAnimationIndex, _bool isLoop)
 {
     m_pModelCom->Set_Animation(iAnimationIndex, isLoop);
+}
+
+void CWarload::PlaySound_Attack()
+{
+    m_pGameInstance->PlaySoundDuplicate(TEXT("Warload_Attack_Hit.wav"), CSound_Manager::EFFECT_DUPLICATE, SOUND_DEFAULT);
 }
 
 HRESULT CWarload::Add_Components()

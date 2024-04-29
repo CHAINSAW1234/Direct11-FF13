@@ -59,6 +59,7 @@ void CHellBlast::Tick(_float fTimeDelta)
 			pEffect->Set_Dead(true);
 
 		Set_Damage();// 이펙트, 데미지 처리 
+		m_pGameInstance->PlaySoundDuplicate(TEXT("HellBlast_Explosion.wav"), CSound_Manager::EFFECT_DUPLICATE, SOUND_DEFAULT);
 	}
 
 }

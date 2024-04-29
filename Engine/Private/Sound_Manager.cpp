@@ -19,8 +19,6 @@ HRESULT CSound_Manager::Initialize()
 
 	LoadSoundFile();
 
-	FMOD_Channel_SetVolume(m_pChannelArr[BGM], 0.05f);
-
 	return S_OK;
 }
 
@@ -219,6 +217,7 @@ void CSound_Manager::PlayBGM(TCHAR* pSoundKey)
 		return;
 
 	FMOD_System_PlaySound(m_pSystem, iter->second, nullptr, FALSE, &m_pChannelArr[BGM]);
+	FMOD_Channel_SetVolume(m_pChannelArr[BGM], 0.2f);
 	FMOD_Channel_SetMode(m_pChannelArr[BGM], FMOD_LOOP_NORMAL);
 	FMOD_System_Update(m_pSystem);
 }
@@ -403,12 +402,139 @@ void CSound_Manager::LoadSoundFile()
 	}
 #pragma endregion
 
-#pragma region BGM
+	// 6. Magic
+#pragma region Magic
+	iResult = 0;
+	handle = _tfindfirst64(L"../Bin/Resources/Sound/Magic/*.*", &fd);
+	strcpy_s(szCurPath, "../Bin/Resources/Sound/Magic/");
+	while (iResult != -1)
+	{
+		WideCharToMultiByte(CP_UTF8, 0, fd.name, -1, szFilename, sizeof(szFilename), NULL, NULL);
+		strcpy_s(szFullPath, szCurPath);
+		strcat_s(szFullPath, szFilename);
+		FMOD_SOUND* pSound = nullptr;
 
+		FMOD_RESULT eRes = FMOD_System_CreateSound(m_pSystem, szFullPath, FMOD_DEFAULT, 0, &pSound);
+		if (eRes == FMOD_OK)
+		{
+			int iLength = strlen(szFilename) + 1;
+
+			TCHAR* pSoundKey = new TCHAR[iLength];
+			ZeroMemory(pSoundKey, sizeof(TCHAR) * iLength);
+			MultiByteToWideChar(CP_ACP, 0, szFilename, iLength, pSoundKey, iLength);
+
+			m_mapSound.emplace(pSoundKey, pSound);
+		}
+		iResult = _tfindnext64(handle, &fd);
+	}
 #pragma endregion
 
-#pragma region BGM
+	// 7. Leopard
+#pragma region Leopard
+	iResult = 0;
+	handle = _tfindfirst64(L"../Bin/Resources/Sound/Monster/Leopard/*.*", &fd);
+	strcpy_s(szCurPath, "../Bin/Resources/Sound/Monster/Leopard/");
+	while (iResult != -1)
+	{
+		WideCharToMultiByte(CP_UTF8, 0, fd.name, -1, szFilename, sizeof(szFilename), NULL, NULL);
+		strcpy_s(szFullPath, szCurPath);
+		strcat_s(szFullPath, szFilename);
+		FMOD_SOUND* pSound = nullptr;
 
+		FMOD_RESULT eRes = FMOD_System_CreateSound(m_pSystem, szFullPath, FMOD_DEFAULT, 0, &pSound);
+		if (eRes == FMOD_OK)
+		{
+			int iLength = strlen(szFilename) + 1;
+
+			TCHAR* pSoundKey = new TCHAR[iLength];
+			ZeroMemory(pSoundKey, sizeof(TCHAR) * iLength);
+			MultiByteToWideChar(CP_ACP, 0, szFilename, iLength, pSoundKey, iLength);
+
+			m_mapSound.emplace(pSoundKey, pSound);
+		}
+		iResult = _tfindnext64(handle, &fd);
+	}
+#pragma endregion
+
+	// 8. Solider
+#pragma region Solider
+	iResult = 0;
+	handle = _tfindfirst64(L"../Bin/Resources/Sound/Monster/Solider/*.*", &fd);
+	strcpy_s(szCurPath, "../Bin/Resources/Sound/Monster/Solider/");
+	while (iResult != -1)
+	{
+		WideCharToMultiByte(CP_UTF8, 0, fd.name, -1, szFilename, sizeof(szFilename), NULL, NULL);
+		strcpy_s(szFullPath, szCurPath);
+		strcat_s(szFullPath, szFilename);
+		FMOD_SOUND* pSound = nullptr;
+
+		FMOD_RESULT eRes = FMOD_System_CreateSound(m_pSystem, szFullPath, FMOD_DEFAULT, 0, &pSound);
+		if (eRes == FMOD_OK)
+		{
+			int iLength = strlen(szFilename) + 1;
+
+			TCHAR* pSoundKey = new TCHAR[iLength];
+			ZeroMemory(pSoundKey, sizeof(TCHAR) * iLength);
+			MultiByteToWideChar(CP_ACP, 0, szFilename, iLength, pSoundKey, iLength);
+
+			m_mapSound.emplace(pSoundKey, pSound);
+		}
+		iResult = _tfindnext64(handle, &fd);
+	}
+#pragma endregion
+
+	// 9. Warload
+#pragma region Warload
+	iResult = 0;
+	handle = _tfindfirst64(L"../Bin/Resources/Sound/Monster/Warload/*.*", &fd);
+	strcpy_s(szCurPath, "../Bin/Resources/Sound/Monster/Warload/");
+	while (iResult != -1)
+	{
+		WideCharToMultiByte(CP_UTF8, 0, fd.name, -1, szFilename, sizeof(szFilename), NULL, NULL);
+		strcpy_s(szFullPath, szCurPath);
+		strcat_s(szFullPath, szFilename);
+		FMOD_SOUND* pSound = nullptr;
+
+		FMOD_RESULT eRes = FMOD_System_CreateSound(m_pSystem, szFullPath, FMOD_DEFAULT, 0, &pSound);
+		if (eRes == FMOD_OK)
+		{
+			int iLength = strlen(szFilename) + 1;
+
+			TCHAR* pSoundKey = new TCHAR[iLength];
+			ZeroMemory(pSoundKey, sizeof(TCHAR) * iLength);
+			MultiByteToWideChar(CP_ACP, 0, szFilename, iLength, pSoundKey, iLength);
+
+			m_mapSound.emplace(pSoundKey, pSound);
+		}
+		iResult = _tfindnext64(handle, &fd);
+	}
+#pragma endregion
+
+	//10. Boss
+#pragma region Boss
+	iResult = 0;
+	handle = _tfindfirst64(L"../Bin/Resources/Sound/Monster/Boss/*.*", &fd);
+	strcpy_s(szCurPath, "../Bin/Resources/Sound/Monster/Boss/");
+	while (iResult != -1)
+	{
+		WideCharToMultiByte(CP_UTF8, 0, fd.name, -1, szFilename, sizeof(szFilename), NULL, NULL);
+		strcpy_s(szFullPath, szCurPath);
+		strcat_s(szFullPath, szFilename);
+		FMOD_SOUND* pSound = nullptr;
+
+		FMOD_RESULT eRes = FMOD_System_CreateSound(m_pSystem, szFullPath, FMOD_DEFAULT, 0, &pSound);
+		if (eRes == FMOD_OK)
+		{
+			int iLength = strlen(szFilename) + 1;
+
+			TCHAR* pSoundKey = new TCHAR[iLength];
+			ZeroMemory(pSoundKey, sizeof(TCHAR) * iLength);
+			MultiByteToWideChar(CP_ACP, 0, szFilename, iLength, pSoundKey, iLength);
+
+			m_mapSound.emplace(pSoundKey, pSound);
+		}
+		iResult = _tfindnext64(handle, &fd);
+	}
 #pragma endregion
 
 	FMOD_System_Update(m_pSystem);

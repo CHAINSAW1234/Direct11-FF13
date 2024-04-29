@@ -59,10 +59,7 @@ void CSolider_Gun::Create_Bullet()
     Bullet_Desc.fChain = 5.f;
 
     m_pGameInstance->Add_Clone(g_Level, TEXT("Layer_Bullet"), TEXT("Prototype_GameObject_Bullet"), &Bullet_Desc);
-    m_pGameInstance->Add_Clone(g_Level, TEXT("Layer_Bullet"), TEXT("Prototype_GameObject_Bullet"), &Bullet_Desc);
-    m_pGameInstance->Add_Clone(g_Level, TEXT("Layer_Bullet"), TEXT("Prototype_GameObject_Bullet"), &Bullet_Desc);
-
-
+    m_pGameInstance->PlaySoundDuplicate(TEXT("Solider_Gun_Shot.wav"), CSound_Manager::EFFECT_DUPLICATE, SOUND_DEFAULT);
     return;
 }
 

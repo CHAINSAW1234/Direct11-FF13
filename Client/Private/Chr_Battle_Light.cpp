@@ -188,7 +188,6 @@ void CChr_Battle_Light::Add_Hp(_int iHp)
     if (!iRand) {
         _int irand = rand() % 2;
         wstring strSoundTag = L"Light_Heal_" + to_wstring(irand) + L".wav";
-        const TCHAR* pChar = strSoundTag.c_str();
         m_pGameInstance->PlaySoundW(const_cast<TCHAR*>(strSoundTag.c_str()), CSound_Manager::CHR1, SOUND_DEFAULT);
     }
 }
@@ -235,7 +234,7 @@ void CChr_Battle_Light::Set_Hit(_int iDamage)
         _int irand = rand() % 3;
         wstring strSoundTag = L"Light_Damage_" + to_wstring(irand) + L".wav";
         const TCHAR* pChar = strSoundTag.c_str();
-        m_pGameInstance->PlaySoundW(const_cast<TCHAR*>(strSoundTag.c_str()), CSound_Manager::CHR1, SOUND_DEFAULT);
+        m_pGameInstance->PlaySoundOnce(const_cast<TCHAR*>(strSoundTag.c_str()), CSound_Manager::CHR1, SOUND_DEFAULT);
     }
 
 }
@@ -381,11 +380,6 @@ void CChr_Battle_Light::Check_Interact_Weapon_Multi()
             if ((CEffect::Read_File_NoLoop("../Bin/Resources/Effect/Hit_Particle.dat", m_pGameInstance, m_pDevice, m_pContext, vPos)))
                 return;
 
-            _int irand = rand() % 4;
-            wstring strSoundTag = L"Light_Attack_" + to_wstring(irand) + L".wav";
-            const TCHAR* pChar = strSoundTag.c_str();
-            m_pGameInstance->PlaySoundDuplicate(const_cast<TCHAR*>(strSoundTag.c_str()), CSound_Manager::EFFECT_DUPLICATE, SOUND_DEFAULT);
-
         }
     }
 }
@@ -403,6 +397,7 @@ void CChr_Battle_Light::Create_Sphere(_int iDamage, _int iWeaponNum)
         _float4 vPos = Get_Target_Position();
         vPos.y = 0.f;
         CEffect::Read_File_NoLoop("../Bin/Resources/Effect/Lightning.dat", m_pGameInstance, m_pDevice, m_pContext, vPos);
+        m_pGameInstance->PlaySoundDuplicate(TEXT("Thunder_Hit.wav"), CSound_Manager::EFFECT_DUPLICATE, SOUND_DEFAULT);
         return;
     }
 

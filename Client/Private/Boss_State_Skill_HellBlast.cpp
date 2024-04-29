@@ -75,11 +75,12 @@ void CBoss_State_Skill_HellBlast::Skill(_float fTimeDelta)
 
         m_pHellBlast = (CHellBlast*)(m_pGameInstance->Add_Clone_With_Object(g_Level, TEXT("Layer_Effect"), TEXT("Prototype_GameObject_HellBlast"), &pDesc));
         Safe_AddRef(m_pHellBlast);
-
+        m_pGameInstance->PlaySoundDuplicate(TEXT("HellBlast_Start.wav"), CSound_Manager::EFFECT_DUPLICATE, SOUND_DEFAULT);
     }
 
     if (!m_isSkill[1] && 120.f <= m_pBoss->Get_CurrentTrackPosition()) {
         m_pHellBlast->Set_Move(true);
+        m_pGameInstance->PlaySoundDuplicate(TEXT("HellBlast_Move.wav"), CSound_Manager::EFFECT_DUPLICATE, SOUND_DEFAULT);
         Safe_Release(m_pHellBlast);
         m_pHellBlast = nullptr;
         m_isSkill[1] = true;

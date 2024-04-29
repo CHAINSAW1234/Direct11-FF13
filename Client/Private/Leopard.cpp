@@ -55,8 +55,6 @@ HRESULT CLeopard::Late_Tick(_float fTimeDelta)
     if (FAILED(__super::Late_Tick(fTimeDelta)))
         return E_FAIL;
 
-    // юс╫ц
-    m_pGameInstance->Add_RenderGroup(CRenderer::RENDER_NONBLEND, this);
     return S_OK;
 }
 
@@ -105,6 +103,17 @@ HRESULT CLeopard::Change_State(STATE eState)
 void CLeopard::Change_Animation(ANIMATION_LEOPARD iAnimationIndex, _bool isLoop)
 {
     m_pModelCom->Set_Animation(iAnimationIndex, isLoop);
+}
+
+void CLeopard::PlaySound_Attack()
+{
+    if (rand() % 2) {
+        m_pGameInstance->PlaySoundDuplicate(TEXT("Leopard_Attack_Hit_0.wav"), CSound_Manager::EFFECT_DUPLICATE, SOUND_DEFAULT);
+    }
+    else {
+        m_pGameInstance->PlaySoundDuplicate(TEXT("Leopard_Attack_Hit_1.wav"), CSound_Manager::EFFECT_DUPLICATE, SOUND_DEFAULT);
+
+    }
 }
 
 HRESULT CLeopard::Add_Components()

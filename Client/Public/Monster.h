@@ -27,6 +27,7 @@ public:
 	virtual void Tick(_float fTimeDelta) override;
 	virtual HRESULT Late_Tick(_float fTimeDelta) override;
 	virtual HRESULT Render() override;
+	virtual HRESULT Render_LightDepth() override;
 	virtual void Start() override;
 
 public:
@@ -86,6 +87,8 @@ public:
 	void   Check_Interact_Weapon();		// 무기의 충돌 체크 -> 상대 객체 -> 플레이어 캐릭터 피격 판정 주기
 
 	void	Update_Collider();
+	
+	virtual void PlaySound_Attack() {};
 
 protected:
 	HRESULT Create_UI_Hp();

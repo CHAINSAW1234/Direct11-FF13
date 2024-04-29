@@ -64,8 +64,6 @@ HRESULT CSolider::Late_Tick(_float fTimeDelta)
 	if (FAILED(m_pWeapon->Late_Tick(fTimeDelta)))
 		return E_FAIL;
 
-
-	m_pGameInstance->Add_RenderGroup(CRenderer::RENDER_NONBLEND, this);
 	return S_OK;
 }
 
@@ -139,6 +137,11 @@ HRESULT CSolider::Change_State(STATE eState)
 void CSolider::Change_Animation(ANIMATION_SOLIDER iAnimationIndex, _bool isLoop)
 {
 	m_pModelCom->Set_Animation(iAnimationIndex, isLoop);
+}
+
+void CSolider::PlaySound_Attack()
+{
+	m_pGameInstance->PlaySoundDuplicate(TEXT("Solider_Attack.wav"), CSound_Manager::EFFECT_DUPLICATE, SOUND_DEFAULT);
 }
 
 HRESULT CSolider::Add_Components()

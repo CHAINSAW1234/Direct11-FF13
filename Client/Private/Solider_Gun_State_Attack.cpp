@@ -9,6 +9,9 @@ CSolider_Gun_State_Attack::CSolider_Gun_State_Attack(CSolider_Gun* pSolider_Gun)
 
 void CSolider_Gun_State_Attack::OnStateEnter()
 {
+    m_isAttack[0] = false;
+    m_isAttack[1] = false;
+    m_isAttack[2] = false;
     m_pSolider_Gun->Change_Animation(CSolider::ATTACK3, false);
 }
 
@@ -25,14 +28,20 @@ void CSolider_Gun_State_Attack::OnStateExit()
 
 void CSolider_Gun_State_Attack::Attack(_float fTimeDelta)
 {
+    if (m_pSolider_Gun->Get_CurrentAnimationIndex() == CSolider::ATTACK2) {
+        for (int i = 0; i < 3; ++i) {
+            if (!m_isAttack[i] && m_pSolider_Gun->Get_CurrentTrackPosition() >= 4.f + i * 3.f) {
+                m_isAttack[i] = true;
+                m_pSolider_Gun->Create_Bullet();
+            }
+        }
+    }
+
     if (m_pSolider_Gun->Is_Animation_Finished()) {
         if (m_pSolider_Gun->Get_CurrentAnimationIndex() == CSolider::ATTACK1)
             m_pSolider_Gun->Change_State(CSolider::STATE_IDLE);
-        else if (m_pSolider_Gun->Get_CurrentAnimationIndex() == CSolider::ATTACK2) {
-            m_pSolider_Gun->Create_Bullet();
-
+        else if (m_pSolider_Gun->Get_CurrentAnimationIndex() == CSolider::ATTACK2)
             m_pSolider_Gun->Change_Animation(CSolider::ATTACK1, false);
-        }
         else
             m_pSolider_Gun->Change_Animation(CSolider::ATTACK2, false);
     }

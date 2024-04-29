@@ -21,6 +21,7 @@ private:
 
 private:
 	class CSolider_Gun* m_pSolider_Gun = { nullptr };
+	_bool m_isAttack[3] = { false };
 
 public:
 	static	CSolider_Gun_State_Attack* Create(class CSolider_Gun* pSolider_Gun);

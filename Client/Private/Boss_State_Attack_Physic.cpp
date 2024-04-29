@@ -45,6 +45,7 @@ void CBoss_State_Attack_Physic::Move(_float fTimeDelta)
     if (fDist <= 1.f) {
         m_eState = ATTACK;
         m_pBoss->Change_Animation(CBoss::ATTACK1, false);
+
     }
 
     m_pBoss->Get_Transform()->Go_Straight(fTimeDelta * 3, m_pBoss->Get_Navigation());
@@ -63,6 +64,7 @@ void CBoss_State_Attack_Physic::Attack(_float fTimeDelta)
             _float4 vPos = m_pBoss->Get_Transform()->Get_State_Float4(CTransform::STATE_POSITION);
             vPos.y = 0.f;
             CEffect::Read_File_NoLoop("../Bin/Resources/Effect/Boss_Attack.dat", m_pGameInstance, m_pBoss->Get_Device(), m_pBoss->Get_Context(), vPos);
+            m_pGameInstance->PlaySoundDuplicate(TEXT("Boss_Attack_Physic.wav"), CSound_Manager::EFFECT_DUPLICATE, SOUND_DEFAULT);
         }
 
     }

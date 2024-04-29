@@ -18,6 +18,7 @@ void CWarload_State_Skill::OnStateEnter()
 
 	m_pUI_Skill = m_pWarload->Create_UI_Skill(TEXT("마도 디바이스 발동"));
 	CEffect::Read_File_NoLoop("../Bin/Resources/Effect/Hit_Air_Effect.dat", m_pGameInstance, m_pWarload->Get_Device(), m_pWarload->Get_Context(), m_pWarload->Get_Transform()->Get_State_Float4(CTransform::STATE_POSITION));
+	m_pGameInstance->PlaySoundDuplicate(TEXT("Warload_Skill_Start.wav"), CSound_Manager::EFFECT_DUPLICATE, SOUND_DEFAULT);
 }
 
 void CWarload_State_Skill::OnStateUpdate(_float fTimeDelta)
@@ -76,6 +77,7 @@ void CWarload_State_Skill::Heal(_float fTimeDelta)
 		else if (m_pWarload->Get_CurrentAnimationIndex() == CWarload::SKILL_HEAL_IDLE) {
 			++m_iCount;
 			m_pWarload->Add_Hp(310);
+			m_pGameInstance->PlaySoundDuplicate(TEXT("Cure_Hit.wav"), CSound_Manager::EFFECT_DUPLICATE, SOUND_DEFAULT);
 
 			_float4 vPos = m_pWarload->Get_Transform()->Get_State_Float4(CTransform::STATE_POSITION);
 			vPos.y += m_pWarload->Get_ColliderSize().y * 0.5;

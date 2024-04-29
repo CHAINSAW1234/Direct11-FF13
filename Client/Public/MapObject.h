@@ -31,6 +31,7 @@ public:
 	virtual void Tick(_float fTimeDelta) override;
 	virtual HRESULT Late_Tick(_float fTimeDelta) override;
 	virtual HRESULT Render() override;
+	virtual HRESULT Render_Bright() override;
 
 public:
 	wstring Get_ModelTag() { return m_strModelTag; }

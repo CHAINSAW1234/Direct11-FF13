@@ -68,7 +68,7 @@ void CElectricity::Tick(_float fTimeDelta)
             m_iCurPosition = (_int)m_fDist;
 
             m_pTargetObject->Set_Hit(m_iDamage);
-
+            m_pGameInstance->PlaySoundDuplicate(TEXT("Boss_Attack_Maic_Attack_0.wav"), CSound_Manager::EFFECT_DUPLICATE, SOUND_DEFAULT);
             Create_Electricity_Left();
         }
 

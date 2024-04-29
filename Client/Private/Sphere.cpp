@@ -51,26 +51,35 @@ HRESULT CSphere::Initialize(void* pArg)
 		return E_FAIL;
 
 	string strEffectFilePath;
+	wstring strSoundTag;
 
 	switch (m_eSkill) {
 	case CRole::RUIN:	
+		strEffectFilePath = "../Bin/Resources/Effect/Aero_Projectile.dat";
+		strSoundTag = TEXT("Ruin_Start.wav");
+		break;
 	case CRole::AERO:
 		strEffectFilePath = "../Bin/Resources/Effect/Aero_Projectile.dat";
+		strSoundTag = TEXT("Aero_Start.wav");
 		break;
 	case CRole::WATER:
 		strEffectFilePath = "../Bin/Resources/Effect/Water_Projectile.dat";
+		strSoundTag = TEXT("Water_Start.wav");
 		break;
 	case CRole::FIRE:
 		strEffectFilePath = "../Bin/Resources/Effect/Fire_Projectile.dat";
+		strSoundTag = TEXT("Fire_Start.wav");
 		break;
 	case CRole::CURE:
 		strEffectFilePath = "../Bin/Resources/Effect/Heal_Projectile.dat";
+		strSoundTag = TEXT("Cure_Start.wav");
 		break;
 	}
 
-
 	if(FAILED(CEffect::Read_File_Loop(strEffectFilePath, m_pGameInstance, m_pDevice, m_pContext, &m_Effects)))
 		return E_FAIL;
+	m_pGameInstance->PlaySoundDuplicate(const_cast<TCHAR*>(strSoundTag.c_str()), CSound_Manager::EFFECT_DUPLICATE, SOUND_DEFAULT);
+
 
 	m_pColliderCom->Tick(m_pTransformCom->Get_WorldMatrix());
 
@@ -176,27 +185,33 @@ void CSphere::Check_Collision()
 			pEffect->Set_Dead(true);
 
 		string strEffectFilePath;
-
+		wstring strSoundTag;
 		switch (m_eSkill) {
 		case CRole::RUIN:
 			strEffectFilePath = "../Bin/Resources/Effect/Ruin_Hit_Camera_Look_Instance.dat";
+			strSoundTag = TEXT("Ruin_Hit.wav");
 			break;
 		case CRole::AERO:
 			strEffectFilePath = "../Bin/Resources/Effect/Aero_Hit_Camera_Look_Instance.dat";
+			strSoundTag = TEXT("Aero_Hit.wav");
 			break;
 		case CRole::WATER:
 			strEffectFilePath = "../Bin/Resources/Effect/Water_Hit_Camera_Look_Instance.dat";
+			strSoundTag = TEXT("Water_Hit.wav");
 			break;
 		case CRole::FIRE:
 			strEffectFilePath = "../Bin/Resources/Effect/Fire_Hit_Camera_Look_Instance.dat";
+			strSoundTag = TEXT("Fire_Hit.wav");
 			break;
 		case CRole::CURE:
 			strEffectFilePath = "../Bin/Resources/Effect/Heal_Camera_Look_Instance.dat";
+			strSoundTag = TEXT("Cure_Hit.wav");
 			break;
 		}
 
 		if (FAILED(CEffect::Read_File_NoLoop(strEffectFilePath, m_pGameInstance, m_pDevice, m_pContext, m_pTransformCom->Get_State_Float4(CTransform::STATE_POSITION))))
 			return ;
+		m_pGameInstance->PlaySoundDuplicate(const_cast<TCHAR*>(strSoundTag.c_str()), CSound_Manager::EFFECT_DUPLICATE, SOUND_DEFAULT);
 
 	}
 }

@@ -39,6 +39,8 @@ public:
 	HRESULT Change_State(STATE eState);
 	void	Change_Animation(ANIMATION_WARLOAD iAnimationIndex, _bool isLoop);
 
+	virtual void PlaySound_Attack();
+
 private:
 	STATE	m_eState = { STATE_END };
 	_bool	m_isJumpNext = { false };			// 공격 이후 반드시 백점프

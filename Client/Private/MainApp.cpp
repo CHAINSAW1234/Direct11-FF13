@@ -36,13 +36,13 @@ HRESULT CMainApp::Initialize()
 
 	LEVEL eLevel;
 
-
 	//eLevel = LEVEL_MAPTOOL;
 	//eLevel = LEVEL_EFFECTTOOL;
 	//eLevel = LEVEL_PARSING;
 	//eLevel = LEVEL_LOGO;
+	eLevel = LEVEL_FIELD;
 	//eLevel = LEVEL_BATTLE;
-	eLevel = LEVEL_BOSS_BATTLE;
+	//eLevel = LEVEL_BOSS_BATTLE;
 	
 	if (FAILED(Open_Level(eLevel)))
 		return E_FAIL;
@@ -106,8 +106,7 @@ HRESULT CMainApp::Ready_Gara_Light()
 	LIGHT_DESC			LightDesc{};
 
 	LightDesc.eType = LIGHT_DESC::TYPE_DIRECTIONAL;
-	LightDesc.vDirection = _float4(1.f, -1.f, 1.f, 0.f);
-
+	XMStoreFloat4(&LightDesc.vDirection, XMVector3Normalize(XMVectorSet(0.f, -3.f, -1.f, 0.f)));
 	LightDesc.vDiffuse = _float4(1.f, 1.f, 1.f, 1.f);
 	LightDesc.vAmbient = _float4(.4f, .4f, .4f, 1.f);
 	LightDesc.vSpecular = _float4(0.2f, 0.2f, 0.2f, 0.2f);

@@ -176,6 +176,21 @@ PS_OUT PS_COLOR(PS_IN In)
     return Out;
 }
 
+struct PS_OUT_LIGHTDEPTH
+{
+    float4 vLightDepth : SV_TARGET0;
+};
+
+PS_OUT_LIGHTDEPTH PS_MAIN_LIGHTDEPTH(PS_IN In)
+{
+    PS_OUT_LIGHTDEPTH Out = (PS_OUT_LIGHTDEPTH) 0;
+
+    Out.vLightDepth = float4(In.vProjPos.w / 2000.f, 0.f, 0.f, 0.f);
+
+    return Out;
+}
+
+
 technique11 DefaultTechnique
 {
     pass Default        // 0
@@ -228,6 +243,19 @@ technique11 DefaultTechnique
         HullShader = /*compile hs_5_0 HS_MAIN()*/NULL;
         DomainShader = /*compile ds_5_0 DS_MAIN()*/NULL;
         PixelShader = compile ps_5_0 PS_COLOR();
+    }
+
+    pass LightDepth // 4
+    {
+        SetRasterizerState(RS_Default);
+        SetDepthStencilState(DSS_Default, 0);
+        SetBlendState(BS_Default, float4(0.f, 0.f, 0.f, 0.f), 0xffffffff);
+
+        VertexShader = compile vs_5_0 VS_MAIN();
+        GeometryShader = /*compile gs_5_0 GS_MAIN()*/NULL;
+        HullShader = /*compile hs_5_0 HS_MAIN()*/NULL;
+        DomainShader = /*compile ds_5_0 DS_MAIN()*/NULL;
+        PixelShader = compile ps_5_0 PS_MAIN_LIGHTDEPTH();
     }
 
 }

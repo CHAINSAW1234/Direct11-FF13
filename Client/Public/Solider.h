@@ -45,6 +45,7 @@ public:
 	HRESULT Change_State(STATE eState);
 	void	Change_Animation(ANIMATION_SOLIDER iAnimationIndex, _bool isLoop);
 
+	virtual void PlaySound_Attack();
 protected:
 	CWeapon_Anim* m_pWeapon = { nullptr };
 	STATE	m_eState = { STATE_END };

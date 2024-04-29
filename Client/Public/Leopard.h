@@ -34,6 +34,7 @@ public:
 	HRESULT Change_State(STATE eState);
 	void	Change_Animation(ANIMATION_LEOPARD iAnimationIndex, _bool isLoop);
 
+	virtual void PlaySound_Attack();
 private:
 	STATE	m_eState = { STATE_END };
 

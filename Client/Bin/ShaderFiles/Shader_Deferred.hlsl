@@ -2,6 +2,7 @@
 
 /* 전역변수 : 쉐이더 외부에 있는 데이터를 쉐이더 안으로 받아온다. */
 matrix g_WorldMatrix, g_ViewMatrix, g_ProjMatrix;
+matrix g_LightViewMatrix, g_LightProjMatrix;
 matrix g_ViewMatrixInv, g_ProjMatrixInv;
 
 
@@ -11,6 +12,7 @@ texture2D g_DiffuseTexture;
 texture2D g_ShadeTexture;
 texture2D g_DepthTexture;
 texture2D g_SpecularTexture;
+texture2D g_LightDepthTexture;
 
 float4 g_vLightDir;
 float4 g_vLightPos;
@@ -177,65 +179,54 @@ PS_OUT PS_MAIN_FINAL(PS_IN In)
     if (0.0f == vDiffuse.a)
         discard;
     vector vShade = g_ShadeTexture.Sample(LinearSampler, In.vTexcoord);
-    vector vSpecular = 
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    g_SpecularTexture.Sample(LinearSampler, In.vTexcoord);
+    vector vSpecular =  g_SpecularTexture.Sample(LinearSampler, In.vTexcoord);
 
     Out.vColor = vDiffuse * vShade + vSpecular;
+    
+    if (vDiffuse.r >0.8 && vDiffuse.g > 0.8)
+        Out.vColor = vDiffuse;
+
+	/* 현재 픽셀의 월드상의 위치를 구한다. */
+
+	/* ProjPos.w == View.Z */
+        vector vDepthDesc = g_DepthTexture.Sample(PointSampler, In.vTexcoord);
+    float fViewZ = vDepthDesc.y * 1000.0f;
+
+    float4 vWorldPos;
+
+	/* 로컬위치 * 월드행렬 * 뷰행렬 * 투영행렬 / View.z */
+    vWorldPos.x = In.vTexcoord.x * 2.f - 1.f;
+    vWorldPos.y = In.vTexcoord.y * -2.f + 1.f;
+    vWorldPos.z = vDepthDesc.x;
+    vWorldPos.w = 1.f;
+
+	/* 로컬위치 * 월드행렬 * 뷰행렬 * 투영행렬 */
+    vWorldPos *= fViewZ;
+
+	/* 로컬위치 * 월드행렬 * 뷰행렬 */
+    vWorldPos = mul(vWorldPos, g_ProjMatrixInv);
+
+	/* 로컬위치 * 월드행렬 */
+    vWorldPos = mul(vWorldPos, g_ViewMatrixInv);
+
+	/* 라이트 뷰, 투영을 곱한다. */
+    vector vPosition = mul(vWorldPos, g_LightViewMatrix);
+    vPosition = mul(vPosition, g_LightProjMatrix);
+
+    float2 vTexcoord;
+
+    vTexcoord.x = (vPosition.x / vPosition.w) * 0.5f + 0.5f;
+    vTexcoord.y = (vPosition.y / vPosition.w) * -0.5f + 0.5f;
+
+    vector vLightDepthDesc = g_LightDepthTexture.Sample(LinearSampler, vTexcoord);
+
+	/* vPosition.w : 현재 내가 그릴려고 했던 픽셀의 광원기준의 깊이. */
+	/* vLightDepthDesc.x * 2000.f : 현재 픽셀을 광원기준으로  그릴려고 했던 위치에 이미 그려져있떤 광원 기준의 깊이.  */
+    if (vPosition.w - 0.8f > (vLightDepthDesc.x * 2000.f))
+        Out.vColor *= 0.2f;
 
     return Out;
 }
-
-
 
 technique11 DefaultTechnique
 {

@@ -47,6 +47,13 @@ void CLeopard_State_Attack::Run(_float fTimeDelta)
 	if (fDist <= .5f) {
 		m_eState = ATTACK;
 		m_pLeopard->Change_Animation(CLeopard::ATTACK, false);
+		if (rand() % 2) {
+			m_pGameInstance->PlaySoundDuplicate(TEXT("Leopard_Attack_0.wav"), CSound_Manager::EFFECT_DUPLICATE, SOUND_DEFAULT);
+		}
+		else {
+			m_pGameInstance->PlaySoundDuplicate(TEXT("Leopard_Attack_1.wav"), CSound_Manager::EFFECT_DUPLICATE, SOUND_DEFAULT);
+
+		}
 	}
 
 	m_pLeopard->Get_Transform()->Go_Straight(fTimeDelta * 3, m_pLeopard->Get_Navigation());

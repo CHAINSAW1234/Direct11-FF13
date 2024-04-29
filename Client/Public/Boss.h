@@ -32,12 +32,16 @@ public:
 	CModel* Get_Body() { return m_pModelCom; }
 	void Set_Barrier(_bool isBarrier);
 
+	virtual void Add_Chain(_float fChain) override;
 	virtual void Set_Hit(_int iDamage, _float fChain) override;
+	
 	HRESULT Change_State(STATE eState);
 	void	Change_Animation(ANIMATION_SOLIDER iAnimationIndex, _bool isLoop);
 
 	void Update_Pattern();
 	void Clear_Pattern();
+
+	virtual void PlaySound_Attack() override;
 
 public:
 	void Create_Electricity();

@@ -74,7 +74,6 @@ HRESULT CBoss::Late_Tick(_float fTimeDelta)
     if (FAILED(__super::Late_Tick(fTimeDelta)))
         return E_FAIL;
 
-    m_pGameInstance->Add_RenderGroup(CRenderer::RENDER_NONBLEND, this);
     return S_OK;
 }
 
@@ -129,10 +128,18 @@ void CBoss::Set_Barrier(_bool isBarrier)
 
 }
 
+void CBoss::Add_Chain(_float fChain)
+{
+    __super::Add_Chain(fChain);
+    if (m_isBreak) {
+        Set_Barrier(false);
+    }
+}
+
 void CBoss::Set_Hit(_int iDamage, _float fChain)
 {
     if (m_isBarrier) {
-        __super::Set_Hit(1, fChain);
+        __super::Set_Hit(5, fChain);
     }
     else {
         __super::Set_Hit(iDamage, fChain);
@@ -197,6 +204,11 @@ void CBoss::Clear_Pattern()
         m_Patterns.pop();
     }
 
+}
+
+void CBoss::PlaySound_Attack()
+{
+    m_pGameInstance->PlaySoundDuplicate(TEXT("Boss_Attack_Physic_Attack.wav"), CSound_Manager::EFFECT_DUPLICATE, SOUND_DEFAULT);
 }
 
 void CBoss::Create_Electricity()

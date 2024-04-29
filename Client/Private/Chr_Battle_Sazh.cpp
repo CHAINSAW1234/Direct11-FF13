@@ -138,7 +138,7 @@ void CChr_Battle_Sazh::Set_Hit(_int iDamage)
 		_int irand = rand() % 3;
 		wstring strSoundTag = L"Sazh_Damage_" + to_wstring(irand) + L".wav";
 		const TCHAR* pChar = strSoundTag.c_str();
-		m_pGameInstance->PlaySoundW(const_cast<TCHAR*>(strSoundTag.c_str()), CSound_Manager::CHR2, SOUND_DEFAULT);
+		m_pGameInstance->PlaySoundOnce(const_cast<TCHAR*>(strSoundTag.c_str()), CSound_Manager::CHR2, SOUND_DEFAULT);
 	}
 }
 

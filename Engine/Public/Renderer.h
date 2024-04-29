@@ -10,7 +10,7 @@ BEGIN(Engine)
 class CRenderer final : public CBase
 {
 public:
-	enum RENDERGROUP { RENDER_PRIORITY, RENDER_NONBLEND, RENDER_NONLIGHT, RENDER_BLEND, RENDER_UI, RENDER_UI_LATE, RENDER_END };
+	enum RENDERGROUP { RENDER_PRIORITY, RENDER_NONBLEND, RENDER_SHADOW, RENDER_BRIGHT, RENDER_NONLIGHT, RENDER_BLEND, RENDER_UI, RENDER_UI_LATE, RENDER_END };
 private:
 	CRenderer(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);
 	virtual ~CRenderer() = default;
@@ -35,6 +35,7 @@ private:
 	class CVIBuffer_Rect*	m_pVIBuffer = { nullptr };
 	class CShader*			m_pShader = { nullptr };
 	_float4x4				m_WorldMatrix{}, m_ViewMatrix{}, m_ProjMatrix{};
+	ID3D11DepthStencilView* m_pLightDepthDSV = { nullptr };
 
 #ifdef _DEBUG
 private:
@@ -43,13 +44,18 @@ private:
 
 private:
 	HRESULT Render_Priority();
+	HRESULT Render_Shadow();
 	HRESULT Render_NonBlend();
 	HRESULT Render_NonLight();
 	HRESULT Render_Blend();
 	HRESULT Render_UI();
 	HRESULT Render_UI_Late();
 
+
+
 private:
+	HRESULT Render_Bright();	// renderbright 이후 글로우까지 먹임
+
 	HRESULT Render_Lights();
 	HRESULT Render_Result();
 

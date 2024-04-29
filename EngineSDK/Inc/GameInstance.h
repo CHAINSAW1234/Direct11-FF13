@@ -67,6 +67,13 @@ public: /* For.PipeLine */
 	_float4x4 Get_Transform_Float4x4(CPipeLine::TRANSFORMSTATE eState) const;
 	_matrix Get_Transform_Matrix_Inverse(CPipeLine::TRANSFORMSTATE eState) const;
 	_float4x4 Get_Transform_Float4x4_Inverse(CPipeLine::TRANSFORMSTATE eState) const;
+
+	void Set_Shadow_Transform(CPipeLine::TRANSFORMSTATE eState, _fmatrix TransformMatrix);
+	_matrix Get_Shadow_Transform_Matrix(CPipeLine::TRANSFORMSTATE eState) const;
+	_float4x4 Get_Shadow_Transform_Float4x4(CPipeLine::TRANSFORMSTATE eState) const;
+	_matrix Get_Shadow_Transform_Matrix_Inverse(CPipeLine::TRANSFORMSTATE eState) const;
+	_float4x4 Get_Shadow_Transform_Float4x4_Inverse(CPipeLine::TRANSFORMSTATE eState) const;
+
 	_vector Get_CamPosition_Vector() const;
 	_float4 Get_CamPosition_Float4() const;
 
@@ -83,13 +90,15 @@ public: /* For.Font_Manager */
 public: /* For.Target_Manager */
 	HRESULT Add_RenderTarget(const wstring& strRenderTargetTag, _uint iSizeX, _uint iSizeY, DXGI_FORMAT ePixelFormat, const _float4& vClearColor);
 	HRESULT Add_MRT(const wstring& strMRTTag, const wstring& strRenderTargetTag);
-	HRESULT Begin_MRT(const wstring& strMRTTag);
+	HRESULT Begin_MRT(const wstring& strMRTTag, ID3D11DepthStencilView* pDSV = nullptr);
 	HRESULT End_MRT();
 	HRESULT Bind_RTShaderResource(class CShader* pShader, const wstring& strRenderTargetTag, const _char* pConstantName);
 	HRESULT Copy_Resource(const wstring& strRenderTargetTag, ID3D11Texture2D** ppTextureHub);
 
 public: /* For.Frustum */
 	_bool isInFrustum_WorldSpace(_fvector vWorldPos, _float fRange = 0.f);
+	_bool isInFrustum_LocalSpace(_fvector vLocalPos, _float fRange = 0.f);
+	void  TransformFrustum_LocalSpace(_fmatrix WorldMatrixInv);
 
 public: /* For.Extractor */
 	_vector Compute_WorldPos(const _float2& vViewportPos, const wstring& strZRenderTargetTag, _uint iOffset = 0);

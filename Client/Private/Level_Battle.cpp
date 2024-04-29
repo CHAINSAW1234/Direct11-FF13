@@ -55,6 +55,12 @@ HRESULT CLevel_Battle::Initialize()
     if (FAILED(Ready_Layer_Camera(g_strCameraLayerTag)))
         return E_FAIL;
 
+    // shadow 카메라 gara 세팅
+    m_pGameInstance->Set_Shadow_Transform(CPipeLine::D3DTS_VIEW, XMMatrixLookAtLH(XMVectorSet(0.f, 30.f, 10.f, 1.f), XMVectorSet(0.f, 0.f, 0.f, 1.f), XMVectorSet(0.f, 1.f, 0.f, 0.f)));
+    m_pGameInstance->Set_Shadow_Transform(CPipeLine::D3DTS_PROJ, XMMatrixPerspectiveFovLH(XMConvertToRadians(120.0f), (_float)g_iWinSizeX / g_iWinSizeY, 0.1f, 2000.f));
+
+
+
     m_pPlayer->Start();
     Set_Object_Position();
 

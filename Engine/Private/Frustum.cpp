@@ -41,6 +41,17 @@ void CFrustum::Tick()
 	Make_Planes(m_vWorldPoints, m_vWorldPlanes);
 }
 
+void CFrustum::Transform_LocalSpace(_fmatrix WorldMatrixInv)
+{
+	_float3		vLocalPos[8];
+
+	for (size_t i = 0; i < 8; i++)
+		XMStoreFloat3(&vLocalPos[i], XMVector3TransformCoord(XMLoadFloat3(&m_vWorldPoints[i]), WorldMatrixInv));
+
+	Make_Planes(vLocalPos, m_vLocalPlanes);
+}
+
+
 _bool CFrustum::isIn_WorldSpace(_fvector vWorldPos, _float fRange)
 {
 	for (size_t i = 0; i < 6; i++)
@@ -55,6 +66,19 @@ _bool CFrustum::isIn_WorldSpace(_fvector vWorldPos, _float fRange)
 	return true;
 }
 
+_bool CFrustum::isIn_LocalSpace(_fvector vLocalPos, _float fRange)
+{
+	for (size_t i = 0; i < 6; i++)
+	{
+		/*a b c d
+		x y z 1
+		ax + by + cz + d * 1 < 0;*/
+		if (fRange < XMVectorGetX(XMPlaneDotCoord(XMLoadFloat4(&m_vLocalPlanes[i]), XMVectorSetW(vLocalPos, 1.f))))
+			return false;
+	}
+
+	return true;
+}
 
 void CFrustum::Make_Planes(const _float3* pPoints, _float4* pPlanes)
 {

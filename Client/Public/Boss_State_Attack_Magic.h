@@ -24,6 +24,7 @@ private:
 private:
 	class CBoss* m_pBoss = { nullptr };
 	_bool m_isAttack = { false };
+	_bool m_isSound = { false };
 
 public:
 	static	CBoss_State_Attack_Magic* Create(class CBoss* pBoss);

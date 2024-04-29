@@ -42,7 +42,7 @@ HRESULT CLevel_Field::Initialize()
 	static int iStart = true;
 	if (iStart) {
 		iStart = false;
-		m_pGameInstance->PlaySoundLoop(TEXT("BGM_Field1.wav"), CSound_Manager::BGM_FIELD, SOUND_DEFAULT);
+		m_pGameInstance->PlaySoundLoop(TEXT("BGM_Field1.wav"), CSound_Manager::BGM_FIELD, SOUND_DEFAULT-0.2f);
 	}
 	else {
 		m_pGameInstance->Pause(CSound_Manager::BGM_FIELD);

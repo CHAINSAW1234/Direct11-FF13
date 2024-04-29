@@ -31,6 +31,10 @@ HRESULT CUI_Number::Initialize(void* pArg)
 	m_eType = pUI_Number_Desc->eType;
 	m_iNumber = pUI_Number_Desc->iNumber;
 
+	if (m_iNumber <= 0)
+		return E_FAIL;
+
+
 	_float4 vPosition = pUI_Number_Desc->vPosition;
 	vPosition.x += Random_Float(2);
 	vPosition.y += 1.f;

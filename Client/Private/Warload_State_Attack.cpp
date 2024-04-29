@@ -42,6 +42,7 @@ void CWarload_State_Attack::Run(_float fTimeDelta)
 	if (fDist <= 3.f) {
 		m_eState = ATTACK;
 		m_pWarload->Change_Animation(CWarload::ATTACK, false);
+		m_pGameInstance->PlaySoundDuplicate(TEXT("Warload_Attack.wav"), CSound_Manager::EFFECT_DUPLICATE, SOUND_DEFAULT);
 	}
 
 	m_pWarload->Get_Transform()->Go_Straight(fTimeDelta * 30, m_pWarload->Get_Navigation());

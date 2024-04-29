@@ -40,6 +40,7 @@ namespace Engine
 
 #ifndef _ASSIMP
 #define aiTextureType_DIFFUSE 1
+#define aiTextureType_SPECULAR 2
 #define aiTextureType_NORMALS 6
 #define AI_TEXTURE_TYPE_MAX 21
 #endif 

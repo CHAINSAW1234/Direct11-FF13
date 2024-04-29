@@ -31,6 +31,7 @@ void CBoss_State_Attack_Magic::Attack(_float fTimeDelta)
     if (!m_isAttack && m_pBoss->Get_CurrentTrackPosition() >= 47.f) {
         m_isAttack = true;
         m_pBoss->Create_Electricity();
+        m_pGameInstance->PlaySoundDuplicate(TEXT("Boss_Attack_Magic.wav"), CSound_Manager::EFFECT_DUPLICATE, SOUND_DEFAULT);
     }
 
     if (m_pBoss->Is_Animation_Finished())

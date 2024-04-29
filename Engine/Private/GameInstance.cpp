@@ -359,6 +359,46 @@ _float4x4 CGameInstance::Get_Transform_Float4x4_Inverse(CPipeLine::TRANSFORMSTAT
 	return m_pPipeLine->Get_Transform_Float4x4_Inverse(eState);
 }
 
+void CGameInstance::Set_Shadow_Transform(CPipeLine::TRANSFORMSTATE eState, _fmatrix TransformMatrix)
+{
+	if (nullptr == m_pPipeLine)
+		return;
+
+	m_pPipeLine->Set_Shadow_Transform(eState, TransformMatrix);
+}
+
+_matrix CGameInstance::Get_Shadow_Transform_Matrix(CPipeLine::TRANSFORMSTATE eState) const
+{
+	if (nullptr == m_pPipeLine)
+		return XMMatrixIdentity();
+
+	return m_pPipeLine->Get_Shadow_Transform_Matrix(eState);
+}
+
+_float4x4 CGameInstance::Get_Shadow_Transform_Float4x4(CPipeLine::TRANSFORMSTATE eState) const
+{
+	if (nullptr == m_pPipeLine)
+		return _float4x4();
+
+	return m_pPipeLine->Get_Shadow_Transform_Float4x4(eState);
+}
+
+_matrix CGameInstance::Get_Shadow_Transform_Matrix_Inverse(CPipeLine::TRANSFORMSTATE eState) const
+{
+	if (nullptr == m_pPipeLine)
+		return XMMatrixIdentity();
+
+	return m_pPipeLine->Get_Shadow_Transform_Matrix_Inverse(eState);
+}
+
+_float4x4 CGameInstance::Get_Shadow_Transform_Float4x4_Inverse(CPipeLine::TRANSFORMSTATE eState) const
+{
+	if (nullptr == m_pPipeLine)
+		return _float4x4();
+
+	return m_pPipeLine->Get_Shadow_Transform_Float4x4_Inverse(eState);
+}
+
 _vector CGameInstance::Get_CamPosition_Vector() const
 {
 	if (nullptr == m_pPipeLine)
@@ -428,12 +468,12 @@ HRESULT CGameInstance::Add_MRT(const wstring& strMRTTag, const wstring& strRende
 	return m_pTarget_Manager->Add_MRT(strMRTTag, strRenderTargetTag);
 }
 
-HRESULT CGameInstance::Begin_MRT(const wstring& strMRTTag)
+HRESULT CGameInstance::Begin_MRT(const wstring& strMRTTag, ID3D11DepthStencilView* pDSV)
 {
 	if (nullptr == m_pTarget_Manager)
 		return E_FAIL;
 
-	return m_pTarget_Manager->Begin_MRT(strMRTTag);
+	return m_pTarget_Manager->Begin_MRT(strMRTTag, pDSV);
 }
 
 HRESULT CGameInstance::End_MRT()
@@ -460,6 +500,16 @@ HRESULT CGameInstance::Copy_Resource(const wstring& strRenderTargetTag, ID3D11Te
 _bool CGameInstance::isInFrustum_WorldSpace(_fvector vWorldPos, _float fRange)
 {
 	return m_pFrustum->isIn_WorldSpace(vWorldPos, fRange);
+}
+
+_bool CGameInstance::isInFrustum_LocalSpace(_fvector vLocalPos, _float fRange)
+{
+	return m_pFrustum->isIn_LocalSpace(vLocalPos, fRange);
+}
+
+void CGameInstance::TransformFrustum_LocalSpace(_fmatrix WorldMatrixInv)
+{
+	m_pFrustum->Transform_LocalSpace(WorldMatrixInv);
 }
 
 _vector CGameInstance::Compute_WorldPos(const _float2& vViewportPos, const wstring& strZRenderTargetTag, _uint iOffset)
