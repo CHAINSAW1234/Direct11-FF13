@@ -29,8 +29,8 @@ void CChr_Battle_Light_State_Idle::OnStateUpdate(_float fTimeDelta)
 {
 	m_fTimeDelta += fTimeDelta;
 
-	m_pChr_Battle_Light->Determine_Action_Based_On_Command();
 	m_pChr_Battle_Light->Update_ATB(fTimeDelta);
+	m_pChr_Battle_Light->Determine_Action_Based_On_Command();
 
 	Update_Hurt();
 

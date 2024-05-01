@@ -97,6 +97,19 @@ HRESULT CGraphic_Device::Present()
 	return m_pSwapChain->Present(0, 0);	
 }
 
+HRESULT CGraphic_Device::Save_BackBuffer(const wstring& strSavePath)
+{
+	ID3D11Texture2D* pTexture = { nullptr };
+	if(FAILED(m_pSwapChain->GetBuffer(0, __uuidof(ID3D11Texture2D), (void**)&pTexture)))
+		return E_FAIL;
+
+	if (FAILED(SaveDDSTextureToFile(m_pDeviceContext, pTexture, strSavePath.c_str())))
+		return E_FAIL;
+
+	Safe_Release(pTexture);
+	return S_OK;
+}
+
 
 HRESULT CGraphic_Device::Ready_SwapChain(HWND hWnd, _bool isWindowed, _uint iWinCX, _uint iWinCY)
 {

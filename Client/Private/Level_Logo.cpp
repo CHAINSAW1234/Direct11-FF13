@@ -31,6 +31,7 @@ void CLevel_Logo::Tick(_float fTimeDelta)
 
 	if (GetKeyState(VK_RETURN) & 0x8000)
 	{
+		m_pGameInstance->Save_BackBuffer(TEXT("../Bin/DataFiles/Blur.dds"));
 		if (FAILED(m_pGameInstance->Open_Level(LEVEL_LOADING, CLevel_Loading::Create(m_pDevice, m_pContext, LEVEL_FIELD))))
 			return ;
 	}

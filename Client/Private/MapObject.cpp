@@ -51,14 +51,13 @@ HRESULT CMapObject::Late_Tick(_float fTimeDelta)
         return E_FAIL;
 
     m_pGameInstance->Add_RenderGroup(CRenderer::RENDER_NONBLEND, this);
-
+    m_pGameInstance->Add_RenderGroup(CRenderer::RENDER_BRIGHT, this);
 #ifdef _DEBUG
     if(nullptr != m_pNavigationCom)
     m_pGameInstance->Add_DebugComponents(m_pNavigationCom);
 #endif
 
     return S_OK;
-
 }
 
 HRESULT CMapObject::Render()

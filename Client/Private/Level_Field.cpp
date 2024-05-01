@@ -25,6 +25,9 @@ HRESULT CLevel_Field::Initialize()
 	if (FAILED(Ready_Layer_Sky(TEXT("Layer_Sky"))))
 		return E_FAIL;
 
+	if (FAILED(Ready_Layer_BackGround(g_strBackGroundLayerTag)))
+		return E_FAIL;
+
 	if (FAILED(Ready_Layer_Trigger(TEXT("Layer_Trigger"))))
 		return E_FAIL;
 
@@ -123,6 +126,14 @@ HRESULT CLevel_Field::Create_MapObject(const wstring strModelTag, _float4x4 Worl
 
 	dynamic_cast<CTransform*>(pObject->Get_Component(g_strTransformTag))->Set_WorldMatrix(WorldMatrix);
 	pObject->Tick_Navigation();
+	return S_OK;
+}
+
+HRESULT CLevel_Field::Ready_Layer_BackGround(const wstring& strLayerTag)
+{
+	if (FAILED(m_pGameInstance->Add_Clone(g_Level, strLayerTag, TEXT("Prototype_GameObject_LoadingOutBlur"))))
+		return E_FAIL;
+
 	return S_OK;
 }
 

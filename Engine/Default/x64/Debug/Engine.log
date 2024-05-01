@@ -1,46 +1,7 @@
-﻿  Camera.cpp
-  Collider.cpp
-  Collider_Bone.cpp
-  Component.cpp
-  Extractor.cpp
-C:\Users\stgo5015\Documents\GitHub\Direct11_FF13\Engine\Private\Extractor.cpp(21,33): warning C4244: '=': 'FLOAT'에서 'Engine::_uint'(으)로 변환하면서 데이터가 손실될 수 있습니다.
-C:\Users\stgo5015\Documents\GitHub\Direct11_FF13\Engine\Private\Extractor.cpp(22,34): warning C4244: '=': 'FLOAT'에서 'Engine::_uint'(으)로 변환하면서 데이터가 손실될 수 있습니다.
-C:\Users\stgo5015\Documents\GitHub\Direct11_FF13\Engine\Private\Extractor.cpp(27,34): warning C4244: '=': 'FLOAT'에서 'UINT'(으)로 변환하면서 데이터가 손실될 수 있습니다.
-C:\Users\stgo5015\Documents\GitHub\Direct11_FF13\Engine\Private\Extractor.cpp(28,35): warning C4244: '=': 'FLOAT'에서 'UINT'(으)로 변환하면서 데이터가 손실될 수 있습니다.
-C:\Users\stgo5015\Documents\GitHub\Direct11_FF13\Engine\Private\Extractor.cpp(68,22): warning C4244: '초기화 중': 'float'에서 'Engine::_uint'(으)로 변환하면서 데이터가 손실될 수 있습니다.
-  FSM_State.cpp
-  Frustum.cpp
-  GameInstance.cpp
-  GameObject.cpp
-  Level.cpp
-  Level_Manager.cpp
-  Light.cpp
-  Mesh.cpp
-C:\Users\stgo5015\Documents\GitHub\Direct11_FF13\Engine\Private\Mesh.cpp(354,26): warning C4244: '인수': '__int64'에서 '_Ty'(으)로 변환하면서 데이터가 손실될 수 있습니다.
-C:\Users\stgo5015\Documents\GitHub\Direct11_FF13\Engine\Private\Mesh.cpp(354,26): warning C4244:         with
-C:\Users\stgo5015\Documents\GitHub\Direct11_FF13\Engine\Private\Mesh.cpp(354,26): warning C4244:         [
-C:\Users\stgo5015\Documents\GitHub\Direct11_FF13\Engine\Private\Mesh.cpp(354,26): warning C4244:             _Ty=std::seed_seq::result_type
-C:\Users\stgo5015\Documents\GitHub\Direct11_FF13\Engine\Private\Mesh.cpp(354,26): warning C4244:         ]
-C:\Users\stgo5015\Documents\GitHub\Direct11_FF13\Engine\Private\Mesh.cpp(395,26): warning C4244: '인수': '__int64'에서 '_Ty'(으)로 변환하면서 데이터가 손실될 수 있습니다.
-C:\Users\stgo5015\Documents\GitHub\Direct11_FF13\Engine\Private\Mesh.cpp(395,26): warning C4244:         with
-C:\Users\stgo5015\Documents\GitHub\Direct11_FF13\Engine\Private\Mesh.cpp(395,26): warning C4244:         [
-C:\Users\stgo5015\Documents\GitHub\Direct11_FF13\Engine\Private\Mesh.cpp(395,26): warning C4244:             _Ty=std::seed_seq::result_type
-C:\Users\stgo5015\Documents\GitHub\Direct11_FF13\Engine\Private\Mesh.cpp(395,26): warning C4244:         ]
-  Model.cpp
-  Navigation.cpp
-  RenderTarget.cpp
-  Renderer.cpp
-C:\Users\stgo5015\Documents\GitHub\Direct11_FF13\Engine\Private\Renderer.cpp(27,6): warning C4244: '인수': 'FLOAT'에서 'Engine::_uint'(으)로 변환하면서 데이터가 손실될 수 있습니다.
-C:\Users\stgo5015\Documents\GitHub\Direct11_FF13\Engine\Private\Renderer.cpp(31,6): warning C4244: '인수': 'FLOAT'에서 'Engine::_uint'(으)로 변환하면서 데이터가 손실될 수 있습니다.
-C:\Users\stgo5015\Documents\GitHub\Direct11_FF13\Engine\Private\Renderer.cpp(35,6): warning C4244: '인수': 'FLOAT'에서 'Engine::_uint'(으)로 변환하면서 데이터가 손실될 수 있습니다.
-C:\Users\stgo5015\Documents\GitHub\Direct11_FF13\Engine\Private\Renderer.cpp(39,6): warning C4244: '인수': 'FLOAT'에서 'Engine::_uint'(으)로 변환하면서 데이터가 손실될 수 있습니다.
-C:\Users\stgo5015\Documents\GitHub\Direct11_FF13\Engine\Private\Renderer.cpp(43,6): warning C4244: '인수': 'FLOAT'에서 'Engine::_uint'(으)로 변환하면서 데이터가 손실될 수 있습니다.
-C:\Users\stgo5015\Documents\GitHub\Direct11_FF13\Engine\Private\Renderer.cpp(51,6): warning C4244: '인수': 'FLOAT'에서 'Engine::_uint'(으)로 변환하면서 데이터가 손실될 수 있습니다.
-  Target_Manager.cpp
-  VIBuffer_Instance.cpp
-  VIBuffer_Terrain.cpp
-  코드를 생성하고 있습니다...
-  컴파일하고 있습니다...
-  VIBuffer_Rect.cpp
-  코드를 생성하고 있습니다...
+﻿FXC : warning X4717: Effects deprecated for D3DCompiler_47
+C:\Users\stgo5015\Documents\GitHub\Direct11_FF13\Engine\Bin\ShaderFiles\Shader_Deferred.hlsl(133,30-51): warning X3206: 'reflect': implicit truncation of vector type
+C:\Users\stgo5015\Documents\GitHub\Direct11_FF13\Engine\Bin\ShaderFiles\Shader_Deferred.hlsl(296,11-27): warning X3207: Initializer used on a global 'const' variable. This requires setting an external constant. If a literal is desired, use 'static const' instead.
+C:\Users\stgo5015\Documents\GitHub\Direct11_FF13\Engine\Bin\ShaderFiles\Shader_Deferred.hlsl(304,19-38): warning X3556: integer divides may be much slower, try using uints if possible.
+  
+  compilation object save succeeded; see C:\Users\stgo5015\Documents\GitHub\Direct11_FF13\Engine\Bin\Shader_Deferred.cso
   Engine.vcxproj -> C:\Users\stgo5015\Documents\GitHub\Direct11_FF13\Engine\Bin\Engine.dll

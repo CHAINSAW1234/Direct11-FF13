@@ -63,6 +63,14 @@ HRESULT CRenderTarget::Copy_Resource(ID3D11Texture2D** ppTextureHub)
 	return S_OK;
 }
 
+HRESULT CRenderTarget::Save_RenderTarget(const wstring& strPath)
+{
+	if(FAILED(SaveDDSTextureToFile(m_pContext, m_pTexture2D, strPath.c_str())))
+		return E_FAIL;
+
+	return S_OK;
+}
+
 #ifdef _DEBUG
 
 HRESULT CRenderTarget::Ready_Debug(_float fX, _float fY, _float fSizeX, _float fSizeY)

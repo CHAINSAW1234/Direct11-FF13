@@ -79,6 +79,8 @@ C:\Users\stgo5015\Documents\GitHub\Direct11_FF13\Client\Private\Level_Logo.cpp;C
 C:\Users\stgo5015\Documents\GitHub\Direct11_FF13\Client\Private\Level_MapTool.cpp;C:\Users\stgo5015\Documents\GitHub\Direct11_FF13\Client\Default\x64\Debug\Level_MapTool.obj
 C:\Users\stgo5015\Documents\GitHub\Direct11_FF13\Client\Private\Level_Parsing.cpp;C:\Users\stgo5015\Documents\GitHub\Direct11_FF13\Client\Default\x64\Debug\Level_Parsing.obj
 C:\Users\stgo5015\Documents\GitHub\Direct11_FF13\Client\Private\Loader.cpp;C:\Users\stgo5015\Documents\GitHub\Direct11_FF13\Client\Default\x64\Debug\Loader.obj
+C:\Users\stgo5015\Documents\GitHub\Direct11_FF13\Client\Private\LoadingBlur.cpp;C:\Users\stgo5015\Documents\GitHub\Direct11_FF13\Client\Default\x64\Debug\LoadingBlur.obj
+C:\Users\stgo5015\Documents\GitHub\Direct11_FF13\Client\Private\LoadingOutBlur.cpp;C:\Users\stgo5015\Documents\GitHub\Direct11_FF13\Client\Default\x64\Debug\LoadingOutBlur.obj
 C:\Users\stgo5015\Documents\GitHub\Direct11_FF13\Client\private\MainApp.cpp;C:\Users\stgo5015\Documents\GitHub\Direct11_FF13\Client\Default\x64\Debug\MainApp.obj
 C:\Users\stgo5015\Documents\GitHub\Direct11_FF13\Client\Private\MapObject.cpp;C:\Users\stgo5015\Documents\GitHub\Direct11_FF13\Client\Default\x64\Debug\MapObject.obj
 C:\Users\stgo5015\Documents\GitHub\Direct11_FF13\Client\Private\MapTool.cpp;C:\Users\stgo5015\Documents\GitHub\Direct11_FF13\Client\Default\x64\Debug\MapTool.obj

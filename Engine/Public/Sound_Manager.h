@@ -65,7 +65,6 @@ private:
 public:
 	static CSound_Manager* Create();
 	virtual void Free() override;
-
 };
 
 END

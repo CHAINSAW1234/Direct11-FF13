@@ -22,7 +22,9 @@ void CChr_Field_State_Battle_Begin::OnStateUpdate(_float fTimeDelta)
 	m_fTimeDelta += fTimeDelta;
 
 	if (m_fTimeDelta >= 1.5) {
+		m_pGameInstance->Save_BackBuffer(TEXT("../Bin/DataFiles/Blur.dds"));
 		m_pChr_Field->Open_Level();
+
 	}
 
 	//if (m_pChr_Field->Is_Animation_Finished())

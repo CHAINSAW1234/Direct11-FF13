@@ -24,6 +24,11 @@ HRESULT CLevel_Loading::Initialize(LEVEL eNextLevelID)
 	if (FAILED(__super::Initialize()))
 		return E_FAIL;
 
+	if (eNextLevelID != LEVEL_LOGO) {
+		if (FAILED(Ready_Layer_BackGround()))
+			return E_FAIL;
+	}
+
 	m_eNextLevelID = eNextLevelID;
 
 	/* 스레드를 생성하여 자원로드를 맡긴다. */
@@ -95,12 +100,16 @@ HRESULT CLevel_Loading::Render()
 
 HRESULT CLevel_Loading::Ready_Layer_BackGround()
 {
+	if (FAILED(m_pGameInstance->Add_Clone(LEVEL_LOADING, g_strBackGroundLayerTag, TEXT("Prototype_GameObject_LoadingBlur"))))
+		return E_FAIL;
+
 	return S_OK;
 }
 
 HRESULT CLevel_Loading::Ready_Layer_UI()
 {
-	return E_NOTIMPL;
+
+	return S_OK;
 }
 
 CLevel_Loading * CLevel_Loading::Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext, LEVEL eNextLevelID)

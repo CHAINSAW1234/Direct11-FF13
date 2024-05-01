@@ -543,13 +543,14 @@ void CChr_Battle_Light::Show_ImGUI()
 void CChr_Battle_Light::Determine_Action_Based_On_Command()
 {
     // IDLE일때만 사용하시오
-    if (nullptr != m_pCommands && !m_pCommands->empty() && m_fATB >= Get_Command_Cost_Sum()) {
+    if (nullptr != m_pCommands &&
+        0 != Get_Command_Cost_Sum() &&
+        m_fATB >= Get_Command_Cost_Sum()) {
         Change_State(ATTACK);
     }
     else if (CInventory::ITEM_END !=  m_eItem) {
         Change_State(ITEM);
     }
-
 }
 
 void CChr_Battle_Light::Set_State_Battle_Finish()

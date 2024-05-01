@@ -41,6 +41,7 @@
 #include "Solider_Gun.h"
 #include "Boss.h"
 
+#include "LoadingOutBlur.h"
 #include "Electricity.h"
 #include "Electricity_Left.h"
 #include "Effect_2D.h"
@@ -323,14 +324,19 @@ HRESULT CLoader::Loading_Prototype()
 		CHellBlast::Create(m_pDevice, m_pContext))))
 		return E_FAIL;
 
-	/* For.Prototype_GameObject_Effect_2D */
+	/* For.Prototype_GameObject_Electricity */
 	if (FAILED(m_pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_Electricity"),
 		CElectricity::Create(m_pDevice, m_pContext))))
 		return E_FAIL;
 
-	/* For.Prototype_GameObject_Effect_2D */
+	/* For.Prototype_GameObject_Electricity_Left */
 	if (FAILED(m_pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_Electricity_Left"),
 		CElectricity_Left::Create(m_pDevice, m_pContext))))
+		return E_FAIL;
+
+	/* For.Prototype_GameObject_LoadingOutBlur */
+	if (FAILED(m_pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_LoadingOutBlur"),
+		CLoadingOutBlur::Create(m_pDevice, m_pContext))))
 		return E_FAIL;
 
 	/* For.Prototype_GameObject_Effect_2D */
@@ -458,12 +464,6 @@ HRESULT CLoader::Loading_Prototype()
 
 HRESULT CLoader::Loading_For_Static_Component()
 {
-
-	/* For.Prototype_Component_VIBuffer_Rect */
-	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_VIBuffer_Rect"),
-		CVIBuffer_Rect::Create(m_pDevice, m_pContext))))
-		return E_FAIL;
-
 	/* For.Prototype_Component_VIBuffer_Cube */
 	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_VIBuffer_Cube"),
 		CVIBuffer_Cube::Create(m_pDevice, m_pContext))))
@@ -525,11 +525,6 @@ HRESULT CLoader::Loading_For_Static_Component()
 		CShader::Create(m_pDevice, m_pContext, TEXT("../Bin/ShaderFiles/Shader_VtxNorTex.hlsl"), VTXNORTEX::Elements, VTXNORTEX::iNumElements))))
 		return E_FAIL;
 
-	/* For.Prototype_Component_Shader_VtxPosTex */
-	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Shader_VtxPosTex"),
-		CShader::Create(m_pDevice, m_pContext, TEXT("../Bin/ShaderFiles/Shader_VtxPosTex.hlsl"), VTXPOSTEX::Elements, VTXPOSTEX::iNumElements))))
-		return E_FAIL;
-
 	/* For.Prototype_Component_Shader_VtxPosTex_UI */
 	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Shader_VtxPosTex_UI"),
 		CShader::Create(m_pDevice, m_pContext, TEXT("../Bin/ShaderFiles/Shader_VtxPosTex_UI.hlsl"), VTXPOSTEX::Elements, VTXPOSTEX::iNumElements))))
@@ -572,7 +567,6 @@ HRESULT CLoader::Loading_For_Static_Component()
 
 
 #pragma endregion
-
 
 	return S_OK;
 }

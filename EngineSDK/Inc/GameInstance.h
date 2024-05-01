@@ -22,6 +22,9 @@ public:
 	HRESULT Draw();
 	HRESULT Clear(_uint iClearLevelIndex);
 
+public: /* For.Grphaic_Device */
+	HRESULT Save_BackBuffer(const wstring& strSavePath);
+
 public: /* For.Input_Device */
 	_byte	Get_KeyState(_uint eState, _ubyte byKeyID);
 	_byte	Get_DIMouseState(MOUSEKEYSTATE eMouse);
@@ -90,10 +93,12 @@ public: /* For.Font_Manager */
 public: /* For.Target_Manager */
 	HRESULT Add_RenderTarget(const wstring& strRenderTargetTag, _uint iSizeX, _uint iSizeY, DXGI_FORMAT ePixelFormat, const _float4& vClearColor);
 	HRESULT Add_MRT(const wstring& strMRTTag, const wstring& strRenderTargetTag);
+	HRESULT Clear();
 	HRESULT Begin_MRT(const wstring& strMRTTag, ID3D11DepthStencilView* pDSV = nullptr);
 	HRESULT End_MRT();
 	HRESULT Bind_RTShaderResource(class CShader* pShader, const wstring& strRenderTargetTag, const _char* pConstantName);
 	HRESULT Copy_Resource(const wstring& strRenderTargetTag, ID3D11Texture2D** ppTextureHub);
+	HRESULT Save_RenderTarget(const wstring& strRenderTargetTag, const wstring& strSavePath);
 
 public: /* For.Frustum */
 	_bool isInFrustum_WorldSpace(_fvector vWorldPos, _float fRange = 0.f);
@@ -142,7 +147,6 @@ private:
 	class CFrustum*					m_pFrustum = { nullptr };
 	class CExtractor*				m_pExtractor = { nullptr };
 	class CSound_Manager*			m_pSound_Manager = { nullptr };
-
 
 public:		
 	static void Release_Engine();

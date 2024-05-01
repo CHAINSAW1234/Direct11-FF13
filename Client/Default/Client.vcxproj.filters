@@ -487,6 +487,15 @@
     <Filter Include="02.GameObjects\Projectile\HellBlast">
       <UniqueIdentifier>{68de2e65-3463-45dd-b383-48580fa9d3ab}</UniqueIdentifier>
     </Filter>
+    <Filter Include="02.GameObjects\Blur">
+      <UniqueIdentifier>{1f425f63-60f0-47ed-be52-66484c762750}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\Blur\LoadingBlur">
+      <UniqueIdentifier>{90e85f0a-eda8-45f0-afa9-43b4ea58e983}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\Blur\LoadingOutBlur">
+      <UniqueIdentifier>{dc139ea8-b1c8-436b-8fc2-54e1d8713ae4}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\public\MainApp.h">
@@ -951,6 +960,12 @@
     <ClInclude Include="..\Public\HellBlast.h">
       <Filter>02.GameObjects\Projectile\HellBlast</Filter>
     </ClInclude>
+    <ClInclude Include="..\Public\LoadingBlur.h">
+      <Filter>02.GameObjects\Blur\LoadingBlur</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\LoadingOutBlur.h">
+      <Filter>02.GameObjects\Blur\LoadingOutBlur</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\private\MainApp.cpp">
@@ -1396,6 +1411,12 @@
     </ClCompile>
     <ClCompile Include="..\Private\HellBlast.cpp">
       <Filter>02.GameObjects\Projectile\HellBlast</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\LoadingBlur.cpp">
+      <Filter>02.GameObjects\Blur\LoadingBlur</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\LoadingOutBlur.cpp">
+      <Filter>02.GameObjects\Blur\LoadingOutBlur</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

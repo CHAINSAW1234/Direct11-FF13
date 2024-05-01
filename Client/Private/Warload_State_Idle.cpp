@@ -59,7 +59,7 @@ void CWarload_State_Idle::Idle(_float fTimeDelta)
 				m_pWarload->Change_Animation(CWarload::MOVE_STRAIGHT_IDLE, true);
 			}
 			else if (fDist >= 10.f) {
-				Change_State(MOVE);
+				Change_State(MOVE_BACK);
 				m_pWarload->Change_Animation(CWarload::MOVE_BACK_IDLE, true);
 			}
 			else {

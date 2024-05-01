@@ -51,6 +51,9 @@ HRESULT CChr_Field::Initialize(void* pArg)
 	if (FAILED(Add_Weapon()))
 		return E_FAIL;
 
+	Change_Animation(IDLE_NOR, true);
+	m_pModelCom->Play_Animation(0.21f);
+
 #ifdef _DEBUG
 	m_pImGUI_Manager = CImGUI_Manager::Get_Instance(m_pDevice, m_pContext);
 	Safe_AddRef(m_pImGUI_Manager);
@@ -69,24 +72,10 @@ void CChr_Field::Tick(_float fTimeDelta)
 
 	m_pWeapon->Tick(fTimeDelta);
 
-	// for test
-
-
-	if (m_pGameInstance->Get_DIMouseState(DIMKS_RBUTTON)) {
-
-		CEffect_2D::EFFECT_2D_DESC pDesc = {};
-		pDesc.eEffect = Interface_2D::DUST_COLOR;
-		pDesc.vColor = { 0.f,1.f,1.f,.5f };
-		pDesc.vPosition = m_pTransformCom->Get_State_Float4(CTransform::STATE_POSITION);
-		pDesc.vPosition.y += 1.f;
-		m_pGameInstance->Add_Clone(g_Level, TEXT("Layer_Effect"), TEXT("Prototype_GameObject_Effect_2D"), &pDesc);
-	}
-
 	_vector vPosition = m_pTransformCom->Get_State_Vector(CTransform::STATE_POSITION);
 	_vector vCamPos = vPosition;
 	vCamPos.m128_f32[1] += 15.f;
 	vCamPos.m128_f32[2] += 5.f;
-
 
 	m_pGameInstance->Set_Shadow_Transform(CPipeLine::D3DTS_VIEW, XMMatrixLookAtLH(vCamPos, vPosition, XMVectorSet(0.f, 1.f, 0.f, 0.f)));
 	m_pGameInstance->Set_Shadow_Transform(CPipeLine::D3DTS_PROJ, XMMatrixPerspectiveFovLH(XMConvertToRadians(120.0f), (_float)g_iWinSizeX / g_iWinSizeY, 0.1f, 2000.f));
@@ -178,17 +167,17 @@ HRESULT CChr_Field::Render_LightDepth()
 
 	for (size_t i = 0; i < iNumMeshes; i++)
 	{
-		if (FAILED(m_pModelCom->Bind_ShaderResource(m_pShaderCom, "g_DiffuseTexture", i, aiTextureType_DIFFUSE)))
+		if (FAILED(m_pModelCom->Bind_ShaderResource(m_pShaderCom, "g_DiffuseTexture", (_uint)i, aiTextureType_DIFFUSE)))
 			return E_FAIL;
 
-		if (FAILED(m_pModelCom->Bind_BoneMatrices(m_pShaderCom, "g_BoneMatrices", i)))
+		if (FAILED(m_pModelCom->Bind_BoneMatrices(m_pShaderCom, "g_BoneMatrices", (_uint)i)))
 			return E_FAIL;
 
 		/* 이 함수 내부에서 호출되는 Apply함수 호출 이전에 쉐이더 전역에 던져야할 모든 데이ㅏ터를 다 던져야한다. */
 		if (FAILED(m_pShaderCom->Begin(4)))
 			return E_FAIL;
 
-		m_pModelCom->Render(i);
+		m_pModelCom->Render((_uint)i);
 	}
 
 	return S_OK;

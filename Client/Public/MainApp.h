@@ -32,7 +32,7 @@ private:
 
 private:
 	HRESULT Open_Level(LEVEL eLevelID);
-
+	HRESULT Ready_Component_For_Loading();
 	HRESULT Ready_Gara_Light();
 	HRESULT Ready_Gara();
 	HRESULT Ready_Fonts();

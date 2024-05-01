@@ -18,11 +18,11 @@ public:
 	HRESULT Initialize();
 	HRESULT Add_RenderGroup(RENDERGROUP eRenderGroup, class CGameObject* pRenderObject);
 	HRESULT Render();
-	
+
+
 #ifdef _DEBUG
 public:
 	HRESULT Add_DebugComponents(class CComponent* pRenderObject);
-
 #endif
 
 private:
@@ -31,9 +31,15 @@ private:
 	class CGameInstance*				m_pGameInstance = { nullptr };
 	list<class CGameObject*>			m_RenderObjects[RENDER_END];
 
+	_float m_fViewPortWidth = {};
+	_float m_fViewPortHeight = {};
+
+	_float3 m_Randoms[32];
 private:
 	class CVIBuffer_Rect*	m_pVIBuffer = { nullptr };
 	class CShader*			m_pShader = { nullptr };
+	class CTexture*			m_pTexture = { nullptr };
+
 	_float4x4				m_WorldMatrix{}, m_ViewMatrix{}, m_ProjMatrix{};
 	ID3D11DepthStencilView* m_pLightDepthDSV = { nullptr };
 
@@ -44,6 +50,7 @@ private:
 
 private:
 	HRESULT Render_Priority();
+	HRESULT Render_Bright();	// renderbright 이후 글로우까지 먹임
 	HRESULT Render_Shadow();
 	HRESULT Render_NonBlend();
 	HRESULT Render_NonLight();
@@ -51,11 +58,7 @@ private:
 	HRESULT Render_UI();
 	HRESULT Render_UI_Late();
 
-
-
 private:
-	HRESULT Render_Bright();	// renderbright 이후 글로우까지 먹임
-
 	HRESULT Render_Lights();
 	HRESULT Render_Result();
 
@@ -63,7 +66,6 @@ private:
 private:
 	HRESULT Render_Debug();
 #endif
-
 
 public:
 	static CRenderer* Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);

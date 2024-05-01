@@ -51,6 +51,13 @@ HRESULT CTarget_Manager::Add_MRT(const wstring& strMRTTag, const wstring& strRen
 	return S_OK;
 }
 
+HRESULT CTarget_Manager::Clear()
+{
+	for (auto& pRenderTarget : m_RenderTargets)
+		pRenderTarget.second->Clear();
+	return S_OK;
+}
+
 HRESULT CTarget_Manager::Begin_MRT(const wstring& strMRTTag, ID3D11DepthStencilView* pDSV)
 {
 	ID3D11ShaderResourceView* pSRV[D3D11_COMMONSHADER_INPUT_RESOURCE_SLOT_COUNT] = {
@@ -72,7 +79,6 @@ HRESULT CTarget_Manager::Begin_MRT(const wstring& strMRTTag, ID3D11DepthStencilV
 
 	for (auto& pRenderTarget : *pTargetList)
 	{
-		pRenderTarget->Clear();
 		pRenderTargets[iNumRenderTargets++] = pRenderTarget->Get_RTV();
 	}
 
@@ -114,6 +120,14 @@ HRESULT CTarget_Manager::Copy_Resource(const wstring& strRenderTargetTag, ID3D11
 	return pRenderTarget->Copy_Resource(ppTextureHub);
 }
 
+HRESULT CTarget_Manager::Save_RenderTarget(const wstring& strRenderTargetTag, const wstring& strRenderTargetpath)
+{
+	CRenderTarget* pRenderTarget = Find_RenderTarget(strRenderTargetTag);
+	if (nullptr == pRenderTarget)
+		return E_FAIL;
+
+	return pRenderTarget->Save_RenderTarget(strRenderTargetpath);
+}
 
 #ifdef _DEBUG
 
@@ -190,4 +204,7 @@ void CTarget_Manager::Free()
 
 	Safe_Release(m_pDevice);
 	Safe_Release(m_pContext);
+
+	//Safe_Release(m_pBackBufferRTV);
+	//Safe_Release(m_pDSV);
 }

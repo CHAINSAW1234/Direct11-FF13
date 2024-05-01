@@ -100,6 +100,7 @@ void CGameInstance::Tick_Engine(_float fTimeDelta)
 	m_pInput_Device->Tick();
 
 	m_pLevel_Manager->Open_Level();
+	
 	m_pLevel_Manager->Tick(fTimeDelta);
 
 	m_pObject_Manager->Tick(fTimeDelta);
@@ -160,6 +161,14 @@ HRESULT CGameInstance::Clear(_uint iClearLevelIndex)
 	m_pComponent_Manager->Clear(iClearLevelIndex);
 
 	return S_OK;
+}
+
+HRESULT CGameInstance::Save_BackBuffer(const wstring& strSavePath)
+{
+	if (nullptr == m_pGraphic_Device)
+		return 0;
+
+	return m_pGraphic_Device->Save_BackBuffer(strSavePath);
 }
 
 _byte CGameInstance::Get_KeyState(_uint eState, _ubyte byKeyID)
@@ -468,6 +477,14 @@ HRESULT CGameInstance::Add_MRT(const wstring& strMRTTag, const wstring& strRende
 	return m_pTarget_Manager->Add_MRT(strMRTTag, strRenderTargetTag);
 }
 
+HRESULT CGameInstance::Clear()
+{
+	if (nullptr == m_pTarget_Manager)
+		return E_FAIL;
+
+	return m_pTarget_Manager->Clear();
+}
+
 HRESULT CGameInstance::Begin_MRT(const wstring& strMRTTag, ID3D11DepthStencilView* pDSV)
 {
 	if (nullptr == m_pTarget_Manager)
@@ -495,6 +512,14 @@ HRESULT CGameInstance::Copy_Resource(const wstring& strRenderTargetTag, ID3D11Te
 		return E_FAIL;
 
 	return m_pTarget_Manager->Copy_Resource(strRenderTargetTag, ppTextureHub);
+}
+
+HRESULT CGameInstance::Save_RenderTarget(const wstring& strRenderTargetTag, const wstring& strRenderTargetpath)
+{
+	if (nullptr == m_pTarget_Manager)
+		return E_FAIL;
+
+	return m_pTarget_Manager->Save_RenderTarget(strRenderTargetTag, strRenderTargetpath);
 }
 
 _bool CGameInstance::isInFrustum_WorldSpace(_fvector vWorldPos, _float fRange)

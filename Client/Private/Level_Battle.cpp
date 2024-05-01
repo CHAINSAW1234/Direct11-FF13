@@ -59,11 +59,8 @@ HRESULT CLevel_Battle::Initialize()
     m_pGameInstance->Set_Shadow_Transform(CPipeLine::D3DTS_VIEW, XMMatrixLookAtLH(XMVectorSet(0.f, 30.f, 10.f, 1.f), XMVectorSet(0.f, 0.f, 0.f, 1.f), XMVectorSet(0.f, 1.f, 0.f, 0.f)));
     m_pGameInstance->Set_Shadow_Transform(CPipeLine::D3DTS_PROJ, XMMatrixPerspectiveFovLH(XMConvertToRadians(120.0f), (_float)g_iWinSizeX / g_iWinSizeY, 0.1f, 2000.f));
 
-
-
     m_pPlayer->Start();
     Set_Object_Position();
-
 
     return S_OK;
 }
@@ -80,8 +77,11 @@ void CLevel_Battle::Tick(_float fTimeDelta)
         }
 
         m_fTimeDelta += fTimeDelta;
-        if(m_fTimeDelta >= 2.0f)
-          m_pGameInstance->Open_Level(LEVEL_LOADING, CLevel_Loading::Create(m_pDevice, m_pContext, LEVEL_FIELD));
+        if (m_fTimeDelta >= 2.0f) {
+            m_pGameInstance->Save_BackBuffer(TEXT("../Bin/DataFiles/Blur.dds"));
+            m_pGameInstance->Open_Level(LEVEL_LOADING, CLevel_Loading::Create(m_pDevice, m_pContext, LEVEL_FIELD));
+        }
+          
     }
 
 }
@@ -142,6 +142,9 @@ HRESULT CLevel_Battle::Ready_UI(const wstring& strLayerTag)
     if (FAILED(m_pGameInstance->Add_Clone(g_Level, TEXT("Layer_Inventory"), TEXT("Prototype_GameObject_Inventory"))))
         return E_FAIL;
 
+    if (FAILED(m_pGameInstance->Add_Clone(g_Level, g_strBackGroundLayerTag, TEXT("Prototype_GameObject_LoadingOutBlur"))))
+        return E_FAIL;
+
     return S_OK;
 }
 
@@ -167,7 +170,11 @@ HRESULT CLevel_Battle::Ready_Layer_Camera(const wstring& strLayerTag)
     CameraDesc.fAspect = (_float)g_iWinSizeX / g_iWinSizeY;
     CameraDesc.fNear = 0.1f;
     CameraDesc.fFar = 1000.0f;
-    CameraDesc.vEye = _float4(0.f, 2.f, -6.f, 1.f);
+    //CameraDesc.vEye = _float4(0.f, 2.f, -6.f, 1.f);
+    CameraDesc.vEye.x = Random_Float(4.f);
+    CameraDesc.vEye.y = 1.5f + Random_Float(3.f);
+    CameraDesc.vEye.z = Random_Float(8.f);
+    CameraDesc.vEye.w = 1.f;
     CameraDesc.vAt = _float4(0.f, 0.f, 0.f, 1.f);
     CameraDesc.fSpeedPerSec = 10.f;
     CameraDesc.fRotationPerSec = XMConvertToRadians(90.0f);

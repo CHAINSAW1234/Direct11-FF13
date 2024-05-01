@@ -253,6 +253,8 @@
     <ClInclude Include="..\Public\Level_MapTool.h" />
     <ClInclude Include="..\Public\Level_Parsing.h" />
     <ClInclude Include="..\Public\Loader.h" />
+    <ClInclude Include="..\Public\LoadingBlur.h" />
+    <ClInclude Include="..\Public\LoadingOutBlur.h" />
     <ClInclude Include="..\public\MainApp.h" />
     <ClInclude Include="..\Public\MapObject.h" />
     <ClInclude Include="..\Public\MapTool.h" />
@@ -408,6 +410,8 @@
     <ClCompile Include="..\Private\Level_MapTool.cpp" />
     <ClCompile Include="..\Private\Level_Parsing.cpp" />
     <ClCompile Include="..\Private\Loader.cpp" />
+    <ClCompile Include="..\Private\LoadingBlur.cpp" />
+    <ClCompile Include="..\Private\LoadingOutBlur.cpp" />
     <ClCompile Include="..\private\MainApp.cpp" />
     <ClCompile Include="..\Private\MapObject.cpp" />
     <ClCompile Include="..\Private\MapTool.cpp" />

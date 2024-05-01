@@ -15,11 +15,11 @@ void CChr_Battle_Light_State_Prepare::OnStateEnter()
 void CChr_Battle_Light_State_Prepare::OnStateUpdate(_float fTimeDelta)
 {
     m_pChr_Battle_Light->Update_ATB(fTimeDelta);
+    m_pChr_Battle_Light->Determine_Action_Based_On_Command();
 
     if (m_pChr_Battle_Light->Is_Animation_Finished())
         m_pChr_Battle_Light->Change_State(CChr_Battle_Light::IDLE);
       
-    m_pChr_Battle_Light->Determine_Action_Based_On_Command();
 }
 
 void CChr_Battle_Light_State_Prepare::OnStateExit()

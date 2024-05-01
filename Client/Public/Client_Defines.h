@@ -18,6 +18,7 @@ namespace Client
 	const wstring		g_strFontAlphaTag = TEXT("Font_Alpha");
 
 	const wstring		g_strCameraLayerTag = TEXT("Layer_ZZZCamera");
+	const wstring		g_strBackGroundLayerTag = TEXT("Layer_ZZZZBackGround");
 	const wstring		g_strMonsterLayerTag = TEXT("Layer_Monster");
 	const wstring		g_strChrLayerTag = TEXT("Layer_Chr");
 }

@@ -21,6 +21,8 @@ public:
 	HRESULT Bind_ShaderResource(class CShader* pShader, const _char* pConstantName);
 	HRESULT Copy_Resource(ID3D11Texture2D** ppTextureHub);
 
+	HRESULT Save_RenderTarget(const wstring& strPath);
+
 #ifdef _DEBUG
 public:
 	HRESULT Ready_Debug(_float fX, _float fY, _float fSizeX, _float fSizeY);
