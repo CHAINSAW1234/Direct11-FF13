@@ -25,13 +25,12 @@ HRESULT CRenderer::Initialize()
 	m_fViewPortWidth = ViewportDesc.Width;
 	m_fViewPortHeight = ViewportDesc.Height;
 
-	for (int i = 0; i < 32; ++ i) {
+	/* For.Target_Diffuse */
+	if (FAILED(m_pGameInstance->Add_RenderTarget(TEXT("Target_SubBuffer"), ViewportDesc.Width, ViewportDesc.Height, DXGI_FORMAT_R8G8B8A8_UNORM, _float4(0.f, 0.f, 0.f, 0.f))))
+		return E_FAIL;
 
-		m_Randoms[i].x = (static_cast<_float>(std::rand()) / (RAND_MAX / (_float)2.f) - (_float)2.f / 2.f);
-		m_Randoms[i].y = (static_cast<_float>(std::rand()) / (RAND_MAX / (_float)2.f) - (_float)2.f / 2.f);
-		m_Randoms[i].z = (static_cast<_float>(std::rand()) / (RAND_MAX / (_float)2.f) - (_float)2.f / 2.f);
-	}
 
+#pragma region Deferd
 	/* 디퍼드 쉐이딩을 위한 렌더타겟들을 생성하자. */
 	/* For.Target_Diffuse */
 	if (FAILED(m_pGameInstance->Add_RenderTarget(TEXT("Target_Diffuse"), ViewportDesc.Width, ViewportDesc.Height, DXGI_FORMAT_R8G8B8A8_UNORM, _float4(0.f, 0.f, 0.f, 0.f))))
@@ -57,6 +56,8 @@ HRESULT CRenderer::Initialize()
 	if (FAILED(m_pGameInstance->Add_RenderTarget(TEXT("Target_LightDepth"), g_iShadowWindowSizeX, g_iShadowWindowSizeY, DXGI_FORMAT_R32G32B32A32_FLOAT, _float4(1.f, 1.f, 1.f, 1.f))))
 		return E_FAIL;
 
+#pragma endregion
+
 	/* For.Target_Bright */
 	if (FAILED(m_pGameInstance->Add_RenderTarget(TEXT("Target_Bright"), ViewportDesc.Width, ViewportDesc.Height, DXGI_FORMAT_R8G8B8A8_UNORM, _float4(0.f, 0.f, 0.f, 0.f))))
 		return E_FAIL;
@@ -65,6 +66,52 @@ HRESULT CRenderer::Initialize()
 	if (FAILED(m_pGameInstance->Add_RenderTarget(TEXT("Target_Blur"), ViewportDesc.Width, ViewportDesc.Height, DXGI_FORMAT_R8G8B8A8_UNORM, _float4(0.f, 0.f, 0.f, 0.f))))
 		return E_FAIL;
 
+#pragma region SSAO
+	/* For.Target_SSAO_Diffuse */
+	if (FAILED(m_pGameInstance->Add_RenderTarget(TEXT("Target_SSAO_Diffuse"), ViewportDesc.Width, ViewportDesc.Height, DXGI_FORMAT_R8G8B8A8_UNORM, _float4(0.f, 0.f, 0.f, 0.f))))
+		return E_FAIL;
+
+	/* For.Target_SSAO_Normal */
+	if (FAILED(m_pGameInstance->Add_RenderTarget(TEXT("Target_SSAO_Normal"), ViewportDesc.Width, ViewportDesc.Height, DXGI_FORMAT_R16G16B16A16_UNORM, _float4(0.f, 0.f, 0.f, 1.f))))
+		return E_FAIL;
+
+	/* For.Target_SSAO_Depth */
+	if (FAILED(m_pGameInstance->Add_RenderTarget(TEXT("Target_SSAO_Depth"), ViewportDesc.Width, ViewportDesc.Height, DXGI_FORMAT_R32G32B32A32_FLOAT, _float4(0.f, 1.f, 0.f, 1.f))))
+		return E_FAIL;
+
+	/* For.Target_SSAO_Shade */
+	if (FAILED(m_pGameInstance->Add_RenderTarget(TEXT("Target_SSAO_Shade"), ViewportDesc.Width, ViewportDesc.Height, DXGI_FORMAT_R16G16B16A16_UNORM, _float4(0.f, 0.f, 0.f, 1.f))))
+		return E_FAIL;
+
+	/* For.Target_SSAO_Specular */
+	if (FAILED(m_pGameInstance->Add_RenderTarget(TEXT("Target_SSAO_Specular"), ViewportDesc.Width, ViewportDesc.Height, DXGI_FORMAT_R16G16B16A16_UNORM, _float4(0.f, 0.f, 0.f, 0.f))))
+		return E_FAIL;
+
+	/* For.Target_SSAO_Blur */
+	if (FAILED(m_pGameInstance->Add_RenderTarget(TEXT("Target_SSAO_Blur"), ViewportDesc.Width, ViewportDesc.Height, DXGI_FORMAT_R8G8B8A8_UNORM, _float4(0.f, 0.f, 0.f, 0.f))))
+		return E_FAIL;
+#pragma endregion
+
+
+	if (FAILED(m_pGameInstance->Add_MRT(TEXT("MRT_SubBuffer"), TEXT("Target_SubBuffer"))))
+		return E_FAIL;
+
+	/* MRT_GameObjects : 객체들의 특정 정보를 받아오기위한 렌더타겟들이다. */
+	if (FAILED(m_pGameInstance->Add_MRT(TEXT("MRT_SSAO_GameObjects"), TEXT("Target_SSAO_Diffuse"))))
+		return E_FAIL;
+	if (FAILED(m_pGameInstance->Add_MRT(TEXT("MRT_SSAO_GameObjects"), TEXT("Target_SSAO_Normal"))))
+		return E_FAIL;
+	if (FAILED(m_pGameInstance->Add_MRT(TEXT("MRT_SSAO_GameObjects"), TEXT("Target_SSAO_Depth"))))
+		return E_FAIL;
+
+	/* MRT_LightAcc : 빛들의 연산결과 정보를 받아오기위한 렌더타겟들이다. */
+	if (FAILED(m_pGameInstance->Add_MRT(TEXT("MRT_SSAO_LightAcc"), TEXT("Target_SSAO_Shade"))))
+		return E_FAIL;
+	if (FAILED(m_pGameInstance->Add_MRT(TEXT("MRT_SSAO_LightAcc"), TEXT("Target_SSAO_Specular"))))
+		return E_FAIL;
+
+	if (FAILED(m_pGameInstance->Add_MRT(TEXT("MRT_SSAO_Blur"), TEXT("Target_SSAO_Blur"))))
+		return E_FAIL;
 
 	/* MRT_GameObjects : 객체들의 특정 정보를 받아오기위한 렌더타겟들이다. */
 	if (FAILED(m_pGameInstance->Add_MRT(TEXT("MRT_GameObjects"), TEXT("Target_Diffuse"))))
@@ -157,12 +204,24 @@ HRESULT CRenderer::Initialize()
 		return E_FAIL;
 	if (FAILED(m_pGameInstance->Ready_RTVDebug(TEXT("Target_Specular"), 300.f, 300.f, 200.f, 200.f)))
 		return E_FAIL;
-	if (FAILED(m_pGameInstance->Ready_RTVDebug(TEXT("Target_LightDepth"), ViewportDesc.Width - 150.f, 150.0f, 300.f, 300.f)))
+	if (FAILED(m_pGameInstance->Ready_RTVDebug(TEXT("Target_LightDepth"), ViewportDesc.Width - 100.f, 100.0f, 200.f, 200.f)))
+		return E_FAIL;
+     
+
+	if (FAILED(m_pGameInstance->Ready_RTVDebug(TEXT("Target_SSAO_Diffuse"), 100.f, 100.f, 200.f, 200.f)))
+		return E_FAIL;
+	if (FAILED(m_pGameInstance->Ready_RTVDebug(TEXT("Target_SSAO_Normal"), 100.f, 300.f, 200.f, 200.f)))
+		return E_FAIL;
+	if (FAILED(m_pGameInstance->Ready_RTVDebug(TEXT("Target_SSAO_Depth"), 100.f, 500.f, 200.f, 200.f)))
+		return E_FAIL;
+	if (FAILED(m_pGameInstance->Ready_RTVDebug(TEXT("Target_SSAO_Shade"), 300.f, 100.f, 200.f, 200.f)))
+		return E_FAIL;
+	if (FAILED(m_pGameInstance->Ready_RTVDebug(TEXT("Target_SSAO_Specular"), 300.f, 300.f, 200.f, 200.f)))
+		return E_FAIL;
+	if (FAILED(m_pGameInstance->Ready_RTVDebug(TEXT("Target_SSAO_Blur"), 500.f, 300.f, 200.f, 200.f)))
 		return E_FAIL;
 
-	if (FAILED(m_pGameInstance->Ready_RTVDebug(TEXT("Target_Bright"), 500.f, 100.f, 200.f, 200.f)))
-		return E_FAIL;
-	if (FAILED(m_pGameInstance->Ready_RTVDebug(TEXT("Target_Blur"), 500.f, 300.f, 200.f,  200.f)))
+	if (FAILED(m_pGameInstance->Ready_RTVDebug(TEXT("Target_SubBuffer"), ViewportDesc.Width - 100.f, 300.0f, 200.f, 200.f)))
 		return E_FAIL;
 
 #endif
@@ -191,14 +250,21 @@ HRESULT CRenderer::Render()
 	if (FAILED(Render_Priority()))
 		return E_FAIL;
 
-	// 여기서 렌더 브라이트
-	// + 블러
+	// 그림자 연산을 위해서 SubBuffer에 그림
 
-
-	// 그림자 연산
-	if (FAILED(Render_Shadow()))
+	// SSAO를 지형에 적용
+#pragma region SSAO
+	if (FAILED(Render_SSAO_Objects()))
 		return E_FAIL;
+	if (FAILED(Render_SSAO_Lights()))
+		return E_FAIL;
+	if (FAILED(Render_SSAO_Blur()))
+		return E_FAIL;
+	if (FAILED(Render_SSAO_Result()))
+		return E_FAIL;
+#pragma endregion
 
+	// 캐릭터는 SSAO는 적용시키지 않되, 방향성 광원을 적용
 #pragma region 빛 연산
 	if (FAILED(Render_NonBlend()))
 		return E_FAIL;
@@ -208,9 +274,13 @@ HRESULT CRenderer::Render()
 		return E_FAIL;
 #pragma endregion
 
-	if (FAILED(Render_Bright()))
+	// 그림자 연산 : SubBuffer에서 BackBuffer로 옮긴다
+	if (FAILED(Render_Shadow()))
 		return E_FAIL;
 
+	// 여기부터는 BackBuffer에 바로 그림 
+	if (FAILED(Render_Bright()))
+		return E_FAIL;
 	if (FAILED(Render_NonLight()))
 		return E_FAIL;
 	if (FAILED(Render_Blend()))
@@ -252,6 +322,150 @@ HRESULT CRenderer::Render_Priority()
 	return S_OK;
 }
 
+HRESULT CRenderer::Render_SSAO_Objects()
+{
+	if (FAILED(m_pGameInstance->Begin_MRT(TEXT("MRT_SSAO_GameObjects"))))
+		return E_FAIL;
+
+	for (auto& pRenderObject : m_RenderObjects[RENDER_SSAO_OBJECT])
+	{
+		if (nullptr != pRenderObject)
+			pRenderObject->Render();
+		Safe_Release(pRenderObject);
+	}
+	m_RenderObjects[RENDER_SSAO_OBJECT].clear();
+
+	if (FAILED(m_pGameInstance->End_MRT()))
+		return E_FAIL;
+
+	return S_OK;
+}
+
+HRESULT CRenderer::Render_SSAO_Lights()
+{
+	if (FAILED(m_pGameInstance->Begin_MRT(TEXT("MRT_SSAO_LightAcc"))))
+		return E_FAIL;
+
+	if (FAILED(m_pShader->Bind_Matrix("g_WorldMatrix", &m_WorldMatrix)))
+		return E_FAIL;
+	if (FAILED(m_pShader->Bind_Matrix("g_ViewMatrix", &m_ViewMatrix)))
+		return E_FAIL;
+	if (FAILED(m_pShader->Bind_Matrix("g_ProjMatrix", &m_ProjMatrix)))
+		return E_FAIL;
+
+	if (FAILED(m_pShader->Bind_Matrix("g_CamViewMatrix", &m_pGameInstance->Get_Transform_Float4x4(CPipeLine::D3DTS_VIEW))))
+		return E_FAIL;
+	if (FAILED(m_pShader->Bind_Matrix("g_CamProjMatrix", &m_pGameInstance->Get_Transform_Float4x4(CPipeLine::D3DTS_PROJ))))
+		return E_FAIL;
+
+	if (FAILED(m_pShader->Bind_Matrix("g_ProjMatrixInv", &m_pGameInstance->Get_Transform_Float4x4_Inverse(CPipeLine::D3DTS_PROJ))))
+		return E_FAIL;
+	if (FAILED(m_pShader->Bind_Matrix("g_ViewMatrixInv", &m_pGameInstance->Get_Transform_Float4x4_Inverse(CPipeLine::D3DTS_VIEW))))
+		return E_FAIL;
+
+	if (FAILED(m_pShader->Bind_RawValue("g_vCamPosition", &m_pGameInstance->Get_CamPosition_Float4(), sizeof(_float4))))
+		return E_FAIL;
+
+	if (FAILED(m_pGameInstance->Bind_RTShaderResource(m_pShader, TEXT("Target_SSAO_Normal"), "g_NormalTexture")))
+		return E_FAIL;
+	if (FAILED(m_pGameInstance->Bind_RTShaderResource(m_pShader, TEXT("Target_SSAO_Depth"), "g_DepthTexture")))
+		return E_FAIL;
+
+	if (FAILED(m_pTexture->Bind_ShaderResource(m_pShader, "g_RandomNormalTexture")))
+		return E_FAIL;
+
+	if (FAILED(m_pVIBuffer->Bind_Buffers()))
+		return E_FAIL;
+
+	m_pShader->Begin(6);
+
+	m_pVIBuffer->Render();
+
+	if (FAILED(m_pGameInstance->End_MRT()))
+		return E_FAIL;
+
+	return S_OK;
+}
+
+HRESULT CRenderer::Render_SSAO_Blur()
+{
+	// 셰이드에 블러를 먹인다
+	if (FAILED(m_pGameInstance->Begin_MRT(TEXT("MRT_SSAO_Blur"))))
+		return E_FAIL;
+
+	if (FAILED(m_pShader->Bind_Matrix("g_WorldMatrix", &m_WorldMatrix)))
+		return E_FAIL;
+	if (FAILED(m_pShader->Bind_Matrix("g_ViewMatrix", &m_ViewMatrix)))
+		return E_FAIL;
+	if (FAILED(m_pShader->Bind_Matrix("g_ProjMatrix", &m_ProjMatrix)))
+		return E_FAIL;
+
+	if (FAILED(m_pShader->Bind_RawValue("g_Width", &m_fViewPortWidth, sizeof(_float))))
+		return E_FAIL;
+
+	if (FAILED(m_pShader->Bind_RawValue("g_Height", &m_fViewPortHeight, sizeof(_float))))
+		return E_FAIL;
+
+	if (FAILED(m_pGameInstance->Bind_RTShaderResource(m_pShader, TEXT("Target_SSAO_Shade"), "g_Texture")))
+		return E_FAIL;
+
+	m_pVIBuffer->Bind_Buffers();
+
+	m_pShader->Begin(4);
+
+	m_pVIBuffer->Render();
+
+	if (FAILED(m_pGameInstance->End_MRT()))
+		return E_FAIL;
+
+	return S_OK;
+}
+
+HRESULT CRenderer::Render_SSAO_Result()
+{
+	if (FAILED(m_pGameInstance->Begin_MRT(TEXT("MRT_SubBuffer"))))
+		return E_FAIL;
+
+	// 블러 먹인 셰이드를 라이트맵으로 사용해서 빛연산
+	/* 백버퍼에다가 디퍼드 방식으로 연산된 최종 결과물을 찍어준다. */
+	if (FAILED(m_pShader->Bind_Matrix("g_WorldMatrix", &m_WorldMatrix)))
+		return E_FAIL;
+	if (FAILED(m_pShader->Bind_Matrix("g_ViewMatrix", &m_ViewMatrix)))
+		return E_FAIL;
+	if (FAILED(m_pShader->Bind_Matrix("g_ProjMatrix", &m_ProjMatrix)))
+		return E_FAIL;
+
+	if (FAILED(m_pGameInstance->Bind_RTShaderResource(m_pShader, TEXT("Target_SSAO_Diffuse"), "g_DiffuseTexture")))
+		return E_FAIL;
+	if (FAILED(m_pGameInstance->Bind_RTShaderResource(m_pShader, TEXT("Target_SSAO_Blur"), "g_ShadeTexture")))
+		return E_FAIL;
+	if (FAILED(m_pGameInstance->Bind_RTShaderResource(m_pShader, TEXT("Target_SSAO_Specular"), "g_SpecularTexture")))
+		return E_FAIL;
+
+	if (FAILED(m_pGameInstance->Bind_RTShaderResource(m_pShader, TEXT("Target_SSAO_Depth"), "g_DepthTexture")))
+		return E_FAIL;
+
+	_float4x4 ViewMatrix = m_pGameInstance->Get_Shadow_Transform_Float4x4(CPipeLine::D3DTS_VIEW);
+	_float4x4 ProjMatrix = m_pGameInstance->Get_Shadow_Transform_Float4x4(CPipeLine::D3DTS_PROJ);
+
+	if (FAILED(m_pShader->Bind_Matrix("g_LightViewMatrix", &ViewMatrix)))
+		return E_FAIL;
+
+	if (FAILED(m_pShader->Bind_Matrix("g_LightProjMatrix", &ProjMatrix)))
+		return E_FAIL;
+
+	m_pShader->Begin(3);
+
+	m_pVIBuffer->Bind_Buffers();
+
+	m_pVIBuffer->Render();
+
+	if (FAILED(m_pGameInstance->End_MRT()))
+		return E_FAIL;
+
+	return S_OK;
+}
+
 HRESULT CRenderer::Render_Shadow()
 {
 	D3D11_VIEWPORT			ViewPortDesc;
@@ -289,6 +503,38 @@ HRESULT CRenderer::Render_Shadow()
 	ViewPortDesc.MaxDepth = 1.f;
 
 	m_pContext->RSSetViewports(1, &ViewPortDesc);
+
+	// 최종 그림자 연산
+
+	if (FAILED(m_pShader->Bind_Matrix("g_WorldMatrix", &m_WorldMatrix)))
+		return E_FAIL;
+	if (FAILED(m_pShader->Bind_Matrix("g_ViewMatrix", &m_ViewMatrix)))
+		return E_FAIL;
+	if (FAILED(m_pShader->Bind_Matrix("g_ProjMatrix", &m_ProjMatrix)))
+		return E_FAIL;
+
+	if (FAILED(m_pGameInstance->Bind_RTShaderResource(m_pShader, TEXT("Target_SubBuffer"), "g_Texture")))
+		return E_FAIL;
+	if (FAILED(m_pGameInstance->Bind_RTShaderResource(m_pShader, TEXT("Target_SSAO_Depth"), "g_DepthTexture")))
+		return E_FAIL;
+	if (FAILED(m_pGameInstance->Bind_RTShaderResource(m_pShader, TEXT("Target_LightDepth"), "g_LightDepthTexture")))
+		return E_FAIL;
+
+	_float4x4 ViewMatrix = m_pGameInstance->Get_Shadow_Transform_Float4x4(CPipeLine::D3DTS_VIEW);
+	_float4x4 ProjMatrix = m_pGameInstance->Get_Shadow_Transform_Float4x4(CPipeLine::D3DTS_PROJ);
+
+	if (FAILED(m_pShader->Bind_Matrix("g_LightViewMatrix", &ViewMatrix)))
+		return E_FAIL;
+
+	if (FAILED(m_pShader->Bind_Matrix("g_LightProjMatrix", &ProjMatrix)))
+		return E_FAIL;
+
+
+	m_pShader->Begin(7);
+
+	m_pVIBuffer->Bind_Buffers();
+
+	m_pVIBuffer->Render();
 
 	return S_OK;
 }
@@ -452,9 +698,6 @@ HRESULT CRenderer::Render_Lights()
 	if (FAILED(m_pShader->Bind_RawValue("g_vCamPosition", &m_pGameInstance->Get_CamPosition_Float4(), sizeof(_float4))))
 		return E_FAIL;
 
-	if (FAILED(m_pShader->Bind_RawValue("g_SampleOffsets", &m_Randoms[0], sizeof(_float3) * 32)))
-		return E_FAIL;
-
 	if (FAILED(m_pGameInstance->Bind_RTShaderResource(m_pShader, TEXT("Target_Normal"), "g_NormalTexture")))
 		return E_FAIL;
 	if (FAILED(m_pGameInstance->Bind_RTShaderResource(m_pShader, TEXT("Target_Depth"), "g_DepthTexture")))
@@ -463,7 +706,7 @@ HRESULT CRenderer::Render_Lights()
 	if (FAILED(m_pVIBuffer->Bind_Buffers()))
 		return E_FAIL;
 
-	if (FAILED(m_pTexture->Bind_ShaderResource(m_pShader, "g_RandomNormalTexture"), 0))
+	if (FAILED(m_pTexture->Bind_ShaderResource(m_pShader, "g_RandomNormalTexture")))
 		return E_FAIL;
 
 
@@ -480,9 +723,11 @@ HRESULT CRenderer::Render_Lights()
 	return S_OK;
 }
 
-
 HRESULT CRenderer::Render_Result()
 {
+	if (FAILED(m_pGameInstance->Begin_MRT(TEXT("MRT_SubBuffer"))))
+		return E_FAIL;
+
 	/* 백버퍼에다가 디퍼드 방식으로 연산된 최종 결과물을 찍어준다. */
 	if (FAILED(m_pShader->Bind_Matrix("g_WorldMatrix", &m_WorldMatrix)))
 		return E_FAIL;
@@ -518,6 +763,9 @@ HRESULT CRenderer::Render_Result()
 
 	m_pVIBuffer->Render();
 
+	if (FAILED(m_pGameInstance->End_MRT()))
+		return E_FAIL;
+
 	return S_OK;
 }
 
@@ -542,15 +790,21 @@ HRESULT CRenderer::Render_Debug()
 	if (FAILED(m_pVIBuffer->Bind_Buffers()))
 		return E_FAIL;
 
-	if (FAILED(m_pGameInstance->Draw_RTVDebug(TEXT("MRT_GameObjects"), m_pShader, m_pVIBuffer)))
+	if (FAILED(m_pGameInstance->Draw_RTVDebug(TEXT("MRT_SSAO_GameObjects"), m_pShader, m_pVIBuffer)))
 		return E_FAIL;
-	if (FAILED(m_pGameInstance->Draw_RTVDebug(TEXT("MRT_LightAcc"), m_pShader, m_pVIBuffer)))
-		return E_FAIL;
+
+	if (FAILED(m_pGameInstance->Draw_RTVDebug(TEXT("MRT_SSAO_LightAcc"), m_pShader, m_pVIBuffer)))
+		return E_FAIL;									
 	if (FAILED(m_pGameInstance->Draw_RTVDebug(TEXT("MRT_ShadowObject"), m_pShader, m_pVIBuffer)))
-		return E_FAIL;
+		return E_FAIL;		
+/*
 	if (FAILED(m_pGameInstance->Draw_RTVDebug(TEXT("MRT_Bright"), m_pShader, m_pVIBuffer)))
+		return E_FAIL;		*/	
+
+	if (FAILED(m_pGameInstance->Draw_RTVDebug(TEXT("MRT_SSAO_Blur"), m_pShader, m_pVIBuffer)))
 		return E_FAIL;
-	if (FAILED(m_pGameInstance->Draw_RTVDebug(TEXT("MRT_Blur"), m_pShader, m_pVIBuffer)))
+
+	if (FAILED(m_pGameInstance->Draw_RTVDebug(TEXT("MRT_SubBuffer"), m_pShader, m_pVIBuffer)))
 		return E_FAIL;
 
 	return S_OK;

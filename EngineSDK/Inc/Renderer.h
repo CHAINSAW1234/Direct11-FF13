@@ -10,7 +10,7 @@ BEGIN(Engine)
 class CRenderer final : public CBase
 {
 public:
-	enum RENDERGROUP { RENDER_PRIORITY, RENDER_NONBLEND, RENDER_SHADOW, RENDER_BRIGHT, RENDER_NONLIGHT, RENDER_BLEND, RENDER_UI, RENDER_UI_LATE, RENDER_END };
+	enum RENDERGROUP { RENDER_PRIORITY, RENDER_SSAO_OBJECT, RENDER_NONBLEND, RENDER_SHADOW, RENDER_BRIGHT, RENDER_NONLIGHT, RENDER_BLEND, RENDER_UI, RENDER_UI_LATE, RENDER_END };
 private:
 	CRenderer(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);
 	virtual ~CRenderer() = default;
@@ -34,7 +34,6 @@ private:
 	_float m_fViewPortWidth = {};
 	_float m_fViewPortHeight = {};
 
-	_float3 m_Randoms[32];
 private:
 	class CVIBuffer_Rect*	m_pVIBuffer = { nullptr };
 	class CShader*			m_pShader = { nullptr };
@@ -50,6 +49,13 @@ private:
 
 private:
 	HRESULT Render_Priority();
+
+	// 맵에는 SSAO 적용
+	HRESULT Render_SSAO_Objects();
+	HRESULT Render_SSAO_Lights();
+	HRESULT Render_SSAO_Blur();
+	HRESULT Render_SSAO_Result();
+
 	HRESULT Render_Bright();	// renderbright 이후 글로우까지 먹임
 	HRESULT Render_Shadow();
 	HRESULT Render_NonBlend();

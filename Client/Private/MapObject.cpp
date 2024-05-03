@@ -50,8 +50,9 @@ HRESULT CMapObject::Late_Tick(_float fTimeDelta)
     if (FAILED(__super::Late_Tick(fTimeDelta)))
         return E_FAIL;
 
-    m_pGameInstance->Add_RenderGroup(CRenderer::RENDER_NONBLEND, this);
+    m_pGameInstance->Add_RenderGroup(CRenderer::RENDER_SSAO_OBJECT, this);
     m_pGameInstance->Add_RenderGroup(CRenderer::RENDER_BRIGHT, this);
+
 #ifdef _DEBUG
     if(nullptr != m_pNavigationCom)
     m_pGameInstance->Add_DebugComponents(m_pNavigationCom);
