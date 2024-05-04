@@ -464,10 +464,6 @@ HRESULT CLoader::Loading_Prototype()
 
 HRESULT CLoader::Loading_For_Static_Component()
 {
-	/* For.Prototype_Component_VIBuffer_Cube */
-	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_VIBuffer_Cube"),
-		CVIBuffer_Cube::Create(m_pDevice, m_pContext))))
-		return E_FAIL;
 
 	/* For.Prototype_Component_FSM */
 	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_FSM"),
@@ -585,11 +581,6 @@ HRESULT CLoader::Loading_For_Static_Component_Effect()
 	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_Particle"),
 		CTexture::Create(m_pDevice, m_pContext, TEXT("../Bin/Resources/Textures/Effect/Particle/Particle (%d).png"), 113))))
 		return E_FAIL;
-
-	/* Prototype_Component_Texture_Sky */
-	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_Sky"),
-		CTexture::Create(m_pDevice, m_pContext, TEXT("../Bin/Resources/Textures/SkyBox/Sky_%d.dds"), 4))))
-		return E_FAIL;
 #pragma endregion
 
 #pragma region Effect
@@ -673,6 +664,10 @@ HRESULT CLoader::Loading_For_Static_Component_Effect()
 
 
 #pragma endregion 
+
+	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Model_SkyBox"),
+		CModel::Create(m_pDevice, m_pContext, "../Bin/Resources/Models/SkyBox/SkyBox" + tag))))
+		return E_FAIL;
 
 	return S_OK;
 }

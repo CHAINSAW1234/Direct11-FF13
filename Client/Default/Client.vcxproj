@@ -281,6 +281,7 @@
     <ClInclude Include="..\Public\Troup.h" />
     <ClInclude Include="..\Public\UI.h" />
     <ClInclude Include="..\Public\UI_ATB.h" />
+    <ClInclude Include="..\Public\UI_Battle_Stage_Begin.h" />
     <ClInclude Include="..\Public\UI_Battle_Stage_Command.h" />
     <ClInclude Include="..\Public\UI_Battle_Stage_Finish.h" />
     <ClInclude Include="..\Public\UI_Battle_Stage_Item.h" />
@@ -438,6 +439,7 @@
     <ClCompile Include="..\Private\Troup.cpp" />
     <ClCompile Include="..\Private\UI.cpp" />
     <ClCompile Include="..\Private\UI_ATB.cpp" />
+    <ClCompile Include="..\Private\UI_Battle_Stage_Begin.cpp" />
     <ClCompile Include="..\Private\UI_Battle_Stage_Command.cpp" />
     <ClCompile Include="..\Private\UI_Battle_Stage_Finish.cpp" />
     <ClCompile Include="..\Private\UI_Battle_Stage_Item.cpp" />

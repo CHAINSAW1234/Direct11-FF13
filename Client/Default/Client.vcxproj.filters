@@ -496,6 +496,9 @@
     <Filter Include="02.GameObjects\Blur\LoadingOutBlur">
       <UniqueIdentifier>{dc139ea8-b1c8-436b-8fc2-54e1d8713ae4}</UniqueIdentifier>
     </Filter>
+    <Filter Include="03.UI\Battle\Player_Battle\Stage\UI_Battle_Stage_Begin">
+      <UniqueIdentifier>{317b19de-3ce1-4abd-8fac-dc67734ad327}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\public\MainApp.h">
@@ -966,6 +969,9 @@
     <ClInclude Include="..\Public\LoadingOutBlur.h">
       <Filter>02.GameObjects\Blur\LoadingOutBlur</Filter>
     </ClInclude>
+    <ClInclude Include="..\Public\UI_Battle_Stage_Begin.h">
+      <Filter>03.UI\Battle\Player_Battle\Stage\UI_Battle_Stage_Begin</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\private\MainApp.cpp">
@@ -1417,6 +1423,9 @@
     </ClCompile>
     <ClCompile Include="..\Private\LoadingOutBlur.cpp">
       <Filter>02.GameObjects\Blur\LoadingOutBlur</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\UI_Battle_Stage_Begin.cpp">
+      <Filter>03.UI\Battle\Player_Battle\Stage\UI_Battle_Stage_Begin</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

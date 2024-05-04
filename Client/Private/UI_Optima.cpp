@@ -111,7 +111,8 @@ void CUI_Optima::OnNotify()
 {
 	m_strOptimaName = m_pPlayerInfo->Get_Current_Optima_Name();
 
-	if (m_pPlayerInfo->Get_Stage() == CPlayer_Battle::STAGE_WAIT_OPTIMA ||
+	if (m_pPlayerInfo->Get_Stage() == CPlayer_Battle::STAGE_BEGIN ||
+		m_pPlayerInfo->Get_Stage() == CPlayer_Battle::STAGE_WAIT_OPTIMA ||
 		m_pPlayerInfo->Get_Stage() == CPlayer_Battle::STAGE_FINISH) {
 		m_isRender = false;
 	}

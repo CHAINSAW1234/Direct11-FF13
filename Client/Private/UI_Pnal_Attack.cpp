@@ -94,6 +94,7 @@ HRESULT CUI_Pnal_Attack::Render_Font()
 void CUI_Pnal_Attack::Start()
 {
 	// 이 부분 수정 들어가야됨
+	m_isRender = true;
 	m_fSizeX = 150.f * m_iSize;
 	m_fSizeY = 30;
 	m_fMaskMovement = Random_Float(10);

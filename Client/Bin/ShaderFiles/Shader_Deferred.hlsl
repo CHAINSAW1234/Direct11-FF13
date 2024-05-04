@@ -6,8 +6,9 @@ matrix g_CamViewMatrix, g_CamProjMatrix;
 matrix g_LightViewMatrix, g_LightProjMatrix;
 matrix g_ViewMatrixInv, g_ProjMatrixInv;
 
-float g_Width;
-float g_Height;
+float g_fWidth;
+float g_fHeight;
+float g_fColorMagnification;
 
 texture2D g_Texture;
 texture2D g_NormalTexture;
@@ -32,11 +33,6 @@ float4 g_vMtrlAmbient = float4(1.f, 1.f, 1.f, 1.f);
 float4 g_vMtrlSpecular = float4(1.f, 1.f, 1.f, 1.f);
 
 float4 g_vCamPosition;
-
-float gaussian(float x, float sigma)
-{
-    return (1.0 / (sqrt(2.0 * 3.14159) * sigma)) * exp(-(x * x) / (2.0 * sigma * sigma));
-}
 
 struct VS_IN
 {
@@ -84,6 +80,11 @@ struct PS_OUT_LIGHT
     float4 vSpecular : SV_TARGET1;
 };
 
+struct PS_OUT_BLUR
+{
+    float4 vColor : SV_TARGET0;
+};
+
 PS_OUT PS_MAIN(PS_IN In)
 {
     PS_OUT Out = (PS_OUT) 0;
@@ -93,7 +94,22 @@ PS_OUT PS_MAIN(PS_IN In)
     return Out;
 }
 
-/* 빛 하나당 480000 수행되는 쉐이더. */
+PS_OUT PS_RENDER_TARGET(PS_IN In)
+{
+    PS_OUT Out = (PS_OUT) 0;
+
+    Out.vColor = g_Texture.Sample(LinearSampler, In.vTexcoord);
+    if (Out.vColor.a > 0.1)
+        discard;
+
+    return Out;
+    
+}
+
+float gaussian(float x, float sigma)
+{
+    return (1.0 / (sqrt(2.0 * 3.14159) * sigma)) * exp(-(x * x) / (2.0 * sigma * sigma));
+}
 
 float3 getPosition(in float2 uv)
 {
@@ -113,18 +129,7 @@ float3 getPosition(in float2 uv)
     
     vWorldPos = mul(vWorldPos, InverViewProj);
     
-    return mul(vWorldPos, g_ViewMatrix);
-
-	///* 로컬위치 * 월드행렬 * 뷰행렬 * 투영행렬 */
- //   vWorldPos *= fViewZ;
-    
-	///* 로컬위치 * 월드행렬 * 뷰행렬 */
- //   vWorldPos = mul(vWorldPos, g_ProjMatrixInv);
-
-	///* 로컬위치 * 월드행렬 */
- //   //vWorldPos = mul(vWorldPos, g_ViewMatrixInv);
-    
-   // return vWorldPos.xyz;
+    return mul(vWorldPos, g_ViewMatrix).xyz;
 }
 
 float doAmbientOcclusion(in float2 tcoord, in float2 uv, in float3 p, in float3 cnorm)
@@ -143,7 +148,7 @@ float CalcAmbientOcclusion(float2 Texcoord)
     float4 n = g_NormalTexture.Sample(PointSampler, Texcoord) * 2.f - 1.f;
     float2 rand = g_RandomNormalTexture.Sample(PointSampler, float2(1280, 720) * Texcoord / 900).xy * 2.f - 1.f;
     float ao = 0.0f;
-    float rad = 0.5 / p.z; // 샘플링 반경 : 1 임시값
+    float rad = 1 / p.z; // 샘플링 반경 : 1 임시값
   
     //**SSAO Calculation**// 
     int iterations = 4;
@@ -152,10 +157,10 @@ float CalcAmbientOcclusion(float2 Texcoord)
         float2 coord1 = reflect(vec[j], rand) * rad;
         float2 coord2 = float2(coord1.x * 0.707 - coord1.y * 0.707, coord1.x * 0.707 + coord1.y * 0.707);
     
-        ao += doAmbientOcclusion(Texcoord, coord1 * 0.25, p, n);
-        ao += doAmbientOcclusion(Texcoord, coord2 * 0.5, p, n);
-        ao += doAmbientOcclusion(Texcoord, coord1 * 0.75, p, n);
-        ao += doAmbientOcclusion(Texcoord, coord2, p, n);
+        ao += doAmbientOcclusion(Texcoord, coord1 * 0.25, p, n.xyz);
+        ao += doAmbientOcclusion(Texcoord, coord2 * 0.5, p, n.xyz);
+        ao += doAmbientOcclusion(Texcoord, coord1 * 0.75, p, n.xyz);
+        ao += doAmbientOcclusion(Texcoord, coord2, p, n.xyz);
 
     }
   
@@ -175,7 +180,6 @@ PS_OUT_LIGHT PS_MAIN_SSAO(PS_IN In)
     vector vDepthDesc = g_DepthTexture.Sample(PointSampler, In.vTexcoord);
     float fViewZ = vDepthDesc.y * 1000.0f;
 	
-    
     //Out.vShade =  1 - CalcAmbientOcclusion(In.vTexcoord);
     Out.vShade = g_vLightDiffuse * saturate(max(dot(normalize(g_vLightDir) * -1.f, vNormal), 0.f) + (1 - CalcAmbientOcclusion(In.vTexcoord)) * g_vMtrlAmbient);
 
@@ -307,7 +311,6 @@ PS_OUT PS_MAIN_FINAL(PS_IN In)
     return Out;
 }
 
-
 PS_OUT PS_SHADOW(PS_IN In)
 {
     PS_OUT Out = (PS_OUT) 0;
@@ -321,7 +324,6 @@ PS_OUT PS_SHADOW(PS_IN In)
     float fViewZ = vDepthDesc.y * 1000.0f;
 
     float4 vWorldPos;
-
 
 	/* 로컬위치 * 월드행렬 * 뷰행렬 * 투영행렬 / View.z */
     vWorldPos.x = In.vTexcoord.x * 2.f - 1.f;
@@ -349,36 +351,28 @@ PS_OUT PS_SHADOW(PS_IN In)
     
     vector vLightDepthDesc = g_LightDepthTexture.Sample(LinearSampler, vTexcoord);
 
-
 	/* vPosition.w : 현재 내가 그릴려고 했던 픽셀의 광원기준의 깊이. */
 	/* vLightDepthDesc.x * 2000.f : 현재 픽셀을 광원기준으로  그릴려고 했던 위치에 이미 그려져있떤 광원 기준의 깊이.  */
-
-    if (vDepthDesc.x !=0 && 
-        vPosition.w > (vLightDepthDesc.x * 2000.f))
-        Out.vColor *= 0.2f;
+    if (vDepthDesc.x != 0 &&
+        vPosition.w - 0.5 > (vLightDepthDesc.x * 2000.f))
+            Out.vColor *= 0.6f;
   
-    
     return Out;
 }
 
-struct PS_OUT_BLUR
-{
-    float4 vColor : SV_TARGET0;
-};
-
-const int iKernel_Size = 13;
-
 PS_OUT_BLUR PS_BLUR(PS_IN In)
 {
+    const int iKernel_Size = 13;
+    
     PS_OUT Out = (PS_OUT) 0;
 
-    float UVWidth = 1 / g_Width;
-    float UVHeight = 1 / g_Height;
+    float UVWidth = 1 / g_fWidth;
+    float UVHeight = 1 / g_fHeight;
     float sigma = (iKernel_Size - 1)/6;
     float fTotalWeight = 0;
-    for (int i = -iKernel_Size; i < iKernel_Size; ++i)
+    for (int i = -iKernel_Size; i <= iKernel_Size; ++i)
     {
-        for (int j = -iKernel_Size; j < iKernel_Size; ++j)
+        for (int j = -iKernel_Size; j <= iKernel_Size; ++j)
         {
             float2 fTexcoord = { In.vTexcoord.x + UVWidth * i, In.vTexcoord.y + UVHeight * j };
             float fWeight = gaussian(length(fTexcoord), sigma);
@@ -388,11 +382,53 @@ PS_OUT_BLUR PS_BLUR(PS_IN In)
     }
     
     Out.vColor /= fTotalWeight;
-    Out.vColor *= 1.5f;
+    Out.vColor *= g_fColorMagnification;
     return Out;
 }
 
-PS_OUT PS_BLURFINAL(PS_IN In)
+PS_OUT_BLUR PS_BILATERAL_BLUR(PS_IN In)
+{
+    const int iKernel_Size = 13;
+    
+    PS_OUT Out = (PS_OUT) 0;
+
+    float UVWidth = 1 / g_fWidth;
+    float UVHeight = 1 / g_fHeight;
+    float sigma = (iKernel_Size - 1) / 6;
+   
+    float4 vCenterColor = g_Texture.Sample(LinearSampler, In.vTexcoord);
+    float fCenterDepth = vCenterColor.a; //???
+    
+    float4 vfilteredColor = float4(0.0f, 0.0f, 0.0f, 0.0f);
+    float fTotalWeight = 0.f;
+
+    float sigmaColor = 1.f;
+    float sigmaSpace = 100.f;
+    
+    for (int i = -iKernel_Size; i < iKernel_Size; ++i)
+    {
+        for (int j = -iKernel_Size; j < iKernel_Size; ++j)
+        {
+            float2 fTexcoord = { In.vTexcoord.x + UVWidth * i, In.vTexcoord.y + UVHeight * j };
+            float4 vSampleColor = g_Texture.Sample(LinearSampler, fTexcoord);
+            float fSampleDepth = vSampleColor.a; //???
+            
+            float fColorWeight = exp(-pow(abs(vCenterColor.rgb - vSampleColor.rgb), 2.0f) / (2.0f * sigmaColor * sigmaColor));
+            float fDepthWeight = exp(-pow(abs(fCenterDepth - fSampleDepth), 2.0f) / (2.0f * sigmaSpace * sigmaSpace));
+            float fWeight = fColorWeight * fDepthWeight;
+            
+            vfilteredColor += vSampleColor * fWeight;
+            fTotalWeight += fWeight;
+        }
+    }
+
+    
+    Out.vColor = vfilteredColor / fTotalWeight;
+    Out.vColor *= g_fColorMagnification;
+    return Out;
+}
+
+PS_OUT PS_BLUR_FINAL(PS_IN In)
 {
     PS_OUT Out = (PS_OUT) 0;
     
@@ -438,18 +474,31 @@ technique11 DefaultTechnique
         PixelShader = compile ps_5_0 PS_MAIN_DIRECTIONAL();
     }
 
-    pass Light_Point    //2
+    pass Render_Target // 2 : 렌더 타겟을 합치는 용도
     {
         SetRasterizerState(RS_Default);
         SetDepthStencilState(DSS_NO_TEST_WRITE, 0);
-        SetBlendState(BS_Blend, float4(0.f, 0.f, 0.f, 0.f), 0xffffffff);
+        SetBlendState(BS_Default, float4(0.f, 0.f, 0.f, 0.f), 0xffffffff);
 
         VertexShader = compile vs_5_0 VS_MAIN();
         GeometryShader = /*compile gs_5_0 GS_MAIN()*/NULL;
         HullShader = /*compile hs_5_0 HS_MAIN()*/NULL;
         DomainShader = /*compile ds_5_0 DS_MAIN()*/NULL;
-        PixelShader = compile ps_5_0 PS_MAIN_POINT();
+        PixelShader = compile ps_5_0 PS_RENDER_TARGET();
     }
+
+    //pass Light_Point    //2
+    //{
+    //    SetRasterizerState(RS_Default);
+    //    SetDepthStencilState(DSS_NO_TEST_WRITE, 0);
+    //    SetBlendState(BS_Blend, float4(0.f, 0.f, 0.f, 0.f), 0xffffffff);
+
+    //    VertexShader = compile vs_5_0 VS_MAIN();
+    //    GeometryShader = /*compile gs_5_0 GS_MAIN()*/NULL;
+    //    HullShader = /*compile hs_5_0 HS_MAIN()*/NULL;
+    //    DomainShader = /*compile ds_5_0 DS_MAIN()*/NULL;
+    //    PixelShader = compile ps_5_0 PS_MAIN_POINT();
+    //}
 
     pass Final //3
     {
@@ -477,7 +526,7 @@ technique11 DefaultTechnique
         PixelShader = compile ps_5_0 PS_BLUR();
     }
 
-    pass BlurFinal  //5
+    pass Blur_Final  //5
     {
         SetRasterizerState(RS_Default);
         SetDepthStencilState(DSS_NO_TEST_WRITE, 0);
@@ -487,7 +536,7 @@ technique11 DefaultTechnique
         GeometryShader = /*compile gs_5_0 GS_MAIN()*/NULL;
         HullShader = /*compile hs_5_0 HS_MAIN()*/NULL;
         DomainShader = /*compile ds_5_0 DS_MAIN()*/NULL;
-        PixelShader = compile ps_5_0 PS_BLURFINAL();
+        PixelShader = compile ps_5_0 PS_BLUR_FINAL();
     }
 
     pass SSAO   //6

@@ -172,7 +172,7 @@ void CCamera_Battle::Update_With_Mouse(_float fTimeDelta)
             m_fMouseMoveXAxis = 0;
         }
     }
-    m_pTransformCom->Turn_With_Look_At(XMVectorSet(0.f, 1.f, 0.f, 0.f), vTargetPosition, m_fDist, fTimeDelta * sin(XMConvertToRadians(m_fMouseMoveXAxis)) * m_MouseMoveX * m_fMouseSensor);
+    m_pTransformCom->Turn_With_Look_At(XMVectorSet(0.f, 1.f, 0.f, 0.f), vTargetPosition, m_fDist, fTimeDelta * sin(XMConvertToRadians(m_fMouseMoveXAxis)) * m_MouseMoveX * m_fMouseSensor, m_fYOffset);
 
     if (MouseMove = m_pGameInstance->Get_DIMouseMove(DIMMS_Y))
     {
@@ -188,7 +188,7 @@ void CCamera_Battle::Update_With_Mouse(_float fTimeDelta)
 
     // y축 각도 제한 걸기
     // y축 거리 차이가 fDist / sqrt(2)인 경우에만 작동
-    m_pTransformCom->Turn_With_Look_At(m_pTransformCom->Get_State_Vector(CTransform::STATE_RIGHT), vTargetPosition, m_fDist, fTimeDelta * sin(XMConvertToRadians(m_fMouseMoveYAxis)) * m_MouseMoveY * m_fMouseSensor, (_int)round(XMConvertToDegrees(asin((m_fYOffset-0.01f) / m_fDist))));
+    m_pTransformCom->Turn_With_Look_At(m_pTransformCom->Get_State_Vector(CTransform::STATE_RIGHT), vTargetPosition, m_fDist, fTimeDelta * sin(XMConvertToRadians(m_fMouseMoveYAxis)) * m_MouseMoveY * m_fMouseSensor, m_fYOffset, (_int)round(XMConvertToDegrees(asin((m_fYOffset-0.01f) / m_fDist))));
 
 }
 

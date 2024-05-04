@@ -63,7 +63,7 @@ HRESULT CRenderer::Initialize()
 		return E_FAIL;
 
 	/* For.Target_Blur */
-	if (FAILED(m_pGameInstance->Add_RenderTarget(TEXT("Target_Blur"), ViewportDesc.Width, ViewportDesc.Height, DXGI_FORMAT_R8G8B8A8_UNORM, _float4(0.f, 0.f, 0.f, 0.f))))
+	if (FAILED(m_pGameInstance->Add_RenderTarget(TEXT("Target_Blur"), ViewportDesc.Width, ViewportDesc.Height, DXGI_FORMAT_R16G16B16A16_UNORM, _float4(0.f, 0.f, 0.f, 0.f))))
 		return E_FAIL;
 
 #pragma region SSAO
@@ -88,7 +88,7 @@ HRESULT CRenderer::Initialize()
 		return E_FAIL;
 
 	/* For.Target_SSAO_Blur */
-	if (FAILED(m_pGameInstance->Add_RenderTarget(TEXT("Target_SSAO_Blur"), ViewportDesc.Width, ViewportDesc.Height, DXGI_FORMAT_R8G8B8A8_UNORM, _float4(0.f, 0.f, 0.f, 0.f))))
+	if (FAILED(m_pGameInstance->Add_RenderTarget(TEXT("Target_SSAO_Blur"), ViewportDesc.Width, ViewportDesc.Height, DXGI_FORMAT_R16G16B16A16_UNORM, _float4(0.f, 0.f, 0.f, 0.f))))
 		return E_FAIL;
 #pragma endregion
 
@@ -119,6 +119,10 @@ HRESULT CRenderer::Initialize()
 	if (FAILED(m_pGameInstance->Add_MRT(TEXT("MRT_GameObjects"), TEXT("Target_Normal"))))
 		return E_FAIL;
 	if (FAILED(m_pGameInstance->Add_MRT(TEXT("MRT_GameObjects"), TEXT("Target_Depth"))))
+		return E_FAIL;
+
+	/* MRT_Depth : 그림자 연산을 위해 깊이를 합친다 */
+	if (FAILED(m_pGameInstance->Add_MRT(TEXT("MRT_Depth"), TEXT("Target_SSAO_Depth"))))
 		return E_FAIL;
 
 	/* MRT_LightAcc : 빛들의 연산결과 정보를 받아오기위한 렌더타겟들이다. */
@@ -389,6 +393,8 @@ HRESULT CRenderer::Render_SSAO_Lights()
 
 HRESULT CRenderer::Render_SSAO_Blur()
 {
+	_float fColorMagnification = 1.f;
+
 	// 셰이드에 블러를 먹인다
 	if (FAILED(m_pGameInstance->Begin_MRT(TEXT("MRT_SSAO_Blur"))))
 		return E_FAIL;
@@ -400,10 +406,13 @@ HRESULT CRenderer::Render_SSAO_Blur()
 	if (FAILED(m_pShader->Bind_Matrix("g_ProjMatrix", &m_ProjMatrix)))
 		return E_FAIL;
 
-	if (FAILED(m_pShader->Bind_RawValue("g_Width", &m_fViewPortWidth, sizeof(_float))))
+	if (FAILED(m_pShader->Bind_RawValue("g_fWidth", &m_fViewPortWidth, sizeof(_float))))
 		return E_FAIL;
 
-	if (FAILED(m_pShader->Bind_RawValue("g_Height", &m_fViewPortHeight, sizeof(_float))))
+	if (FAILED(m_pShader->Bind_RawValue("g_fHeight", &m_fViewPortHeight, sizeof(_float))))
+		return E_FAIL;
+
+	if (FAILED(m_pShader->Bind_RawValue("g_fColorMagnification", &fColorMagnification, sizeof(_float))))
 		return E_FAIL;
 
 	if (FAILED(m_pGameInstance->Bind_RTShaderResource(m_pShader, TEXT("Target_SSAO_Shade"), "g_Texture")))
@@ -503,6 +512,23 @@ HRESULT CRenderer::Render_Shadow()
 	ViewPortDesc.MaxDepth = 1.f;
 
 	m_pContext->RSSetViewports(1, &ViewPortDesc);
+
+	// 깊이 렌더 타겟들을 합친다
+
+	if (FAILED(m_pGameInstance->Begin_MRT(TEXT("MRT_Depth"))))
+		return E_FAIL;
+
+	if (FAILED(m_pGameInstance->Bind_RTShaderResource(m_pShader, TEXT("Target_Depth"), "g_Texture")))
+		return E_FAIL;
+
+	m_pShader->Begin(2);
+
+	m_pVIBuffer->Bind_Buffers();
+
+	m_pVIBuffer->Render();
+
+	if (FAILED(m_pGameInstance->End_MRT()))
+		return E_FAIL;
 
 	// 최종 그림자 연산
 
@@ -622,6 +648,7 @@ HRESULT CRenderer::Render_UI_Late()
 
 HRESULT CRenderer::Render_Bright()
 {
+	// Bright 타겟을 그림
 	if (FAILED(m_pGameInstance->Begin_MRT(TEXT("MRT_Bright"))))
 		return E_FAIL;
 
@@ -636,6 +663,10 @@ HRESULT CRenderer::Render_Bright()
 	if (FAILED(m_pGameInstance->End_MRT()))
 		return E_FAIL;
 
+
+	// Bright 타겟에 블러를 먹임
+	_float fColorMagnification = 1.5f;
+
 	if (FAILED(m_pGameInstance->Begin_MRT(TEXT("MRT_Blur"))))
 		return E_FAIL;
 
@@ -646,10 +677,13 @@ HRESULT CRenderer::Render_Bright()
 	if (FAILED(m_pShader->Bind_Matrix("g_ProjMatrix", &m_ProjMatrix)))
 		return E_FAIL;
 
-	if (FAILED(m_pShader->Bind_RawValue("g_Width", &m_fViewPortWidth, sizeof(_float))))
+	if (FAILED(m_pShader->Bind_RawValue("g_fWidth", &m_fViewPortWidth, sizeof(_float))))
 		return E_FAIL;
 
-	if (FAILED(m_pShader->Bind_RawValue("g_Height", &m_fViewPortHeight, sizeof(_float))))
+	if (FAILED(m_pShader->Bind_RawValue("g_fHeight", &m_fViewPortHeight, sizeof(_float))))
+		return E_FAIL;
+
+	if (FAILED(m_pShader->Bind_RawValue("g_fColorMagnification", &fColorMagnification, sizeof(_float))))
 		return E_FAIL;
 
 	if (FAILED(m_pGameInstance->Bind_RTShaderResource(m_pShader, TEXT("Target_Bright"), "g_Texture")))
@@ -663,6 +697,8 @@ HRESULT CRenderer::Render_Bright()
 
 	if (FAILED(m_pGameInstance->End_MRT()))
 		return E_FAIL;
+
+	// 원본 텍스처와 블러를 먹인 텍스처를 혼합
 
 	if (FAILED(m_pGameInstance->Bind_RTShaderResource(m_pShader, TEXT("Target_Bright"), "g_Texture")))
 		return E_FAIL;

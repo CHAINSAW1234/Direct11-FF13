@@ -59,7 +59,7 @@ HRESULT CLevel_Parsing::Ready_Models()
 	//TransformMatrix = XMMatrixRotationY(XMConvertToRadians(180.0f));
 	//TransformMatrix.r[3].m128_f32[1] = -5.f;
 
-	path = "../Bin/Resources/Models/MapObject/MapObject/Map_BossBattle_1.fbx";
+	path = "../Bin/Resources/Models/SkyBox//SkyBox.fbx";
 
 	CModel* pModel = { nullptr };
 	pModel = CModel::Create(m_pDevice, m_pContext, CModel::TYPE_NONANIM, path, TransformMatrix);
@@ -75,7 +75,7 @@ HRESULT CLevel_Parsing::Parse_Models()
 {
 	string path = "";
 
-	path = "../Bin/Resources/Models/MapObject/MapObject/Map_BossBattle_1.bin";
+	path = "../Bin/Resources/Models/SkyBox//SkyBox.bin";
 	if (FAILED(m_Models[0]->Save_Model(path)))
 		return E_FAIL;
 

@@ -47,6 +47,7 @@ HRESULT CUI_Number::Initialize(void* pArg)
 	m_iCurNumber = max(m_iCurNumber, 1);
 	m_iStartNumber = m_iCurNumber;
 
+	m_isRender = true;
 	return S_OK;
 }
 

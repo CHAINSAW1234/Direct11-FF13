@@ -255,6 +255,7 @@ void CChr_Battle_Light::Use_Item()
             if (FAILED(CEffect::Read_File_NoLoop("../Bin/Resources/Effect/Heal_Camera_Look_Instance.dat", m_pGameInstance, m_pDevice, m_pContext, vPos)))
                 return;
         }
+        m_pGameInstance->PlaySoundDuplicate(TEXT("Potion.wav"), CSound_Manager::EFFECT_DUPLICATE, SOUND_DEFAULT);
 
     }
     break;
@@ -270,6 +271,7 @@ void CChr_Battle_Light::Use_Item()
 
                 if (FAILED(CEffect::Read_File_NoLoop("../Bin/Resources/Effect/Heal_Camera_Look_Instance.dat", m_pGameInstance, m_pDevice, m_pContext, vPos)))
                     return;
+                m_pGameInstance->PlaySoundDuplicate(TEXT("Potion.wav"), CSound_Manager::EFFECT_DUPLICATE, SOUND_DEFAULT);
             }
         }
 
@@ -290,6 +292,7 @@ void CChr_Battle_Light::Use_Item()
                 if (FAILED(CEffect::Read_File_NoLoop("../Bin/Resources/Effect/Heal_Camera_Look_Instance.dat", m_pGameInstance, m_pDevice, m_pContext, vPos)))
                     return;
             }
+            m_pGameInstance->PlaySoundDuplicate(TEXT("Potion.wav"), CSound_Manager::EFFECT_DUPLICATE, SOUND_DEFAULT);
 
         }
     }
@@ -543,13 +546,13 @@ void CChr_Battle_Light::Show_ImGUI()
 void CChr_Battle_Light::Determine_Action_Based_On_Command()
 {
     // IDLE일때만 사용하시오
-    if (nullptr != m_pCommands &&
+    if (CInventory::ITEM_END != m_eItem) {
+        Change_State(ITEM);
+    }
+    else if (nullptr != m_pCommands &&
         0 != Get_Command_Cost_Sum() &&
         m_fATB >= Get_Command_Cost_Sum()) {
         Change_State(ATTACK);
-    }
-    else if (CInventory::ITEM_END !=  m_eItem) {
-        Change_State(ITEM);
     }
 }
 

@@ -101,6 +101,7 @@ HRESULT CUI_Skill::Render()
 
 void CUI_Skill::Start()
 {
+    m_isRender = true;
     m_fSizeX = m_strSkillName.size() * 25.f;
     m_fSizeY = 30.f;
     m_pTransformCom->Set_Scaled(m_fSizeX, m_fSizeY, 1.f);

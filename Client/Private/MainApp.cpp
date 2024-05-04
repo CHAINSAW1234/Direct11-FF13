@@ -45,6 +45,7 @@ HRESULT CMainApp::Initialize()
 	//eLevel = LEVEL_PARSING;
 	//eLevel = LEVEL_LOGO;
 	eLevel = LEVEL_FIELD;
+	//eLevel = LEVEL_FIELD_BOSS;
 	//eLevel = LEVEL_BATTLE;
 	//eLevel = LEVEL_BOSS_BATTLE;
 	

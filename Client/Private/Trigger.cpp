@@ -43,6 +43,7 @@ void CTrigger::Tick(_float fTimeDelta)
         return;
 
     if (m_pColliderCom->Intersect(pCollider)) {
+        m_pGameInstance->Save_BackBuffer(TEXT("../Bin/DataFiles/Blur.dds"));
         m_pGameInstance->Open_Level(LEVEL_LOADING, CLevel_Loading::Create(m_pDevice, m_pContext, LEVEL_FIELD_BOSS));
 
     }

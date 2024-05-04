@@ -4,6 +4,7 @@
 
 BEGIN(Client)
 class CChr_Battle;
+class CPlayer_Battle;
 
 class CUI_Chr final : public CUI
 {
@@ -11,12 +12,13 @@ public:
 	// 플레이어 체력은 직교 투영한다
 	typedef struct UI_Chr_Desc : public CUI::UI_DESC
 	{
+		CPlayer_Battle* pPlayer_Battle = { nullptr };
 		CChr_Battle* pChr_Battle = { nullptr };
 		_float3 vStartPosition;
 		_float3 vTargetPosition;
 	} UI_CHR_DESC;
 
-protected:
+private:
 	CUI_Chr(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);
 	CUI_Chr(const CUI& rhs);
 	virtual ~CUI_Chr() = default;
@@ -31,7 +33,7 @@ public:
 	virtual void	Start();
 	virtual void	OnNotify() override;
 
-protected:
+private:
 	virtual HRESULT Bind_ShaderResources();
 	HRESULT Add_Components();
 
@@ -41,16 +43,17 @@ protected:
 
 	void Update_Hp(_float fTimeDelta);
 	virtual void Move(_float fTimeDelta);		// 현재 위치에서 목표 위치로의 이동, 선형 보간
+	void Reset_Position();
 
 private:
 	CTexture* m_pTextureGradCom = { nullptr };		// 점멸용
 
+	CPlayer_Battle* m_pPlayer_Battle = { nullptr };
 	CChr_Battle* m_pChr_Battle = { nullptr };
 
 	_bool	m_isMoved = { true };					// 이 애니메이션이 이동을 하는지에 대한 처리? -> 등장시에 처리될 예정
 
-
-	_float4 m_vColor = { 0.f,1.f,0.f,1.f };			// 색깔 빨걍 -> 노랑 -> 초록
+	_float4 m_vColor = { 0.f,1.f,0.f,1.f };			// 색깔 빨강 -> 노랑 -> 초록
 	_int	m_iMaxHp = { 1 };						// 플레이어의 전체 체력 
 	_int	m_iHp = { 0 };							// 플레이어의 체력
 	_int	m_iStartHp = { 0 };						// 선형 보간을 위한, 체력 변화시의 UI 체력

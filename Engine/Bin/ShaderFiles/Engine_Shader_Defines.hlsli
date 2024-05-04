@@ -43,7 +43,7 @@ RasterizerState RS_CullNone
 RasterizerState RS_Sky
 {
     FillMode = Solid;
-    CullMode = Front;
+    CullMode = None;
     FrontCounterClockwise = false;
 };
 

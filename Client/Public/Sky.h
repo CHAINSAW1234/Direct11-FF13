@@ -26,8 +26,7 @@ public:
 	virtual HRESULT Render() override;
 
 private:
-	CVIBuffer_Cube* m_pVIBufferCom = { nullptr };
-	CTexture* m_pTextureCom = { nullptr };
+	CModel* m_pModelCom = { nullptr };
 	CShader* m_pShaderCom = { nullptr };
 
 private:

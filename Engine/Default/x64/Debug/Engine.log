@@ -1,11 +1,5 @@
 ﻿FXC : warning X4717: Effects deprecated for D3DCompiler_47
-C:\Users\stgo5015\Documents\GitHub\Direct11_FF13\Engine\Bin\ShaderFiles\Shader_Deferred.hlsl(116,5-40): warning X3206: implicit truncation of vector type
-C:\Users\stgo5015\Documents\GitHub\Direct11_FF13\Engine\Bin\ShaderFiles\Shader_Deferred.hlsl(155,15-63): warning X3206: 'doAmbientOcclusion': implicit truncation of vector type
-C:\Users\stgo5015\Documents\GitHub\Direct11_FF13\Engine\Bin\ShaderFiles\Shader_Deferred.hlsl(156,15-62): warning X3206: 'doAmbientOcclusion': implicit truncation of vector type
-C:\Users\stgo5015\Documents\GitHub\Direct11_FF13\Engine\Bin\ShaderFiles\Shader_Deferred.hlsl(157,15-63): warning X3206: 'doAmbientOcclusion': implicit truncation of vector type
-C:\Users\stgo5015\Documents\GitHub\Direct11_FF13\Engine\Bin\ShaderFiles\Shader_Deferred.hlsl(158,15-56): warning X3206: 'doAmbientOcclusion': implicit truncation of vector type
-C:\Users\stgo5015\Documents\GitHub\Direct11_FF13\Engine\Bin\ShaderFiles\Shader_Deferred.hlsl(369,11-27): warning X3207: Initializer used on a global 'const' variable. This requires setting an external constant. If a literal is desired, use 'static const' instead.
-C:\Users\stgo5015\Documents\GitHub\Direct11_FF13\Engine\Bin\ShaderFiles\Shader_Deferred.hlsl(377,19-38): warning X3556: integer divides may be much slower, try using uints if possible.
+C:\Users\stgo5015\Documents\GitHub\Direct11_FF13\Engine\Bin\ShaderFiles\Shader_Deferred.hlsl(416,19-125): warning X3206: implicit truncation of vector type
   
   compilation object save succeeded; see C:\Users\stgo5015\Documents\GitHub\Direct11_FF13\Engine\Bin\Shader_Deferred.cso
   Engine.vcxproj -> C:\Users\stgo5015\Documents\GitHub\Direct11_FF13\Engine\Bin\Engine.dll

@@ -323,7 +323,7 @@ void CUI_Chain::Update_Ratio()
 	}
 
 	if (m_isBreak) {
-		m_fRatio = m_fCurRatio = (20.f - m_fBreakTimeDelta) / 20.f;
+		m_fRatio = m_fCurRatio = (30.f - m_fBreakTimeDelta) / 30.f;
 	}
 	else {
   		m_fRatio = (m_fChain - 100.f) / (m_fStagger - 100.f);

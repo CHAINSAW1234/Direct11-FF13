@@ -279,12 +279,12 @@ void CMonster::Add_Chain(_float fChain)
 {
     _float fCalChain = fChain + 1.f + Random_Float(2.f);
 
-    if (!m_isBreak) {
+    if (!m_isBreak)
         fCalChain *= (100 - m_fChainResist) / 100.f * 0.5f;
-    }
-
+    
     m_fChain += fCalChain;
     m_fCurChain = m_fChain;
+
     m_fMagnification = 1 / (m_fStagger - 100) * 0.1f;
     if (!m_isBreak && m_fChain >= m_fStagger) {
         m_fChain = m_fStagger + 100.f;

@@ -44,7 +44,7 @@ protected:
 	CShader*		m_pShaderCom = { nullptr };
 	CVIBuffer_Rect* m_pVIBufferCom = { nullptr };
 
-	_bool			m_isRender = { true };
+	_bool			m_isRender = { false };
 	//_float			m_fX = { 0.f };					// x축 기준의 중점
 	//_float			m_fY = { 0.f };					// y축 기준의 중점 	
 	_float			m_fSizeX = { 0.f };

@@ -23,7 +23,7 @@ class CPlayer_Battle final : public CBase, public CObserver_Handler
 {
 public:
 	enum UISTAGE  { STAGE_SELECT, STAGE_TARGET, STAGE_COMMAND, STAGE_ITEM, STAGE_TARGET_MEMBER, STAGE_OPTIMA,
-		STAGE_WAIT, STAGE_WAIT_OPTIMA, STAGE_FINISH, STAGE_END };
+		STAGE_WAIT, STAGE_WAIT_OPTIMA, STAGE_BEGIN, STAGE_FINISH, STAGE_END };
 private:
 	CPlayer_Battle();
 	~CPlayer_Battle() = default;

@@ -27,6 +27,8 @@ void CUI_Battle_Stage_Target::OnStateEnter()
 		m_pPlayer_Battle->Set_CursorPosition(m_Pnals[m_iCursor]->Get_TargetPosition());
 	}
 
+	m_pPlayer_Battle->Change_Chain_Target(m_pPlayer_Battle->Get_Monsters()[m_iCursor]);
+
 }
 
 void CUI_Battle_Stage_Target::OnStateUpdate(_float fTimeDelta)

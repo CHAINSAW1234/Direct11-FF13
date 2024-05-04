@@ -1,7 +1,7 @@
 #include "stdafx.h"
 #include "UI_Chr.h"
 #include "Chr_Battle.h"
-
+#include "Player_Battle.h"
 CUI_Chr::CUI_Chr(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
 	: CUI{ pDevice, pContext }
 {
@@ -25,6 +25,7 @@ HRESULT CUI_Chr::Initialize(void* pArg)
 	UI_CHR_DESC* pUI_Chr_Desc = (UI_CHR_DESC*)pArg;
 	m_vStartPosition = pUI_Chr_Desc->vStartPosition;
 	m_vTargetPosition = pUI_Chr_Desc->vTargetPosition;
+	m_pPlayer_Battle = pUI_Chr_Desc->pPlayer_Battle;
 	m_pChr_Battle = pUI_Chr_Desc->pChr_Battle;
 	if (nullptr == m_pChr_Battle)
 		return E_FAIL;
@@ -35,9 +36,10 @@ HRESULT CUI_Chr::Initialize(void* pArg)
 	if (FAILED(Add_Components()))
 		return E_FAIL;
 
+	Safe_AddRef(m_pPlayer_Battle);
+	m_pPlayer_Battle->RegisterObserver(this);
 	Safe_AddRef(m_pChr_Battle);
 	m_pChr_Battle->RegisterObserver(this);
-
 	return S_OK;
 }
 
@@ -114,6 +116,15 @@ void CUI_Chr::Start()
 
 void CUI_Chr::OnNotify()
 {
+	if (m_pPlayer_Battle->Get_Stage() == CPlayer_Battle::STAGE_BEGIN ||
+		m_pPlayer_Battle->Get_Stage() == CPlayer_Battle::STAGE_FINISH) {
+		m_isRender = false;
+	}
+	else if (!m_isRender) {
+		Reset_Position();
+		m_isRender = true;
+	}
+
 	m_iHp = m_pChr_Battle->Get_Hp();
 	if (m_iHp != m_iCurHp) {
 		m_iStartHp = m_iCurHp;
@@ -201,7 +212,6 @@ HRESULT CUI_Chr::Render_Role()
 
 HRESULT CUI_Chr::Render_Hp()
 {
-
 	wstring strHp = to_wstring(m_iCurHp);
 
 	if (FAILED(m_pGameInstance->Render_Font(g_strFont10Tag, TEXT("HP"), { m_vFont_HpPosition.x - 1, m_vFont_HpPosition.y - 1 }, XMVectorSet(0.f, 0.f, 0.f, 1.f), 0.f)))
@@ -214,9 +224,9 @@ HRESULT CUI_Chr::Render_Hp()
 	if (FAILED(m_pGameInstance->Render_Font(g_strFont10Tag, TEXT("HP"), { m_vFont_HpPosition.x + 1, m_vFont_HpPosition.y + 1 }, XMVectorSet(0.f, 0.f, 0.f, 1.f), 0.f)))
 		return E_FAIL;
 	if (FAILED(m_pGameInstance->Render_Font(g_strFont10Tag, TEXT("HP"), { m_vFont_HpPosition.x, m_vFont_HpPosition.y }, XMVectorSet(0.f, 1.f, 0.f, 1.f), 0.f)))
-		return E_FAIL;
+			return E_FAIL;
 
-	if (FAILED(m_pGameInstance->Render_Font(g_strFontNum24Tag, strHp, { m_vFont_HpPosition.x + 23, m_vFont_HpPosition.y  }, XMVectorSet(1.f, 1.f, 1.f, 1.f), 0.f)))
+	if (FAILED(m_pGameInstance->Render_Font(g_strFontNum24Tag, strHp, { m_vFont_HpPosition.x + 23, m_vFont_HpPosition.y }, XMVectorSet(1.f, 1.f, 1.f, 1.f), 0.f)))
 		return E_FAIL;
 
 	return S_OK;
@@ -274,6 +284,12 @@ void CUI_Chr::Move(_float fTimeDelta)
 
 }
 
+void CUI_Chr::Reset_Position()
+{
+	m_pTransformCom->Set_State(CTransform::STATE_POSITION, XMVectorSetW(XMLoadFloat3(&m_vStartPosition), 1.f));
+	m_fMoveTimeDelta = 0.f;
+}
+
 CUI_Chr* CUI_Chr::Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
 {
 	CUI_Chr* pInstance = new CUI_Chr(pDevice, pContext);
@@ -308,5 +324,6 @@ void CUI_Chr::Free()
 	
 	Safe_Release(m_pTextureGradCom);
 	
+	Safe_Release(m_pPlayer_Battle);
 	Safe_Release(m_pChr_Battle);
 }

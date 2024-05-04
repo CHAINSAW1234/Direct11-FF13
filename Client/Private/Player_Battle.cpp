@@ -13,6 +13,7 @@
 #include "UI_Battle_Stage_Optima.h"
 #include "UI_Battle_Stage_Wait_Optima.h"
 #include "UI_Battle_Stage_Wait.h"
+#include "UI_Battle_Stage_Begin.h"
 #include "UI_Battle_Stage_Finish.h"
 
 #include "UI_Pnal_Attack.h"
@@ -142,7 +143,6 @@ void CPlayer_Battle::Add_Item(CUI_Pnal_Item* pPnal_Item)
 	vTargetPosition.x += 75;
 
 	pPnal_Item->Set_TargetPosition(true, vTargetPosition);
-
 
 	m_pCommand_Item = pPnal_Item;
 	Safe_AddRef(pPnal_Item);
@@ -329,9 +329,10 @@ HRESULT CPlayer_Battle::Add_Component_FSM()
 	m_pFSMCom->Add_State(STAGE_OPTIMA, CUI_Battle_Stage_Optima::Create(this));
 	m_pFSMCom->Add_State(STAGE_WAIT, CUI_Battle_Stage_Wait::Create(this));
 	m_pFSMCom->Add_State(STAGE_WAIT_OPTIMA, CUI_Battle_Stage_Wait_Optima::Create(this));
+	m_pFSMCom->Add_State(STAGE_BEGIN, CUI_Battle_Stage_Begin::Create(this));
 	m_pFSMCom->Add_State(STAGE_FINISH, CUI_Battle_Stage_Finish::Create(this));
 
-	Change_Stage(STAGE_SELECT);
+	Change_Stage(STAGE_BEGIN);
 
 	return S_OK;
 }
@@ -340,13 +341,13 @@ void CPlayer_Battle::Create_UI()
 {
 	CUI_Chr* pUI_Chr = { nullptr };
 	CUI_Chr::UI_CHR_DESC UI_Chr_Desc = {};
+	UI_Chr_Desc.pPlayer_Battle = this;
 	UI_Chr_Desc.pChr_Battle = m_pLeader;
 	UI_Chr_Desc.vStartPosition = { g_iWinSizeX * 0.5f, -200.f,0.f };
 	UI_Chr_Desc.vTargetPosition = { 300.f,-200.f,0.f };
 
-	pUI_Chr = dynamic_cast<CUI_Chr*>(m_pGameInstance->Add_Clone_With_Object(g_Level, TEXT("Layer_UI"), TEXT("Prototype_GameObject_UI_Chr"), &UI_Chr_Desc));
-	
-	m_pUI_Chr.push_back(pUI_Chr);
+	if(FAILED(m_pGameInstance->Add_Clone(g_Level, TEXT("Layer_UI"), TEXT("Prototype_GameObject_UI_Chr"), &UI_Chr_Desc)))
+		return ;
 
 	for (auto& pChr : m_Memebers) {
 		UI_Chr_Desc.pChr_Battle = pChr;
@@ -355,18 +356,16 @@ void CPlayer_Battle::Create_UI()
 		UI_Chr_Desc.vTargetPosition.x += 40.f;
 		UI_Chr_Desc.vTargetPosition.y -= 30.f;
 
-		pUI_Chr = dynamic_cast<CUI_Chr*>(m_pGameInstance->Add_Clone_With_Object(g_Level, TEXT("Layer_UI"), TEXT("Prototype_GameObject_UI_Chr"), &UI_Chr_Desc));
-		m_pUI_Chr.push_back(pUI_Chr);
+		if (FAILED(m_pGameInstance->Add_Clone(g_Level, TEXT("Layer_UI"), TEXT("Prototype_GameObject_UI_Chr"), &UI_Chr_Desc)))
+			return;
 	}
 	
-	for (auto& pUI : m_pUI_Chr)
-		Safe_AddRef(pUI);
 
 	m_pUI_Chain = dynamic_cast<CUI_Chain*>(m_pGameInstance->Add_Clone_With_Object(g_Level, TEXT("Layer_UI"), TEXT("Prototype_GameObject_UI_Chain")));
 	Safe_AddRef(m_pUI_Chain);
 
-	Change_Chain_Target(m_Monsters[0]);
-	m_Monsters[0]->Set_isTarget(true);
+	//Change_Chain_Target(m_Monsters[0]);
+	//m_Monsters[0]->Set_isTarget(true);
 
 	CUI::UI_DESC pUI_Desc = {};
 	pUI_Desc.pObserver_Hander = this;
@@ -460,7 +459,7 @@ void CPlayer_Battle::Check_Finish()
 			Command->Set_Render(false);
 		}
 
-		if(nullptr != m_pCommand_Item)
+		if( nullptr != m_pCommand_Item )
 			m_pCommand_Item->Set_Render(false);
 
 	}
@@ -555,11 +554,6 @@ void CPlayer_Battle::Free()
 	m_Commands.clear();
 
 	Safe_Release(m_pCommand_Item);
-
-	for (auto& pUI_Chr : m_pUI_Chr)
-		Safe_Release(pUI_Chr);
-	m_pUI_Chr.clear();
-
 	Safe_Release(m_pInventory);
 	Safe_Release(m_pOptima);
 	Safe_Release(m_pAbility);
