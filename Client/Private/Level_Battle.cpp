@@ -142,6 +142,9 @@ HRESULT CLevel_Battle::Ready_UI(const wstring& strLayerTag)
     if (FAILED(m_pGameInstance->Add_Clone(g_Level, TEXT("Layer_Inventory"), TEXT("Prototype_GameObject_Inventory"))))
         return E_FAIL;
 
+    if (FAILED(m_pGameInstance->Add_Clone(g_Level, g_strBackGroundLayerTag, TEXT("Prototype_GameObject_UI_Warning"))))
+        return E_FAIL;
+
     if (FAILED(m_pGameInstance->Add_Clone(g_Level, g_strBackGroundLayerTag, TEXT("Prototype_GameObject_LoadingOutBlur"))))
         return E_FAIL;
 

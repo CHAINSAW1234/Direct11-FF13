@@ -1,5 +1,2 @@
-﻿FXC : warning X4717: Effects deprecated for D3DCompiler_47
-C:\Users\stgo5015\Documents\GitHub\Direct11_FF13\Engine\Bin\ShaderFiles\Shader_Deferred.hlsl(416,19-125): warning X3206: implicit truncation of vector type
-  
-  compilation object save succeeded; see C:\Users\stgo5015\Documents\GitHub\Direct11_FF13\Engine\Bin\Shader_Deferred.cso
+﻿  VIBuffer_Trail.cpp
   Engine.vcxproj -> C:\Users\stgo5015\Documents\GitHub\Direct11_FF13\Engine\Bin\Engine.dll

@@ -86,8 +86,8 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
 		fTimeAcc += pGameInstance->Compute_TimeDelta(TEXT("Timer_Default"));
         //++iFrame;
 
-        if (fTimeAcc > 1.f / 60.0f)
-		{
+  //      if (fTimeAcc > 1.f / 60.0f)
+		//{
 			pMainApp->Tick(pGameInstance->Compute_TimeDelta(TEXT("Timer_60")));
 			pMainApp->Render();
 
@@ -95,7 +95,7 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
             //str = L"현재 프레임 : " + to_wstring(iFrame);
             //SetWindowText(g_hWnd, str.c_str());
             //iFrame = 0;
-		}		
+	//	}		
 	}
 
 	Safe_Release(pGameInstance);

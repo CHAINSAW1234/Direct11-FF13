@@ -78,6 +78,7 @@ void CElectricity::Tick(_float fTimeDelta)
             
             for (auto& pEffect : pEffects) {
                 pEffect->Get_Transform()->Look_At(XMLoadFloat4(&m_fTargetPosition));
+                Safe_Release(pEffect);
             }
         }
     }

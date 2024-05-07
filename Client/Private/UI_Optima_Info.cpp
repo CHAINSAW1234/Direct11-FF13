@@ -14,6 +14,7 @@ CUI_Optima_Info::CUI_Optima_Info(const CUI_Optima_Info& rhs)
 
 HRESULT CUI_Optima_Info::Initialize_Prototype()
 {
+	m_isLateGroup = true;
 	return S_OK;
 }
 

@@ -14,6 +14,7 @@ CUI_Monster_Hp::CUI_Monster_Hp(const CUI_Monster_Hp& rhs)
 
 HRESULT CUI_Monster_Hp::Initialize_Prototype()
 {
+    m_isLateGroup = false;
     return S_OK;
 }
 

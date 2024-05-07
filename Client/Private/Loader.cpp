@@ -9,6 +9,7 @@
 #include "Trigger.h"
 #include "Inventory.h"
 
+#include "UI_Warning.h"
 #include "UI_Number.h"
 #include "UI_Cursor.h"
 #include "UI_Pnal_Attack.h"
@@ -379,6 +380,12 @@ HRESULT CLoader::Loading_Prototype()
 		CTrigger::Create(m_pDevice, m_pContext))))
 		return E_FAIL;
 
+	/* For.Prototype_GameObject_UI_Warning */
+	if (FAILED(m_pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_UI_Warning"),
+		CUI_Warning::Create(m_pDevice, m_pContext))))
+		return E_FAIL;
+
+
 	/* For.Prototype_GameObject_UI_Cursor */
 	if (FAILED(m_pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_UI_Number"),
 		CUI_Number::Create(m_pDevice, m_pContext))))
@@ -516,6 +523,11 @@ HRESULT CLoader::Loading_For_Static_Component()
 #pragma endregion
 
 #pragma region Shader
+	/* For.Prototype_Component_Shader_Trail */
+	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Shader_Trail"),
+		CShader::Create(m_pDevice, m_pContext, TEXT("../Bin/ShaderFiles/Shader_Trail.hlsl"), VTXPOS::Elements, VTXPOS::iNumElements))))
+		return E_FAIL;
+
 	/* For.Prototype_Component_Shader_VtxNorTex */
 	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Shader_VtxNorTex"),
 		CShader::Create(m_pDevice, m_pContext, TEXT("../Bin/ShaderFiles/Shader_VtxNorTex.hlsl"), VTXNORTEX::Elements, VTXNORTEX::iNumElements))))
@@ -1004,9 +1016,19 @@ HRESULT CLoader::Loading_For_Field()
 
 HRESULT CLoader::Loading_For_Battle()
 {
+	/* For.Prototype_Component_VIBuffer_Trail */
+	if (FAILED(m_pGameInstance->Add_Prototype(g_Level, TEXT("Prototype_Component_VIBuffer_Trail"),
+		CVIBuffer_Trail::Create(m_pDevice, m_pContext))))
+		return E_FAIL;
+
 	m_strLoadingText = TEXT("텍스쳐를(을) 로딩 중 입니다.");
 
 #pragma region UI
+
+	/* For.Prototype_Component_Texture_UI_Warning */
+	if (FAILED(m_pGameInstance->Add_Prototype(g_Level, TEXT("Prototype_Component_Texture_UI_Warning"),
+		CTexture::Create(m_pDevice, m_pContext, TEXT("../Bin/Resources/UI/Warning.png")))))
+		return E_FAIL;
 
 	/* For.Prototype_Component_Texture_UI_Cursor */
 	if (FAILED(m_pGameInstance->Add_Prototype(g_Level, TEXT("Prototype_Component_Texture_UI_Cursor"),
@@ -1071,6 +1093,11 @@ HRESULT CLoader::Loading_For_Battle()
 #pragma endregion
 
 #pragma region Effect
+	/* Prototype_Component_Texture_Trail */
+	if (FAILED(m_pGameInstance->Add_Prototype(g_Level, TEXT("Prototype_Component_Texture_Trail"),
+		CTexture::Create(m_pDevice, m_pContext, TEXT("../Bin/Resources/Textures/Effect/Trail.dds")))))
+		return E_FAIL;
+
 
 	/* Prototype_Component_Texture_Dust_Color */
 	if (FAILED(m_pGameInstance->Add_Prototype(g_Level, TEXT("Prototype_Component_Texture_Dust_Color"),
@@ -1191,6 +1218,7 @@ HRESULT CLoader::Loading_For_Battle()
 
 HRESULT CLoader::Loading_For_Field_Boss()
 {
+
 	m_strLoadingText = TEXT("텍스쳐를(을) 로딩 중 입니다.");
 
 	m_strLoadingText = TEXT("모델를(을) 로딩 중 입니다.");
@@ -1225,9 +1253,18 @@ HRESULT CLoader::Loading_For_Field_Boss()
 
 HRESULT CLoader::Loading_For_Boss_Battle()
 {
+	/* For.Prototype_Component_VIBuffer_Trail */
+	if (FAILED(m_pGameInstance->Add_Prototype(g_Level, TEXT("Prototype_Component_VIBuffer_Trail"),
+		CVIBuffer_Trail::Create(m_pDevice, m_pContext))))
+		return E_FAIL;
+
 	m_strLoadingText = TEXT("텍스쳐를(을) 로딩 중 입니다.");
 
 #pragma region UI
+
+	if (FAILED(m_pGameInstance->Add_Prototype(g_Level, TEXT("Prototype_Component_Texture_UI_Warning"),
+		CTexture::Create(m_pDevice, m_pContext, TEXT("../Bin/Resources/UI/Warning.png")))))
+		return E_FAIL;
 
 	/* For.Prototype_Component_Texture_UI_Cursor */
 	if (FAILED(m_pGameInstance->Add_Prototype(g_Level, TEXT("Prototype_Component_Texture_UI_Cursor"),
@@ -1292,6 +1329,10 @@ HRESULT CLoader::Loading_For_Boss_Battle()
 #pragma endregion
 
 #pragma region Effect
+	/* Prototype_Component_Texture_Trail */
+	if (FAILED(m_pGameInstance->Add_Prototype(g_Level, TEXT("Prototype_Component_Texture_Trail"),
+		CTexture::Create(m_pDevice, m_pContext, TEXT("../Bin/Resources/Textures/Effect/Trail.dds")))))
+		return E_FAIL;
 
 	/* Prototype_Component_Texture_Dust_Color */
 	if (FAILED(m_pGameInstance->Add_Prototype(g_Level, TEXT("Prototype_Component_Texture_Dust_Color"),

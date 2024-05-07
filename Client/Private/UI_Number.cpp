@@ -15,6 +15,7 @@ CUI_Number::CUI_Number(const CUI_Number& rhs)
 
 HRESULT CUI_Number::Initialize_Prototype()
 {
+	m_isLateGroup = false;
 	return S_OK;
 }
 

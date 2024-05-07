@@ -114,7 +114,10 @@ HRESULT CLevel_Boss_Battle::Ready_UI(const wstring& strLayerTag)
     if (FAILED(m_pGameInstance->Add_Clone(g_Level, TEXT("Layer_Inventory"), TEXT("Prototype_GameObject_Inventory"))))
         return E_FAIL;
 
-    if (FAILED(m_pGameInstance->Add_Clone(g_Level, g_strBackGroundLayerTag, TEXT("Prototype_GameObject_LoadingBlur"))))
+    if (FAILED(m_pGameInstance->Add_Clone(g_Level, g_strBackGroundLayerTag, TEXT("Prototype_GameObject_UI_Warning"))))
+        return E_FAIL;
+
+    if (FAILED(m_pGameInstance->Add_Clone(g_Level, g_strBackGroundLayerTag, TEXT("Prototype_GameObject_LoadingOutBlur"))))
         return E_FAIL;
 
     return S_OK;
@@ -142,7 +145,7 @@ HRESULT CLevel_Boss_Battle::Ready_Layer_Camera(const wstring& strLayerTag)
     CameraDesc.fAspect = (_float)g_iWinSizeX / g_iWinSizeY;
     CameraDesc.fNear = 0.1f;
     CameraDesc.fFar = 1000.0f;
-    CameraDesc.vEye = _float4(0.f, 3.f, -6.f, 1.f);
+    CameraDesc.vEye = _float4(5.f, .5f, -2.f, 1.f);
     CameraDesc.vAt = _float4(0.f, 0.f, 0.f, 1.f);
     CameraDesc.fSpeedPerSec = 10.f;
     CameraDesc.fRotationPerSec = XMConvertToRadians(90.0f);

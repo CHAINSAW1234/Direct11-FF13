@@ -499,6 +499,9 @@
     <Filter Include="03.UI\Battle\Player_Battle\Stage\UI_Battle_Stage_Begin">
       <UniqueIdentifier>{317b19de-3ce1-4abd-8fac-dc67734ad327}</UniqueIdentifier>
     </Filter>
+    <Filter Include="03.UI\Battle\UI_Warning">
+      <UniqueIdentifier>{13a6b3c6-5236-4120-bca9-811bc53de074}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\public\MainApp.h">
@@ -972,6 +975,9 @@
     <ClInclude Include="..\Public\UI_Battle_Stage_Begin.h">
       <Filter>03.UI\Battle\Player_Battle\Stage\UI_Battle_Stage_Begin</Filter>
     </ClInclude>
+    <ClInclude Include="..\Public\UI_Warning.h">
+      <Filter>03.UI\Battle\UI_Warning</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\private\MainApp.cpp">
@@ -1427,6 +1433,9 @@
     <ClCompile Include="..\Private\UI_Battle_Stage_Begin.cpp">
       <Filter>03.UI\Battle\Player_Battle\Stage\UI_Battle_Stage_Begin</Filter>
     </ClCompile>
+    <ClCompile Include="..\Private\UI_Warning.cpp">
+      <Filter>03.UI\Battle\UI_Warning</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Image Include="Client.ico">
@@ -1478,6 +1487,9 @@
       <Filter>97.ShaderFiles</Filter>
     </FxCompile>
     <FxCompile Include="..\Bin\ShaderFiles\Shader_VtxInstance_Point.hlsl">
+      <Filter>97.ShaderFiles</Filter>
+    </FxCompile>
+    <FxCompile Include="..\Bin\ShaderFiles\Shader_Trail.hlsl">
       <Filter>97.ShaderFiles</Filter>
     </FxCompile>
   </ItemGroup>

@@ -15,6 +15,7 @@ CUI_Chain::CUI_Chain(const CUI_Chain& rhs)
 
 HRESULT CUI_Chain::Initialize_Prototype()
 {
+	m_isLateGroup = true;
 	return S_OK;
 }
 

@@ -13,6 +13,7 @@ CUI_Optima_Change::CUI_Optima_Change(const CUI_Optima_Change& rhs)
 
 HRESULT CUI_Optima_Change::Initialize_Prototype()
 {
+    m_isLateGroup = true;
     return S_OK;
 }
 

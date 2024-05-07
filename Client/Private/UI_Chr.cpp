@@ -14,6 +14,7 @@ CUI_Chr::CUI_Chr(const CUI& rhs)
 
 HRESULT CUI_Chr::Initialize_Prototype()
 {
+	m_isLateGroup = true;
 	return S_OK;
 }
 

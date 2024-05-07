@@ -47,6 +47,18 @@ HRESULT CSphere::Initialize(void* pArg)
 
 	m_pTransformCom->Set_State(CTransform::STATE_POSITION, pSphere_Desc->vStartPosition);
 
+	m_fStartPosition = pSphere_Desc->vStartPosition;
+	for (_int i = 0; i < 3; ++i) {
+		m_fOBBDirection[i].x = Random_Float(2.f);
+		m_fOBBDirection[i].y = Random_Float(2.f);
+		m_fOBBDirection[i].z = Random_Float(2.f);
+	}
+	for (_int i = 0; i < 16; ++i) {
+		m_fTrailPosition[i] = m_fStartPosition;
+	}
+
+
+
 	if (FAILED(Add_Components()))
 		return E_FAIL;
 
@@ -93,7 +105,10 @@ HRESULT CSphere::Initialize(void* pArg)
 
 void CSphere::Tick(_float fTimeDelta)
 {
+	m_fTimeDelta += fTimeDelta;
+
 	Move(fTimeDelta);
+	Update_Trail();
 	for (auto& pEffect : m_Effects)
 		pEffect->Set_Position(m_pTransformCom->Get_State_Float4(CTransform::STATE_POSITION));
 
@@ -124,6 +139,15 @@ HRESULT CSphere::Late_Tick(_float fTimeDelta)
 
 HRESULT CSphere::Render()
 {
+	if (FAILED(Bind_ShaderResources()))
+		return E_FAIL;
+
+	if (FAILED(m_pShaderCom->Begin(0)))
+		return E_FAIL;
+
+	if (FAILED(m_pVIBufferCom->Render()))
+		return E_FAIL;
+
 	return S_OK;
 }
 
@@ -141,11 +165,46 @@ HRESULT CSphere::Add_Components()
 		TEXT("Com_Collider"), (CComponent**)&m_pColliderCom, &ColliderSphereDesc)))
 		return E_FAIL;
 
+	if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_Shader_Trail"),
+		TEXT("Com_Shader"), (CComponent**)&m_pShaderCom)))
+		return E_FAIL;
+
+	if (FAILED(__super::Add_Component(g_Level, TEXT("Prototype_Component_VIBuffer_Trail"),
+		TEXT("Com_VIBuffer"), (CComponent**)&m_pVIBufferCom)))
+		return E_FAIL;
+
+	if (FAILED(__super::Add_Component(g_Level, TEXT("Prototype_Component_Texture_Trail"),
+		TEXT("Com_Texture"), (CComponent**)&m_pTextureCom)))
+		return E_FAIL;
+
 	return S_OK;
 }
 
 HRESULT CSphere::Bind_ShaderResources()
 {
+	_float fSizeY = 1.f;
+	if (nullptr == m_pShaderCom)
+		return E_FAIL;
+
+	if (FAILED(m_pTransformCom->Bind_ShaderResource(m_pShaderCom, "g_WorldMatrix")))
+		return E_FAIL;
+
+	if (FAILED(m_pShaderCom->Bind_Matrix("g_ViewMatrix", &m_pGameInstance->Get_Transform_Float4x4(CPipeLine::D3DTS_VIEW))))
+		return E_FAIL;
+	if (FAILED(m_pShaderCom->Bind_Matrix("g_ProjMatrix", &m_pGameInstance->Get_Transform_Float4x4(CPipeLine::D3DTS_PROJ))))
+		return E_FAIL;
+
+	if (FAILED(m_pShaderCom->Bind_RawValue("g_vPosition", &m_fTrailPosition, sizeof(_float4) * 16 )))
+		return E_FAIL;
+	if (FAILED(m_pShaderCom->Bind_RawValue("g_SizeY", &fSizeY, sizeof(_float))))
+		return E_FAIL;
+
+	if(FAILED(m_pTextureCom->Bind_ShaderResource(m_pShaderCom, "g_Texture", 0)))
+		return E_FAIL;
+
+	if (FAILED(m_pVIBufferCom->Bind_Buffers()))
+		return E_FAIL;
+
 	return S_OK;
 }
 
@@ -162,7 +221,39 @@ void CSphere::Move(_float fTimeDelta)
 	}
 
 	m_pTransformCom->Look_At(vTargetPos);
-	m_pTransformCom->Go_Straight(fTimeDelta);
+	//m_pTransformCom->Go_Straight(fTimeDelta);	// 임시
+
+	m_pTransformCom->Set_Look(XMVectorSetW(XMVector3Normalize(vTargetPos - XMLoadFloat4(&m_fStartPosition)), 0.f));
+
+	_vector vRight = m_pTransformCom->Get_State_Vector(CTransform::STATE_RIGHT);
+	_vector vUp = m_pTransformCom->Get_State_Vector(CTransform::STATE_UP);
+	_vector vLook = m_pTransformCom->Get_State_Vector(CTransform::STATE_LOOK);
+
+	m_fDist = XMVector3Length(vTargetPos - m_pTransformCom->Get_State_Vector(CTransform::STATE_POSITION)).m128_f32[0];
+	// 1. 처음에 저장된 점의 비율을 통해서 점의 위치를 결정
+	_vector vPoint[5] = {};
+	vPoint[0] = XMLoadFloat4(&m_fStartPosition);
+	vPoint[4] =  vTargetPos;
+
+	for (_int i = 1; i < 4; ++i) {
+		_vector vPosition = vPoint[0] + vLook * m_fDist * 0.5f;
+
+		vPosition += m_fOBBDirection[i-1].x * vRight;
+		vPosition += m_fOBBDirection[i-1].y * vUp;
+		vPosition += m_fOBBDirection[i-1].z * vLook * m_fDist * 0.5f;
+
+		vPoint[i] = vPosition;
+	}
+
+	// 2. Quartic Bezier 곡선을 적용해서 새로운 위치를 계산후 적용 
+	// B(t) = (1-t)^4 * P0 + 4(1-t)^3 * t * P1 + 6(1-t)^2 * t^2 * P2 + 4(1-t) * t^3 * P3 + t^4 * P4
+	m_pTransformCom->Set_State(CTransform::STATE_POSITION,
+		pow((1 - m_fTimeDelta), 4) * vPoint[0] +
+		4 * pow((1 - m_fTimeDelta), 3) * m_fTimeDelta * vPoint[1] +
+		6 * pow((1 - m_fTimeDelta), 2) * pow(m_fTimeDelta, 2) * vPoint[2] +
+		4 * (1 - m_fTimeDelta) * pow(m_fTimeDelta, 3) * vPoint[3] +
+		pow(m_fTimeDelta, 4) * vPoint[4]);
+
 }
 
 void CSphere::Check_Collision()
@@ -216,6 +307,15 @@ void CSphere::Check_Collision()
 	}
 }
 
+void CSphere::Update_Trail()
+{
+	for (_int i = 16 - 1; i >=1; --i) {
+		m_fTrailPosition[i] = m_fTrailPosition[i - 1];
+	}
+	m_fTrailPosition[0] = m_pTransformCom->Get_State_Float4(CTransform::STATE_POSITION);
+
+}
+
 CSphere* CSphere::Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
 {
 	CSphere* pInstance = new CSphere(pDevice, pContext);
@@ -253,5 +353,9 @@ void CSphere::Free()
 	for (auto& pEffect : m_Effects)
 		Safe_Release(pEffect);
 	m_Effects.clear();
+
+	Safe_Release(m_pVIBufferCom);
+	Safe_Release(m_pShaderCom);
+	Safe_Release(m_pTextureCom);
 
 }

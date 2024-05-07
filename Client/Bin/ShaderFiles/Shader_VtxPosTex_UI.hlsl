@@ -233,6 +233,19 @@ PS_OUT PS_Texture_Gradation(PS_IN In)     // 특정 비율까지만 색을 마스크를 먹여�
     return Out;
 }
 
+PS_OUT PS_Texture_Blink(PS_IN In)     // 텍스처에 시간값으로 알파값 조절
+{
+    PS_OUT Out = (PS_OUT) 0;
+    
+    vector vTextureColor = g_Texture.Sample(LinearSampler, In.vTexcoord);
+    //if (0.3f >= vTextureColor.a)
+    //    discard;
+    
+    Out.vColor = vTextureColor * g_Color * abs(cos(g_MaskMovement));
+    Out.vColor.w *= 0.3f;
+
+    return Out;
+}
 
 technique11 DefaultTechnique
 {
@@ -357,6 +370,16 @@ technique11 DefaultTechnique
 
         VertexShader = compile vs_5_0 VS_MAIN();
         PixelShader = compile ps_5_0 PS_Texture_Gradation();
+    }
+
+    pass Blink_Texture // 텍스처에 그라데이션 적용 //12
+    {
+        SetRasterizerState(RS_Default);
+        SetDepthStencilState(DSS_UI, 0);
+        SetBlendState(BS_AlphaBlend, float4(0.f, 0.f, 0.f, 0.f), 0xffffffff);
+
+        VertexShader = compile vs_5_0 VS_MAIN();
+        PixelShader = compile ps_5_0 PS_Texture_Blink();
     }
 
 

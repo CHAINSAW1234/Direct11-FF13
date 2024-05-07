@@ -20,6 +20,7 @@ void CUI_Cursor::Set_Position(_float4 vPosition)
 
 HRESULT CUI_Cursor::Initialize_Prototype()
 {
+	m_isLateGroup = true;
 	return S_OK;
 }
 

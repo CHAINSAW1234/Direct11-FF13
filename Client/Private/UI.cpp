@@ -9,6 +9,7 @@ CUI::CUI(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
 
 CUI::CUI(const CUI& rhs)
     : CGameObject{ rhs }
+    , m_isLateGroup{rhs.m_isLateGroup }
     //, CObserver{}
 {
 }
@@ -45,7 +46,11 @@ HRESULT CUI::Late_Tick(_float fTimeDelta)
         return E_FAIL;
 
     if (m_isRender) {
-        m_pGameInstance->Add_RenderGroup(CRenderer::RENDER_UI, this);
+        if(m_isLateGroup)
+            m_pGameInstance->Add_RenderGroup(CRenderer::RENDER_UI, this);
+        else
+            m_pGameInstance->Add_RenderGroup(CRenderer::RENDER_UI_LATE, this);
+
     }
 
     return S_OK;

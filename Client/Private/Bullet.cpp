@@ -28,7 +28,7 @@ HRESULT CBullet::Initialize(void* pArg)
 
 	GAMEOBJECT_DESC		GameObjectDesc{};
 
-	GameObjectDesc.fSpeedPerSec = 30.f;
+	GameObjectDesc.fSpeedPerSec = 20.f;
 	GameObjectDesc.fRotationPerSec = XMConvertToRadians(360.f);
 
 	if (FAILED(__super::Initialize(&GameObjectDesc)))
@@ -99,7 +99,6 @@ HRESULT CBullet::Render()
 		m_pModelCom->Render(i);
 	}
 
-
 	return S_OK;
 }
 
@@ -127,10 +126,6 @@ HRESULT CBullet::Add_Components()
 	if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_Collider_OBB"),
 		TEXT("Com_Collider"), (CComponent**)&m_pColliderCom, &ColliderOBBDesc)))
 		return E_FAIL;
-
-#ifdef _DEBUG
-	m_pColliderCom->Render();
-#endif
 
 	return S_OK;
 }

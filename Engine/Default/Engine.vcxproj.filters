@@ -184,6 +184,9 @@
     <Filter Include="01.Utility\13.Sound">
       <UniqueIdentifier>{3b4ba61e-d433-450c-8fa6-44da38e7ab6a}</UniqueIdentifier>
     </Filter>
+    <Filter Include="01.Utility\02.Components\VIBuffer\Trail">
+      <UniqueIdentifier>{a1b9a1e4-3311-4180-9616-8d2beb21b8dd}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\Private\Base.cpp">
@@ -359,6 +362,9 @@
     </ClCompile>
     <ClCompile Include="..\Private\Sound_Manager.cpp">
       <Filter>01.Utility\13.Sound</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\VIBuffer_Trail.cpp">
+      <Filter>01.Utility\02.Components\VIBuffer\Trail</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -547,6 +553,9 @@
     </ClInclude>
     <ClInclude Include="..\Public\Sound_Manager.h">
       <Filter>01.Utility\13.Sound</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\VIBuffer_Trail.h">
+      <Filter>01.Utility\02.Components\VIBuffer\Trail</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

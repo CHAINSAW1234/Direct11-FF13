@@ -13,6 +13,7 @@ CUI_Skill::CUI_Skill(const CUI_Skill& rhs)
 
 HRESULT CUI_Skill::Initialize_Prototype()
 {
+    m_isLateGroup = false;
     return S_OK;
 }
 
@@ -160,8 +161,8 @@ void CUI_Skill::Update_Position()
     vPos.y *= g_iWinSizeY / 2;
     vPos.z = 0.f;
 
-    //vPos.x = clamp(vPos.x, -(_float)g_iWinSizeX / 3.f, (_float)g_iWinSizeX / 3.f);
-    //vPos.y = clamp(vPos.y, -(_float)g_iWinSizeY / 3.f, (_float)g_iWinSizeY / 3.f);
+    vPos.x = clamp(vPos.x, -(_float)g_iWinSizeX / 2.5f, (_float)g_iWinSizeX / 2.5f);
+    vPos.y = clamp(vPos.y, -(_float)g_iWinSizeY / 2.5f, (_float)g_iWinSizeY / 2.5f);
     //vPos.y += 10;
     
     m_pTransformCom->Set_State(CTransform::STATE_POSITION, vPos);

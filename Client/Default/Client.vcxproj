@@ -303,6 +303,7 @@
     <ClInclude Include="..\Public\UI_Pnal_Attack.h" />
     <ClInclude Include="..\Public\UI_Pnal_Item.h" />
     <ClInclude Include="..\Public\UI_Skill.h" />
+    <ClInclude Include="..\Public\UI_Warning.h" />
     <ClInclude Include="..\Public\Warload.h" />
     <ClInclude Include="..\Public\Warload_State_Attack.h" />
     <ClInclude Include="..\Public\Warload_State_Field.h" />
@@ -438,6 +439,7 @@
     <ClCompile Include="..\Private\Trigger.cpp" />
     <ClCompile Include="..\Private\Troup.cpp" />
     <ClCompile Include="..\Private\UI.cpp" />
+    <ClCompile Include="..\Private\UI_Warning.cpp" />
     <ClCompile Include="..\Private\UI_ATB.cpp" />
     <ClCompile Include="..\Private\UI_Battle_Stage_Begin.cpp" />
     <ClCompile Include="..\Private\UI_Battle_Stage_Command.cpp" />
@@ -522,6 +524,16 @@
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="..\Bin\ShaderFiles\Shader_Cell.hlsl" />
+    <FxCompile Include="..\Bin\ShaderFiles\Shader_Trail.hlsl">
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Effect</ShaderType>
+      <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">5.0</ShaderModel>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Geometry</ShaderType>
+      <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">4.0</ShaderModel>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Geometry</ShaderType>
+      <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">4.0</ShaderModel>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Effect</ShaderType>
+      <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Release|x64'">5.0</ShaderModel>
+    </FxCompile>
     <FxCompile Include="..\Bin\ShaderFiles\Shader_VtxAnimModel.hlsl">
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Effect</ShaderType>
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Effect</ShaderType>

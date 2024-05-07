@@ -26,12 +26,12 @@ HRESULT CCamera_Battle::Initialize(void* pArg)
     if (FAILED(__super::Initialize(pArg)))
         return E_FAIL;
 
-
     return S_OK;
 }
 
 void CCamera_Battle::Tick(_float fTimeDelta)
 {
+    //Set_CursorPos();
 
     Update_TargetPosition(fTimeDelta);
     Update_Dist(fTimeDelta);
@@ -65,8 +65,6 @@ HRESULT CCamera_Battle::Render()
 {
     return S_OK;
 }
-
-
 
 void CCamera_Battle::Update_TargetPosition(_float fTimeDelta)
 {

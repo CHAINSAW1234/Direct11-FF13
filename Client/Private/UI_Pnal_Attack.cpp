@@ -13,8 +13,8 @@ CUI_Pnal_Attack::CUI_Pnal_Attack(const CUI_Pnal_Attack& rhs)
 
 HRESULT CUI_Pnal_Attack::Initialize_Prototype()
 {
+	m_isLateGroup = true;
 	m_tFrame = { 16, 0.05f, 0, 0.f, 0 };
-
 	return S_OK;
 }
 

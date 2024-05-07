@@ -14,6 +14,7 @@ CUI_Pnal_Item::CUI_Pnal_Item(const CUI_Pnal_Item& rhs)
 
 HRESULT CUI_Pnal_Item::Initialize_Prototype()
 {
+	m_isLateGroup = true;
 	m_tFrame = { 16, 0.05f, 0, 0.f, 0 };
 	m_vColor = { 0.f,1.f,0.f,1.f };
 	return S_OK;

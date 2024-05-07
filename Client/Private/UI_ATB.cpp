@@ -15,6 +15,7 @@ CUI_ATB::CUI_ATB(const CUI_ATB& rhs)
 
 HRESULT CUI_ATB::Initialize_Prototype()
 {
+	m_isLateGroup = true;
 	return S_OK;
 }
 

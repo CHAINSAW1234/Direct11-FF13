@@ -24,7 +24,7 @@ private:
 	HRESULT Bind_ShaderResources();
 
 private:
-	CVIBuffer* m_pVIBufferCom = { nullptr };
+	CVIBuffer*	m_pVIBufferCom = { nullptr };
 	CShader*	m_pShaderCom = { nullptr };
 	CTexture*	m_pTextureCom = { nullptr };
 	_float		m_fTimeDelta = { 0.f };
