@@ -290,6 +290,14 @@ void CMonster::Add_Chain(_float fChain)
         m_fChain = m_fStagger + 100.f;
         m_isBreak = true;
         m_fBreakTimeDelta = 0.f;
+
+        m_pGameInstance->Set_Slow(true, 0.5f);
+        Create_UI_Number(CUI_Number::BREAK, 1);
+
+        _float4 vPosition = m_pTransformCom->Get_State_Float4(CTransform::STATE_POSITION);
+        vPosition.y += m_vColliderSize.y * 0.5f;
+        CEffect::Read_File_NoLoop("../Bin/Resources/Effect/Effect_Break.dat", m_pGameInstance, m_pDevice, m_pContext, vPosition);
+        m_pGameInstance->PlaySoundDuplicate(TEXT("System_Break.wav"), CSound_Manager::EFFECT_DUPLICATE, SOUND_DEFAULT);
     }
 }
 
@@ -486,14 +494,12 @@ void CMonster::Check_Interact_Weapon()
             pChr_Battle->Set_Hit(m_iDamage);
 
             // ÀÌÆåÆ® »ý¼º
-            _float fDist = m_vColliderSize.y;
-            _vector vWeaponPos = XMLoadFloat4(&Get_BonePos(m_strWeaponBoneName));
-            _vector vTargetPos = pChr_Battle->Get_Transform()->Get_State_Vector(CTransform::STATE_POSITION);
-            vTargetPos.m128_f32[1] += pChr_Battle->Get_ColliderSize().y * 0.5f;
-            _vector vDir = vTargetPos - vWeaponPos;
+            _float4 vPos = pChr_Battle->Get_Transform()->Get_State_Float4(CTransform::STATE_POSITION);
+            vPos.y += pChr_Battle->Get_ColliderSize().y * 0.5f;
 
-            _float4 vPos;
-            XMStoreFloat4(&vPos, vWeaponPos + XMVector3Normalize(vDir) * fDist);
+            vPos.x += Random_Float(1.f);
+            vPos.y += Random_Float(1.f);
+            vPos.z += Random_Float(1.f);
 
             CEffect_2D::EFFECT_2D_DESC pDesc = {};
             pDesc.eEffect = Interface_2D::HIT_2;
@@ -599,6 +605,7 @@ HRESULT CMonster::Add_Component_FSM()
 HRESULT CMonster::Bind_ShaderResources()
 {
     _float4 vColor = { 1.f,.5f,0.f,1.f };
+
     if (nullptr == m_pShaderCom)
         return E_FAIL;
     if (FAILED(m_pTransformCom->Bind_ShaderResource(m_pShaderCom, "g_WorldMatrix")))

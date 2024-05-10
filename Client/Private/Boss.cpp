@@ -54,18 +54,19 @@ void CBoss::Tick(_float fTimeDelta)
 {
     __super::Tick(fTimeDelta);
 
+    m_fBarrierTimeDelta += fTimeDelta;
+
     for (auto& pBarrier : m_Barrier) {
         _float3 vScaled = pBarrier->Get_Transform()->Get_Scaled();
         pBarrier->Get_Transform()->Set_WorldMatrix(m_pTransformCom->Get_WorldFloat4x4());
         pBarrier->Get_Transform()->Set_Scaled(vScaled.x, vScaled.y, vScaled.z);
     }
 
-    if (m_pGameInstance->Get_DIMouseState(DIMKS_RBUTTON)) {
-        Change_State(STATE_ATTACK_MAGIC);
-    }
-
     if (m_pGameInstance->Get_KeyState(KEY_DOWN, DIK_P)) {
         m_iHp -= 300;
+    }
+    if (m_pGameInstance->Get_DIMouseState(DIMKS_RBUTTON)) {
+        Change_State(STATE_ATTACK_MAGIC);
     }
 }
 
@@ -79,8 +80,35 @@ HRESULT CBoss::Late_Tick(_float fTimeDelta)
 
 HRESULT CBoss::Render()
 {
-    if (FAILED(__super::Render()))
+    if (FAILED(Bind_ShaderResources()))
         return E_FAIL;
+
+    _uint iNumMeshes = m_pModelCom->Get_NumMeshes();
+
+    for (_uint i = 0; i < iNumMeshes; i++)
+    {
+        if (FAILED(m_pModelCom->Bind_ShaderResource(m_pShaderCom, "g_DiffuseTexture", i, aiTextureType_DIFFUSE)))
+            return E_FAIL;
+
+        if (FAILED(m_pModelCom->Bind_ShaderResource(m_pShaderCom, "g_NormalTexture", i, aiTextureType_NORMALS)))
+            return E_FAIL;
+
+        if (FAILED(m_pModelCom->Bind_BoneMatrices(m_pShaderCom, "g_BoneMatrices", i)))
+            return E_FAIL;
+
+        /* 이 함수 내부에서 호출되는 Apply함수 호출 이전에 쉐이더 전역에 던져야할 모든 데이ㅏ터를 다 던져야한다. */
+
+        if (m_isBreak || m_isBarrier) {
+            if (FAILED(m_pShaderCom->Begin(3)))
+                return E_FAIL;
+        }
+        else {
+            if (FAILED(m_pShaderCom->Begin(0)))
+                return E_FAIL;
+        }
+
+        m_pModelCom->Render(i);
+    }
 
     return S_OK;
 }
@@ -106,9 +134,7 @@ void CBoss::Start()
     }
 
     m_pNavigationCom->Set_Index(m_pTransformCom->Get_State_Vector(CTransform::STATE_POSITION));
-
     m_ePhase = PHASE1;
-
 }
 
 void CBoss::Set_Barrier(_bool isBarrier)
@@ -125,7 +151,6 @@ void CBoss::Set_Barrier(_bool isBarrier)
         }
         m_Barrier.clear();
     }
-
 }
 
 void CBoss::Add_Chain(_float fChain)
@@ -133,6 +158,7 @@ void CBoss::Add_Chain(_float fChain)
     __super::Add_Chain(fChain);
     if (m_isBreak) {
         Set_Barrier(false);
+        Clear_Pattern();
     }
 }
 
@@ -145,20 +171,34 @@ void CBoss::Set_Hit(_int iDamage, _float fChain)
         __super::Set_Hit(iDamage, fChain);
     }
 
-
     if (m_ePhase == PHASE1 && m_iHp <= m_iMaxHp * 0.7) {
         m_ePhase = PHASE2;
         Clear_Pattern();
         Change_State(STATE_SKILL_BARRIER);
+        m_Patterns.push(STATE_SKILL_HELLBLAST);
         m_fBreakTimeDelta = 30.f;
+        m_fChain = m_fCurChain = 100.f;
+        m_fMagnification = 1 / (m_fStagger - 100) * 0.1f;
+        Update_Chain(0);
 
     }
 
-    if (m_isBreak && m_eState != STATE_ATTACK_PHYSIC && m_eState != STATE_SKILL_HELLBLAST && m_eState != STATE_SKILL_BARRIER) {
+    if (m_isBreak && m_eState == STATE_IDLE) {
         Change_State(STATE_HIT);
         Set_TrackPosition(0.f);
     }
 
+}
+
+void CBoss::Create_UI_Number(CUI_Number::TYPE eType, _int iNum)
+{
+    CUI_Number::UI_NUMBER_DESC UI_Number_desc = {};
+    UI_Number_desc.eType = eType;
+    UI_Number_desc.iNumber = iNum;
+    UI_Number_desc.vPosition = m_pTransformCom->Get_State_Float4(CTransform::STATE_POSITION);
+    UI_Number_desc.vPosition.y -= 3.f;
+    if (FAILED(m_pGameInstance->Add_Clone(g_Level, TEXT("Layer_UI"), TEXT("Prototype_GameObject_UI_Number"), &UI_Number_desc)))
+        return;
 }
 
 HRESULT CBoss::Change_State(STATE eState)
@@ -186,6 +226,10 @@ void CBoss::Update_Pattern()
             }
             else {
                 m_Patterns.push(STATE_ATTACK_MAGIC);
+                m_Patterns.push(STATE_ATTACK_MAGIC);
+                m_Patterns.push(STATE_ATTACK_MAGIC);
+                m_Patterns.push(STATE_ATTACK_MAGIC);
+                m_Patterns.push(STATE_ATTACK_MAGIC);
                 m_Patterns.push(STATE_SKILL_HELLBLAST);
             }
             break;
@@ -196,6 +240,18 @@ void CBoss::Update_Pattern()
     m_eState = m_Patterns.front();
     m_Patterns.pop();
 
+}
+
+_bool CBoss::Check_Pattern()
+{
+    if (m_Patterns.empty())
+        return false;
+
+    if( m_Patterns.front() == STATE_SKILL_BARRIER ||
+        m_Patterns.front() == STATE_SKILL_HELLBLAST)
+        return true;
+
+    return false;
 }
 
 void CBoss::Clear_Pattern()
@@ -243,15 +299,14 @@ void CBoss::Update_Chain(_float fTimeDelta)
 {
     if (m_isBreak) {
         m_fBreakTimeDelta += fTimeDelta;
-        if (m_fBreakTimeDelta >= 20.f) {
+        if (m_fBreakTimeDelta >= 30.f) {
             m_isBreak = false;
             m_fChain = 100.f;
             m_fCurChain = 100.f;
             
             if (m_ePhase == PHASE2 ) {
                 Clear_Pattern();
-                Change_State(STATE_SKILL_BARRIER);
-                m_eState = STATE_SKILL_BARRIER;
+                m_Patterns.push(STATE_SKILL_BARRIER);
             }
         }
     }
@@ -321,6 +376,24 @@ HRESULT CBoss::Add_Component_FSM()
     m_pFSMCom->Add_State(STATE_SKILL_HELLBLAST, CBoss_State_Skill_HellBlast::Create(this));
     m_pFSMCom->Add_State(STATE_FIELD, CBoss_State_Field::Create(this));
     m_pFSMCom->Add_State(STATE_HIT, CBoss_State_Hit::Create(this));
+
+    return S_OK;
+}
+
+HRESULT CBoss::Bind_ShaderResources()
+{
+    if (FAILED(__super::Bind_ShaderResources()))
+        return E_FAIL;
+
+    if (m_isBarrier) {
+        _float4 vColor = { 0.44f, 0.92f, 0.65f,1.f };
+
+        if (FAILED(m_pShaderCom->Bind_RawValue("g_vColor", &vColor, sizeof(_float4))))
+            return E_FAIL;
+
+        if (FAILED(m_pShaderCom->Bind_RawValue("g_DissolveTime", &m_fBarrierTimeDelta, sizeof(_float))))
+            return E_FAIL;
+    }
 
     return S_OK;
 }

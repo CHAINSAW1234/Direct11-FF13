@@ -43,7 +43,6 @@ HRESULT CUI_Cursor::Initialize(void* pArg)
 		return E_FAIL;
 
 	m_pPlayerInfo->RegisterObserver(this);
-	
 	return S_OK;
 }
 

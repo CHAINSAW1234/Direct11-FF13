@@ -123,7 +123,6 @@ HRESULT CMesh::Stock_Matrices(const vector<CBone*>& Bones, _Out_ _float4x4* pMes
 	return S_OK;
 }
 
-
 #ifdef _ASSIMP
 HRESULT CMesh::Save_Mesh(CModel::TYPE eModelType, ofstream& OFS)
 {

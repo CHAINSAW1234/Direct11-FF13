@@ -79,7 +79,7 @@ public:
 	_float Cal_Dist_Target();
 
 	virtual void Set_Hit(_int iDamage, _float fChain);
-	void Create_UI_Number(CUI_Number::TYPE eType, _int iNum);
+	virtual void Create_UI_Number(CUI_Number::TYPE eType, _int iNum);
 	class CUI_Skill* Create_UI_Skill(wstring strSkillName);
 	void   Create_Damage(_int iDamage);
 	void   Check_Interact_Chr();		// 몸통의 충돌 체크 -> 상대 객체 -> 플레이어 캐릭터 밀어냄

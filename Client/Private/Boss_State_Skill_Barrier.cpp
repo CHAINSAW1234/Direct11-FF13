@@ -18,7 +18,6 @@ void CBoss_State_Skill_Barrier::OnStateEnter()
 void CBoss_State_Skill_Barrier::OnStateUpdate(_float fTimeDelta)
 {
     Skill();
-
 }
 
 void CBoss_State_Skill_Barrier::OnStateExit()
@@ -37,8 +36,16 @@ void CBoss_State_Skill_Barrier::Skill()
 
     }
 
-    if (m_pBoss->Is_Animation_Finished())
+    if (m_pBoss->Is_Animation_Finished()) {
         m_pBoss->Change_State(CBoss::STATE_IDLE);
+        return;
+    }
+
+    if (m_pBoss->Get_CurrentAnimationIndex() != CBoss::SKILL_BARRIER) {
+        m_pBoss->Change_State(CBoss::STATE_IDLE);
+        return;
+    }
+
 }
 
 CBoss_State_Skill_Barrier* CBoss_State_Skill_Barrier::Create(CBoss* pBoss)

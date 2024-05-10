@@ -40,8 +40,8 @@ HRESULT CLevel_Battle::Initialize()
     if (FAILED(Ready_UI(TEXT("Layer_UI"))))
         return E_FAIL;
 
-    if (FAILED(Ready_Layer_BackGround(TEXT("Layer_Grid"))))
-        return E_FAIL;
+   /* if (FAILED(Ready_Layer_BackGround(TEXT("Layer_Grid"))))
+        return E_FAIL;*/
 
     if (FAILED(Ready_Layer_Sky(TEXT("Layer_Sky"))))
         return E_FAIL;

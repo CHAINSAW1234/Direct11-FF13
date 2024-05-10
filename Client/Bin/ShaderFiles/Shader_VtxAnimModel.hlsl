@@ -158,7 +158,7 @@ PS_OUT PS_COLOR(PS_IN In)
     vector vDiffuseColor = g_DiffuseTexture.Sample(LinearSampler, In.vTexcoord);
     if (0.3f >= vDiffuseColor.a)
         discard;
-    vDiffuseColor += g_vColor * abs(sin(g_DissolveTime * 5));
+    vDiffuseColor += g_vColor * abs(cos(g_DissolveTime * 5));
     vDiffuseColor.w = 1.f;
 
     vector vNormalDesc = g_NormalTexture.Sample(LinearSampler, In.vTexcoord);

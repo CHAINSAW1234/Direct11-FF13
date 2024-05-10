@@ -7,7 +7,7 @@ class CUI_Number final : public CUI
 {
 	enum STATE { LERP, IDLE, DISAPPEAR, STATE_END };
 public:
-	enum TYPE { DAMAGE, CRITICAL, HIT, HEAL, TYPE_END };
+	enum TYPE { DAMAGE, CRITICAL, HIT, HEAL, BREAK, TYPE_END };
 	typedef struct UI_Number_Desc {
 		TYPE eType;
 		_int iNumber;

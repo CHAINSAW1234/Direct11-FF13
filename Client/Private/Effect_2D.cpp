@@ -29,6 +29,7 @@ HRESULT CEffect_2D::Initialize(void* pArg)
 		return E_FAIL;
 
 	m_tFrame = EffectImageFrame[m_eEffect];
+	m_pTransformCom->Set_Scaled(2.f, 2.f, 2.f);
 	m_pTransformCom->Set_State(CTransform::STATE_POSITION, m_vPosition);
 
 	return S_OK;

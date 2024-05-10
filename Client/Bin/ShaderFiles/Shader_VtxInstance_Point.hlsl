@@ -60,7 +60,6 @@ struct GS_OUT
 void GS_MAIN(point GS_IN In[1], inout TriangleStream<GS_OUT> Vertices)
 {
     GS_OUT Out[4];
-
     float3 vLook = normalize((g_vCamPosition - In[0].vPosition).xyz);
     float3 vRight = normalize(cross(float3(0.f, 1.f, 0.f), vLook.xyz)) * In[0].vPSize.x * 0.5f;
     float3 vUp = normalize(cross(vLook, vRight)) * In[0].vPSize.y * 0.5f;

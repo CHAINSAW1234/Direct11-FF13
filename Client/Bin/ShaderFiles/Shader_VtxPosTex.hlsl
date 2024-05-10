@@ -105,7 +105,7 @@ PS_OUT PS_RADIAL_BLUR(PS_IN In)
         Out.vColor += g_Texture.Sample(LinearSampler_Nonwrap, offset) * weight;
     }
     
-    Out.vColor /= Samples;
+    Out.vColor /= weight * Samples;
     Out.vColor += float4(1.f, 1.f, 1.f, 1.f) * g_TimeDelta;
    
     return Out;
@@ -127,7 +127,7 @@ PS_OUT PS_RADIAL_BLUR_REVERSE(PS_IN In)
         Out.vColor += g_Texture.Sample(LinearSampler_Nonwrap, offset) * weight;
     }
     
-    Out.vColor /= Samples;
+    Out.vColor /= weight * Samples;
     Out.vColor += float4(1.f, 1.f, 1.f, 1.f) * (1 - g_TimeDelta * 2);
    
     return Out;

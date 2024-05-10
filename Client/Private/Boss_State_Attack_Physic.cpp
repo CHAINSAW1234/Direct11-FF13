@@ -69,8 +69,6 @@ void CBoss_State_Attack_Physic::Attack(_float fTimeDelta)
 
     }
 
-
-
     if (m_pBoss->Is_Animation_Finished())
         m_pBoss->Change_State(CBoss::STATE_IDLE);
 }

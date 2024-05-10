@@ -1,7 +1,7 @@
 #include "stdafx.h"
 #include "Level_Boss_Battle.h"
 
-#include "Camera.h"
+#include "Camera_Battle.h"
 #include "MapObject.h"
 
 #include "UI.h"
@@ -26,8 +26,8 @@ HRESULT CLevel_Boss_Battle::Initialize()
     if (FAILED(Ready_UI(TEXT("Layer_UI"))))
         return E_FAIL;
 
-    if (FAILED(Ready_Layer_BackGround(TEXT("Layer_Grid"))))
-        return E_FAIL;
+    //if (FAILED(Ready_Layer_BackGround(TEXT("Layer_Grid"))))
+    //    return E_FAIL;
 
     if (FAILED(Ready_Layer_Sky(TEXT("Layer_Sky"))))
         return E_FAIL;
@@ -55,6 +55,14 @@ void CLevel_Boss_Battle::Tick(_float fTimeDelta)
 {
     __super::Tick(fTimeDelta);
     m_pPlayer->Tick(fTimeDelta);
+
+    if (0 == m_pGameInstance->Get_LayerCnt(g_Level, g_strMonsterLayerTag)) {
+        if (m_fTimeDelta == 0) {
+            m_pGameInstance->StopSound(CSound_Manager::BGM);
+            m_pGameInstance->PlayBGM(TEXT("BGM_Battle_End.wav"));
+        }
+
+    }
 
 }
 
@@ -150,8 +158,8 @@ HRESULT CLevel_Boss_Battle::Ready_Layer_Camera(const wstring& strLayerTag)
     CameraDesc.fSpeedPerSec = 10.f;
     CameraDesc.fRotationPerSec = XMConvertToRadians(90.0f);
 
-    if (FAILED(m_pGameInstance->Add_Clone(g_Level, strLayerTag, TEXT("Prototype_GameObject_Camera_Battle"), &CameraDesc)))
-        return E_FAIL;
+    CCamera_Battle* pCamera = (CCamera_Battle*)m_pGameInstance->Add_Clone_With_Object(g_Level, strLayerTag, TEXT("Prototype_GameObject_Camera_Battle"), &CameraDesc);
+    pCamera->Set_YOffset(4.f);
 
     return S_OK;
 }

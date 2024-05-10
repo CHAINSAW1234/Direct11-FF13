@@ -34,11 +34,13 @@ public:
 
 	virtual void Add_Chain(_float fChain) override;
 	virtual void Set_Hit(_int iDamage, _float fChain) override;
-	
+	virtual void Create_UI_Number(CUI_Number::TYPE eType, _int iNum) override;
+
 	HRESULT Change_State(STATE eState);
 	void	Change_Animation(ANIMATION_SOLIDER iAnimationIndex, _bool isLoop);
 
 	void Update_Pattern();
+	_bool Check_Pattern();	// 특수 패턴인 경우 IDLE에서 즉시 변경할 것
 	void Clear_Pattern();
 
 	virtual void PlaySound_Attack() override;
@@ -54,13 +56,14 @@ private:
 	STATE	m_eState = { STATE_END };
 	PHASE	m_ePhase = { PHASE_END };
 	queue<STATE> m_Patterns;
-	_bool  m_isBarrier = { false };
-	vector<CEffect*> m_Barrier;
 
+	vector<CEffect*> m_Barrier;
+	_bool  m_isBarrier = { false };
+	_float m_fBarrierTimeDelta = { 0.f };
 private:
 	virtual HRESULT Add_Components() override;
 	virtual HRESULT Add_Component_FSM() override;
-
+	virtual HRESULT Bind_ShaderResources() override;
 public:
 	static CBoss* Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);
 	virtual CGameObject* Clone(void* pArg) override;

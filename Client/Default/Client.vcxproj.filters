@@ -13,9 +13,6 @@
     <Filter Include="98.Default">
       <UniqueIdentifier>{00a0e8fc-8926-4877-aa3c-b6cc3ff3f072}</UniqueIdentifier>
     </Filter>
-    <Filter Include="01.Levels\GamePlay">
-      <UniqueIdentifier>{8b1d5579-1fb9-493c-96b9-62d618153e5d}</UniqueIdentifier>
-    </Filter>
     <Filter Include="02.GameObjects">
       <UniqueIdentifier>{c4cae272-dd94-43ce-85e6-ecc0b24de4d0}</UniqueIdentifier>
     </Filter>
@@ -82,24 +79,6 @@
     <Filter Include="02.GameObjects\Chr\Chr_Field\State\Chr_Field_State_Item">
       <UniqueIdentifier>{60c78af1-10d7-4383-82ac-398c7b19420c}</UniqueIdentifier>
     </Filter>
-    <Filter Include="02.GameObjects\For_Study">
-      <UniqueIdentifier>{fc382d2b-1336-4fe5-b11e-bf66fa888959}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="02.GameObjects\For_Study\Terrain">
-      <UniqueIdentifier>{b741feae-f4f3-48ab-8434-c15caeee4e38}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="02.GameObjects\For_Study\Monster">
-      <UniqueIdentifier>{e197b717-c7cd-4f12-87ea-66937e11f1b7}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="02.GameObjects\For_Study\Player">
-      <UniqueIdentifier>{46e1137b-286d-4161-aff2-58514f47a53b}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="02.GameObjects\For_Study\Player\Body_Player">
-      <UniqueIdentifier>{002c91ed-9f70-43a3-a5e2-13ed005a3937}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="02.GameObjects\For_Study\Player\Weapon">
-      <UniqueIdentifier>{a7c2498c-35b0-4888-b789-8267d0cae2f2}</UniqueIdentifier>
-    </Filter>
     <Filter Include="02.GameObjects\Chr\Chr_Battle">
       <UniqueIdentifier>{1b0492e4-fae8-4447-a30f-17546dff61dd}</UniqueIdentifier>
     </Filter>
@@ -121,9 +100,6 @@
     <Filter Include="03.UI\Battle\UI_ATB">
       <UniqueIdentifier>{fcc5f916-5163-4474-96c9-ad0a28c57986}</UniqueIdentifier>
     </Filter>
-    <Filter Include="03.UI\Battle\Player_Battle">
-      <UniqueIdentifier>{b5821835-d92a-4fd4-aafb-769a33ed0e5a}</UniqueIdentifier>
-    </Filter>
     <Filter Include="03.UI\Battle\UI_Pnal">
       <UniqueIdentifier>{fab70c61-7430-46ae-acbd-4a14299e7ac4}</UniqueIdentifier>
     </Filter>
@@ -135,27 +111,6 @@
     </Filter>
     <Filter Include="03.UI\Battle\UI_Pnal\UI_Pnal_Item">
       <UniqueIdentifier>{8ae775f8-3fa0-4eea-85dc-226b83fca0de}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="03.UI\Battle\Player_Battle\Stage">
-      <UniqueIdentifier>{1bc4f72c-01cb-4692-9cac-a3e23be5c581}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="03.UI\Battle\Player_Battle\Stage\UI_Battle_Stage_Command">
-      <UniqueIdentifier>{74f80acb-4b13-4062-8004-fe90110afb38}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="03.UI\Battle\Player_Battle\Stage\UI_Battle_Stage_Item">
-      <UniqueIdentifier>{0a91e821-e0ef-4cc1-be58-e4123098482e}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="03.UI\Battle\Player_Battle\Stage\UI_Battle_Stage_Select">
-      <UniqueIdentifier>{2d5efb4e-6630-457e-92c5-a34022573405}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="03.UI\Battle\Player_Battle\Stage\UI_Battle_Stage_Target">
-      <UniqueIdentifier>{bfec82ff-10c8-4871-ba0e-13fda9ca6827}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="03.UI\Battle\Player_Battle\Stage\UI_Battle_Stage_Target_Member">
-      <UniqueIdentifier>{c1a6c6d9-61b5-4039-9069-9bbfcad5aac4}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="03.UI\Battle\Player_Battle\Stage\UI_Battle_Stage_Wait">
-      <UniqueIdentifier>{87f153bf-279c-4a22-a90e-367cdcd5a7aa}</UniqueIdentifier>
     </Filter>
     <Filter Include="02.GameObjects\Chr\Chr_Battle\Sazh">
       <UniqueIdentifier>{d3b92d5d-3914-462f-b1e4-68407e2f9a03}</UniqueIdentifier>
@@ -205,9 +160,6 @@
     <Filter Include="02.GameObjects\Chr\Chr_Battle\Sazh\State\Chr_Battle_Sazh_State_Dead">
       <UniqueIdentifier>{25da10fc-de39-4dee-a063-09c0e71a7edf}</UniqueIdentifier>
     </Filter>
-    <Filter Include="03.UI\Battle\Player_Battle\Stage\UI_Battle_Stage_Optima">
-      <UniqueIdentifier>{ceeaa113-bf8b-4a1c-b400-218cf2b8bacb}</UniqueIdentifier>
-    </Filter>
     <Filter Include="02.GameObjects\Chr\Chr_Battle\Light\State\Chr_Battle_Light_State_Optima">
       <UniqueIdentifier>{df8f323e-3e7e-4deb-b2b0-dba191edfd52}</UniqueIdentifier>
     </Filter>
@@ -216,9 +168,6 @@
     </Filter>
     <Filter Include="03.UI\Battle\UI_Chr">
       <UniqueIdentifier>{87eb5331-c567-42e8-93d8-1b8c21ba9ade}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="03.UI\Battle\Player_Battle\Stage\UI_Battle_Stage_Wait_Optima">
-      <UniqueIdentifier>{bfc8ca65-01dc-4cb4-8516-f3b7cb16b016}</UniqueIdentifier>
     </Filter>
     <Filter Include="02.GameObjects\Monster">
       <UniqueIdentifier>{d955b6a9-2b8f-41c2-a13e-d6547b75bf5e}</UniqueIdentifier>
@@ -249,9 +198,6 @@
     </Filter>
     <Filter Include="03.UI\Battle\UI_Chain">
       <UniqueIdentifier>{d49ced27-8dd5-452c-a439-9bf1a68f3e74}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="02.GameObjects\For_Study\Forklift">
-      <UniqueIdentifier>{71dcb4da-a072-4364-a534-e77e2b804c60}</UniqueIdentifier>
     </Filter>
     <Filter Include="03.UI\Battle\UI_Monster_Hp">
       <UniqueIdentifier>{eee862fd-b5a2-4192-b4b1-ee86df379428}</UniqueIdentifier>
@@ -291,9 +237,6 @@
     </Filter>
     <Filter Include="02.GameObjects\Monster\Leopard\State\Leopard_State_Start">
       <UniqueIdentifier>{1a63bfcd-e2ed-4651-a29a-a81014657ba9}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="02.GameObjects\For_Study\Particle_Blue">
-      <UniqueIdentifier>{14ece91c-59ef-432d-9907-3f7868a9cafd}</UniqueIdentifier>
     </Filter>
     <Filter Include="02.GameObjects\Sky">
       <UniqueIdentifier>{a0d4ae99-69da-486a-bb87-7bbe6240322e}</UniqueIdentifier>
@@ -385,9 +328,6 @@
     <Filter Include="02.GameObjects\Trigger">
       <UniqueIdentifier>{a9f93bd7-da60-4ae8-8c9e-81e20ae1e5de}</UniqueIdentifier>
     </Filter>
-    <Filter Include="03.UI\Battle\Player_Battle\Stage\UI_Battle_Stage_Finish">
-      <UniqueIdentifier>{70b6cd19-f0bc-4768-8c63-b9420c6a555a}</UniqueIdentifier>
-    </Filter>
     <Filter Include="01.Levels\Boss_Battle">
       <UniqueIdentifier>{c1de3147-ed90-458c-99b5-39157b4ce6f3}</UniqueIdentifier>
     </Filter>
@@ -451,18 +391,6 @@
     <Filter Include="01.Levels\EffectTool">
       <UniqueIdentifier>{f03e2de9-9d2b-4f51-b6df-ce065233728c}</UniqueIdentifier>
     </Filter>
-    <Filter Include="02.GameObjects\Effect\Template">
-      <UniqueIdentifier>{3381e417-d14b-48a9-8a0b-8b99850ed138}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="02.GameObjects\Effect\Template\Effect_3D">
-      <UniqueIdentifier>{31d98748-4410-4d94-b870-90598ec9b731}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="02.GameObjects\Effect\Template\Interface">
-      <UniqueIdentifier>{c00e285a-88bd-401b-8f99-452cf42736d2}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="02.GameObjects\Effect\Template\Effect_Instance">
-      <UniqueIdentifier>{e20d55b8-eef6-4846-ada8-93aa9be3476b}</UniqueIdentifier>
-    </Filter>
     <Filter Include="02.GameObjects\Effect\Object">
       <UniqueIdentifier>{b1511a9b-2d02-48a0-9e52-3a57afa70b9e}</UniqueIdentifier>
     </Filter>
@@ -478,12 +406,6 @@
     <Filter Include="02.GameObjects\Monster\Corpse">
       <UniqueIdentifier>{1a4d0bb7-420e-4239-a264-d3870d9a2819}</UniqueIdentifier>
     </Filter>
-    <Filter Include="02.GameObjects\Effect\Object\Electricity">
-      <UniqueIdentifier>{d5b5b0fa-8304-48d6-bfd0-c4d98dba342e}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="02.GameObjects\Effect\Object\Electricity\Electricity_Left">
-      <UniqueIdentifier>{80dca7bf-5843-417d-b79b-a8ca16841b52}</UniqueIdentifier>
-    </Filter>
     <Filter Include="02.GameObjects\Projectile\HellBlast">
       <UniqueIdentifier>{68de2e65-3463-45dd-b383-48580fa9d3ab}</UniqueIdentifier>
     </Filter>
@@ -496,19 +418,67 @@
     <Filter Include="02.GameObjects\Blur\LoadingOutBlur">
       <UniqueIdentifier>{dc139ea8-b1c8-436b-8fc2-54e1d8713ae4}</UniqueIdentifier>
     </Filter>
-    <Filter Include="03.UI\Battle\Player_Battle\Stage\UI_Battle_Stage_Begin">
-      <UniqueIdentifier>{317b19de-3ce1-4abd-8fac-dc67734ad327}</UniqueIdentifier>
-    </Filter>
     <Filter Include="03.UI\Battle\UI_Warning">
       <UniqueIdentifier>{13a6b3c6-5236-4120-bca9-811bc53de074}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="04.Custom\Player_Battle">
+      <UniqueIdentifier>{b5821835-d92a-4fd4-aafb-769a33ed0e5a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="04.Custom\Player_Battle\Stage">
+      <UniqueIdentifier>{1bc4f72c-01cb-4692-9cac-a3e23be5c581}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="04.Custom\Player_Battle\Stage\UI_Battle_Stage_Command">
+      <UniqueIdentifier>{74f80acb-4b13-4062-8004-fe90110afb38}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="04.Custom\Player_Battle\Stage\UI_Battle_Stage_Item">
+      <UniqueIdentifier>{0a91e821-e0ef-4cc1-be58-e4123098482e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="04.Custom\Player_Battle\Stage\UI_Battle_Stage_Select">
+      <UniqueIdentifier>{2d5efb4e-6630-457e-92c5-a34022573405}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="04.Custom\Player_Battle\Stage\UI_Battle_Stage_Target">
+      <UniqueIdentifier>{bfec82ff-10c8-4871-ba0e-13fda9ca6827}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="04.Custom\Player_Battle\Stage\UI_Battle_Stage_Target_Member">
+      <UniqueIdentifier>{c1a6c6d9-61b5-4039-9069-9bbfcad5aac4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="04.Custom\Player_Battle\Stage\UI_Battle_Stage_Wait">
+      <UniqueIdentifier>{87f153bf-279c-4a22-a90e-367cdcd5a7aa}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="04.Custom\Player_Battle\Stage\UI_Battle_Stage_Optima">
+      <UniqueIdentifier>{ceeaa113-bf8b-4a1c-b400-218cf2b8bacb}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="04.Custom\Player_Battle\Stage\UI_Battle_Stage_Wait_Optima">
+      <UniqueIdentifier>{bfc8ca65-01dc-4cb4-8516-f3b7cb16b016}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="04.Custom\Player_Battle\Stage\UI_Battle_Stage_Finish">
+      <UniqueIdentifier>{70b6cd19-f0bc-4768-8c63-b9420c6a555a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="04.Custom\Player_Battle\Stage\UI_Battle_Stage_Begin">
+      <UniqueIdentifier>{317b19de-3ce1-4abd-8fac-dc67734ad327}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\Blur\Ending">
+      <UniqueIdentifier>{ee47ec1a-5f15-4e4d-900f-c99c2a99b756}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\Effect\Object\Effect_Instance">
+      <UniqueIdentifier>{e20d55b8-eef6-4846-ada8-93aa9be3476b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\Effect\Object\Effect_3D">
+      <UniqueIdentifier>{31d98748-4410-4d94-b870-90598ec9b731}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\Effect\Interface">
+      <UniqueIdentifier>{c00e285a-88bd-401b-8f99-452cf42736d2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\Effect\Object\Effect_3D\Electricity">
+      <UniqueIdentifier>{d5b5b0fa-8304-48d6-bfd0-c4d98dba342e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\Effect\Object\Effect_3D\Electricity\Electricity_Left">
+      <UniqueIdentifier>{80dca7bf-5843-417d-b79b-a8ca16841b52}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\public\MainApp.h">
       <Filter>00.MainApp</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Public\Level_GamePlay.h">
-      <Filter>01.Levels\GamePlay</Filter>
     </ClInclude>
     <ClInclude Include="..\Public\Level_Loading.h">
       <Filter>01.Levels\00. Loading</Filter>
@@ -518,9 +488,6 @@
     </ClInclude>
     <ClInclude Include="..\public\BackGround.h">
       <Filter>02.GameObjects\BackGround</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Public\Terrain.h">
-      <Filter>02.GameObjects\For_Study\Terrain</Filter>
     </ClInclude>
     <ClInclude Include="..\Public\Client_Defines.h">
       <Filter>99.Defines</Filter>
@@ -576,9 +543,6 @@
     <ClInclude Include="targetver.h">
       <Filter>98.Default\Default</Filter>
     </ClInclude>
-    <ClInclude Include="..\Public\Monster_Study.h">
-      <Filter>02.GameObjects\For_Study\Monster</Filter>
-    </ClInclude>
     <ClInclude Include="..\Public\Camera_Field.h">
       <Filter>02.GameObjects\Camera\Camera_Field</Filter>
     </ClInclude>
@@ -606,9 +570,6 @@
     <ClInclude Include="..\Public\Loader.h">
       <Filter>01.Levels\00. Loading\Loader</Filter>
     </ClInclude>
-    <ClInclude Include="..\Public\Forklift.h">
-      <Filter>02.GameObjects\For_Study\Forklift</Filter>
-    </ClInclude>
     <ClInclude Include="..\Public\Chr_Field.h">
       <Filter>02.GameObjects\Chr\Chr_Field</Filter>
     </ClInclude>
@@ -626,15 +587,6 @@
     </ClInclude>
     <ClInclude Include="..\Public\Chr_Field_State_Item.h">
       <Filter>02.GameObjects\Chr\Chr_Field\State\Chr_Field_State_Item</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Public\Player_Study.h">
-      <Filter>02.GameObjects\For_Study\Player</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Public\Body_Player.h">
-      <Filter>02.GameObjects\For_Study\Player\Body_Player</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Public\Weapon_Study.h">
-      <Filter>02.GameObjects\For_Study\Player\Weapon</Filter>
     </ClInclude>
     <ClInclude Include="..\Public\Chr_Battle.h">
       <Filter>02.GameObjects\Chr\Chr_Battle</Filter>
@@ -676,19 +628,19 @@
       <Filter>03.UI\Battle\UI_ATB</Filter>
     </ClInclude>
     <ClInclude Include="..\Public\Player_Battle.h">
-      <Filter>03.UI\Battle\Player_Battle</Filter>
+      <Filter>04.Custom\Player_Battle</Filter>
     </ClInclude>
     <ClInclude Include="..\Public\UI_Pnal.h">
       <Filter>03.UI\Battle\UI_Pnal</Filter>
     </ClInclude>
     <ClInclude Include="..\Public\UI_Battle_Stage_Command.h">
-      <Filter>03.UI\Battle\Player_Battle\Stage\UI_Battle_Stage_Command</Filter>
+      <Filter>04.Custom\Player_Battle\Stage\UI_Battle_Stage_Command</Filter>
     </ClInclude>
     <ClInclude Include="..\Public\UI_Battle_Stage_Target.h">
-      <Filter>03.UI\Battle\Player_Battle\Stage\UI_Battle_Stage_Target</Filter>
+      <Filter>04.Custom\Player_Battle\Stage\UI_Battle_Stage_Target</Filter>
     </ClInclude>
     <ClInclude Include="..\Public\UI_Battle_Stage_Select.h">
-      <Filter>03.UI\Battle\Player_Battle\Stage\UI_Battle_Stage_Select</Filter>
+      <Filter>04.Custom\Player_Battle\Stage\UI_Battle_Stage_Select</Filter>
     </ClInclude>
     <ClInclude Include="..\Public\UI_Cursor.h">
       <Filter>03.UI\Battle\UI_Cursor</Filter>
@@ -709,13 +661,13 @@
       <Filter>03.UI\Battle\UI_Pnal\UI_Pnal_Attack</Filter>
     </ClInclude>
     <ClInclude Include="..\Public\UI_Battle_Stage_Item.h">
-      <Filter>03.UI\Battle\Player_Battle\Stage\UI_Battle_Stage_Item</Filter>
+      <Filter>04.Custom\Player_Battle\Stage\UI_Battle_Stage_Item</Filter>
     </ClInclude>
     <ClInclude Include="..\Public\UI_Battle_Stage_Wait.h">
-      <Filter>03.UI\Battle\Player_Battle\Stage\UI_Battle_Stage_Wait</Filter>
+      <Filter>04.Custom\Player_Battle\Stage\UI_Battle_Stage_Wait</Filter>
     </ClInclude>
     <ClInclude Include="..\Public\UI_Battle_Stage_Target_Member.h">
-      <Filter>03.UI\Battle\Player_Battle\Stage\UI_Battle_Stage_Target_Member</Filter>
+      <Filter>04.Custom\Player_Battle\Stage\UI_Battle_Stage_Target_Member</Filter>
     </ClInclude>
     <ClInclude Include="..\Public\UI_Pnal_Item.h">
       <Filter>03.UI\Battle\UI_Pnal\UI_Pnal_Item</Filter>
@@ -748,7 +700,7 @@
       <Filter>02.GameObjects\Chr\Chr_Battle\Vanila</Filter>
     </ClInclude>
     <ClInclude Include="..\Public\UI_Battle_Stage_Optima.h">
-      <Filter>03.UI\Battle\Player_Battle\Stage\UI_Battle_Stage_Optima</Filter>
+      <Filter>04.Custom\Player_Battle\Stage\UI_Battle_Stage_Optima</Filter>
     </ClInclude>
     <ClInclude Include="..\Public\Chr_Battle_Light_State_Optima.h">
       <Filter>02.GameObjects\Chr\Chr_Battle\Light\State\Chr_Battle_Light_State_Optima</Filter>
@@ -760,7 +712,7 @@
       <Filter>03.UI\Battle\UI_Chr</Filter>
     </ClInclude>
     <ClInclude Include="..\PUblic\UI_Battle_Stage_Wait_Optima.h">
-      <Filter>03.UI\Battle\Player_Battle\Stage\UI_Battle_Stage_Wait_Optima</Filter>
+      <Filter>04.Custom\Player_Battle\Stage\UI_Battle_Stage_Wait_Optima</Filter>
     </ClInclude>
     <ClInclude Include="..\Public\Monster.h">
       <Filter>02.GameObjects\Monster</Filter>
@@ -791,9 +743,6 @@
     </ClInclude>
     <ClInclude Include="..\Public\Leopard_State_Start.h">
       <Filter>02.GameObjects\Monster\Leopard\State\Leopard_State_Start</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Public\Particle_Blue.h">
-      <Filter>02.GameObjects\For_Study\Particle_Blue</Filter>
     </ClInclude>
     <ClInclude Include="..\Public\Sky.h">
       <Filter>02.GameObjects\Sky</Filter>
@@ -877,7 +826,7 @@
       <Filter>01.Levels\Field_Boss</Filter>
     </ClInclude>
     <ClInclude Include="..\Public\UI_Battle_Stage_Finish.h">
-      <Filter>03.UI\Battle\Player_Battle\Stage\UI_Battle_Stage_Finish</Filter>
+      <Filter>04.Custom\Player_Battle\Stage\UI_Battle_Stage_Finish</Filter>
     </ClInclude>
     <ClInclude Include="..\Public\Level_Boss_Battle.h">
       <Filter>01.Levels\Boss_Battle</Filter>
@@ -934,13 +883,13 @@
       <Filter>02.GameObjects\Effect\Object\Effect_2D</Filter>
     </ClInclude>
     <ClInclude Include="..\Public\Effect_Interface.h">
-      <Filter>02.GameObjects\Effect\Template\Interface</Filter>
+      <Filter>02.GameObjects\Effect\Interface</Filter>
     </ClInclude>
     <ClInclude Include="..\Public\Effect_2D_Bone.h">
       <Filter>02.GameObjects\Effect\Object\Effect_2D_Bone</Filter>
     </ClInclude>
     <ClInclude Include="..\Public\Effect_3D.h">
-      <Filter>02.GameObjects\Effect\Template\Effect_3D</Filter>
+      <Filter>02.GameObjects\Effect\Object\Effect_3D</Filter>
     </ClInclude>
     <ClInclude Include="..\Public\EffectTool.h">
       <Filter>05.Tool\EffectTool</Filter>
@@ -949,7 +898,7 @@
       <Filter>01.Levels\EffectTool</Filter>
     </ClInclude>
     <ClInclude Include="..\Public\Effect_Instance.h">
-      <Filter>02.GameObjects\Effect\Template\Effect_Instance</Filter>
+      <Filter>02.GameObjects\Effect\Object\Effect_Instance</Filter>
     </ClInclude>
     <ClInclude Include="..\Public\Effect_Camera_Look.h">
       <Filter>02.GameObjects\Effect\Object\Effect_Camera_Look</Filter>
@@ -958,10 +907,10 @@
       <Filter>02.GameObjects\Monster\Corpse</Filter>
     </ClInclude>
     <ClInclude Include="..\Public\Electricity.h">
-      <Filter>02.GameObjects\Effect\Object\Electricity</Filter>
+      <Filter>02.GameObjects\Effect\Object\Effect_3D\Electricity</Filter>
     </ClInclude>
     <ClInclude Include="..\Public\Electricity_Left.h">
-      <Filter>02.GameObjects\Effect\Object\Electricity\Electricity_Left</Filter>
+      <Filter>02.GameObjects\Effect\Object\Effect_3D\Electricity\Electricity_Left</Filter>
     </ClInclude>
     <ClInclude Include="..\Public\HellBlast.h">
       <Filter>02.GameObjects\Projectile\HellBlast</Filter>
@@ -973,7 +922,7 @@
       <Filter>02.GameObjects\Blur\LoadingOutBlur</Filter>
     </ClInclude>
     <ClInclude Include="..\Public\UI_Battle_Stage_Begin.h">
-      <Filter>03.UI\Battle\Player_Battle\Stage\UI_Battle_Stage_Begin</Filter>
+      <Filter>04.Custom\Player_Battle\Stage\UI_Battle_Stage_Begin</Filter>
     </ClInclude>
     <ClInclude Include="..\Public\UI_Warning.h">
       <Filter>03.UI\Battle\UI_Warning</Filter>
@@ -982,9 +931,6 @@
   <ItemGroup>
     <ClCompile Include="..\private\MainApp.cpp">
       <Filter>00.MainApp</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Private\Level_GamePlay.cpp">
-      <Filter>01.Levels\GamePlay</Filter>
     </ClCompile>
     <ClCompile Include="..\Private\Level_Loading.cpp">
       <Filter>01.Levels\00. Loading</Filter>
@@ -997,9 +943,6 @@
     </ClCompile>
     <ClCompile Include="..\private\BackGround.cpp">
       <Filter>02.GameObjects\BackGround</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Private\Terrain.cpp">
-      <Filter>02.GameObjects\For_Study\Terrain</Filter>
     </ClCompile>
     <ClCompile Include="..\Private\Camera_Free.cpp">
       <Filter>02.GameObjects\Camera</Filter>
@@ -1043,9 +986,6 @@
     <ClCompile Include="stdafx.cpp">
       <Filter>98.Default\Default</Filter>
     </ClCompile>
-    <ClCompile Include="..\Private\Monster_Study.cpp">
-      <Filter>02.GameObjects\For_Study\Monster</Filter>
-    </ClCompile>
     <ClCompile Include="..\Private\Camera_Field.cpp">
       <Filter>02.GameObjects\Camera\Camera_Field</Filter>
     </ClCompile>
@@ -1064,9 +1004,6 @@
     <ClCompile Include="..\Private\Level_Field.cpp">
       <Filter>01.Levels\Field</Filter>
     </ClCompile>
-    <ClCompile Include="..\Private\Forklift.cpp">
-      <Filter>02.GameObjects\For_Study\Forklift</Filter>
-    </ClCompile>
     <ClCompile Include="..\Private\Chr_Field.cpp">
       <Filter>02.GameObjects\Chr\Chr_Field</Filter>
     </ClCompile>
@@ -1081,15 +1018,6 @@
     </ClCompile>
     <ClCompile Include="..\Private\Chr_Field_State_Item.cpp">
       <Filter>02.GameObjects\Chr\Chr_Field\State\Chr_Field_State_Item</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Private\Player_Study.cpp">
-      <Filter>02.GameObjects\For_Study\Player</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Private\Body_Player.cpp">
-      <Filter>02.GameObjects\For_Study\Player\Body_Player</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Private\Weapon_Study.cpp">
-      <Filter>02.GameObjects\For_Study\Player\Weapon</Filter>
     </ClCompile>
     <ClCompile Include="..\Private\Chr_Battle.cpp">
       <Filter>02.GameObjects\Chr\Chr_Battle</Filter>
@@ -1131,22 +1059,22 @@
       <Filter>03.UI\Battle\UI_ATB</Filter>
     </ClCompile>
     <ClCompile Include="..\Private\Player_Battle.cpp">
-      <Filter>03.UI\Battle\Player_Battle</Filter>
+      <Filter>04.Custom\Player_Battle</Filter>
     </ClCompile>
     <ClCompile Include="..\Private\UI_Pnal.cpp">
       <Filter>03.UI\Battle\UI_Pnal</Filter>
     </ClCompile>
     <ClCompile Include="..\Private\UI_Battle_Stage_Select.cpp">
-      <Filter>03.UI\Battle\Player_Battle\Stage\UI_Battle_Stage_Select</Filter>
+      <Filter>04.Custom\Player_Battle\Stage\UI_Battle_Stage_Select</Filter>
     </ClCompile>
     <ClCompile Include="..\Private\UI_Battle_Stage_Item.cpp">
-      <Filter>03.UI\Battle\Player_Battle\Stage\UI_Battle_Stage_Item</Filter>
+      <Filter>04.Custom\Player_Battle\Stage\UI_Battle_Stage_Item</Filter>
     </ClCompile>
     <ClCompile Include="..\Private\UI_Battle_Stage_Command.cpp">
-      <Filter>03.UI\Battle\Player_Battle\Stage\UI_Battle_Stage_Command</Filter>
+      <Filter>04.Custom\Player_Battle\Stage\UI_Battle_Stage_Command</Filter>
     </ClCompile>
     <ClCompile Include="..\Private\UI_Battle_Stage_Target.cpp">
-      <Filter>03.UI\Battle\Player_Battle\Stage\UI_Battle_Stage_Target</Filter>
+      <Filter>04.Custom\Player_Battle\Stage\UI_Battle_Stage_Target</Filter>
     </ClCompile>
     <ClCompile Include="..\Private\UI_Cursor.cpp">
       <Filter>03.UI\Battle\UI_Cursor</Filter>
@@ -1167,10 +1095,10 @@
       <Filter>03.UI\Battle\UI_Pnal\UI_Pnal_Attack</Filter>
     </ClCompile>
     <ClCompile Include="..\Private\UI_Battle_Stage_Wait.cpp">
-      <Filter>03.UI\Battle\Player_Battle\Stage\UI_Battle_Stage_Wait</Filter>
+      <Filter>04.Custom\Player_Battle\Stage\UI_Battle_Stage_Wait</Filter>
     </ClCompile>
     <ClCompile Include="..\Private\UI_Battle_Stage_Target_Member.cpp">
-      <Filter>03.UI\Battle\Player_Battle\Stage\UI_Battle_Stage_Target_Member</Filter>
+      <Filter>04.Custom\Player_Battle\Stage\UI_Battle_Stage_Target_Member</Filter>
     </ClCompile>
     <ClCompile Include="..\Private\UI_Pnal_Item.cpp">
       <Filter>03.UI\Battle\UI_Pnal\UI_Pnal_Item</Filter>
@@ -1203,7 +1131,7 @@
       <Filter>02.GameObjects\Chr\Chr_Battle\Vanila</Filter>
     </ClCompile>
     <ClCompile Include="..\Private\UI_Battle_Stage_Optima.cpp">
-      <Filter>03.UI\Battle\Player_Battle\Stage\UI_Battle_Stage_Optima</Filter>
+      <Filter>04.Custom\Player_Battle\Stage\UI_Battle_Stage_Optima</Filter>
     </ClCompile>
     <ClCompile Include="..\Private\Chr_Battle_Light_State_Optima.cpp">
       <Filter>02.GameObjects\Chr\Chr_Battle\Light\State\Chr_Battle_Light_State_Optima</Filter>
@@ -1215,7 +1143,7 @@
       <Filter>03.UI\Battle\UI_Chr</Filter>
     </ClCompile>
     <ClCompile Include="..\Private\UI_Battle_Stage_Wait_Optima.cpp">
-      <Filter>03.UI\Battle\Player_Battle\Stage\UI_Battle_Stage_Wait_Optima</Filter>
+      <Filter>04.Custom\Player_Battle\Stage\UI_Battle_Stage_Wait_Optima</Filter>
     </ClCompile>
     <ClCompile Include="..\Private\Monster.cpp">
       <Filter>02.GameObjects\Monster</Filter>
@@ -1246,9 +1174,6 @@
     </ClCompile>
     <ClCompile Include="..\Private\Leopard_State_Start.cpp">
       <Filter>02.GameObjects\Monster\Leopard\State\Leopard_State_Start</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Private\Particle_Blue.cpp">
-      <Filter>02.GameObjects\For_Study\Particle_Blue</Filter>
     </ClCompile>
     <ClCompile Include="..\Private\Sky.cpp">
       <Filter>02.GameObjects\Sky</Filter>
@@ -1332,7 +1257,7 @@
       <Filter>01.Levels\Field_Boss</Filter>
     </ClCompile>
     <ClCompile Include="..\Private\UI_Battle_Stage_Finish.cpp">
-      <Filter>03.UI\Battle\Player_Battle\Stage\UI_Battle_Stage_Finish</Filter>
+      <Filter>04.Custom\Player_Battle\Stage\UI_Battle_Stage_Finish</Filter>
     </ClCompile>
     <ClCompile Include="..\Private\Level_Boss_Battle.cpp">
       <Filter>01.Levels\Boss_Battle</Filter>
@@ -1392,13 +1317,13 @@
       <Filter>02.GameObjects\Effect\Object\Effect_2D</Filter>
     </ClCompile>
     <ClCompile Include="..\Private\Effect_Interface.cpp">
-      <Filter>02.GameObjects\Effect\Template\Interface</Filter>
+      <Filter>02.GameObjects\Effect\Interface</Filter>
     </ClCompile>
     <ClCompile Include="..\Private\Effect_2D_Bone.cpp">
       <Filter>02.GameObjects\Effect\Object\Effect_2D_Bone</Filter>
     </ClCompile>
     <ClCompile Include="..\Private\Effect_3D.cpp">
-      <Filter>02.GameObjects\Effect\Template\Effect_3D</Filter>
+      <Filter>02.GameObjects\Effect\Object\Effect_3D</Filter>
     </ClCompile>
     <ClCompile Include="..\Private\EffectTool.cpp">
       <Filter>05.Tool\EffectTool</Filter>
@@ -1407,7 +1332,7 @@
       <Filter>01.Levels\EffectTool</Filter>
     </ClCompile>
     <ClCompile Include="..\Private\Effect_Instance.cpp">
-      <Filter>02.GameObjects\Effect\Template\Effect_Instance</Filter>
+      <Filter>02.GameObjects\Effect\Object\Effect_Instance</Filter>
     </ClCompile>
     <ClCompile Include="..\Private\Effect_Camera_Look.cpp">
       <Filter>02.GameObjects\Effect\Object\Effect_Camera_Look</Filter>
@@ -1416,10 +1341,10 @@
       <Filter>02.GameObjects\Monster\Corpse</Filter>
     </ClCompile>
     <ClCompile Include="..\Private\Electricity.cpp">
-      <Filter>02.GameObjects\Effect\Object\Electricity</Filter>
+      <Filter>02.GameObjects\Effect\Object\Effect_3D\Electricity</Filter>
     </ClCompile>
     <ClCompile Include="..\Private\Electricity_Left.cpp">
-      <Filter>02.GameObjects\Effect\Object\Electricity\Electricity_Left</Filter>
+      <Filter>02.GameObjects\Effect\Object\Effect_3D\Electricity\Electricity_Left</Filter>
     </ClCompile>
     <ClCompile Include="..\Private\HellBlast.cpp">
       <Filter>02.GameObjects\Projectile\HellBlast</Filter>
@@ -1431,7 +1356,7 @@
       <Filter>02.GameObjects\Blur\LoadingOutBlur</Filter>
     </ClCompile>
     <ClCompile Include="..\Private\UI_Battle_Stage_Begin.cpp">
-      <Filter>03.UI\Battle\Player_Battle\Stage\UI_Battle_Stage_Begin</Filter>
+      <Filter>04.Custom\Player_Battle\Stage\UI_Battle_Stage_Begin</Filter>
     </ClCompile>
     <ClCompile Include="..\Private\UI_Warning.cpp">
       <Filter>03.UI\Battle\UI_Warning</Filter>

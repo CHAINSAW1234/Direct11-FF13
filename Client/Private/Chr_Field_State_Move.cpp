@@ -50,6 +50,7 @@ void CChr_Field_State_Move::OnStateUpdate(_float fTimeDelta)
 
 void CChr_Field_State_Move::OnStateExit()
 {
+	m_pGameInstance->StopSound(CSound_Manager::EFFECT_GENERAL);
 	// MOVE_IDLE일거라고 가정
 	if (m_pChr_Field->Get_CurrentTrackPosition() > 7.f && m_pChr_Field->Get_CurrentTrackPosition() <= 15.f)
 		m_pChr_Field->Change_Animation(CChr_Field::MOVE_STOP_LEFT, false);
@@ -76,15 +77,19 @@ void CChr_Field_State_Move::Move(_float fTimeDelta)
 	if (abs(m_fDegree) > 5.f)
 		m_pChr_Field->Get_Transform()->Turn(XMVectorSet(0.f, 1.f, 0.f, 0.f), fTimeDelta * m_fDegree / abs(m_fDegree));
 
+	m_pGameInstance->PlaySoundOnce(TEXT("Light_Ft.wav"), CSound_Manager::EFFECT_GENERAL, SOUND_DEFAULT - 0.2f);
+
 	m_pChr_Field->Get_Transform()->Go_Straight(fTimeDelta * 3, m_pChr_Field->Get_Navigation());
 
 	if (m_fDegree > 90) {
 		m_pChr_Field->Change_Animation(CChr_Field::MOVE_TURN_LEFT, false);
+		m_pGameInstance->StopSound(CSound_Manager::EFFECT_GENERAL);
 		m_eState = TURN;
 	}
 
 	if (m_fDegree < -90) {
 		m_pChr_Field->Change_Animation(CChr_Field::MOVE_TURN_RIGHT, false);
+		m_pGameInstance->StopSound(CSound_Manager::EFFECT_GENERAL);
 		m_eState = TURN;
 	}
 

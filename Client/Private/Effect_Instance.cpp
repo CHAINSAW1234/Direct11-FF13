@@ -37,6 +37,10 @@ HRESULT CEffect_Instance::Initialize(void* pArg)
 
 void CEffect_Instance::Tick(_float fTimeDelta)
 {
+	if (m_pGameInstance->Get_Slow()) {
+		fTimeDelta = m_pGameInstance->Get_OriginTime();
+	}
+
 	__super::Tick(fTimeDelta);
 
 	m_pVIBufferCom->Begin();

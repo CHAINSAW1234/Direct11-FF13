@@ -1,7 +1,7 @@
 #include "stdafx.h"
 #include "Inventory.h"
 
-const wstring CInventory::strItemName[ITEM_END] = {TEXT("포션"), TEXT("피닉스의 꼬리"), TEXT("개쩌는 아이템")};
+const wstring CInventory::strItemName[ITEM_END] = {TEXT("포션"), TEXT("피닉스의 꼬리"), TEXT("풀 포션")};
 
 HRESULT CInventory::Initialize_Prototype()
 {

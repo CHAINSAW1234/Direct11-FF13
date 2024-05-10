@@ -1,7 +1,7 @@
 #include "stdafx.h"
 #include "UI_Number.h"
 
-const _float4 CUI_Number::vTypeColor[TYPE_END] = { {1.f,1.f,1.f,1.f}, { 1.f,0.8f,0.f,1.f }, { 1.f,0.f,0.f,1.f}, {0.f,1.f,0.f, 1.f} };
+const _float4 CUI_Number::vTypeColor[TYPE_END] = { {1.f,1.f,1.f,1.f}, { 1.f,0.8f,0.f,1.f }, { 1.f,0.f,0.f,1.f}, {0.f,1.f,0.f, 1.f}, { 1.f,0.8f,0.f,1.f } };
 
 CUI_Number::CUI_Number(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
 	: CUI{ pDevice, pContext }
@@ -37,10 +37,14 @@ HRESULT CUI_Number::Initialize(void* pArg)
 
 
 	_float4 vPosition = pUI_Number_Desc->vPosition;
-	vPosition.x += Random_Float(2);
-	vPosition.y += 1.f;
-	vPosition.y += Random_Float(2);
-	vPosition.z += Random_Float(2);
+	if (m_eType != BREAK) {
+		vPosition.x += Random_Float(2);
+
+		vPosition.y += Random_Float(2);
+		vPosition.z += Random_Float(2);
+	}
+
+	vPosition.y += 2.f;
 	m_pTransformCom->Set_State(CTransform::STATE_POSITION, vPosition);
  
 	m_eState = LERP;
@@ -54,6 +58,10 @@ HRESULT CUI_Number::Initialize(void* pArg)
 
 void CUI_Number::Tick(_float fTimeDelta)
 {
+	if (m_pGameInstance->Get_Slow()) {
+		fTimeDelta = m_pGameInstance->Get_OriginTime();
+	}
+
 	m_fTimeDelta += fTimeDelta;
 
 	Update_Position();
@@ -81,8 +89,16 @@ HRESULT CUI_Number::Late_Tick(_float fTimeDelta)
 
 HRESULT CUI_Number::Render()
 {
-	if (FAILED(m_pGameInstance->Render_Font(g_strFontEng32Tag, to_wstring(m_iCurNumber), m_vFontPosition, XMLoadFloat4(&Get_Color(m_eType)), 0.f)))
-		return E_FAIL;
+
+	if (m_eType == BREAK) {
+		if (FAILED(m_pGameInstance->Render_Font(g_strFontAlphaTag, TEXT("BREAK!"), m_vFontPosition, XMLoadFloat4(&Get_Color(m_eType)), 0.f)))
+			return E_FAIL;
+	}
+	else {
+		if (FAILED(m_pGameInstance->Render_Font(g_strFontEng32Tag, to_wstring(m_iCurNumber), m_vFontPosition, XMLoadFloat4(&Get_Color(m_eType)), 0.f)))
+			return E_FAIL;
+	}
+
 
 	return S_OK;
 }
@@ -107,7 +123,7 @@ void CUI_Number::Update_Position()
 	vPos.z = 0.f;
 
 	//m_pTransformCom->Set_State(CTransform::STATE_POSITION, vPos);
-	m_vFontPosition = { vPos.x + (g_iWinSizeX - m_fSizeX) * 0.5f ,-vPos.y + g_iWinSizeY * 0.5f };
+	m_vFontPosition = { vPos.x + (g_iWinSizeX - m_fSizeX) * 0.5f - 25.f ,-vPos.y + g_iWinSizeY * 0.5f };
 }
 
 void CUI_Number::Change_State(STATE eState)
@@ -137,7 +153,6 @@ void CUI_Number::Idle()
 
 void CUI_Number::Disappear(_float fTimeDelta)
 {
-
 	m_pTransformCom->Go_Up(fTimeDelta * 0.3f);
 	Update_Position();
 

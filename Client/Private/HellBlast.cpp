@@ -1,6 +1,8 @@
 #include "stdafx.h"
 #include "HellBlast.h"
 #include "Effect.h"
+#include "Chr_Battle.h"
+#include "Boss.h"
 
 CHellBlast::CHellBlast(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
 	: CGameObject{ pDevice, pContext }
@@ -32,10 +34,8 @@ HRESULT CHellBlast::Initialize(void* pArg)
 
 	m_pTransformCom->Set_State(CTransform::STATE_POSITION, pDesc->vPosition);
 
-
 	if (FAILED(CEffect::Read_File_Loop("../Bin/Resources/Effect/Hell_Blast.dat", m_pGameInstance, m_pDevice, m_pContext, &m_Effects)))
 		return E_FAIL;
-
 
 	for (auto& pEffect : m_Effects) {
 		pEffect->Set_Position(m_pTransformCom->Get_State_Float4(CTransform::STATE_POSITION));
@@ -60,6 +60,11 @@ void CHellBlast::Tick(_float fTimeDelta)
 
 		Set_Damage();// 이펙트, 데미지 처리 
 		m_pGameInstance->PlaySoundDuplicate(TEXT("HellBlast_Explosion.wav"), CSound_Manager::EFFECT_DUPLICATE, SOUND_DEFAULT);
+		CEffect::Read_File_NoLoop("../Bin/Resources/Effect/Explosion_Start.dat", m_pGameInstance, m_pDevice, m_pContext, vPosition);
+
+		vPosition.y += 5.f;
+		CEffect::Read_File_NoLoop("../Bin/Resources/Effect/Particle_Explosion.dat", m_pGameInstance, m_pDevice, m_pContext, vPosition);
+		CEffect::Read_File_NoLoop("../Bin/Resources/Effect/Explosion_Boss_Near.dat", m_pGameInstance, m_pDevice, m_pContext, vPosition);
 	}
 
 }
@@ -83,7 +88,6 @@ void CHellBlast::Start()
 {
 }
 
-
 void CHellBlast::Move(_float fTimeDelta)
 {
 	if (!m_isMove)
@@ -95,6 +99,12 @@ void CHellBlast::Move(_float fTimeDelta)
 
 void CHellBlast::Set_Damage()
 {
+	size_t iNum = m_pGameInstance->Get_LayerCnt(g_Level, g_strChrLayerTag);
+	for (size_t i = 0; i < iNum; ++i) {
+		CChr_Battle* pChr_Battle = (CChr_Battle*)m_pGameInstance->Get_GameObject(g_Level, g_strChrLayerTag, (_uint)i);
+		pChr_Battle->Set_Hit(pChr_Battle->Get_Hp()-3);
+	}
+
 }
 
 CHellBlast* CHellBlast::Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)

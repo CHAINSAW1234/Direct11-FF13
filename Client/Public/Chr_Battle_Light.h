@@ -80,7 +80,6 @@ private:
 	virtual HRESULT Add_PartObjects() override;
 	virtual HRESULT Add_Ability() override;
 
-	void	Update_FSMState(_float fTimeDelta);
 	void	Show_ImGUI();
 
 private:

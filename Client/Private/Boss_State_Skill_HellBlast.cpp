@@ -16,6 +16,7 @@ void CBoss_State_Skill_HellBlast::OnStateEnter()
     m_isSkill[0] = false;
     m_isSkill[1] = false;
     m_eState = MOVE;
+    m_pBoss->Reset_Attakable();
     m_pBoss->Change_Animation(CBoss::MOVE_STRAIGHT_START, false);
     m_pUI_Skill = m_pBoss->Create_UI_Skill(TEXT("Çï ºí·¡½ºÆ®"));
 }

@@ -5,6 +5,7 @@
 #include "Shader.h"
 
 #include "Effect.h"
+#include "Effect_Instance.h"
 #include "Effect_Camera_Look.h"
 #include "Monster.h"
 #include "Chr_Battle.h"
@@ -57,8 +58,6 @@ HRESULT CSphere::Initialize(void* pArg)
 		m_fTrailPosition[i] = m_fStartPosition;
 	}
 
-
-
 	if (FAILED(Add_Components()))
 		return E_FAIL;
 
@@ -106,11 +105,27 @@ HRESULT CSphere::Initialize(void* pArg)
 void CSphere::Tick(_float fTimeDelta)
 {
 	m_fTimeDelta += fTimeDelta;
+	m_fParticleCreateTimeDelta += fTimeDelta;
 
 	Move(fTimeDelta);
 	Update_Trail();
 	for (auto& pEffect : m_Effects)
 		pEffect->Set_Position(m_pTransformCom->Get_State_Float4(CTransform::STATE_POSITION));
+
+
+	if (m_fParticleCreateTimeDelta >= 0.2) {
+		vector<CEffect*> Effects;
+		CEffect::Read_File_NoLoop("../Bin/Resources/Effect/Particle_Projectile.dat", m_pGameInstance, m_pDevice, m_pContext, m_pTransformCom->Get_State_Float4(CTransform::STATE_POSITION), &Effects);
+
+		_float4 fDirection = m_pTransformCom->Get_State_Float4(CTransform::STATE_LOOK);
+
+		for (auto& pEffect : Effects) {
+			((CEffect_Instance*)pEffect)->Set_Direction(fDirection);
+			Safe_Release(pEffect);
+		}
+		m_fParticleCreateTimeDelta = 0.f;
+	}
+
 
 	if (m_pTargetObject->Get_Dead()) {
 		Set_Dead(true);
@@ -182,20 +197,27 @@ HRESULT CSphere::Add_Components()
 
 HRESULT CSphere::Bind_ShaderResources()
 {
-	_float fSizeY = 1.f;
+	_float fSizeY = .5f;
 	if (nullptr == m_pShaderCom)
 		return E_FAIL;
 
 	if (FAILED(m_pTransformCom->Bind_ShaderResource(m_pShaderCom, "g_WorldMatrix")))
 		return E_FAIL;
 
+	//if (FAILED(m_pShaderCom->Bind_Matrix("g_WorldMatrix", &m_pGameInstance->Get_Transform_Float4x4_Inverse(CPipeLine::D3DTS_VIEW))))
+	//	return E_FAIL;
+
 	if (FAILED(m_pShaderCom->Bind_Matrix("g_ViewMatrix", &m_pGameInstance->Get_Transform_Float4x4(CPipeLine::D3DTS_VIEW))))
 		return E_FAIL;
 	if (FAILED(m_pShaderCom->Bind_Matrix("g_ProjMatrix", &m_pGameInstance->Get_Transform_Float4x4(CPipeLine::D3DTS_PROJ))))
 		return E_FAIL;
 
+	if (FAILED(m_pShaderCom->Bind_RawValue("g_vCamPosition", &m_pGameInstance->Get_CamPosition_Float4(), sizeof(_float4))))
+		return E_FAIL;
+
 	if (FAILED(m_pShaderCom->Bind_RawValue("g_vPosition", &m_fTrailPosition, sizeof(_float4) * 16 )))
 		return E_FAIL;
+
 	if (FAILED(m_pShaderCom->Bind_RawValue("g_SizeY", &fSizeY, sizeof(_float))))
 		return E_FAIL;
 

@@ -22,7 +22,7 @@ public:
 	virtual HRESULT Render() override;
 
 public:
-
+	void Set_YOffset(_float fYOffSet) { m_fYOffset = fYOffSet; }
 private:
 	_float			m_fMouseSensor = { 0.1f };
 

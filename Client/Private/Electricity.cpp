@@ -158,19 +158,28 @@ void CElectricity::Create_Electricity_Left()
     
     if (FAILED(m_pGameInstance->Add_Clone(g_Level, TEXT("Layer_Effect"), TEXT("Prototype_GameObject_Electricity_Left"), &pDesc)))
         return;
+
+    pDesc.isCamLook = rand() % 3;
     if (FAILED(m_pGameInstance->Add_Clone(g_Level, TEXT("Layer_Effect"), TEXT("Prototype_GameObject_Electricity_Left"), &pDesc)))
         return;
+
+    pDesc.isCamLook = rand() % 3;
     if (FAILED(m_pGameInstance->Add_Clone(g_Level, TEXT("Layer_Effect"), TEXT("Prototype_GameObject_Electricity_Left"), &pDesc)))
         return;
+
+    pDesc.isCamLook = rand() % 3;
     if (FAILED(m_pGameInstance->Add_Clone(g_Level, TEXT("Layer_Effect"), TEXT("Prototype_GameObject_Electricity_Left"), &pDesc)))
         return;
+
+    pDesc.isCamLook = rand() % 3;
     if (FAILED(m_pGameInstance->Add_Clone(g_Level, TEXT("Layer_Effect"), TEXT("Prototype_GameObject_Electricity_Left"), &pDesc)))
         return;
+
+    pDesc.isCamLook = rand() % 3;
     if (FAILED(m_pGameInstance->Add_Clone(g_Level, TEXT("Layer_Effect"), TEXT("Prototype_GameObject_Electricity_Left"), &pDesc)))
         return;
 
     CEffect::Read_File_NoLoop("../Bin/Resources/Effect/Particle_Boss_Electricity_Left.dat", m_pGameInstance, m_pDevice, m_pContext, m_fTargetPosition);
-
 
 }
 

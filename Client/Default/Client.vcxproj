@@ -174,7 +174,6 @@
     <ClInclude Include="..\Public\Ability.h" />
     <ClInclude Include="..\public\BackGround.h" />
     <ClInclude Include="..\Public\Body.h" />
-    <ClInclude Include="..\Public\Body_Player.h" />
     <ClInclude Include="..\Public\Boss.h" />
     <ClInclude Include="..\Public\Boss_State_Attack_Magic.h" />
     <ClInclude Include="..\Public\Boss_State_Attack_Physic.h" />
@@ -231,7 +230,6 @@
     <ClInclude Include="..\Public\Effect_Interface.h" />
     <ClInclude Include="..\Public\Electricity.h" />
     <ClInclude Include="..\Public\Electricity_Left.h" />
-    <ClInclude Include="..\Public\Forklift.h" />
     <ClInclude Include="..\Public\Grid.h" />
     <ClInclude Include="..\Public\HellBlast.h" />
     <ClInclude Include="..\Public\ImGUI_Manager.h" />
@@ -247,7 +245,6 @@
     <ClInclude Include="..\Public\Level_EffectTool.h" />
     <ClInclude Include="..\Public\Level_Field.h" />
     <ClInclude Include="..\Public\Level_Field_Boss.h" />
-    <ClInclude Include="..\Public\Level_GamePlay.h" />
     <ClInclude Include="..\Public\Level_Loading.h" />
     <ClInclude Include="..\Public\Level_Logo.h" />
     <ClInclude Include="..\Public\Level_MapTool.h" />
@@ -259,11 +256,8 @@
     <ClInclude Include="..\Public\MapObject.h" />
     <ClInclude Include="..\Public\MapTool.h" />
     <ClInclude Include="..\Public\Monster.h" />
-    <ClInclude Include="..\Public\Monster_Study.h" />
     <ClInclude Include="..\Public\Optima.h" />
-    <ClInclude Include="..\Public\Particle_Blue.h" />
     <ClInclude Include="..\Public\Player_Battle.h" />
-    <ClInclude Include="..\Public\Player_Study.h" />
     <ClInclude Include="..\Public\Role.h" />
     <ClInclude Include="..\Public\Sky.h" />
     <ClInclude Include="..\Public\Solider.h" />
@@ -276,7 +270,6 @@
     <ClInclude Include="..\Public\Solider_State_Start.h" />
     <ClInclude Include="..\Public\Sphere.h" />
     <ClInclude Include="..\Public\Sphere_Heal.h" />
-    <ClInclude Include="..\Public\Terrain.h" />
     <ClInclude Include="..\Public\Trigger.h" />
     <ClInclude Include="..\Public\Troup.h" />
     <ClInclude Include="..\Public\UI.h" />
@@ -312,7 +305,6 @@
     <ClInclude Include="..\Public\Warload_State_Skill.h" />
     <ClInclude Include="..\Public\Warload_State_Start.h" />
     <ClInclude Include="..\Public\Weapon_Anim.h" />
-    <ClInclude Include="..\Public\Weapon_Study.h" />
     <ClInclude Include="Client.h" />
     <ClInclude Include="ImGUI\dirent.h" />
     <ClInclude Include="ImGUI\imconfig.h" />
@@ -334,7 +326,6 @@
     <ClCompile Include="..\Private\Ability.cpp" />
     <ClCompile Include="..\private\BackGround.cpp" />
     <ClCompile Include="..\Private\Body.cpp" />
-    <ClCompile Include="..\Private\Body_Player.cpp" />
     <ClCompile Include="..\Private\Boss.cpp" />
     <ClCompile Include="..\Private\Boss_State_Attack_Magic.cpp" />
     <ClCompile Include="..\Private\Boss_State_Attack_Physic.cpp" />
@@ -390,7 +381,6 @@
     <ClCompile Include="..\Private\Effect_Interface.cpp" />
     <ClCompile Include="..\Private\Electricity.cpp" />
     <ClCompile Include="..\Private\Electricity_Left.cpp" />
-    <ClCompile Include="..\Private\Forklift.cpp" />
     <ClCompile Include="..\Private\Grid.cpp" />
     <ClCompile Include="..\Private\HellBlast.cpp" />
     <ClCompile Include="..\Private\ImGUI_Manager.cpp" />
@@ -406,7 +396,6 @@
     <ClCompile Include="..\Private\Level_EffectTool.cpp" />
     <ClCompile Include="..\Private\Level_Field.cpp" />
     <ClCompile Include="..\Private\Level_Field_Boss.cpp" />
-    <ClCompile Include="..\Private\Level_GamePlay.cpp" />
     <ClCompile Include="..\Private\Level_Loading.cpp" />
     <ClCompile Include="..\Private\Level_Logo.cpp" />
     <ClCompile Include="..\Private\Level_MapTool.cpp" />
@@ -418,11 +407,8 @@
     <ClCompile Include="..\Private\MapObject.cpp" />
     <ClCompile Include="..\Private\MapTool.cpp" />
     <ClCompile Include="..\Private\Monster.cpp" />
-    <ClCompile Include="..\Private\Monster_Study.cpp" />
     <ClCompile Include="..\Private\Optima.cpp" />
-    <ClCompile Include="..\Private\Particle_Blue.cpp" />
     <ClCompile Include="..\Private\Player_Battle.cpp" />
-    <ClCompile Include="..\Private\Player_Study.cpp" />
     <ClCompile Include="..\Private\Role.cpp" />
     <ClCompile Include="..\Private\Sky.cpp" />
     <ClCompile Include="..\Private\Solider.cpp" />
@@ -435,7 +421,6 @@
     <ClCompile Include="..\Private\Solider_State_Start.cpp" />
     <ClCompile Include="..\Private\Sphere.cpp" />
     <ClCompile Include="..\Private\Sphere_Heal.cpp" />
-    <ClCompile Include="..\Private\Terrain.cpp" />
     <ClCompile Include="..\Private\Trigger.cpp" />
     <ClCompile Include="..\Private\Troup.cpp" />
     <ClCompile Include="..\Private\UI.cpp" />
@@ -471,7 +456,6 @@
     <ClCompile Include="..\Private\Warload_State_Skill.cpp" />
     <ClCompile Include="..\Private\Warload_State_Start.cpp" />
     <ClCompile Include="..\Private\Weapon_Anim.cpp" />
-    <ClCompile Include="..\Private\Weapon_Study.cpp" />
     <ClCompile Include="Client.cpp" />
     <ClCompile Include="ImGUI\imgui.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">NotUsing</PrecompiledHeader>

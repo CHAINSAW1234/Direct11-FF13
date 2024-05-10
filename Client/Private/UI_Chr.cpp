@@ -126,11 +126,14 @@ void CUI_Chr::OnNotify()
 		m_isRender = true;
 	}
 
-	m_iHp = m_pChr_Battle->Get_Hp();
-	if (m_iHp != m_iCurHp) {
-		m_iStartHp = m_iCurHp;
-		m_fHpLerpTimeDelta = 0.f;
+	if (m_iHp != m_pChr_Battle->Get_Hp()) {
+		m_iHp = m_pChr_Battle->Get_Hp();
+		if (m_iHp != m_iCurHp) {
+			m_iStartHp = m_iCurHp;
+			m_fHpLerpTimeDelta = 0.f;
+		}
 	}
+	
 }
 
 HRESULT CUI_Chr::Bind_ShaderResources()

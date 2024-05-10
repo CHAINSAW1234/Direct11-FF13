@@ -47,9 +47,9 @@ HRESULT CUI::Late_Tick(_float fTimeDelta)
 
     if (m_isRender) {
         if(m_isLateGroup)
-            m_pGameInstance->Add_RenderGroup(CRenderer::RENDER_UI, this);
-        else
             m_pGameInstance->Add_RenderGroup(CRenderer::RENDER_UI_LATE, this);
+        else
+            m_pGameInstance->Add_RenderGroup(CRenderer::RENDER_UI, this);
 
     }
 

@@ -43,7 +43,6 @@ private:
 	HRESULT Loading_For_Static_Component();
 	HRESULT Loading_For_Static_Component_Effect();
 	HRESULT Loading_For_Logo();
-	HRESULT Loading_For_GamePlay();
 	HRESULT Loading_For_MapTool();
 	HRESULT Loading_For_EffectTool();
 	HRESULT Loading_For_Field();

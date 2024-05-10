@@ -51,15 +51,8 @@
 #include "Effect_Instance.h"
 #include "Effect_Camera_Look.h"
 
-#include "Particle_Blue.h"
 #include "Camera_Free.h"
 #include "BackGround.h"
-#include "Player_Study.h"
-#include "Body_Player.h"
-#include "Weapon_Study.h"
-#include "Monster_Study.h"
-#include "Forklift.h"
-#include "Terrain.h"
 #include "Sky.h"
 
 #pragma region Tool
@@ -134,10 +127,6 @@ HRESULT CLoader::Start()
 		g_Level = LEVEL_LOGO;
 		hr = Loading_For_Logo();
 		break;
-	case LEVEL_GAMEPLAY:
-		g_Level = LEVEL_GAMEPLAY;
-		hr = Loading_For_GamePlay();
-		break;
 	case LEVEL_FIELD:
 		g_Level = LEVEL_FIELD;
 		hr = Loading_For_Field();
@@ -183,44 +172,9 @@ HRESULT CLoader::Loading_Prototype()
 
 #pragma region For_Study
 	
-	/* For.Prototype_GameObject_Particle_Blue */
-	if (FAILED(m_pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_Particle_Blue"),
-		CParticle_Blue::Create(m_pDevice, m_pContext))))
-		return E_FAIL;
-
-	/* For.Prototype_GameObject_Terrain */
-	if (FAILED(m_pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_Terrain"),
-		CTerrain::Create(m_pDevice, m_pContext))))
-		return E_FAIL;
-
 	/* For.Prototype_GameObject_Camera_Free */
 	if (FAILED(m_pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_Camera_Free"),
 		CCamera_Free::Create(m_pDevice, m_pContext))))
-		return E_FAIL;
-
-	/* For.Prototype_GameObject_Player */
-	if (FAILED(m_pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_Player_Study"),
-		CPlayer_Study::Create(m_pDevice, m_pContext))))
-		return E_FAIL;
-
-	/* For.Prototype_GameObject_Monster */
-	if (FAILED(m_pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_Monster"),
-		CMonster_Study::Create(m_pDevice, m_pContext))))
-		return E_FAIL;
-
-	/* For.Prototype_GameObject_Monster */
-	if (FAILED(m_pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_ForkLift"),
-		CForkLift::Create(m_pDevice, m_pContext))))
-		return E_FAIL;
-
-	/* For.Prototype_GameObject_Part_Body_Player */
-	if (FAILED(m_pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_Part_Body_Player"),
-		CBody_Player::Create(m_pDevice, m_pContext))))
-		return E_FAIL;
-
-	/* For.Prototype_GameObject_Part_Weapon */
-	if (FAILED(m_pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_Part_Weapon_Study"),
-		CWeapon_Study::Create(m_pDevice, m_pContext))))
 		return E_FAIL;
 
 #pragma endregion
@@ -471,7 +425,6 @@ HRESULT CLoader::Loading_Prototype()
 
 HRESULT CLoader::Loading_For_Static_Component()
 {
-
 	/* For.Prototype_Component_FSM */
 	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_FSM"),
 		CFSM::Create(m_pDevice, m_pContext))))
@@ -703,136 +656,6 @@ HRESULT CLoader::Loading_For_Logo()
 	
 	m_strLoadingText = TEXT("객체의 원형를(을) 로딩 중 입니다.");
 	
-	m_strLoadingText = TEXT("로딩이 완료되었습니다.");
-
-	m_isFinished = true;
-
-	return S_OK;
-}
-
-HRESULT CLoader::Loading_For_GamePlay()
-{
-	m_strLoadingText = TEXT("텍스쳐를(을) 로딩 중 입니다.");
-	///* Prototype_Component_Texture_Terrain */
-	if (FAILED(m_pGameInstance->Add_Prototype(g_Level, TEXT("Prototype_Component_Texture_Terrain"),
-		CTexture::Create(m_pDevice, m_pContext, TEXT("../Bin/Resources/Textures/Terrain/Tile%d.dds"), 2))))
-		return E_FAIL;
-
-	/*Prototype_Component_Texture_Mask*/
-	if (FAILED(m_pGameInstance->Add_Prototype(g_Level, TEXT("Prototype_Component_Texture_Mask"),
-		CTexture::Create(m_pDevice, m_pContext, TEXT("../Bin/Resources/Textures/Terrain/Mask.dds"), 1))))
-		return E_FAIL;
-
-	/*Prototype_Component_Texture_Brush */
-	if (FAILED(m_pGameInstance->Add_Prototype(g_Level, TEXT("Prototype_Component_Texture_Brush"),
-		CTexture::Create(m_pDevice, m_pContext, TEXT("../Bin/Resources/Textures/Terrain/Brush.png"), 1))))
-		return E_FAIL;
-
-	/* Prototype_Component_Texture_Snow */
-	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_GAMEPLAY, TEXT("Prototype_Component_Texture_Snow"),
-		CTexture::Create(m_pDevice, m_pContext, TEXT("../Bin/Resources/Textures/Snow/Snow.png"), 1))))
-		return E_FAIL;
-
-	///* Prototype_Component_Texture_Player */
-	//if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_GAMEPLAY, TEXT("Prototype_Component_Texture_Player"),
-	//	CTexture::Create(m_pGraphic_Device, CTexture::TYPE_TEX2D, TEXT("../Bin/Resources/Textures/Player/Player.png")))))
-	//	return E_FAIL;
-
-	///* Prototype_Component_Texture_Monster */
-	//if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_GAMEPLAY, TEXT("Prototype_Component_Texture_Monster"),
-	//	CTexture::Create(m_pGraphic_Device, CTexture::TYPE_TEX2D, TEXT("../Bin/Resources/Textures/Monster/Monster.png")))))
-	//	return E_FAIL;
-
-	///* Prototype_Component_Texture_Sky */
-	//if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_GAMEPLAY, TEXT("Prototype_Component_Texture_Sky"),
-	//	CTexture::Create(m_pGraphic_Device, CTexture::TYPE_TEXCUBE, TEXT("../Bin/Resources/Textures/SkyBox/Sky_%d.dds"), 4))))
-	//	return E_FAIL;
-
-	///* Prototype_Component_Texture_Effect */
-	//if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_GAMEPLAY, TEXT("Prototype_Component_Texture_Effect"),
-	//	CTexture::Create(m_pGraphic_Device, CTexture::TYPE_TEX2D, TEXT("../Bin/Resources/Textures/Explosion/Explosion%d.png"), 90))))
-	//	return E_FAIL;
-	//
-
-	m_strLoadingText = TEXT("네비게이션를(을) 로딩 중 입니다.");
-	/* For.Prototype_Component_Navigation */
-	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_GAMEPLAY, TEXT("Prototype_Component_Navigation"),
-		CNavigation::Create(m_pDevice, m_pContext, TEXT("../Bin/DataFiles/Navigation.dat")))))
-		return E_FAIL;
-
-	m_strLoadingText = TEXT("모델를(을) 로딩 중 입니다.");
-	/* Prototype_Component_VIBuffer_Terrain */
-	if (FAILED(m_pGameInstance->Add_Prototype(g_Level, TEXT("Prototype_Component_VIBuffer_Terrain"),
-		CVIBuffer_Terrain::Create(m_pDevice, m_pContext, TEXT("../Bin/Resources/Textures/Terrain/Height.bmp")))))
-		return E_FAIL;
-
-	_matrix		TransformMatrix = XMMatrixIdentity();
-
-	/* Prototype_Component_Model_Fiona */
-	TransformMatrix = XMMatrixRotationY(XMConvertToRadians(180.0f));
-
-	//// 상단 fbx, 하단, bin
-	//if (FAILED(m_pGameInstance->Add_Prototype(g_Level, TEXT("Prototype_Component_Model_Fiona"),
-	//	CModel::Create(m_pDevice, m_pContext, CModel::TYPE_ANIM, "../Bin/Resources/Models/Fiona/Fiona.fbx", TransformMatrix))))
-	//	return E_FAIL;
-
-	////if (FAILED(m_pGameInstance->Add_Prototype(eLevel, TEXT("Prototype_Component_Model_Fiona"),
-	////	CModel::Create(m_pDevice, m_pContext, "../Bin/Resources/Models/Fiona/Fiona.bin"))))
-	////	return E_FAIL;
-
-	///* Prototype_Component_Model_ForkLift */
-	//TransformMatrix = XMMatrixScaling(0.01f, 0.01f, 0.01f) * XMMatrixRotationY(XMConvertToRadians(180.0f));
-
-	//if (FAILED(m_pGameInstance->Add_Prototype(g_Level, TEXT("Prototype_Component_Model_ForkLift"),
-	//	CModel::Create(m_pDevice, m_pContext, CModel::TYPE_NONANIM, "../Bin/Resources/Models/ForkLift/ForkLift.fbx", TransformMatrix))))
-	//	return E_FAIL;
-
-	///* Prototype_Component_VIBuffer_Cube */
-	//if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_GAMEPLAY, TEXT("Prototype_Component_VIBuffer_Cube"),
-	//	CVIBuffer_Cube::Create(m_pGraphic_Device))))
-	//	return E_FAIL;
-
-	///*if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_GAMEPLAY, TEXT("Prototype_Component_VIBuffer_Terrain"),
-	//	CVIBuffer_Terrain::Create(m_pGraphic_Device, 1000, 1000))))
-	//	return E_FAIL;*/	
-	
-		/* Prototype_Component_VIBuffer_Instance_Rect */
-	CVIBuffer_Instance::INSTANCE_DESC		InstanceDesc{};
-
-	InstanceDesc.vPivot = _float3(0.f, 0.f, 0.f);
-	InstanceDesc.vRange = _float3(2.f, 2.f, 2.f);
-	InstanceDesc.vMinScale = _float3(0.2f, 0.2f, 0.2f);
-	InstanceDesc.vMaxScale = _float3(0.4f, 0.4f, 0.4f);
-	InstanceDesc.iNumInstance = 100;
-	InstanceDesc.vLifeTime = _float2(0.f, 5.0f);
-
-
-	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_GAMEPLAY, TEXT("Prototype_Component_VIBuffer_Instance_Rect"),
-		CVIBuffer_Instance_Rect::Create(m_pDevice, m_pContext, InstanceDesc))))
-		return E_FAIL;
-
-
-
-	m_strLoadingText = TEXT("셰이더를(을) 로딩 중 입니다.");
-	
-	m_strLoadingText = TEXT("객체를(을) 로딩 중 입니다.");
-
-
-	///* For.Prototype_GameObject_Player */
-	//if (FAILED(m_pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_Player_Study"),
-	//	CPlayer_Study::Create(m_pGraphic_Device))))
-	//	return E_FAIL;
-
-	///* For.Prototype_GameObject_Effect */
-	//if (FAILED(m_pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_Effect"),
-	//	CEffect::Create(m_pGraphic_Device))))
-	//	return E_FAIL;
-
-	///* For.Prototype_GameObject_Sky */
-	//if (FAILED(m_pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_Sky"),
-	//	CSky::Create(m_pGraphic_Device))))
-	//	return E_FAIL;
-	//
 	m_strLoadingText = TEXT("로딩이 완료되었습니다.");
 
 	m_isFinished = true;

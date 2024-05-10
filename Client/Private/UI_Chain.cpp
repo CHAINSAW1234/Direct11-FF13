@@ -214,6 +214,10 @@ HRESULT CUI_Chain::Render_BreakChain()
 	if (FAILED(m_pGameInstance->Render_Font(g_strFontNum24Tag, strChain, vFontPosition, XMLoadFloat4(&vColor), 0.f)))
 		return E_FAIL;
 
+	vFontPosition.x += 40.f;
+	if (FAILED(m_pGameInstance->Render_Font(g_strFontAlphaTag, TEXT("BREAK!"), vFontPosition, XMLoadFloat4(&vColor), 0.f)))
+		return E_FAIL;
+
 	return S_OK;;
 }
 

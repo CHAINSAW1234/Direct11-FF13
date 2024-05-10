@@ -6,6 +6,9 @@ texture2D g_Texture;
 
 float4 g_vPosition[16];
 
+vector g_vCamPosition;
+
+
 float g_SizeY;
 
 struct VS_IN
@@ -40,10 +43,16 @@ struct GS_OUT
 [maxvertexcount(16* 6)]
 void GS_MAIN(point GS_IN In[1], inout TriangleStream<GS_OUT> Vertices)
 {
-
-   // float3 vUp = normalize(g_WorldMatrix._21_22_23_24) * g_SizeY * 0.5f;
+   //float3 vRight = normalize(g_WorldMatrix._11_12_13_14) * g_SizeY * 0.5f;
+   //float3 vUp = normalize(g_WorldMatrix._21_22_23_24) * g_SizeY * 0.5f;
+   //float3 vLook = normalize(g_WorldMatrix._31_32_33_34) * g_SizeY * 0.5f;
+   // //float3 vUp = float3(0.f, 1.f, 0.f) * g_SizeY * 0.5f;
+   // matrix matVP = mul(g_ViewMatrix, g_ProjMatrix);
     
-    float3 vUp = float3(0.f, 1.f, 0.f) * g_SizeY * 0.5f;
+    float3 vLook = normalize((g_vCamPosition - g_WorldMatrix._41_42_43_44).xyz);
+    float3 vRight = normalize(cross(float3(0.f, 1.f, 0.f), vLook.xyz));
+    float3 vUp = normalize(cross(vLook, vRight)) * g_SizeY * 0.5f;
+
     matrix matVP = mul(g_ViewMatrix, g_ProjMatrix);
     
     for (int i = 0; i < 16-1; ++i)
@@ -51,19 +60,19 @@ void GS_MAIN(point GS_IN In[1], inout TriangleStream<GS_OUT> Vertices)
         GS_OUT Out[4];
         
         Out[0].vPosition = vector(g_vPosition[i].xyz + vUp, 1.f);
-        Out[0].vTexcoord = float2((float) i / 16.f, (float) i / 16.f);
+        Out[0].vTexcoord = float2((float) i / 16.f,0);
         Out[0].vPosition = mul(Out[0].vPosition, matVP);
 
         Out[1].vPosition = vector(g_vPosition[i + 1].xyz + vUp, 1.f);
-        Out[1].vTexcoord = float2((float) (i + 1) / 16.f, (float) i / 16.f);
+        Out[1].vTexcoord = float2((float) (i + 1) / 16.f, 0);
         Out[1].vPosition = mul(Out[1].vPosition, matVP);
 
         Out[2].vPosition = vector(g_vPosition[i + 1].xyz - vUp, 1.f);
-        Out[2].vTexcoord = float2((float) (i + 1) / 16.f, (float) (i + 1) / 16.f);
+        Out[2].vTexcoord = float2((float) (i + 1) / 16.f, 0.5);
         Out[2].vPosition = mul(Out[2].vPosition, matVP);
 
         Out[3].vPosition = vector(g_vPosition[i].xyz - vUp, 1.f);
-        Out[3].vTexcoord = float2((float) i / 16.f, (float) (i + 1) / 16.f);
+        Out[3].vTexcoord = float2((float) i / 16.f, 0.5);
         Out[3].vPosition = mul(Out[3].vPosition, matVP);
 
         Vertices.Append(Out[0]);

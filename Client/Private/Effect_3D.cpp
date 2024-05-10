@@ -35,6 +35,10 @@ HRESULT CEffect_3D::Initialize(void* pArg)
 
 void CEffect_3D::Tick(_float fTimeDelta)
 {
+	if (m_pGameInstance->Get_Slow()) {
+		fTimeDelta = m_pGameInstance->Get_OriginTime();
+	}
+
 	__super::Tick(fTimeDelta);
 }
 

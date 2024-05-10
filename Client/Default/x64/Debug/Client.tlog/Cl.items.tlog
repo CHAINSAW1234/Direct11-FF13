@@ -1,7 +1,6 @@
 C:\Users\stgo5015\Documents\GitHub\Direct11_FF13\Client\Private\Ability.cpp;C:\Users\stgo5015\Documents\GitHub\Direct11_FF13\Client\Default\x64\Debug\Ability.obj
 C:\Users\stgo5015\Documents\GitHub\Direct11_FF13\Client\private\BackGround.cpp;C:\Users\stgo5015\Documents\GitHub\Direct11_FF13\Client\Default\x64\Debug\BackGround.obj
 C:\Users\stgo5015\Documents\GitHub\Direct11_FF13\Client\Private\Body.cpp;C:\Users\stgo5015\Documents\GitHub\Direct11_FF13\Client\Default\x64\Debug\Body.obj
-C:\Users\stgo5015\Documents\GitHub\Direct11_FF13\Client\Private\Body_Player.cpp;C:\Users\stgo5015\Documents\GitHub\Direct11_FF13\Client\Default\x64\Debug\Body_Player.obj
 C:\Users\stgo5015\Documents\GitHub\Direct11_FF13\Client\Private\Boss.cpp;C:\Users\stgo5015\Documents\GitHub\Direct11_FF13\Client\Default\x64\Debug\Boss.obj
 C:\Users\stgo5015\Documents\GitHub\Direct11_FF13\Client\Private\Boss_State_Attack_Magic.cpp;C:\Users\stgo5015\Documents\GitHub\Direct11_FF13\Client\Default\x64\Debug\Boss_State_Attack_Magic.obj
 C:\Users\stgo5015\Documents\GitHub\Direct11_FF13\Client\Private\Boss_State_Attack_Physic.cpp;C:\Users\stgo5015\Documents\GitHub\Direct11_FF13\Client\Default\x64\Debug\Boss_State_Attack_Physic.obj
@@ -57,7 +56,6 @@ C:\Users\stgo5015\Documents\GitHub\Direct11_FF13\Client\Private\Effect_Instance.
 C:\Users\stgo5015\Documents\GitHub\Direct11_FF13\Client\Private\Effect_Interface.cpp;C:\Users\stgo5015\Documents\GitHub\Direct11_FF13\Client\Default\x64\Debug\Effect_Interface.obj
 C:\Users\stgo5015\Documents\GitHub\Direct11_FF13\Client\Private\Electricity.cpp;C:\Users\stgo5015\Documents\GitHub\Direct11_FF13\Client\Default\x64\Debug\Electricity.obj
 C:\Users\stgo5015\Documents\GitHub\Direct11_FF13\Client\Private\Electricity_Left.cpp;C:\Users\stgo5015\Documents\GitHub\Direct11_FF13\Client\Default\x64\Debug\Electricity_Left.obj
-C:\Users\stgo5015\Documents\GitHub\Direct11_FF13\Client\Private\Forklift.cpp;C:\Users\stgo5015\Documents\GitHub\Direct11_FF13\Client\Default\x64\Debug\Forklift.obj
 C:\Users\stgo5015\Documents\GitHub\Direct11_FF13\Client\Private\Grid.cpp;C:\Users\stgo5015\Documents\GitHub\Direct11_FF13\Client\Default\x64\Debug\Grid.obj
 C:\Users\stgo5015\Documents\GitHub\Direct11_FF13\Client\Private\HellBlast.cpp;C:\Users\stgo5015\Documents\GitHub\Direct11_FF13\Client\Default\x64\Debug\HellBlast.obj
 C:\Users\stgo5015\Documents\GitHub\Direct11_FF13\Client\Private\ImGUI_Manager.cpp;C:\Users\stgo5015\Documents\GitHub\Direct11_FF13\Client\Default\x64\Debug\ImGUI_Manager.obj
@@ -73,7 +71,6 @@ C:\Users\stgo5015\Documents\GitHub\Direct11_FF13\Client\Private\Level_Boss_Battl
 C:\Users\stgo5015\Documents\GitHub\Direct11_FF13\Client\Private\Level_EffectTool.cpp;C:\Users\stgo5015\Documents\GitHub\Direct11_FF13\Client\Default\x64\Debug\Level_EffectTool.obj
 C:\Users\stgo5015\Documents\GitHub\Direct11_FF13\Client\Private\Level_Field.cpp;C:\Users\stgo5015\Documents\GitHub\Direct11_FF13\Client\Default\x64\Debug\Level_Field.obj
 C:\Users\stgo5015\Documents\GitHub\Direct11_FF13\Client\Private\Level_Field_Boss.cpp;C:\Users\stgo5015\Documents\GitHub\Direct11_FF13\Client\Default\x64\Debug\Level_Field_Boss.obj
-C:\Users\stgo5015\Documents\GitHub\Direct11_FF13\Client\Private\Level_GamePlay.cpp;C:\Users\stgo5015\Documents\GitHub\Direct11_FF13\Client\Default\x64\Debug\Level_GamePlay.obj
 C:\Users\stgo5015\Documents\GitHub\Direct11_FF13\Client\Private\Level_Loading.cpp;C:\Users\stgo5015\Documents\GitHub\Direct11_FF13\Client\Default\x64\Debug\Level_Loading.obj
 C:\Users\stgo5015\Documents\GitHub\Direct11_FF13\Client\Private\Level_Logo.cpp;C:\Users\stgo5015\Documents\GitHub\Direct11_FF13\Client\Default\x64\Debug\Level_Logo.obj
 C:\Users\stgo5015\Documents\GitHub\Direct11_FF13\Client\Private\Level_MapTool.cpp;C:\Users\stgo5015\Documents\GitHub\Direct11_FF13\Client\Default\x64\Debug\Level_MapTool.obj
@@ -85,11 +82,8 @@ C:\Users\stgo5015\Documents\GitHub\Direct11_FF13\Client\private\MainApp.cpp;C:\U
 C:\Users\stgo5015\Documents\GitHub\Direct11_FF13\Client\Private\MapObject.cpp;C:\Users\stgo5015\Documents\GitHub\Direct11_FF13\Client\Default\x64\Debug\MapObject.obj
 C:\Users\stgo5015\Documents\GitHub\Direct11_FF13\Client\Private\MapTool.cpp;C:\Users\stgo5015\Documents\GitHub\Direct11_FF13\Client\Default\x64\Debug\MapTool.obj
 C:\Users\stgo5015\Documents\GitHub\Direct11_FF13\Client\Private\Monster.cpp;C:\Users\stgo5015\Documents\GitHub\Direct11_FF13\Client\Default\x64\Debug\Monster.obj
-C:\Users\stgo5015\Documents\GitHub\Direct11_FF13\Client\Private\Monster_Study.cpp;C:\Users\stgo5015\Documents\GitHub\Direct11_FF13\Client\Default\x64\Debug\Monster_Study.obj
 C:\Users\stgo5015\Documents\GitHub\Direct11_FF13\Client\Private\Optima.cpp;C:\Users\stgo5015\Documents\GitHub\Direct11_FF13\Client\Default\x64\Debug\Optima.obj
-C:\Users\stgo5015\Documents\GitHub\Direct11_FF13\Client\Private\Particle_Blue.cpp;C:\Users\stgo5015\Documents\GitHub\Direct11_FF13\Client\Default\x64\Debug\Particle_Blue.obj
 C:\Users\stgo5015\Documents\GitHub\Direct11_FF13\Client\Private\Player_Battle.cpp;C:\Users\stgo5015\Documents\GitHub\Direct11_FF13\Client\Default\x64\Debug\Player_Battle.obj
-C:\Users\stgo5015\Documents\GitHub\Direct11_FF13\Client\Private\Player_Study.cpp;C:\Users\stgo5015\Documents\GitHub\Direct11_FF13\Client\Default\x64\Debug\Player_Study.obj
 C:\Users\stgo5015\Documents\GitHub\Direct11_FF13\Client\Private\Role.cpp;C:\Users\stgo5015\Documents\GitHub\Direct11_FF13\Client\Default\x64\Debug\Role.obj
 C:\Users\stgo5015\Documents\GitHub\Direct11_FF13\Client\Private\Sky.cpp;C:\Users\stgo5015\Documents\GitHub\Direct11_FF13\Client\Default\x64\Debug\Sky.obj
 C:\Users\stgo5015\Documents\GitHub\Direct11_FF13\Client\Private\Solider.cpp;C:\Users\stgo5015\Documents\GitHub\Direct11_FF13\Client\Default\x64\Debug\Solider.obj
@@ -102,7 +96,6 @@ C:\Users\stgo5015\Documents\GitHub\Direct11_FF13\Client\Private\Solider_State_Id
 C:\Users\stgo5015\Documents\GitHub\Direct11_FF13\Client\Private\Solider_State_Start.cpp;C:\Users\stgo5015\Documents\GitHub\Direct11_FF13\Client\Default\x64\Debug\Solider_State_Start.obj
 C:\Users\stgo5015\Documents\GitHub\Direct11_FF13\Client\Private\Sphere.cpp;C:\Users\stgo5015\Documents\GitHub\Direct11_FF13\Client\Default\x64\Debug\Sphere.obj
 C:\Users\stgo5015\Documents\GitHub\Direct11_FF13\Client\Private\Sphere_Heal.cpp;C:\Users\stgo5015\Documents\GitHub\Direct11_FF13\Client\Default\x64\Debug\Sphere_Heal.obj
-C:\Users\stgo5015\Documents\GitHub\Direct11_FF13\Client\Private\Terrain.cpp;C:\Users\stgo5015\Documents\GitHub\Direct11_FF13\Client\Default\x64\Debug\Terrain.obj
 C:\Users\stgo5015\Documents\GitHub\Direct11_FF13\Client\Private\Trigger.cpp;C:\Users\stgo5015\Documents\GitHub\Direct11_FF13\Client\Default\x64\Debug\Trigger.obj
 C:\Users\stgo5015\Documents\GitHub\Direct11_FF13\Client\Private\Troup.cpp;C:\Users\stgo5015\Documents\GitHub\Direct11_FF13\Client\Default\x64\Debug\Troup.obj
 C:\Users\stgo5015\Documents\GitHub\Direct11_FF13\Client\Private\UI.cpp;C:\Users\stgo5015\Documents\GitHub\Direct11_FF13\Client\Default\x64\Debug\UI.obj
@@ -138,7 +131,6 @@ C:\Users\stgo5015\Documents\GitHub\Direct11_FF13\Client\Private\Warload_State_Id
 C:\Users\stgo5015\Documents\GitHub\Direct11_FF13\Client\Private\Warload_State_Skill.cpp;C:\Users\stgo5015\Documents\GitHub\Direct11_FF13\Client\Default\x64\Debug\Warload_State_Skill.obj
 C:\Users\stgo5015\Documents\GitHub\Direct11_FF13\Client\Private\Warload_State_Start.cpp;C:\Users\stgo5015\Documents\GitHub\Direct11_FF13\Client\Default\x64\Debug\Warload_State_Start.obj
 C:\Users\stgo5015\Documents\GitHub\Direct11_FF13\Client\Private\Weapon_Anim.cpp;C:\Users\stgo5015\Documents\GitHub\Direct11_FF13\Client\Default\x64\Debug\Weapon_Anim.obj
-C:\Users\stgo5015\Documents\GitHub\Direct11_FF13\Client\Private\Weapon_Study.cpp;C:\Users\stgo5015\Documents\GitHub\Direct11_FF13\Client\Default\x64\Debug\Weapon_Study.obj
 C:\Users\stgo5015\Documents\GitHub\Direct11_FF13\Client\Default\Client.cpp;C:\Users\stgo5015\Documents\GitHub\Direct11_FF13\Client\Default\x64\Debug\Client.obj
 C:\Users\stgo5015\Documents\GitHub\Direct11_FF13\Client\Default\ImGUI\imgui.cpp;C:\Users\stgo5015\Documents\GitHub\Direct11_FF13\Client\Default\x64\Debug\imgui.obj
 C:\Users\stgo5015\Documents\GitHub\Direct11_FF13\Client\Default\ImGUI\ImGuiFileDialog.cpp;C:\Users\stgo5015\Documents\GitHub\Direct11_FF13\Client\Default\x64\Debug\ImGuiFileDialog.obj

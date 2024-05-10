@@ -97,6 +97,19 @@ void CGameInstance::Tick_Engine(_float fTimeDelta)
 		nullptr == m_pPipeLine)
 		return;
 
+	if (m_isSlow) {
+		m_fTimeDelta += fTimeDelta;
+		if (m_fTimeDelta >= m_fSlowTime) {
+			m_isSlow = false;
+			m_fTimeDelta = 0.f;
+		}
+		else {
+			m_fOriginTimeDelta = fTimeDelta;
+			fTimeDelta = fTimeDelta * 0.01f;
+		}
+
+	}
+
 	m_pInput_Device->Tick();
 
 	m_pLevel_Manager->Open_Level();
@@ -161,6 +174,15 @@ HRESULT CGameInstance::Clear(_uint iClearLevelIndex)
 	m_pComponent_Manager->Clear(iClearLevelIndex);
 
 	return S_OK;
+}
+
+void CGameInstance::Set_Slow(_bool isSlow, _float fSlowTime)
+{
+	m_isSlow = isSlow;
+	if (m_isSlow) {
+		m_fSlowTime = fSlowTime;
+		m_fTimeDelta = 0.f;
+	}
 }
 
 HRESULT CGameInstance::Save_BackBuffer(const wstring& strSavePath)

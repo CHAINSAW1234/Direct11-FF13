@@ -22,6 +22,11 @@ public:
 	HRESULT Draw();
 	HRESULT Clear(_uint iClearLevelIndex);
 
+public:
+	void	Set_Slow(_bool isSlow, _float fSlowTime = 1.f);
+	_bool	Get_Slow() { return m_isSlow; }
+	_float	Get_OriginTime() { return m_fOriginTimeDelta; }
+
 public: /* For.Grphaic_Device */
 	HRESULT Save_BackBuffer(const wstring& strSavePath);
 
@@ -148,6 +153,11 @@ private:
 	class CExtractor*				m_pExtractor = { nullptr };
 	class CSound_Manager*			m_pSound_Manager = { nullptr };
 
+private:
+	_bool	m_isSlow = { false };
+	_float	m_fTimeDelta = { 0.f };
+	_float  m_fSlowTime = { 0.f };
+	_float	m_fOriginTimeDelta = { 0.f };
 public:		
 	static void Release_Engine();
 	virtual void Free() override;

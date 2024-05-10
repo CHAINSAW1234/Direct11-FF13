@@ -53,7 +53,8 @@ void CWarload_State_Attack::Run(_float fTimeDelta)
 
 void CWarload_State_Attack::Attack(_float fTimeDelta)
 {
-	m_pWarload->Check_Interact_Weapon();
+	if (m_pWarload->Get_CurrentTrackPosition() <= 30.f)
+		m_pWarload->Check_Interact_Weapon();
 
 	if (30.f <= m_pWarload->Get_CurrentTrackPosition() &&
 		m_pWarload->Get_CurrentTrackPosition() <= 35.f)

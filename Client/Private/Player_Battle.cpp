@@ -360,7 +360,6 @@ void CPlayer_Battle::Create_UI()
 			return;
 	}
 	
-
 	m_pUI_Chain = dynamic_cast<CUI_Chain*>(m_pGameInstance->Add_Clone_With_Object(g_Level, TEXT("Layer_UI"), TEXT("Prototype_GameObject_UI_Chain")));
 	Safe_AddRef(m_pUI_Chain);
 
@@ -371,7 +370,6 @@ void CPlayer_Battle::Create_UI()
 	pUI_Desc.pObserver_Hander = this;
 
 	m_pGameInstance->Add_Clone(g_Level, TEXT("Layer_UI"), TEXT("Prototype_GameObject_UI_Optima"), &pUI_Desc);
-
 }
 
 void CPlayer_Battle::Update_FSMState()

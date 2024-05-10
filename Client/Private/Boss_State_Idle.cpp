@@ -24,6 +24,9 @@ void CBoss_State_Idle::OnStateUpdate(_float fTimeDelta)
 {
 	m_fTimeDelta += fTimeDelta;
 	m_pBoss->Update_Attack_Time(fTimeDelta);
+	if (m_pBoss->Check_Pattern())
+		m_pBoss->Update_Pattern();
+
 	switch (m_eState) {
 	case IDLE:
 		Idle(fTimeDelta);
@@ -55,8 +58,9 @@ void CBoss_State_Idle::Idle(_float fTimeDelta)
 		}
 	}
 
-	if ((abs(m_fDegree) < 30.f) && m_pBoss->Get_AttackTime() >= 5.f)
+	if ((abs(m_fDegree) < 30.f) && m_pBoss->Get_AttackTime() >= 4.f) {
 		m_pBoss->Update_Pattern();
+	}
 
 	if (m_pBoss->Is_Animation_Finished())
 		m_pBoss->Change_Animation(CBoss::IDLE, true);

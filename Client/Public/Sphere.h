@@ -49,6 +49,8 @@ protected:
 	_int			m_iDamage = { 0 };					// 데미지
 	_float			m_fChain = { 0.f };					// 체인 보너스 적용량 : attacker : 0.5, blaster : 10
 
+	_float m_fParticleCreateTimeDelta = { 0.f };
+
 	// 곡선 표현을 위한 변수
 	_float3 m_fOBBDirection[3] = {};					// 베지에 곡선 표현을 위한 점의 위치를 비율로 표현
 	_float4 m_fStartPosition = {};

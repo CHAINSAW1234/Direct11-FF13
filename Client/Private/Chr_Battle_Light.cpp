@@ -62,21 +62,8 @@ HRESULT CChr_Battle_Light::Initialize(void* pArg)
 
 void CChr_Battle_Light::Tick(_float fTimeDelta)
 {
-    if (m_pGameInstance->Get_KeyState(KEY_PRESS, DIK_W))
-        m_pTransformCom->Go_Straight(fTimeDelta, m_pNavigationCom);
-
-    if (m_pGameInstance->Get_KeyState(KEY_PRESS, DIK_A))
-        m_pTransformCom->Go_Left(fTimeDelta, m_pNavigationCom);
-
-    if (m_pGameInstance->Get_KeyState(KEY_PRESS, DIK_S))
-        m_pTransformCom->Go_Backward(fTimeDelta, m_pNavigationCom);
-
-    if (m_pGameInstance->Get_KeyState(KEY_PRESS, DIK_D))
-        m_pTransformCom->Go_Right(fTimeDelta, m_pNavigationCom);
-
     __super::Tick(fTimeDelta);
 
-    Update_FSMState(fTimeDelta);
 }
 
 HRESULT CChr_Battle_Light::Late_Tick(_float fTimeDelta)
@@ -482,13 +469,6 @@ HRESULT CChr_Battle_Light::Add_Ability()
     m_pAbility->Set_CurrentRole(CAbility::ATTACKER);
 
     return S_OK;
-}
-
-void CChr_Battle_Light::Update_FSMState(_float fTimeDelta)
-{
-    //if (m_pGameInstance->Get_DIMouseState(DIMKS_RBUTTON)) {
-    //    Change_State(HIT);
-    //}
 }
 
 void CChr_Battle_Light::Show_ImGUI()
