@@ -80,7 +80,7 @@ void CChr_Battle_Light_State_Hit::Hit_Air(_float fTimeDelta)
 	if (m_pChr_Battle_Light->Get_CurrentAnimationIndex() == CChr_Battle_Light::HIT_AIR) {
 		m_pChr_Battle_Light->Get_Transform()->Go_Down(fTimeDelta * 3);
 
-		if (m_pChr_Battle_Light->Get_Transform()->Get_State_Float4(CTransform::STATE_POSITION).y < 0.1) {
+		if (m_pChr_Battle_Light->Get_Transform()->Get_State_Float4(CTransform::STATE_POSITION).y < 0.5) {
 			m_pChr_Battle_Light->Change_Animation(CChr_Battle_Light::HIT_FALL, false);
 		}
 	}

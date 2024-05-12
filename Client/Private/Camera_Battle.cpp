@@ -31,7 +31,8 @@ HRESULT CCamera_Battle::Initialize(void* pArg)
 
 void CCamera_Battle::Tick(_float fTimeDelta)
 {
-    //Set_CursorPos();
+    Set_CursorPos();
+    ShowCursor(false);
 
     Update_TargetPosition(fTimeDelta);
     Update_Dist(fTimeDelta);

@@ -14,8 +14,10 @@ void CChr_Battle_Vanila_State_Dead::OnStateEnter()
 void CChr_Battle_Vanila_State_Dead::OnStateUpdate(_float fTimeDelta)
 {
 	if (m_pChr_Battle_Vanila->Is_Animation_Finished()) {
-		if (CChr_Battle_Vanila::DEAD_END == m_pChr_Battle_Vanila->Get_CurrentAnimationIndex())
+		if (CChr_Battle_Vanila::DEAD_END == m_pChr_Battle_Vanila->Get_CurrentAnimationIndex()) {
 			m_pChr_Battle_Vanila->Change_State(CChr_Battle_Vanila::IDLE);
+			return;
+		}
 		else {
 			m_pChr_Battle_Vanila->Change_Animation(CChr_Battle_Vanila::DEAD_IDLE, true);
 		}

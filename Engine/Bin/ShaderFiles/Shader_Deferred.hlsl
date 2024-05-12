@@ -156,16 +156,22 @@ float CalcAmbientOcclusion(float2 Texcoord)
     {
         float2 coord1 = reflect(vec[j], rand) * rad;
         float2 coord2 = float2(coord1.x * 0.707 - coord1.y * 0.707, coord1.x * 0.707 + coord1.y * 0.707);
-    
+        
         ao += doAmbientOcclusion(Texcoord, coord1 * 0.25, p, n.xyz);
-        ao += doAmbientOcclusion(Texcoord, coord2 * 0.5, p, n.xyz);
+        ao += doAmbientOcclusion(Texcoord, coord1 * 0.5, p, n.xyz);
         ao += doAmbientOcclusion(Texcoord, coord1 * 0.75, p, n.xyz);
+        ao += doAmbientOcclusion(Texcoord, coord1, p, n.xyz);
+        
+        ao += doAmbientOcclusion(Texcoord, coord2 * 0.25, p, n.xyz);
+        ao += doAmbientOcclusion(Texcoord, coord2 * 0.5, p, n.xyz);
+        ao += doAmbientOcclusion(Texcoord, coord2 * 0.75, p, n.xyz);
         ao += doAmbientOcclusion(Texcoord, coord2, p, n.xyz);
+        
 
     }
   
 
-    ao /= (float) iterations * 4.0;
+    ao /= (float) iterations * 8.0;
 
     return ao;
 }

@@ -230,6 +230,7 @@
     <ClInclude Include="..\Public\Effect_Interface.h" />
     <ClInclude Include="..\Public\Electricity.h" />
     <ClInclude Include="..\Public\Electricity_Left.h" />
+    <ClInclude Include="..\Public\Ending.h" />
     <ClInclude Include="..\Public\Grid.h" />
     <ClInclude Include="..\Public\HellBlast.h" />
     <ClInclude Include="..\Public\ImGUI_Manager.h" />
@@ -381,6 +382,7 @@
     <ClCompile Include="..\Private\Effect_Interface.cpp" />
     <ClCompile Include="..\Private\Electricity.cpp" />
     <ClCompile Include="..\Private\Electricity_Left.cpp" />
+    <ClCompile Include="..\Private\Ending.cpp" />
     <ClCompile Include="..\Private\Grid.cpp" />
     <ClCompile Include="..\Private\HellBlast.cpp" />
     <ClCompile Include="..\Private\ImGUI_Manager.cpp" />

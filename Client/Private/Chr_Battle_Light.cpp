@@ -567,7 +567,7 @@ HRESULT CChr_Battle_Light::Add_PartObjects()
     WeaponDesc.pSocket = pModel->Get_BonePtr("R_weapon");
     WeaponDesc.strModelTag = TEXT("Prototype_Component_Model_Light_Weapon");
     WeaponDesc.Bounding_OBB_Desc.vSize = { 0.1f,0.3f,1.2f };
-    WeaponDesc.Bounding_OBB_Desc.vCenter = { 0.f, 0.3f, -0.3f };
+    WeaponDesc.Bounding_OBB_Desc.vCenter = { 0.f, .8f, -.8f };
 
     WeaponDesc.Bounding_OBB_Desc.vRotation = { XMConvertToRadians(45),XMConvertToRadians(0),XMConvertToRadians(0) };
 

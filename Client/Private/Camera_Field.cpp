@@ -79,7 +79,8 @@ void CCamera_Field::Set_Target(CGameObject* pGameObject)
 
 void CCamera_Field::Update_With_Mouse(_float fTimeDelta)
 {
-	//Set_CursorPos();
+	Set_CursorPos();
+	ShowCursor(false);
 
 	_vector vTargetPosition = dynamic_cast<CTransform*>(m_pTargetObject->Get_Component(g_strTransformTag))->Get_State_Vector(CTransform::STATE_POSITION);
 	vTargetPosition.m128_f32[1] += m_fYOffset; // temp

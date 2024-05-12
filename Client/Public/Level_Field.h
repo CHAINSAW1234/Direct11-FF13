@@ -34,7 +34,7 @@ private:
 
 private:
 	list<CTroup*> m_Troups;
-
+	_float m_fTimeDelta = { 5.f };
 public:
 	static CLevel_Field* Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);
 	virtual void Free() override;

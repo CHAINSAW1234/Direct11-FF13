@@ -65,7 +65,7 @@ HRESULT CUI_Cursor::Late_Tick(_float fTimeDelta)
 		return E_FAIL;
 
 	if (m_isRender) {
-		m_pGameInstance->Add_RenderGroup(CRenderer::RENDER_UI, this);
+		m_pGameInstance->Add_RenderGroup(CRenderer::RENDER_UI_LATE, this);
 	}
 
 	return S_OK;

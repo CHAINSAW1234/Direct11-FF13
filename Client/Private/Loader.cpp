@@ -42,6 +42,7 @@
 #include "Solider_Gun.h"
 #include "Boss.h"
 
+#include "Ending.h"
 #include "LoadingOutBlur.h"
 #include "Electricity.h"
 #include "Electricity_Left.h"
@@ -287,6 +288,11 @@ HRESULT CLoader::Loading_Prototype()
 	/* For.Prototype_GameObject_Electricity_Left */
 	if (FAILED(m_pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_Electricity_Left"),
 		CElectricity_Left::Create(m_pDevice, m_pContext))))
+		return E_FAIL;
+
+	/* For.Prototype_GameObject_LoadingOutBlur */
+	if (FAILED(m_pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_Ending"),
+		CEnding::Create(m_pDevice, m_pContext))))
 		return E_FAIL;
 
 	/* For.Prototype_GameObject_LoadingOutBlur */

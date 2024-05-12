@@ -171,19 +171,18 @@ void CBoss::Set_Hit(_int iDamage, _float fChain)
         __super::Set_Hit(iDamage, fChain);
     }
 
-    if (m_ePhase == PHASE1 && m_iHp <= m_iMaxHp * 0.7) {
+    if (m_ePhase == PHASE1 && m_iHp <= m_iMaxHp * 0.5) {
         m_ePhase = PHASE2;
-        Clear_Pattern();
-        Change_State(STATE_SKILL_BARRIER);
-        m_Patterns.push(STATE_SKILL_HELLBLAST);
         m_fBreakTimeDelta = 30.f;
         m_fChain = m_fCurChain = 100.f;
         m_fMagnification = 1 / (m_fStagger - 100) * 0.1f;
         Update_Chain(0);
-
+        Clear_Pattern();
+        Change_State(STATE_SKILL_BARRIER);
+        m_Patterns.push(STATE_SKILL_HELLBLAST);
     }
 
-    if (m_isBreak && m_eState == STATE_IDLE) {
+    if (m_isBreak && (m_eState == STATE_IDLE || m_eState == STATE_HIT)) {
         Change_State(STATE_HIT);
         Set_TrackPosition(0.f);
     }
@@ -340,7 +339,7 @@ HRESULT CBoss::Add_Components()
         TEXT("Com_Collider"), (CComponent**)&m_pColliderCom, &ColliderOBBDesc)))
         return E_FAIL;
 
-    ColliderOBBDesc.vSize = _float3(5.f, .5f, .5f);
+    ColliderOBBDesc.vSize = _float3(5.5f, 20.f, 5.5f);
     ColliderOBBDesc.vCenter = _float3(0.f, 0.f, 0.f);
 
     CCollider_Bone::COLLIDER_BONE_DESC  ColliderBone_Desc = {};

@@ -927,6 +927,9 @@
     <ClInclude Include="..\Public\UI_Warning.h">
       <Filter>03.UI\Battle\UI_Warning</Filter>
     </ClInclude>
+    <ClInclude Include="..\Public\Ending.h">
+      <Filter>02.GameObjects\Blur\Ending</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\private\MainApp.cpp">
@@ -1360,6 +1363,9 @@
     </ClCompile>
     <ClCompile Include="..\Private\UI_Warning.cpp">
       <Filter>03.UI\Battle\UI_Warning</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Ending.cpp">
+      <Filter>02.GameObjects\Blur\Ending</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

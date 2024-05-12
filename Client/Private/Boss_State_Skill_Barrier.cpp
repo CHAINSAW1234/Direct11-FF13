@@ -41,10 +41,10 @@ void CBoss_State_Skill_Barrier::Skill()
         return;
     }
 
-    if (m_pBoss->Get_CurrentAnimationIndex() != CBoss::SKILL_BARRIER) {
-        m_pBoss->Change_State(CBoss::STATE_IDLE);
-        return;
-    }
+    //if (m_pBoss->Get_CurrentAnimationIndex() != CBoss::SKILL_BARRIER) {
+    //    m_pBoss->Change_State(CBoss::STATE_IDLE);
+    //    return;
+    //}
 
 }
 

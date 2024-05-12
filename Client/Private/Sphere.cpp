@@ -113,7 +113,7 @@ void CSphere::Tick(_float fTimeDelta)
 		pEffect->Set_Position(m_pTransformCom->Get_State_Float4(CTransform::STATE_POSITION));
 
 
-	if (m_fParticleCreateTimeDelta >= 0.2) {
+	if (m_fParticleCreateTimeDelta >= 0.1) {
 		vector<CEffect*> Effects;
 		CEffect::Read_File_NoLoop("../Bin/Resources/Effect/Particle_Projectile.dat", m_pGameInstance, m_pDevice, m_pContext, m_pTransformCom->Get_State_Float4(CTransform::STATE_POSITION), &Effects);
 

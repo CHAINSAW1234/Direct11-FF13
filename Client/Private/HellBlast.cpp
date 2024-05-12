@@ -62,7 +62,7 @@ void CHellBlast::Tick(_float fTimeDelta)
 		m_pGameInstance->PlaySoundDuplicate(TEXT("HellBlast_Explosion.wav"), CSound_Manager::EFFECT_DUPLICATE, SOUND_DEFAULT);
 		CEffect::Read_File_NoLoop("../Bin/Resources/Effect/Explosion_Start.dat", m_pGameInstance, m_pDevice, m_pContext, vPosition);
 
-		vPosition.y += 5.f;
+		vPosition.y += 2.5f;
 		CEffect::Read_File_NoLoop("../Bin/Resources/Effect/Particle_Explosion.dat", m_pGameInstance, m_pDevice, m_pContext, vPosition);
 		CEffect::Read_File_NoLoop("../Bin/Resources/Effect/Explosion_Boss_Near.dat", m_pGameInstance, m_pDevice, m_pContext, vPosition);
 	}

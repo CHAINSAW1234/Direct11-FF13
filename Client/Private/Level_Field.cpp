@@ -3,6 +3,7 @@
 #include "Camera_Field.h"
 #include "MapObject.h"
 
+#include "Effect.h"
 #include "Troup.h"
 #include "Monster.h"
 #include "Chr_Field.h"
@@ -73,6 +74,16 @@ void CLevel_Field::Tick(_float fTimeDelta)
 		else
 			++iter;
 	}
+
+	m_fTimeDelta += fTimeDelta;
+
+	if (m_fTimeDelta >= 5.f) {
+		m_fTimeDelta = 0.f;
+		CTransform* pTransform = (CTransform*)(m_pGameInstance->Get_Component(g_Level, g_strChrLayerTag, g_strTransformTag, 0));
+		CEffect::Read_File_NoLoop("../Bin/Resources/Effect/Particle_Field.dat", m_pGameInstance, m_pDevice, m_pContext, pTransform->Get_State_Float4(CTransform::STATE_POSITION));
+	}
+
+
 
 }
 

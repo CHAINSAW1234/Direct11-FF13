@@ -56,10 +56,22 @@ void CLevel_Boss_Battle::Tick(_float fTimeDelta)
     __super::Tick(fTimeDelta);
     m_pPlayer->Tick(fTimeDelta);
 
+    static _bool isEnd = false;
+
     if (0 == m_pGameInstance->Get_LayerCnt(g_Level, g_strMonsterLayerTag)) {
         if (m_fTimeDelta == 0) {
             m_pGameInstance->StopSound(CSound_Manager::BGM);
             m_pGameInstance->PlayBGM(TEXT("BGM_Battle_End.wav"));
+        }
+
+        m_fTimeDelta += fTimeDelta;
+
+        if (!isEnd && m_fTimeDelta >= 2.0f) {
+            isEnd = true;
+            m_pGameInstance->Save_BackBuffer(TEXT("../Bin/DataFiles/Blur.dds"));
+            if (FAILED(m_pGameInstance->Add_Clone(g_Level, TEXT("Layer_Blur"), TEXT("Prototype_GameObject_Ending"))))
+                return;
+
         }
 
     }

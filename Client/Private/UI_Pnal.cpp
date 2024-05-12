@@ -37,6 +37,7 @@ void CUI_Pnal::Reset_Position()
 HRESULT CUI_Pnal::Initialize_Prototype()
 {
 	m_tFrame = { 16, 0.05f, 0, 0.f, 0 };
+	m_isLateGroup = true;
 
 	return S_OK;
 }
